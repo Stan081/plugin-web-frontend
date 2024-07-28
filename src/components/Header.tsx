@@ -80,12 +80,12 @@ const Header = () => {
   return (
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md">
       <Container className="container px-4 md:px-0 py-4 lg:py-7">
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <div className="space-x-6 flex items-center">
             <Logo />
             <EventLocationform />
           </div>
-          <div className=" flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-6">
             <Link
               href={"/#"}
               className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline"
@@ -102,7 +102,14 @@ const Header = () => {
               Help
             </Link>
 
-            <Button variant="outlined" className=" border-black">Get Started</Button>
+            <Button variant="outlined" className=" border-black">
+              Get Started
+            </Button>
+          </div>
+          <div className="lg:hidden block">
+            <Button variant="outlined" className=" border-black">
+              Get Started
+            </Button>
           </div>
         </div>
       </Container>

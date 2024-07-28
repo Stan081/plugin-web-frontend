@@ -1,14 +1,13 @@
 import Layout from "@/components/layout";
-import FAQ from "@/page-components/homepage/FAQ";
-import Button from "@/tw-components/button";
-import Container from "@/tw-components/container";
+import Faq from "@/components/faq";
+import TailoredEvent from "@/components/tailoredEvent";
 
 export default function Home() {
   return (
     <Layout title="Home" showFooter>
-      <FAQ/>
+      <TailoredEvent/>
+      <Faq/>
 
-      
     </Layout>
   );
 }
