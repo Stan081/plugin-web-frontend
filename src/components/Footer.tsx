@@ -8,8 +8,8 @@ import { footerData } from "@/static-datas/footer-data";
 const Footer = () => {
   return (
     <footer>
-      <div className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md">
-        <Container className="py-8 lg:py-14 container">
+      <div className="bg-pitchNoise bg-100 bg-cover backdrop-blur-md">
+        <Container className="py-8 lg:py-14">
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="w-full md:2/5">
               <Logo />
@@ -94,7 +94,7 @@ const Footer = () => {
         </Container>
       </div>
       <div className="bg-[#221A14] py-8 md:py-10">
-        <Container className="container md:flex justify-between space-y-4 px-4 md:px-0">
+        <Container className="md:flex justify-between space-y-4 px-4 md:px-0">
           <ul className="flex items-center gap-6">
             {footerData.f1.map((list, index) => (
               <li
