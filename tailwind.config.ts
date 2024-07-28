@@ -13,7 +13,8 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "pitchNoise": "url('/images/pitch-bg.png')",
-        "whiteNoise": "url('/images/white-bg.png')"
+        "whiteNoise": "url('/images/white-bg.png')",
+        "pinkNoise": "url('/images/pink-bg.png')",
       },
       colors: {
         "custom-lightgray": "lightgray",

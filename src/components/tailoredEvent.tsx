@@ -1,3 +1,5 @@
+'use client'
+
 import Button from "@/tw-components/button";
 import Container from "@/tw-components/container";
 import React from "react";
@@ -24,8 +26,8 @@ const TailoredEvent = () => {
           <ul className="w-[25%] p-0 list-none relative ">
             {tailoredEvents.slice(0, 4).map((item) => (
               <motion.li
-                key={item.id}
-                className={`absolute ${item.position} ${item.color} border-2 rounded-full py-2.5 px-5`}
+                key={item.id as number}
+                className={`absolute ${item.position} ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular`}
                 variants={variants(item.rotate)}
                 animate="animate"
               >
@@ -54,7 +56,7 @@ const TailoredEvent = () => {
             {tailoredEvents.slice(4, 8).map((item) => (
               <motion.li
                 key={item.id}
-                className={`absolute ${item.position} ${item.color} border-2 rounded-full py-2.5 px-5 mx-auto`}
+                className={`absolute ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular mx-auto`}
                 variants={variants(item.rotate)}
                 animate="animate"
               >
@@ -87,7 +89,7 @@ const TailoredEvent = () => {
             {tailoredEvents.slice(0, 4).map((item) => (
               <motion.li
                 key={item.id}
-                className={`${item.position} ${item.color} border-2 rounded-full py-2.5 px-5`}
+                className={`${item.position} ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular`}
                 variants={variants(item.rotate)}
                 animate="animate"
               >
@@ -99,7 +101,7 @@ const TailoredEvent = () => {
             {tailoredEvents.slice(4, 8).map((item) => (
               <motion.li
                 key={item.id}
-                className={`${item.position} ${item.color} border-2 rounded-full py-2.5 px-5 mx-auto`}
+                className={`${item.position} ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular mx-auto`}
                 variants={variants(item.rotate)}
                 animate="animate"
               >

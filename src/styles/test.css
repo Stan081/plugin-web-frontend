@@ -1,0 +1,31 @@
+.animated-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .item {
+    margin: 20px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 2px solid;
+    display: inline-block;
+  }
+  
+  .item.orange {
+    border-color: orange;
+  }
+  
+  .item.red {
+    border-color: red;
+  }
+  
+  .item.gray {
+    border-color: gray;
+  }
+  
+  .item.blue {
+    border-color: blue;
+  }
