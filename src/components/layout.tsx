@@ -1,6 +1,7 @@
 import { ComponentPropsWithRef, FC, useEffect } from "react";
 import Meta from "./Meta";
 import Footer from "./Footer";
+import Header from "./Header";
 
 interface LayoutProps extends ComponentPropsWithRef<"div"> {
     title: string;
@@ -30,7 +31,7 @@ const Layout: FC<LayoutProps> = ({
                 canonical={canonical}
                 image={image}
             />
-            {showHeader && ""}
+            {showHeader && <Header/>}
             <main {...rest}>{children}</main>
             {showFooter && <Footer/>}
         </>

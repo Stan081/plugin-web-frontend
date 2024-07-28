@@ -25,9 +25,9 @@ const config: Config = {
         "custom-blur": "blur(20px)",
       },
       fontFamily: {
-        'regular': ['Pally-Regular', 'sans-serif'],
-        'medium': ['Pally-Medium', 'sans-serif'],
-        'bold': ['Pally-Bold', 'sans-serif'],
+        'pally-regular': ['Pally-Regular', 'sans-serif'],
+        'pally-medium': ['Pally-Medium', 'sans-serif'],
+        'pally-bold': ['Pally-Bold', 'sans-serif'],
       },
       boxShadow: {
         'custom': '0px 4px 4px 0px rgba(0, 0, 0, 0.18), 0px -7px 11.4px 0px rgba(117, 12, 29, 0.64) inset',

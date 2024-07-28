@@ -1,4 +1,5 @@
 import Layout from "@/components/layout";
+import Button from "@/tw-components/button";
 import Container from "@/tw-components/container";
 
 export default function Home() {
@@ -8,6 +9,8 @@ export default function Home() {
         <h1 className=" text-3xl font-regular text-[#D9302A] hover:text-[#f75852]">
           Is Plugin free to use?
         </h1>
+        
+        <Button variant="outlined">Get Started</Button>
       </Container>
     </Layout>
   );
