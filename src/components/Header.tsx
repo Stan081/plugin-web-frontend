@@ -1,6 +1,5 @@
 import Container from "@/tw-components/container";
 import Logo from "./Logo";
-import EventLocationform from "./EventLocationform";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -13,6 +12,7 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import ListAdd from "./icons/list-add";
 import Grid2 from "./icons/grid-2";
 import Money2 from "./icons/money-2";
+import HeaderSearch from "./page-components/homepage/headerSearch";
 
 const eventlists = [
   {
@@ -79,11 +79,13 @@ const Header = () => {
 
   return (
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md">
-      <Container className="container px-4 md:px-0 py-4">
+      <Container className="container px-4 md:px-0 py-2">
         <div className="flex justify-between items-center">
           <div className="space-x-6 flex items-center">
             <Logo />
-            <EventLocationform />
+            <div className="hidden md:block w-[250px]">
+              <HeaderSearch />
+            </div>
           </div>
           <div className="hidden lg:flex items-center gap-6">
             <Link
@@ -111,6 +113,9 @@ const Header = () => {
               Get Started
             </Button>
           </div>
+        </div>
+        <div className="md:hidden block w-full">
+          <HeaderSearch />
         </div>
       </Container>
     </header>

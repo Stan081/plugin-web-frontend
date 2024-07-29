@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
-import Faq from "@/components/faq";
-import TailoredEvent from "@/components/tailoredEvent";
+import Faq from "@/components/page-components/homepage/faq";
+import TailoredEvent from "@/components/page-components/homepage/tailoredEvent";
 import ListEvent from "@/components/page-components/homepage/listEvent";
 import TestUI from "@/components/test";
 
@@ -11,6 +11,7 @@ export default function Home() {
       {/* <TestUI /> */}
       <ListEvent/>
       <Faq />
+      
      
     </Layout>
   );
