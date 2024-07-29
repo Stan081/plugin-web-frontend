@@ -15,6 +15,9 @@ const config: Config = {
         "pitchNoise": "url('/images/pitch-bg.png')",
         "whiteNoise": "url('/images/white-bg.png')",
         "pinkNoise": "url('/images/pink-bg.png')",
+        "blueNoise": "url('/images/blue-bg.png')",
+        "creamNoise": "url('/images/cream-bg.png')",
+        "seagreenNoise": "url('/images/seagreen-bg.png')",
       },
       colors: {
         "custom-lightgray": "lightgray",

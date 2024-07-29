@@ -2,7 +2,7 @@ import Container from "@/tw-components/container";
 import Logo from "./Logo";
 import EventLocationform from "./EventLocationform";
 import Link from "next/link";
-import Button from "@/tw-components/button";
+import { Button } from "@/components/ui/button";
 
 import {
   Popover,
@@ -47,7 +47,7 @@ const Header = () => {
             List an Event <ChevronDownIcon className="ml-2" />
           </p>
         </PopoverTrigger>
-        <PopoverContent className="w-96 bg-white rounded-xl p-6">
+        <PopoverContent className="w-96 bg-white rounded-xl p-3">
           <ul className="space-y-5">
             {eventlists.map((list, index) => (
               <li
@@ -79,7 +79,7 @@ const Header = () => {
 
   return (
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md">
-      <Container className="container px-4 md:px-0 py-4 lg:py-7">
+      <Container className="container px-4 md:px-0 py-4">
         <div className="flex justify-between items-center">
           <div className="space-x-6 flex items-center">
             <Logo />
@@ -102,12 +102,12 @@ const Header = () => {
               Help
             </Link>
 
-            <Button variant="outlined" className=" border-black">
+            <Button variant="outline" className=" border-black">
               Get Started
             </Button>
           </div>
           <div className="lg:hidden block">
-            <Button variant="outlined" className=" border-black">
+            <Button variant="outline" className=" border-black">
               Get Started
             </Button>
           </div>
