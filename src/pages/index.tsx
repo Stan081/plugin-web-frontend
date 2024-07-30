@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <Layout title="Home" showFooter>
       <TailoredEvent />
-      <TestUI />
+      {/* <TestUI /> */}
       <ListEvent/>
       <Faq />
     </Layout>

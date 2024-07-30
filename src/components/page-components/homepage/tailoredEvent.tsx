@@ -114,11 +114,14 @@ const TailoredEvent: React.FC = () => {
       {/* For mobile view */}
       <EventMobile />
 
-      <div className="text-3xl font-pally-medium mt-20">
-        {cardData.map(card => (
-          <CardComponent key={card.id} {...card} />
-        ))}
-      </div>
+      <Container className="mt-20">
+        <h2 className="text-3xl font-pally-medium mb-5">Upcoming Events</h2>
+        <div className="text-3xl font-pally-medium flex flexx-col lg:flex-row gap-6">
+          {cardData.map((card) => (
+            <CardComponent key={card.id} {...card} />
+          ))}
+        </div>
+      </Container>
     </div>
   );
 };
