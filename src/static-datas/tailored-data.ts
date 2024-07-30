@@ -1,9 +1,20 @@
-export const tailoredEvents = [
+
+type tailoredEventsProps = {
+    id: number;
+    label: string;
+    color: string;
+    position?: string;
+    mobilePosition?: string;
+    rotate:number[];
+  }
+  
+  export const tailoredEvents = [
     {
       id: 1,
       label: "Concerts",
       color: "bg-[rgba(255,84,3,0.05)] border-orange-500",
       position: "top-0 right-20",
+      mobilePosition: "top-0 right-10",
       rotate: [-8, 36, -8]
     },
     {
@@ -11,6 +22,7 @@ export const tailoredEvents = [
       label: "Religion",
       color: "bg-[#F6DDE5] border-[#FA7070]",
       position: "top-28 left-10",
+      mobilePosition:"top-10 left-20",
       rotate: [-13, 10, -13]
     },
     {
@@ -18,6 +30,7 @@ export const tailoredEvents = [
       label: "Business",
       color: "bg-[#E4E7EC] border-[#515A6A]",
       position: "top-32 left-56",
+      mobilePosition:"top-32 right-10",
       rotate: [40, -20, 40]
     },
     {
@@ -25,6 +38,7 @@ export const tailoredEvents = [
       label: "Campaign",
       color: "bg-[#E4EBFF] border-[#4D77FF]",
       position: "top-64 left-32",
+      mobilePosition:"top-64 right-12",
       rotate: [9, -30, 9]
     },
     {
@@ -32,6 +46,7 @@ export const tailoredEvents = [
       label: "Others",
       color: "bg-[rgba(255,84,3,0.05)] border-orange-500",
       position: "top-0 left-20",
+      mobilePosition:"top-0 left-6",
       rotate: [16, -8, 16]
     },
     {
@@ -39,6 +54,7 @@ export const tailoredEvents = [
       label: "Parties",
       color: "bg-[#E4EBFF] border-[#4D77FF]",
       position: "top-28 right-80",
+      mobilePosition:"bottom-0 right-20",
       rotate: [44, -20, 44]
     },
     {
@@ -46,6 +62,7 @@ export const tailoredEvents = [
       label: "Hangout",
       color: "bg-[#F6DDE5] border-[#FA7070]",
       position: "top-32 left-40",
+      mobilePosition:"top-32 left-6",
       rotate: [-16, 33, -16]
     },
     {
@@ -53,6 +70,7 @@ export const tailoredEvents = [
       label: "Corporate",
       color: "bg-[#E4E7EC] border-[#515A6A]",
       position: "top-64 left-20",
+      mobilePosition:"top-64 left-10",
       rotate: [9, -30, 9]
     },
   ];

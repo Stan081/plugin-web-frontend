@@ -45,7 +45,7 @@ const HeaderSearch = () => {
                         placeholder="Event name"
                         type="text"
                         autoCorrect="off"
-                        className="w-full bg-white"
+                        className="w-full bg-white font-pally-regular"
                         {...field}
                       />
                     </FormControl>
