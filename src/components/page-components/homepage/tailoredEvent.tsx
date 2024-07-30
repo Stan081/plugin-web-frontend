@@ -2,11 +2,79 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Container from "@/tw-components/container";
-import { tailoredEvents } from "@/static-datas/tailored-data";
+// import { items } from "@/static-datas/tailored-data";
 import { cardData } from "@/static-datas/cards-data";
 import CardComponent from "@/components/CardComponent";
 
 const TailoredEvent: React.FC = () => {
+
+  const items = [
+    {
+      id: 1,
+      label: "Concerts",
+      color: "bg-[rgba(255,84,3,0.05)] border-orange-500",
+      position: "top-0 right-20",
+      mobilePosition: "top-0 right-10",
+      rotate: [-8, 36, -8]
+    },
+    {
+      id: 2,
+      label: "Religion",
+      color: "bg-[#F6DDE5] border-[#FA7070]",
+      position: "top-28 left-10",
+      mobilePosition:"top-10 left-20",
+      rotate: [-13, 10, -13]
+    },
+    {
+      id: 3,
+      label: "Business",
+      color: "bg-[#E4E7EC] border-[#515A6A]",
+      position: "top-32 left-56",
+      mobilePosition:"top-32 right-10",
+      rotate: [40, -20, 40]
+    },
+    {
+      id: 4,
+      label: "Campaign",
+      color: "bg-[#E4EBFF] border-[#4D77FF]",
+      position: "top-64 left-32",
+      mobilePosition:"top-64 right-12",
+      rotate: [9, -30, 9]
+    },
+    {
+      id: 5,
+      label: "Others",
+      color: "bg-[rgba(255,84,3,0.05)] border-orange-500",
+      position: "top-0 left-20",
+      mobilePosition:"top-0 left-6",
+      rotate: [16, -8, 16]
+    },
+    {
+      id: 6,
+      label: "Parties",
+      color: "bg-[#E4EBFF] border-[#4D77FF]",
+      position: "top-28 right-80",
+      mobilePosition:"bottom-0 right-20",
+      rotate: [44, -20, 44]
+    },
+    {
+      id: 7,
+      label: "Hangout",
+      color: "bg-[#F6DDE5] border-[#FA7070]",
+      position: "top-32 left-40",
+      mobilePosition:"top-32 left-6",
+      rotate: [-16, 33, -16]
+    },
+    {
+      id: 8,
+      label: "Corporate",
+      color: "bg-[#E4E7EC] border-[#515A6A]",
+      position: "top-64 left-20",
+      mobilePosition:"top-64 left-10",
+      rotate: [9, -30, 9]
+    },
+  ];
+
   const variants = (num: number[]) => ({
     animate: {
       rotate: num, // degrees
@@ -36,7 +104,7 @@ const TailoredEvent: React.FC = () => {
         </div>
         <div className="flex py-8 justify-center gap-20 h-[500px]">
           <ul className="w-[100px] space-y-6 p-0 list-none relative ">
-            {tailoredEvents.slice(0, 4).map((item) => (
+            {items.slice(0, 4).map((item) => (
               <motion.li
                 key={item.id}
                 className={`absolute ${item.mobilePosition} ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular`}
@@ -48,7 +116,7 @@ const TailoredEvent: React.FC = () => {
             ))}
           </ul>
           <ul className="w-[100px] space-y-6 p-0 list-none relative">
-            {tailoredEvents.slice(4, 8).map((item) => (
+            {items.slice(4, 8).map((item) => (
               <motion.li
                 key={item.id}
                 className={`absolute ${item.mobilePosition} ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular mx-auto`}
@@ -70,7 +138,7 @@ const TailoredEvent: React.FC = () => {
       <Container className="hidden lg:block py-8 md:py-16">
         <div className="flex justify-between gap-10 w-full mx-auto">
           <ul className="w-[25%] p-0 list-none relative ">
-            {tailoredEvents.slice(0, 4).map((item) => (
+            {items.slice(0, 4).map((item) => (
               <motion.li
                 key={item.id as number}
                 className={`absolute ${item.position} ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular`}
@@ -97,7 +165,7 @@ const TailoredEvent: React.FC = () => {
           </div>
 
           <ul className="w-[25%] p-0 list-none relative ">
-            {tailoredEvents.slice(4, 8).map((item) => (
+            {items.slice(4, 8).map((item) => (
               <motion.li
                 key={item.id as number}
                 className={`absolute ${item.position} ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular`}
@@ -116,7 +184,7 @@ const TailoredEvent: React.FC = () => {
 
       <Container className="mt-20">
         <h2 className="text-3xl font-pally-medium mb-5">Upcoming Events</h2>
-        <div className="text-3xl font-pally-medium flex flexx-col lg:flex-row gap-6">
+        <div className="text-3xl font-pally-medium flex lg:flex-row gap-6">
           {cardData.map((card) => (
             <CardComponent key={card.id} {...card} />
           ))}

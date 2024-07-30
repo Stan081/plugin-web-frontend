@@ -13,5 +13,3 @@ const Container: FC<ContainerProps> = ({ children, className, ...rest }) => {
 };
 
 export default Container;
-
-//  lg:max-w-[100rem]

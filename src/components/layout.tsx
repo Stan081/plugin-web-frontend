@@ -19,8 +19,8 @@ const Layout: FC<LayoutProps> = ({
     children,
     canonical,
     image,
-    showHeader = true,
-    showFooter = true,
+    showHeader ,
+    showFooter,
     ...rest
 }) => {
     return (
