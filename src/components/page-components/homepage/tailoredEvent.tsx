@@ -4,12 +4,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Container from "@/tw-components/container";
-// import { items } from "@/static-datas/tailored-data";
-import { cardData } from "@/static-datas/cards-data";
-import CardComponent from "@/components/CardComponent";
 import { Section } from "@/tw-components/Seaction";
+import UpcomingEvent from "./UpcomingEvent";
 
 const TailoredEvent: React.FC = () => {
+  // Temp mock data
   const items = [
     {
       id: 1,
@@ -182,17 +181,11 @@ const TailoredEvent: React.FC = () => {
           </div>
         </Container>
 
-        {/* For mobile view */}
+        {/* Tailored event for mobile view */}
         <EventMobile />
 
-        <Container className="mt-20">
-          <h2 className="text-3xl font-pally-medium mb-5">Upcoming Events</h2>
-          <div className="text-3xl font-pally-medium flex lg:flex-row gap-6">
-            {cardData.map((card) => (
-              <CardComponent key={card.id} {...card} />
-            ))}
-          </div>
-        </Container>
+        {/* Upcoming events component */}
+        <UpcomingEvent/>
       </div>
     </Section>
   );
