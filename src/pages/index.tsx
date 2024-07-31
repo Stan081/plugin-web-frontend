@@ -8,8 +8,8 @@ import Card from "@/components/CardComponent";
 export default function Home() {
   return (
     <Layout  title="Home" showFooter showHeader>
+      <TestUI />
       <TailoredEvent />
-      {/* <TestUI /> */}
       <ListEvent/>
       <Faq />
     </Layout>
