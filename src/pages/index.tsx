@@ -1,4 +1,4 @@
-import Faq from "@/components/page-components/homepage/faq";
+import Faq from "@/components/faq";
 import TailoredEvent from "@/components/page-components/homepage/tailoredEvent";
 import ListEvent from "@/components/page-components/homepage/listEvent";
 import TestUI from "@/components/test";

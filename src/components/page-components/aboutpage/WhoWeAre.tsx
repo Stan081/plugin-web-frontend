@@ -1,5 +1,6 @@
 "use client";
 
+import Container from "@/tw-components/container";
 import Image from "next/image";
 import React from "react";
 
@@ -8,28 +9,28 @@ const items = [
     id: "1",
     title: "20K+",
     description: "Event organizers",
-    icon: "/images/team-puzzle.png",
+    icon: "/images/team-puzzle.svg",
     bgColor: "#E3F4F1",
   },
   {
     id: "2",
     title: "20K+",
     description: "Events hosted",
-    icon: "/images/calendar-management.png",
+    icon: "/images/calendar-management.svg",
     bgColor: "#E6ECF8",
   },
   {
     id: "1",
     title: "20K+",
     description: "Ticket sold",
-    icon: "/images/cinema-tickets.png",
+    icon: "/images/cinema-tickets.svg",
     bgColor: "#FAF1E1",
   },
 ];
 
 const WhoWeAre = () => {
   return (
-    <div className="py-8 px-4 md:py-20 md:px-0">
+    <Container className="py-8 px-4 md:py-20 md:px-0">
       <h2 className="text-3xl font-pally-medium text-center destructive">
         WHO WE ARE
       </h2>
@@ -50,7 +51,7 @@ const WhoWeAre = () => {
               src={`${item.icon}`}
               width={96}
               height={100}
-              alt={`${item.title}`}
+              alt={`${item.description}`}
               className="filter grayscale pointer-events-none"
             />
 
@@ -61,7 +62,7 @@ const WhoWeAre = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </Container>
   );
 };
 

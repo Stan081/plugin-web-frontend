@@ -10,7 +10,7 @@ import { faqs } from "@/static-datas/faq-data";
 
 const Faq = () => {
   return (
-    <div className="bg-whiteNoise bg-cover backdrop-blur-md">
+    <div className="bg-whiteNoise backdrop-blur-md">
       <Container className="pt-10">
         <div className="mx-auto w-full max-w-2xl mb-6 space-y-2">
           <h2 className="font-pally-medium text-2xl md:text-3xl text-center">
