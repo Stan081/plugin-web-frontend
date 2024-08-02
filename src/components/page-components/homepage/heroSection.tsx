@@ -44,7 +44,7 @@ const HeroSection = () => {
 
   const resetTimeout = () => {
     if (timeoutRef.current) {
-      setHoveredIndex(null)
+      setHoveredIndex(null);
       clearTimeout(timeoutRef.current);
     }
   };
@@ -73,7 +73,8 @@ const HeroSection = () => {
         <Carousel>
           <div
             className="overflow-hidden"
-            onMouseEnter={() => {
+            onMouseEnter={resetTimeout}
+            onMouseLeave={() => {
               timeoutRef.current = setTimeout(
                 () =>
                   setActiveIndex((prevIndex) =>
@@ -82,7 +83,6 @@ const HeroSection = () => {
                 3000
               );
             }}
-            onMouseLeave={resetTimeout}
           >
             <CarouselContent
               style={{ transform: `translateX(${-activeIndex * 100}%)` }}

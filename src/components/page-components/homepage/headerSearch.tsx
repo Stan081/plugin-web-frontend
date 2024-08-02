@@ -47,7 +47,7 @@ const HeaderSearch = () => {
                 )}
               />
             </FormItem>
-            <div className="outline outline-gray-500 rotate-0 h-5 hidden lg:block" />
+            <div className="border border-gray-500 rotate-0 h-5 hidden lg:block" />
             <FormItem className="w-full hidden lg:block">
               <FormField
                 control={form.control}

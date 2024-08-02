@@ -188,7 +188,7 @@ const TailoredEvent: React.FC = () => {
 
         {/* Upcoming events component */}
         {/* <UpcomingEvent/> */}
-        <Container className="mt-20 overflow-auto px-4 lg:pl-32">
+        <Container className="mt-20 overflow-auto px-4 md:px-0">
           <h2 className="text-3xl font-pally-medium mb-5">Upcoming Events</h2>
           <div className="flex lg:flex-row gap-6 overflow-x-auto w-full pb-8">
             {cardData.map((card) => (

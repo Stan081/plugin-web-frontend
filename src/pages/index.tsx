@@ -14,9 +14,9 @@ export default function Home() {
     <Fragment>
       <Header />
       <HeroSection />
-      {/* <TestUI /> */}
       <TailoredEvent />
       <PopularEvent />
+      <TestUI />
       <ListEvent />
       <Faq />
       {/* <UpcomingEvent/> */}
