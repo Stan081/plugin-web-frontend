@@ -7,8 +7,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { faqs } from "@/static-datas/faq-data";
-{/* <ChevronLeft size={30} color="white" /> */}
-// <ChevronRight size={30} color="#fff" />
 
 const Faq = () => {
   return (

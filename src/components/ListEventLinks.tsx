@@ -37,7 +37,7 @@ const ListEvent = () => {
   return (
     <Popover>
       <PopoverTrigger>
-        <p className="text-[#586170] font-pally-regular text-base md:text-lg flex items-center hover:underline">
+        <p className="text-[#586170] font-pally-regular text-base md:text-lg flex items-center hover:underline whitespace-nowrap">
           List an Event <ChevronDownIcon className="ml-2" />
         </p>
       </PopoverTrigger>

@@ -82,7 +82,7 @@ const SalesDashboard = () => {
 
 const TeamManagement = () => {
   return (
-    <div className="bg-creamNoise backdrop-blur-md col-span-1 bg-blue-400 rounded-lg pt-4 px-4 md:pt-8 md:px-8 flex flex-col justify-between">
+    <div className="bg-creamNoise backdrop-blur-md bg-cover col-span-1 bg-blue-400 rounded-lg pt-4 px-4 md:pt-8 md:px-8 flex flex-col justify-between">
       <div className="space-y-2">
         <h3 className="text-lg md:text-xl font-pally-medium">
           Sales Dashboard

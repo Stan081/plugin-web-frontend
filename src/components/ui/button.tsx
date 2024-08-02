@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         default: 'bg-black text-white shadow hover:bg-gray-500',
         destructive:
-          'bg-[#D9302A] shadow-custom rounded-lg hover:bg-[#b23632] text-[#ffffff] py-2.5 px-4 transition delay-75 ease-in-out focus:bg-[#D9302A] text-center focus:outline-none',
+          'bg-destructive shadow-custom rounded-lg hover:bg-[#b23632] text-[#ffffff] py-2.5 px-4 transition delay-75 ease-in-out focus:bg-destructive text-center focus:outline-none',
         outline:
           'border-2 border-[#101928] text-black py-2.5 px-4 bg-transparent font-medium rounded-lg',
         secondary:

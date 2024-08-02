@@ -6,11 +6,11 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
 } from "@/components/ui/carousel";
-import { ChevronRight } from "lucide-react";
+import { RiArrowRightSLine, RiArrowLeftSLine } from "react-icons/ri";
 import Container from "@/tw-components/container";
-
+import Image from "next/image";
+import { motion } from "framer-motion";
 
 // Temporay mock data
 const heroSlides = [
@@ -39,10 +39,12 @@ const heroSlides = [
 
 const HeroSection = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const resetTimeout = () => {
     if (timeoutRef.current) {
+      setHoveredIndex(null)
       clearTimeout(timeoutRef.current);
     }
   };
@@ -71,8 +73,7 @@ const HeroSection = () => {
         <Carousel>
           <div
             className="overflow-hidden"
-            onMouseEnter={resetTimeout}
-            onMouseLeave={() => {
+            onMouseEnter={() => {
               timeoutRef.current = setTimeout(
                 () =>
                   setActiveIndex((prevIndex) =>
@@ -81,24 +82,42 @@ const HeroSection = () => {
                 3000
               );
             }}
+            onMouseLeave={resetTimeout}
           >
             <CarouselContent
               style={{ transform: `translateX(${-activeIndex * 100}%)` }}
             >
               {heroSlides.map((slide, index) => (
-                <CarouselItem key={index}>
+                <CarouselItem
+                  key={index}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
                   <div
-                    className="relative h-[90vh] bg-no-repeat bg-left md:bg-center bg-cover flex items-center justify-start"
+                    className="relative h-[70vh] bg-no-repeat bg-center bg-cover flex items-center justify-start"
                     style={{ backgroundImage: `url(${slide.backgroundImage})` }}
                   >
                     <div className="absolute inset-0 bg-black opacity-50"></div>
                     <Container>
                       <div className="relative z-10 text-center text-white p-4 flex flex-col items-start space-y-4">
-                        <img
-                          src={slide.logo}
-                          alt={`${slide.title} logo`}
-                          className="w-56 h-56 mb-4"
-                        />
+                        {hoveredIndex === index ? (
+                          <motion.div
+                            animate={{ x: 0 }}
+                            initial={{ x: -200 }}
+                            transition={{ duration: 0.9, type: "spring" }}
+                          >
+                            <Image
+                              src={slide.logo}
+                              width={224}
+                              height={224}
+                              alt={`${slide.title} logo`}
+                              className="w-56 h-56 mb-4"
+                            />
+                          </motion.div>
+                        ) : (
+                          <div className="w-56 h-56 mb-4" />
+                        )}
+
                         <h1 className="text-3xl md:text-5xl font-pally-bold">
                           {slide.title}
                         </h1>
@@ -114,26 +133,40 @@ const HeroSection = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            {/* <CarouselNext
-            className="absolute hidden md:flex top-3/4 right-[8%] h-12 w-12 bg-gray-50 p-2 -translate-x-1/2 rounded-full cursor-pointer"
-            onClick={() =>
-              handleSlideChange((activeIndex + 1) % heroSlides.length)
-            }
-          >
-            <ChevronRight size={40} color="#000" />
-          </CarouselNext> */}
-            <div className="absolute bottom-12 lg:bottom-48 right-0 md:right-[10%] transform -translate-x-1/2 flex space-x-2">
-              {heroSlides.map((_, index) => (
-                <span
-                  key={index}
-                  onClick={() => handleSlideChange(index)}
-                  className={`cursor-pointer w-4 h-4 rounded-full ${
-                    activeIndex === index
-                      ? "bg-red-500"
-                      : "bg-white bg-opacity-50"
-                  }`}
-                ></span>
-              ))}
+
+            <div className="absolute bottom-3 right-4 md:top-3/4 md:right-40 flex items-center gap-3">
+              <button
+                onClick={() =>
+                  handleSlideChange(
+                    activeIndex === 0 ? heroSlides.length - 1 : activeIndex - 1
+                  )
+                }
+                className="cursor-pointer border rounded-full p-1 flex justify-center items-center w-9 h-9 border-white hover:bg-gray-600"
+              >
+                <RiArrowLeftSLine size={30} color="#fff" />
+              </button>
+              <div className="flex space-x-2">
+                {heroSlides.map((_, index) => (
+                  <span
+                    key={index}
+                    onClick={() => handleSlideChange(index)}
+                    className={`cursor-pointer w-4 h-4 rounded-full ${
+                      activeIndex === index
+                        ? "bg-red-500"
+                        : "bg-white bg-opacity-50"
+                    }`}
+                  ></span>
+                ))}
+              </div>
+
+              <button
+                onClick={() =>
+                  handleSlideChange((activeIndex + 1) % heroSlides.length)
+                }
+                className="cursor-pointer border rounded-full p-1 flex justify-center items-center w-9 h-9 border-white hover:bg-gray-600"
+              >
+                <RiArrowRightSLine size={30} color="#fff" />
+              </button>
             </div>
           </div>
         </Carousel>

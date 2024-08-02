@@ -2,7 +2,8 @@ import * as yup from "yup";
 
 // Schema for search field
 export const SearchFieldSchema = yup.object().shape({
-  eventName: yup.string().required("Please enter event name"),
+  event_name: yup.string(),
+  event_location: yup.string(),
 });
 
 export type SearchField = yup.InferType<

@@ -5,7 +5,9 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Seaction";
-import UpcomingEvent from "./UpcomingEvent";
+import UpcomingEvent from "./upcomingEvent";
+import { cardData } from "@/static-datas/cards-data";
+import CardComponent from "@/components/CardComponent";
 
 const TailoredEvent: React.FC = () => {
   // Temp mock data
@@ -134,7 +136,7 @@ const TailoredEvent: React.FC = () => {
   };
 
   return (
-    <Section id="Our tailored events">
+    <Section id="Our tailored events" className="isolate">
       <div className="bg-whiteNoise bg-cover backdrop-blur-md py-20">
         {/* For desktop view */}
         <Container className="hidden lg:block">
@@ -185,7 +187,15 @@ const TailoredEvent: React.FC = () => {
         <EventMobile />
 
         {/* Upcoming events component */}
-        <UpcomingEvent/>
+        {/* <UpcomingEvent/> */}
+        <Container className="mt-20 overflow-auto px-4 lg:pl-32">
+          <h2 className="text-3xl font-pally-medium mb-5">Upcoming Events</h2>
+          <div className="flex lg:flex-row gap-6 overflow-x-auto w-full pb-8">
+            {cardData.map((card) => (
+              <CardComponent key={card.id} {...card} />
+            ))}
+          </div>
+        </Container>
       </div>
     </Section>
   );
