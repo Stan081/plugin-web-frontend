@@ -56,7 +56,7 @@ const HeroSection = () => {
         setActiveIndex((prevIndex) =>
           prevIndex === heroSlides.length - 1 ? 0 : prevIndex + 1
         ),
-      4000
+      3000
     );
 
     return () => {
@@ -134,7 +134,10 @@ const HeroSection = () => {
               ))}
             </CarouselContent>
 
-            <div className="absolute bottom-3 right-4 md:top-3/4 md:right-40 flex items-center gap-3">
+            <div
+              onMouseLeave={() => setHoveredIndex(null)}
+              className="absolute bottom-3 right-4 md:top-3/4 md:right-40 flex items-center gap-3"
+            >
               <button
                 onClick={() =>
                   handleSlideChange(

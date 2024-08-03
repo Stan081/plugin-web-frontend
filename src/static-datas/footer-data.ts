@@ -9,7 +9,7 @@ const f1 = [
     },
     {
       text: "FAQ",
-      href: "/#",
+      href: "/help",
     },
   ];
 
