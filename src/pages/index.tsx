@@ -9,6 +9,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PopularEvent from "@/components/page-components/homepage/popularEvent";
 import TopLocation from "@/components/page-components/homepage/topLocations";
+import OurCustomers from "@/components/OurCustomers";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <TopLocation/>
       {/* <TestUI /> */}
       <ListEvent />
+      <OurCustomers/>
       <Faq />
       {/* <UpcomingEvent/> */}
       <Footer />

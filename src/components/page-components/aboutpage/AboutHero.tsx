@@ -7,7 +7,7 @@ import React from "react";
 const AboutHero = () => {
   return (
     <div className="bg-pitchNoise">
-      <Container className="py-8 px-4 md:py-20 md:px-0">
+      <Container className="pt-8 px-4 md:pt-20 md:px-0">
         <div className="w-full max-w-3xl mx-auto space-y-5">
           <h1 className="text-center font-pally-bold text-3xl md:text-5xl mx-auto">
             We're revolutionizing how people discover and attend events.
@@ -17,7 +17,7 @@ const AboutHero = () => {
             offers the essential tools for your event's success.
           </p>
         </div>
-        <div className="h-1/5 mt-5 md:mx-20">
+        <div className="h-4/5 mt-6 md:mt-16 md:mx-20">
           <Image
             src={
               "https://ik.imagekit.io/pluginImage/Plugin-images/about-image.jpeg?updatedAt=1722631539754"
@@ -25,7 +25,7 @@ const AboutHero = () => {
             alt="About-us"
             width={1226}
             height={609}
-            className=" pointer-events-none w-full h-full rounded-3xl"
+            className=" pointer-events-none w-full h-full rounded-tl-3xl rounded-tr-3xl"
           />
         </div>
       </Container>

@@ -68,7 +68,7 @@ const HeroSection = () => {
     setActiveIndex(newIndex);
   };
   return (
-    <Section id="hero section">
+    <Section id="hero section" className="p-0">
       <div className="relative">
         <Carousel>
           <div

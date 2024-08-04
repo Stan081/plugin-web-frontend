@@ -13,7 +13,7 @@ const buttonVariants = cva(
         destructive:
           'bg-destructive shadow-custom rounded-lg hover:bg-[#b23632] text-[#ffffff] py-2.5 px-4 transition delay-75 ease-in-out focus:bg-destructive text-center focus:outline-none',
         outline:
-          'border-2 border-[#101928] text-black py-2.5 px-4 bg-transparent font-medium rounded-lg',
+          'border-2 border-[#101928] text-black py-1.5 md:py-2.5 px-3 md:px-4 bg-transparent font-medium rounded-lg',
         secondary:
           'text-[#CB1A14] bg-transparent border border-[#D9302A] rounded-lg py-2.5 px-4 text-center font-medium',
         ghost: 'opacity-50 cursor-not-allowed bg-gray-200 text-slate-600',

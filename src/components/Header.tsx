@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import HeaderSearchBar from "./page-components/homepage/headerSearch";
 import ListEventCard from "./ListEventLinks";
 import { RiMenu4Fill } from "react-icons/ri";
+import { NavigationDialog } from "./NavigationDialog";
 
 
 const Header = () => {
@@ -16,9 +17,7 @@ const Header = () => {
       <Container className="container px-4 md:px-0 py-2">
         <div className="flex justify-between items-center gap-5">
           <div className="space-x-6 flex items-center">
-            <div className="block md:hidden rounded-md border-2 border-black p-2 cursor-pointer">
-              <RiMenu4Fill size={24} color="#000"/>
-            </div>
+            <NavigationDialog/>
             <Logo />
             <div className="hidden md:block w-full">
               <HeaderSearchBar />

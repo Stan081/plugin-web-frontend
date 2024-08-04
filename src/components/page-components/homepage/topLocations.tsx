@@ -37,14 +37,36 @@ const TopLocation = () => {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 3,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024, // for tablet and desktop
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768, // for medium devices (e.g. tablets)
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480, // for small devices (e.g. mobile)
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
-
   return (
-    <div className="bg-topLocation bg-cover">
+    <div className="bg-[#221A14] lg:bg-topLocation md:bg-cover">
       <Container className="py-8 md:py-16 px-4 md:px-0">
         <h2 className="text-3xl font-pally-medium my-7 text-white">
           Top Locations
@@ -78,7 +100,7 @@ const SampleNextArrow = (props: any) => {
   const { className, style, onClick } = props;
   return (
     <div
-      className={`${className} bg-white rounded-full p-5 shadow-md`}
+      className={`${className} absolute right-5 w-12 h-12 bg-white rounded-full p-5 shadow-md`}
       style={{ ...style, display: "block" }}
       onClick={onClick}
     />
