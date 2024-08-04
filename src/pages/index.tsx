@@ -18,7 +18,7 @@ export default function Home() {
       <HeroSection />
       <TailoredEvent />
       <PopularEvent />
-      <TopLocation/>
+      {/* <TopLocation/> */}
       {/* <TestUI /> */}
       <ListEvent />
       <OurCustomers/>

@@ -99,7 +99,7 @@ const HeroSection = () => {
                   >
                     <div className="absolute inset-0 bg-black opacity-50"></div>
                     <Container>
-                      <div className="relative z-10 text-center text-white p-4 flex flex-col items-start space-y-4">
+                      <div className="relative z-10 text-center text-white p-4 flex flex-col items-start space-y-2 md:space-y-4">
                         {hoveredIndex === index ? (
                           <motion.div
                             animate={{ x: 0 }}
@@ -111,11 +111,11 @@ const HeroSection = () => {
                               width={224}
                               height={224}
                               alt={`${slide.title} logo`}
-                              className="w-56 h-56 mb-4"
+                              className="w-24 h-24 md:w-56 md:h-56 mb-4"
                             />
                           </motion.div>
                         ) : (
-                          <div className="w-56 h-56 mb-4" />
+                          <div className="w-24 h-24 md:w-56 md:h-56 mb-4 rounded-lg" />
                         )}
 
                         <h1 className="text-3xl md:text-5xl font-pally-bold">

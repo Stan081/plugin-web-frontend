@@ -17,7 +17,7 @@ const TailoredEvent: React.FC = () => {
       label: "Concerts",
       color: "bg-[rgba(255,84,3,0.05)] border-orange-500",
       position: "top-0 right-20",
-      mobilePosition: "top-0 right-10",
+      mobilePosition: "top-0 right-4",
       rotate: [-8, 36, -8],
     },
     {
@@ -41,7 +41,7 @@ const TailoredEvent: React.FC = () => {
       label: "Campaign",
       color: "bg-[#E4EBFF] border-[#4D77FF]",
       position: "top-64 left-32",
-      mobilePosition: "top-64 right-12",
+      mobilePosition: "top-64 right-3",
       rotate: [9, -30, 9],
     },
     {
@@ -73,7 +73,7 @@ const TailoredEvent: React.FC = () => {
       label: "Corporate",
       color: "bg-[#E4E7EC] border-[#515A6A]",
       position: "top-64 left-20",
-      mobilePosition: "top-64 left-10",
+      mobilePosition: "top-64 left-4",
       rotate: [9, -30, 9],
     },
   ];
@@ -91,7 +91,7 @@ const TailoredEvent: React.FC = () => {
 
   const EventMobile = () => {
     return (
-      <Container className="lg:hidden inline-block py-8 md:py-16">
+      <Container className="lg:hidden inline-block overflow-hidden">
         <div className="mx-auto w-full md:w-2/3 flex flex-col gap-4">
           <h2 className="font-pally-medium text-3xl text-center">
             Events tailored to <br /> your{" "}
@@ -137,7 +137,7 @@ const TailoredEvent: React.FC = () => {
 
   return (
     <Section id="Our tailored events" className="isolate">
-      <div className="bg-whiteNoise bg-cover backdrop-blur-md py-20">
+      <div className="bg-whiteNoise bg-cover backdrop-blur-md md:py-20">
         {/* For desktop view */}
         <Container className="hidden lg:block">
           <div className="flex justify-between gap-10 w-full mx-auto">
