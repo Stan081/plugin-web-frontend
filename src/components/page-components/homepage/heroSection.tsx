@@ -24,7 +24,7 @@ const heroSlides = [
   {
     backgroundImage:
       "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image2.jpeg?updatedAt=1722389363583",
-    logo: "/images/cream-bg.png",
+    logo: "/images/pitch-bg.png",
     title: "Another Event",
     description: "Description for another event.",
   },

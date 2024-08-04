@@ -1,98 +1,179 @@
-import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+"use client";
+
+import { Section } from "@/tw-components/Seaction";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { RiArrowRightSLine, RiArrowLeftSLine } from "react-icons/ri";
 import Container from "@/tw-components/container";
 import Image from "next/image";
 
-const TestUI = () => {
-  const locations = [
-    {
-      city: "VERONA, ITALY",
-      events: 300,
-      imgSrc: "/images/pitch-bg.png",
-      flag: "🇮🇹",
-    },
-    {
-      city: "LAGOS, NIGERIA",
-      events: 300,
-      imgSrc: "/images/pitch-bg.png",
-      flag: "🇳🇬",
-    },
-    {
-      city: "COSTA MESA, UNITED STATES",
-      events: 300,
-      imgSrc: "/images/pitch-bg.png",
-      flag: "🇺🇸",
-    },
-    {
-      city: "LONDON, UNITED KINGDOM",
-      events: 300,
-      imgSrc: "/images/pitch-bg.png",
-      flag: "🇬🇧",
-    },
-  ];
+const customers = [
+  {
+    customerImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816",
+    logo: "/images/cream-bg.png",
+    name: "Ashley Young",
+    position: "Palms home and resort",
+    quote:
+      "I love to list out my properties for rent with Gupa because of the good policies they have and also i can report guest mis-conduct swiftly",
+  },
+  {
+    customerImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image2.jpeg?updatedAt=1722389363583",
+    logo: "/images/cream-bg.png",
+    name: "Kenice Plugin",
+    position: "Plugin dir",
+    quote:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, iste minima consequuntur nesciunt recusandae natus rerum beatae reiciendis quae, amet molestiae quam quod id aspernatur repudiandae ab aliquid iusto corporis.",
+  },
+  {
+    customerImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image3.jpeg?updatedAt=1722389364580",
+    logo: "/images/cream-bg.png",
+    name: "Stanley DEV",
+    position: "CTO Plugin",
+    quote:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, iste minima consequuntur nesciunt recusandae natus rerum beatae reiciendis quae, amet molestiae quam quod id aspernatur repudiandae ab aliquid iusto corporis.",
+  },
+];
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+// Temporay mock data
+const heroSlides = [
+  {
+    backgroundImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816",
+    logo: "/images/cream-bg.png",
+    title: "AFRONATION “24",
+    description: "The biggest Afrobeat party in the world is here again.",
+  },
+  {
+    backgroundImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image2.jpeg?updatedAt=1722389363583",
+    logo: "/images/pitch-bg.png",
+    title: "Another Event",
+    description: "Description for another event.",
+  },
+  {
+    backgroundImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image3.jpeg?updatedAt=1722389364580",
+    logo: "/images/cream-bg.png",
+    title: "Yet Another Event",
+    description: "Description for yet another event.",
+  },
+];
+
+const TestUI = () => {
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const resetTimeout = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
   };
 
-  return (
-    <div className="bg-topLocation bg-cover">
-      <Container className="py-8 md:py-16 px-4 md:px-0">
-        <h2 className="text-3xl font-pally-medium my-7 text-white">
-          Top Locations
-        </h2>
-        <Slider {...settings}>
-          {locations.map((location, index) => (
-            <div key={index} className="relative px-2 ">
-              <div className="h-[250px]">
-                <Image
-                  className="w-full h-full rounded-lg"
-                  src={location.imgSrc}
-                  alt={location.city}
-                  width={250}
-                  height={250}
-                />
-              </div>
-              <div className="absolute bottom-3 left-6 flex flex-col items-start text-white">
-                <span className="text-lg">{location.flag}</span>
-                <h3 className="text-xl font-semibold">{location.city}</h3>
-                <p className="mt-1">({location.events} events)</p>
-              </div>
-            </div>
-          ))}
-        </Slider>
-      </Container>
-    </div>
-  );
-};
+  useEffect(() => {
+    resetTimeout();
+    timeoutRef.current = setTimeout(
+      () =>
+        setActiveIndex((prevIndex) =>
+          prevIndex === heroSlides.length - 1 ? 0 : prevIndex + 1
+        ),
+      3000
+    );
 
-const SampleNextArrow = (props: any) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={`${className} bg-white rounded-full p-5 shadow-md`}
-      style={{ ...style, display: "block" }}
-      onClick={onClick}
-    />
-  );
-};
+    return () => {
+      resetTimeout();
+    };
+  }, [activeIndex]);
 
-const SamplePrevArrow = (props: any) => {
-  const { className, style, onClick } = props;
+  const handleSlideChange = (newIndex: number) => {
+    setActiveIndex(newIndex);
+  };
   return (
-    <div
-      className={`${className} bg-white rounded-full p-2 shadow-md`}
-      style={{ ...style, display: "block" }}
-      onClick={onClick}
-    />
+    <Section id="hero section" className="isolate overflow-hidden">
+      <div className="relative">
+        <Carousel>
+          <div className="">
+            <Container className="py-8 px-4 md:py-16 md:px-0">
+              <div className="w-full max-w-3xl mx-auto space-y-5 mb-8 md:mb-16">
+                <h2 className="text-center font-pally-medium text-4xl mx-auto">
+                  Meet our amazing customers
+                </h2>
+                <p className="mx-auto font-pally-regular text-base md:text-lg text-[#586170] text-center md:max-w-xl">
+                  Whether it's a concert, conference, or local gathering, Plugin
+                  offers the essential tools for your event's success.
+                </p>
+              </div>
+              <CarouselContent
+                style={{ transform: `translateX(${-activeIndex * 100}%)` }}
+              >
+                {customers.map((customer, index) => (
+                  <CarouselItem key={index}>
+                    <div className="md:px-48 flex flex-col-reverse md:flex-row">
+                      <div className="w-ful md:h-[560px] md:w-2/3 bg-[#221A14] px-5 py-6 md:p-16 rounded-br-2xl md:rounded-br-none md:rounded-tl-2xl rounded-bl-2xl">
+                        <div className=" space-y-7 md:space-y-20">
+                          <h4 className=" md:h-56 text-white font-pally-medium text-lg md:text-3xl">
+                            “{customer.quote}”
+                          </h4>
+                          <div className="flex flex-col items-center md:items-start md:justify-start">
+                            <p className="text-white font-pally-medium text-xl">
+                              {customer.name}
+                            </p>
+                            <p className="text-[#D0D5DD] font-pally-medium text-base">
+                              {customer.position}
+                            </p>
+                          </div>
+                        </div>
+                        <div className=" mt-16 flex items-center justify-end gap-3">
+                          <button
+                            onClick={() =>
+                              handleSlideChange(
+                                activeIndex === 0
+                                  ? customers.length - 1
+                                  : activeIndex - 1
+                              )
+                            }
+                            className="cursor-pointer border rounded-full p-1 flex justify-center items-center w-9 h-9 border-white hover:bg-gray-600"
+                          >
+                            <RiArrowLeftSLine size={30} color="#fff" />
+                          </button>
+
+                          <button
+                            onClick={() =>
+                              handleSlideChange(
+                                (activeIndex + 1) % customers.length
+                              )
+                            }
+                            className="cursor-pointer border rounded-full p-1 flex justify-center items-center w-9 h-9 border-white hover:bg-gray-600"
+                          >
+                            <RiArrowRightSLine size={30} color="#fff" />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="w-full md:w-1/2">
+                        <Image
+                          src={customer.customerImage}
+                          width={224}
+                          height={224}
+                          alt={` ${customer.name}`}
+                          className="w-full h-full object-cover pointer-events-none rounded-tr-2xl rounded-tl-2xl md:rounded-tl-none md:rounded-br-2xl"
+                        />
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Container>
+          </div>
+        </Carousel>
+      </div>
+    </Section>
   );
 };
 

@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import PublicHeader from "@/components/Header";
+import OurCustomers from "@/components/OurCustomers";
 import AboutHero from "@/components/page-components/aboutpage/AboutHero";
 import WhatWeOffter from "@/components/page-components/aboutpage/WhatWeOffter";
 import WhoWeAre from "@/components/page-components/aboutpage/WhoWeAre";
@@ -14,6 +15,7 @@ const AboutUs = () => {
       <WhoWeAre/>
       <WhatWeOffter/>
       <WhyChoose/>
+      <OurCustomers/>
       <Footer/>
     </Fragment>
   );

@@ -8,6 +8,7 @@ import { Fragment } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PopularEvent from "@/components/page-components/homepage/popularEvent";
+import TopLocation from "@/components/page-components/homepage/topLocations";
 
 export default function Home() {
   return (
@@ -16,7 +17,8 @@ export default function Home() {
       <HeroSection />
       <TailoredEvent />
       <PopularEvent />
-      <TestUI />
+      <TopLocation/>
+      {/* <TestUI /> */}
       <ListEvent />
       <Faq />
       {/* <UpcomingEvent/> */}

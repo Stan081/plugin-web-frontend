@@ -16,6 +16,7 @@ const Logo: FC<LogoProps> = ({ className }) => {
           className ? className : "cursor-pointer"
         )}
       >
+        <span className="sr-only">Plugin</span>
         <Image
           src="/images/plugin-logo.svg"
           alt="NoImpunity Logo"

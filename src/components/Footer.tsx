@@ -27,7 +27,10 @@ const Footer = () => {
                   </h4>
                   <ul className=" font-pally-regular text-[#667185] space-y-4">
                     {footerData.f2.links.map((list, index) => (
-                      <li key={index} className="text-base md:text-lg">
+                      <li
+                        key={index}
+                        className="text-base md:text-lg active:underline hover:underline"
+                      >
                         <Link href={`${list.href}`}>{list.text}</Link>
                       </li>
                     ))}
@@ -37,9 +40,12 @@ const Footer = () => {
                   <h4 className="text-black font-pally-medium text-base md:text-lg">
                     {Object.keys(footerData.f2)[1]}
                   </h4>
-                  <ul className=" font-pally-regular text-[#667185] space-y-4">
+                  <ul className=" font-pally-regular text-[#667185] space-y-4 ">
                     {footerData.f2.Company.map((list, index) => (
-                      <li key={index} className="text-base md:text-lg">
+                      <li
+                        key={index}
+                        className="text-base md:text-lg active:underline hover:underline"
+                      >
                         <Link href={`${list.href}`}>{list.text}</Link>
                       </li>
                     ))}
@@ -51,7 +57,10 @@ const Footer = () => {
                   </h4>
                   <ul className=" font-pally-regular text-[#667185] space-y-4">
                     {footerData.f2.Social.map((list, index) => (
-                      <li key={index} className="text-base md:text-lg">
+                      <li
+                        key={index}
+                        className="text-base md:text-lg active:underline hover:underline"
+                      >
                         <Link href={`${list.href}`}>{list.text}</Link>
                       </li>
                     ))}
@@ -99,7 +108,7 @@ const Footer = () => {
             {footerData.f1.map((list, index) => (
               <li
                 key={index}
-                className="flex items-center text-base md:text-lg"
+                className="flex items-center text-base md:text-lg "
               >
                 <Link
                   href={`${list.href}`}

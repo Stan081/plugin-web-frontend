@@ -50,7 +50,7 @@ const PopularEvent = () => {
             id={`panel-${isActive}`}
             role="tabpanel"
             aria-labelledby={`tab-${isActive}`}
-            className="mt-4 md:mt-6 flex gap-5 justify-center"
+            className="mt-4 md:mt-6 grid grid-cols-2 lg:grid-cols-4 gap-5 justify-center"
           >
             {cardData.slice(0,4).map((card) => (
               <CardComponent key={card.id} {...card} />
