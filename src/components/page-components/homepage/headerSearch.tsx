@@ -1,23 +1,17 @@
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { SearchField, SearchFieldSchema } from "@/models/search";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { Search } from "lucide-react";
+import { RiSearchLine } from "react-icons/ri";
 
 const HeaderSearch = () => {
-
   const form = useForm<SearchField>({
     mode: "all",
     defaultValues: {
-      eventName: "",
+      event_name: "",
+      event_location: "",
     },
     resolver: yupResolver(SearchFieldSchema),
   });
@@ -33,11 +27,11 @@ const HeaderSearch = () => {
           onClick={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-4 my-5"
         >
-          <div className="flex items-start gap-4">
+          <div className="flex items-center gap-4">
             <FormItem className="w-full">
               <FormField
                 control={form.control}
-                name="eventName"
+                name="event_name"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -53,8 +47,28 @@ const HeaderSearch = () => {
                 )}
               />
             </FormItem>
+            <div className="border border-gray-500 rotate-0 h-5 hidden lg:block" />
+            <FormItem className="w-full hidden lg:block">
+              <FormField
+                control={form.control}
+                name="event_location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        placeholder="Pick location"
+                        type="text"
+                        autoCorrect="off"
+                        className="w-full bg-white font-pally-regular"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </FormItem>
             <button type="submit" className="bg-[#D9302A] rounded-full p-2">
-                <Search size={24} color="#fff"/>
+              <RiSearchLine size={24} color="#fff" />
             </button>
           </div>
         </form>

@@ -1,100 +1,179 @@
-import { Button } from "@/components/ui/button";
+"use client";
+
+import { Section } from "@/tw-components/Seaction";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { RiArrowRightSLine, RiArrowLeftSLine } from "react-icons/ri";
 import Container from "@/tw-components/container";
 import Image from "next/image";
-import React from "react";
 
+const customers = [
+  {
+    customerImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816",
+    logo: "/images/cream-bg.png",
+    name: "Ashley Young",
+    position: "Palms home and resort",
+    quote:
+      "I love to list out my properties for rent with Gupa because of the good policies they have and also i can report guest mis-conduct swiftly",
+  },
+  {
+    customerImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image2.jpeg?updatedAt=1722389363583",
+    logo: "/images/cream-bg.png",
+    name: "Kenice Plugin",
+    position: "Plugin dir",
+    quote:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, iste minima consequuntur nesciunt recusandae natus rerum beatae reiciendis quae, amet molestiae quam quod id aspernatur repudiandae ab aliquid iusto corporis.",
+  },
+  {
+    customerImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image3.jpeg?updatedAt=1722389364580",
+    logo: "/images/cream-bg.png",
+    name: "Stanley DEV",
+    position: "CTO Plugin",
+    quote:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, iste minima consequuntur nesciunt recusandae natus rerum beatae reiciendis quae, amet molestiae quam quod id aspernatur repudiandae ab aliquid iusto corporis.",
+  },
+];
+
+// Temporay mock data
+const heroSlides = [
+  {
+    backgroundImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816",
+    logo: "/images/cream-bg.png",
+    title: "AFRONATION “24",
+    description: "The biggest Afrobeat party in the world is here again.",
+  },
+  {
+    backgroundImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image2.jpeg?updatedAt=1722389363583",
+    logo: "/images/pitch-bg.png",
+    title: "Another Event",
+    description: "Description for another event.",
+  },
+  {
+    backgroundImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image3.jpeg?updatedAt=1722389364580",
+    logo: "/images/cream-bg.png",
+    title: "Yet Another Event",
+    description: "Description for yet another event.",
+  },
+];
 
 const TestUI = () => {
-  return (
-      <Container className="py-8 md:py-16">
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="bg-pinkNoise bg-cover backdrop-blur-md w-full md:w-1/2 rounded-lg px-4 pt-4 md:px-8 md:pt-8">
-            <h2 className="font-pally-medium text-3xl">
-              List your next event <br /> with Plugin
-            </h2>
-            <p className="font-pally-regular text-base md:text-lg w-full max-w-lg">
-              Our user-friendly software selects event listings based on your
-              location or top priorities, making your search much more fun.
-            </p>
-            <div className="mt-6 flex justify-between items-start">
-              <Button variant="destructive" className="w-[200px] md:w-auto">
-                List an event
-              </Button>
-              <div>
-                <Image
-                  src={"/images/listing-event-illustration.svg"}
-                  width={345}
-                  height={528}
-                  alt="listing event illustration"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-6 w-full md:w-1/2">
-            <div className="relative bg-blueNoise backdrop-blur-md col-span-2 rounded-lg flex items-center justify-between">
-              <div className="pl-4 md:pl-8">
-                <h3 className="text-lg md:text-xl font-pally-medium">
-                  Event Ticketing
-                </h3>
-                <p className="text-base md:text-lg font-pally-regular">
-                  Create, promote and sell tickets for <br /> your events
-                  without stress.
-                </p>
-              </div>
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-              <div className="pr-1 h-[295px]">
-                <Image
-                  src={"/images/ticket-band.svg"}
-                  width={379}
-                  height={555}
-                  alt="ticket illustration"
-                  className="w-72 h-72"
-                />
-              </div>
-            </div>
-            <div className=" bg-seagreenNoise backdrop-blur-md col-span-1 rounded-lg p-4 md:p-8 flex flex-col">
-              <div className="flex justify-center">
-                <Image
-                  src={"/images/sales-dash.svg"}
-                  width={222}
-                  height={198}
-                  alt="sales dashboard illustration"
-                  className="w-auto h-auto"
-                />
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-lg md:text-xl font-pally-medium">
-                  Sales Dashboard
-                </h3>
-                <p className="text-base md:text-lg font-pally-regular">
-                  Track ticket sales, orders, revenues, event reports in a quick
-                  glance.
+  const resetTimeout = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  };
+
+  useEffect(() => {
+    resetTimeout();
+    timeoutRef.current = setTimeout(
+      () =>
+        setActiveIndex((prevIndex) =>
+          prevIndex === heroSlides.length - 1 ? 0 : prevIndex + 1
+        ),
+      3000
+    );
+
+    return () => {
+      resetTimeout();
+    };
+  }, [activeIndex]);
+
+  const handleSlideChange = (newIndex: number) => {
+    setActiveIndex(newIndex);
+  };
+  return (
+    <Section id="hero section" className="isolate overflow-hidden">
+      <div className="relative">
+        <Carousel>
+          <div className="">
+            <Container className="py-8 px-4 md:py-16 md:px-0">
+              <div className="w-full max-w-3xl mx-auto space-y-5 mb-8 md:mb-16">
+                <h2 className="text-center font-pally-medium text-4xl mx-auto">
+                  Meet our amazing customers
+                </h2>
+                <p className="mx-auto font-pally-regular text-base md:text-lg text-[#586170] text-center md:max-w-xl">
+                  Whether it's a concert, conference, or local gathering, Plugin
+                  offers the essential tools for your event's success.
                 </p>
               </div>
-            </div>
-            <div className="bg-creamNoise backdrop-blur-md col-span-1 bg-blue-400 rounded-lg pt-4 px-4 md:pt-8 md:px-8 flex flex-col justify-between">
-              <div className="space-y-2">
-                <h3 className="text-lg md:text-xl font-pally-medium">
-                  Sales Dashboard
-                </h3>
-                <p className="text-base md:text-lg font-pally-regular">
-                  Track ticket sales, orders, revenues, event reports in a quick
-                  glance.
-                </p>
-              </div>
-              <div className="flex justify-center">
-                <Image
-                  src={"/images/team.svg"}
-                  width={222}
-                  height={198}
-                  alt="team management illustration"
-                  className="w-auto h-auto"
-                />
-              </div>
-            </div>
+              <CarouselContent
+                style={{ transform: `translateX(${-activeIndex * 100}%)` }}
+              >
+                {customers.map((customer, index) => (
+                  <CarouselItem key={index}>
+                    <div className="md:px-48 flex flex-col-reverse md:flex-row">
+                      <div className="w-ful md:h-[560px] md:w-2/3 bg-[#221A14] px-5 py-6 md:p-16 rounded-br-2xl md:rounded-br-none md:rounded-tl-2xl rounded-bl-2xl">
+                        <div className=" space-y-7 md:space-y-20">
+                          <h4 className=" md:h-56 text-white font-pally-medium text-lg md:text-3xl">
+                            “{customer.quote}”
+                          </h4>
+                          <div className="flex flex-col items-center md:items-start md:justify-start">
+                            <p className="text-white font-pally-medium text-xl">
+                              {customer.name}
+                            </p>
+                            <p className="text-[#D0D5DD] font-pally-medium text-base">
+                              {customer.position}
+                            </p>
+                          </div>
+                        </div>
+                        <div className=" mt-16 flex items-center justify-end gap-3">
+                          <button
+                            onClick={() =>
+                              handleSlideChange(
+                                activeIndex === 0
+                                  ? customers.length - 1
+                                  : activeIndex - 1
+                              )
+                            }
+                            className="cursor-pointer border rounded-full p-1 flex justify-center items-center w-9 h-9 border-white hover:bg-gray-600"
+                          >
+                            <RiArrowLeftSLine size={30} color="#fff" />
+                          </button>
+
+                          <button
+                            onClick={() =>
+                              handleSlideChange(
+                                (activeIndex + 1) % customers.length
+                              )
+                            }
+                            className="cursor-pointer border rounded-full p-1 flex justify-center items-center w-9 h-9 border-white hover:bg-gray-600"
+                          >
+                            <RiArrowRightSLine size={30} color="#fff" />
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="w-full md:w-1/2">
+                        <Image
+                          src={customer.customerImage}
+                          width={224}
+                          height={224}
+                          alt={` ${customer.name}`}
+                          className="w-full h-full object-cover pointer-events-none rounded-tr-2xl rounded-tl-2xl md:rounded-tl-none md:rounded-br-2xl"
+                        />
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Container>
           </div>
-        </div>
-      </Container>
+        </Carousel>
+      </div>
+    </Section>
   );
 };
 

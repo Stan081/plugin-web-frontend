@@ -9,7 +9,7 @@ const f1 = [
     },
     {
       text: "FAQ",
-      href: "/#",
+      href: "/help",
     },
   ];
 
@@ -24,13 +24,13 @@ const f1 = [
         text: "List Events",
       },
       {
-        href: "/#",
+        href: "/help",
         text: "Help",
       },
     ],
     Company: [
       {
-        href: "/#",
+        href: "/about-us",
         text: "About",
       },
       {

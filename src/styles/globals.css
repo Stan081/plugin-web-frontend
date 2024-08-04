@@ -29,3 +29,11 @@
   font-style: normal;
 }
 
+.destructive{
+  @apply text-[#D9302A]
+}
+
+.bg-destructive{
+  @apply bg-[#D9302A]
+}
+
