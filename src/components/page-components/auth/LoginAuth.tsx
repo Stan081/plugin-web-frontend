@@ -14,6 +14,8 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Spinner from "@/tw-components/spinner";
+import { useRouter } from "next/navigation";
+
 
 const LoginAuth = () => {
   const form = useForm<LoginFields>({
@@ -24,10 +26,14 @@ const LoginAuth = () => {
     resolver: yupResolver(LoginSchema),
   });
 
+//  initialise router
+const router = useRouter()
+
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
   const onSubmit = useCallback(async (payload: LoginFields) => {
     console.log(payload);
+    router.push('/verify')
   }, []);
   return (
     <div>

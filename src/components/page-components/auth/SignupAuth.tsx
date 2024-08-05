@@ -15,6 +15,7 @@ import { PhoneNumberInput } from "@/components/PhoneNumberInput";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Spinner from "@/tw-components/spinner";
+import { useRouter } from "next/navigation";
 
 const SignupAuth = () => {
   const form = useForm<SignupFields>({
@@ -28,10 +29,14 @@ const SignupAuth = () => {
     resolver: yupResolver(SignupSchema),
   });
 
+  //  initialise router
+  const router = useRouter();
+
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
   const onSubmit = useCallback(async (payload: SignupFields) => {
     console.log(payload);
+    router.push('/verify')
   }, []);
   return (
     <div>
