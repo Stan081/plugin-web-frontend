@@ -6,6 +6,6 @@ export const SearchFieldSchema = yup.object().shape({
   event_location: yup.string(),
 });
 
-export type SearchField = yup.InferType<
+export type SearchFields = yup.InferType<
   typeof SearchFieldSchema
 >
