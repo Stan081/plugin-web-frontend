@@ -154,7 +154,7 @@ const TailoredEvent: React.FC = () => {
               ))}
             </ul>
 
-            <div className="mx-auto w-full md:w-[25%] flex flex-col gap-4">
+            <div className="mx-auto w-full md:w-[25%] flex flex-col gap-4 mt-5 md:mt-10">
               <h2 className="font-pally-medium text-[36px] text-center">
                 Events tailored to <br /> your{" "}
                 <span className="text-[#765fbe]">preferences</span>
@@ -188,8 +188,8 @@ const TailoredEvent: React.FC = () => {
 
         {/* Upcoming events component */}
         {/* <UpcomingEvent/> */}
-        <Container className="mt-20 overflow-auto px-4 md:px-0">
-          <h2 className="text-3xl font-pally-medium mb-5">Upcoming Events</h2>
+        <Container className="mt-20 md:mt-40 overflow-auto px-4 md:px-0">
+          <h2 className="text-3xl font-pally-medium mb-6">Upcoming Events</h2>
           <div className="flex lg:flex-row gap-6 overflow-x-auto w-full pb-8">
             {cardData.map((card) => (
               <CardComponent key={card.id} {...card} />
