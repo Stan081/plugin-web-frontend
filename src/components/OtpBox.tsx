@@ -93,7 +93,7 @@ export const OtpBox: React.FC<OtpBoxProps> = ({ numDigits, onComplete }) => {
   };
 
   return (
-    <div className="flex w-full items-center justify-center">
+    <div className="flex w-full justify-start">
       {renderOtpInputs()}
     </div>
   );

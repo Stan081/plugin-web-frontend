@@ -9,7 +9,7 @@ const AboutHero = () => {
     <div className="bg-pitchNoise">
       <Container className="pt-8 px-4 md:pt-20 md:px-0">
         <div className="w-full max-w-3xl mx-auto space-y-5">
-          <h1 className="text-center font-pally-bold text-3xl md:text-5xl mx-auto">
+          <h1 className="text-center font-pally-medium md:font-pally-bold text-3xl md:text-5xl mx-auto">
             We're revolutionizing how people discover and attend events.
           </h1>
           <p className="mx-auto font-pally-regular text-base md:text-lg text-[#586170] text-center md:max-w-xl">

@@ -136,8 +136,8 @@ const TailoredEvent: React.FC = () => {
   };
 
   return (
-    <Section id="Our tailored events" className="isolate">
-      <div className="bg-whiteNoise bg-cover backdrop-blur-md md:py-20">
+    <Section id="our-tailored-events" className="isolate p-0">
+      <div className="bg-whiteNoise bg-cover backdrop-blur-md py-8 md:py-20">
         {/* For desktop view */}
         <Container className="hidden lg:block">
           <div className="flex justify-between gap-10 w-full mx-auto">

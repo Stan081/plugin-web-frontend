@@ -37,17 +37,17 @@ const Header = () => {
               Help
             </Link>
 
-            <Link href={'/signup'}>
+            <Link href={"/signup"}>
               <Button variant="outline" className=" border-black">
                 Get Started
               </Button>
             </Link>
           </div>
-          <div className="lg:hidden block">
+          <Link href={"/signup"} className="lg:hidden block">
             <Button variant="outline" className=" border-black">
               Get Started
             </Button>
-          </div>
+          </Link>
         </div>
         <div className="md:hidden block w-full">
           <HeaderSearchBar />

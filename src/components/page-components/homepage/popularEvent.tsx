@@ -17,8 +17,8 @@ const PopularEvent = () => {
   ];
 
   return (
-    <Section id="Popular event" className=" isolate overflow-hidden">
-      <div className="bg-pitchNoise backdrop-blur-md bg-cover">
+    <Section id="popular-event" className="p-0 overflow-hidden">
+      <div className="bg-pitchNoise backdrop-blur-md">
         <Container className="px-4 md:px-0 py-8 md:py-16">
           <h2 className="text-3xl font-pally-medium mb-5">Popular Events</h2>
           <ul className="flex justify-start items-center gap-4 align-baseline">

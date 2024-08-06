@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { OtpBox } from "@/components/OtpBox";
-import { Separator } from "@/components/ui/separator";
+import { useRouter } from "next/navigation";
 
 const OTPVerification = () => {
   const [otp, setOtp] = useState<string>("");
 
+  const router = useRouter()
+
   const handleOtpComplete = (otp: string) => {
     setOtp(otp);
     console.log("OTP Entered:", otp);
+    router.push('/')
   };
 
   return (

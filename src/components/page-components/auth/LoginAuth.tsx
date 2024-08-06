@@ -79,7 +79,7 @@ const router = useRouter()
         <p className="text-[#98A2B3] font-pally-regular">
         Don't have an account?
         </p>
-        <Link href={"/signin"} className="text-white font-pally-medium">
+        <Link href={"/signup"} className="text-white font-pally-medium">
         Create account
         </Link>
       </div>
