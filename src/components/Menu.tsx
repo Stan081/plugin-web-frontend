@@ -1,0 +1,88 @@
+import React from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { RiArrowDownSLine } from "react-icons/ri";
+import TicketIcon from "./icons/ticket";
+import { RiHeart3Line } from "react-icons/ri";
+import { LuUserPlus2 } from "react-icons/lu";
+import { RiAccountCircleLine } from "react-icons/ri";
+import { MdHelpOutline } from "react-icons/md";
+import Link from "next/link";
+import { Separator } from "./ui/separator";
+import { LuLayoutGrid } from "react-icons/lu";
+import { RiLogoutBoxRLine } from "react-icons/ri";
+
+const items = [
+  {
+    title: "Tickets",
+    icon: TicketIcon,
+    href: "/#",
+  },
+  {
+    title: "Saved events",
+    icon: RiHeart3Line,
+    href: "/#",
+  },
+  {
+    title: "Following",
+    icon: LuUserPlus2,
+    href: "/#",
+  },
+  {
+    title: "Account",
+    icon: RiAccountCircleLine,
+    href: "/accounts",
+  },
+  {
+    title: "Get help",
+    icon: MdHelpOutline,
+    href: "/#",
+  },
+];
+
+const MenuLinks = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <div className="flex justify-start items-center">
+          <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
+            EJ
+          </p>
+          <RiArrowDownSLine className="ml-2" />
+        </div>
+      </PopoverTrigger>
+      <PopoverContent className="bg-white flex flex-col gap-2">
+        <div className="my-2 space-y-1">
+          {items.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <Link
+                href={`${item.href}`}
+                key={index}
+                className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md"
+              >
+                <Icon />
+                {item.title}
+              </Link>
+            );
+          })}
+        </div>
+        <Separator />
+        <div className="my-2 space-y-1">
+          <Link
+            href={`/#`}
+            className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md"
+          >
+            <LuLayoutGrid />
+            Manage events
+          </Link>
+          <div className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md">
+            <RiLogoutBoxRLine />
+            Logout
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+export default MenuLinks;

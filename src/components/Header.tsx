@@ -7,8 +7,11 @@ import { Button } from "@/components/ui/button";
 import HeaderSearchBar from "./page-components/homepage/headerSearch";
 import ListEventCard from "./ListEventLinks";
 import { NavigationDialog } from "./NavigationDialog";
+import { useUserDashContext } from "@/providers/user_dashboard.provider";
+import MenuLinks from "./Menu";
 
 const Header = () => {
+  const { user } = useUserDashContext();
   return (
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md">
       <Container className="container px-4 md:px-0 py-2">
@@ -37,11 +40,15 @@ const Header = () => {
               Help
             </Link>
 
-            <Link href={"/signup"}>
-              <Button variant="outline" className=" border-black">
-                Get Started
-              </Button>
-            </Link>
+            {user ? (
+              <Link href={"/signup"}>
+                <Button variant="outline" className=" border-black">
+                  Get Started
+                </Button>
+              </Link>
+            ) : (
+              <MenuLinks />
+            )}
           </div>
           <Link href={"/signup"} className="lg:hidden block">
             <Button variant="outline" className=" border-black">
