@@ -9,6 +9,7 @@ import Meta from "./Meta";
 import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./page-components/user-dashboard/Sidebar";
+import Container from "@/tw-components/container";
 
 interface LayoutProps extends ComponentPropsWithRef<"div"> {
   title: string;
@@ -50,9 +51,15 @@ const Layout: FC<LayoutProps> = ({
         image={image}
       />
       {showHeader && <Header />}
-      <main {...rest} className="flex">
-        {showSidebar && <Sidebar open={open} toggle={toggle} />}
-        {children}
+      <main {...rest}>
+        {showSidebar ? (
+          <Container className="flex">
+            <Sidebar open={open} toggle={toggle} />
+            {children}
+          </Container>
+        ) : (
+          children
+        )}
       </main>
       {showFooter && <Footer />}
     </>
