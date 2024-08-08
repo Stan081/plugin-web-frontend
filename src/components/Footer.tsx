@@ -8,7 +8,7 @@ import { footerData } from "@/static-datas/footer-data";
 const Footer = () => {
   return (
     <footer>
-      <div className="bg-pitchNoise bg-100 bg-cover backdrop-blur-md">
+      <div className="bg-pitchNoise bg-100 backdrop-blur-md">
         <Container className="py-8 lg:py-14">
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="w-full md:2/5">

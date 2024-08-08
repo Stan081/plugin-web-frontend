@@ -94,16 +94,18 @@ const HeroSection = () => {
                   onMouseLeave={() => setHoveredIndex(null)}
                 >
                   <div
-                    className="relative h-[70vh] bg-no-repeat bg-center bg-cover flex items-center justify-start"
+                    className="relative h-[80vh] bg-no-repeat bg-center bg-cover flex items-center justify-start"
                     style={{ backgroundImage: `url(${slide.backgroundImage})` }}
                   >
-                    <div className="absolute inset-0 bg-black opacity-50"></div>
+                    {hoveredIndex === index && (
+                      <div className="absolute inset-0 bg-black opacity-50"></div>
+                    )}
                     <Container>
                       <div className="relative z-10 text-center text-white p-4 flex flex-col items-start space-y-2 md:space-y-4">
                         {hoveredIndex === index ? (
                           <motion.div
-                            animate={{ x: 0 }}
-                            initial={{ x: -200 }}
+                            animate={{ y: 0 }}
+                            initial={{ y: -50 }}
                             transition={{ duration: 0.9, type: "spring" }}
                           >
                             <Image

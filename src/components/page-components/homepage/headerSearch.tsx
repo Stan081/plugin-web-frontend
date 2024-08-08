@@ -1,13 +1,13 @@
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { SearchField, SearchFieldSchema } from "@/models/search";
+import { SearchFields, SearchFieldSchema } from "@/models/search";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { RiSearchLine } from "react-icons/ri";
 
 const HeaderSearch = () => {
-  const form = useForm<SearchField>({
+  const form = useForm<SearchFields>({
     mode: "all",
     defaultValues: {
       event_name: "",
@@ -16,7 +16,7 @@ const HeaderSearch = () => {
     resolver: yupResolver(SearchFieldSchema),
   });
 
-  const onSubmit = useCallback(async (payload: SearchField) => {
+  const onSubmit = useCallback(async (payload: SearchFields) => {
     console.log(payload);
   }, []);
 

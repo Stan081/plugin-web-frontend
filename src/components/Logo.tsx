@@ -3,9 +3,11 @@ import classNames from "classnames";
 import { ComponentPropsWithRef, FC } from "react";
 import Link from "next/link";
 
-interface LogoProps extends ComponentPropsWithRef<"div"> {}
+interface LogoProps extends ComponentPropsWithRef<"div"> {
+  white?: boolean;
+}
 
-const Logo: FC<LogoProps> = ({ className }) => {
+const Logo: FC<LogoProps> = ({ className, white }) => {
   const baseClass = "flex h-16 shrink-0 items-center";
   return (
     <>
@@ -17,12 +19,23 @@ const Logo: FC<LogoProps> = ({ className }) => {
         )}
       >
         <span className="sr-only">Plugin</span>
-        <Image
-          src="/images/plugin-logo.svg"
-          alt="NoImpunity Logo"
-          width={128}
-          height={32}
-        />
+        {white ? (
+          <Image
+            src="/images/logo_white.svg"
+            alt="NoImpunity Logo"
+            width={128}
+            height={32}
+            className="w-auto h-auto"
+          />
+        ) : (
+          <Image
+            src="/images/plugin-logo.svg"
+            alt="NoImpunity Logo"
+            width={128}
+            height={32}
+            className="w-auto h-auto"
+          />
+        )}
       </Link>
     </>
   );

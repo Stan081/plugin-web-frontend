@@ -3,7 +3,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { RiArrowDownSLine } from "react-icons/ri";
 import ListAdd from "./icons/list-add";
 import Grid2 from "./icons/grid-2";
 import Money2 from "./icons/money-2";
@@ -38,7 +38,7 @@ const ListEvent = () => {
     <Popover>
       <PopoverTrigger>
         <p className="text-[#586170] font-pally-regular text-base md:text-lg flex items-center hover:underline whitespace-nowrap">
-          List an Event <ChevronDownIcon className="ml-2" />
+          List an Event <RiArrowDownSLine className="ml-2" />
         </p>
       </PopoverTrigger>
       <PopoverContent className="w-96 bg-white rounded-xl p-3">
