@@ -4,7 +4,6 @@ import Notification from "@/components/page-components/user-dashboard/accounts/N
 import PersonalInfo from "@/components/page-components/user-dashboard/accounts/PersonalInfo";
 import PrivacySharing from "@/components/page-components/user-dashboard/accounts/PrivacySharing";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Seaction";
 import React from "react";
 
@@ -34,7 +33,7 @@ const items = [
 const AccountPage = () => {
   return (
     <Layout title="Account settings" showHeader showFooter showSidebar>
-      <Section id="Account" className="md:px-10 overflow-y-auto w-full lg:max-w-5xl h-[80vh]">
+      <Section id="user-account-settings" className="md:px-10 overflow-y-auto w-full lg:max-w-7xl h-[80vh]">
         <h2 className="font-pally-medium text-2xl">Account</h2>
 
           <Tabs

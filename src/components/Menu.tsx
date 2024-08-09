@@ -45,7 +45,7 @@ const MenuLinks = () => {
       <PopoverTrigger>
         <div className="flex justify-start items-center">
           <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
-            EJ
+            OM
           </p>
           <RiArrowDownSLine className="ml-2" />
         </div>

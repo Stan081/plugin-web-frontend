@@ -14,7 +14,7 @@ const CardComponent: FC<CardProps> = ({
   // state to toggle favorite
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   return (
-    <div className=" flex-shrink-0 rounded-xl overflow-hidden shadow-lg bg-white border border-gray-200">
+    <div className=" flex-shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200">
       <div className="relative">
         <img
           className="w-full h-48 "

@@ -1,10 +1,34 @@
+import CardComponent from "@/components/CardComponent";
 import Layout from "@/components/layout";
+import SearchComponent from "@/components/page-components/user-dashboard/SearchComponent";
+import { Separator } from "@/components/ui/separator";
+import { cardData } from "@/static-datas/cards-data";
+import { Section } from "@/tw-components/Seaction";
 import React from "react";
 
 const SavedEvents = () => {
   return (
     <Layout title="Saved events" showHeader showFooter showSidebar>
-      SavedEvents
+      <Section
+        id="saved-events"
+        className="md:px-10 overflow-y-auto w-full lg:max-w-7xl h-[80vh]"
+      >
+        <h2 className="font-pally-medium text-2xl mb-4">Saved Events</h2>
+        <Separator />
+
+        <div className="flex items-center justify-between mt-4">
+          <p className="text-[#AFB2B9] font-pally-regular text-sm md:text-base">
+            10 saved events
+          </p>
+          <SearchComponent placeholder="Search for saved events by name" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-9 py-6">
+          {cardData.map((card) => (
+            <CardComponent key={card.id} {...card} />
+          ))}
+        </div>
+      </Section>
     </Layout>
   );
 };

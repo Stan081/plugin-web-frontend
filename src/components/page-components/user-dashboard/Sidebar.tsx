@@ -31,7 +31,7 @@ const menuLinks = [
   {
     label: "Following",
     icon: LuUserPlus2,
-    href: "/#",
+    href: "/following",
   },
   {
     label: "Account",
