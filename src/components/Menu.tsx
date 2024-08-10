@@ -15,17 +15,17 @@ const items = [
   {
     label: "Tickets",
     icon: TicketIcon,
-    href: "/#",
+    href: "/tickets",
   },
   {
     label: "Saved events",
     icon: RiHeart3Line,
-    href: "/#",
+    href: "/saved-events",
   },
   {
     label: "Following",
     icon: LuUserPlus2,
-    href: "/#",
+    href: "/following",
   },
   {
     label: "Account",

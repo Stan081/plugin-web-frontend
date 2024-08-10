@@ -21,7 +21,7 @@ const menuLinks = [
   {
     label: "Tickets",
     icon: BsTicketPerforated,
-    href: "/#",
+    href: "/tickets",
   },
   {
     label: "Saved events",
@@ -55,7 +55,7 @@ const Sidebar: FC<Props> = ({ open, toggle }) => {
         )}
       >
         <div className="hidden md:flex grow my-9 flex-col gap-y-5 overflow-y-auto h-full">
-          <nav className="flex shrink-0 h-full flex-1 flex-col gap-4 pb-5">
+          <nav className="flex shrink-0 h-full flex-1 flex-col gap-4 md:gap-8 pb-5">
             <div className="flex justify-start items-center gap-4">
               <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular flex justify-center items-center">
                 OM
