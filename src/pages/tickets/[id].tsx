@@ -2,6 +2,8 @@
 
 import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
+import TicketDetail from "@/components/page-components/user-dashboard/tickets/TicketDetail";
+import TicketSummary from "@/components/page-components/user-dashboard/tickets/TicketSummary";
 import { breadcrumbArr } from "@/static-datas/breadcrumb-data";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
@@ -28,9 +30,16 @@ const TicketDetailPage = () => {
 
           <div className="mt-7 flex flex-col md:flex-row gap-8 md:gap-10 w-full">
             <div className="w-full max-w-md">
-                
+              <TicketDetail
+                title={checkCardId?.title}
+                location={checkCardId?.location}
+                date={checkCardId?.date}
+                image={checkCardId?.image}
+              />
             </div>
-            <div>div2</div>
+            <div className="w-full">
+              <TicketSummary />
+            </div>
           </div>
         </Container>
       </Section>

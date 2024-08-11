@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { followersData, followersDataProps } from "@/static-datas/followers";
 import Image from "next/image";
@@ -31,12 +32,9 @@ const FollowersComponent = () => {
                 {follower.name}
               </p>
             </div>
-            <button
-              onClick={() => handleUnfollow(follower.id)}
-              className="border border-[#101928] rounded-lg py-1 px-2 font-pally-medium text-base "
-            >
+            <Button onClick={() => handleUnfollow(follower.id)} variant="outline" size="sm">
               Unfollow
-            </button>
+            </Button>
           </div>
           {index === getFollowers?.length - 1 ? "" : <Separator />}
         </li>

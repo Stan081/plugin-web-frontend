@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-pally-medium text-white font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
+  'inline-flex items-center justify-center whitespace-nowrap rounded-full text-base font-pally-medium text-white font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:scale-105 transitiion',
   {
     variants: {
       variant: {
@@ -13,15 +13,15 @@ const buttonVariants = cva(
         destructive:
           'bg-destructive shadow-custom rounded-lg hover:bg-[#b23632] text-[#ffffff] py-2.5 px-4 transition delay-75 ease-in-out focus:bg-destructive text-center focus:outline-none',
         outline:
-          'border-2 border-[#101928] hover:bg-[#edd0c0] hover:shadow text-black py-1.5 md:py-2.5 px-3 md:px-4 bg-transparent font-medium rounded-lg',
+          'border-2 border-[#101928] hover:bg-[#edd0c0] hover:shadow text-black py-1.5 md:py-2 px-3 md:px-3 bg-transparent font-medium rounded-lg',
         secondary:
           'text-[#CB1A14] bg-transparent border border-[#D9302A] rounded-lg py-2.5 px-4 text-center font-medium',
         ghost: 'opacity-50 cursor-not-allowed bg-gray-200 text-slate-600',
         link: 'text-black underline-offset-4 hover:underline',
       },
       size: {
-        default: 'h-12 px-6 py-4',
-        sm: 'h-8 px-3 text-xs',
+        default: 'h-12 px-5 py-4',
+        sm: 'h9 p-2 ',
         lg: 'h-10 px-8',
         icon: 'h-9 w-9',
       },

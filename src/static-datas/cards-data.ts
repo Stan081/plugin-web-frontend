@@ -1,11 +1,11 @@
 export type CardProps = {
   id?: string;
   image: string;
-  eventType: string;
+  eventType?: string;
   title: string;
   date: string;
   location: string;
-  priceRange: string;
+  priceRange?: string;
 };
 
 export const cardData: CardProps[] = [
