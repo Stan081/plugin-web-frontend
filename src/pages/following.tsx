@@ -2,10 +2,20 @@ import Layout from "@/components/layout";
 import FollowersComponent from "@/components/page-components/user-dashboard/followers";
 import SearchComponent from "@/components/page-components/user-dashboard/SearchComponent";
 import { Separator } from "@/components/ui/separator";
+import { followersData, followersDataProps } from "@/static-datas/followers";
 import { Section } from "@/tw-components/Seaction";
-import React from "react";
+import React, { useState } from "react";
 
 const FollowingPage = () => {
+  const [getFollowers, setGetFollowers] =
+    useState<followersDataProps[]>(followersData);
+
+  const handleUnfollow = (id: string) => {
+    const filteredFollower = getFollowers.filter((fol) => fol.id !== id);
+    console.log(filteredFollower);
+    setGetFollowers(filteredFollower);
+  };
+
   return (
     <Layout title="dyname text" showHeader showFooter showSidebar>
       <Section
@@ -15,14 +25,17 @@ const FollowingPage = () => {
         <h2 className="font-pally-medium text-2xl mb-4">Following</h2>
         <Separator />
 
-        <div className="flex items-center justify-between mt-4">
+        <div className="flex items-center justify-between mt-4 ease-out delay-75 duration-75">
           <p className="text-[#AFB2B9] font-pally-regular text-sm md:text-base">
-            10 followers
+            {getFollowers.length} followers
           </p>
           <SearchComponent placeholder="Search for followers" />
         </div>
 
-        <FollowersComponent/>
+        <FollowersComponent
+          getFollowers={getFollowers}
+          handleUnfollow={handleUnfollow}
+        />
       </Section>
     </Layout>
   );

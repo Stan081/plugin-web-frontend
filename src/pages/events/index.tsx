@@ -1,14 +1,10 @@
-import Footer from "@/components/Footer";
-import PublicHeader from "@/components/Header";
-import React, { Fragment } from "react";
+import Layout from "@/components/layout";
 
 const EventPage = () => {
   return (
-    <Fragment>
-      <PublicHeader />
+    <Layout title="Explore events" showHeader showFooter>
       <h1>Event page</h1>
-      <Footer />
-    </Fragment>
+    </Layout>
   );
 };
 

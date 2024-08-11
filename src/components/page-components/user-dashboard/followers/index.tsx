@@ -4,17 +4,15 @@ import { followersData, followersDataProps } from "@/static-datas/followers";
 import Image from "next/image";
 import React, { useState } from "react";
 
-const FollowersComponent = () => {
-  const [getFollowers, setGetFollowers] =
-    useState<followersDataProps[]>(followersData);
+interface FollowersComponentProps {
+  getFollowers: followersDataProps[];
+  handleUnfollow: (id: string) => void;
+}
 
-  const handleUnfollow = (id: string) => {
-    const filteredFollower = getFollowers.filter((fol) => fol.id !== id);
-    console.log(filteredFollower);
-    setGetFollowers(filteredFollower);
-  };
-
-  console.log(getFollowers);
+const FollowersComponent: React.FC<FollowersComponentProps> = ({
+  getFollowers,
+  handleUnfollow,
+}) => {
   return (
     <ul className="space-y-4 mt-5">
       {getFollowers?.map((follower, index) => (
@@ -32,7 +30,11 @@ const FollowersComponent = () => {
                 {follower.name}
               </p>
             </div>
-            <Button onClick={() => handleUnfollow(follower.id)} variant="outline" size="sm">
+            <Button
+              onClick={() => handleUnfollow(follower.id)}
+              variant="outline"
+              size="sm"
+            >
               Unfollow
             </Button>
           </div>

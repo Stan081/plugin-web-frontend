@@ -2,7 +2,6 @@ import {
   ComponentPropsWithRef,
   FC,
   useCallback,
-  useEffect,
   useState,
 } from "react";
 import Meta from "./Meta";

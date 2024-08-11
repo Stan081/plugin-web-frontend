@@ -24,7 +24,7 @@ const TicketPage = () => {
               aria-label="button"
               onClick={() => setIsActive("my-tickets")}
               variant="outline"
-              className={isActive === `my-tickets` ? `bg-[#FCE0DC]` : ``}
+              className={isActive === `my-tickets` ? `bg-gray-200` : ``}
             >
               My tickets
             </Button>
@@ -32,7 +32,7 @@ const TicketPage = () => {
               aria-label="button"
               onClick={() => setIsActive("past-tickets")}
               variant="outline"
-              className={isActive === `past-tickets` ? `bg-[#FCE0DC]` : ``}
+              className={isActive === `past-tickets` ? `bg-gray-200` : ``}
             >
               Past tickets
             </Button>
@@ -40,12 +40,8 @@ const TicketPage = () => {
           <SearchComponent placeholder="Search for ticket's name" />
         </div>
 
-        {isActive === "my-tickets" &&
-          cardData.map((item) => <TicketComponent key={item.id} {...item} />)}
-        {isActive === "past-tickets" &&
-          cardData
-            .slice(0, 2)
-            .map((item) => <TicketComponent key={item.id} {...item} />)}
+        {isActive === "my-tickets" && <TicketComponent tickets={cardData} />}
+        {isActive === "past-tickets" && <TicketComponent tickets={cardData} />}
       </Section>
     </Layout>
   );

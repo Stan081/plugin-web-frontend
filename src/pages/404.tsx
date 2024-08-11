@@ -1,14 +1,18 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import Layout from "@/components/layout";
 import { Button } from "@/components/ui/button";
+import { Section } from "@/tw-components/Seaction";
 import Link from "next/link";
 import React, { Fragment } from "react";
 
 const Error404Page = () => {
   return (
-    <Fragment>
-      <Header />
-      <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+    <Layout title="Not found" showHeader showFooter>
+      <Section
+        id="not-found-page"
+        className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8"
+      >
         <div className="text-center">
           <p className="text-base font-semibold text-indigo-600">404</p>
           <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
@@ -28,9 +32,8 @@ const Error404Page = () => {
             </Link>
           </div>
         </div>
-      </main>
-      <Footer />
-    </Fragment>
+      </Section>
+    </Layout>
   );
 };
 

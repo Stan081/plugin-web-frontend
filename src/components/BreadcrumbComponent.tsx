@@ -44,9 +44,7 @@ const BreadcrumbComponent: React.FC<BreadcrumbComponentProps> = ({
                 </BreadcrumbLink>
               )}
             </BreadcrumbItem>
-            {index === breadcrumbArr.length - 1 ? (
-              ""
-            ) : (
+            {index !== breadcrumbArr.length - 1 && (
               <BreadcrumbSeparator>
                 <CgFormatSlash />
               </BreadcrumbSeparator>
