@@ -24,6 +24,7 @@ const TicketPage = () => {
               aria-label="button"
               onClick={() => setIsActive("my-tickets")}
               variant="outline"
+              className={isActive === `my-tickets` ? `bg-[#FCE0DC]` : ``}
             >
               My tickets
             </Button>
@@ -31,6 +32,7 @@ const TicketPage = () => {
               aria-label="button"
               onClick={() => setIsActive("past-tickets")}
               variant="outline"
+              className={isActive === `past-tickets` ? `bg-[#FCE0DC]` : ``}
             >
               Past tickets
             </Button>

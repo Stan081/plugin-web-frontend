@@ -22,7 +22,7 @@ export const cardData: CardProps[] = [
     id: "2",
     image: "/images/seagreen-bg.png",
     eventType: "Concert",
-    title: "Designer Connect",
+    title: "Socket Connect",
     location: 'Silverbird cinemas gallery, Udoudoma Avenue,',
     date: "Sat, Sept 17, 10:00AM",
     priceRange: '₦3,000 - ₦75,000'
@@ -40,7 +40,7 @@ export const cardData: CardProps[] = [
     id: "4",
     image: "/images/seagreen-bg.png",
     eventType: "Concert",
-    title: "Concept's Connect",
+    title: "Stan's Connect",
     location: 'Silverbird cinemas gallery, Udoudoma Avenue,',
     date: "Sat, Sept 17, 10:00AM",
     priceRange: '₦3,000 - ₦75,000'
@@ -49,7 +49,7 @@ export const cardData: CardProps[] = [
     id: "5",
     image: "/images/seagreen-bg.png",
     eventType: "Concert",
-    title: "Food's Connect",
+    title: "Plugin's Connect",
     location: 'Silverbird cinemas gallery, Udoudoma Avenue,',
     date: "Sat, Sept 17, 10:00AM",
     priceRange: '₦3,000 - ₦75,000'
