@@ -7,7 +7,7 @@ import TicketSummary from "@/components/page-components/user-dashboard/tickets/T
 import { breadcrumbArr } from "@/static-datas/breadcrumb-data";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
-import { Section } from "@/tw-components/Seaction";
+import { Section } from "@/tw-components/Section";
 import { notFound, useParams } from "next/navigation";
 import React from "react";
 

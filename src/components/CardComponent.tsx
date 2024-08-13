@@ -2,8 +2,10 @@ import { RiHeartLine, RiHeartFill } from "react-icons/ri";
 import React, { FC, useState } from "react";
 import TicketIcon from "./icons/ticket";
 import { CardProps } from "@/static-datas/cards-data";
+import { useRouter } from "next/navigation";
 
 const CardComponent: FC<CardProps> = ({
+  id,
   image,
   eventType,
   title,
@@ -13,6 +15,9 @@ const CardComponent: FC<CardProps> = ({
 }) => {
   // state to toggle favorite
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+
+  // router
+  const router = useRouter();
   return (
     <div className=" flex-shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200">
       <div className="relative">
@@ -30,11 +35,20 @@ const CardComponent: FC<CardProps> = ({
           onClick={() => setIsFavorite(!isFavorite)}
           className="absolute top-2 right-2 bg-black bg-opacity-50 text-white p-2 rounded-full cursor-pointer"
         >
-          {!isFavorite ? <RiHeartLine size={24} /> : <RiHeartFill size={24} color="#EB7257"/>}
+          {!isFavorite ? (
+            <RiHeartLine size={24} />
+          ) : (
+            <RiHeartFill size={24} color="#EB7257" />
+          )}
         </div>
       </div>
-      <div className="p-4 cursor-pointer  hover:bg-gray-100 transition delay-75 ease-in-out">
-        <h2 className="text-lg md:text-xl font-bold font-pally-medium">{title}</h2>
+      <div
+        onClick={() => router.push(`/tickets/${id}`)}
+        className="p-4 cursor-pointer  hover:bg-gray-100 transition delay-75 ease-in-out"
+      >
+        <h2 className="text-lg md:text-xl font-bold font-pally-medium">
+          {title}
+        </h2>
         <p className="text-sm md:text-lg text-gray-500 font-pally-regular">
           {location}
         </p>

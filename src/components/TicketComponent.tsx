@@ -47,7 +47,7 @@ const TicketComponent: React.FC<TicketComponentProps> = ({ tickets }) => {
               onClick={() => handleClick(tick?.id)}
               className="flex items-center gap-2 cursor-pointer hover:text-gray-600"
             >
-              <p className="underline font-pally-medium">View Ticket</p>
+              <p className="underline font-pally-medium whitespace-nowrap text-sm md:text-base">View Ticket</p>
               <RiArrowRightLine size={20} />
             </div>
           </div>

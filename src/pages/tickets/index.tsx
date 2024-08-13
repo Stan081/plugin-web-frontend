@@ -1,10 +1,13 @@
+"use client";
+
+import GoBack from "@/components/GoBack";
 import Layout from "@/components/layout";
 import SearchComponent from "@/components/page-components/user-dashboard/SearchComponent";
 import TicketComponent from "@/components/TicketComponent";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cardData } from "@/static-datas/cards-data";
-import { Section } from "@/tw-components/Seaction";
+import { Section } from "@/tw-components/Section";
 import React, { useState } from "react";
 
 const TicketPage = () => {
@@ -13,12 +16,15 @@ const TicketPage = () => {
     <Layout title="Your tickets" showHeader showFooter showSidebar>
       <Section
         id="user-account-settings"
-        className="md:px-10 overflow-y-auto w-full lg:max-w-7xl h-[80vh]"
+        className="md:px-10 overflow-y-auto w-full lg:max-w-7xl md:h-[80vh]"
       >
-        <h2 className="font-pally-medium text-2xl mb-4">Tickets</h2>
+        <div className="flex gap-3">
+          <GoBack />
+          <h2 className="font-pally-medium text-2xl mb-4">Tickets</h2>
+        </div>
         <Separator />
 
-        <div className="flex items-center justify-between mt-4 mb-4">
+        <div className="flex flex-col-reverse md:flex-row items-center justify-between md:mt-4 mb-4">
           <div className="space-x-4 md:space-x-6">
             <Button
               aria-label="button"

@@ -50,11 +50,17 @@ const Header = () => {
               <MenuLinks />
             )}
           </div>
-          <Link href={"/signup"} className="lg:hidden block">
-            <Button variant="outline" className=" border-black">
-              Get Started
-            </Button>
-          </Link>
+          <div className="md:hidden block">
+            {user ? (
+              <Link href={"/signup"}>
+                <Button variant="outline" className=" border-black">
+                  Get Started
+                </Button>
+              </Link>
+            ) : (
+              <MenuLinks />
+            )}
+          </div>
         </nav>
         <div className="md:hidden block w-full">
           <HeaderSearchBar />

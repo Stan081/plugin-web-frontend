@@ -19,6 +19,7 @@ const TicketSummary = () => {
       </h4>
 
       <TicketVoucher/>
+      <TicketVoucher/>
     </div>
   );
 };

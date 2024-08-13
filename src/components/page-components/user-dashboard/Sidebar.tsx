@@ -1,14 +1,12 @@
 import { FC, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
-import { FiLogOut } from "react-icons/fi";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import MobileSidebar from "./MobileSidebar";
 import { RiHeart3Line, RiLogoutBoxRLine } from "react-icons/ri";
 import { LuUserPlus2 } from "react-icons/lu";
 import { RiAccountCircleLine } from "react-icons/ri";
-import { MdHelpOutline } from "react-icons/md";
 import { BsTicketPerforated } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 

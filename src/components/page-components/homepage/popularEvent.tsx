@@ -3,7 +3,7 @@
 import CardComponent from "@/components/CardComponent";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
-import { Section } from "@/tw-components/Seaction";
+import { Section } from "@/tw-components/Section";
 import React, { useState } from "react";
 
 const PopularEvent = () => {
@@ -52,7 +52,7 @@ const PopularEvent = () => {
             aria-labelledby={`tab-${isActive}`}
             className="mt-4 md:mt-6 grid grid-cols-2 lg:grid-cols-4 gap-5 justify-center"
           >
-            {cardData.slice(0,4).map((card) => (
+            {cardData.slice(0, 4).map((card) => (
               <CardComponent key={card.id} {...card} />
             ))}
           </div>

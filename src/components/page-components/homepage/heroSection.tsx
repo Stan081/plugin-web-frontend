@@ -1,5 +1,5 @@
 "use client";
-import { Section } from "@/tw-components/Seaction";
+import { Section } from "@/tw-components/Section";
 
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -68,7 +68,7 @@ const HeroSection = () => {
     setActiveIndex(newIndex);
   };
   return (
-    <Section id="hero section" className="p-0">
+    <Section id="hero section" className="p-0 md:p-0">
       <div className="relative">
         <Carousel>
           <div

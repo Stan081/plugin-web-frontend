@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Container from "@/tw-components/container";
-import { Section } from "@/tw-components/Seaction";
+import { Section } from "@/tw-components/Section";
 import UpcomingEvent from "./upcomingEvent";
 import { cardData } from "@/static-datas/cards-data";
 import CardComponent from "@/components/CardComponent";

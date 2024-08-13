@@ -2,7 +2,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Layout from "@/components/layout";
 import { Button } from "@/components/ui/button";
-import { Section } from "@/tw-components/Seaction";
+import { Section } from "@/tw-components/Section";
 import Link from "next/link";
 import React, { Fragment } from "react";
 
