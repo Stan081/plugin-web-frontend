@@ -1,6 +1,6 @@
 "use client";
 
-import { Section } from "@/tw-components/Seaction";
+import { Section } from "@/tw-components/Section";
 import React, { useEffect, useRef, useState } from "react";
 import {
   Carousel,

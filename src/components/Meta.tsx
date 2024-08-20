@@ -12,7 +12,7 @@ interface MetaProps {
 const Meta: FC<MetaProps> = ({ title, description, canonical, image }) => {
     const metaDescription =
         description ||
-        "Our user-friendly software selects event listings based on your location or top priorities, making your search much more fun.";
+        "Not yet";
 
     return (
         <>
@@ -127,29 +127,29 @@ const Meta: FC<MetaProps> = ({ title, description, canonical, image }) => {
 
                 <meta name="description" content={metaDescription} />
 
-                <meta property="og:url" content="https://noimpunity.org/" />
+                <meta property="og:url" content="Not yet url" />
                 <meta property="og:type" content="website" />
-                <meta property="og:title" content="NoImpunity" />
+                <meta property="og:title" content="Plugin" />
                 <meta property="og:description" content={metaDescription} />
                 <meta
                     property="og:image"
                     content={
-                        image ?? "https://noimpunity.org/images/facebook.png"
+                        image ?? "/images/plugin-logo.svg"
                     }
                 />
 
                 <meta name="twitter:card" content="summary_large_image" />
-                <meta property="twitter:domain" content="noimpunity.org" />
+                <meta property="twitter:domain" content="Plugin" />
                 <meta
                     property="twitter:url"
-                    content="https://twitter.com/_no_impunity"
+                    content="Twitter"
                 />
-                <meta name="twitter:title" content="NoImpunity" />
+                <meta name="twitter:title" content="Plugin" />
                 <meta name="twitter:description" content={metaDescription} />
                 <meta
                     name="twitter:image"
                     content={
-                        image ?? "https://noimpunity.org/images/facebook.png"
+                        image ?? "/images/plugin-logo.svg"
                     }
                 />
             </Head>
@@ -162,7 +162,7 @@ const Meta: FC<MetaProps> = ({ title, description, canonical, image }) => {
                     description: metaDescription,
                     url: canonical,
                     locale: "en",
-                    site_name: "NoImpunity",
+                    site_name: "Plugin",
                 }}
             />
         </>

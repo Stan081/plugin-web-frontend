@@ -13,27 +13,27 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 
 const items = [
   {
-    title: "Tickets",
+    label: "Tickets",
     icon: TicketIcon,
-    href: "/#",
+    href: "/tickets",
   },
   {
-    title: "Saved events",
+    label: "Saved events",
     icon: RiHeart3Line,
-    href: "/#",
+    href: "/saved-events",
   },
   {
-    title: "Following",
+    label: "Following",
     icon: LuUserPlus2,
-    href: "/#",
+    href: "/following",
   },
   {
-    title: "Account",
+    label: "Account",
     icon: RiAccountCircleLine,
     href: "/accounts",
   },
   {
-    title: "Get help",
+    label: "Get help",
     icon: MdHelpOutline,
     href: "/#",
   },
@@ -45,7 +45,7 @@ const MenuLinks = () => {
       <PopoverTrigger>
         <div className="flex justify-start items-center">
           <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
-            EJ
+            OM
           </p>
           <RiArrowDownSLine className="ml-2" />
         </div>
@@ -60,8 +60,8 @@ const MenuLinks = () => {
                 key={index}
                 className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md"
               >
-                <Icon />
-                {item.title}
+                <Icon size={18} />
+                {item.label}
               </Link>
             );
           })}
@@ -72,11 +72,11 @@ const MenuLinks = () => {
             href={`/#`}
             className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md"
           >
-            <LuLayoutGrid />
+            <LuLayoutGrid size={18}/>
             Manage events
           </Link>
           <div className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md">
-            <RiLogoutBoxRLine />
+            <RiLogoutBoxRLine size={18}/>
             Logout
           </div>
         </div>

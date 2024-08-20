@@ -18,7 +18,8 @@ const config: Config = {
         "blueNoise": "url('/images/blue-bg.png')",
         "creamNoise": "url('/images/cream-bg.png')",
         "seagreenNoise": "url('/images/seagreen-bg.png')",
-        "topLocation": "url('/images/top-location-bg.png')"
+        "topLocation": "url('/images/top-location-bg.png')",
+        "bgListEvent": "url('/images/list-event-bg.png')"
       },
       colors: {
         "custom-lightgray": "lightgray",

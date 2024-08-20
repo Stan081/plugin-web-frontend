@@ -1,23 +1,19 @@
-import Footer from "@/components/Footer";
-import PublicHeader from "@/components/Header";
+import Layout from "@/components/layout";
 import OurCustomers from "@/components/OurCustomers";
 import AboutHero from "@/components/page-components/aboutpage/AboutHero";
 import WhatWeOffter from "@/components/page-components/aboutpage/WhatWeOffter";
 import WhoWeAre from "@/components/page-components/aboutpage/WhoWeAre";
 import WhyChoose from "@/components/page-components/aboutpage/WhyChoose";
-import React, { Fragment } from "react";
 
 const AboutUs = () => {
   return (
-    <Fragment>
-      <PublicHeader/>
+    <Layout title="About us" showHeader showFooter>
       <AboutHero />
       <WhoWeAre/>
       <WhatWeOffter/>
       <WhyChoose/>
       <OurCustomers/>
-      <Footer/>
-    </Fragment>
+    </Layout>
   );
 };
 

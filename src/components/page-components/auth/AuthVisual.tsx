@@ -32,7 +32,7 @@ const AuthVisual = () => {
               className="pointer-events-none w-full h-full object-cover rounded-lg"
             />
           </li>
-          <li className="w-72 h-72 absolute top-56 z-10 right-1/3 rounded-lg">
+          <li className="w-72 h-72 absolute top-40 z-10 right-1/3 rounded-lg">
             <Image
               src={
                 "https://ik.imagekit.io/pluginImage/Plugin-images/people%20watching%20in%20the%20stage.jpg?updatedAt=1722863806981"
