@@ -1,6 +1,6 @@
 import Layout from "@/components/layout";
 
-const EventPage = () => {
+const ExploreEventsPage = () => {
   return (
     <Layout title="Explore events" showHeader showFooter>
       <h1>Event page</h1>
@@ -8,4 +8,4 @@ const EventPage = () => {
   );
 };
 
-export default EventPage;
+export default ExploreEventsPage;

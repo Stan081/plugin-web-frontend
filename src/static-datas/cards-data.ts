@@ -14,7 +14,7 @@ export const cardData: CardProps[] = [
     image: "/images/seagreen-bg.png",
     eventType: "Concert",
     title: "Designer's Connect",
-    location: 'Silverbird cinemas gallery, Udoudoma Avenue,',
+    location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
     priceRange: '₦3,000 - ₦75,000',
   },
@@ -23,7 +23,7 @@ export const cardData: CardProps[] = [
     image: "/images/seagreen-bg.png",
     eventType: "Concert",
     title: "Socket Connect",
-    location: 'Silverbird cinemas gallery, Udoudoma Avenue,',
+    location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
     priceRange: '₦3,000 - ₦75,000'
   },
@@ -32,7 +32,7 @@ export const cardData: CardProps[] = [
     image: "/images/seagreen-bg.png",
     eventType: "Concert",
     title: "Partie's Connect",
-    location: 'Silverbird cinemas gallery, Udoudoma Avenue,',
+    location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
     priceRange: '₦3,000 - ₦75,000'
   },
@@ -41,7 +41,7 @@ export const cardData: CardProps[] = [
     image: "/images/seagreen-bg.png",
     eventType: "Concert",
     title: "Stan's Connect",
-    location: 'Silverbird cinemas gallery, Udoudoma Avenue,',
+    location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
     priceRange: '₦3,000 - ₦75,000'
   },
@@ -50,7 +50,7 @@ export const cardData: CardProps[] = [
     image: "/images/seagreen-bg.png",
     eventType: "Concert",
     title: "Plugin's Connect",
-    location: 'Silverbird cinemas gallery, Udoudoma Avenue,',
+    location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
     priceRange: '₦3,000 - ₦75,000'
   },
@@ -59,7 +59,7 @@ export const cardData: CardProps[] = [
     image: "/images/seagreen-bg.png",
     eventType: "Concert",
     title: "Outdoor's Connect",
-    location: 'Silverbird cinemas gallery, Udoudoma Avenue,',
+    location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
     priceRange: '₦3,000 - ₦75,000'
   },

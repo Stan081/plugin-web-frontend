@@ -105,32 +105,6 @@ const TailoredEvent: React.FC = () => {
             <Button variant="outline">Explore events</Button>
           </div>
         </div>
-        <div className="flex py-8 justify-center gap-20 h-[500px]">
-          <ul className="w-[100px] space-y-6 p-0 list-none relative ">
-            {items.slice(0, 4).map((item) => (
-              <motion.li
-                key={item.id}
-                className={`absolute ${item.mobilePosition} ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular`}
-                variants={variants(item.rotate)}
-                animate="animate"
-              >
-                {item.label}
-              </motion.li>
-            ))}
-          </ul>
-          <ul className="w-[100px] space-y-6 p-0 list-none relative">
-            {items.slice(4, 8).map((item) => (
-              <motion.li
-                key={item.id}
-                className={`absolute ${item.mobilePosition} ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular mx-auto`}
-                variants={variants(item.rotate)}
-                animate="animate"
-              >
-                {item.label}
-              </motion.li>
-            ))}
-          </ul>
-        </div>
       </Container>
     );
   };

@@ -150,19 +150,6 @@ const HeroSection = () => {
               >
                 <RiArrowLeftSLine size={30} color="#fff" />
               </button>
-              <div className="flex space-x-2">
-                {heroSlides.map((_, index) => (
-                  <span
-                    key={index}
-                    onClick={() => handleSlideChange(index)}
-                    className={`cursor-pointer w-4 h-4 rounded-full ${
-                      activeIndex === index
-                        ? "bg-red-500"
-                        : "bg-white bg-opacity-50"
-                    }`}
-                  ></span>
-                ))}
-              </div>
 
               <button
                 onClick={() =>

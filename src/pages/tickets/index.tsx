@@ -16,7 +16,7 @@ const TicketPage = () => {
     <Layout title="Your tickets" showHeader showFooter showSidebar>
       <Section
         id="user-account-settings"
-        className="md:px-10 overflow-y-auto w-full lg:max-w-7xl md:h-[80vh]"
+        className="md:px-10 overflow-y-auto w-full lg:max-w-7xl"
       >
         <div className="flex gap-3">
           <GoBack />

@@ -10,7 +10,7 @@ const Login = () => {
     <Layout title="Login">
       <div className="h-screen flex">
         <AuthVisual />
-        <div className="bg-[#281E17] w-full lg:w-5/12 md:px-16 pt-20">
+        <div className="bg-[#281E17] w-full h-full lg:w-5/12 md:px-16 pt-20">
           <Container>
             <Logo white />
 

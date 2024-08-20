@@ -8,10 +8,10 @@ import React, { useState } from "react";
 
 const PopularEvent = () => {
   // Define state fo tab
-  const [isActive, setIsActive] = useState<string>("free");
+  const [isActive, setIsActive] = useState<string>("physical");
 
   const tabLink = [
-    { title: "Free", key: "free" },
+    { title: "Physical", key: "physical" },
     { title: "Virtual", key: "virtual" },
     { title: "Pre-sale", key: "pre-sale" },
   ];
@@ -19,7 +19,7 @@ const PopularEvent = () => {
   return (
     <Section id="popular-event" className="p-0 overflow-hidden">
       <div className="bg-pitchNoise backdrop-blur-md">
-        <Container className="px-4 md:px-0 py-8 md:py-16">
+        <Container className="px-4 md:px-0 py-8 md:py-16 overflow-auto">
           <h2 className="text-3xl font-pally-medium mb-5">Popular Events</h2>
           <ul className="flex justify-start items-center gap-4 align-baseline">
             {tabLink.map((tab) => (
@@ -50,7 +50,7 @@ const PopularEvent = () => {
             id={`panel-${isActive}`}
             role="tabpanel"
             aria-labelledby={`tab-${isActive}`}
-            className="mt-4 md:mt-6 grid grid-cols-2 lg:grid-cols-4 gap-5 justify-center"
+            className="mt-6 md:mt-10 flex lg:flex-row gap-5 overflow-x-auto w-full pb-8"
           >
             {cardData.slice(0, 4).map((card) => (
               <CardComponent key={card.id} {...card} />
