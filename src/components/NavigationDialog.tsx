@@ -73,7 +73,7 @@ export const NavigationDialog = () => {
                 onClick={() => setToggleList(!toggleList)}
                 className="text-[#2C2B2E] font-pally-regular text-lg flex items-center hover:underline whitespace-nowrap"
               >
-                List an Event <ChevronDownIcon className="ml-2" />
+                List an new Event <ChevronDownIcon className="ml-2" />
               </p>
 
               {toggleList && (
