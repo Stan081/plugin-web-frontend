@@ -5,6 +5,7 @@ import { toFiat } from "@/lib/amount";
 import { CardProps } from "@/static-datas/cards-data";
 import Image from "next/image";
 import React from "react";
+import MeetYourOganiser from "../MeetYourOganiser";
 
 const TicketDetail: React.FC<CardProps> = ({ title, location, date }) => {
   return (
@@ -35,38 +36,7 @@ const TicketDetail: React.FC<CardProps> = ({ title, location, date }) => {
       <Separator />
 
       {/* Oganiser */}
-      <div className="mt-6">
-        <h6 className="text-sm md:text-base font-pally-medium text-[#515A6A]">
-          Meet your Organizer
-        </h6>
-
-        <div className="mt-4 flex justify-between items-start">
-          <div className="flex items-center gap-3">
-            <Image
-              src={`/images/seagreen-bg.png`}
-              width={456}
-              height={280}
-              alt={`ticket name`}
-              className="pointer-events-none w-16 h-16 object-cover rounded-full"
-            />
-            <div className="space-y-1">
-              <p className="text-sm md:text-base font-pally-medium">
-                Hosted by Alpha Planners
-              </p>
-              <ul className="flex text-sm md:text-base text-[#667185] gap-4  font-pally-regular">
-                <li className="underline">Twitter</li>
-                <li className="underline">LinkedIn</li>
-              </ul>
-              <p className="font-pally-regular text-sm md:text-base text-[#0F973D]">
-                369 people are following this host
-              </p>
-            </div>
-          </div>
-          <Button variant="outline" size="sm">
-            follow
-          </Button>
-        </div>
-      </div>
+      <MeetYourOganiser />
     </div>
   );
 };

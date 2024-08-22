@@ -4,7 +4,7 @@ import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
 import TicketDetail from "@/components/page-components/user-dashboard/tickets/TicketDetail";
 import TicketSummary from "@/components/page-components/user-dashboard/tickets/TicketSummary";
-import { breadcrumbArr } from "@/static-datas/breadcrumb-data";
+import { ticketbreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
@@ -24,7 +24,7 @@ const TicketDetailPage = () => {
       <Section id="ticket-detail-page">
         <Container>
           <BreadcrumbComponent
-            breadcrumbArr={breadcrumbArr}
+            breadcrumbArr={ticketbreadcrumbArr}
             pageName={checkCardId?.title}
           />
 
