@@ -1,26 +1,12 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import Ticket from "./ticket";
 import { availableTickets } from "@/static-datas/ticketsData";
+import { Button } from "@/components/ui/button";
 
 const AvailableTicket = () => {
-  const [counters, setCounters] = useState(availableTickets.map(() => 0));
-
-  const handleIncrement = (index: number, maxCount: number) => {
-    setCounters((prev) =>
-      prev.map((count, i) =>
-        i === index && count < maxCount ? count + 1 : count
-      )
-    );
-  };
-
-  const handleDecrement = (index: number) => {
-    setCounters((prev) =>
-      prev.map((count, i) => (i === index && count > 0 ? count - 1 : count))
-    );
-  };
   return (
-    <div className="mb-6 mt-8 flex justify-end w-full max-w-xl">
-      <div className="">
+    <div className="mb-6 mt-8 lg:flex justify-end w-full max-w-xl hidden">
+      <div>
         <div className="flex items-center gap-5">
           <h6 className="font-pally-medium text-[#515A6A] text-base md:text-lg">
             AVAILABLE TICKETS
@@ -40,6 +26,10 @@ const AvailableTicket = () => {
               maxCount={ticket.maxCount}
             />
           ))}
+
+          <Button variant="destructive" size="lg" className="mt-5 w-full py-3">
+            Checkout
+          </Button>
         </div>
       </div>
     </div>

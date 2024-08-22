@@ -3,6 +3,7 @@ import React, { FC, useState } from "react";
 import TicketIcon from "./icons/ticket";
 import { CardProps } from "@/static-datas/cards-data";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const CardComponent: FC<CardProps> = ({
   id,
@@ -19,9 +20,9 @@ const CardComponent: FC<CardProps> = ({
   // router
   const router = useRouter();
   return (
-    <div className=" flex-shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200  w-full max-w-96">
+    <div className=" flex-shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200  w-full max-w-72">
       <div className="relative">
-        <img
+        <Image
           className="w-full h-48 "
           src={image}
           alt={title}

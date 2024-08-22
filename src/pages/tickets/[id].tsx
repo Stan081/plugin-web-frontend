@@ -29,7 +29,7 @@ const TicketDetailPage = () => {
           />
 
           <div className="mt-7 flex flex-col md:flex-row gap-8 md:gap-10 w-full">
-            <div className="w-full max-w-md">
+            <div className="w-full lg:max-w-md">
               <TicketDetail
                 title={checkCardId?.title}
                 location={checkCardId?.location}

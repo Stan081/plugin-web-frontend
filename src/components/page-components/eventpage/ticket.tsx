@@ -4,6 +4,8 @@ import React, { useCallback, useMemo, useState } from "react";
 import { HiOutlineMinus } from "react-icons/hi2";
 import { HiPlus } from "react-icons/hi";
 import { toFiat } from "@/lib/amount";
+import ToolTipComponent from "@/components/ToolTipComponent";
+import TicketPlacement from "./TicketPlacement";
 
 interface Props {
   maxCount: number;
@@ -70,7 +72,12 @@ const Ticket: React.FC<Props> = ({ price, ticketName, maxCount, image }) => {
             <HiPlus size={20} />
           </li>
         </ul>
-        <p className="font-pally-regular text-sm destructive">Learn more</p>
+        <ToolTipComponent
+          button={
+            <p className="font-pally-regular text-sm destructive">Learn more</p>
+          }
+          content={<TicketPlacement />}
+        />
       </div>
     </div>
   );

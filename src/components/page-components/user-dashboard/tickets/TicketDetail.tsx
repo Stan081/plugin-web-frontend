@@ -10,7 +10,7 @@ import MeetYourOganiser from "../MeetYourOganiser";
 const TicketDetail: React.FC<CardProps> = ({ title, location, date }) => {
   return (
     <div>
-      <div className="rounded-lg border p-3 w-96 h-72">
+      <div className="rounded-lg border p-3 w-full max-w-96 h-72">
         <Image
           src={`/images/seagreen-bg.png`}
           width={456}

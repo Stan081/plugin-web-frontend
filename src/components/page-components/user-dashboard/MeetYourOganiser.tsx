@@ -12,14 +12,14 @@ const MeetYourOganiser = () => {
         Meet your Organizer
       </h6>
 
-      <div className="mt-4 flex justify-between items-start">
-        <div className="flex items-center gap-3">
+      <div className="mt-4 flex justify-between items-center md:items-start gap-3">
+        <div className="flex items-start md:items-center gap-3">
           <Image
             src={`/images/seagreen-bg.png`}
             width={456}
             height={280}
             alt={`ticket name`}
-            className="pointer-events-none w-16 h-16 object-cover rounded-full"
+            className="pointer-events-none w-full max-w-16 h-16 object-cover rounded-full"
           />
           <div className="space-y-1">
             <p className="text-sm md:text-base font-pally-medium">
@@ -34,7 +34,7 @@ const MeetYourOganiser = () => {
             </p>
           </div>
         </div>
-        <div className="flex gap-8">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-8">
           <Button
             variant="secondary"
             size="sm"

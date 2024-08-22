@@ -5,14 +5,13 @@ import Layout from "@/components/layout";
 import AboutEventDetail from "@/components/page-components/eventpage/AboutEventDetail";
 import AvailableTicket from "@/components/page-components/eventpage/AvailableTicket";
 import EventDetailaHeader from "@/components/page-components/eventpage/EventDetailaHeader";
-import EventsTags from "@/components/page-components/eventpage/EventsTags";
 import SimilarEvents from "@/components/page-components/eventpage/SimilarEvents";
 import { exlporeEventsbreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { notFound, useParams } from "next/navigation";
-import React from "react";
+import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
 
 const ExploreEventDetailPage = () => {
   const param = useParams<{ id: string }>();
@@ -23,8 +22,8 @@ const ExploreEventDetailPage = () => {
   }
   return (
     <Layout title="event detail page" showHeader showFooter>
-      <Section id="event-detail-page">
-        <Container>
+      <Section id="event-detail-page" className="relative">
+        <Container className="relative">
           <BreadcrumbComponent
             breadcrumbArr={exlporeEventsbreadcrumbArr}
             pageName={checkCardId?.title}
@@ -37,9 +36,9 @@ const ExploreEventDetailPage = () => {
             <AvailableTicket />
           </div>
 
-          <SimilarEvents/>
-
+          <SimilarEvents />
         </Container>
+        <TicketCTA price={checkCardId.priceRange} />
       </Section>
     </Layout>
   );
