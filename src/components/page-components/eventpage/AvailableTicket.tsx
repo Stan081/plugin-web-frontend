@@ -2,8 +2,9 @@ import React from "react";
 import Ticket from "./ticket";
 import { availableTickets } from "@/static-datas/ticketsData";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
-const AvailableTicket = () => {
+const AvailableTicket: React.FC<{ id: string }> = ({ id }) => {
   return (
     <div className="mb-6 mt-8 lg:flex justify-end w-full max-w-xl hidden">
       <div>
@@ -27,9 +28,15 @@ const AvailableTicket = () => {
             />
           ))}
 
-          <Button variant="destructive" size="lg" className="mt-5 w-full py-3">
-            Checkout
-          </Button>
+          <Link href={`/explore-events/${id}/checkout`}>
+            <Button
+              variant="destructive"
+              size="lg"
+              className="mt-5 w-full py-3"
+            >
+              Checkout
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

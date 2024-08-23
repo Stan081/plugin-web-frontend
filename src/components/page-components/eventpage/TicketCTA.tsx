@@ -11,8 +11,9 @@ import { Button } from "@/components/ui/button";
 import { RiCloseLine } from "react-icons/ri";
 import { availableTickets } from "@/static-datas/ticketsData";
 import Ticket from "./ticket";
+import Link from "next/link";
 
-const TicketCTA: React.FC<{ price: string }> = ({ price }) => {
+const TicketCTA: React.FC<{ price: string; id: string }> = ({ price, id }) => {
   return (
     <div className="bg-pitchNoise lg:hidden py-5 px-4 fixed z-20 bottom-0 w-full flex justify-between items-center">
       <p>{price}</p>
@@ -52,13 +53,15 @@ const TicketCTA: React.FC<{ price: string }> = ({ price }) => {
                   />
                 ))}
 
-                <Button
-                  variant="destructive"
-                  size="lg"
-                  className="mt-5 w-full py-3"
-                >
-                  Checkout
-                </Button>
+                <Link href={`/explore-events/${id}/checkout`}>
+                  <Button
+                    variant="destructive"
+                    size="lg"
+                    className="mt-5 w-full py-3"
+                  >
+                    Checkout
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

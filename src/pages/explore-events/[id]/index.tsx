@@ -33,12 +33,12 @@ const ExploreEventDetailPage = () => {
 
           <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">
             <AboutEventDetail />
-            <AvailableTicket />
+            <AvailableTicket id={checkCardId.id} />
           </div>
 
           <SimilarEvents />
         </Container>
-        <TicketCTA price={checkCardId.priceRange} />
+        <TicketCTA price={checkCardId.priceRange} id={checkCardId.id}/>
       </Section>
     </Layout>
   );
