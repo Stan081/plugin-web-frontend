@@ -5,7 +5,7 @@ import React from "react";
 import MeetYourOganiser from "../user-dashboard/MeetYourOganiser";
 import ShowLocation from "./ShowLocation";
 import EventsTags from "./EventsTags";
-import EventsSpeakers from "./EventsSpeakers";
+import EventsSpeakers from "./EventsGuests";
 
 interface Props {
   location: string;

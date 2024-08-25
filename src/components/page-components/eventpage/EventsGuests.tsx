@@ -1,14 +1,14 @@
-import { eventSpeakers } from "@/static-datas/event-speakers";
+import { eventGuests } from "@/static-datas/event-speakers";
 import Image from "next/image";
 import React, { Fragment } from "react";
 
-type SpeakerCardProps = {
+type GuestCardProps = {
   image: string;
   name: string;
   role: string;
 };
 
-const SpeakerCard: React.FC<SpeakerCardProps> = ({ image, name, role }) => {
+const GuestCard: React.FC<GuestCardProps> = ({ image, name, role }) => {
   return (
     <div>
       <div className="h-40 w-40">
@@ -32,20 +32,20 @@ const SpeakerCard: React.FC<SpeakerCardProps> = ({ image, name, role }) => {
   );
 };
 
-const EventsSpeakers = () => {
+const EventsGuests = () => {
   return (
     <div>
       <h2 className="font-pally-medium text-[#515A6A] text-base md:text-lg">
-        Speakers
+        Guests
       </h2>
 
       <div className="mt-5 flex lg:flex-row gap-6 overflow-x-auto w-full pb-8">
-        {eventSpeakers.map((speaker) => (
-          <SpeakerCard key={speaker.id} {...speaker} />
+        {eventGuests.map((Guest) => (
+          <GuestCard key={Guest.id} {...Guest} />
         ))}
       </div>
     </div>
   );
 };
 
-export default EventsSpeakers;
+export default EventsGuests;

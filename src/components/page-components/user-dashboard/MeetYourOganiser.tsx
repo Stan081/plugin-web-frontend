@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { RiUserAddLine } from "react-icons/ri";
 
@@ -35,13 +36,15 @@ const MeetYourOganiser = () => {
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-3 md:gap-8">
-          <Button
-            variant="secondary"
-            size="sm"
-            className="flex items-center gap-1.5"
-          >
-            Visit page
-          </Button>
+          <Link href={`/organiser/1`}>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="flex items-center gap-1.5"
+            >
+              Visit page
+            </Button>
+          </Link>
           <Button
             variant="outline"
             size="sm"

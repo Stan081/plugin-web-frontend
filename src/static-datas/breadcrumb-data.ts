@@ -1,3 +1,10 @@
+import { BreadcrumbProps } from "@/components/BreadcrumbComponent";
+
+type Breadcrumb = {
+  href?: string;
+  name: string;
+};
+
 // Breadcrums for tickets
 export const ticketbreadcrumbArr = [
   {
@@ -22,3 +29,19 @@ export const exlporeEventsbreadcrumbArr = [
     name: "",
   },
 ];
+
+export const checkoutBreadcrumbArr = (title: string): BreadcrumbProps[] => {
+  return [
+    {
+      href: "/explore-events",
+      name: "Explore Events",
+    },
+    {
+      href: `/explore-events/${title}/checkout`,
+      name: title,
+    },
+    {
+      name: "Checkout",
+    },
+  ];
+};

@@ -1,4 +1,4 @@
-export const eventSpeakers = [
+export const eventGuests = [
   {
     id: 1,
     image: "/images/blue-bg.png",
