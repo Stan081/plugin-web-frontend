@@ -16,7 +16,7 @@ const TicketDetailPage = () => {
   const checkCardId = cardData.find((card) => card?.id === param?.id);
   //   Temporary routing
   if (!checkCardId) {
-    return notFound();
+    return <div>Not Found!!</div>;
   }
 
   return (

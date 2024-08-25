@@ -20,7 +20,7 @@ const CardComponent: FC<CardProps> = ({
   // router
   const router = useRouter();
   return (
-    <div className=" flex-shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200  w-full max-w-72">
+    <div className=" flex-shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200  w-full max-w-[330px]">
       <div className="relative">
         <Image
           className="w-full h-48 "

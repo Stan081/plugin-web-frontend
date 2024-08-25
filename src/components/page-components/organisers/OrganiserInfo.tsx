@@ -49,7 +49,7 @@ const OrganiserInfo: React.FC<{
 
         <div className="space-y-2 my-4">
           <h4 className="font-pally-medium">About us</h4>
-          <p className="font-pally-regular text-[#667185] text-sm md:text-base">
+          <p className="font-pally-regular text-[#667185] md:text-base">
             {isShown && aboutOrganiser.length > 150
               ? aboutOrganiser.slice(0, 150).concat("..")
               : aboutOrganiser}
@@ -90,10 +90,10 @@ const OrganiserInfo: React.FC<{
           <BsCopy size={18} color="#667185" />
         </div>
       </div>
-      <p className="mt-7 font-pally-regular text-[#101928] flex items-center gap-2 underline cursor-pointer px-4">
+      <p className="mt-7 font-pally-regular flex items-center gap-2 underline cursor-pointer px-4 text-gray-500">
         {" "}
         <span className="inline-block">
-          <PiFlagPennantFill />
+          <PiFlagPennantFill className="text-gray-500"/>
         </span>{" "}
         Report Organizer{" "}
       </p>
