@@ -1,16 +1,19 @@
 import { Separator } from "@/components/ui/separator";
 import React, { Fragment } from "react";
+import { RiEditLine } from "react-icons/ri";
 
 const PersonalInfo = () => {
   return (
     <Fragment>
-      <ul className="space-y-5">
+      <ul className="space-y-4">
         <li className="flex items-start justify-between">
           <div className="space-y-3">
             <h3 className="font-pally-medium text-lg">Full Name</h3>
             <p className="text-[#586170] font-pally-regular">Bennie Elenda</p>
           </div>
-          <p className="font-pally-medium underline cursor-pointer">Edit</p>
+          <div className="border border-[#586170] rounded-md p-1 cursor-pointer hover:border-black hover:shadow-md">
+            <RiEditLine size={24} className="text-[#586170]" />
+          </div>
         </li>
         <Separator />
         <li className="flex items-start justify-between">
@@ -20,7 +23,6 @@ const PersonalInfo = () => {
               oluchiMiracle@gmail.com
             </p>
           </div>
-          <p className="font-pally-medium underline cursor-pointer">Edit</p>
         </li>
         <Separator />
         <li className="flex items-start justify-between">
@@ -28,7 +30,6 @@ const PersonalInfo = () => {
             <h3 className="font-pally-medium text-lg">Phone Number</h3>
             <p className="text-[#586170] font-pally-regular">070 767 89763</p>
           </div>
-          <p className="font-pally-medium underline cursor-pointer">Edit</p>
         </li>
         <Separator />
         <li className="flex items-start justify-between">
@@ -36,7 +37,6 @@ const PersonalInfo = () => {
             <h3 className="font-pally-medium text-lg">Address</h3>
             <p className="text-[#586170] font-pally-regular">Not Provided</p>
           </div>
-          <p className="font-pally-medium underline cursor-pointer">Edit</p>
         </li>
         <Separator />
       </ul>

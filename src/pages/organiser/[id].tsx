@@ -29,7 +29,7 @@ const OrganiserDetailPage = () => {
             alt="About-us"
             width={1226}
             height={609}
-            className=" pointer-events-none w-full h-full object-cover"
+            className=" pointer-events-none w-full h-full object-cover object-top"
           />
         </div>
         <Container>
