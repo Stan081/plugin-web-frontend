@@ -24,7 +24,7 @@ const TicketComponent: React.FC<TicketComponentProps> = ({ tickets }) => {
         <Fragment key={index}>
           <div className="flex items-start justify-between py-5">
             <div className="flex gap-3 md:gap-5">
-              <div className="w-24 h-24">
+              <div className="w-24 h-24 md:w-32">
                 <Image
                   src={`${tick?.image}` ?? `/images/seagreen-bg.png`}
                   width={124}

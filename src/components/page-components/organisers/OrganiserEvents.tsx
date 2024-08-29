@@ -43,9 +43,9 @@ const OrganiserEvents = () => {
           id={`panel-${isActive}`}
           role="tabpanel"
           aria-labelledby={`tab-${isActive}`}
-          className="mt-6 overflow-y-auto h-[80vh] mx-auto space-y-5 w-full pb-8"
+          className="mt-6 md:pb-20 pb-6 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  h-[80vh] md:h-full mx-auto"
         >
-          {cardData.slice(0, 4).map((card) => (
+          {cardData.map((card) => (
             <CardComponent key={card.id} {...card} />
           ))}
         </div>

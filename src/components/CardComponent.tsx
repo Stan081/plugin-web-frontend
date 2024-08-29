@@ -48,7 +48,7 @@ const CardComponent: FC<CardProps> = ({
         className="p-4 cursor-pointer  hover:bg-gray-100 transition delay-75 ease-in-out"
       >
         <h2 className="text-lg md:text-xl font-bold font-pally-medium">
-          {title}
+          {title.length > 16 ? title.slice(0, 16).concat('...') : title}
         </h2>
         <p className="text-sm md:text-lg text-gray-500 font-pally-regular">
           {location}

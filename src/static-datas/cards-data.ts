@@ -63,4 +63,13 @@ export const cardData: CardProps[] = [
     date: "Sat, Sept 17, 10:00AM",
     priceRange: '₦3,000 - ₦75,000'
   },
+  {
+    id: "7",
+    image: "/images/seagreen-bg.png",
+    eventType: "Concert",
+    title: "Outdoor's Connect",
+    location: 'Abuja',
+    date: "Sat, Sept 17, 10:00AM",
+    priceRange: '₦3,000 - ₦75,000'
+  },
 ];
