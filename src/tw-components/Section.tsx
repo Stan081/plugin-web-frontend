@@ -21,7 +21,7 @@ export const Section: FC<Props> = ({
   return (
     <Fragment>
       {divider && <Divider />}
-      <section className={cn(!clean && 'py-4 md:py-10', className)} {...rest}>
+      <section className={cn(className)} {...rest}>
         {children}
       </section>
       {divider && <Divider />}

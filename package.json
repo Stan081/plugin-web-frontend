@@ -29,11 +29,13 @@
     "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
+    "@radix-ui/react-tooltip": "^1.1.2",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.1.7",
     "framer-motion": "^11.3.19",
+    "google-map-react": "^2.2.1",
     "husky": "^9.1.4",
     "input-otp": "^1.2.4",
     "js-cookie": "^3.0.5",
@@ -48,6 +50,7 @@
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^2.4.0",
+    "vaul": "^0.9.1",
     "yup": "^1.4.0"
   },
   "devDependencies": {

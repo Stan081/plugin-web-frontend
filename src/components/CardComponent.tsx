@@ -3,6 +3,7 @@ import React, { FC, useState } from "react";
 import TicketIcon from "./icons/ticket";
 import { CardProps } from "@/static-datas/cards-data";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const CardComponent: FC<CardProps> = ({
   id,
@@ -19,9 +20,9 @@ const CardComponent: FC<CardProps> = ({
   // router
   const router = useRouter();
   return (
-    <div className=" flex-shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200  w-full max-w-96">
+    <div className=" flex-shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200  w-full max-w-[330px]">
       <div className="relative">
-        <img
+        <Image
           className="w-full h-48 "
           src={image}
           alt={title}
@@ -47,7 +48,7 @@ const CardComponent: FC<CardProps> = ({
         className="p-4 cursor-pointer  hover:bg-gray-100 transition delay-75 ease-in-out"
       >
         <h2 className="text-lg md:text-xl font-bold font-pally-medium">
-          {title}
+          {title.length > 16 ? title.slice(0, 16).concat('...') : title}
         </h2>
         <p className="text-sm md:text-lg text-gray-500 font-pally-regular">
           {location}

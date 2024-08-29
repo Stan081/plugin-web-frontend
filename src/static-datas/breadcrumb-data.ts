@@ -1,13 +1,47 @@
-export const breadcrumbArr = [
+import { BreadcrumbProps } from "@/components/BreadcrumbComponent";
+
+type Breadcrumb = {
+  href?: string;
+  name: string;
+};
+
+// Breadcrums for tickets
+export const ticketbreadcrumbArr = [
+  {
+    href: "/",
+    name: "Home",
+  },
+  {
+    href: "/tickets",
+    name: "Tickets",
+  },
+  {
+    name: "Current Compoennt",
+  },
+];
+
+export const exlporeEventsbreadcrumbArr = [
+  {
+    href: "/explore-events",
+    name: "Expore Events",
+  },
+  {
+    name: "",
+  },
+];
+
+export const checkoutBreadcrumbArr = (title: string): BreadcrumbProps[] => {
+  return [
     {
-      href: "/",
-      name: "Home",
+      href: "/explore-events",
+      name: "Explore Events",
     },
     {
-      href: "/tickets",
-      name: "Tickets",
+      href: `/explore-events/${title}/checkout`,
+      name: title,
     },
     {
-      name: "Current Compoennt",
+      name: "Checkout",
     },
   ];
+};

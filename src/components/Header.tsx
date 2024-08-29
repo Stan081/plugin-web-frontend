@@ -25,7 +25,7 @@ const Header = () => {
           </div>
           <div className="hidden lg:flex items-center gap-6">
             <Link
-              href={"/#"}
+              href={"/explore-events"}
               className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline whitespace-nowrap"
             >
               Explore Events
@@ -34,7 +34,7 @@ const Header = () => {
             <ListEventCard />
 
             <Link
-              href={"/#"}
+              href={"/faq"}
               className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline"
             >
               Help

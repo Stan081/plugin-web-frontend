@@ -24,16 +24,18 @@ const TicketComponent: React.FC<TicketComponentProps> = ({ tickets }) => {
         <Fragment key={index}>
           <div className="flex items-start justify-between py-5">
             <div className="flex gap-3 md:gap-5">
-              <Image
-                src={`${tick?.image}` ?? `/images/seagreen-bg.png`}
-                width={124}
-                height={106}
-                alt={`name`}
-                className="pointer-events-none w-32 h-24 object-cover rounded-lg"
-              />
+              <div className="w-24 h-24 md:w-32">
+                <Image
+                  src={`${tick?.image}` ?? `/images/seagreen-bg.png`}
+                  width={124}
+                  height={106}
+                  alt={`name`}
+                  className="pointer-events-none w-full h-full object-cover rounded-lg"
+                />
+              </div>
               <div className="space-y-2">
                 <h5 className="text-base md:text-lg font-pally-medium">
-                  {tick?.title}
+                  {tick?.title.length > 16 ? tick?.title.slice(0,16).concat('...') : tick?.title}
                 </h5>
                 <p className="text-[#586170] text-sm font-pally-regular">
                   {tick?.location}
@@ -45,9 +47,11 @@ const TicketComponent: React.FC<TicketComponentProps> = ({ tickets }) => {
             </div>
             <div
               onClick={() => handleClick(tick?.id)}
-              className="flex items-center gap-2 cursor-pointer hover:text-gray-600"
+              className="flex items-center gap-1 md:gap-2 cursor-pointer hover:text-gray-600"
             >
-              <p className="underline font-pally-medium whitespace-nowrap text-sm md:text-base">View Ticket</p>
+              <p className="underline font-pally-medium whitespace-nowrap text-sm md:text-base">
+                View Ticket
+              </p>
               <RiArrowRightLine size={20} />
             </div>
           </div>

@@ -4,7 +4,7 @@ import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
 import TicketDetail from "@/components/page-components/user-dashboard/tickets/TicketDetail";
 import TicketSummary from "@/components/page-components/user-dashboard/tickets/TicketSummary";
-import { breadcrumbArr } from "@/static-datas/breadcrumb-data";
+import { ticketbreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
@@ -16,7 +16,7 @@ const TicketDetailPage = () => {
   const checkCardId = cardData.find((card) => card?.id === param?.id);
   //   Temporary routing
   if (!checkCardId) {
-    return notFound();
+    return <div>Not Found!!</div>;
   }
 
   return (
@@ -24,12 +24,12 @@ const TicketDetailPage = () => {
       <Section id="ticket-detail-page">
         <Container>
           <BreadcrumbComponent
-            breadcrumbArr={breadcrumbArr}
+            breadcrumbArr={ticketbreadcrumbArr}
             pageName={checkCardId?.title}
           />
 
           <div className="mt-7 flex flex-col md:flex-row gap-8 md:gap-10 w-full">
-            <div className="w-full max-w-md">
+            <div className="w-full lg:max-w-md">
               <TicketDetail
                 title={checkCardId?.title}
                 location={checkCardId?.location}

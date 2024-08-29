@@ -7,14 +7,14 @@ import React from "react";
 const TicketVoucher = () => {
   return (
     <div className="border px-4 py-5 rounded-lg space-y-4 mt-3">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-end md:items-center mb-6">
         <div className="flex items-center gap-1 mt-3">
           <TicketIcon />{" "}
-          <p className="text-base text-black font-pally-medium">
+          <p className="text-sm whitespace-nowrap text-black font-pally-medium">
             TKT-2347FG790B
           </p>
         </div>
-        <p className="text-base font-pally-medium text-[#98A2B3]">
+        <p className="text-sm font-pally-medium text-[#98A2B3]">
           Thu, 1st Jan 2019 01:00:00
         </p>
       </div>
