@@ -15,7 +15,7 @@ const eventlists = [
     description: "List your event",
     icon: <ListAdd />,
     bgColor: "bg-[#FBDFD2]",
-    link: "/#",
+    link: "/create-event",
   },
   {
     name: "Features",
