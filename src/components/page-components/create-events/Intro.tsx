@@ -1,0 +1,16 @@
+import React from "react";
+import HintCard from "./HintCard";
+
+const Intro: React.FC<{ contents: string[]; title: string }> = ({
+  contents,
+  title,
+}) => {
+  return (
+    <div className="flex flex-row md:flex-col justify-between md:space-y-16 mt-6 md:mt-28">
+      <h1 className="text-[#020912] font-pally-regular text-5xl">{title}</h1>
+      <HintCard contents={contents} />
+    </div>
+  );
+};
+
+export default Intro;
