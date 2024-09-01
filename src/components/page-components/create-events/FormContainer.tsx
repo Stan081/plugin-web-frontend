@@ -8,15 +8,11 @@ interface Props {
   children: ReactNode;
   currPosition: number[];
   formTitle: string;
-  previousStep: () => void;
-  nextStep: () => void;
 }
 const FormContainer: React.FC<Props> = ({
   children,
   currPosition,
   formTitle,
-  previousStep,
-  nextStep,
 }) => {
   const [currValue] = useState<number[]>(currPosition);
 
@@ -31,31 +27,8 @@ const FormContainer: React.FC<Props> = ({
           <Progress key={index} value={curr} />
         ))}
       </div>
-      <div className="mt-8 h-[55vh] whitespace-normal overflow-y-auto px-4 md:px-6">
+      <div className="mt-8 px-4 md:px-6">
         {children}
-      </div>
-
-      <div className="sticky z-50 bottom-0">
-        <Separator />
-        <div className="p-6 flex justify-between items-center">
-          <Button
-            onClick={() => {}}
-            variant="outline"
-            className="text-white border-white hover:bg-[#6c5442]"
-          >
-            Save Progress
-          </Button>
-
-          <div onClick={previousStep}  className="flex items-center gap-8">
-            <Button className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg">
-              Back
-            </Button>
-
-            <Button onClick={nextStep} variant="destructive">
-              Next
-            </Button>
-          </div>
-        </div>
       </div>
     </div>
   );
