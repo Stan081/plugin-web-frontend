@@ -12,9 +12,10 @@ const pageContents = ["Think about the primary audience for your event."];
 
 const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
   const [categories, setCategories] = useState<EventCategory[]>(categoriesData);
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
 
   const handleNext = useCallback(() => {
-    if (next) {
+    if (next && selectedNames.length >= 1) {
       next();
     }
   }, [next]);
@@ -26,11 +27,15 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
         : category
     );
     setCategories(updatedCategories);
+
     const selectedCategories = updatedCategories
       .filter((category) => category.selected)
       .map((category) => category.name);
     // Cookies.set("selectedCategories", JSON.stringify(selectedCategories));
+    setSelectedNames(selectedCategories);
   };
+
+  console.log(selectedNames);
   return (
     <div className="flex items-start gap-12">
       <div className="w-full lg:w-1/2">
@@ -76,7 +81,11 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
                     Back
                   </Button>
 
-                  <Button onClick={handleNext} variant="destructive">
+                  <Button
+                    disabled={selectedNames.length < 1}
+                    onClick={handleNext}
+                    variant="destructive"
+                  >
                     Next
                   </Button>
                 </div>
