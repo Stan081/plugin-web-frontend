@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c0f373b-7dc7-43ed-abc5-9df616d9e581" name="Changes" comment="" />
+    <list default="true" id="8c0f373b-7dc7-43ed-abc5-9df616d9e581" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/public/images/list-icon.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/explore-events/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/explore-events/index.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,16 +24,19 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2kwFoDdTELRW3HgwYHOEw4ixNWG" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "last_opened_file_path": "/Users/apple/Documents/WebstormProjects/plugin-web-frontend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
@@ -40,7 +47,7 @@
     "nodejs_package_manager_path": "yarn",
     "prettierjs.PrettierConfiguration.Package": "/Users/apple/.nvm/versions/node/v20.5.0/lib/node_modules/prettier",
     "settings.editor.selected.configurable": "settings.javascript.prettier",
-    "ts.external.directory.path": "/Applications/WebStorm.app/Contents/plugins/javascript-impl/jsLanguageServicesImpl/external",
+    "ts.external.directory.path": "/Users/apple/Documents/WebstormProjects/plugin-web-frontend/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -56,10 +63,14 @@
       <workItem from="1724849562899" duration="1390000" />
       <workItem from="1724944020229" duration="908000" />
       <workItem from="1725280160196" duration="1004000" />
+      <workItem from="1725290347166" duration="7821000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>
