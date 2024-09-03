@@ -3,12 +3,15 @@ import Image from "next/image"
 import {Switch} from "@/components/ui/switch";
 import {Input} from "@/components/ui/input";
 import React from "react";
+import EventFilterComponent from "@/components/EventFilterComponent";
+import {cardData} from "@/static-datas/cards-data";
+import CardComponent from "@/components/CardComponent";
 
 const ExploreEventsPage = () => {
   return (
     <Layout title="Explore events" showHeader showFooter>
         {/*Explore Events Layout*/}
-        <div className="flex-col px-20 mt-5">
+        <div className="flex-col px-20 mt-5 mb-5">
             <div className="flex gap-3 items-center	">
                 {/*show map switch*/}
                 <div className="flex p-2.5 gap-1.5 border rounded-full w-40 justify-between">
@@ -37,8 +40,17 @@ const ExploreEventsPage = () => {
                     </div>
                 </div>
             </div>
-            <div>
-                Bottom column
+            <div className="flex gap-3 mt-10">
+                {/*Filter Components*/}
+                <div>
+                    <EventFilterComponent />
+                </div>
+                {/*Event Cards*/}
+                <div className="grid grid-cols-3 gap-4 w-full pb-8 mt-3">
+                    {cardData.map((card) => (
+                        <CardComponent key={card.id} {...card} />
+                    ))}
+                </div>
             </div>
         </div>
     </Layout>
