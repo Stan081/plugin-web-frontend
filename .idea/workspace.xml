@@ -7,7 +7,6 @@
     <list default="true" id="8c0f373b-7dc7-43ed-abc5-9df616d9e581" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/EventFilterComponent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EventFilterComponent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/explore-events/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/explore-events/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +62,7 @@
       <workItem from="1724849562899" duration="1390000" />
       <workItem from="1724944020229" duration="908000" />
       <workItem from="1725280160196" duration="1004000" />
-      <workItem from="1725290347166" duration="20715000" />
+      <workItem from="1725290347166" duration="21193000" />
     </task>
     <servers />
   </component>

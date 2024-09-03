@@ -6,6 +6,10 @@ const EventFilterComponent = () => {
   // State variables for each dropdown
   const [isEventTypeOpen, setIsEventTypeOpen] = useState(true);
   const [isSortByOpen, setIsSortByOpen] = useState(true);
+  const [isSelectDate, setIsSelectDate] = useState(true);
+  const [isPriceRange, setIsPriceRange] = useState(true);
+  const [isEventLocation, setIsEventLocation] = useState(true);
+  const [isAllCategory, setIsAllCategory] = useState(true);
 
   const handleEventTypeToggle = () => {
     setIsEventTypeOpen((prevState) => !prevState);
@@ -13,6 +17,22 @@ const EventFilterComponent = () => {
 
   const handleSortByToggle = () => {
     setIsSortByOpen((prevState) => !prevState);
+  };
+
+  const handleSelectDateToggle = () => {
+    setIsSelectDate((prevState) => !prevState);
+  };
+
+  const handlePriceRangeToggle = () => {
+    setIsPriceRange((prevState) => !prevState);
+  };
+
+  const handleEventLocationToggle = () => {
+    setIsEventLocation((prevState) => !prevState);
+  };
+
+  const handleAllCategoryToggle = () => {
+    setIsAllCategory((prevState) => !prevState);
   };
 
   return (
@@ -88,8 +108,8 @@ const EventFilterComponent = () => {
           <p className="text-lg md:text-lg font-light font-pally-medium">
             Select date
           </p>
-          <div onClick={handleSortByToggle} className="cursor-pointer">
-            {isSortByOpen ? (
+          <div onClick={handleSelectDateToggle} className="cursor-pointer">
+            {isSelectDate ? (
               <IoIosArrowUp size={20} />
             ) : (
               <IoIosArrowDown size={20} />
@@ -97,7 +117,7 @@ const EventFilterComponent = () => {
           </div>
         </div>
         {/* Toggleable content for Sort By */}
-        {isSortByOpen && (
+        {isSelectDate && (
           <div className="mt-2">
             <div className="flex gap-4 pb-3">
               <Checkbox />
@@ -131,8 +151,8 @@ const EventFilterComponent = () => {
           <p className="text-lg md:text-lg font-light font-pally-medium">
             Price Range
           </p>
-          <div onClick={handleSortByToggle} className="cursor-pointer">
-            {isSortByOpen ? (
+          <div onClick={handlePriceRangeToggle} className="cursor-pointer">
+            {isPriceRange ? (
               <IoIosArrowUp size={20} />
             ) : (
               <IoIosArrowDown size={20} />
@@ -140,7 +160,7 @@ const EventFilterComponent = () => {
           </div>
         </div>
         {/* Toggleable content for Sort By */}
-        {isSortByOpen && (
+        {isPriceRange && (
           <div className="mt-2">
             <div className="flex gap-4 pb-3">
               <Checkbox />
@@ -174,8 +194,8 @@ const EventFilterComponent = () => {
           <p className="text-lg md:text-lg font-light font-pally-medium">
             Event Location
           </p>
-          <div onClick={handleSortByToggle} className="cursor-pointer">
-            {isSortByOpen ? (
+          <div onClick={handleEventLocationToggle} className="cursor-pointer">
+            {isEventLocation ? (
               <IoIosArrowUp size={20} />
             ) : (
               <IoIosArrowDown size={20} />
@@ -183,7 +203,7 @@ const EventFilterComponent = () => {
           </div>
         </div>
         {/* Toggleable content for Sort By */}
-        {isSortByOpen && (
+        {isEventLocation && (
           <div className="mt-2">
             <div className="flex gap-4 pb-3">
               <Checkbox />
@@ -206,8 +226,8 @@ const EventFilterComponent = () => {
           <p className="text-lg md:text-lg font-light font-pally-medium">
             All Category
           </p>
-          <div onClick={handleSortByToggle} className="cursor-pointer">
-            {isSortByOpen ? (
+          <div onClick={handleAllCategoryToggle} className="cursor-pointer">
+            {isAllCategory ? (
               <IoIosArrowUp size={20} />
             ) : (
               <IoIosArrowDown size={20} />
@@ -215,7 +235,7 @@ const EventFilterComponent = () => {
           </div>
         </div>
         {/* Toggleable content for Sort By */}
-        {isSortByOpen && (
+        {isAllCategory && (
           <div className="mt-2">
             <div className="flex gap-4 pb-3">
               <Checkbox />
