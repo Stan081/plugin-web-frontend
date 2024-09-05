@@ -333,7 +333,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                   </div>
                 </div>
 
-                <div className="sticky z-50 bottom-0">
+                <div className="sticky z-50 bottom-0 bg-[#281E17]">
                   <Separator />
                   <div className="py-5 flex justify-between items-center">
                     <Button

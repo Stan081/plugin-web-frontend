@@ -1,3 +1,4 @@
+"use client"
 import { StepsProps } from "@/pages/create-event";
 import React, { useState } from "react";
 import Intro from "../Intro";
@@ -66,7 +67,11 @@ const StepThree: React.FC<StepsProps> = ({ next, previous }) => {
               Choose the category that best describes your event
             </h4>
 
-            {eventType === "one-time" ? <OneTimeForm /> : <RecurringForm />}
+            {eventType === "one-time" ? (
+              <OneTimeForm next={next} previous={previous} />
+            ) : (
+              <RecurringForm next={next} previous={previous}  />
+            )}
           </div>
         </FormContainer>
       </div>

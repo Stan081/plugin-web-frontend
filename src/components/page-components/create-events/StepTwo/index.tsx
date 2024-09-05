@@ -1,11 +1,12 @@
 "use client";
-import React, { useCallback, useState } from "react";
+
+import React, { useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import { StepsProps } from "@/pages/create-event";
 import { Button } from "@/components/ui/button";
-import { categoriesData, EventCategory } from "./data";
 import { Separator } from "@/components/ui/separator";
+import { categoriesData, EventCategory } from "@/static-datas/create-event";
 // import Cookies from "js-cookie";
 
 const pageContents = ["Think about the primary audience for your event."];
@@ -13,12 +14,6 @@ const pageContents = ["Think about the primary audience for your event."];
 const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
   const [categories, setCategories] = useState<EventCategory[]>(categoriesData);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
-
-  const handleNext = useCallback(() => {
-    if (next && selectedNames.length >= 1) {
-      next();
-    }
-  }, [next]);
 
   const handleClick = (name: string) => {
     const updatedCategories = categories.map((category) =>
@@ -35,7 +30,6 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
     setSelectedNames(selectedCategories);
   };
 
-  console.log(selectedNames);
   return (
     <div className="flex items-start gap-12">
       <div className="w-full lg:w-1/2">
@@ -65,7 +59,7 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
                 ))}
               </div>
             </div>
-            <div className="sticky z-50 bottom-0">
+            <div className="sticky z-50 bottom-0 bg-[#281E17]">
               <Separator />
               <div className="py-5 flex justify-between items-center">
                 <Button
@@ -76,14 +70,17 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
                   Save Progress
                 </Button>
 
-                <div onClick={previous} className="flex items-center gap-8">
-                  <Button className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg">
+                <div className="flex items-center gap-8">
+                  <Button
+                    onClick={previous}
+                    className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
+                  >
                     Back
                   </Button>
 
                   <Button
                     disabled={selectedNames.length < 1}
-                    onClick={handleNext}
+                    onClick={() => next()}
                     variant="destructive"
                   >
                     Next

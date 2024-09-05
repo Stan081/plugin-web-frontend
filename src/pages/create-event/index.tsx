@@ -5,6 +5,7 @@ import Logo from "@/components/Logo";
 import StepOne from "@/components/page-components/create-events/StepOne";
 import StepTwo from "@/components/page-components/create-events/StepTwo";
 import StepThree from "@/components/page-components/create-events/StepThree";
+import StepFour from "@/components/page-components/create-events/StepFour";
 
 export interface StepsProps {
   next: () => void;
@@ -12,20 +13,18 @@ export interface StepsProps {
 }
 
 export default function Signup() {
-  const [currentStep, setCurrentStep] = useState<number>(2);
+  const [currentStep, setCurrentStep] = useState<number>(4);
 
   const nextStep = () => {
-    if (currentStep < 10) {
-      setCurrentStep(currentStep + 1);
-      console.log(currentStep);
-    }
+    setCurrentStep((prev) => prev + 1); 
   };
 
   const previousStep = () => {
     if (currentStep > 1) {
-      setCurrentStep((prev) => prev--);
+      setCurrentStep((prev) => prev - 1);
     }
   };
+
 
   const renderStepContent = () => {
     switch (currentStep) {
@@ -36,13 +35,13 @@ export default function Signup() {
       case 3:
         return <StepThree next={nextStep} previous={previousStep} />;
       case 4:
-        return <div>Step 4</div>;
+        return <StepFour next={nextStep} previous={previousStep} />;
       default:
         return;
     }
   };
   return (
-    <div className="bg-[#f0ded1] h-screen bg-cover bg-no-repeat py-3">
+    <div className="bg-[#f0ded1] h-screen w-svw bg-cover bg-no-repeat py-3">
       <Container>
         <Logo />
         <div className="scrollbar-hide">{renderStepContent()}</div>
