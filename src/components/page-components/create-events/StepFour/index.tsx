@@ -68,10 +68,6 @@ const StepFour: React.FC<StepsProps> = ({ next, previous }) => {
           </div>
 
           <div className="mt-6">
-            <h4 className="font-pally-medium md:text-lg">
-              Choose the category that best describes your event
-            </h4>
-
             {locationType === "physical" ? (
               <PhysicalForm next={next} previous={previous}/>
             ) : (

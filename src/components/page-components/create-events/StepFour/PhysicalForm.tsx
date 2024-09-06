@@ -30,10 +30,10 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
     mode: "all",
     defaultValues: {
       address: "",
-      city: '',
-      state: '',
-      country: '',
-      zipcode: 0 || null
+      city: "",
+      state: "",
+      country: "",
+      zipcode: 0,
     },
     resolver: yupResolver(PhysicalLocationSchema),
   });
@@ -47,6 +47,9 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
 
   return (
     <div>
+      <h4 className="font-pally-medium md:text-lg">
+        Location Address
+      </h4>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -94,7 +97,7 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
                             defaultValue={String(field.value)}
                           >
                             <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
-                              <SelectValue placeholder="select" />
+                              <SelectValue placeholder="select city" />
                             </SelectTrigger>
                             <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
                               {["city"].map((city, index) => {
@@ -129,7 +132,7 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
                             defaultValue={String(field.value)}
                           >
                             <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
-                              <SelectValue placeholder="select" />
+                              <SelectValue placeholder="select state" />
                             </SelectTrigger>
                             <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
                               {["state"].map((state, index) => {
@@ -154,7 +157,7 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
                 <FormLabel className="text-white">Country</FormLabel>
                 <FormField
                   control={form.control}
-                  name="city"
+                  name="country"
                   render={({ field }) => {
                     return (
                       <FormItem>
@@ -164,14 +167,14 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
                             defaultValue={String(field.value)}
                           >
                             <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
-                              <SelectValue placeholder="select" />
+                              <SelectValue placeholder="select country" />
                             </SelectTrigger>
                             <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
-                              {["state"].map((state, index) => {
+                              {["country"].map((country, index) => {
                                 return (
-                                  <SelectItem key={index} value={state}>
+                                  <SelectItem key={index} value={country}>
                                     <div className="flex items-center gap-2">
-                                      {state}
+                                      {country}
                                     </div>
                                   </SelectItem>
                                 );

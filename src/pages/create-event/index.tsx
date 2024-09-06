@@ -6,6 +6,7 @@ import StepOne from "@/components/page-components/create-events/StepOne";
 import StepTwo from "@/components/page-components/create-events/StepTwo";
 import StepThree from "@/components/page-components/create-events/StepThree";
 import StepFour from "@/components/page-components/create-events/StepFour";
+import StepFive from "@/components/page-components/create-events/StepFive";
 
 export interface StepsProps {
   next: () => void;
@@ -13,7 +14,7 @@ export interface StepsProps {
 }
 
 export default function Signup() {
-  const [currentStep, setCurrentStep] = useState<number>(4);
+  const [currentStep, setCurrentStep] = useState<number>(1);
 
   const nextStep = () => {
     setCurrentStep((prev) => prev + 1); 
@@ -36,6 +37,8 @@ export default function Signup() {
         return <StepThree next={nextStep} previous={previousStep} />;
       case 4:
         return <StepFour next={nextStep} previous={previousStep} />;
+        case 5 : 
+        return <StepFive next={nextStep} previous={previousStep} />
       default:
         return;
     }

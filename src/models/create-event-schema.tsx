@@ -33,7 +33,13 @@ export const PhysicalLocationSchema = yup.object().shape({
   zipcode: yup.number().optional()
 });
 
+export const OnlineVenueLinkSchema = yup.object().shape({
+  venue_link: yup.string().required('venue link is required'),
+  venue_platform: yup.string().url('online link must be valid').required('Add online link')
+})
 
+
+export type OnlineVenueLink = yup.InferType<typeof OnlineVenueLinkSchema>;
 export type PhysicalLocation = yup.InferType<typeof PhysicalLocationSchema>;
 export type EventStepThree = yup.InferType<typeof EventStepThreeSchema>;
 export type EventStepOne = yup.InferType<typeof EventStepOneSchema>;
