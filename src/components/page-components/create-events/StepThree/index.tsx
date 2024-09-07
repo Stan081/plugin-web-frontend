@@ -3,7 +3,7 @@ import { StepsProps } from "@/pages/create-event";
 import React, { useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
-import OneTimeForm from "./OneTimeForm";
+import OneTimeFormComponent from "./OneTimeForm";
 import RecurringForm from "./RecurringForm";
 
 const pageContents = [
@@ -68,7 +68,7 @@ const StepThree: React.FC<StepsProps> = ({ next, previous }) => {
             </h4>
 
             {eventType === "one-time" ? (
-              <OneTimeForm next={next} previous={previous} />
+              <OneTimeFormComponent next={next} previous={previous} />
             ) : (
               <RecurringForm next={next} previous={previous}  />
             )}

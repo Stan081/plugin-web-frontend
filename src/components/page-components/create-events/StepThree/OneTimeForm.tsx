@@ -15,8 +15,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { StepsProps } from "@/pages/create-event";
 import {
-  EventStepThree,
-  EventStepThreeSchema,
+  OneTimeForm,
+  OneTimeFormShema,
 } from "@/models/create-event-schema";
 import { Input } from "@/components/ui/input";
 import {
@@ -30,10 +30,10 @@ import { timezone } from "@/static-datas/create-event";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 
-const OneTimeForm: React.FC<StepsProps> = ({ next, previous }) => {
+const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
   const [alert, setAlert] = useState<boolean>(true);
 
-  const form = useForm<EventStepThree>({
+  const form = useForm<OneTimeForm>({
     mode: "all",
     defaultValues: {
       start_date: new Date(),
@@ -42,12 +42,12 @@ const OneTimeForm: React.FC<StepsProps> = ({ next, previous }) => {
       end_time: "",
       timezone: "",
     },
-    resolver: yupResolver(EventStepThreeSchema),
+    resolver: yupResolver(OneTimeFormShema),
   });
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
-  const onSubmit = useCallback(async (payload: EventStepThree) => {
+  const onSubmit = useCallback(async (payload: OneTimeForm) => {
     console.log(payload);
     next();
   }, []);
@@ -262,4 +262,4 @@ const OneTimeForm: React.FC<StepsProps> = ({ next, previous }) => {
   );
 };
 
-export default OneTimeForm;
+export default OneTimeFormComponent;

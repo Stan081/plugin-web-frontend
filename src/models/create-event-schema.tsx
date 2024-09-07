@@ -10,7 +10,22 @@ export const EventStepOneSchema = yup.object().shape({
   event_description: yup.string().required("Please enter event description"),
 });
 
-export const EventStepThreeSchema = yup.object().shape({
+export const OneTimeFormShema = yup.object().shape({
+  start_date: yup.date().required("Add date event will start"),
+  start_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .required("Add time event will start"),
+  end_date: yup.date().required("Add date event will end"),
+  end_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .required("Add time event will end"),
+    timezone: yup.string()
+});
+
+export const RecurringFormShema = yup.object().shape({
+  schedule: yup.string().required('Schedule recurring event'),
   start_date: yup.date().required("Add date event will start"),
   start_time: yup
     .string()
@@ -41,5 +56,6 @@ export const OnlineVenueLinkSchema = yup.object().shape({
 
 export type OnlineVenueLink = yup.InferType<typeof OnlineVenueLinkSchema>;
 export type PhysicalLocation = yup.InferType<typeof PhysicalLocationSchema>;
-export type EventStepThree = yup.InferType<typeof EventStepThreeSchema>;
+export type OneTimeForm = yup.InferType<typeof OneTimeFormShema>;
+export type RecurringForm = yup.InferType<typeof RecurringFormShema>;
 export type EventStepOne = yup.InferType<typeof EventStepOneSchema>;

@@ -345,9 +345,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                     </Button>
 
                     <div onClick={previous} className="flex items-center gap-8">
-                      <Button className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg">
-                        Back
-                      </Button>
 
                       <Button
                         type="submit"
