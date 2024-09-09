@@ -32,35 +32,34 @@ import { Button } from "@/components/ui/button";
 
 const schedules: { id: string; name: string }[] = [
   {
-    id: "daily",
+    id: "1",
     name: "Daily",
   },
   {
-    id: "monday-friday",
+    id: "2",
     name: "Monday-Friday",
   },
   {
-    id: "weekends",
+    id: "3",
     name: "Weekends",
   },
   {
-    id: "weekly",
+    id: "4",
     name: "Weekly",
   },
   {
-    id: "monthly",
+    id: "5",
     name: "Monthly",
   },
   {
-    id: "yearly",
+    id: "6",
     name: "Yearly",
   },
 ];
 
 const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
   const [alert, setAlert] = useState<boolean>(true);
-  const [recurringSchedule, setRecurringSchedule] =
-    useState<string>("one-time");
+  const [recurringSchedule, setRecurringSchedule] = useState<string>("");
 
   const form = useForm<RecurringForm>({
     mode: "all",
@@ -83,7 +82,7 @@ const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
   }, []);
 
   return (
-    <div className=" h-[55vh] whitespace-normal overflow-y-auto">
+    <div className=" md:h-[64vh] whitespace-normal overflow-y-auto">
       <div className="flex flex-wrap gap-3.5 my-5 text-white">
         {schedules.map((type) => (
           <button
@@ -98,9 +97,6 @@ const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
             {type.name}
           </button>
         ))}
-        <button className={`py-2 px-4 rounded-full border text-sm`}>
-          Pick a date
-        </button>
       </div>
 
       {alert && (

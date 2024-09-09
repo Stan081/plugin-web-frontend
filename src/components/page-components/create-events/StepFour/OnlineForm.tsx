@@ -49,7 +49,7 @@ const OnlineForm: React.FC<StepsProps> = ({ next, previous }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="pb-10 h-[40vh] whitespace-normal overflow-y-auto">
+          <div className="pb-10 h-[50vh] whitespace-normal overflow-y-auto">
             <div className="grid grid-cols-3 gap-5">
               <FormItem className="col-span-1">
                 <FormLabel className="text-white">Online Venue</FormLabel>

@@ -14,7 +14,7 @@ export interface StepsProps {
 }
 
 export default function Signup() {
-  const [currentStep, setCurrentStep] = useState<number>(3);
+  const [currentStep, setCurrentStep] = useState<number>(5);
 
   const nextStep = () => {
     setCurrentStep((prev) => prev + 1); 
@@ -46,7 +46,6 @@ export default function Signup() {
   return (
     <div className="bg-[#f0ded1] h-screen w-svw bg-cover bg-no-repeat py-3">
       <Container>
-        <Logo />
         <div className="scrollbar-hide">{renderStepContent()}</div>
       </Container>
     </div>

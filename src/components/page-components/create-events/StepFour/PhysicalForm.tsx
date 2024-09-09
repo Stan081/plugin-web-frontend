@@ -55,7 +55,7 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="mt-8 pb-10 h-[35vh] whitespace-normal overflow-y-auto">
+          <div className="mt-8 pb-10 h-[50vh] whitespace-normal overflow-y-auto">
             <div className="grid grid-cols-2 gap-5 h-auto w-auto">
               <FormItem className="col-span-2">
                 <FormLabel className="text-white" htmlFor="physical_location">

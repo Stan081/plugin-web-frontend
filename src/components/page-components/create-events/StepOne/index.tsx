@@ -127,7 +127,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex flex-col justify-between gap-4 w-full h-full"
               >
-                <div className="h-[58vh] whitespace-normal overflow-y-auto">
+                <div className="h-[64vh] whitespace-normal overflow-y-auto">
                   <FormItem className="w-full">
                     <FormLabel className="text-white font-pally-medium">
                       Event Banner
@@ -320,7 +320,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                                   placeholder="Max  char - 200 Words"
                                   id="event_description"
                                   disabled={isLoading}
-                                  className="w-full bg-white text-black font-pally-regular h-40"
+                                  className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
                                   {...field}
                                 />
                               </FormControl>

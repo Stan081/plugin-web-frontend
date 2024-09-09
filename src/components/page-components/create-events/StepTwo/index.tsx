@@ -41,7 +41,7 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
       <div className="w-full lg:w-1/2">
         <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <div className="flex flex-col justify-between gap-4 w-full h-full">
-            <div className="h-[58vh] whitespace-normal overflow-y-auto">
+            <div className="h-[64vh] whitespace-normal overflow-y-auto">
               <h3 className="font-pally-medium md:text-lg">
                 Choose the category that best describes your event
               </h3>
