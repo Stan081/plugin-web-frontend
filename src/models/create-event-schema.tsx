@@ -21,11 +21,11 @@ export const OneTimeFormShema = yup.object().shape({
     .string()
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .required("Add time event will end"),
-    timezone: yup.string()
+  timezone: yup.string(),
 });
 
 export const RecurringFormShema = yup.object().shape({
-  schedule: yup.string().required('Schedule recurring event'),
+  schedule: yup.string().required("Schedule recurring event"),
   start_date: yup.date().required("Add date event will start"),
   start_time: yup
     .string()
@@ -36,26 +36,39 @@ export const RecurringFormShema = yup.object().shape({
     .string()
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .required("Add time event will end"),
-    timezone: yup.string()
+  timezone: yup.string(),
 });
-
 
 export const PhysicalLocationSchema = yup.object().shape({
   address: yup.string().required("Valid address is required"),
-  city: yup.string().required('select city'),
-  state: yup.string().required('enter state'),
-  country: yup.string().required('enter country of event'),
-  zipcode: yup.number().optional()
+  city: yup.string().required("select city"),
+  state: yup.string().required("enter state"),
+  country: yup.string().required("enter country of event"),
+  zipcode: yup.number().optional(),
 });
 
 export const OnlineVenueLinkSchema = yup.object().shape({
-  venue_link: yup.string().required('venue link is required'),
-  venue_platform: yup.string().url('online link must be valid').required('Add online link')
-})
+  venue_link: yup.string().required("venue link is required"),
+  venue_platform: yup
+    .string()
+    .url("online link must be valid")
+    .required("Add online link"),
+});
+
+// Define the individual guest schema
+export const EventGuestSchema = yup.object().shape({
+  guest_image: yup.string().required("Upload guest image"),
+  guest_name: yup.string().required("This field is required"),
+  guest_role: yup.string().optional(),
+});
 
 
+// Types for a single guest and the array of guests
+export type EventGuest = yup.InferType<typeof EventGuestSchema>;
 export type OnlineVenueLink = yup.InferType<typeof OnlineVenueLinkSchema>;
 export type PhysicalLocation = yup.InferType<typeof PhysicalLocationSchema>;
 export type OneTimeForm = yup.InferType<typeof OneTimeFormShema>;
 export type RecurringForm = yup.InferType<typeof RecurringFormShema>;
 export type EventStepOne = yup.InferType<typeof EventStepOneSchema>;
+
+

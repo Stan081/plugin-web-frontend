@@ -294,7 +294,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                                   type="text"
                                   id="event_name"
                                   disabled={isLoading}
-                                  className="w-full bg-white font-pally-regular"
+                                  className="w-full bg-white text-black font-pally-regular"
                                   {...field}
                                 />
                               </FormControl>

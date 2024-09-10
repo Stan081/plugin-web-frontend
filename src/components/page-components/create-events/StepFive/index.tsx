@@ -14,6 +14,7 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { GrFormCheckmark } from "react-icons/gr";
 import RefundPolicy from "./RefundPolicy";
 import { pageContents, PageContentsType } from "@/static-datas/create-event";
+import GuestList from "./GuestList";
 
 const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   const { isChecked } = useCreateEventContext();
@@ -41,7 +42,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
       </div>
       <div className="w-full lg:w-1/2">
         <FormContainer formTitle="Event Details" currPosition={[100, 20, 0]}>
-          <div className="lg:h-[85vh] whitespace-nowrap overflow-x-auto flex flex-col justify-between gap-4 w-full h-full">
+          <div className="lg:h-[82vh] overflow-x-auto flex flex-col justify-between gap-4 w-full h-full">
             <Accordion type="single" collapsible className="w-full space-y-5">
               <AccordionItem
                 onClick={() => handlePageContentChange("item-1")}
@@ -49,7 +50,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                 className="border border-[#463635] rounded-xl px-4"
               >
                 <AccordionTrigger>
-                  <div className="flex justify-start items-center gap-5">
+                  <div className="flex justify-start items-center gap-4">
                     {!isChecked.addAgender ? (
                       <div className="border border-white rounded-full h-4 w-4" />
                     ) : (
@@ -73,7 +74,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                 className="border border-[#463635] rounded-xl px-4"
               >
                 <AccordionTrigger>
-                  <div className="flex justify-start items-center gap-5">
+                  <div className="flex justify-start items-center gap-4">
                     {!isChecked.addMedia ? (
                       <div className="border border-white rounded-full h-4 w-4" />
                     ) : (
@@ -92,12 +93,12 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem
-              onClick={() => handlePageContentChange("item-3")}
+                onClick={() => handlePageContentChange("item-3")}
                 value="item-3"
                 className="border border-[#463635] rounded-xl px-4"
               >
                 <AccordionTrigger>
-                  <div className="flex justify-start items-center gap-5">
+                  <div className="flex justify-start items-center gap-4">
                     {!isChecked.addGests ? (
                       <div className="border border-white rounded-full h-4 w-4" />
                     ) : (
@@ -112,16 +113,16 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
+                  <GuestList />
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem
-              onClick={() => handlePageContentChange("item-4")}
+                onClick={() => handlePageContentChange("item-4")}
                 value="item-4"
                 className="border border-[#463635] rounded-xl px-4"
               >
                 <AccordionTrigger>
-                  <div className="flex justify-start items-center gap-5">
+                  <div className="flex justify-start items-center gap-4">
                     {!isChecked.addVendors ? (
                       <div className="border border-white rounded-full h-4 w-4" />
                     ) : (
@@ -140,12 +141,12 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem
-              onClick={() => handlePageContentChange("item-5")}
+                onClick={() => handlePageContentChange("item-5")}
                 value="item-5"
                 className="border border-[#463635] rounded-xl px-4"
               >
                 <AccordionTrigger>
-                  <div className="flex justify-start items-center gap-5">
+                  <div className="flex justify-start items-center gap-4">
                     {!isChecked.refundPolicy ? (
                       <div className="border border-white rounded-full h-4 w-4" />
                     ) : (
@@ -161,7 +162,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            <div className="sticky z-50 bottom-0 bg-[#281E17]">
+            <div className="sticky bottom-0 bg-[#281E17]">
               <Separator />
               <div className="py-5 flex justify-between items-center">
                 <Button

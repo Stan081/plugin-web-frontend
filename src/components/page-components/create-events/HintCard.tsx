@@ -5,7 +5,7 @@ const HintCard: React.FC<{ contents: string[] }> = ({ contents }) => {
   return (
     <div>
       <h3 className="text-base underline text-[#586170] font-pally-regular">Here are some hints</h3>
-      <div className="mt-5 p-4 md:p-6 rounded-xl bg-white flex items-start gap-6 w-full max-w-md">
+      <div className="mt-5 p-4 md:p-6 rounded-xl bg-white flex items-start gap-4 w-full max-w-md">
         <div className="p-2 rounded-full border border-[#FA8334] md:block hidden">
           <TiLightbulb size={20} color="#FA8334" />
         </div>
