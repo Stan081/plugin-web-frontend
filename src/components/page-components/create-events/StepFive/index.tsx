@@ -15,6 +15,7 @@ import { GrFormCheckmark } from "react-icons/gr";
 import RefundPolicy from "./RefundPolicy";
 import { pageContents, PageContentsType } from "@/static-datas/create-event";
 import GuestList from "./GuestList";
+import AddVendor from "./AddVendor";
 
 const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   const { isChecked } = useCreateEventContext();
@@ -137,7 +138,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
+                  <AddVendor/>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem

@@ -12,6 +12,13 @@ export type PageContentsType = {
   content: string[];
 };
 
+export type GuestListType = {
+  id:string,
+  guestName: string;
+  image: string;
+  role: string;
+}
+
 export const categoriesData: EventCategory[] = [
   { name: "Music", selected: false },
   { name: "Business", selected: false },
@@ -67,3 +74,18 @@ export const pageContents: PageContentsType[] = [
     ],
   },
 ];
+
+export const guestList: GuestListType[] = [
+  {
+    id: '1',
+    guestName: 'John Doe',
+    role: 'MC',
+    image: '/images/seagreen-bg.png',
+  },
+  {
+    id: '2',
+    guestName: 'Sarah Doe',
+    role: 'MC',
+    image: '/images/blue-bg.png',
+  },
+]

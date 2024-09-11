@@ -43,11 +43,6 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
   const handleIsChecked = (key: keyof typeof isChecked) => {
     setIsChecked((prevState) => ({
       ...prevState,
-      addAgender: false,
-      addMedia: false,
-      addGests: false,
-      addVendors: false,
-      refundPolicy: false,
       [key]: true,
     }));
   };
