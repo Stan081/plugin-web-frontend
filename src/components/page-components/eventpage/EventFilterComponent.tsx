@@ -4,12 +4,12 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 const EventFilterComponent = () => {
   // State variables for each dropdown
-  const [isEventTypeOpen, setIsEventTypeOpen] = useState(true);
-  const [isSortByOpen, setIsSortByOpen] = useState(true);
-  const [isSelectDate, setIsSelectDate] = useState(true);
-  const [isPriceRange, setIsPriceRange] = useState(true);
-  const [isEventLocation, setIsEventLocation] = useState(true);
-  const [isAllCategory, setIsAllCategory] = useState(true);
+  const [isEventTypeOpen, setIsEventTypeOpen] = useState<boolean>(true);
+  const [isSortByOpen, setIsSortByOpen] = useState<boolean>(true);
+  const [isSelectDate, setIsSelectDate] = useState<boolean>(true);
+  const [isPriceRange, setIsPriceRange] = useState<boolean>(true);
+  const [isEventLocation, setIsEventLocation] = useState<boolean>(true);
+  const [isAllCategory, setIsAllCategory] = useState<boolean>(true);
 
   const handleEventTypeToggle = () => {
     setIsEventTypeOpen((prevState) => !prevState);

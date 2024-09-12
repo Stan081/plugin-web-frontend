@@ -1,6 +1,6 @@
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
 import React, { FC, useState } from "react";
-import TicketIcon from "./icons/ticket";
+import TicketIcon from "../../icons/ticket";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 

@@ -4,9 +4,9 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { cardData } from "@/static-datas/cards-data";
-import EventFilterComponent from "@/components/EventFilterComponent";
+import EventFilterComponent from "@/components/page-components/eventpage/EventFilterComponent";
 import CardComponent from "@/components/CardComponent";
-import EventListComponent from "@/components/EventListComponent";
+import EventListComponent from "@/components/page-components/eventpage/EventListComponent";
 
 const ExploreEventsPage = () => {
   const [isGridView, setIsGridView] = useState(true);
