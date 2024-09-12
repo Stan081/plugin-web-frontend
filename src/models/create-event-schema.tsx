@@ -63,12 +63,20 @@ export const EventGuestSchema = yup.object().shape({
 });
 
 
-// Types for a single guest and the array of guests
+export const VendorFormSchema = yup.object().shape({
+  pass_thumbnail: yup.string().optional(),
+  shared_pass: yup.boolean().required(),
+  pass_tag: yup.string().required('Vendor pass tag is required'),
+  pass_price: yup.number().required('Add price per pass'),
+  pass_category: yup.array().of(yup.string().optional()),
+  available_slot: yup.number().required('Add available slots')
+})
+
+
+export type VendorsForm = yup.InferType<typeof VendorFormSchema>;
 export type EventGuest = yup.InferType<typeof EventGuestSchema>;
 export type OnlineVenueLink = yup.InferType<typeof OnlineVenueLinkSchema>;
 export type PhysicalLocation = yup.InferType<typeof PhysicalLocationSchema>;
 export type OneTimeForm = yup.InferType<typeof OneTimeFormShema>;
 export type RecurringForm = yup.InferType<typeof RecurringFormShema>;
 export type EventStepOne = yup.InferType<typeof EventStepOneSchema>;
-
-

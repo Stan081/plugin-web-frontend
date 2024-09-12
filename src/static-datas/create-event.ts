@@ -13,11 +13,20 @@ export type PageContentsType = {
 };
 
 export type GuestListType = {
-  id:string,
+  id: string;
   guestName: string;
   image: string;
   role: string;
-}
+};
+
+export type VendorListType = {
+  id: string;
+  vendorImage?: string;
+  slot: number;
+  passTag: string;
+  pricePass: number;
+  passCategories: string[];
+};
 
 export const categoriesData: EventCategory[] = [
   { name: "Music", selected: false },
@@ -75,17 +84,7 @@ export const pageContents: PageContentsType[] = [
   },
 ];
 
-export const guestList: GuestListType[] = [
-  {
-    id: '1',
-    guestName: 'John Doe',
-    role: 'MC',
-    image: '/images/seagreen-bg.png',
-  },
-  {
-    id: '2',
-    guestName: 'Sarah Doe',
-    role: 'MC',
-    image: '/images/blue-bg.png',
-  },
-]
+export const guestList: GuestListType[] = [];
+
+export const vendorList: VendorListType[] = [
+];

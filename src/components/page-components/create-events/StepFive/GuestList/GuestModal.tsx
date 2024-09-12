@@ -19,6 +19,7 @@ import { IoMdImages } from "react-icons/io";
 import Image from "next/image";
 import React from "react";
 import { guestList } from "@/static-datas/create-event";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
 interface GuestModalProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ interface GuestModalProps {
 }
 
 const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
+  const { handleIsChecked } = useCreateEventContext();
   const [guestImage, setGuestImage] = React.useState<string | null>(null);
   const fileInputRefBanner = React.useRef<HTMLInputElement | null>(null);
 
@@ -73,12 +75,14 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
   const onSubmit = React.useCallback(async (payload: EventGuest) => {
     console.log(payload);
     guestList.push({
-      id: String(Math.floor(Math.random() * guestList.length)),
+      id: String(Math.floor(Math.random() * 100)),
       guestName: payload.guest_name,
       role: payload.guest_role,
       image: payload.guest_image,
     });
     close()
+
+    handleIsChecked("addGests");
 
      // Reset form back to default values
      form.reset({

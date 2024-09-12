@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Container from "@/tw-components/container";
-import Logo from "@/components/Logo";
 import StepOne from "@/components/page-components/create-events/StepOne";
 import StepTwo from "@/components/page-components/create-events/StepTwo";
 import StepThree from "@/components/page-components/create-events/StepThree";

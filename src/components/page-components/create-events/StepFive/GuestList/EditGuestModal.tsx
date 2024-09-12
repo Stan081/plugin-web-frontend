@@ -105,7 +105,6 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
               <h3 className="font-pally-medium text-[#281E17] text-xl">
                 Add Guest{" "}
               </h3>
-              <p>{id}</p>
               <div
                 onClick={close}
                 className="p-1.5 rounded-full bg-gray-600 cursor-pointer"

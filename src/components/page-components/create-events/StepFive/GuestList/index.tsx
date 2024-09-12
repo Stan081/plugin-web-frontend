@@ -1,26 +1,18 @@
 "use client"
 
 import { Separator } from "@/components/ui/separator";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { guestList, GuestListType } from "@/static-datas/create-event";
 import GuestsComponent from "./GuestsComponent";
 import GuestModal from "./GuestModal";
-import { useCreateEventContext } from "@/providers/create_event.provider";
 import EditGuestModal from "./EditGuestModal";
 import GuestEmptyState from "./GuestEmptyState";
 
 const GuestList = () => {
-  const { handleIsChecked } = useCreateEventContext();
   const [guests, setGuests] = useState<GuestListType[]>(guestList);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isOpenEdit, setIsOpenEdit] = React.useState<boolean>(false);
   const [editModal, setEditModal] = useState<GuestListType | null>();
-
-  useEffect(() => {
-    if (guests.length >= 1) {
-      handleIsChecked("addGests");
-    }
-  }, [guests]);
 
   const open = () => {
     setIsOpen(!isOpen);
