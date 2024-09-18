@@ -62,17 +62,47 @@ export const EventGuestSchema = yup.object().shape({
   guest_role: yup.string().optional(),
 });
 
-
 export const VendorFormSchema = yup.object().shape({
   pass_thumbnail: yup.string().optional(),
   shared_pass: yup.boolean().required(),
-  pass_tag: yup.string().required('Vendor pass tag is required'),
-  pass_price: yup.number().required('Add price per pass'),
+  pass_tag: yup.string().required("Vendor pass tag is required"),
+  pass_price: yup.number().required("Add price per pass"),
   pass_category: yup.array().of(yup.string().optional()),
-  available_slot: yup.number().required('Add available slots')
-})
+  available_slot: yup.number().required("Add available slots"),
+});
 
+export const SlotWithHostSchema = yup.object().shape({
+  host_thumbnail: yup.string().required('Please upload host image'),
+  isHost: yup.boolean().required(),
+  host_name: yup.string().required("Host name is is required"),
+  agenda_title: yup.string().required("Agenda title is required"),
+  agenda_description: yup.string().optional(),
+  start_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .required("Add time event will start"),
+  end_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .required("Add time event will start"),
+});
 
+export const SlotWithoutHostSchema = yup.object().shape({
+  isHost: yup.boolean().required(),
+  agenda_title: yup.string().required("Agenda title is required"),
+  agenda_description: yup.string().optional(),
+  start_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .required("Add time event will start"),
+  end_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .required("Add time event will start"),
+});
+
+export type SlotWithoutHostForm = yup.InferType<typeof SlotWithoutHostSchema>;
+export type SlotWithHostForm = yup.InferType<typeof SlotWithHostSchema>;
 export type VendorsForm = yup.InferType<typeof VendorFormSchema>;
 export type EventGuest = yup.InferType<typeof EventGuestSchema>;
 export type OnlineVenueLink = yup.InferType<typeof OnlineVenueLinkSchema>;

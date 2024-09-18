@@ -1,8 +1,11 @@
+import { useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
-import React, { useState } from "react";
 import VendorEmptyState from "./VendorEmptyState";
 import VendorForm from "./VendorForm";
-import { vendorList, VendorListType } from "@/static-datas/create-event";
+import {
+  vendorList as staticVendorList,
+  VendorListType,
+} from "@/static-datas/create-event";
 import VendorCard from "./VendorCard";
 import { Button } from "@/components/ui/button";
 import EditVendorForm from "./EditVendorForm";
@@ -17,27 +20,44 @@ const AddVendor = () => {
   const [formState, setFormState] = useState<VendorFormState>(
     VendorFormState.VIEW_LIST
   );
-  const [vendorListState, setVendorListState] = useState<
+  const [vendorListState, setVendorListState] = useState<VendorListType[]>([]);
+  const [selectedVendor, setSelectedVendor] = useState<
     VendorListType | undefined
   >(undefined);
+  const [nextId, setNextId] = useState<number>(Date.now()); // ID generator
+
+  // Initialize the vendor list
+  useEffect(() => {
+    setVendorListState(staticVendorList);
+  }, []);
 
   // Function to handle form edit
-  const handleEditForm = (id: string) => {
-    const getEditVendor = vendorList.find((list) => list.id === id);
+  const handleEditForm = (id: number) => {
+    const getEditVendor = vendorListState.find((list) => list.id === id);
 
     if (getEditVendor) {
-      setVendorListState(getEditVendor);
+      setSelectedVendor(getEditVendor);
       setFormState(VendorFormState.EDIT_VENDOR);
     }
   };
 
   // Function to handle creating a new vendor
-  const handleCreateVendor = () => {
-    setFormState(VendorFormState.CREATE_VENDOR);
+  const handleCreateVendor = (vendorData: VendorListType) => {
+    const newVendor = { ...vendorData, id: nextId }; // Ensure each vendor has a unique ID
+    setVendorListState((prevList) => [...prevList, newVendor]); // Add new vendor to state
+    setNextId(Date.now()); // Update nextId to ensure uniqueness
+    setFormState(VendorFormState.VIEW_LIST);
   };
 
   // Function to return to the vendor list view
   const handleReturnToList = () => {
+    setFormState(VendorFormState.VIEW_LIST);
+  };
+
+  // Function to handle delete
+  const handleDelete = (id: number) => {
+    const updatedList = vendorListState.filter((vendor) => vendor.id !== id);
+    setVendorListState(updatedList); // Update state
     setFormState(VendorFormState.VIEW_LIST);
   };
 
@@ -50,22 +70,27 @@ const AddVendor = () => {
       <Separator decorative />
 
       {formState === VendorFormState.CREATE_VENDOR ? (
-        <VendorForm handleDelete={handleReturnToList} />
-      ) : formState === VendorFormState.EDIT_VENDOR && vendorListState ? (
-        <EditVendorForm handleDelete={handleReturnToList} {...vendorListState} />
-      ) : formState === VendorFormState.VIEW_LIST && vendorList.length !== 0 ? (
+        <VendorForm
+          handleReturnToList={handleReturnToList}
+          handleCreateVendor={handleCreateVendor}
+        />
+      ) : formState === VendorFormState.EDIT_VENDOR && selectedVendor ? (
+        <EditVendorForm handleDelete={handleDelete} {...selectedVendor} />
+      ) : formState === VendorFormState.VIEW_LIST &&
+        vendorListState.length !== 0 ? (
         <div className="my-3 flex flex-col gap-3 w-full">
-          {vendorList.map((list) => (
+          {vendorListState.map((list) => (
             <VendorCard
               key={list.id}
               {...list}
               handleEditForm={handleEditForm}
+              handleDelete={handleDelete} // Pass delete handler to VendorCard if necessary
             />
           ))}
 
           <div className="mt-4 flex justify-between gap-5">
             <button
-              onClick={handleCreateVendor}
+              onClick={() => setFormState(VendorFormState.CREATE_VENDOR)}
               type="button"
               className="border border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50 md:w-32"
             >
@@ -76,7 +101,9 @@ const AddVendor = () => {
           </div>
         </div>
       ) : (
-        <VendorEmptyState open={handleCreateVendor} />
+        <VendorEmptyState
+          open={() => setFormState(VendorFormState.CREATE_VENDOR)}
+        />
       )}
     </div>
   );

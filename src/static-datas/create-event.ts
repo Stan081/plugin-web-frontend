@@ -20,12 +20,24 @@ export type GuestListType = {
 };
 
 export type VendorListType = {
-  id: string;
+  id?: number;
   vendorImage?: string;
   slot: number;
   passTag: string;
   pricePass: number;
   passCategories: string[];
+  sharedPass: boolean;
+};
+
+export type AgendaListsType = {
+  id?: number;
+  hostImage?: string;
+  startTime: string;
+  endTime: string;
+  hostName?: string;
+  isHost: boolean;
+  agendaTitle: string;
+  agendaDescription: string;
 };
 
 export const categoriesData: EventCategory[] = [
@@ -86,5 +98,18 @@ export const pageContents: PageContentsType[] = [
 
 export const guestList: GuestListType[] = [];
 
-export const vendorList: VendorListType[] = [
+export const vendorList: VendorListType[] = [];
+
+export const AgendaLists: AgendaListsType[] = [
+  {
+    id: 1,
+    hostImage: "/images/pink-bg.png",
+    startTime: "7:00pm",
+    endTime: "8:00pm",
+    hostName: "Adamu",
+    isHost: true,
+    agendaTitle: "Agenda",
+    agendaDescription:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste, laboriosam sunt. Neque quas, culpa optio voluptas sint, cupiditate ducimus adipisci fugit magnam voluptatem delectus quod iure aperiam. Dolore, laborum quod?",
+  },
 ];

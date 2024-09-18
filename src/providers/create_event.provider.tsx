@@ -5,7 +5,6 @@ import {
   createContext,
   FC,
   PropsWithChildren,
-  useCallback,
   useContext,
   useState,
 } from "react";
@@ -20,7 +19,9 @@ export type IsCheckedState = {
 
 type CreateEventContextValue = {
   isChecked: IsCheckedState;
+  isHost: boolean;
   handleIsChecked: (key: keyof IsCheckedState) => void;
+  setIsHost: (id:boolean) => void;
 };
 
 const CreateEventDashContext = createContext<CreateEventContextValue | null>(
@@ -39,15 +40,23 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     refundPolicy: false,
   });
 
+  // state for checking Agenda host
+  const [isHost, setIsHost] = useState<boolean>(false);
+
   //
   const handleIsChecked = (key: keyof typeof isChecked) => {
     setIsChecked((prevState) => ({
       ...prevState,
-      [key]: true,
+      [key]: !prevState[key],
     }));
   };
 
-  const ContextValue: CreateEventContextValue = { isChecked, handleIsChecked };
+  const ContextValue: CreateEventContextValue = {
+    isChecked,
+    isHost,
+    handleIsChecked,
+    setIsHost,
+  };
   return (
     <CreateEventDashContext.Provider value={ContextValue}>
       {children}

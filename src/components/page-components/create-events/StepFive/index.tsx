@@ -16,6 +16,8 @@ import RefundPolicy from "./RefundPolicy";
 import { pageContents, PageContentsType } from "@/static-datas/create-event";
 import GuestList from "./GuestList";
 import AddVendor from "./AddVendor";
+import PhotoGrid from "./AddPhotos/PhotoGrid";
+import AddAgenda from "./AddAgenda";
 
 const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   const { isChecked } = useCreateEventContext();
@@ -66,7 +68,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
+                  <AddAgenda/>
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem
@@ -90,7 +92,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
+                  <PhotoGrid maxUploads={6} />
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem
@@ -138,7 +140,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <AddVendor/>
+                  <AddVendor />
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem

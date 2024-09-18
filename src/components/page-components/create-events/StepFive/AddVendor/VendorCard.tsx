@@ -1,19 +1,23 @@
 import { toFiat } from "@/lib/amount";
 import { VendorListType } from "@/static-datas/create-event";
 import React from "react";
+import { HiOutlineTrash } from "react-icons/hi2";
 
 interface VendorCardProps extends VendorListType {
-  handleEditForm: (id: string) => void;
+  handleEditForm: (id: number) => void;
+  handleDelete: (id: number) => void;
 }
 
 const VendorCard: React.FC<VendorCardProps> = ({
   id,
   slot,
   passTag,
-  passCategories,
   pricePass,
+  sharedPass,
   handleEditForm,
+  handleDelete,
 }) => {
+ 
   return (
     <div className="flex">
       <div className="h-auto w-2 bg-[#F58B86]" />
@@ -21,7 +25,7 @@ const VendorCard: React.FC<VendorCardProps> = ({
         <div className="flex justify-between items-center gap-5">
           <div>
             <p className="font-pally-medium text-sm text-[#667185]">
-              {slot} <span className="font-pally-regular">Slots created</span>
+              {sharedPass ? "Single Pass" : "Shared Pass"}
             </p>
             <p className="font-pally-medium md:text-lg text-[#475367]">
               {passTag}
@@ -33,21 +37,19 @@ const VendorCard: React.FC<VendorCardProps> = ({
             <span className="font-pally-regular text-base">per pass</span>
           </p>
         </div>
-        <div className="flex justify-between gap-5">
-          <div className="flex flex-wrap gap-3">
-            {passCategories.map((cat, index) => (
-              <p
-                key={index}
-                className="border border-[#344054] rounded-2xl px-2 py-1 font-pally-regular text-[#344054]"
-              >
-                {cat}
+        <div className="flex justify-between items-center gap-5">
+          <p className="border border-[#344054] rounded-2xl px-2 py-1 font-pally-regular text-[#344054]">
+            {slot} Slot created
+          </p>
+          <div className="flex ju gap-4">
+            <div onClick={() => handleEditForm(id)} className="cursor-pointer">
+              <p className="font-pally-regular text-sm underline destructive">
+                Edit Pass
               </p>
-            ))}
-          </div>
-          <div onClick={() => handleEditForm(id)} className="cursor-pointer">
-            <p className="font-pally-regular text-sm underline destructive">
-              Edit Pass
-            </p>
+            </div>
+            <div onClick={() => handleDelete(id)} className="cursor-pointer bg-black/70 rounded p-1">
+              <HiOutlineTrash size={16} className="text-white hover:text-red-500" />
+            </div>
           </div>
         </div>
       </div>
