@@ -8,11 +8,17 @@ import {
 import { HiOutlineTrash } from "react-icons/hi2";
 import Image from "next/image";
 import { AgendaListsType } from "@/static-datas/create-event";
+import { calculateDuration } from "@/lib/utils";
+
+interface AgendListsProps extends AgendaListsType {
+  handleEditForm: (id: number) => void;
+  handleDelete: (id: number) => void;
+}
 
 const bgColor = [
   {
     border: "#40B869",
-    bgColor: "#463635",
+    bgColor: "#F2FAF5",
   },
   {
     border: "#F58B86",
@@ -24,51 +30,76 @@ const bgColor = [
   },
 ];
 
-const AgendLists: FC<AgendaListsType> = ({
+const AgendLists: FC<AgendListsProps> = ({
+  id,
   hostImage,
   isHost,
   agendaDescription,
   agendaTitle,
   hostName,
+  startTime,
+  endTime,
+  handleEditForm,
+  handleDelete,
 }) => {
+  const getRandomColor = () => {
+    let getRan = Math.floor(Math.random() * bgColor.length);
+    return bgColor[getRan];
+  };
+
+  const selectedColor = getRandomColor();
+
+  // get duration
+  const duration = calculateDuration(startTime, endTime);
+
   return (
     <AccordionItem
-      value="item-1"
-      className="border-t-4 border-[#40B869] bg-[#F2FAF5] rounded-xl px-4"
+      value={`item-${id}`}
+      style={{
+        borderColor: selectedColor.border,
+        backgroundColor: selectedColor.bgColor,
+      }}
+      className="border-t-4 rounded-xl px-4"
     >
       <AccordionTrigger>
-        <div>
+        <div className="w-full flex flex-col justify-start items-start">
           <p className="text-[#667185] text-sm font-pally-regular">
-            Duration : 20 minutes
+            Duration : {duration}
           </p>
           <p className="text-[#101928] font-pally-medium text-xl">
-            Opening speech{" "}
+            {agendaTitle}
           </p>
         </div>
       </AccordionTrigger>
       <AccordionContent>
         <p className="font-pally-regular text-[#667185] md:text-lg">
-          Join us for Sip 'n' Paint with Wakkytails at Uyai at Dusk! Enjoy a
-          creative evening of painting and sipping exquisite cocktails. Perfect
-          for all skill levels, come relax and unleash your inner artist!
+          {agendaDescription}
         </p>
         <div className="mt-5 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <Image
-              src={"/images/blue-bg.png"}
-              width={40}
-              height={40}
-              alt="hihi"
-              className="w-10 h-10 pointer-events-none object-cover rounded-full"
-            />
-            <div>
-              <p className="font-pally-regular text-sm text-[#667185]">Host</p>
-              <p className="font-pally-medium text-[#667185]">Marc Beto</p>
+          {isHost ? (
+            <div className="flex items-center gap-4">
+              {hostImage && (
+                <Image
+                  src={hostImage}
+                  width={40}
+                  height={40}
+                  alt={hostName}
+                  className="w-10 h-10 pointer-events-none object-cover rounded-full"
+                />
+              )}
+              <div>
+                <p className="font-pally-regular text-sm text-[#667185]">
+                  Host
+                </p>
+                <p className="font-pally-medium text-[#667185]">{hostName}</p>
+              </div>
             </div>
-          </div>
-          <div className="flex gap-4">
+          ) : (
+            <div />
+          )}
+          <div className="flex justify-end gap-4">
             <div
-              // onClick={() => handleEditForm(id)}
+              onClick={() => handleEditForm(id)}
               className="cursor-pointer"
             >
               <p className="font-pally-regular text-sm underline destructive">
@@ -76,7 +107,7 @@ const AgendLists: FC<AgendaListsType> = ({
               </p>
             </div>
             <div
-              // onClick={() => handleDelete(id)}
+              onClick={() => handleDelete(id)}
               className="cursor-pointer bg-black/70 rounded p-1"
             >
               <HiOutlineTrash

@@ -9,6 +9,8 @@ import {
 } from "@/static-datas/create-event";
 import { Button } from "@/components/ui/button";
 import { Accordion } from "@/components/ui/accordion";
+import { useCreateEventContext } from "@/providers/create_event.provider";
+import EditSlot from "./EditSlot";
 
 export enum AddAgendaState {
   VIEW_LIST,
@@ -20,11 +22,12 @@ const AddAgenda = () => {
   const [formState, setFormState] = useState<AddAgendaState>(
     AddAgendaState.VIEW_LIST
   );
+
   const [agendaListState, setAgendaListState] = useState<AgendaListsType[]>([]);
   const [selectedAgenda, setSelectedAgenda] = useState<
     AgendaListsType | undefined
   >(undefined);
-  const [nextId, setNextId] = useState<number>(Date.now()); // ID generator
+  const [nextId, setNextId] = useState<number>(Date.now());
 
   // Initialize the vendor list
   useEffect(() => {
@@ -33,19 +36,19 @@ const AddAgenda = () => {
 
   // Function to handle form edit
   const handleEditForm = (id: number) => {
-    const getEditVendor = agendaListState.find((list) => list.id === id);
+    const getEditAgenda = agendaListState.find((list) => list.id === id);
 
-    if (getEditVendor) {
-      setSelectedAgenda(getEditVendor);
+    if (getEditAgenda) {
+      setSelectedAgenda(getEditAgenda);
       setFormState(AddAgendaState.EDIT_AGENDA);
     }
   };
 
   // Function to handle creating a new vendor
   const handleCreateVendor = (vendorData: AgendaListsType) => {
-    const newAgenda = { ...vendorData, id: nextId }; // Ensure each vendor has a unique ID
-    setAgendaListState((prevList) => [...prevList, newAgenda]); // Add new vendor to state
-    setNextId(Date.now()); // Update nextId to ensure uniqueness
+    const newAgenda = { ...vendorData, id: nextId };
+    setAgendaListState((prevList) => [...prevList, newAgenda]);
+    setNextId(Date.now());
     setFormState(AddAgendaState.VIEW_LIST);
   };
 
@@ -57,7 +60,7 @@ const AddAgenda = () => {
   // Function to handle delete
   const handleDelete = (id: number) => {
     const updatedList = agendaListState.filter((vendor) => vendor.id !== id);
-    setAgendaListState(updatedList); // Update state
+    setAgendaListState(updatedList);
     setFormState(AddAgendaState.VIEW_LIST);
   };
   return (
@@ -70,30 +73,26 @@ const AddAgenda = () => {
 
       <Separator decorative />
 
-      <AgendaSlot />
-
       {formState === AddAgendaState.CREATE_AGENDA ? (
         <AgendaSlot
-        // handleReturnToList={handleReturnToList}
-        // handleCreateVendor={handleCreateVendor}
+          handleReturnToList={handleReturnToList}
+          handleCreateVendor={handleCreateVendor}
         />
       ) : formState === AddAgendaState.EDIT_AGENDA && selectedAgenda ? (
-        // <EditVendorForm handleDelete={handleDelete} {...selectedAgenda} />
-        <div>hello</div>
-      ) : formState === AddAgendaState.VIEW_LIST 
-      // &&
-        // agendaListState.length !== 0 
-        ?
-         (
+        <EditSlot
+          handleReturnToList={handleReturnToList}
+          selectedAgenda={selectedAgenda}
+        />
+      ) : formState === AddAgendaState.VIEW_LIST &&
+        agendaListState.length !== 0 ? (
         <div className="my-3 flex flex-col gap-3 w-full">
-
           <Accordion type="single" collapsible className="w-full space-y-5">
             {agendaListState.map((list) => (
               <AgendLists
                 key={list.id}
                 {...list}
-                // handleEditForm={handleEditForm}
-                // handleDelete={handleDelete} 
+                handleEditForm={handleEditForm}
+                handleDelete={handleDelete}
               />
             ))}
           </Accordion>

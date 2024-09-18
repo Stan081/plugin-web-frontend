@@ -12,14 +12,20 @@ import {
 } from "@/models/create-event-schema";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useCallback, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { isHostTypes } from "./SlotWithHost";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { AgendaSlotProps } from "./Slot";
 
-const SlotWithoutHost = () => {
+interface SlotWithoutHostProps extends AgendaSlotProps {}
+
+const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
+  handleReturnToList,
+  handleCreateVendor,
+}) => {
   const { setIsHost, isHost, handleIsChecked } = useCreateEventContext();
 
   const form = useForm<SlotWithoutHostForm>({
@@ -39,8 +45,17 @@ const SlotWithoutHost = () => {
   const onSubmit = useCallback(
     async (payload: SlotWithoutHostForm) => {
       console.log(payload);
+      handleCreateVendor({
+        startTime: payload.start_time,
+        endTime: payload.end_time,
+        isHost: payload.isHost,
+        agendaTitle: payload.agenda_title,
+        agendaDescription: payload.agenda_description,
+      });
 
-      handleIsChecked("addVendors");
+      handleReturnToList();
+
+      handleIsChecked("addAgender");
 
       // Reset form back to default values
       form.reset({
@@ -190,7 +205,7 @@ const SlotWithoutHost = () => {
           </div>
           <div className="flex gap-4 my-4">
             <div
-              //   onClick={handleReturnToList}
+              onClick={handleReturnToList}
               className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
             >
               <HiOutlineTrash size={20} color="#F9B6B1" />

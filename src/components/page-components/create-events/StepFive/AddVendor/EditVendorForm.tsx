@@ -35,6 +35,7 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 
 interface EditVendorFormProps extends VendorListType {
   handleDelete: (id: number) => void;
+  
 }
 
 const isSharedTypes: { id: boolean; name: string }[] = [

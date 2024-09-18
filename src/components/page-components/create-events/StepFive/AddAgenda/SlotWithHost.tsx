@@ -26,6 +26,9 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { AgendaSlotProps } from "./Slot";
+
+interface SlotWithHostProps extends AgendaSlotProps {}
 
 export const isHostTypes: { id: boolean; name: string }[] = [
   {
@@ -38,7 +41,10 @@ export const isHostTypes: { id: boolean; name: string }[] = [
   },
 ];
 
-const SlotWithHost: FC = ({}) => {
+const SlotWithHost: FC<SlotWithHostProps> = ({
+  handleReturnToList,
+  handleCreateVendor,
+}) => {
   const { handleIsChecked, setIsHost, isHost } = useCreateEventContext();
   const [hostImage, setHostImage] = useState<string | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
@@ -94,7 +100,19 @@ const SlotWithHost: FC = ({}) => {
     async (payload: SlotWithHostForm) => {
       console.log(payload);
 
-      handleIsChecked("addVendors");
+      handleCreateVendor({
+        hostImage: payload.host_thumbnail,
+        hostName: payload.host_name,
+        startTime: payload.start_time,
+        endTime: payload.end_time,
+        isHost: payload.isHost,
+        agendaTitle: payload.agenda_title,
+        agendaDescription: payload.agenda_description,
+      });
+
+      handleReturnToList();
+
+      handleIsChecked("addAgender");
 
       // Reset form back to default values
       form.reset({
@@ -136,7 +154,7 @@ const SlotWithHost: FC = ({}) => {
                       <div className="vendorImage-uploader">
                         {hostImage ? (
                           <div className="relative">
-                            <div className="relative h-[20vh] bg-no-repeat bg-center bg-cover flex items-center justify-center overflow-hidden ">
+                            <div className="relative h-[20vh] bg-no-repeat bg-center bg-cover flex items-center justify-center overflow-hidden rounded-md ">
                               <img
                                 src={hostImage}
                                 alt="Uploaded"
@@ -358,7 +376,7 @@ const SlotWithHost: FC = ({}) => {
 
           <div className="flex gap-4 mb-4">
             <div
-            //   onClick={handleReturnToList}
+              onClick={handleReturnToList}
               className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
             >
               <HiOutlineTrash size={20} color="#F9B6B1" />

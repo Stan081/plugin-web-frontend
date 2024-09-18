@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 
 import { FiWatch } from "react-icons/fi";
 import { MdOutlineClose } from "react-icons/md";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import SlotWithHost from "./SlotWithHost";
 import SlotWithoutHost from "./SlotWithoutHost";
+import { AgendaListsType } from "@/static-datas/create-event";
 
-const AgendaSlot = () => {
+export interface AgendaSlotProps {
+  handleReturnToList: () => void;
+  handleCreateVendor?: (vendorData: AgendaListsType) => void;
+}
+
+const AgendaSlot: FC<AgendaSlotProps> = ({
+  handleReturnToList,
+  handleCreateVendor,
+}) => {
   const { isHost } = useCreateEventContext();
   const [alert, setAlert] = useState<boolean>(() => true);
 
@@ -26,7 +35,17 @@ const AgendaSlot = () => {
         </div>
       )}
 
-      {!isHost ? <SlotWithHost /> : <SlotWithoutHost />}
+      {isHost ? (
+        <SlotWithHost
+          handleCreateVendor={handleCreateVendor}
+          handleReturnToList={handleReturnToList}
+        />
+      ) : (
+        <SlotWithoutHost
+          handleCreateVendor={handleCreateVendor}
+          handleReturnToList={handleReturnToList}
+        />
+      )}
     </div>
   );
 };
