@@ -61,7 +61,7 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
       isHost: isHost,
       host_name: hostName ?? "",
       agenda_title: agendaTitle ?? "",
-      agenda_description: agendaTitle ?? "",
+      agenda_description: agendaDescription ?? "",
     },
     resolver: yupResolver(SlotWithHostSchema),
   });
