@@ -95,16 +95,15 @@ const SelectTicketModal: FC<SelectTicketModalProps> = ({
                     </Button>
                   </div>
 
-                  
-                    {ticket.ticketThumbnail && (
-                      <Image
-                        src={ticket.ticketThumbnail}
-                        width={336}
-                        height={219}
-                        alt={ticket.ticketTitle}
-                        className="w-full h-full pointer-events-none "
-                      />
-                    )}
+                  {ticket.ticketThumbnail && (
+                    <Image
+                      src={ticket.ticketThumbnail}
+                      width={336}
+                      height={219}
+                      alt={ticket.ticketTitle}
+                      className="w-full h-full pointer-events-none "
+                    />
+                  )}
                 </li>
               ))}
             </ul>

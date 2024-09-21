@@ -30,7 +30,7 @@ const EntryTicket: FC<EntryTicketProps> = ({
   const [entryTicket, setEntryTicket] = useState<string>("paid");
 
   return (
-    <div>
+    <div className="h-full w-full">
       <h3 className="font-pally-bold text-2xl">Entry Ticket</h3>
 
       <div className="flex items-end gap-3">

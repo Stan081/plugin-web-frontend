@@ -1,3 +1,4 @@
+"use client"
 import React, { FC, useCallback, useMemo, useState } from "react";
 import {
   Form,
@@ -20,13 +21,6 @@ import { StepsProps } from "@/pages/create-event";
 interface PaidTicketFormProps extends StepsProps {
   selectTicket: string;
 }
-
-const initialValue = [
-  {
-    type: "paragraph",
-    children: [{ text: "A line of text in a paragraph." }],
-  },
-];
 
 const PaidTicketForm: FC<PaidTicketFormProps> = ({
   next,
@@ -111,7 +105,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col justify-between gap-4 w-full h-full"
+          className="flex flex-col justify-between gap-4 w-full h-full  lg:h-[62vh]"
         >
           <div className="flex flex-col justify-between gap-4 h-auto w-full">
             <FormItem className="w-full ">
@@ -131,6 +125,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
                         disabled={isLoading}
                         className="w-full bg-white text-black font-pally-regular"
                         {...field}
+                        maxLength={200}
                       />
                     </FormControl>
                     <FormMessage />

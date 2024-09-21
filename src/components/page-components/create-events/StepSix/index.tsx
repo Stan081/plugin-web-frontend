@@ -14,7 +14,7 @@ const contents = [
 const StepSix: FC<StepsProps> = ({ next, previous }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const [selectTicket, setSelectedTicket] = useState<string>("entry-ticket");
+  const [selectTicket, setSelectedTicket] = useState<string>("");
 
   const handleShowModal = () => {
     setShowModal(!showModal);
@@ -33,7 +33,7 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
           formTitle="Setting up Tickets"
           currPosition={[100, 70, 0]}
         >
-          <div className="lg:h-[82vh] overflow-x-auto flex flex-col justify-between gap-4 w-full h-full">
+          <div className="overflow-x-auto flex flex-col justify-between gap-4 w-full h-full">
             {!selectTicket && (
               <SelectTicketModal
                 isOpen={showModal}
