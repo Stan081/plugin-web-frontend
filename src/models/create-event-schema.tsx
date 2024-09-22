@@ -66,7 +66,11 @@ export const VendorFormSchema = yup.object().shape({
   pass_thumbnail: yup.string().optional(),
   shared_pass: yup.boolean().required(),
   pass_tag: yup.string().required("Vendor pass tag is required"),
-  pass_price: yup.number().truncate().positive('Price must be a positive whole number').required("Add price per pass"),
+  pass_price: yup
+    .number()
+    .truncate()
+    .positive("Price must be a positive whole number")
+    .required("Add price per pass"),
   pass_category: yup.array().of(yup.string().optional()),
   available_slot: yup.number().required("Add available slots"),
 });
@@ -106,16 +110,22 @@ export const PaidTicketFormSchema = yup.object().shape({
   ticket_name: yup.string().required("Ticket name is required"),
   ticket_quantity: yup.number().required("Add ticket quantity"),
   discount_price: yup.number().optional(),
-  ticket_price: yup.number().truncate().positive('Price must be a positive whole number').required("Add ticket price"),
+  ticket_price: yup
+    .number()
+    .truncate()
+    .positive("Price must be a positive whole number")
+    .required("Add ticket price per ticket"),
   start_date: yup.date().required("Add date ticket will start"),
   end_date: yup.date().required("Add date ticket will end"),
   start_time: yup
     .string()
-    .matches(timeRegex, "Invalid time format (HH:MM)").optional(),
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .optional(),
   end_time: yup
     .string()
-    .matches(timeRegex, "Invalid time format (HH:MM)").optional(),
-  ticket_peaks: yup.string().optional(),
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .optional(),
+  ticket_perks: yup.string().required("Ticket perks is required"),
 });
 
 export const FreeTicketFormSchema = yup.object().shape({
@@ -126,12 +136,37 @@ export const FreeTicketFormSchema = yup.object().shape({
   end_date: yup.date().required("Add date ticket will end"),
   start_time: yup
     .string()
-    .matches(timeRegex, "Invalid time format (HH:MM)").optional(),
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .optional(),
   end_time: yup
     .string()
-    .matches(timeRegex, "Invalid time format (HH:MM)").optional(),
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .optional(),
+});
+export const SeatSectionFormSchema = yup.object().shape({
+  ticket_type: yup.string().required(),
+  ticket_name: yup.string().required("Ticket name is required"),
+  ticket_quantity: yup.number().required("Add ticket quantity"),
+  ticket_category: yup.string().required("Select a category"),
+  ticket_price: yup
+    .number()
+    .truncate()
+    .positive("Price must be a positive whole number")
+    .required("Add ticket price per ticket"),
+  start_date: yup.date().required("Add date ticket will start"),
+  end_date: yup.date().required("Add date ticket will end"),
+  start_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .optional(),
+  end_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .optional(),
+  ticket_perks: yup.string().required("Ticket perks is required"),
 });
 
+export type SeatSection = yup.InferType<typeof SeatSectionFormSchema>;
 export type FreeTicket = yup.InferType<typeof FreeTicketFormSchema>;
 export type PaidTicket = yup.InferType<typeof PaidTicketFormSchema>;
 export type SlotWithoutHostForm = yup.InferType<typeof SlotWithoutHostSchema>;

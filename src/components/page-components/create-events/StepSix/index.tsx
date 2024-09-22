@@ -5,6 +5,8 @@ import FormContainer from "../FormContainer";
 import CreateTicketEmptyState from "./CreateTicketEmptyState";
 import SelectTicketModal from "./SelectTicketModal";
 import EntryTicket from "./entry-ticket";
+import GroupTicket from "./group-ticket";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
 const contents = [
   "Break down the event into segments (e.g., welcome drinks, painting session, cocktail break).",
@@ -13,8 +15,7 @@ const contents = [
 
 const StepSix: FC<StepsProps> = ({ next, previous }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
-
-  const [selectTicket, setSelectedTicket] = useState<string>("");
+  const {selectTicket} = useCreateEventContext();
 
   const handleShowModal = () => {
     setShowModal(!showModal);
@@ -38,7 +39,6 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
               <SelectTicketModal
                 isOpen={showModal}
                 close={handleShowModal}
-                setSelectedTicket={setSelectedTicket}
               />
             )}
 
@@ -48,10 +48,12 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
               <EntryTicket
                 next={next}
                 previous={previous}
-                selectTicket={selectTicket}
+               
               />
             ) : (
-              selectTicket === "group-ticket" && <div>Group</div>
+              selectTicket === "group-ticket" && (
+                <GroupTicket next={next} previous={previous} />
+              )
             )}
           </div>
         </FormContainer>

@@ -61,7 +61,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                         <GrFormCheckmark color="#fff" size={16} />
                       </div>
                     )}
-                    <p>ADD AGENDA</p>
+                    <p className="font-pally-regular">ADD AGENDA</p>
                     <p className="text-[12px] font-pally-medium text-[#865503] px-1.5 py-0.5 no-underline bg-[#FBE2B7] rounded-lg">
                       OPTIONAL
                     </p>
@@ -85,7 +85,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                         <GrFormCheckmark color="#fff" size={16} />
                       </div>
                     )}
-                    <p>ADD PHOTO/VIDEO</p>
+                    <p className="font-pally-regular">ADD PHOTO/VIDEO</p>
                     <p className="text-[12px] font-pally-medium text-[#865503] px-1.5 py-0.5 no-underline bg-[#FBE2B7] rounded-lg">
                       OPTIONAL
                     </p>
@@ -109,7 +109,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                         <GrFormCheckmark color="#fff" size={16} />
                       </div>
                     )}
-                    <p>GUEST LIST</p>
+                    <p className="font-pally-regular">GUEST LIST</p>
                     <p className="text-[12px] font-pally-medium text-[#865503] px-1.5 py-0.5 no-underline bg-[#FBE2B7] rounded-lg">
                       OPTIONAL
                     </p>
@@ -133,7 +133,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                         <GrFormCheckmark color="#fff" size={16} />
                       </div>
                     )}
-                    <p>ADD VENDORS</p>
+                    <p className="font-pally-regular">ADD VENDORS</p>
                     <p className="text-[12px] font-pally-medium text-[#865503] px-1.5 py-0.5 no-underline bg-[#FBE2B7] rounded-lg">
                       OPTIONAL
                     </p>
@@ -157,7 +157,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                         <GrFormCheckmark color="#fff" size={16} />
                       </div>
                     )}
-                    <p>REFUND POLICY</p>
+                    <p className="font-pally-regular">REFUND POLICY</p>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>

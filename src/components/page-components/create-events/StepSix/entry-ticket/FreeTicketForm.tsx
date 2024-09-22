@@ -15,17 +15,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
-interface FreeTicketFormProps extends StepsProps {
-  selectTicket: string;
-}
+interface FreeTicketFormProps extends StepsProps {}
 
-const FreeTicketForm: FC<FreeTicketFormProps> = ({
-  selectTicket,
-  previous,
-  next,
-}) => {
+const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
   const [quantity, setQuantity] = useState<number>(0);
+  const { selectTicket } = useCreateEventContext();
 
   const form = useForm<FreeTicket>({
     mode: "all",
@@ -72,7 +68,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-20 w-full h-full"
         >
-          <div >
+          <div>
             <div className="flex flex-col justify-between gap-4 w-full h-full">
               <FormItem className="w-full ">
                 <FormLabel className="text-white" htmlFor="ticket-name">

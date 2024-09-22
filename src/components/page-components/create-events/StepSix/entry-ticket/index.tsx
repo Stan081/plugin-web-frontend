@@ -2,9 +2,9 @@ import React, { FC, useState } from "react";
 import PaidTicketForm from "./PaidTicketForm";
 import { StepsProps } from "@/pages/create-event";
 import FreeTicketForm from "./FreeTicketForm";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
 interface EntryTicketProps extends StepsProps {
-  selectTicket: string;
 }
 
 const entryTicketTypes: { id: string; name: string }[] = [
@@ -16,16 +16,11 @@ const entryTicketTypes: { id: string; name: string }[] = [
     id: "free",
     name: "Free",
   },
-  {
-    id: "donation",
-    name: "Donation",
-  },
 ];
 
 const EntryTicket: FC<EntryTicketProps> = ({
   next,
   previous,
-  selectTicket,
 }) => {
   const [entryTicket, setEntryTicket] = useState<string>("paid");
 
@@ -60,17 +55,13 @@ const EntryTicket: FC<EntryTicketProps> = ({
           <PaidTicketForm
             next={next}
             previous={previous}
-            selectTicket={selectTicket}
           />
-        ) : entryTicket === "free" ? (
+        ) : (
           <FreeTicketForm
             next={next}
             previous={previous}
-            selectTicket={selectTicket}
           />
-        ) : (
-          <div>Donation</div>
-        )}
+        ) }
       </div>
     </div>
   );

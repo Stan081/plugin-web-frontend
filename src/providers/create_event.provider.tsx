@@ -17,11 +17,20 @@ export type IsCheckedState = {
   refundPolicy: boolean;
 };
 
+export type IsCheckedGroupState = {
+  sectionDetail: boolean;
+  labelling: boolean;
+};
+
 type CreateEventContextValue = {
   isChecked: IsCheckedState;
+  isCheckedGroup: IsCheckedGroupState;
   isHost: boolean;
+  selectTicket: string;
   handleIsChecked: (key: keyof IsCheckedState) => void;
-  setIsHost: (id:boolean) => void;
+  handleIsCheckedGroup: (key: keyof IsCheckedGroupState) => void;
+  setIsHost: (id: boolean) => void;
+  setSelectedTicket: (key: string) => void
 };
 
 const CreateEventDashContext = createContext<CreateEventContextValue | null>(
@@ -31,6 +40,8 @@ const CreateEventDashContext = createContext<CreateEventContextValue | null>(
 CreateEventDashContext.displayName = "CreateEventDashContext";
 
 export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
+  //state to get selected ticket
+  const [selectTicket, setSelectedTicket] = useState<string>("");
   // state to check each accordion
   const [isChecked, setIsChecked] = useState({
     addAgender: false,
@@ -40,10 +51,16 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     refundPolicy: false,
   });
 
+  // state to check each accordion for group ticket
+  const [isCheckedGroup, setIsCheckedGroup] = useState({
+    sectionDetail: false,
+    labelling: false,
+  });
+
   // state for checking Agenda host
   const [isHost, setIsHost] = useState<boolean>(false);
 
-  //
+  // handle function to checked
   const handleIsChecked = (key: keyof typeof isChecked) => {
     setIsChecked((prevState) => ({
       ...prevState,
@@ -51,10 +68,22 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     }));
   };
 
+  // function to check Group ticket
+  const handleIsCheckedGroup = (key: keyof typeof isCheckedGroup) => {
+    setIsCheckedGroup((prevState) => ({
+      ...prevState,
+      [key]: !prevState[key],
+    }));
+  };
+
   const ContextValue: CreateEventContextValue = {
     isChecked,
+    isCheckedGroup,
     isHost,
+    selectTicket,
+    setSelectedTicket,
     handleIsChecked,
+    handleIsCheckedGroup,
     setIsHost,
   };
   return (

@@ -40,6 +40,19 @@ export type AgendaListsType = {
   agendaDescription: string;
 };
 
+export type SeatSectionListsType = {
+  id?: number;
+  ticketName: string;
+  ticketQuantity: number;
+  ticketCategory: string;
+  ticketPrice: string;
+  startTime?: string;
+  endTime?: string;
+  startDate: string;
+  endDate: string;
+  ticketPerks: string
+};
+
 export const categoriesData: EventCategory[] = [
   { name: "Music", selected: false },
   { name: "Business", selected: false },
@@ -101,3 +114,5 @@ export const guestList: GuestListType[] = [];
 export const vendorList: VendorListType[] = [];
 
 export const AgendaLists: AgendaListsType[] = [];
+
+export const SeatSectionLists: AgendaListsType[] = [];

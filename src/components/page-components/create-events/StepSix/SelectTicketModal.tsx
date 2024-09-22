@@ -3,11 +3,11 @@ import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { RiCloseLine } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
 interface SelectTicketModalProps {
   isOpen: boolean;
   close: () => void;
-  setSelectedTicket: (element: string) => void;
 }
 
 const tickets = [
@@ -34,8 +34,8 @@ const tickets = [
 const SelectTicketModal: FC<SelectTicketModalProps> = ({
   isOpen,
   close,
-  setSelectedTicket,
 }) => {
+  const { setSelectedTicket } = useCreateEventContext();
   // get selected ticket
   const handleClicked = (id: number) => {
     const getSelected = tickets.find((tick) => tick.id === id);

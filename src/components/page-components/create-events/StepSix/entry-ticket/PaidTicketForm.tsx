@@ -17,16 +17,16 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { StepsProps } from "@/pages/create-event";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
 interface PaidTicketFormProps extends StepsProps {
-  selectTicket: string;
 }
 
 const PaidTicketForm: FC<PaidTicketFormProps> = ({
   next,
   previous,
-  selectTicket,
 }) => {
+  const {selectTicket } = useCreateEventContext();
   const [quantity, setQuantity] = useState<number>(0);
   const [ticketPrice, setTicketPrice] = useState<number>(0);
   const [discountPercentage, setDiscountPercentage] = useState<number>(0);
@@ -44,7 +44,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
       end_date: new Date(),
       start_time: "",
       end_time: "",
-      ticket_peaks: "",
+      ticket_perks: "",
     },
     resolver: yupResolver(PaidTicketFormSchema),
   });
@@ -345,17 +345,17 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
             </div>
 
             <FormItem>
-              <FormLabel className="text-white" htmlFor="ticket_peaks">
+              <FormLabel className="text-white" htmlFor="ticket_perks">
                 Ticket Peaks
               </FormLabel>
               <FormField
                 control={form.control}
-                name="ticket_peaks"
+                name="ticket_perks"
                 render={({ field }) => (
                   <FormControl>
                     <Textarea
                       placeholder="Max  char - 200 Words"
-                      id="event_description"
+                      id="ticket_perks"
                       disabled={isLoading}
                       className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
                       {...field}
