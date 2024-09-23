@@ -4,7 +4,7 @@ import {
 } from "@/models/create-event-schema";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import {
   Form,
   FormControl,
@@ -24,8 +24,25 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { IoReturnDownBackOutline } from "react-icons/io5";
+import { SeatSectionLists } from "@/static-datas/create-event";
+import { truncate } from "fs";
 
-const SeatDetails = () => {
+interface SeatDetailsProps {
+  setIsSeatForm: (key: boolean) => void;
+}
+
+const seatedTypes: { id: string; name: string }[] = [
+  {
+    id: "paid",
+    name: "Paid Ticket",
+  },
+  {
+    id: "free",
+    name: "Free Ticket",
+  },
+];
+
+const SeatDetails: FC<SeatDetailsProps> = ({ setIsSeatForm }) => {
   const [quantity, setQuantity] = useState<number>(0);
   const { selectTicket } = useCreateEventContext();
   const [ticketPrice, setTicketPrice] = useState<number>(0);
@@ -69,10 +86,50 @@ const SeatDetails = () => {
 
   const onSubmit = useCallback(async (payload: SeatSection) => {
     console.log(payload);
+    SeatSectionLists.push({
+      ticketName: payload.ticket_name,
+      ticketCategory: payload.ticket_category,
+      ticketQuantity: payload.ticket_quantity,
+      ticketPerks: payload.ticket_perks,
+      ticketPrice: payload.ticket_price,
+      startDate: payload.start_date,
+      endDate: payload.end_date,
+      startTime: payload.start_time,
+      endTime: payload.end_time,
+    });
+    setIsSeatForm(true);
     // next();
   }, []);
+
+  const [SeatType, setSeatType] = useState<string>("physical");
+
+  const handleClick = (id: string) => {
+    setSeatType(id);
+  };
+
   return (
     <div>
+      <div className="flex justify-start items-end gap-5">
+        <h3 className="font-pally-medium md:text-xl">
+        Specify your ticket type
+        </h3>
+
+        <div className="flex flex-wrap gap-4 mt-5 text-white">
+          {seatedTypes.map((seat) => (
+            <button
+              key={seat.id}
+              onClick={() => handleClick(seat.id)}
+              className={`py-2 px-4 rounded-full border ${
+                SeatType === seat.id
+                  ? "bg-white text-black"
+                  : "border-white"
+              }`}
+            >
+              {seat.name}
+            </button>
+          ))}
+        </div>
+      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -335,7 +392,11 @@ const SeatDetails = () => {
 
           <div className="flex gap-4 mb-4">
             <div
-            //   onClick={handleReturnToList}
+              onClick={() => {
+                SeatSectionLists.length !== 0
+                  ? setIsSeatForm(false)
+                  : setIsSeatForm(true);
+              }}
               className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
             >
               <IoReturnDownBackOutline size={20} color="#F9B6B1" />

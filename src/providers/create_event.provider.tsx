@@ -41,7 +41,7 @@ CreateEventDashContext.displayName = "CreateEventDashContext";
 
 export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
   //state to get selected ticket
-  const [selectTicket, setSelectedTicket] = useState<string>("");
+  const [selectTicket, setSelectedTicket] = useState<string>("group-ticket");
   // state to check each accordion
   const [isChecked, setIsChecked] = useState({
     addAgender: false,

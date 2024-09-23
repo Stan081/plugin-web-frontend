@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -11,14 +11,14 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { GrFormCheckmark } from "react-icons/gr";
 import { StepsProps } from "@/pages/create-event";
 import SeatDetails from "./SeatDetails";
+import SeatCard from "./SeatCard";
+import { SeatSectionLists } from "@/static-datas/create-event";
 
-interface GroupTicketProps extends StepsProps{}
+interface GroupTicketProps extends StepsProps {}
 
-const GroupTicket: FC<GroupTicketProps> = ({
-  next,
-  previous,
-}) => {
-  const {isCheckedGroup } = useCreateEventContext();
+const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
+  const { isCheckedGroup } = useCreateEventContext();
+  const [isSeatForm, setIsSeatForm] = useState<boolean>(false);
   return (
     <div className="lg:h-[82vh] overflow-x-auto flex flex-col justify-between gap-4 w-full h-full">
       <Accordion type="single" collapsible className="w-full space-y-5">
@@ -39,7 +39,14 @@ const GroupTicket: FC<GroupTicketProps> = ({
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <SeatDetails/>
+            {!isSeatForm ? (
+              <SeatDetails setIsSeatForm={setIsSeatForm}/>
+            ) : (
+              <div className="space-y-4">
+                {SeatSectionLists.map((list) => (<SeatCard key={list.id}
+                 />))}
+              </div>
+            )}
           </AccordionContent>
         </AccordionItem>
         <AccordionItem
@@ -84,8 +91,7 @@ const GroupTicket: FC<GroupTicketProps> = ({
 
             <Button
               disabled={
-                !isCheckedGroup.sectionDetail &&
-                !isCheckedGroup.labelling
+                !isCheckedGroup.sectionDetail && !isCheckedGroup.labelling
               }
               onClick={() => next()}
               variant="destructive"

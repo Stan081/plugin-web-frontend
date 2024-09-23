@@ -45,11 +45,11 @@ export type SeatSectionListsType = {
   ticketName: string;
   ticketQuantity: number;
   ticketCategory: string;
-  ticketPrice: string;
+  ticketPrice: number;
   startTime?: string;
   endTime?: string;
-  startDate: string;
-  endDate: string;
+  startDate: string | Date;
+  endDate: string | Date;
   ticketPerks: string
 };
 
@@ -115,4 +115,4 @@ export const vendorList: VendorListType[] = [];
 
 export const AgendaLists: AgendaListsType[] = [];
 
-export const SeatSectionLists: AgendaListsType[] = [];
+export const SeatSectionLists: SeatSectionListsType[] = [];
