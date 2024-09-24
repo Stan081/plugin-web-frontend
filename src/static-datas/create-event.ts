@@ -42,6 +42,7 @@ export type AgendaListsType = {
 
 export type SeatSectionListsType = {
   id?: number;
+  seatType: string;
   ticketName: string;
   ticketQuantity: number;
   ticketCategory: string;

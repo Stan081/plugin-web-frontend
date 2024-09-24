@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -12,13 +12,73 @@ import { GrFormCheckmark } from "react-icons/gr";
 import { StepsProps } from "@/pages/create-event";
 import SeatDetails from "./SeatDetails";
 import SeatCard from "./SeatCard";
-import { SeatSectionLists } from "@/static-datas/create-event";
+import {
+  SeatSectionListsType,
+  SeatSectionLists as staticSeatSection,
+} from "@/static-datas/create-event";
+import EditSeatDetail from "./EditSeatDetail";
 
 interface GroupTicketProps extends StepsProps {}
 
+export enum GroupTicketState {
+  VIEW_LIST,
+  CREATE_TICKET,
+  EDIT_TICKET,
+}
+
 const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
   const { isCheckedGroup } = useCreateEventContext();
-  const [isSeatForm, setIsSeatForm] = useState<boolean>(false);
+  const [formState, setFormState] = useState<GroupTicketState>(
+    GroupTicketState.CREATE_TICKET
+  );
+
+  const [groupTicketListState, setGroupTicketListState] = useState<
+    SeatSectionListsType[]
+  >([]);
+  const [selectedTicket, setSelectedTicket] = useState<
+    SeatSectionListsType | undefined
+  >(undefined);
+  const [nextId, setNextId] = useState<number>(Date.now());
+
+  // Initialize the vendor list
+  useEffect(() => {
+    setGroupTicketListState(staticSeatSection);
+  }, []);
+
+  // Function to handle form edit
+  const handleEditForm = (id: number) => {
+    const getEditGroupticket = groupTicketListState.find(
+      (list) => list.id === id
+    );
+
+    if (getEditGroupticket) {
+      setSelectedTicket(getEditGroupticket);
+      setFormState(GroupTicketState.EDIT_TICKET);
+    }
+  };
+
+  // Function to handle creating a new vendor
+  const handleCreateVendor = (groupTicketData: SeatSectionListsType) => {
+    const newTicket = { ...groupTicketData, id: nextId };
+    setGroupTicketListState((prevList) => [...prevList, newTicket]);
+    setNextId(Date.now());
+    setFormState(GroupTicketState.VIEW_LIST);
+  };
+
+  // Function to return to the group ticket list view
+  const handleReturnToList = () => {
+    setFormState(GroupTicketState.VIEW_LIST);
+  };
+
+  // Function to handle delete
+  const handleDelete = (id: number) => {
+    const updatedList = groupTicketListState.filter(
+      (ticket) => ticket.id !== id
+    );
+    setGroupTicketListState(updatedList);
+    setFormState(GroupTicketState.VIEW_LIST);
+  };
+
   return (
     <div className="lg:h-[82vh] overflow-x-auto flex flex-col justify-between gap-4 w-full h-full">
       <Accordion type="single" collapsible className="w-full space-y-5">
@@ -39,13 +99,51 @@ const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            {!isSeatForm ? (
-              <SeatDetails setIsSeatForm={setIsSeatForm}/>
+            {formState === GroupTicketState.CREATE_TICKET ||
+            !groupTicketListState.length ? (
+              <SeatDetails
+                handleReturnToList={handleReturnToList}
+                handleCreateVendor={handleCreateVendor}
+              />
+            ) : formState === GroupTicketState.EDIT_TICKET && selectedTicket ? (
+              <EditSeatDetail
+                handleReturnToList={handleReturnToList}
+                {...selectedTicket}
+              />
             ) : (
-              <div className="space-y-4">
-                {SeatSectionLists.map((list) => (<SeatCard key={list.id}
-                 />))}
-              </div>
+              formState === GroupTicketState.VIEW_LIST &&
+              groupTicketListState.length !== 0 && (
+                <div className="my-3 flex flex-col gap-3 w-full">
+                  <div className="space-y-4">
+                    {groupTicketListState.map((list) => (
+                      <SeatCard
+                        key={list.id}
+                        id={list.id}
+                        ticketName={list.ticketName}
+                        ticketQuantity={list.ticketQuantity}
+                        ticketCategory={list.ticketCategory}
+                        seatType={list.seatType}
+                        handleEditForm={handleEditForm}
+                        handleDelete={handleDelete}
+                      />
+                    ))}
+                  </div>
+
+                  <div className="mt-4 flex justify-between gap-5">
+                    <button
+                      onClick={() =>
+                        setFormState(GroupTicketState.CREATE_TICKET)
+                      }
+                      type="button"
+                      className="border border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50 md:w-32"
+                    >
+                      Add Ticket
+                    </button>
+
+                    <Button variant="destructive">Save</Button>
+                  </div>
+                </div>
+              )
             )}
           </AccordionContent>
         </AccordionItem>

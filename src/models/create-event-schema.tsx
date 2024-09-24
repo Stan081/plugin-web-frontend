@@ -144,6 +144,7 @@ export const FreeTicketFormSchema = yup.object().shape({
     .optional(),
 });
 export const SeatSectionFormSchema = yup.object().shape({
+  seat_type: yup.string().required(),
   ticket_type: yup.string().required(),
   ticket_name: yup.string().required("Ticket name is required"),
   ticket_quantity: yup.number().required("Add ticket quantity"),

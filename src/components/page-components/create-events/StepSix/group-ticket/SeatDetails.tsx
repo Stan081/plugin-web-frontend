@@ -4,7 +4,7 @@ import {
 } from "@/models/create-event-schema";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import {
   Form,
   FormControl,
@@ -23,15 +23,14 @@ import {
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { IoReturnDownBackOutline } from "react-icons/io5";
-import { SeatSectionLists } from "@/static-datas/create-event";
-import { truncate } from "fs";
+import { SeatSectionListsType } from "@/static-datas/create-event";
 
 interface SeatDetailsProps {
-  setIsSeatForm: (key: boolean) => void;
+  handleReturnToList: () => void;
+  handleCreateVendor?: (vendorData: SeatSectionListsType) => void;
 }
 
-const seatedTypes: { id: string; name: string }[] = [
+export const seatedTypes: { id: string; name: string }[] = [
   {
     id: "paid",
     name: "Paid Ticket",
@@ -42,14 +41,19 @@ const seatedTypes: { id: string; name: string }[] = [
   },
 ];
 
-const SeatDetails: FC<SeatDetailsProps> = ({ setIsSeatForm }) => {
+const SeatDetails: FC<SeatDetailsProps> = ({
+  handleReturnToList,
+  handleCreateVendor,
+}) => {
   const [quantity, setQuantity] = useState<number>(0);
   const { selectTicket } = useCreateEventContext();
   const [ticketPrice, setTicketPrice] = useState<number>(0);
+  const [seatType, setSeatType] = useState<string>("paid");
 
   const form = useForm<SeatSection>({
     mode: "all",
     defaultValues: {
+      seat_type: seatType,
       ticket_type: selectTicket,
       ticket_name: "",
       ticket_category: "",
@@ -64,16 +68,32 @@ const SeatDetails: FC<SeatDetailsProps> = ({ setIsSeatForm }) => {
     resolver: yupResolver(SeatSectionFormSchema),
   });
 
+  useEffect(() => {
+    form.setValue("seat_type", seatType);
+  }, [seatType, form.setValue]);
+
+  useEffect(() => {
+    form.setValue("ticket_type", selectTicket);
+  }, [selectTicket, form.setValue]);
+
+  useEffect(() => {
+    form.setValue("ticket_quantity", quantity);
+  }, [quantity, form.setValue]);
+
+  useEffect(() => {
+    form.setValue("ticket_price", ticketPrice);
+  }, [ticketPrice, form.setValue]);
+
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
-  //   handle increment on slot
+  //   handle increment
   const handleIncrement = () => {
     setQuantity((prev) => {
       return prev + 1;
     });
   };
 
-  //   handle decrement on slot
+  //   handle decrement
   const handleDecrement = () => {
     setQuantity((prev) => {
       if (prev < 1) {
@@ -84,9 +104,14 @@ const SeatDetails: FC<SeatDetailsProps> = ({ setIsSeatForm }) => {
     });
   };
 
+  const handleClick = (id: string) => {
+    setSeatType(id);
+  };
+
   const onSubmit = useCallback(async (payload: SeatSection) => {
     console.log(payload);
-    SeatSectionLists.push({
+    handleCreateVendor({
+      seatType: payload.seat_type,
       ticketName: payload.ticket_name,
       ticketCategory: payload.ticket_category,
       ticketQuantity: payload.ticket_quantity,
@@ -97,21 +122,28 @@ const SeatDetails: FC<SeatDetailsProps> = ({ setIsSeatForm }) => {
       startTime: payload.start_time,
       endTime: payload.end_time,
     });
-    setIsSeatForm(true);
-    // next();
+    handleReturnToList();
+
+    form.reset({
+      seat_type: seatType,
+      ticket_type: selectTicket,
+      ticket_name: "",
+      ticket_category: "",
+      ticket_quantity: quantity,
+      ticket_price: ticketPrice,
+      start_date: new Date(),
+      end_date: new Date(),
+      start_time: "",
+      end_time: "",
+      ticket_perks: "",
+    });
   }, []);
-
-  const [SeatType, setSeatType] = useState<string>("physical");
-
-  const handleClick = (id: string) => {
-    setSeatType(id);
-  };
 
   return (
     <div>
-      <div className="flex justify-start items-end gap-5">
+      <div className="flex justify-start items-end gap-5 mb-6">
         <h3 className="font-pally-medium md:text-xl">
-        Specify your ticket type
+          Specify your ticket type
         </h3>
 
         <div className="flex flex-wrap gap-4 mt-5 text-white">
@@ -120,9 +152,7 @@ const SeatDetails: FC<SeatDetailsProps> = ({ setIsSeatForm }) => {
               key={seat.id}
               onClick={() => handleClick(seat.id)}
               className={`py-2 px-4 rounded-full border ${
-                SeatType === seat.id
-                  ? "bg-white text-black"
-                  : "border-white"
+                seatType === seat.id ? "bg-white text-black" : "border-white"
               }`}
             >
               {seat.name}
@@ -391,7 +421,7 @@ const SeatDetails: FC<SeatDetailsProps> = ({ setIsSeatForm }) => {
           </div>
 
           <div className="flex gap-4 mb-4">
-            <div
+            {/* <div
               onClick={() => {
                 SeatSectionLists.length !== 0
                   ? setIsSeatForm(false)
@@ -400,7 +430,7 @@ const SeatDetails: FC<SeatDetailsProps> = ({ setIsSeatForm }) => {
               className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
             >
               <IoReturnDownBackOutline size={20} color="#F9B6B1" />
-            </div>
+            </div> */}
             <button
               type="submit"
               className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"
