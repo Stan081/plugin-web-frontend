@@ -16,11 +16,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 interface FreeTicketFormProps extends StepsProps {}
 
 const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
-  const [quantity, setQuantity] = useState<number>(0);
   const { selectTicket } = useCreateEventContext();
 
   const form = useForm<FreeTicket>({
@@ -28,7 +29,8 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
     defaultValues: {
       ticket_type: selectTicket,
       ticket_name: "",
-      ticket_quantity: quantity,
+      ticket_quantity: 0,
+      reservation: "",
       start_date: new Date(),
       end_date: new Date(),
       start_time: "",
@@ -38,24 +40,6 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
   });
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
-
-  //   handle increment on slot
-  const handleIncrement = () => {
-    setQuantity((prev) => {
-      return prev + 1;
-    });
-  };
-
-  //   handle decrement on slot
-  const handleDecrement = () => {
-    setQuantity((prev) => {
-      if (prev < 1) {
-        return prev;
-      } else {
-        return prev - 1;
-      }
-    });
-  };
 
   const onSubmit = useCallback(async (payload: FreeTicket) => {
     console.log(payload);
@@ -81,8 +65,34 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
                     <FormItem>
                       <FormControl>
                         <Input
-                          placeholder="Enter ticket name"
+                          placeholder="Enter ticket name - max 200 characters"
                           type="text"
+                          id="ticket-name"
+                          disabled={isLoading}
+                          className="w-full bg-white text-black font-pally-regular"
+                          maxLength={200}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormItem>
+
+              <FormItem className="w-full ">
+                <FormLabel className="text-white" htmlFor="ticket-name">
+                  Ticket Quantity
+                </FormLabel>
+                <FormField
+                  control={form.control}
+                  name="ticket_quantity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter ticket name"
+                          type="number"
                           id="ticket-name"
                           disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
@@ -94,27 +104,6 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
                   )}
                 />
               </FormItem>
-
-              <div className="mt-3 ">
-                <p className="font-pally-regular text-sm mb-2">Quantity</p>
-                <div className="flex gap-4">
-                  <div
-                    onClick={handleDecrement}
-                    className={` w-12 h-10 text-center text-xl flex justify-center items-center rounded bg-white text-black hover:bg-white/90 cursor-pointer`}
-                  >
-                    -
-                  </div>
-                  <div className="w-full h-10 text-center flex justify-center items-center rounded bg-white text-black ">
-                    {quantity}
-                  </div>
-                  <div
-                    onClick={handleIncrement}
-                    className={` w-12 h-10 text-center flex justify-center items-center text-xl rounded bg-white text-black hover:bg-white/90 cursor-pointer`}
-                  >
-                    +
-                  </div>
-                </div>
-              </div>
 
               <div className="flex items-start gap-4">
                 <FormItem className="w-full">
@@ -237,6 +226,40 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
                   />
                 </FormItem>
               </div>
+
+              <FormField
+                control={form.control}
+                name="reservation"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>For reservation</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex space-x-3"
+                      >
+                      
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="yes" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Yes
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="no" />
+                          </FormControl>
+                          <FormLabel className="font-normal">No</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
           </div>
 

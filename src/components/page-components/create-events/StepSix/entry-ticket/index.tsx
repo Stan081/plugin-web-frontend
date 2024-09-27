@@ -3,9 +3,9 @@ import PaidTicketForm from "./PaidTicketForm";
 import { StepsProps } from "@/pages/create-event";
 import FreeTicketForm from "./FreeTicketForm";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import DonationTicketForm from "./DonationTicketForm";
 
-interface EntryTicketProps extends StepsProps {
-}
+interface EntryTicketProps extends StepsProps {}
 
 const entryTicketTypes: { id: string; name: string }[] = [
   {
@@ -16,12 +16,13 @@ const entryTicketTypes: { id: string; name: string }[] = [
     id: "free",
     name: "Free",
   },
+  {
+    id: "donation",
+    name: "Donation",
+  },
 ];
 
-const EntryTicket: FC<EntryTicketProps> = ({
-  next,
-  previous,
-}) => {
+const EntryTicket: FC<EntryTicketProps> = ({ next, previous }) => {
   const [entryTicket, setEntryTicket] = useState<string>("paid");
 
   return (
@@ -47,21 +48,13 @@ const EntryTicket: FC<EntryTicketProps> = ({
       </div>
 
       <div className="mt-6">
-        <h4 className="font-pally-medium md:text-lg">
-          Choose the category that best describes your event
-        </h4>
-
         {entryTicket === "paid" ? (
-          <PaidTicketForm
-            next={next}
-            previous={previous}
-          />
+          <PaidTicketForm next={next} previous={previous} />
+        ) : entryTicket === "free" ? (
+          <FreeTicketForm next={next} previous={previous} />
         ) : (
-          <FreeTicketForm
-            next={next}
-            previous={previous}
-          />
-        ) }
+          <DonationTicketForm next={next} previous={previous} />
+        )}
       </div>
     </div>
   );

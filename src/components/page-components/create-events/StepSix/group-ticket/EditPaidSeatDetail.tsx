@@ -1,8 +1,12 @@
+"use client";
 import {
-  SeatSection,
-  SeatSectionFormSchema,
+  PaidSeatSection,
+  PaidSeatSectionFormSchema,
 } from "@/models/create-event-schema";
-import { useCreateEventContext } from "@/providers/create_event.provider";
+import {
+  seatedTypes,
+  useCreateEventContext,
+} from "@/providers/create_event.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -27,14 +31,13 @@ import {
   SeatSectionLists,
   SeatSectionListsType,
 } from "@/static-datas/create-event";
-import { seatedTypes } from "./SeatDetails";
 import { IoReturnDownBackOutline } from "react-icons/io5";
 
-interface EditSeatDetailProps extends SeatSectionListsType {
+interface EditPaidSeatDetailProps extends SeatSectionListsType {
   handleReturnToList: () => void;
 }
 
-const EditSeatDetail: FC<EditSeatDetailProps> = ({
+const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
   handleReturnToList,
   seatType,
   ticketCategory,
@@ -48,11 +51,14 @@ const EditSeatDetail: FC<EditSeatDetailProps> = ({
   endTime,
 }) => {
   const [quantity, setQuantity] = useState<number>(0);
-  const { selectTicket } = useCreateEventContext();
+  const {
+    selectTicket,
+    seatType: seatTypeState,
+    handleClick,
+  } = useCreateEventContext();
   const [ticketPriceState, setTicketPriceState] = useState<number>(0);
-  const [seatTypeState, setSeatTypeState] = useState<string>("paid");
 
-  const form = useForm<SeatSection>({
+  const form = useForm<PaidSeatSection>({
     mode: "all",
     defaultValues: {
       seat_type: seatType ?? seatTypeState,
@@ -61,13 +67,13 @@ const EditSeatDetail: FC<EditSeatDetailProps> = ({
       ticket_category: ticketCategory ?? "",
       ticket_quantity: ticketQuantity ?? quantity,
       ticket_price: ticketPrice ?? ticketPriceState,
-      start_date: new Date(startDate) ?? new Date,
-      end_date: new Date(endDate) ?? new Date,
+      start_date: new Date(startDate) ?? new Date(),
+      end_date: new Date(endDate) ?? new Date(),
       start_time: startTime ?? "",
       end_time: endTime ?? "",
       ticket_perks: ticketPerks ?? "",
     },
-    resolver: yupResolver(SeatSectionFormSchema),
+    resolver: yupResolver(PaidSeatSectionFormSchema),
   });
 
   useEffect(() => {
@@ -106,11 +112,7 @@ const EditSeatDetail: FC<EditSeatDetailProps> = ({
     });
   };
 
-  const handleClick = (id: string) => {
-    setSeatTypeState(id);
-  };
-
-  const onSubmit = useCallback(async (payload: SeatSection) => {
+  const onSubmit = useCallback(async (payload: PaidSeatSection) => {
     console.log(payload);
     SeatSectionLists.push({
       seatType: payload.seat_type,
@@ -154,7 +156,9 @@ const EditSeatDetail: FC<EditSeatDetailProps> = ({
               key={seat.id}
               onClick={() => handleClick(seat.id)}
               className={`py-2 px-4 rounded-full border ${
-                seatTypeState === seat.id ? "bg-white text-black" : "border-white"
+                seatTypeState === seat.id
+                  ? "bg-white text-black"
+                  : "border-white"
               }`}
             >
               {seat.name}
@@ -442,4 +446,4 @@ const EditSeatDetail: FC<EditSeatDetailProps> = ({
   );
 };
 
-export default EditSeatDetail;
+export default EditPaidSeatDetail;

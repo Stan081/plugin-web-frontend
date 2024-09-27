@@ -10,13 +10,14 @@ import { Separator } from "@/components/ui/separator";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { GrFormCheckmark } from "react-icons/gr";
 import { StepsProps } from "@/pages/create-event";
-import SeatDetails from "./SeatDetails";
 import SeatCard from "./SeatCard";
 import {
   SeatSectionListsType,
   SeatSectionLists as staticSeatSection,
 } from "@/static-datas/create-event";
-import EditSeatDetail from "./EditSeatDetail";
+import GroupSeat from "./groupSeat";
+import EditPaidSeatDetail from "./EditPaidSeatDetail";
+import EditFreeSeatDetail from "./EditFreeSeatDetail";
 
 interface GroupTicketProps extends StepsProps {}
 
@@ -27,7 +28,7 @@ export enum GroupTicketState {
 }
 
 const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
-  const { isCheckedGroup } = useCreateEventContext();
+  const { isCheckedGroup, seatType } = useCreateEventContext();
   const [formState, setFormState] = useState<GroupTicketState>(
     GroupTicketState.CREATE_TICKET
   );
@@ -101,15 +102,21 @@ const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
           <AccordionContent>
             {formState === GroupTicketState.CREATE_TICKET ||
             !groupTicketListState.length ? (
-              <SeatDetails
+              <GroupSeat
                 handleReturnToList={handleReturnToList}
                 handleCreateVendor={handleCreateVendor}
               />
-            ) : formState === GroupTicketState.EDIT_TICKET && selectedTicket ? (
-              <EditSeatDetail
+            ) : formState === GroupTicketState.EDIT_TICKET &&
+              selectedTicket &&
+              seatType === "paid" ? (
+              <EditPaidSeatDetail
                 handleReturnToList={handleReturnToList}
                 {...selectedTicket}
               />
+            ) : formState === GroupTicketState.EDIT_TICKET &&
+              selectedTicket &&
+              seatType === "free" ? (
+              <EditFreeSeatDetail/>
             ) : (
               formState === GroupTicketState.VIEW_LIST &&
               groupTicketListState.length !== 0 && (

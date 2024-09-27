@@ -1,6 +1,8 @@
+"use client"
+
 import {
-  SeatSection,
-  SeatSectionFormSchema,
+  PaidSeatSection,
+  PaidSeatSectionFormSchema,
 } from "@/models/create-event-schema";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -23,34 +25,20 @@ import {
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { SeatSectionListsType } from "@/static-datas/create-event";
+import { GroupSeatProps } from "./groupSeat";
 
-interface SeatDetailsProps {
-  handleReturnToList: () => void;
-  handleCreateVendor?: (vendorData: SeatSectionListsType) => void;
+interface PaidGroupSeatsFormProps extends GroupSeatProps {
 }
 
-export const seatedTypes: { id: string; name: string }[] = [
-  {
-    id: "paid",
-    name: "Paid Ticket",
-  },
-  {
-    id: "free",
-    name: "Free Ticket",
-  },
-];
-
-const SeatDetails: FC<SeatDetailsProps> = ({
+const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
   handleReturnToList,
   handleCreateVendor,
 }) => {
   const [quantity, setQuantity] = useState<number>(0);
-  const { selectTicket } = useCreateEventContext();
+  const { selectTicket, seatType } = useCreateEventContext();
   const [ticketPrice, setTicketPrice] = useState<number>(0);
-  const [seatType, setSeatType] = useState<string>("paid");
 
-  const form = useForm<SeatSection>({
+  const form = useForm<PaidSeatSection>({
     mode: "all",
     defaultValues: {
       seat_type: seatType,
@@ -65,7 +53,7 @@ const SeatDetails: FC<SeatDetailsProps> = ({
       end_time: "",
       ticket_perks: "",
     },
-    resolver: yupResolver(SeatSectionFormSchema),
+    resolver: yupResolver(PaidSeatSectionFormSchema),
   });
 
   useEffect(() => {
@@ -86,29 +74,7 @@ const SeatDetails: FC<SeatDetailsProps> = ({
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
-  //   handle increment
-  const handleIncrement = () => {
-    setQuantity((prev) => {
-      return prev + 1;
-    });
-  };
-
-  //   handle decrement
-  const handleDecrement = () => {
-    setQuantity((prev) => {
-      if (prev < 1) {
-        return prev;
-      } else {
-        return prev - 1;
-      }
-    });
-  };
-
-  const handleClick = (id: string) => {
-    setSeatType(id);
-  };
-
-  const onSubmit = useCallback(async (payload: SeatSection) => {
+  const onSubmit = useCallback(async (payload: PaidSeatSection) => {
     console.log(payload);
     handleCreateVendor({
       seatType: payload.seat_type,
@@ -141,25 +107,6 @@ const SeatDetails: FC<SeatDetailsProps> = ({
 
   return (
     <div>
-      <div className="flex justify-start items-end gap-5 mb-6">
-        <h3 className="font-pally-medium md:text-xl">
-          Specify your ticket type
-        </h3>
-
-        <div className="flex flex-wrap gap-4 mt-5 text-white">
-          {seatedTypes.map((seat) => (
-            <button
-              key={seat.id}
-              onClick={() => handleClick(seat.id)}
-              className={`py-2 px-4 rounded-full border ${
-                seatType === seat.id ? "bg-white text-black" : "border-white"
-              }`}
-            >
-              {seat.name}
-            </button>
-          ))}
-        </div>
-      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -228,52 +175,56 @@ const SeatDetails: FC<SeatDetailsProps> = ({
               />
             </FormItem>
 
-            <div className="mt-3 ">
-              <p className="font-pally-regular text-sm mb-2">Quantity</p>
-              <div className="flex gap-4">
-                <div
-                  onClick={handleDecrement}
-                  className={` w-12 h-10 text-center text-xl flex justify-center items-center rounded bg-white text-black hover:bg-white/90 cursor-pointer`}
-                >
-                  -
-                </div>
-                <div className="w-full h-10 text-center flex justify-center items-center rounded bg-white text-black ">
-                  {quantity}
-                </div>
-                <div
-                  onClick={handleIncrement}
-                  className={` w-12 h-10 text-center flex justify-center items-center text-xl rounded bg-white text-black hover:bg-white/90 cursor-pointer`}
-                >
-                  +
-                </div>
-              </div>
+            <div className="flex flex-col md:flex-row items-start gap-4">
+              <FormItem className="w-1/2">
+                <FormLabel className="text-white" htmlFor="price-pass">
+                  Price ( per ticket )
+                </FormLabel>
+                <FormField
+                  control={form.control}
+                  name="ticket_price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="₦ Enter amount"
+                          type="number"
+                          id="price-pass"
+                          disabled={isLoading}
+                          className="w-full bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormItem>
+              <FormItem className="w-1/2 ">
+                <FormLabel className="text-white" htmlFor="ticket-name">
+                  Ticket Quantity
+                </FormLabel>
+                <FormField
+                  control={form.control}
+                  name="ticket_quantity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter ticket name"
+                          type="number"
+                          id="ticket-name"
+                          disabled={isLoading}
+                          className="w-full bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormItem>
             </div>
-
-            <FormItem>
-              <FormLabel className="text-white" htmlFor="price-pass">
-                Price ( per ticket )
-              </FormLabel>
-              <FormField
-                control={form.control}
-                name="ticket_price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="₦ Enter amount"
-                        type="number"
-                        id="price-pass"
-                        disabled={isLoading}
-                        className="w-full bg-white text-black font-pally-regular"
-                        value={ticketPrice}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </FormItem>
 
             <div className="flex items-start gap-4">
               <FormItem className="w-full">
@@ -421,16 +372,6 @@ const SeatDetails: FC<SeatDetailsProps> = ({
           </div>
 
           <div className="flex gap-4 mb-4">
-            {/* <div
-              onClick={() => {
-                SeatSectionLists.length !== 0
-                  ? setIsSeatForm(false)
-                  : setIsSeatForm(true);
-              }}
-              className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
-            >
-              <IoReturnDownBackOutline size={20} color="#F9B6B1" />
-            </div> */}
             <button
               type="submit"
               className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"
@@ -444,4 +385,4 @@ const SeatDetails: FC<SeatDetailsProps> = ({
   );
 };
 
-export default SeatDetails;
+export default PaidGroupSeatsForm;

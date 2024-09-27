@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { FC, useCallback, useMemo, useState } from "react";
 import {
   Form,
@@ -12,34 +12,24 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { PaidTicket, PaidTicketFormSchema } from "@/models/create-event-schema";
 import { Input } from "@/components/ui/input";
-import { toFiat } from "@/lib/amount";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { StepsProps } from "@/pages/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 
-interface PaidTicketFormProps extends StepsProps {
-}
+interface PaidTicketFormProps extends StepsProps {}
 
-const PaidTicketForm: FC<PaidTicketFormProps> = ({
-  next,
-  previous,
-}) => {
-  const {selectTicket } = useCreateEventContext();
-  const [quantity, setQuantity] = useState<number>(0);
-  const [ticketPrice, setTicketPrice] = useState<number>(0);
-  const [discountPercentage, setDiscountPercentage] = useState<number>(0);
-  const [discountedPrice, setDiscountedPrice] = useState<number>(0);
+const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
+  const { selectTicket } = useCreateEventContext();
 
   const form = useForm<PaidTicket>({
     mode: "all",
     defaultValues: {
       ticket_type: selectTicket,
       ticket_name: "",
-      ticket_quantity: quantity,
-      discount_price: discountedPrice,
-      ticket_price: ticketPrice,
+      ticket_quantity: 0,
+      ticket_price: 0,
       start_date: new Date(),
       end_date: new Date(),
       start_time: "",
@@ -49,52 +39,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
     resolver: yupResolver(PaidTicketFormSchema),
   });
 
-  React.useEffect(() => {
-    console.log("Ticket Price: ", ticketPrice);
-    console.log("Discount Percentage: ", discountPercentage);
-    const finalPrice = calculateDiscountedPrice(
-      ticketPrice,
-      discountPercentage
-    );
-
-    console.log("Final Price: ", finalPrice);
-    setDiscountedPrice(finalPrice);
-  }, [ticketPrice, discountPercentage, discountedPrice]);
-
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
-
-  //   handle increment on slot
-  const handleIncrement = () => {
-    setQuantity((prev) => {
-      return prev + 1;
-    });
-  };
-
-  //   handle decrement on slot
-  const handleDecrement = () => {
-    setQuantity((prev) => {
-      if (prev < 1) {
-        return prev;
-      } else {
-        return prev - 1;
-      }
-    });
-  };
-
-  // Function to calculate the discount
-  const calculateDiscountedPrice = (price: number, discount: number) => {
-    if (!ticketPrice || ticketPrice <= 0 || (!discount && discount > 99)) {
-      return 0; // Toast error
-    }
-    const discountAmount = (price * discount) / 100;
-    const finalPrice = price - discountAmount;
-    return parseFloat(finalPrice.toFixed(2));
-  };
-
-  const handlePriceChange = (e) => {
-    const price = parseFloat(e.target.value);
-    setTicketPrice(price);
-  };
 
   const onSubmit = useCallback(async (payload: PaidTicket) => {
     console.log(payload);
@@ -119,7 +64,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
                   <FormItem>
                     <FormControl>
                       <Input
-                        placeholder="Enter ticket name"
+                        placeholder="Enter ticket name - max 200 characters"
                         type="text"
                         id="ticket-name"
                         disabled={isLoading}
@@ -133,27 +78,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
                 )}
               />
             </FormItem>
-
-            <div className="mt-3 ">
-              <p className="font-pally-regular text-sm mb-2">Quantity</p>
-              <div className="flex gap-4">
-                <div
-                  onClick={handleDecrement}
-                  className={` w-12 h-10 text-center text-xl flex justify-center items-center rounded bg-white text-black hover:bg-white/90 cursor-pointer`}
-                >
-                  -
-                </div>
-                <div className="w-full h-10 text-center flex justify-center items-center rounded bg-white text-black ">
-                  {quantity}
-                </div>
-                <div
-                  onClick={handleIncrement}
-                  className={` w-12 h-10 text-center flex justify-center items-center text-xl rounded bg-white text-black hover:bg-white/90 cursor-pointer`}
-                >
-                  +
-                </div>
-              </div>
-            </div>
 
             <div className="flex flex-col md:flex-row items-start gap-4">
               <FormItem className="w-1/2">
@@ -172,11 +96,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
                           id="price-pass"
                           disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
-                          value={ticketPrice}
-                          onChange={(e) => {
-                            field.onChange(e);
-                            handlePriceChange(e);
-                          }}
                           {...field}
                         />
                       </FormControl>
@@ -185,41 +104,30 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
                   )}
                 />
               </FormItem>
-              <div className="flex gap-4 w-1/2">
-                <FormItem className="w-1/2">
-                  <FormLabel
-                    className="text-white whitespace-nowrap"
-                    htmlFor="discount-percentage"
-                  >
-                    Discount price (if applicable)
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter discount %"
-                      type="number"
-                      id="discount-percentage"
-                      className="w-full bg-white text-black font-pally-regular"
-                      value={discountPercentage}
-                      onChange={(e) =>
-                        setDiscountPercentage(Number(e.target.value))
-                      }
-                    />
-                  </FormControl>
-                </FormItem>
-
-                {/* Render the discounted price */}
-                <div className="items-center bg-[#281E17] rounded-md w-full gap-2">
-                  <p className="mb-2 font-pally-regular ">
-                    Discounted Price: ₦
-                  </p>
-                  <div
-                    id="discount-percentage"
-                    className="bg-[#33271e] border-none text-white font-pally-regular flex items-center h-10 rounded-md border border-input bg-transparent px-3 py-1 text-sm"
-                  >
-                    {toFiat(discountedPrice)}
-                  </div>
-                </div>
-              </div>
+              <FormItem className="w-1/2 ">
+                <FormLabel className="text-white" htmlFor="ticket-name">
+                  Ticket Quantity
+                </FormLabel>
+                <FormField
+                  control={form.control}
+                  name="ticket_quantity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter ticket name"
+                          type="number"
+                          id="ticket-name"
+                          disabled={isLoading}
+                          className="w-full bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormItem>
             </div>
 
             <div className="flex items-start gap-4">

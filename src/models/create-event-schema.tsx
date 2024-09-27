@@ -108,8 +108,11 @@ export const SlotWithoutHostSchema = yup.object().shape({
 export const PaidTicketFormSchema = yup.object().shape({
   ticket_type: yup.string().required(),
   ticket_name: yup.string().required("Ticket name is required"),
-  ticket_quantity: yup.number().required("Add ticket quantity"),
-  discount_price: yup.number().optional(),
+  ticket_quantity: yup
+    .number()
+    .truncate()
+    .positive("Quantity must be a positive whole number")
+    .required("Add ticket quantity to be sold"),
   ticket_price: yup
     .number()
     .truncate()
@@ -131,7 +134,42 @@ export const PaidTicketFormSchema = yup.object().shape({
 export const FreeTicketFormSchema = yup.object().shape({
   ticket_type: yup.string().required(),
   ticket_name: yup.string().required("Ticket name is required"),
-  ticket_quantity: yup.number().required("Add ticket quantity"),
+  ticket_quantity: yup
+    .number()
+    .truncate()
+    .positive("Quantity must be a positive whole number")
+    .required("Add ticket quantity to be sold"),
+  start_date: yup.date().required("Add date ticket will start"),
+  end_date: yup.date().required("Add date ticket will end"),
+  reservation: yup.string(),
+  start_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .optional(),
+  end_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .optional(),
+});
+
+export const DonationFormSchema = yup.object().shape({
+  ticket_type: yup.string().required(),
+  ticket_name: yup.string().required("Ticket name is required"),
+  ticket_quantity: yup
+    .number()
+    .truncate()
+    .positive("Quantity must be a positive whole number")
+    .required("Add ticket quantity to be sold"),
+  min_price: yup
+    .number()
+    .truncate()
+    .positive("Minimum price must be a positive whole number")
+    .required("Add ticket minimum price"),
+  max_price: yup
+    .number()
+    .truncate()
+    .positive("Maximum price must be a positive whole number")
+    .required("Add ticket minimum price"),
   start_date: yup.date().required("Add date ticket will start"),
   end_date: yup.date().required("Add date ticket will end"),
   start_time: yup
@@ -143,11 +181,16 @@ export const FreeTicketFormSchema = yup.object().shape({
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .optional(),
 });
-export const SeatSectionFormSchema = yup.object().shape({
+
+export const PaidSeatSectionFormSchema = yup.object().shape({
   seat_type: yup.string().required(),
   ticket_type: yup.string().required(),
   ticket_name: yup.string().required("Ticket name is required"),
-  ticket_quantity: yup.number().required("Add ticket quantity"),
+  ticket_quantity: yup
+    .number()
+    .truncate()
+    .positive("Quantity must be a positive whole number")
+    .required("Add ticket quantity to be sold"),
   ticket_category: yup.string().required("Select a category"),
   ticket_price: yup
     .number()
@@ -167,7 +210,32 @@ export const SeatSectionFormSchema = yup.object().shape({
   ticket_perks: yup.string().required("Ticket perks is required"),
 });
 
-export type SeatSection = yup.InferType<typeof SeatSectionFormSchema>;
+export const FreeSeatSectionFormSchema = yup.object().shape({
+  seat_type: yup.string().required(),
+  ticket_type: yup.string().required(),
+  ticket_name: yup.string().required("Ticket name is required"),
+  ticket_quantity: yup
+    .number()
+    .truncate()
+    .positive("Quantity must be a positive whole number")
+    .required("Add ticket quantity to be sold"),
+  ticket_category: yup.string().required("Select a category"),
+  start_date: yup.date().required("Add date ticket will start"),
+  end_date: yup.date().required("Add date ticket will end"),
+  start_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .optional(),
+  end_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .optional(),
+  ticket_perks: yup.string().required("Ticket perks is required"),
+});
+
+export type FreeSeatSection = yup.InferType<typeof FreeSeatSectionFormSchema>;
+export type PaidSeatSection = yup.InferType<typeof PaidSeatSectionFormSchema>;
+export type DonationForm = yup.InferType<typeof DonationFormSchema>;
 export type FreeTicket = yup.InferType<typeof FreeTicketFormSchema>;
 export type PaidTicket = yup.InferType<typeof PaidTicketFormSchema>;
 export type SlotWithoutHostForm = yup.InferType<typeof SlotWithoutHostSchema>;

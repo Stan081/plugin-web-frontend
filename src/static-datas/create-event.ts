@@ -46,7 +46,7 @@ export type SeatSectionListsType = {
   ticketName: string;
   ticketQuantity: number;
   ticketCategory: string;
-  ticketPrice: number;
+  ticketPrice?: number;
   startTime?: string;
   endTime?: string;
   startDate: string | Date;

@@ -26,11 +26,13 @@ type CreateEventContextValue = {
   isChecked: IsCheckedState;
   isCheckedGroup: IsCheckedGroupState;
   isHost: boolean;
+  seatType: string;
   selectTicket: string;
+  handleClick: (key: string) => void;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   handleIsCheckedGroup: (key: keyof IsCheckedGroupState) => void;
   setIsHost: (id: boolean) => void;
-  setSelectedTicket: (key: string) => void
+  setSelectedTicket: (key: string) => void;
 };
 
 const CreateEventDashContext = createContext<CreateEventContextValue | null>(
@@ -39,9 +41,20 @@ const CreateEventDashContext = createContext<CreateEventContextValue | null>(
 
 CreateEventDashContext.displayName = "CreateEventDashContext";
 
+export const seatedTypes: { id: string; name: string }[] = [
+  {
+    id: "paid",
+    name: "Paid Ticket",
+  },
+  {
+    id: "free",
+    name: "Free Ticket",
+  },
+];
+
 export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
   //state to get selected ticket
-  const [selectTicket, setSelectedTicket] = useState<string>("group-ticket");
+  const [selectTicket, setSelectedTicket] = useState<string>("");
   // state to check each accordion
   const [isChecked, setIsChecked] = useState({
     addAgender: false,
@@ -59,6 +72,13 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
 
   // state for checking Agenda host
   const [isHost, setIsHost] = useState<boolean>(false);
+
+  // state for group seat type
+  const [seatType, setSeatType] = useState<string>("paid");
+
+  const handleClick = (id: string) => {
+    setSeatType(id);
+  };
 
   // handle function to checked
   const handleIsChecked = (key: keyof typeof isChecked) => {
@@ -78,6 +98,7 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const ContextValue: CreateEventContextValue = {
     isChecked,
+    seatType,
     isCheckedGroup,
     isHost,
     selectTicket,
@@ -85,6 +106,7 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     handleIsChecked,
     handleIsCheckedGroup,
     setIsHost,
+    handleClick
   };
   return (
     <CreateEventDashContext.Provider value={ContextValue}>
