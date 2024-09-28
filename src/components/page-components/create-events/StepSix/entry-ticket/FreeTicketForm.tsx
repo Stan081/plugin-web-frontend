@@ -17,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 
 interface FreeTicketFormProps extends StepsProps {}
 
@@ -43,7 +42,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
 
   const onSubmit = useCallback(async (payload: FreeTicket) => {
     console.log(payload);
-    // next();
+    next();
   }, []);
   return (
     <div className="w-full h-full ">
@@ -227,39 +226,38 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
                 </FormItem>
               </div>
 
-              <FormField
-                control={form.control}
-                name="reservation"
-                render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel>For reservation</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="flex space-x-3"
-                      >
-                      
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="yes" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            Yes
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="no" />
-                          </FormControl>
-                          <FormLabel className="font-normal">No</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <FormItem>
+                <FormField
+                  control={form.control}
+                  name="reservation"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel>For reservation</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex space-x-3"
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="yes" />
+                            </FormControl>
+                            <FormLabel className="font-normal">Yes</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="no" />
+                            </FormControl>
+                            <FormLabel className="font-normal">No</FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormItem>
             </div>
           </div>
 

@@ -1,3 +1,4 @@
+import { off } from "process";
 import * as yup from "yup";
 
 const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
@@ -233,6 +234,35 @@ export const FreeSeatSectionFormSchema = yup.object().shape({
   ticket_perks: yup.string().required("Ticket perks is required"),
 });
 
+const ScheduleForm = yup.object().shape({
+  start_date: yup.date().required("Add date ticket will start"),
+  start_time: yup
+    .string()
+    .matches(timeRegex, "Invalid time format (HH:MM)")
+    .optional(),
+});
+
+const InviteeList = yup.object().shape({
+  full_name: yup.string().required('Full name is required'),
+  phone_number: yup.string().required("Contact phone number is required"),
+  pass_code: yup.number().positive().required('Generate passcode')
+})
+
+const inviteeInformation = yup.object().shape({
+  message: yup.string().required('Write message for invitees'),
+  inviteeLists: yup.array().of(InviteeList)
+})
+
+export const PublishFormSchema = yup.object().shape({
+  organiser_photo: yup.string().required(),
+  organiser_name: yup.string().required(),
+  event_visibility: yup.string().required(),
+  PublishWhen: yup.string().required(),
+  schedulePublish: ScheduleForm.optional(),
+  inviteesMessage: inviteeInformation.optional(),
+});
+
+export type PublishForm = yup.InferType<typeof PublishFormSchema>;
 export type FreeSeatSection = yup.InferType<typeof FreeSeatSectionFormSchema>;
 export type PaidSeatSection = yup.InferType<typeof PaidSeatSectionFormSchema>;
 export type DonationForm = yup.InferType<typeof DonationFormSchema>;

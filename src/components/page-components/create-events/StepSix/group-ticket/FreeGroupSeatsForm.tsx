@@ -25,7 +25,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { GroupSeatProps } from "./groupSeat";
+import { GroupSeatProps } from "./GroupSeat";
 
 interface FreeGroupSeatsFormProps extends GroupSeatProps {}
 

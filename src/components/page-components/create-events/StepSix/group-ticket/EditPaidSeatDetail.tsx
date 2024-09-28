@@ -94,24 +94,6 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
-  //   handle increment
-  const handleIncrement = () => {
-    setQuantity((prev) => {
-      return prev + 1;
-    });
-  };
-
-  //   handle decrement
-  const handleDecrement = () => {
-    setQuantity((prev) => {
-      if (prev < 1) {
-        return prev;
-      } else {
-        return prev - 1;
-      }
-    });
-  };
-
   const onSubmit = useCallback(async (payload: PaidSeatSection) => {
     console.log(payload);
     SeatSectionLists.push({
@@ -156,7 +138,7 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
               key={seat.id}
               onClick={() => handleClick(seat.id)}
               className={`py-2 px-4 rounded-full border ${
-                seatTypeState === seat.id
+                 seatType === seat.id
                   ? "bg-white text-black"
                   : "border-white"
               }`}
@@ -234,52 +216,56 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
               />
             </FormItem>
 
-            <div className="mt-3 ">
-              <p className="font-pally-regular text-sm mb-2">Quantity</p>
-              <div className="flex gap-4">
-                <div
-                  onClick={handleDecrement}
-                  className={` w-12 h-10 text-center text-xl flex justify-center items-center rounded bg-white text-black hover:bg-white/90 cursor-pointer`}
-                >
-                  -
-                </div>
-                <div className="w-full h-10 text-center flex justify-center items-center rounded bg-white text-black ">
-                  {quantity}
-                </div>
-                <div
-                  onClick={handleIncrement}
-                  className={` w-12 h-10 text-center flex justify-center items-center text-xl rounded bg-white text-black hover:bg-white/90 cursor-pointer`}
-                >
-                  +
-                </div>
-              </div>
+            <div className="flex flex-col md:flex-row items-start gap-4">
+              <FormItem className="w-1/2">
+                <FormLabel className="text-white" htmlFor="price-pass">
+                  Price ( per ticket )
+                </FormLabel>
+                <FormField
+                  control={form.control}
+                  name="ticket_price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="₦ Enter amount"
+                          type="number"
+                          id="price-pass"
+                          disabled={isLoading}
+                          className="w-full bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormItem>
+              <FormItem className="w-1/2 ">
+                <FormLabel className="text-white" htmlFor="ticket-name">
+                  Ticket Quantity
+                </FormLabel>
+                <FormField
+                  control={form.control}
+                  name="ticket_quantity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter ticket name"
+                          type="number"
+                          id="ticket-name"
+                          disabled={isLoading}
+                          className="w-full bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormItem>
             </div>
-
-            <FormItem>
-              <FormLabel className="text-white" htmlFor="price-pass">
-                Price ( per ticket )
-              </FormLabel>
-              <FormField
-                control={form.control}
-                name="ticket_price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="₦ Enter amount"
-                        type="number"
-                        id="price-pass"
-                        disabled={isLoading}
-                        className="w-full bg-white text-black font-pally-regular"
-                        value={ticketPriceState}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </FormItem>
 
             <div className="flex items-start gap-4">
               <FormItem className="w-full">

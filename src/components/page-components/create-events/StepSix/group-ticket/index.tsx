@@ -15,9 +15,9 @@ import {
   SeatSectionListsType,
   SeatSectionLists as staticSeatSection,
 } from "@/static-datas/create-event";
-import GroupSeat from "./groupSeat";
 import EditPaidSeatDetail from "./EditPaidSeatDetail";
 import EditFreeSeatDetail from "./EditFreeSeatDetail";
+import GroupSeat from "./GroupSeat";
 
 interface GroupTicketProps extends StepsProps {}
 
@@ -116,7 +116,10 @@ const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
             ) : formState === GroupTicketState.EDIT_TICKET &&
               selectedTicket &&
               seatType === "free" ? (
-              <EditFreeSeatDetail/>
+              <EditFreeSeatDetail
+                handleReturnToList={handleReturnToList}
+                {...selectedTicket}
+              />
             ) : (
               formState === GroupTicketState.VIEW_LIST &&
               groupTicketListState.length !== 0 && (
@@ -129,6 +132,7 @@ const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
                         ticketName={list.ticketName}
                         ticketQuantity={list.ticketQuantity}
                         ticketCategory={list.ticketCategory}
+                        ticketPrice={list?.ticketPrice}
                         seatType={list.seatType}
                         handleEditForm={handleEditForm}
                         handleDelete={handleDelete}

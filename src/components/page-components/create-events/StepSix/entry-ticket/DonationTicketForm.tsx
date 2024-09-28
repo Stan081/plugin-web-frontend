@@ -51,7 +51,7 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
 
   const onSubmit = useCallback(async (payload: PaidTicket) => {
     console.log(payload);
-    // next();
+    next();
   }, []);
   return (
     <div>
