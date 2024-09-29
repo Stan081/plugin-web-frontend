@@ -9,6 +9,12 @@ import {
   useState,
 } from "react";
 
+export type InviteeDataProps = {
+  fullName: string;
+  phoneNumber: string;
+  passcode: string | null;
+};
+
 export type IsCheckedState = {
   addAgender: boolean;
   addMedia: boolean;
@@ -28,6 +34,8 @@ type CreateEventContextValue = {
   isHost: boolean;
   seatType: string;
   selectTicket: string;
+  inviteeState: InviteeDataProps[];
+  handleCreateInvitee: (keys: InviteeDataProps) => void;
   handleClick: (key: string) => void;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   handleIsCheckedGroup: (key: keyof IsCheckedGroupState) => void;
@@ -76,6 +84,17 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
   // state for group seat type
   const [seatType, setSeatType] = useState<string>("paid");
 
+  // invitee data connect
+  const [inviteeState, setInviteeState] = useState<InviteeDataProps[]>([]);
+
+  console.log(inviteeState);
+
+  // Function to handle creating a new vendor
+  const handleCreateInvitee = (data: InviteeDataProps) => {
+    const newInvitee = { ...data };
+    setInviteeState((prevList) => [...prevList, newInvitee]);
+  };
+
   const handleClick = (id: string) => {
     setSeatType(id);
   };
@@ -102,11 +121,13 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     isCheckedGroup,
     isHost,
     selectTicket,
+    inviteeState,
+    handleCreateInvitee,
     setSelectedTicket,
     handleIsChecked,
     handleIsCheckedGroup,
     setIsHost,
-    handleClick
+    handleClick,
   };
   return (
     <CreateEventDashContext.Provider value={ContextValue}>

@@ -3,6 +3,7 @@
 import * as React from "react";
 import { CheckIcon } from "@radix-ui/react-icons";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
+import { MdCircle } from "react-icons/md";
 
 import { cn } from "@/lib/utils";
 
@@ -34,7 +35,7 @@ const RadioGroupItem = React.forwardRef<
       {...props}
     >
       <RadioGroupPrimitive.Indicator className="flex items-center justify-center rounded-full ">
-        <div className="w-3.5 h-3.5 bg-[#F9B6B1] rounded-full" />
+        <MdCircle className="h-2.5 w-2.5 fill-current text-[#F9B6B1]" />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   );

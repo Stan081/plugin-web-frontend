@@ -242,15 +242,15 @@ const ScheduleForm = yup.object().shape({
     .optional(),
 });
 
-const InviteeList = yup.object().shape({
+export const InviteeListSchema = yup.object().shape({
   full_name: yup.string().required('Full name is required'),
   phone_number: yup.string().required("Contact phone number is required"),
-  pass_code: yup.number().positive().required('Generate passcode')
+  pass_code: yup.string().required('Generate passcode')
 })
 
 const inviteeInformation = yup.object().shape({
   message: yup.string().required('Write message for invitees'),
-  inviteeLists: yup.array().of(InviteeList)
+  inviteeLists: yup.array().of(InviteeListSchema)
 })
 
 export const PublishFormSchema = yup.object().shape({
@@ -259,9 +259,9 @@ export const PublishFormSchema = yup.object().shape({
   event_visibility: yup.string().required(),
   PublishWhen: yup.string().required(),
   schedulePublish: ScheduleForm.optional(),
-  inviteesMessage: inviteeInformation.optional(),
 });
 
+export type InviteeListForm = yup.InferType<typeof InviteeListSchema>;
 export type PublishForm = yup.InferType<typeof PublishFormSchema>;
 export type FreeSeatSection = yup.InferType<typeof FreeSeatSectionFormSchema>;
 export type PaidSeatSection = yup.InferType<typeof PaidSeatSectionFormSchema>;
