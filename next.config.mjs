@@ -2,10 +2,17 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['ik.imagekit.io'],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ik.imagekit.io",
+        pathname: "**",
+      },
+    ],
   },
   webpack: (config) => {
-    config.resolve.alias['date-fns/locale/en-US'] = 'date-fns/locale/en-US/index.js';
+    config.resolve.alias["date-fns/locale/en-US"] =
+      "date-fns/locale/en-US/index.js";
     return config;
   },
 };
