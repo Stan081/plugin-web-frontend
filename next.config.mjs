@@ -4,6 +4,10 @@ const nextConfig = {
   images: {
     domains: ['ik.imagekit.io'],
   },
+  webpack: (config) => {
+    config.resolve.alias['date-fns/locale/en-US'] = 'date-fns/locale/en-US/index.js';
+    return config;
+  },
 };
 
 export default nextConfig;

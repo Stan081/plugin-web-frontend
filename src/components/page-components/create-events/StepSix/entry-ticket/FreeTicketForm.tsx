@@ -1,0 +1,295 @@
+"use client";
+import { FreeTicket, FreeTicketFormSchema } from "@/models/create-event-schema";
+import { StepsProps } from "@/pages/create-event";
+import { yupResolver } from "@hookform/resolvers/yup";
+import React, { FC, useCallback, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { useCreateEventContext } from "@/providers/create_event.provider";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+
+interface FreeTicketFormProps extends StepsProps {}
+
+const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
+  const { selectTicket } = useCreateEventContext();
+
+  const form = useForm<FreeTicket>({
+    mode: "all",
+    defaultValues: {
+      ticket_type: selectTicket,
+      ticket_name: "",
+      ticket_quantity: 0,
+      reservation: "",
+      start_date: new Date(),
+      end_date: new Date(),
+      start_time: "",
+      end_time: "",
+    },
+    resolver: yupResolver(FreeTicketFormSchema),
+  });
+
+  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+
+  const onSubmit = useCallback(async (payload: FreeTicket) => {
+    console.log(payload);
+    next();
+  }, []);
+  return (
+    <div className="w-full h-full ">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-20 w-full h-full"
+        >
+          <div>
+            <div className="flex flex-col justify-between gap-4 w-full h-full">
+              <FormItem className="w-full ">
+                <FormLabel className="text-white" htmlFor="ticket-name">
+                  Ticket Name
+                </FormLabel>
+                <FormField
+                  control={form.control}
+                  name="ticket_name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter ticket name - max 200 characters"
+                          type="text"
+                          id="ticket-name"
+                          disabled={isLoading}
+                          className="w-full bg-white text-black font-pally-regular"
+                          maxLength={200}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormItem>
+
+              <FormItem className="w-full ">
+                <FormLabel className="text-white" htmlFor="ticket-name">
+                  Ticket Quantity
+                </FormLabel>
+                <FormField
+                  control={form.control}
+                  name="ticket_quantity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter ticket name"
+                          type="number"
+                          id="ticket-name"
+                          disabled={isLoading}
+                          className="w-full bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormItem>
+
+              <div className="flex items-start gap-4">
+                <FormItem className="w-full">
+                  <FormLabel className="text-white" htmlFor="start_date">
+                    Sales starts on
+                  </FormLabel>
+                  <FormField
+                    control={form.control}
+                    name="start_date"
+                    render={({ field }) => {
+                      const formattedDate =
+                        field.value instanceof Date
+                          ? field.value.toISOString().split("T")[0]
+                          : field.value;
+
+                      return (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="DD/MM/YY"
+                              type="date"
+                              id="start_date"
+                              disabled={isLoading}
+                              className=" bg-white text-black font-pally-regular"
+                              {...field}
+                              value={formattedDate}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </FormItem>
+                <FormItem className="w-full">
+                  <FormLabel className="text-white" htmlFor="start_time">
+                    Sales start time
+                  </FormLabel>
+                  <FormField
+                    control={form.control}
+                    name="start_time"
+                    render={({ field }) => {
+                      return (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="0:00"
+                              type="time"
+                              id="start_time"
+                              disabled={isLoading}
+                              className="bg-white text-black font-pally-regular"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </FormItem>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <FormItem className="w-full">
+                  <FormLabel className="text-white" htmlFor="end_date">
+                    Sales end on
+                  </FormLabel>
+                  <FormField
+                    control={form.control}
+                    name="end_date"
+                    render={({ field }) => {
+                      const formattedDate =
+                        field.value instanceof Date
+                          ? field.value.toISOString().split("T")[0]
+                          : field.value;
+
+                      return (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="DD/MM/YY"
+                              type="date"
+                              id="end_date"
+                              disabled={isLoading}
+                              className=" bg-white text-black font-pally-regular"
+                              {...field}
+                              value={formattedDate}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </FormItem>
+                <FormItem className="w-full">
+                  <FormLabel className="text-white" htmlFor="end_time">
+                    Sales end time
+                  </FormLabel>
+                  <FormField
+                    control={form.control}
+                    name="end_time"
+                    render={({ field }) => {
+                      return (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="0:00"
+                              type="time"
+                              id="end_time"
+                              disabled={isLoading}
+                              className="bg-white text-black font-pally-regular"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </FormItem>
+              </div>
+
+              <FormItem>
+                <FormField
+                  control={form.control}
+                  name="reservation"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel>For reservation</FormLabel>
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex space-x-3"
+                        >
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="yes" />
+                            </FormControl>
+                            <FormLabel className="font-normal">Yes</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="no" />
+                            </FormControl>
+                            <FormLabel className="font-normal">No</FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </FormItem>
+            </div>
+          </div>
+
+          <div className="sdsticky bottom-0 bg-[#281E17]">
+            <Separator />
+            <div className="py-5 flex justify-between items-center">
+              <Button
+                onClick={() => {}}
+                variant="outline"
+                className="text-white border-white hover:bg-[#6c5442]"
+              >
+                Save Progress
+              </Button>
+
+              <div className="flex items-center gap-8">
+                <Button
+                  onClick={previous}
+                  className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
+                >
+                  Back
+                </Button>
+
+                <Button type="submit" variant="destructive">
+                  Next
+                </Button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </Form>
+    </div>
+  );
+};
+
+export default FreeTicketForm;
