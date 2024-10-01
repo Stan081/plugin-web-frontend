@@ -21,7 +21,7 @@ const VendorCard: React.FC<VendorCardProps> = ({
   return (
     <div className="flex">
       <div className="h-auto w-2 bg-[#F58B86]" />
-      <div className="p-1 md:p-4 bg-[#FDE5E3] w-full rounded-tr-lg rounded-br-lg space-y-4">
+      <div className="p-2 md:p-4 bg-[#FDE5E3] w-full rounded-tr-lg rounded-br-lg space-y-4">
         <div className="flex justify-between items-center gap-5">
           <div>
             <p className="font-pally-medium text-sm text-[#667185]">
@@ -32,7 +32,7 @@ const VendorCard: React.FC<VendorCardProps> = ({
             </p>
           </div>
 
-          <p className="text-[#475367] font-pally-medium text-xl">
+          <p className="text-[#475367] font-pally-medium text-base lg:text-xl">
             {toFiat(pricePass)}{" "}
             <span className="font-pally-regular text-base">per pass</span>
           </p>

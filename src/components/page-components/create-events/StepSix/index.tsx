@@ -15,15 +15,15 @@ const contents = [
 
 const StepSix: FC<StepsProps> = ({ next, previous }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const {selectTicket} = useCreateEventContext();
+  const { selectTicket } = useCreateEventContext();
 
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
 
   return (
-    <div className="flex items-start gap-12">
-      <div className="w-full lg:w-1/2">
+    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 h-screen md:h-full">
+      <div className="w-full lg:w-1/2 px-4 lg:px-0 ">
         <Intro
           contents={contents}
           title={"Set up your ticketing options for attendees."}
@@ -32,24 +32,17 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
       <div className="w-full lg:w-1/2">
         <FormContainer
           formTitle="Setting up Tickets"
-          currPosition={[100, 70, 0]}
+          currPosition={[100, 80, 0]}
         >
-          <div className="overflow-x-auto flex flex-col justify-between gap-4 w-full h-full">
+          <div className="flex flex-col justify-between gap-4 w-full h-full">
             {!selectTicket && (
-              <SelectTicketModal
-                isOpen={showModal}
-                close={handleShowModal}
-              />
+              <SelectTicketModal isOpen={showModal} close={handleShowModal} />
             )}
 
             {selectTicket === "" ? (
               <CreateTicketEmptyState open={handleShowModal} />
             ) : selectTicket === "entry-ticket" ? (
-              <EntryTicket
-                next={next}
-                previous={previous}
-               
-              />
+              <EntryTicket next={next} previous={previous} />
             ) : (
               selectTicket === "group-ticket" && (
                 <GroupTicket next={next} previous={previous} />

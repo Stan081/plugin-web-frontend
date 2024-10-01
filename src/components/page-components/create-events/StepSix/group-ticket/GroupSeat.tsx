@@ -17,12 +17,12 @@ const GroupSeat: FC<GroupSeatProps> = ({
   const {seatType, handleClick} = useCreateEventContext()
   return (
     <div>
-      <div className="flex justify-start items-end gap-5 mb-6">
+      <div className="flex flex-col md:flex-row justify-start md:items-end gap-5 mb-6">
         <h3 className="font-pally-medium md:text-xl">
           Specify your ticket type
         </h3>
 
-        <div className="flex flex-wrap gap-4 mt-5 text-white">
+        <div className="flex flex-wrap gap-4 text-white">
           {seatedTypes.map((seat) => (
             <button
               key={seat.id}

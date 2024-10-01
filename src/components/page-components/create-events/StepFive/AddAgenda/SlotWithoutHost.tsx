@@ -14,7 +14,6 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { FC, useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { HiOutlineTrash } from "react-icons/hi2";
 import { isHostTypes } from "./SlotWithHost";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -204,12 +203,6 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
             </div>
           </div>
           <div className="flex gap-4 my-4">
-            <div
-              onClick={handleReturnToList}
-              className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
-            >
-              <HiOutlineTrash size={20} color="#F9B6B1" />
-            </div>
             <button
               type="submit"
               className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"

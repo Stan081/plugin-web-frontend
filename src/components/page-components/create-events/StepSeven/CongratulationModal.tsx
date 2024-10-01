@@ -1,8 +1,12 @@
 import React, { FC } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
-const CongratulationModal: FC<{ open: boolean }> = ({ open }) => {
+const CongratulationModal: FC<{
+  open: boolean;
+  close: (key: boolean) => void;
+}> = ({ open, close }) => {
   return (
     <div>
       <Dialog
@@ -27,6 +31,10 @@ const CongratulationModal: FC<{ open: boolean }> = ({ open }) => {
                     Your event has been published, attendees can now see and
                     book tickets for your events
                   </p>
+
+                  <div className="flex justify-center mt-5">
+                    <Button variant="destructive">Manange Event</Button>
+                  </div>
                 </div>
                 <div className="h-[40vh] w-1/2">
                   <Image

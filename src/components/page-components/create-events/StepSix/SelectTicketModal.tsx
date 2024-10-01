@@ -31,10 +31,7 @@ const tickets = [
   },
 ];
 
-const SelectTicketModal: FC<SelectTicketModalProps> = ({
-  isOpen,
-  close,
-}) => {
+const SelectTicketModal: FC<SelectTicketModalProps> = ({ isOpen, close }) => {
   const { setSelectedTicket } = useCreateEventContext();
   // get selected ticket
   const handleClicked = (id: number) => {
@@ -70,11 +67,11 @@ const SelectTicketModal: FC<SelectTicketModalProps> = ({
                 <RiCloseLine size={20} color="#fff" />
               </div>
             </DialogTitle>
-            <ul className="w-full mt-8 flex flex-col lg:flex-row gap-5 md:gap-8">
+            <ul className="w-full mt-8 flex flex-col lg:flex-row gap-5 md:gap-8 ">
               {tickets.map((ticket) => (
                 <li
                   key={ticket.id}
-                  className="rounded-xl bg-[#FDE5E3] flex flex-col justify-between w-1/2 gap-6 md:gap-10 px-3 md:px-5 pt-3 md:pt-5"
+                  className="rounded-xl bg-[#FDE5E3] flex flex-col md:justify-between w-full md:w-1/2 gap-6 md:gap-10 px-3 md:px-5 pt-3 md:pt-5"
                 >
                   <div className="space-y-2">
                     <p className="text-black text-lg md:text-xl font-pally-bold ">
@@ -96,13 +93,15 @@ const SelectTicketModal: FC<SelectTicketModalProps> = ({
                   </div>
 
                   {ticket.ticketThumbnail && (
-                    <Image
-                      src={ticket.ticketThumbnail}
-                      width={336}
-                      height={219}
-                      alt={ticket.ticketTitle}
-                      className="w-full h-full pointer-events-none "
-                    />
+                    <div className="h-32 w-full">
+                      <Image
+                        src={ticket.ticketThumbnail}
+                        width={336}
+                        height={219}
+                        alt={ticket.ticketTitle}
+                        className="w-full h-full pointer-events-none object-cover rounded-tl-xl rounded-tr-xl"
+                      />
+                    </div>
                   )}
                 </li>
               ))}

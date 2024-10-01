@@ -34,10 +34,10 @@ const StepFour: React.FC<StepsProps> = ({ next, previous }) => {
 
   return (
     <div
-      className="flex items-start gap-12
+      className="flex flex-col lg:flex-row items-start gap-4 md:gap-12
     "
     >
-      <div className="w-full lg:w-1/2">
+      <div className="w-full lg:w-1/2  px-4 lg:px-0">
         <Intro
           contents={pageContents}
           title="Where will your event take place?"
@@ -45,12 +45,12 @@ const StepFour: React.FC<StepsProps> = ({ next, previous }) => {
       </div>
       <div className="w-full lg:w-1/2">
         <FormContainer formTitle="Basic Information" currPosition={[80, 0, 0]}>
-          <div className="flex justify-start items-end gap-5">
+          <div className="flex flex-wrap justify-start items-end gap-5">
             <h3 className="font-pally-medium md:text-xl">
               What’s your location type:
             </h3>
 
-            <div className="flex flex-wrap gap-4 mt-5 text-white">
+            <div className="flex flex-wrap gap-4 text-white">
               {locationTypes.map((location) => (
                 <button
                   key={location.id}

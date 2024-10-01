@@ -81,7 +81,7 @@ const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
   };
 
   return (
-    <div className="lg:h-[82vh] overflow-x-auto flex flex-col justify-between gap-4 w-full h-full">
+    <div className="h-[60vh] lg:h-[82vh] overflow-x-auto flex flex-col justify-between gap-4 w-full">
       <Accordion type="single" collapsible className="w-full space-y-5">
         <AccordionItem
           value="item-1"

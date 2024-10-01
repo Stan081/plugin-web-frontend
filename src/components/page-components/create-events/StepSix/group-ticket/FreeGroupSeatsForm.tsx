@@ -165,7 +165,7 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
               />
             </FormItem>
 
-            <FormItem className="w-1/2 ">
+            <FormItem className=" ">
               <FormLabel className="text-white" htmlFor="ticket-name">
                 Ticket Quantity
               </FormLabel>

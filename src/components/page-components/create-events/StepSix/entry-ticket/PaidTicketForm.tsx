@@ -79,7 +79,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
               />
             </FormItem>
 
-            <div className="flex flex-col md:flex-row items-start gap-4">
+            <div className="flex items-start gap-4">
               <FormItem className="w-1/2">
                 <FormLabel className="text-white" htmlFor="price-pass">
                   Price ( per ticket )

@@ -197,7 +197,7 @@ const EditVendorForm: FC<EditVendorFormProps> = ({
           className="flex flex-col justify-between w-full h-full"
         >
           <div className="">
-            <div className="flex gap-8 mt-7">
+            <div className="flex flex-col lg:flex-row lg:items-start items-center justify-center gap-8 mt-7">
               <FormItem className="w-full max-w-48 space-y-3">
                 <FormField
                   control={form.control}

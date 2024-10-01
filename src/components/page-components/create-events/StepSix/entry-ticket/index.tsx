@@ -29,10 +29,10 @@ const EntryTicket: FC<EntryTicketProps> = ({ next, previous }) => {
     <div className="h-full w-full">
       <h3 className="font-pally-bold text-2xl">Entry Ticket</h3>
 
-      <div className="flex items-end gap-3">
+      <div className="flex flex-wrap items-end gap-3 mt-3">
         <p className="text-lg font-pally-regular">Specify your ticket type:</p>
 
-        <div className="flex flex-wrap gap-4 mt-5 text-white">
+        <div className="flex flex-wrap gap-4 text-white">
           {entryTicketTypes.map((type) => (
             <button
               key={type.id}

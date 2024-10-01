@@ -48,9 +48,9 @@ export default function Signup() {
     }
   };
   return (
-    <div className="bg-[#f0ded1] h-screen w-svw bg-cover bg-no-repeat py-3">
-      <Container>
-        <div className="scrollbar-hide">{renderStepContent()}</div>
+    <div className="bg-[#f0ded1] lg:h-screen w-svw bg-cover bg-no-repeat py-3">
+      <Container className="px-0">
+        <div className="scrollbar-hide ">{renderStepContent()}</div>
       </Container>
     </div>
   );

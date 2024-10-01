@@ -32,7 +32,7 @@ import InviteeCard from "./InviteeCard";
 import CongratulationModal from "./CongratulationModal";
 
 const PublishComponent = () => {
-  const [showModal, setShowModal] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [organiserImage, setOrganiserImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedVisibility, setSelectedVisibility] =
@@ -95,7 +95,12 @@ const PublishComponent = () => {
 
   return (
     <div>
-      {showModal && <CongratulationModal open={showModal}/>}
+      {showModal && (
+        <CongratulationModal
+          open={showModal}
+          close={() => setShowModal(!showModal)}
+        />
+      )}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -400,26 +405,18 @@ const PublishComponent = () => {
 
           <div className="sdsticky bottom-0 bg-[#281E17]">
             <Separator />
-            <div className="py-5 flex justify-between items-center">
-              <Button
-                onClick={() => {}}
-                variant="outline"
-                className="text-white border-white hover:bg-[#6c5442]"
-              >
-                Save Progress
-              </Button>
-              <div className="flex items-center gap-8">
-                <Button
-                  // onClick={previous}
-                  className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
-                >
-                  Back
-                </Button>
 
-                <Button type="submit" variant="destructive">
-                  Publish Event
-                </Button>
-              </div>
+            <div className=" py-5 flex items-center justify-end gap-8">
+              <Button
+                // onClick={previous}
+                className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
+              >
+                Back
+              </Button>
+
+              <Button type="submit" variant="destructive">
+                Publish Event
+              </Button>
             </div>
           </div>
         </form>

@@ -36,21 +36,21 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   };
 
   return (
-    <div className="flex items-start gap-12">
-      <div className="w-full lg:w-1/2">
+    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 h-screen">
+      <div className="w-full h-full lg:w-1/2  px-4 lg:px-0">
         <Intro
           contents={changePageContent.content}
           title={changePageContent.introTitle}
         />
       </div>
-      <div className="w-full lg:w-1/2">
-        <FormContainer formTitle="Event Details" currPosition={[100, 20, 0]}>
-          <div className="lg:h-[82vh] overflow-x-auto flex flex-col justify-between gap-4 w-full h-full">
-            <Accordion type="single" collapsible className="w-full space-y-5">
+      <div className="w-full lg:w-1/2 bg-[#f0ded1]">
+        <FormContainer formTitle="Event Details" currPosition={[100, 40, 0]}>
+          <div className="flex flex-col justify-between gap-4 w-full h-full">
+            <Accordion type="single" collapsible className="w-full space-y-5 lg:h-[82vh] overflow-y-auto">
               <AccordionItem
                 onClick={() => handlePageContentChange("item-1")}
                 value="item-1"
-                className="border border-[#463635] rounded-xl px-4"
+                className="border border-[#463635] rounded-xl px-2 md:px-4"
               >
                 <AccordionTrigger>
                   <div className="flex justify-start items-center gap-4">
@@ -74,7 +74,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
               <AccordionItem
                 onClick={() => handlePageContentChange("item-2")}
                 value="item-2"
-                className="border border-[#463635] rounded-xl px-4"
+                className="border border-[#463635] rounded-xl px-2 md:px-4"
               >
                 <AccordionTrigger>
                   <div className="flex justify-start items-center gap-4">
@@ -98,7 +98,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
               <AccordionItem
                 onClick={() => handlePageContentChange("item-3")}
                 value="item-3"
-                className="border border-[#463635] rounded-xl px-4"
+                className="border border-[#463635] rounded-xl px-2 md:px-4"
               >
                 <AccordionTrigger>
                   <div className="flex justify-start items-center gap-4">
@@ -122,7 +122,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
               <AccordionItem
                 onClick={() => handlePageContentChange("item-4")}
                 value="item-4"
-                className="border border-[#463635] rounded-xl px-4"
+                className="border border-[#463635] rounded-xl px-2 md:px-4"
               >
                 <AccordionTrigger>
                   <div className="flex justify-start items-center gap-4">
@@ -146,7 +146,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
               <AccordionItem
                 onClick={() => handlePageContentChange("item-5")}
                 value="item-5"
-                className="border border-[#463635] rounded-xl px-4"
+                className="border border-[#463635] rounded-xl px-2 md:px-4"
               >
                 <AccordionTrigger>
                   <div className="flex justify-start items-center gap-4">

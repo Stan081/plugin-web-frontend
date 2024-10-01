@@ -3,7 +3,7 @@ import { IoTicketOutline } from "react-icons/io5";
 
 const CreateTicketEmptyState: FC<{ open: () => void }> = ({ open }) => {
   return (
-    <div className=" w-full max-w-72 mx-auto h-full lg:h-[82vh] justify-center p-6 flex flex-col gap-5 items-center">
+    <div className=" w-full max-w-72 mx-auto h-[50vh] lg:h-[82vh] justify-center p-6 flex flex-col gap-5 items-center">
       <div className="bg-[#FFF6F1] rounded-lg px-5 py-3 mx-auto">
         <IoTicketOutline size={38} color="#000" />
       </div>

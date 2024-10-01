@@ -1,7 +1,6 @@
 import React, {
   FC,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -15,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FiEdit, FiWatch } from "react-icons/fi";
+import { FiEdit, } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -143,8 +142,8 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="flex gap-8 my-7">
-            <FormItem className="w-full max-w-48 space-y-3">
+          <div className="flex flex-col lg:flex-row justify-center items-center lg:items-start gap-8 my-7">
+            <FormItem className="w-48 space-y-3">
               <FormField
                 control={form.control}
                 name="host_thumbnail"
@@ -212,7 +211,7 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
                   </FormItem>
                 )}
               />
-              <FormLabel className="mt-3 text-white font-pally-medium">
+              <FormLabel className="mt-3 block text-white font-pally-medium">
                 Pass Thumbnail ( optional )
               </FormLabel>
             </FormItem>
@@ -375,12 +374,6 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
           </div>
 
           <div className="flex gap-4 mb-4">
-            <div
-              onClick={handleReturnToList}
-              className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
-            >
-              <HiOutlineTrash size={20} color="#F9B6B1" />
-            </div>
             <button
               type="submit"
               className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"

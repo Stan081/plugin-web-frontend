@@ -31,6 +31,7 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { vendorList, VendorListType } from "@/static-datas/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { Button } from "@/components/ui/button";
 
 interface VendorFormProps {
   handleReturnToList: () => void;
@@ -199,7 +200,7 @@ const VendorForm: FC<VendorFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="flex gap-8 mt-7">
+          <div className="flex flex-col lg:flex-row lg:items-start items-center justify-center gap-8 mt-7">
             <FormItem className="w-full max-w-48 space-y-3">
               <FormField
                 control={form.control}
@@ -268,7 +269,7 @@ const VendorForm: FC<VendorFormProps> = ({
                   </FormItem>
                 )}
               />
-              <FormLabel className="mt-3 text-white font-pally-medium">
+              <FormLabel className="mt-3 block text-white font-pally-medium">
                 Pass Thumbnail ( optional )
               </FormLabel>
             </FormItem>
@@ -404,19 +405,10 @@ const VendorForm: FC<VendorFormProps> = ({
                 </div>
               </div>
 
-              <div className="flex gap-4">
-                <div
-                  onClick={handleReturnToList}
-                  className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
-                >
-                  <HiOutlineTrash size={20} color="#F9B6B1" />
-                </div>
-                <button
-                  type="submit"
-                  className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"
-                >
+              <div className="flex justify-center gap-4 mt-5">
+                <Button variant="destructive" type="submit" className="w-full">
                   Create Pass
-                </button>
+                </Button>
               </div>
             </div>
           </div>
