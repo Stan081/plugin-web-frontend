@@ -6,6 +6,7 @@ export type CardProps = {
   date: string;
   location: string;
   priceRange?: string;
+  type: 'upcoming' | 'past';
 };
 
 export const cardData: CardProps[] = [
@@ -17,6 +18,7 @@ export const cardData: CardProps[] = [
     location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
     priceRange: '₦3,000 - ₦75,000',
+    type: 'upcoming'
   },
   {
     id: "2",
@@ -25,7 +27,8 @@ export const cardData: CardProps[] = [
     title: "Socket Connect",
     location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
-    priceRange: '₦3,000 - ₦75,000'
+    priceRange: '₦3,000 - ₦75,000',
+    type: 'past'
   },
   {
     id: "3",
@@ -34,7 +37,8 @@ export const cardData: CardProps[] = [
     title: "Partie's Connect",
     location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
-    priceRange: '₦3,000 - ₦75,000'
+    priceRange: '₦3,000 - ₦75,000',
+    type: 'upcoming',
   },
   {
     id: "4",
@@ -43,7 +47,8 @@ export const cardData: CardProps[] = [
     title: "Stan's Connect",
     location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
-    priceRange: '₦3,000 - ₦75,000'
+    priceRange: '₦3,000 - ₦75,000',
+    type: 'upcoming',
   },
   {
     id: "5",
@@ -52,7 +57,8 @@ export const cardData: CardProps[] = [
     title: "Plugin's Connect",
     location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
-    priceRange: '₦3,000 - ₦75,000'
+    priceRange: '₦3,000 - ₦75,000',
+    type: 'upcoming',
   },
   {
     id: "6",
@@ -61,7 +67,8 @@ export const cardData: CardProps[] = [
     title: "Outdoor's Connect",
     location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
-    priceRange: '₦3,000 - ₦75,000'
+    priceRange: '₦3,000 - ₦75,000',
+    type: 'upcoming',
   },
   {
     id: "7",
@@ -70,6 +77,7 @@ export const cardData: CardProps[] = [
     title: "Outdoor's Connect",
     location: 'Abuja',
     date: "Sat, Sept 17, 10:00AM",
-    priceRange: '₦3,000 - ₦75,000'
+    priceRange: '₦3,000 - ₦75,000',
+    type: 'past',
   },
 ];
