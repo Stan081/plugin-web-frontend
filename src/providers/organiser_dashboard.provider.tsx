@@ -11,7 +11,8 @@ import {
 } from "react";
 
 type OrganiserDashContextValue = {
-  organiser: boolean;
+  organiser: string;
+  setOrganiser: (key: string) => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(null);
@@ -19,10 +20,12 @@ const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(nul
 OrganiserDashContext.displayName = "OrganiserDashContext";
 
 export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [organiser, setOrganiser] = useState<boolean>(false);
+  const [organiser, setOrganiser] = useState<string>('');
+  
 
   const ContextValue: OrganiserDashContextValue = {
     organiser,
+    setOrganiser
   };
   return (
     <OrganiserDashContext.Provider value={ContextValue}>
