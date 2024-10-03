@@ -3,18 +3,10 @@ import React, { FC, useState } from "react";
 import TicketIcon from "../../icons/ticket";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { CardProps } from "@/static-datas/cards-data";
 
-interface EventProps {
-  id: string;
-  image: string;
-  eventType: string;
-  title: string;
-  location: string;
-  date: string;
-  priceRange: string;
-}
 
-const EventListComponent: FC<EventProps> = ({
+const EventListComponent: FC<CardProps> = ({
   id,
   image,
   eventType,
