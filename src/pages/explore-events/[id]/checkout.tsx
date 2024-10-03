@@ -15,7 +15,7 @@ const CheckoutEvent = () => {
   const checkCardId = cardData.find((card) => card?.id === param?.id);
   //   Temporary routing
   if (!checkCardId) {
-    return notFound();
+    return <p>Page not found</p>;
   }
 
   const breadcrumbTitle = checkCardId?.title;
