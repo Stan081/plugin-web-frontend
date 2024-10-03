@@ -7,7 +7,7 @@ import Image from "next/image";
 import React from "react";
 import MeetYourOganiser from "../MeetYourOganiser";
 
-const TicketDetail: React.FC<CardProps> = ({ title, location, date }) => {
+const TicketDetail: React.FC<CardProps> = ({ id,title, location, date }) => {
   return (
     <div>
       <div className="rounded-lg border p-3 w-full max-w-96 h-72">
