@@ -26,7 +26,7 @@ const helpLinks = [
 
 const OrganiserHelpCenter = () => {
   return (
-    <Container className="">
+    <Container className="my-12">
       <div className="bg-[#F6F7F8] rounded-xl p-3 md:p-8 ">
         <div>
           <div className="space-y-1.5">

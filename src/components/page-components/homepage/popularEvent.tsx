@@ -45,6 +45,7 @@ const PopularEvent = () => {
                 </button>
               </li>
             ))}
+            
           </ul>
           <div
             id={`panel-${isActive}`}

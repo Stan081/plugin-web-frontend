@@ -1,0 +1,73 @@
+"use client"
+
+import OrganiserPlans from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/OrganiserPlans";
+import OrganiserProfile from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/OrganiserProfile";
+import OrganiserHeader from "@/components/page-components/organisers/organiser-dashboard/OrganiserHeader";
+import Container from "@/tw-components/container";
+import { useRouter } from "next/navigation";
+import React, { Fragment, useState } from "react";
+import { RiArrowLeftSLine } from "react-icons/ri";
+
+const tabLink = [
+  { title: "Organizer Profile", key: "profile" },
+  { title: "Campaign Plans", key: "plans" },
+];
+
+const OrganiserSettings = () => {
+  const [settingState, setSettingState] = useState<string>("profile");
+
+  const router = useRouter();
+  return (
+    <Fragment>
+      <OrganiserHeader />
+      <div className="bg-gray-200 pt-6 md:pt-9">
+        <Container className="space-y-5">
+          <p
+            onClick={() => router.back()}
+            className="flex items-center gap-2 font-pally-medium text-lg"
+          >
+            <span>
+              <RiArrowLeftSLine size={20} />
+            </span>
+            Back
+          </p>
+
+          <h1 className="text-[#2E394C] font-pally-medium text-4xl">
+            Organiser Settings
+          </h1>
+
+          <ul className=" flex justify-start items-center gap-4 align-baseline">
+            {tabLink.map((tab) => (
+              <li key={tab.key} role="presentation">
+                <button
+                  className={`font-pally-regular py-2 px-3 ${
+                    settingState === tab.key
+                      ? "border-b-2 border-[#D9302A] text-[#D9302A] bg-[#f3cac9] rounded-tr-xl rounded-tl-xl"
+                      : " text-[#586170]"
+                  }`}
+                  role="tab"
+                  aria-selected={settingState === tab.key}
+                  aria-controls={`panel-${tab.key}`}
+                  id={`tab-${tab.key}`}
+                  onClick={() => setSettingState(tab.key)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      setSettingState(tab.key);
+                    }
+                  }}
+                >
+                  {tab.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          {settingState === 'profile' && <OrganiserProfile/>}
+          {settingState === 'plans' && <OrganiserPlans/>}
+        </Container>
+      </div>
+    </Fragment>
+  );
+};
+
+export default OrganiserSettings;

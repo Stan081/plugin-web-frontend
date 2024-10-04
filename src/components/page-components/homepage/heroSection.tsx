@@ -12,7 +12,7 @@ import Container from "@/tw-components/container";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-// Temporay mock data
+// Temporary mock data
 const heroSlides = [
   {
     backgroundImage:
