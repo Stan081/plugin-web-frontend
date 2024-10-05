@@ -8,6 +8,7 @@ COPY package*.json yarn.lock ./
 
 # Install dependencies
 RUN yarn install --frozen-lockfile
+RUN yarn install
 
 # Copy the rest of the app
 COPY . .
@@ -15,17 +16,20 @@ COPY . .
 # Build the application
 RUN yarn build
 
-# Production stage
-FROM node:20.11.1-alpine AS production
+#Serve the build
+CMD ["npx", "serve", "-s", "build"]
 
-WORKDIR /app
+# # Production stage
+# FROM node:20.11.1-alpine AS production
 
-# Copy production dependencies
-COPY package*.json yarn.lock ./
-RUN yarn install --frozen-lockfile --production
+# WORKDIR /app
 
-# Copy built assets from build stage
-COPY --from=build /app/dist ./dist
+# # Copy production dependencies
+# COPY package*.json yarn.lock ./
+# RUN yarn install --frozen-lockfile --production
 
-# Start the application
-CMD ["node", "dist/index.js"]
+# # Copy built assets from build stage
+# COPY --from=build /app/dist ./dist
+
+# # Start the application
+# CMD ["node", "dist/index.js"]
