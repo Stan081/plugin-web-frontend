@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import OrganiserPlans from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/OrganiserPlans";
 import OrganiserProfile from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/OrganiserProfile";
@@ -24,7 +24,7 @@ const OrganiserSettings = () => {
         <Container className="space-y-5">
           <p
             onClick={() => router.back()}
-            className="flex items-center gap-2 font-pally-medium text-lg"
+            className="flex cursor-pointer items-center gap-2 font-pally-medium text-lg"
           >
             <span>
               <RiArrowLeftSLine size={20} />
@@ -61,10 +61,16 @@ const OrganiserSettings = () => {
               </li>
             ))}
           </ul>
-
-          {settingState === 'profile' && <OrganiserProfile/>}
-          {settingState === 'plans' && <OrganiserPlans/>}
         </Container>
+      </div>
+      <div
+        id={`panel-${settingState}`}
+        role="tabpanel"
+        aria-labelledby={`tab-${settingState}`}
+        className="mt-6 md:mt-10"
+      >
+        {settingState === "profile" && <OrganiserProfile />}
+        {settingState === "plans" && <OrganiserPlans />}
       </div>
     </Fragment>
   );
