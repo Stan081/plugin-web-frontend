@@ -1,3 +1,4 @@
+
 "use client"
 import Container from "@/tw-components/container";
 import React from "react";
@@ -30,8 +31,6 @@ const TotalEarning = () => {
     </div>
   );
 };
-
-
 
 const EarningComponents = () => {
   return (
