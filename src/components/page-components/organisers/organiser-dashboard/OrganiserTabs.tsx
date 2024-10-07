@@ -14,7 +14,7 @@ const EventTabs = () => {
         {(['upcoming', 'drafts', 'past'] as const).map((status) => (
           <button
             key={status}
-            className={`py-2 px-4 text-sm font-pally-medium focus:outline-none ${
+            className={`py-2 px-4 text-sm font-pally-regular focus:outline-none ${
               activeTab === status ? 'border-b-2 border-red-500 text-red-500 bg-red-50 rounded-t-lg' : ''
             }`}
             onClick={() => setActiveTab(status)}
