@@ -13,6 +13,8 @@ import Container from "@/tw-components/container";
 import React from "react";
 import { BsExclamationCircle } from "react-icons/bs";
 import PayoutInformation from "./PayoutInformation";
+import WithdrawalSummary from "./WithdrawalSummary";
+import WithdrawalHistory from "./WithdrawalHistory";
 
 const TotalEarning = () => {
   return (
@@ -76,8 +78,10 @@ const EarningComponents = () => {
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <TotalEarning />
         <AvailableBalance />
-        <PayoutInformation/>
+        <PayoutInformation />
+        <WithdrawalSummary />
       </div>
+      <WithdrawalHistory />
     </Container>
   );
 };

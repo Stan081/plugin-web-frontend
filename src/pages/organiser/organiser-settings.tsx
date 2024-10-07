@@ -1,6 +1,6 @@
 "use client";
 
-import OrganiserPlans from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/OrganiserPlans";
+import OrganiserPlans from "@/components/page-components/organisers/organiser-dashboard/OrganiserPlans";
 import OrganiserProfile from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/OrganiserProfile";
 import OrganiserHeader from "@/components/page-components/organisers/organiser-dashboard/OrganiserHeader";
 import Container from "@/tw-components/container";

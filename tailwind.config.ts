@@ -19,7 +19,8 @@ const config: Config = {
         "creamNoise": "url('/images/cream-bg.png')",
         "seagreenNoise": "url('/images/seagreen-bg.png')",
         "topLocation": "url('/images/top-location-bg.png')",
-        "bgListEvent": "url('/images/list-event-bg.png')"
+        "bgListEvent": "url('/images/list-event-bg.png')",
+        "bgCampaignHeader": "url('https://ik.imagekit.io/pluginImage/Plugin-images/campaign.png?updatedAt=1728314071319')"
       },
       colors: {
         "custom-lightgray": "lightgray",

@@ -27,10 +27,14 @@ const PayoutInformation = () => {
             className="pointer-events-none w-14 h-16 object-cover"
           />
           <p className="text-[#667185] font-pally-medium text-base">
-            No bank account Found{" "}
+            No bank account found{" "}
           </p>
 
-          <Button variant="outline" className="flex gap-3">
+          <Button
+            onClick={() => setShowAccount(!showAccount)}
+            variant="outline"
+            className="flex gap-3"
+          >
             <PiPlus />
             Add bank account
           </Button>
