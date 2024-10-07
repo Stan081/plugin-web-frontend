@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import Container from "@/tw-components/container";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const CampaignHeader = () => {
+  const router = useRouter();
   return (
     <div className="bg-bgCampaignHeader bg-no-repeat pt-20 bg-cover">
       <Container className="flex items-end justify-between px-0 lg:px-12">
@@ -16,7 +18,12 @@ const CampaignHeader = () => {
             reach your audience.
           </p>
 
-          <Button variant="destructive">Start Ad-Campaign</Button>
+          <Button
+            onClick={() => router.push("/organiser/ad-campaigns/set-up")}
+            variant="destructive"
+          >
+            Start Ad-Campaign
+          </Button>
         </div>
         <div className="max-w-xl hidden h-[300px] lg:flex flex-col items-end">
           <Image

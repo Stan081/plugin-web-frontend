@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { toFiat } from "@/lib/amount";
 import Container from "@/tw-components/container";
-import { HiOutlineCheck } from "react-icons/hi";
 
 interface PlanFeature {
   id: number;

@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React from "react";
 
 /* eslint-disable no-unused-vars */
 import {
@@ -10,22 +10,58 @@ import {
   useState,
 } from "react";
 
-type OrganiserDashContextValue = {
-  organiser: string;
-  setOrganiser: (key: string) => void;
+type IsCheckedState = {
+  campaignTypeState: boolean;
+  selectEventState: boolean;
+  campaignPlanState: boolean;
+  StartCampaignState: boolean;
 };
 
-const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(null);
+type OrganiserDashContextValue = {
+  isChecked: IsCheckedState;
+  currentStep: number
+  handleIsChecked: (key: keyof IsCheckedState) => void;
+  nextSetUpStep: () => void;
+
+};
+
+const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
+  null
+);
 
 OrganiserDashContext.displayName = "OrganiserDashContext";
 
-export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [organiser, setOrganiser] = useState<string>('');
-  
+export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
+  children,
+}) => {
+  //step for each campaign setup
+  const [currentStep, setCurrentStep] = useState<number>(1);
+
+  const nextSetUpStep = () => {
+    setCurrentStep((prev) => prev + 1);
+  };
+
+  // Setup campaign state
+  const [isChecked, setIsChecked] = useState({
+    campaignTypeState: false,
+    selectEventState: false,
+    campaignPlanState: false,
+    StartCampaignState: false,
+  });
+
+  // handle function to checked
+  const handleIsChecked = (key: keyof typeof isChecked) => {
+    setIsChecked((prevState) => ({
+      ...prevState,
+      [key]: true,
+    }));
+  };
 
   const ContextValue: OrganiserDashContextValue = {
-    organiser,
-    setOrganiser
+    currentStep,
+    isChecked,
+    handleIsChecked,
+    nextSetUpStep,
   };
   return (
     <OrganiserDashContext.Provider value={ContextValue}>
