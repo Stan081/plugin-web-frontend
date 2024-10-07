@@ -1,5 +1,6 @@
 import OrganiserHeader from "@/components/page-components/organisers/organiser-dashboard/OrganiserHeader";
 import React, { Fragment } from "react";
+import OrganiserTabs from '@/components/page-components/organisers/organiser-dashboard/OrganiserTabs'
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -18,7 +19,7 @@ const OrganiserEvent = () => {
             </h4>
           </div>
           {/* Quick Actions */}
-          <div className="flex justify-between gap-3 align-center">
+          <div className="flex justify-between gap-3 items-center">
             <Input
               placeholder="Event name"
               type="text"
@@ -31,6 +32,9 @@ const OrganiserEvent = () => {
               Create Event
             </Button>
           </div>
+        </div>
+        <div>
+        <OrganiserTabs />
         </div>
       </div>
     </Fragment>
