@@ -2,10 +2,10 @@ import { Button } from "@/components/ui/button";
 import { toFiat } from "@/lib/amount";
 import Container from "@/tw-components/container";
 
-interface PlanFeature {
+export interface PlanFeature{
   id: number;
   name: string;
-  platforms: string | number;
+  platforms: string | string[];
   price: number;
   impression: string | number;
   targeting: string | number;

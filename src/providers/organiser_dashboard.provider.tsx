@@ -37,7 +37,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   //step for each campaign setup
   const [currentStep, setCurrentStep] = useState<number>(1);
 
-  const nextSetUpStep = () => {
+  const nextSetUpStep: () => void = () => {
     setCurrentStep((prev) => prev + 1);
   };
 
