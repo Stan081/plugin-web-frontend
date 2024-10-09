@@ -6,8 +6,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { OrganiserEvent } from "@/models/types/organiserTypes";
 import { format } from "date-fns";
 
+type CheckedState = boolean | "checked" | "unchecked" | "indeterminate";
+
 interface EventCardListProps extends OrganiserEvent {
   onCheckboxChange: (id: number, isChecked: boolean) => void;
+  checkedEvent: number;
 }
 
 const EventCardList: FC<EventCardListProps> = ({
@@ -18,11 +21,14 @@ const EventCardList: FC<EventCardListProps> = ({
   startDate,
   ticketSale,
   totalTicket,
+  checkedEvent,
   onCheckboxChange,
 }) => {
-
-  const handleCheckboxChange = (isChecked: boolean) => {
-    onCheckboxChange(Number(id), isChecked);
+  const handleCheckboxChange = (isChecked: CheckedState, id: number) => {
+    // Ensure that we only handle true/false, and skip the "indeterminate" state
+    if (typeof isChecked === "boolean") {
+      onCheckboxChange(id, isChecked);
+    }
   };
   return (
     <div className=" border-b last:border-none py-4 md:py-6 flex items-center justify-between">
@@ -52,7 +58,7 @@ const EventCardList: FC<EventCardListProps> = ({
           </p>
           <div className="flex items-center gap-2">
             <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
-              Ticket Sale
+              Sale progress
             </p>
             <div className=" w-52">
               <TabProgress value={ticketSale} max={totalTicket} />
@@ -66,7 +72,10 @@ const EventCardList: FC<EventCardListProps> = ({
       <div>
         <Checkbox
           className="w-6 h-6 border-black"
-          onCheckedChange={handleCheckboxChange}
+          checked={checkedEvent === id}
+          onCheckedChange={(isChecked) =>
+            handleCheckboxChange(isChecked, Number(id))
+          }
         />
       </div>
     </div>

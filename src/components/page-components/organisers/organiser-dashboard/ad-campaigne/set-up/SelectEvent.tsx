@@ -7,18 +7,18 @@ import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provide
 
 const SelectEvent = () => {
   const { handleIsChecked, nextSetUpStep } = useOrganiserDashContext();
-  const [checkedEvents, setCheckedEvents] = useState<number>();
+  const [checkedEvent, setCheckedEvent] = useState<number | null>();
 
   const handleCheckboxChange = (id: number, isChecked: boolean) => {
     if (isChecked) {
-      setCheckedEvents(id);
+      setCheckedEvent(id);
     } else {
-      setCheckedEvents(null);
+      setCheckedEvent(null);
     }
   };
 
   const handleNext = () => {
-    if (checkedEvents) {
+    if (checkedEvent) {
       handleIsChecked("selectEventState");
       nextSetUpStep();
     }
@@ -27,11 +27,9 @@ const SelectEvent = () => {
     <div className="w-full md:w-3/5 p-10 rounded-lg h-screen bg-white flex flex-col justify-between">
       <div>
         <div className="space-y-4">
-          <h2 className="text-4xl font-pally-medium">
-            Review and Start Campaign{" "}
-          </h2>
+          <h2 className="text-4xl font-pally-medium">Select event</h2>
           <p className="text-[#475367] font-pally-regular text-lg">
-            Review your preferences before starting a campaign
+            Choose an event to start this campaign
           </p>
           <Separator />
         </div>
@@ -42,20 +40,23 @@ const SelectEvent = () => {
               key={item.id}
               {...item}
               onCheckboxChange={handleCheckboxChange}
+              checkedEvent={checkedEvent}
             />
           ))}
         </div>
       </div>
-      <div className="space-y-5">
+
+      <div className="w-full">
         <Separator />
-        <Button
-          onClick={handleNext}
-          disabled={checkedEvents === null}
-          variant="destructive"
-          className="w-full"
-        >
-          Next
-        </Button>
+        <div className="mt-5 flex justify-end ">
+          <Button
+            onClick={handleNext}
+            disabled={checkedEvent === null}
+            variant="destructive"
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );

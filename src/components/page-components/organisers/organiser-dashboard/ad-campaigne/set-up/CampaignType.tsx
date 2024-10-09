@@ -103,16 +103,18 @@ const CampaignType = () => {
           ))}
         </ul>
       </div>
-      <div className="space-y-5">
+
+      <div>
         <Separator />
-        <Button
-          onClick={handleNext}
-          disabled={!isClicked}
-          variant="destructive"
-          className="w-full"
-        >
-          Next
-        </Button>
+        <div className="mt-5 flex justify-end ">
+          <Button
+            onClick={handleNext}
+            disabled={!isClicked}
+            variant="destructive"
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );

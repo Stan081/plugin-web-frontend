@@ -70,9 +70,9 @@ const SelectCampaign = () => {
 
   const handleCheckbox = (id: number, isChecked: boolean) => {
     if (isChecked) {
-      setCheckedEvent(id); // Set the currently checked event
+      setCheckedEvent(id);
     } else {
-      setCheckedEvent(null); // Clear the checked event when unchecked
+      setCheckedEvent(null);
     }
   };
 
@@ -84,7 +84,7 @@ const SelectCampaign = () => {
   };
 
   const handleNext = () => {
-    handleIsChecked("selectEventState");
+    handleIsChecked('campaignPlanState');
     nextSetUpStep();
   };
   return (
