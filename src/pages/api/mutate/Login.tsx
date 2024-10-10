@@ -1,6 +1,6 @@
 import { LOGIN_URL } from "@/lib/constants";
 import { LoginFieldType } from "@/lib/types/AuthType";
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
 interface LoginResponse {
   success: boolean;
