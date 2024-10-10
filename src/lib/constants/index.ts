@@ -1,0 +1,11 @@
+const BASE_URL: string = 'https://pluginapi.onrender.com';
+
+export const API_URL: string = `${BASE_URL}/api`;
+
+export const SIGNUP_URL: string = `${API_URL}/auth/sign-up-one`
+
+export const VERIFY_URL: string = `${API_URL}/auth/sign-up-two`
+
+export const LOGIN_URL: string = `${API_URL}/auth/login-step-one`
+
+

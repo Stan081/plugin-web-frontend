@@ -1,4 +1,5 @@
 "use client";
+import { SignupFieldType } from "@/lib/types/AuthType";
 import React from "react";
 
 /* eslint-disable no-unused-vars */
@@ -11,7 +12,8 @@ import {
 } from "react";
 
 type UserDashContextValue = {
-  user: boolean;
+  user: SignupFieldType;
+  setUser: (key: SignupFieldType) => void
 };
 
 const UserDashContext = createContext<UserDashContextValue | null>(null);
@@ -19,10 +21,13 @@ const UserDashContext = createContext<UserDashContextValue | null>(null);
 UserDashContext.displayName = "UserDashContext";
 
 export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<boolean>(false);
+  const [user, setUser] = useState<SignupFieldType>();
+
+  console.log(user)
 
   const ContextValue: UserDashContextValue = {
     user,
+    setUser,
   };
   return (
     <UserDashContext.Provider value={ContextValue}>

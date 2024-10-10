@@ -1,3 +1,4 @@
+"use client"
 import Faq from "@/components/faq";
 import TailoredEvent from "@/components/page-components/homepage/tailoredEvent";
 import ListEvent from "@/components/page-components/homepage/listEvent";
@@ -8,6 +9,7 @@ import PopularEvent from "@/components/page-components/homepage/popularEvent";
 import TopLocation from "@/components/page-components/homepage/topLocations";
 import OurCustomers from "@/components/OurCustomers";
 import Layout from "@/components/layout";
+import { getToken } from "@/lib/token";
 
 export default function Home() {
   return (
@@ -18,7 +20,7 @@ export default function Home() {
       {/* <TopLocation/> */}
       {/* <TestUI /> */}
       <ListEvent />
-      <OurCustomers/>
+      <OurCustomers />
       <Faq />
       {/* <UpcomingEvent/> */}
     </Layout>

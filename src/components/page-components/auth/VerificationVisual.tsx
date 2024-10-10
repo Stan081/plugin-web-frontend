@@ -3,7 +3,7 @@ import Marquee from "./Marquee";
 
 const VerificationVisual = () => {
   return (
-    <div className="bg-pitchNoise overflow-hidden w-7/12 hidden lg:flex flex-col justify-between ">
+    <div className="bg-pitchNoise overflow-hidden w-1/2 hidden lg:flex flex-col justify-between ">
         <div className="px-16 max-w-2xl pt-20">
           <div className="space-y-5">
             <h1 className="font-pally-medium text-5xl w-full max-w-xl">
