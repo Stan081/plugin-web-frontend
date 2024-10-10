@@ -15,25 +15,54 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Spinner from "@/tw-components/spinner";
 import { useRouter } from "next/navigation";
-
+import { useMutation } from "@tanstack/react-query";
+import { login } from "@/pages/api/mutate/Login";
+import { useToast } from "@/components/ui/use-toast";
+import { LoginFieldType } from "@/lib/types/AuthType";
 
 const LoginAuth = () => {
   const form = useForm<LoginFields>({
-    mode: "all",
+    mode: "onSubmit",
     defaultValues: {
       email: "",
     },
     resolver: yupResolver(LoginSchema),
   });
 
-//  initialise router
-const router = useRouter()
+  //  initialise router
+  const router = useRouter();
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: LoginFieldType) => login(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Verify OTP",
+          description: `${response?.message}`,
+        });
+
+        router.push("/verify");
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
 
   const onSubmit = useCallback(async (payload: LoginFields) => {
     console.log(payload);
-    router.push('/verify')
+    const data = {
+      email: payload.email,
+    };
+    mutate(data);
+    router.push("/verify");
   }, []);
   return (
     <div>
@@ -55,7 +84,7 @@ const router = useRouter()
                       type="text"
                       autoCorrect="off"
                       id="email_address"
-                      disabled={isLoading}
+                      disabled={isPending}
                       className="w-full bg-white font-pally-regular"
                       {...field}
                     />
@@ -66,21 +95,21 @@ const router = useRouter()
             />
           </FormItem>
           <Button
-            disabled={isLoading}
+            disabled={isPending}
             variant="destructive"
             type="submit"
             className="mt-8"
           >
-            {isLoading ? <Spinner /> : "Login"}
+            {isPending ? <Spinner /> : "Login"}
           </Button>
         </form>
       </Form>
       <div className="flex gap-2 mt-10">
         <p className="text-[#98A2B3] font-pally-regular">
-        Don't have an account?
+          Don't have an account?
         </p>
         <Link href={"/signup"} className="text-white font-pally-medium">
-        Create account
+          Create account
         </Link>
       </div>
     </div>

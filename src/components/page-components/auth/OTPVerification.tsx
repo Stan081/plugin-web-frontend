@@ -36,7 +36,7 @@ const OTPVerification = () => {
       // Handle error here
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        title: "Wrong OTP",
         description: error?.message,
       });
     },

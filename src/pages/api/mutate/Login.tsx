@@ -9,7 +9,7 @@ interface LoginResponse {
   data?: any;
 }
 
-export const signUpStepOne = async (
+export const login = async (
   data: LoginFieldType
 ): Promise<LoginResponse> => {
   try {
