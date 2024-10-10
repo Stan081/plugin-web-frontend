@@ -1,3 +1,4 @@
+import { LOGIN_URL } from "@/lib/constants";
 import { LoginFieldType } from "@/lib/types/AuthType";
 import { AxiosResponse } from "axios";
 
@@ -13,7 +14,7 @@ export const signUpStepOne = async (
 ): Promise<LoginResponse> => {
   try {
     const response: AxiosResponse<LoginResponse> = await axios.post(
-      SIGNUP_URL,
+      LOGIN_URL,
       data
     );
 
