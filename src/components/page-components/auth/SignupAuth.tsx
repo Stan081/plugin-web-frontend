@@ -10,21 +10,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignupFields, SignupSchema } from "@/models/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PhoneNumberInput } from "@/components/PhoneNumberInput";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Spinner from "@/tw-components/spinner";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signUpStepOne } from "@/pages/api/mutate/SignUp";
 import { SignupFieldType } from "@/lib/types/AuthType";
 import { useToast } from "@/components/ui/use-toast";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
+import { setCookie } from "@/lib/cookies";
 
 const SignupAuth = () => {
-  const { setUser } = useUserDashContext();
   const form = useForm<SignupFields>({
     mode: "onSubmit",
     defaultValues: {
@@ -51,7 +51,7 @@ const SignupAuth = () => {
           description: `${response?.message}`,
         });
 
-        router.push("/verify");
+        router.push("/verify-signup");
       }
     },
     onError: (error: any) => {
@@ -66,6 +66,8 @@ const SignupAuth = () => {
   const onSubmit = useCallback(
     (payload: SignupFields) => {
       console.log(payload);
+
+      setCookie('email', payload.email)
 
       const data = {
         name: {
@@ -82,10 +84,9 @@ const SignupAuth = () => {
       };
 
       mutate(data);
-      setUser(data);
     },
-    [mutate, setUser]
-  ); // Dependencies
+    [mutate]
+  ); 
 
   return (
     <div>

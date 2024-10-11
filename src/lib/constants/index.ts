@@ -8,4 +8,8 @@ export const VERIFY_URL: string = `${API_URL}/auth/sign-up-two`
 
 export const LOGIN_URL: string = `${API_URL}/auth/login-step-one`
 
+export const VERIFY_LOGIN_URL: string = `${API_URL}/auth/login-step-two`
+
+export const GET_USER_URL: string = `${API_URL}/auth/me`
+
 

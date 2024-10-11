@@ -13,7 +13,7 @@ export type SignupFieldType = {
 };
 
 export type VerifyCodeType = {
-  email: string;
+  email: string | string[];
   code: string;
 };
 

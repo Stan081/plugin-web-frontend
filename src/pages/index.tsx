@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Faq from "@/components/faq";
 import TailoredEvent from "@/components/page-components/homepage/tailoredEvent";
 import ListEvent from "@/components/page-components/homepage/listEvent";
@@ -12,8 +12,10 @@ import Layout from "@/components/layout";
 import { getToken } from "@/lib/token";
 
 export default function Home() {
+  const gen = getToken();
   return (
     <Layout title="Welcome to Plugin" showHeader showFooter>
+      {/* <p>{gen}</p> */}
       <HeroSection />
       <TailoredEvent />
       <PopularEvent />

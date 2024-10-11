@@ -1,11 +1,11 @@
 import Layout from "@/components/layout";
 import Logo from "@/components/Logo";
-import OTPVerification from "@/components/page-components/auth/OTPVerification";
+import OTPLoginVerification from "@/components/page-components/auth/OTPLoginVerification";
 import VerificationVisual from "@/components/page-components/auth/VerificationVisual";
 import Container from "@/tw-components/container";
 import React from "react";
 
-const Verification = () => {
+const LoginVerification = () => {
   return (
     <Layout title="Verification">
       <div className="h-screen flex">
@@ -21,7 +21,7 @@ const Verification = () => {
               Enter the login verification code we just sent to your email
               address.
             </p>
-            <OTPVerification />
+            <OTPLoginVerification />
           </Container>
         </div>
       </div>
@@ -29,4 +29,4 @@ const Verification = () => {
   );
 };
 
-export default Verification;
+export default LoginVerification;

@@ -9,16 +9,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { LoginFields, LoginSchema } from "@/models/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Spinner from "@/tw-components/spinner";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "@/pages/api/mutate/Login";
 import { useToast } from "@/components/ui/use-toast";
 import { LoginFieldType } from "@/lib/types/AuthType";
+import { setCookie } from "@/lib/cookies";
 
 const LoginAuth = () => {
   const form = useForm<LoginFields>({
@@ -44,7 +45,7 @@ const LoginAuth = () => {
           description: `${response?.message}`,
         });
 
-        router.push("/verify");
+        router.push("/verify-login");
       }
     },
     onError: (error: any) => {
@@ -58,11 +59,11 @@ const LoginAuth = () => {
 
   const onSubmit = useCallback(async (payload: LoginFields) => {
     console.log(payload);
+    setCookie("email", payload.email);
     const data = {
       email: payload.email,
     };
     mutate(data);
-    router.push("/verify");
   }, []);
   return (
     <div>

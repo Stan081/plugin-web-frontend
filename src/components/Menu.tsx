@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Separator } from "./ui/separator";
 import { LuLayoutGrid } from "react-icons/lu";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { useUserDashContext } from "@/providers/user_dashboard.provider";
 
 const items = [
   {
@@ -40,12 +41,14 @@ const items = [
 ];
 
 const MenuLinks = () => {
+  const { user, logout } = useUserDashContext();
   return (
     <Popover>
       <PopoverTrigger>
         <div className="flex justify-start items-center">
           <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
-            OM
+            {`${user?.name?.firstname.slice(0, 1)}` +
+              `${user?.name?.lastname.slice(0, 1)}`}
           </p>
           <RiArrowDownSLine className="ml-2" />
         </div>
@@ -72,11 +75,14 @@ const MenuLinks = () => {
             href={`/#`}
             className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md"
           >
-            <LuLayoutGrid size={18}/>
+            <LuLayoutGrid size={18} />
             Manage events
           </Link>
-          <div className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md">
-            <RiLogoutBoxRLine size={18}/>
+          <div
+            onClick={logout}
+            className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base cursor-pointer hover:bg-gray-200 p-1.5 rounded-md"
+          >
+            <RiLogoutBoxRLine size={18} />
             Logout
           </div>
         </div>

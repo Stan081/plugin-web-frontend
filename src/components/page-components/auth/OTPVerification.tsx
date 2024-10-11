@@ -1,22 +1,24 @@
 import React, { useCallback, useState } from "react";
 import { OtpBox } from "@/components/OtpBox";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { VerifyCode } from "@/pages/api/mutate/SignUp";
 import { VerifyCodeType } from "@/lib/types/AuthType";
 import { useToast } from "@/components/ui/use-toast";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
-import { Button } from "@/components/ui/button";
-import Spinner from "@/tw-components/spinner";
 import { setToken } from "@/lib/token";
+import { getCookie } from "@/lib/cookies";
 
 const OTPVerification = () => {
   const [otp, setOtp] = useState<string>("");
-  const { user } = useUserDashContext();
 
   const router = useRouter();
 
+  const email = getCookie("email");
+
   const { toast } = useToast();
+
+  const client = useQueryClient();
 
   const { mutate } = useMutation({
     mutationFn: (data: VerifyCodeType) => VerifyCode(data),
@@ -24,7 +26,7 @@ const OTPVerification = () => {
       response.data;
       setToken(response?.token);
       console.log(response);
-      // client.invalidateQueries(["me"]);
+      client.invalidateQueries({ queryKey: ["me"] });
       toast({
         variant: "success",
         title: "Verified",
@@ -45,12 +47,10 @@ const OTPVerification = () => {
   const handleOtpComplete = useCallback(
     (otp: string) => {
       setOtp(otp);
-      console.log("OTP Entered:", otp);
       const data = {
-        email: user?.email,
+        email,
         code: otp,
       };
-      console.log(data);
       mutate(data);
     },
     [mutate]
