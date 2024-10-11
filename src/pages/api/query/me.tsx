@@ -23,8 +23,8 @@ export const useMe = () => {
           throw err?.response?.data || err.message; // Better error handling
         }),
 
-    retry: false, 
-    refetchOnWindowFocus: false,
-    refetchOnMount: false, 
+    retry: true, 
+    refetchOnWindowFocus: true,
+    refetchOnMount: true, 
   });
 };

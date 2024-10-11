@@ -23,6 +23,7 @@ const OTPLoginVerification = () => {
     onSuccess: (response) => {
       setToken(response?.token);
       client.invalidateQueries({ queryKey: ["me"] });
+      client.refetchQueries({queryKey: ["me"]}); 
       toast({
         variant: "success",
         title: "Verified",

@@ -23,10 +23,9 @@ const OTPVerification = () => {
   const { mutate } = useMutation({
     mutationFn: (data: VerifyCodeType) => VerifyCode(data),
     onSuccess: (response) => {
-      response.data;
       setToken(response?.token);
-      console.log(response);
       client.invalidateQueries({ queryKey: ["me"] });
+      client.refetchQueries({ queryKey: ["me"] });
       toast({
         variant: "success",
         title: "Verified",
