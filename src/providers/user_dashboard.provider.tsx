@@ -1,5 +1,9 @@
 "use client";
-import React from "react";
+import { deleteToken } from "@/lib/token";
+import { SignupFieldType } from "@/lib/types/AuthType";
+import { useMe } from "@/pages/api/query/me";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 /* eslint-disable no-unused-vars */
 import {
@@ -11,7 +15,9 @@ import {
 } from "react";
 
 type UserDashContextValue = {
-  user: boolean;
+  user: SignupFieldType;
+  setUser: (key: SignupFieldType) => void;
+  logout: () => void
 };
 
 const UserDashContext = createContext<UserDashContextValue | null>(null);
@@ -19,10 +25,27 @@ const UserDashContext = createContext<UserDashContextValue | null>(null);
 UserDashContext.displayName = "UserDashContext";
 
 export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<boolean>(false);
+  const { data: userData, isError, isLoading } = useMe();
+  const [user, setUser] = useState<SignupFieldType>();
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (userData) {
+      setUser(userData?.data); 
+    }
+  }, [userData]); 
+
+  const logout = () => {
+    deleteToken(); 
+    setUser(undefined); 
+    router.push("/login"); 
+  };
 
   const ContextValue: UserDashContextValue = {
     user,
+    setUser,
+    logout,
   };
   return (
     <UserDashContext.Provider value={ContextValue}>

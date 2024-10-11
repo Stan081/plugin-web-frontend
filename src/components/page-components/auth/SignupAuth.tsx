@@ -1,3 +1,4 @@
+"use client";
 import {
   Form,
   FormControl,
@@ -9,17 +10,23 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignupFields, SignupSchema } from "@/models/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PhoneNumberInput } from "@/components/PhoneNumberInput";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Spinner from "@/tw-components/spinner";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { signUpStepOne } from "@/pages/api/mutate/SignUp";
+import { SignupFieldType } from "@/lib/types/AuthType";
+import { useToast } from "@/components/ui/use-toast";
+import { useUserDashContext } from "@/providers/user_dashboard.provider";
+import { setCookie } from "@/lib/cookies";
 
 const SignupAuth = () => {
   const form = useForm<SignupFields>({
-    mode: "all",
+    mode: "onSubmit",
     defaultValues: {
       first_name: "",
       last_name: "",
@@ -32,12 +39,55 @@ const SignupAuth = () => {
   //  initialise router
   const router = useRouter();
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
 
-  const onSubmit = useCallback(async (payload: SignupFields) => {
-    console.log(payload);
-    router.push('/verify')
-  }, []);
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: SignupFieldType) => signUpStepOne(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Account created",
+          description: `${response?.message}`,
+        });
+
+        router.push("/verify-signup");
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = useCallback(
+    (payload: SignupFields) => {
+      console.log(payload);
+
+      setCookie('email', payload.email)
+
+      const data = {
+        name: {
+          firstname: payload.first_name,
+          lastname: payload.last_name,
+        },
+        email: payload.email,
+        contact: {
+          phone: payload.phone_number,
+          country: "Nigeria",
+        },
+        role: "user",
+        platform: "web",
+      };
+
+      mutate(data);
+    },
+    [mutate]
+  ); 
+
   return (
     <div>
       <Form {...form}>
@@ -58,7 +108,7 @@ const SignupAuth = () => {
                       type="text"
                       autoCorrect="off"
                       id="first_name"
-                      disabled={isLoading}
+                      disabled={isPending}
                       className="w-full bg-white font-pally-regular"
                       {...field}
                     />
@@ -81,7 +131,7 @@ const SignupAuth = () => {
                       type="text"
                       autoCorrect="off"
                       id="last_name"
-                      disabled={isLoading}
+                      disabled={isPending}
                       className="w-full bg-white font-pally-regular"
                       {...field}
                     />
@@ -104,7 +154,7 @@ const SignupAuth = () => {
                       type="text"
                       autoCorrect="off"
                       id="email_address"
-                      disabled={isLoading}
+                      disabled={isPending}
                       className="w-full bg-white font-pally-regular"
                       {...field}
                     />
@@ -126,9 +176,10 @@ const SignupAuth = () => {
                       {...field}
                       placeholder="Phone Number"
                       defaultCountry="NG"
-                      disabled={isLoading}
+                      disabled={isPending}
                       id="phone_number"
                       type="text"
+                      aria-disabled={isPending}
                       style={{ outline: "none", border: "none" }}
                     />
                   </FormControl>
@@ -138,12 +189,12 @@ const SignupAuth = () => {
             />
           </FormItem>
           <Button
-            disabled={isLoading}
+            disabled={isPending}
             variant="destructive"
             type="submit"
             className="mt-8"
           >
-            {isLoading ? <Spinner /> : "Create account"}
+            {isPending ? <Spinner size="md" /> : "Create account"}
           </Button>
         </form>
       </Form>

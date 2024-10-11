@@ -40,7 +40,7 @@ const Header = () => {
               Help
             </Link>
 
-            {user ? (
+            {!user ? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
                   Get Started
@@ -51,7 +51,7 @@ const Header = () => {
             )}
           </div>
           <div className="md:hidden block">
-            {user ? (
+            {!user ? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
                   Get Started

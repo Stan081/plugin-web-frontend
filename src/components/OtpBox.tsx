@@ -85,7 +85,7 @@ export const OtpBox: React.FC<OtpBoxProps> = ({ numDigits, onComplete }) => {
           ref={(ref) => {
             if (ref) inputRefs.current[i] = ref;
           }}
-          className="w-[45px] h-[50px] rounded-[4px] bg-[#EDEDED] focus:bg-white mx-[12px] flex items-center justify-center px-4 text-[22px] font-extrabold focus:outline-none focus:border focus:border-[#4F46E5] font-inter"
+          className="w-[50px] h-[45px] rounded-[4px] bg-[#EDEDED] focus:bg-white mx-[12px] flex items-center justify-center px-4 text-[22px] font-extrabold focus:outline-none focus:border focus:border-[#4F46E5] font-inter"
         />
       );
     }
