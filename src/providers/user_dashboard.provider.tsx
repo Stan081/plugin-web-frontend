@@ -1,5 +1,5 @@
 "use client";
-import { deleteToken } from "@/lib/token";
+import { deleteToken, getToken } from "@/lib/token";
 import { SignupFieldType } from "@/lib/types/AuthType";
 import { useMe } from "@/pages/api/query/me";
 import { useRouter } from "next/navigation";
@@ -16,8 +16,10 @@ import {
 
 type UserDashContextValue = {
   user: SignupFieldType;
+  shouldRedirect: boolean;
   setUser: (key: SignupFieldType) => void;
-  logout: () => void
+  logout: () => void;
+  setShouldRedirect: (key: boolean) => void;
 };
 
 const UserDashContext = createContext<UserDashContextValue | null>(null);
@@ -25,28 +27,44 @@ const UserDashContext = createContext<UserDashContextValue | null>(null);
 UserDashContext.displayName = "UserDashContext";
 
 export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { data: userData, isError, isLoading } = useMe();
+  const { data: userData,  } = useMe();
+  const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
   const [user, setUser] = useState<SignupFieldType>();
+  const router = useRouter();
 
-  const router = useRouter()
+  const token = getToken();
+
+  useEffect(() => {
+    if (shouldRedirect) {
+      if (token) {
+        router.push("/");
+      } else {
+        router.push("/login");
+      }
+    }
+  }, [shouldRedirect, token, router]);
 
   useEffect(() => {
     if (userData) {
-      setUser(userData?.data); 
+      setUser(userData?.data);
     }
-  }, [userData]); 
+  }, [userData]);
 
   const logout = () => {
-    deleteToken(); 
-    setUser(undefined); 
-    router.push("/login"); 
+    deleteToken();
+    setUser(undefined);
+    setShouldRedirect(false);
+    router.push("/login");
   };
 
   const ContextValue: UserDashContextValue = {
     user,
+    shouldRedirect,
+    setShouldRedirect,
     setUser,
     logout,
   };
+
   return (
     <UserDashContext.Provider value={ContextValue}>
       {children}
