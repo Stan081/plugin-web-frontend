@@ -11,7 +11,7 @@ import { getCookie } from "@/lib/cookies";
 
 const OTPVerification = () => {
   const [otp, setOtp] = useState<string>("");
-
+  const {setShouldRedirect} = useUserDashContext()
   const router = useRouter();
 
   const email = getCookie("email");
@@ -51,6 +51,7 @@ const OTPVerification = () => {
         code: otp,
       };
       mutate(data);
+      setShouldRedirect(true)
     },
     [mutate]
   );

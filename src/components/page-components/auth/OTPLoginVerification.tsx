@@ -7,9 +7,11 @@ import { useToast } from "@/components/ui/use-toast";
 import { setToken } from "@/lib/token";
 import { VerifyLoginCode } from "@/pages/api/mutate/Login";
 import { getCookie } from "@/lib/cookies";
+import { useUserDashContext } from "@/providers/user_dashboard.provider";
 
 const OTPLoginVerification = () => {
   const [otp, setOtp] = useState<string>("");
+  const {setShouldRedirect} = useUserDashContext()
 
   const router = useRouter();
 
@@ -32,7 +34,6 @@ const OTPLoginVerification = () => {
       router.push("/");
     },
     onError: (error: any) => {
-      // Handle error here
       toast({
         variant: "destructive",
         title: "Wrong OTP",
@@ -49,6 +50,7 @@ const OTPLoginVerification = () => {
         code: otp,
       };
       mutate(data);
+      setShouldRedirect(true)
     },
     [mutate]
   );
