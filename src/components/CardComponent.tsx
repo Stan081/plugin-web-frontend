@@ -1,3 +1,4 @@
+"use client"
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
 import React, { FC, useState } from "react";
 import TicketIcon from "./icons/ticket";
@@ -19,7 +20,7 @@ const CardComponent: FC<CardProps> = ({
   const router = useRouter();
 
   const handleCardClick = (id: string) => {
-    router.push('/explore-event/${id}');
+    router.push(`/explore-events/${id}`);
   };
 
   return (

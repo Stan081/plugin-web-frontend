@@ -36,7 +36,7 @@ const EventFilterComponent = () => {
   };
 
   return (
-    <div className="border-t pt-2 w-[195px] mt-3">
+    <div className="w-[230px]">
       {/* Event Type Section */}
       <div className="flex-col pb-4">
         <div className="flex justify-between items-center mt-3">
