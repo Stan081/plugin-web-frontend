@@ -12,7 +12,7 @@ const AccountPage = () => {
         id="user-account-settings"
         className="md:px-10 overflow-y-auto w-full lg:max-w-7xl "
       >
-        <div className="flex gap-3">
+        <div className="mt-4 flex gap-3">
           <GoBack />
           <h2 className="font-pally-medium text-2xl">Account</h2>
         </div>
@@ -24,7 +24,7 @@ const AccountPage = () => {
             {accountItems.map(({ key, title }, index) => {
               return (
                 <TabsTrigger asChild key={index} value={key}>
-                  <div>{title}</div>
+                  <p className="font-pally-regular">{title}</p>
                 </TabsTrigger>
               );
             })}

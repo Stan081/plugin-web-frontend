@@ -2,14 +2,14 @@ import { LOGIN_URL, VERIFY_LOGIN_URL } from "@/lib/constants";
 import { LoginFieldType, VerifyCodeType } from "@/lib/types/AuthType";
 import axios, { AxiosResponse } from "axios";
 
-interface LoginResponse {
+type LoginResponse = {
   success: boolean;
   message: string;
   token: string;
   data?: any;
 }
 
-interface VerifyLoginResponse {
+type VerifyLoginResponse = {
   success: boolean;
   message: string;
   token: string;

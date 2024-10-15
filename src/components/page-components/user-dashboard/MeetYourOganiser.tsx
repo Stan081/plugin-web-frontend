@@ -14,7 +14,7 @@ const MeetYourOganiser = () => {
       </h6>
 
       <div className="mt-4 flex justify-between items-center md:items-start gap-3">
-        <div className="flex items-start md:items-center gap-3">
+        <div className="flex items-start gap-3">
           <Image
             src={`/images/seagreen-bg.png`}
             width={456}
@@ -35,7 +35,7 @@ const MeetYourOganiser = () => {
             </p>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row gap-3 md:gap-8">
+        <div className="flex flex-col gap-3 md:gap-8">
           <Link href={`/organiser/1`}>
             <Button
               variant="secondary"

@@ -1,5 +1,11 @@
 "use client";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import { StepsProps } from "@/pages/create-event";
@@ -21,6 +27,7 @@ import { Separator } from "@/components/ui/separator";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { Textarea } from "@/components/ui/textarea";
+import { uploadImage } from "@/lib/utils";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -36,8 +43,8 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
   const form = useForm<EventStepOne>({
     mode: "all",
     defaultValues: {
-      event_banner: "",
-      event_thumbnail: "",
+      event_banner: null,
+      event_thumbnail: null,
       event_name: "",
       event_description: "",
     },
@@ -47,17 +54,11 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
   // Handle image upload for banner
-  const handleImageUploadBanner = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
+  const handleImageUploadBanner = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageBanner(reader.result as string);
-        form.setValue("event_banner", reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setImageBanner(URL.createObjectURL(file));
+      form.setValue("event_banner", file);
     }
   };
 
@@ -79,16 +80,12 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
 
   // Handle image upload for thumbnail
   const handleImageUploadThumbnail = (
-    event: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const file = event.target.files?.[0];
+    const file = e.target.files?.[0] || null;
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageThumbnail(reader.result as string);
-        form.setValue("event_thumbnail", reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setImageThumbnail(URL.createObjectURL(file));
+      form.setValue("event_thumbnail", file);
     }
   };
 
@@ -110,12 +107,17 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
 
   const onSubmit = useCallback(async (payload: EventStepOne) => {
     console.log(payload);
-    next();
+    const eventBannerResponse = await uploadImage(payload?.event_banner);
+    const eventthumbnailResponse = await uploadImage(payload?.event_thumbnail);
+    // console.log(res);
+    // next();
   }, []);
 
   return (
-    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12
-    ">
+    <div
+      className="flex flex-col lg:flex-row items-start gap-4 md:gap-12
+    "
+    >
       <div className="w-full lg:w-1/2 px-4 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
@@ -345,7 +347,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                     </Button>
 
                     <div onClick={previous} className="flex items-center gap-8">
-
                       <Button
                         type="submit"
                         disabled={isLoading}

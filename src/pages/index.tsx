@@ -13,9 +13,9 @@ import { getToken } from "@/lib/token";
 
 export default function Home() {
   const gen = getToken();
+  console.log(gen)
   return (
     <Layout title="Welcome to Plugin" showHeader showFooter>
-      {/* <p>{gen}</p> */}
       <HeroSection />
       <TailoredEvent />
       <PopularEvent />

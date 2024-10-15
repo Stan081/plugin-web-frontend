@@ -43,7 +43,7 @@ const Notification = () => {
           </li>
         </ul>
       </div>
-      <div className="mt-6 md:mt-12">
+      <div className="my-6 md:my-12">
         <h4 className="font-pally-medium text-2xl mb-6 text-[#771716]">
           Event Notifications
         </h4>

@@ -8,6 +8,7 @@ import { Section } from "@/tw-components/Section";
 import UpcomingEvent from "./upcomingEvent";
 import { cardData } from "@/static-datas/cards-data";
 import CardComponent from "@/components/CardComponent";
+import Link from "next/link";
 
 const TailoredEvent: React.FC = () => {
   // Temp mock data
@@ -138,7 +139,9 @@ const TailoredEvent: React.FC = () => {
                 location or top priorities, making your search much more fun.
               </p>
               <div className="mx-auto">
-                <Button variant="outline">Explore events</Button>
+                <Link href='/explore-events'>
+                  <Button variant="outline">Explore events</Button>
+                </Link>
               </div>
             </div>
 
