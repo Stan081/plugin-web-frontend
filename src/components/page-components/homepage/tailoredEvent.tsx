@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
-import UpcomingEvent from "./upcomingEvent";
 import { cardData } from "@/static-datas/cards-data";
 import CardComponent from "@/components/CardComponent";
 import Link from "next/link";
@@ -139,7 +138,7 @@ const TailoredEvent: React.FC = () => {
                 location or top priorities, making your search much more fun.
               </p>
               <div className="mx-auto">
-                <Link href='/explore-events'>
+                <Link href="/explore-events">
                   <Button variant="outline">Explore events</Button>
                 </Link>
               </div>
@@ -164,10 +163,9 @@ const TailoredEvent: React.FC = () => {
         <EventMobile />
 
         {/* Upcoming events component */}
-        {/* <UpcomingEvent/> */}
         <Container className="mt-20 md:mt-40 overflow-auto px-4 md:px-0">
           <h2 className="text-3xl font-pally-medium mb-6">Upcoming Events</h2>
-          <div className="flex lg:flex-row gap-6 overflow-x-auto w-full pb-8">
+          <div className="flex lg:flex-row gap-6 overflow-x-auto scroll-smooth whitespace-nowrap w-full pb-8">
             {cardData.map((card) => (
               <CardComponent key={card.id} {...card} />
             ))}

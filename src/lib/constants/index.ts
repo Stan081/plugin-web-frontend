@@ -12,6 +12,6 @@ export const VERIFY_LOGIN_URL: string = `${API_URL}/auth/login-step-two`
 
 export const GET_USER_URL: string = `${API_URL}/auth/me`
 
-export const EVENT_BASIC_INFO_URL = `${API_URL}/event`
+export const EVENT_BASIC_INFO_URL: string = `${API_URL}/event`
 
 

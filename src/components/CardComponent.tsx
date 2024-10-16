@@ -24,7 +24,7 @@ const CardComponent: FC<CardProps> = ({
   };
 
   return (
-    <div className="flex-1 rounded-xl overflow-hidden bg-white border border-gray-200  w-full">
+    <div className="w-full max-w-xs shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200 ">
       <div className="relative">
         <Image
           className="w-full h-48 "
