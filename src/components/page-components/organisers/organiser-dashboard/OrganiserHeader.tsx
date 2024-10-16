@@ -37,9 +37,9 @@ const OrganiserHeader = () => {
         className: getHeaderLinkState("/organiser"),
       },
       {
-        path: "/organiser/events",
+        path: "/organiser/event",
         title: "Event",
-        className: getHeaderLinkState("/organiser/events"),
+        className: getHeaderLinkState("/organiser/event"),
       },
       {
         path: "/organiser/earnings",
