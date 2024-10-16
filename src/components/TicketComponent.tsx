@@ -25,17 +25,21 @@ const TicketComponent: React.FC<TicketComponentProps> = ({ tickets }) => {
           <div className="flex items-start justify-between py-5">
             <div className="flex gap-3 md:gap-5">
               <div className="w-24 h-24 md:w-32">
-                <Image
-                  src={`${tick?.image}` ?? `/images/seagreen-bg.png`}
-                  width={124}
-                  height={106}
-                  alt={`name`}
-                  className="pointer-events-none w-full h-full object-cover rounded-lg"
-                />
+                {tick.image && (
+                  <Image
+                    src={tick.image ?? `/images/seagreen-bg.png`}
+                    width={124}
+                    height={106}
+                    alt={tick.title}
+                    className="pointer-events-none w-full h-full object-cover rounded-lg"
+                  />
+                )}
               </div>
               <div className="space-y-2">
                 <h5 className="text-base md:text-lg font-pally-medium">
-                  {tick?.title.length > 16 ? tick?.title.slice(0,16).concat('...') : tick?.title}
+                  {tick?.title.length > 16
+                    ? tick?.title.slice(0, 16).concat("...")
+                    : tick?.title}
                 </h5>
                 <p className="text-[#586170] text-sm font-pally-regular">
                   {tick?.location}

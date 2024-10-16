@@ -62,7 +62,7 @@ const Header = () => {
             )}
           </div>
         </nav>
-        <div className="md:hidden block w-full">
+        <div className="md:hidden block w-full pb-2 md:pb-0">
           <HeaderSearchBar />
         </div>
       </Container>

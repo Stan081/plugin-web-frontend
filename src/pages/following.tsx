@@ -23,13 +23,13 @@ const FollowingPage = () => {
         id="user-account-settings"
         className="md:px-10 overflow-y-auto w-full lg:max-w-7xl h-[80vh]"
       >
-        <div className="flex gap-3">
+        <div className="mt-4 flex gap-3">
           <GoBack />
           <h2 className="font-pally-medium text-2xl mb-4">Following</h2>
         </div>
         <Separator />
 
-        <div className="flex items-center justify-between gap-4 mt-4 ease-out delay-75 duration-75">
+        <div className="flex items-center justify-between gap-4 ease-out delay-75 duration-75">
           <p className="text-[#AFB2B9] font-pally-regular text-sm md:text-base whitespace-nowrap">
             {getFollowers.length} followers
           </p>

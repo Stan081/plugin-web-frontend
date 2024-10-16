@@ -13,7 +13,7 @@ const AuthVisual = () => {
           <li className="w-72 h-72 absolute top-0 rounded-lg">
             <Image
               src={
-                "https://ik.imagekit.io/pluginImage/Plugin-images/laughing%20people%20in%20party.jpg?updatedAt=1722860712860"
+                "https://ik.imagekit.io/pluginImage/Plugin-images/people%20watching%20in%20the%20stage.jpg?updatedAt=1729118547159"
               }
               alt="Auth"
               width={270}
@@ -24,7 +24,7 @@ const AuthVisual = () => {
           <li className="w-72 h-72 absolute top-10 right-0 rounded-lg">
             <Image
               src={
-                "https://ik.imagekit.io/pluginImage/Plugin-images/party%20fans%20raised%20their%20hands.jpg?updatedAt=1722863689736"
+                "https://ik.imagekit.io/pluginImage/Plugin-images/party%20fans%20raised%20their%20hands.jpg?updatedAt=1729118543452"
               }
               alt="Auth"
               width={270}
@@ -35,7 +35,7 @@ const AuthVisual = () => {
           <li className="w-72 h-72 absolute top-40 z-10 right-1/3 rounded-lg">
             <Image
               src={
-                "https://ik.imagekit.io/pluginImage/Plugin-images/people%20watching%20in%20the%20stage.jpg?updatedAt=1722863806981"
+                "https://ik.imagekit.io/pluginImage/Plugin-images/laughing%20people%20in%20party.jpg?updatedAt=1729118546565"
               }
               alt="Auth"
               width={270}

@@ -9,6 +9,7 @@ import { LuUserPlus2 } from "react-icons/lu";
 import { RiAccountCircleLine } from "react-icons/ri";
 import { BsTicketPerforated } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
+import { useUserDashContext } from "@/providers/user_dashboard.provider";
 
 type Props = {
   open: boolean;
@@ -39,6 +40,7 @@ const menuLinks = [
 ];
 
 const Sidebar: FC<Props> = ({ open, toggle }) => {
+  const { logout } = useUserDashContext();
   const router = useRouter();
 
   const renderSidebar = (hidden: boolean) => {
@@ -92,7 +94,10 @@ const Sidebar: FC<Props> = ({ open, toggle }) => {
                   </li>
                 );
               })}
-              <li className="cursor-pointer mx-2 flex items-center gap-3 font-pally-regular text-base text-gray-600 hover:text-black p-3 rounded-md">
+              <li
+                onClick={logout}
+                className="cursor-pointer mx-2 flex items-center gap-3 font-pally-regular text-base text-gray-600 hover:text-black p-3 rounded-md"
+              >
                 <RiLogoutBoxRLine size={22} />
                 Logout
               </li>
@@ -101,10 +106,17 @@ const Sidebar: FC<Props> = ({ open, toggle }) => {
           <div className="rounded-2xl">
             <div className="bg-bgListEvent bg-contain bg-no-repeat rounded-2xl">
               <div className="px-5 pb-5 pt-20 space-y-3">
-                <p className="font-pally-medium text-xl">
+                <p className="font-pally-medium text-xl pb-2">
                   List an event in 160 seconds
                 </p>
-                <Button variant="destructive" className="w-full max-w-44 mx-auto">List event</Button>
+                <Link href={'/create-event'}>
+                  <Button
+                    variant="destructive"
+                    className="w-full max-w-44 mx-auto"
+                  >
+                    List event
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

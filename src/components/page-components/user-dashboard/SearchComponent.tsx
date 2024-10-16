@@ -42,7 +42,7 @@ const SearchComponent: React.FC<Props> = ({ placeholder }) => {
     <Form {...form}>
       <form
         onClick={form.handleSubmit(onSubmit)}
-        className="flex gap-4 my-5 w-full md:max-w-sm"
+        className="flex items-start gap-4 my-5 w-full md:max-w-sm"
       >
         <FormItem className="w-full">
           <FormField

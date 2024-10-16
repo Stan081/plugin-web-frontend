@@ -27,7 +27,7 @@ const BreadcrumbComponent: React.FC<BreadcrumbComponentProps> = ({
 }) => {
   return (
     <Breadcrumb>
-      <BreadcrumbList className="font-pally-regular">
+      <BreadcrumbList className="font-pally-regular mt-4">
         {breadcrumbArr.map((bread, index) => (
           <Fragment key={index}>
             <BreadcrumbItem>

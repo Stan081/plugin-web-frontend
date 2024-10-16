@@ -5,6 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+// function to calculate percentage
 export const calculatePercentage = (amount: number, total: number): number => {
   if (total < 0) {
     throw new Error("Balance must be greater than 0.");
@@ -13,6 +14,7 @@ export const calculatePercentage = (amount: number, total: number): number => {
   return +((amount / total) * 100).toFixed(2);
 };
 
+// function to calculate duration
 export const calculateDuration = (startTime: string, endTime: string) => {
   const [startHours, startMinutes] = startTime.split(":").map(Number);
   const [endHours, endMinutes] = endTime.split(":").map(Number);
@@ -47,4 +49,20 @@ export const calculateDuration = (startTime: string, endTime: string) => {
   }
 
   return durationString.trim() || "0 minutes";
+};
+
+// function to sync clodinary for every image upload
+export const uploadImage = async (file: any): Promise<any> => {
+  const cloudName = "dbhbyikta";
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "Default");
+  const uploadResponse = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
+  return uploadResponse.json();
 };

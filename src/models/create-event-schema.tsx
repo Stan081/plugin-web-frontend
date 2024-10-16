@@ -5,8 +5,18 @@ const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
 
 // Schema for creating an event
 export const EventStepOneSchema = yup.object().shape({
-  event_banner: yup.string().required("This field is required"),
-  event_thumbnail: yup.string().required("This field is required"),
+  event_banner: yup
+  .mixed()
+  .nullable()
+  .test("required", "Image is required", (value) => {
+    return value instanceof File || value === null;
+  }),
+  event_thumbnail: yup
+    .mixed()
+    .nullable()
+    .test("required", "Image is required", (value) => {
+      return value !== null;
+    }),
   event_name: yup.string().required("Please enter event name"),
   event_description: yup.string().required("Please enter event description"),
 });
@@ -243,15 +253,15 @@ const ScheduleForm = yup.object().shape({
 });
 
 export const InviteeListSchema = yup.object().shape({
-  full_name: yup.string().required('Full name is required'),
+  full_name: yup.string().required("Full name is required"),
   phone_number: yup.string().required("Contact phone number is required"),
-  pass_code: yup.string().required('Generate passcode')
-})
+  pass_code: yup.string().required("Generate passcode"),
+});
 
 const inviteeInformation = yup.object().shape({
-  message: yup.string().required('Write message for invitees'),
-  inviteeLists: yup.array().of(InviteeListSchema)
-})
+  message: yup.string().required("Write message for invitees"),
+  inviteeLists: yup.array().of(InviteeListSchema),
+});
 
 export const PublishFormSchema = yup.object().shape({
   organiser_photo: yup.string().required(),

@@ -22,7 +22,7 @@ const eventlists = [
     description: "List your event",
     icon: <ListAdd />,
     bgColor: "bg-[#FBDFD2]",
-    link: "/#",
+    link: "/create-event",
   },
   {
     name: "Features",
@@ -51,9 +51,9 @@ export const NavigationDialog = () => {
             <RiMenu4Fill size={24} color="#000" />
           </div>
         </DialogTrigger>
-        <DialogContent className=" p-4 flex-none h-screen bg-white">
-          <div className="space-y-8">
-            <div className="flex justify-between items-start">
+        <DialogContent className="p-4 flex-none h-screen bg-white">
+          <div className="space-y-8 mt-8">
+            <div className="flex justify-between items-center">
               <Logo />
               <DialogClose
                 asChild

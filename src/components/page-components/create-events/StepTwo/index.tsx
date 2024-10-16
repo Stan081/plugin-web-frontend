@@ -30,6 +30,7 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
     setSelectedNames(selectedCategories);
   };
 
+console.log(selectedNames)
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12">
       <div className="w-full lg:w-1/2  px-4 lg:px-0">

@@ -3,13 +3,13 @@ import { SIGNUP_URL, VERIFY_URL } from "@/lib/constants";
 import axios, { AxiosResponse } from "axios";
 import { SignupFields } from "@/models/auth";
 
-interface SignUpResponse {
+type SignUpResponse = {
   success: boolean;
   message: string;
   data?: any;
 }
 
-interface VerifyResponse {
+type VerifyResponse =  {
   success: boolean;
   message: string;
   token: string;
