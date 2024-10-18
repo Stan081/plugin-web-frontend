@@ -23,8 +23,14 @@ export const useMe = () => {
           throw err?.response?.data || err.message; // Better error handling
         }),
 
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+>>>>>>> 8932ffa (Chore(organiser-dashboard))
     retry: true, 
+=======
+>>>>>>> d6ac768 (Chore(organiser-dashboard))
     refetchOnWindowFocus: false,
     refetchOnMount: true, 
   });

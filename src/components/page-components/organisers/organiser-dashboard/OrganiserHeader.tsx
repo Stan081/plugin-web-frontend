@@ -12,9 +12,15 @@ import { useRouter } from "next/router";
 
 const OrganiserHeader = () => {
 <<<<<<< HEAD
+<<<<<<< HEAD
   // const { organiser } = useOrganiserDashContext();
 =======
 >>>>>>> 2c0a6c7 (Chore(event-api): integrate step one api)
+=======
+=======
+  // const { organiser } = useOrganiserDashContext();
+>>>>>>> d6ac768 (Chore(organiser-dashboard))
+>>>>>>> 8932ffa (Chore(organiser-dashboard))
 
   const router = useRouter();
 
