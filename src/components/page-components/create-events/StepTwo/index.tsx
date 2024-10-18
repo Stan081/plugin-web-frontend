@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import { StepsProps } from "@/pages/create-event";
@@ -8,6 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { categoriesData, EventCategory } from "@/static-datas/create-event";
 import { getCookie } from "@/lib/cookies";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+import { EventCategoryAPI } from "@/pages/api/mutate/events/eventCategory";
+
 // import Cookies from "js-cookie";
 
 const pageContents = ["Think about the primary audience for your event."];
@@ -17,6 +21,7 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
 
   console.log(getCookie('event_id'))
+  const {toast} = useToast()
 
   const handleClick = (name: string) => {
     const updatedCategories = categories.map((category) =>
@@ -33,7 +38,31 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
     setSelectedNames(selectedCategories);
   };
 
-console.log(selectedNames)
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventCategoryAPI(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Event has been added!",
+          description: `${response?.message}`,
+        });
+        next();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const handleSubmit = useCallback(() => {
+    mutate(selectedNames)
+  }, [])
+
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12">
       <div className="w-full lg:w-1/2  px-4 lg:px-0">
@@ -83,8 +112,8 @@ console.log(selectedNames)
                   </Button>
 
                   <Button
-                    disabled={selectedNames.length < 1}
-                    onClick={() => next()}
+                    disabled={selectedNames.length < 1 || isPending}
+                    onClick={handleSubmit}
                     variant="destructive"
                   >
                     Next

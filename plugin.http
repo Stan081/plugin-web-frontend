@@ -11,7 +11,45 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ###
 
-GET https://pluginapi.onrender.com/api/event
+PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+
+{
+  "eventCategory": ["home", "football"],
+}
 
 ###
+
+PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+
+{
+"eventType": "one-time",
+"oneTimeEvent": {
+"startDate": "2024-10-10T19:01:47.426+00:00",
+"startTime": "2024-10-10T19:01:47.426+00:00",
+"timeZone": "timezone",
+"endTime": "12:50pm",
+"endDate": "2024-10-14T19:01:47.426+00:00"
+  }
+}
+
+###
+
+PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+
+{
+  "eventType": "recurring",
+  "recurringEvent": {
+  "scheduleReference": "Monday-Friday",
+    "startDate": "2024-10-10T19:01:47.426+00:00",
+"startTime": "2024-10-10T19:01:47.426+00:00",
+"timeZone": "timezone",
+"endTime": "Time",
+"endDate": "2024-10-14T19:01:47.426+00:00"
+  }
+}

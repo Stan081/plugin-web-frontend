@@ -23,7 +23,7 @@ import { FiEdit } from "react-icons/fi";
 import { Textarea } from "@/components/ui/textarea";
 import { uploadImage } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import { EventBasicInfo } from "@/pages/api/mutate/events/create-event.api";
+import { EventBasicInfo } from "@/pages/api/mutate/events/eventBasicInfo";
 import { useToast } from "@/components/ui/use-toast";
 import { setCookie } from "@/lib/cookies";
 import Spinner from "@/tw-components/spinner";

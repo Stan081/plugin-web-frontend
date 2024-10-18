@@ -31,7 +31,7 @@ const StepThree: React.FC<StepsProps> = ({ next, previous }) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 h-screen">
+    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 md:h-screen">
       <div className="w-full lg:w-1/2  px-4 lg:px-0">
         <Intro
           contents={pageContents}
@@ -68,9 +68,9 @@ const StepThree: React.FC<StepsProps> = ({ next, previous }) => {
             </h4>
 
             {eventType === "one-time" ? (
-              <OneTimeFormComponent next={next} previous={previous} />
+              <OneTimeFormComponent eventType={eventType} next={next} previous={previous} />
             ) : (
-              <RecurringForm next={next} previous={previous} />
+              <RecurringForm eventType={eventType} next={next} previous={previous} />
             )}
           </div>
         </FormContainer>
