@@ -12,7 +12,7 @@ import classNames from "classnames";
 import { useRouter } from "next/router";
 
 const OrganiserHeader = () => {
-  const { organiser } = useOrganiserDashContext();
+  // const { organiser } = useOrganiserDashContext();
 
   const router = useRouter();
 

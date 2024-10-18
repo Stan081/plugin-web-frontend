@@ -1,6 +1,6 @@
 POST https://pluginapi.onrender.com/api/event
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDkwODllOGE3MTNmYTI2MmQ2YmUxYyIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI4ODQyMzk3LCJleHAiOjE3MzE0MzQzOTd9.6xOqeBfZvgEsvyMWGK4ecZXKoWDTNCck4F5-WBVOMsw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjQwNTEzLCJleHAiOjE3MzE4MzI1MTN9.pKWPM6SNVvGXO9bvdvAYTskWPKKAKgGEPtaBCwGK0Y8
 
 {
   "eventBanner": "Emma",
@@ -11,7 +11,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDkwODllO
 
 ###
 
-GET https://pluginapi.onrender.com/api/event
+GET https://pluginapi.onrender.com/api/auth/me
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjQwNTEzLCJleHAiOjE3MzE4MzI1MTN9.pKWPM6SNVvGXO9bvdvAYTskWPKKAKgGEPtaBCwGK0Y8
 
 ###
