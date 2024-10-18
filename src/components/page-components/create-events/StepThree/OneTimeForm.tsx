@@ -14,10 +14,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { StepsProps } from "@/pages/create-event";
-import {
-  OneTimeForm,
-  OneTimeFormShema,
-} from "@/models/create-event-schema";
+import { OneTimeForm, OneTimeFormShema } from "@/models/create-event-schema";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -29,8 +26,20 @@ import {
 import { timezone } from "@/static-datas/create-event";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import Spinner from "@/tw-components/spinner";
+import { useMutation } from "@tanstack/react-query";
+import { OneTimeEvent } from "@/pages/api/mutate/events/eventTypeAPI";
+import { useToast } from "@/components/ui/use-toast";
 
-const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
+interface OneTimeFormComponentProps extends StepsProps {
+  eventType: string;
+}
+
+const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
+  next,
+  previous,
+  eventType,
+}) => {
   const [alert, setAlert] = useState<boolean>(true);
 
   const form = useForm<OneTimeForm>({
@@ -45,11 +54,43 @@ const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
     resolver: yupResolver(OneTimeFormShema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
 
-  const onSubmit = useCallback(async (payload: OneTimeForm) => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => OneTimeEvent(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Uploaded Successfully",
+          description: `${response?.message}`,
+        });
+        next();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = useCallback((payload: OneTimeForm) => {
     console.log(payload);
-    next();
+    const data = {
+      eventType,
+      oneTimeEvent: {
+        startDate: payload?.start_date,
+        startTime: payload?.start_time,
+        timeZone: payload?.timezone,
+        endTime: payload?.end_time,
+        endDate: payload?.end_date,
+      },
+    };
+    console.log(data);
+    mutate(data);
   }, []);
 
   return (
@@ -73,7 +114,7 @@ const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="md:h-[40vh] whitespace-normal overflow-y-auto">
+          <div className="h-[60vh] md:h-[40vh] whitespace-normal overflow-y-auto">
             <div className="grid grid-cols-2 gap-5 h-auto w-auto">
               <FormItem>
                 <FormLabel className="text-white" htmlFor="start_date">
@@ -83,10 +124,11 @@ const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                   control={form.control}
                   name="start_date"
                   render={({ field }) => {
+                    // Convert Date to YYYY-MM-DD if it's a Date object
                     const formattedDate =
                       field.value instanceof Date
-                        ? field.value.toISOString().split("T")[0]
-                        : field.value;
+                        ? field.value.toISOString().split("T")[0] // Format Date to "YYYY-MM-DD"
+                        : field.value; // Use the value if it's already a string
 
                     return (
                       <FormItem>
@@ -95,10 +137,12 @@ const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                             placeholder="DD/MM/YY"
                             type="date"
                             id="start_date"
-                            disabled={isLoading}
-                            className=" bg-white text-black font-pally-regular"
+                            className="bg-white text-black font-pally-regular"
                             {...field}
                             value={formattedDate}
+                            onChange={(e) => {
+                              field.onChange(new Date(e.target.value));
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -115,16 +159,28 @@ const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                   control={form.control}
                   name="start_time"
                   render={({ field }) => {
+                    const isDateObject = (value: unknown): value is Date => {
+                      return (
+                        typeof value === "object" &&
+                        value !== null &&
+                        "toISOString" in value
+                      );
+                    };
+
+                    const formattedTime = isDateObject(field.value)
+                      ? field.value.toISOString().split("T")[1].slice(0, 5)
+                      : field.value;
+
                     return (
                       <FormItem>
                         <FormControl>
                           <Input
-                            placeholder="0:00"
+                            placeholder="00:00"
                             type="time"
                             id="start_time"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
+                            value={formattedTime}
                           />
                         </FormControl>
                         <FormMessage />
@@ -141,6 +197,7 @@ const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                   control={form.control}
                   name="end_date"
                   render={({ field }) => {
+                    // Same logic for end_date
                     const formattedDate =
                       field.value instanceof Date
                         ? field.value.toISOString().split("T")[0]
@@ -153,10 +210,13 @@ const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                             placeholder="DD/MM/YY"
                             type="date"
                             id="end_date"
-                            disabled={isLoading}
-                            className=" bg-white text-black font-pally-regular"
+                            className="bg-white text-black font-pally-regular"
                             {...field}
                             value={formattedDate}
+                            onChange={(e) => {
+                              // Ensure the selected date is converted back to Date object for RHF
+                              field.onChange(new Date(e.target.value));
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -180,7 +240,6 @@ const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                             placeholder="0:00"
                             type="time"
                             id="end_time"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -195,7 +254,7 @@ const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                 <FormLabel>Timezone</FormLabel>
                 <FormField
                   control={form.control}
-                  name="end_time"
+                  name="timezone"
                   render={({ field }) => {
                     return (
                       <FormControl>
@@ -248,10 +307,10 @@ const OneTimeFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
 
                 <Button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isPending}
                   variant="destructive"
                 >
-                  {isLoading ? "Submitting..." : "Next"}
+                  {isPending ? <Spinner /> : "Next"}
                 </Button>
               </div>
             </div>
