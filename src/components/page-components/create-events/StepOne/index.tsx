@@ -1,10 +1,5 @@
 "use client";
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import { StepsProps } from "@/pages/create-event";
@@ -108,7 +103,8 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     console.log(payload);
     const eventBannerResponse = await uploadImage(payload?.event_banner);
     const eventthumbnailResponse = await uploadImage(payload?.event_thumbnail);
-    // console.log(res);
+    console.log("banner", eventBannerResponse);
+    console.log("thumbnail", eventthumbnailResponse);
     // next();
   }, []);
 
