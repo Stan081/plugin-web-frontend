@@ -53,10 +53,10 @@ export const calculateDuration = (startTime: string, endTime: string) => {
 
 // function to sync clodinary for every image upload
 export const uploadImage = async (file: any): Promise<any> => {
-  const cloudName = "dxwxyv9ry";
+  const cloudName = "dbhbyikta";
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("upload_preset", "Default");
+  formData.append("upload_preset", "yjpmz4l2");
   const uploadResponse = await fetch(
     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
     {

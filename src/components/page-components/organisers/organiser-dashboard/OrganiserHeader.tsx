@@ -6,13 +6,15 @@ import Logo from "../../../Logo";
 import Link from "next/link";
 import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { NavigationDialog } from "../../../NavigationDialog";
-import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import MenuLinks from "../../../Menu";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 
 const OrganiserHeader = () => {
+<<<<<<< HEAD
   // const { organiser } = useOrganiserDashContext();
+=======
+>>>>>>> 2c0a6c7 (Chore(event-api): integrate step one api)
 
   const router = useRouter();
 

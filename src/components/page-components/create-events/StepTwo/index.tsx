@@ -7,6 +7,7 @@ import { StepsProps } from "@/pages/create-event";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { categoriesData, EventCategory } from "@/static-datas/create-event";
+import { getCookie } from "@/lib/cookies";
 // import Cookies from "js-cookie";
 
 const pageContents = ["Think about the primary audience for your event."];
@@ -14,6 +15,8 @@ const pageContents = ["Think about the primary audience for your event."];
 const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
   const [categories, setCategories] = useState<EventCategory[]>(categoriesData);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
+
+  console.log(getCookie('event_id'))
 
   const handleClick = (name: string) => {
     const updatedCategories = categories.map((category) =>

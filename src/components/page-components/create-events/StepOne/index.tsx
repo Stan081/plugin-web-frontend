@@ -22,6 +22,11 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { Textarea } from "@/components/ui/textarea";
 import { uploadImage } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import { EventBasicInfo } from "@/pages/api/mutate/events/create-event.api";
+import { useToast } from "@/components/ui/use-toast";
+import { setCookie } from "@/lib/cookies";
+import Spinner from "@/tw-components/spinner";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -45,7 +50,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     resolver: yupResolver(EventStepOneSchema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
 
   // Handle image upload for banner
   const handleImageUploadBanner = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,13 +104,39 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     }
   };
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventBasicInfo(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "File has been uploaded",
+          description: `${response?.message}`,
+        });
+        next();
+        setCookie('event_id', response?.data?._id)
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
   const onSubmit = useCallback(async (payload: EventStepOne) => {
     console.log(payload);
     const eventBannerResponse = await uploadImage(payload?.event_banner);
     const eventthumbnailResponse = await uploadImage(payload?.event_thumbnail);
-    console.log("banner", eventBannerResponse);
-    console.log("thumbnail", eventthumbnailResponse);
-    // next();
+    const data = {
+      eventBanner: eventBannerResponse?.secure_url,
+      thumbnail: eventthumbnailResponse?.secure_url,
+      eventName: payload?.event_name,
+      eventDescription: payload?.event_description,
+    };
+    mutate(data)
   }, []);
 
   return (
@@ -290,7 +321,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                                   placeholder="E.g., 'Summer Music Festival 2024'"
                                   type="text"
                                   id="event_name"
-                                  disabled={isLoading}
                                   className="w-full bg-white text-black font-pally-regular"
                                   {...field}
                                 />
@@ -316,7 +346,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                                 <Textarea
                                   placeholder="Max  char - 200 Words"
                                   id="event_description"
-                                  disabled={isLoading}
                                   className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
                                   {...field}
                                 />
@@ -344,10 +373,10 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                     <div onClick={previous} className="flex items-center gap-8">
                       <Button
                         type="submit"
-                        disabled={isLoading}
+                        disabled={isPending}
                         variant="destructive"
                       >
-                        {isLoading ? "Submitting..." : "Next"}
+                        {isPending ? <Spinner /> : "Next"}
                       </Button>
                     </div>
                   </div>
