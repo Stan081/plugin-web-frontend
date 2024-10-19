@@ -144,10 +144,10 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       className="flex flex-col lg:flex-row items-start gap-4 md:gap-12
     "
     >
-      <div className="w-full lg:w-1/2 px-4 lg:px-0">
+      <div className="w-full lg:w-2/5 px-4 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
-      <div className="w-full h-full lg:w-1/2">
+      <div className="w-full h-full lg:w-3/5">
         <FormContainer formTitle="Basic Information" currPosition={[20, 0, 0]}>
           <div>
             <Form {...form}>
@@ -155,7 +155,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex flex-col justify-between gap-4 w-full h-full mb-6 px-3"
               >
-                <div className="lg:h-[64vh] whitespace-normal overflow-y-auto">
+                <div className="lg:h-[70vh] whitespace-normal overflow-y-auto">
                   <FormItem className="w-full">
                     <FormLabel className="text-white font-pally-medium">
                       Event Banner

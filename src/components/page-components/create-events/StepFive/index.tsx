@@ -37,13 +37,13 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
 
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 md:h-screen">
-      <div className="w-full lg:w-1/2  px-4 lg:px-0">
+      <div className="w-full lg:w-2/5  px-4 lg:px-0">
         <Intro
           contents={changePageContent.content}
           title={changePageContent.introTitle}
         />
       </div>
-      <div className="w-full lg:w-1/2 bg-[#f0ded1]">
+      <div className="w-full lg:w-3/5 bg-[#f0ded1]">
         <FormContainer formTitle="Event Details" currPosition={[100, 40, 0]}>
           <div className="flex flex-col justify-between gap-4 w-full h-full">
             <Accordion type="single" collapsible className="w-full space-y-5 lg:h-[82vh] overflow-y-auto">

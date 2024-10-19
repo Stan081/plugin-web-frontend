@@ -37,13 +37,13 @@ const StepFour: React.FC<StepsProps> = ({ next, previous }) => {
       className="flex flex-col lg:flex-row items-start gap-4 md:gap-12
     "
     >
-      <div className="w-full lg:w-1/2  px-4 lg:px-0">
+      <div className="w-full lg:w-2/5  px-4 lg:px-0">
         <Intro
           contents={pageContents}
           title="Where will your event take place?"
         />
       </div>
-      <div className="w-full lg:w-1/2">
+      <div className="w-full lg:w-3/5">
         <FormContainer formTitle="Basic Information" currPosition={[80, 0, 0]}>
           <div className="flex flex-wrap justify-start items-end gap-5">
             <h3 className="font-pally-medium md:text-xl">

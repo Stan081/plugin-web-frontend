@@ -7,7 +7,7 @@ const StepSeven = () => {
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 h-screen">
       <Side1 />
-      <div className="w-full lg:w-1/2 lg:px-0">
+      <div className="w-full lg:w-3/5 lg:px-0">
         <FormContainer
           formTitle="Publish Event"
           currPosition={[100, 100, 50]}
