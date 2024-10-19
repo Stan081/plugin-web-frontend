@@ -1,4 +1,4 @@
-import { ComponentPropsWithRef, FC, Fragment } from 'react';
+import React, { ComponentPropsWithRef, FC, Fragment } from 'react';
 
 import { cn } from '@/lib/utils';
 

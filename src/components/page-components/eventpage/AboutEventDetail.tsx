@@ -6,6 +6,8 @@ import MeetYourOganiser from "../user-dashboard/MeetYourOganiser";
 import ShowLocation from "./ShowLocation";
 import EventsTags from "./EventsTags";
 import EventsSpeakers from "./EventsGuests";
+import EventsAgenda from "./EventsAgenda";
+import EventsVendorPass from "./EventsVendorPass";
 
 interface Props {
   location: string;
@@ -15,6 +17,7 @@ interface Props {
 const AboutEventDetail: React.FC = () => {
   return (
     <div className="space-y-5 mt-4 w-full lg:w-1/2">
+
       <div className="space-y-1 my-6">
         <p className="text-[#2C2B2E] text-base md:text-lg font-pally-regular">
           70C Bennet Bassey Esau Street, Ewet Housing, Uyo
@@ -23,7 +26,9 @@ const AboutEventDetail: React.FC = () => {
           Sun, July 28 2024, 8:00 PM
         </p>
       </div>
+
       <Separator />
+
       <div>
         <p className="text-[#2C2B2E] text-base md:text-lg font-pally-medium">
           About the event
@@ -37,6 +42,21 @@ const AboutEventDetail: React.FC = () => {
           meaningful connections and spreading positive vibes.
         </p>
       </div>
+
+      <Separator />
+
+      <EventsAgenda />
+
+      <Separator />
+
+      <EventsVendorPass />
+
+
+
+
+
+
+
       <Separator />
 
       <MeetYourOganiser />
