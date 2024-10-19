@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { toFiat } from "@/lib/amount";
 import { Fragment, useState } from "react";
-import WithdrawalProcess from "./WithdrawalProcess";
+import WithdrawalProcess from "./withdrawal-flow/WithdrawalProcess";
 
 const AvailableBalance = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
