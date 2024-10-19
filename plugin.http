@@ -16,7 +16,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
 
 {
-  "eventCategory": ["home", "football"],
+  "eventCategory": ["home", "start", "end", "done", "football"]
 }
 
 ###
@@ -51,5 +51,36 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 "timeZone": "timezone",
 "endTime": "Time",
 "endDate": "2024-10-14T19:01:47.426+00:00"
+  }
+}
+
+###
+
+PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+
+{
+  "locationType": "physical",
+  "physicalLocation": {
+  "address": "Address",
+  "city": "City",
+"state": "State",
+"country": "Country",
+"zipcode": "ZipCode"
+  }
+}
+
+###
+
+PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+
+{
+  "locationType": "online",
+  "onlineLocation": {
+  "onlineVenue": "Zoom or Meet",
+  "venueLink": "Link"
   }
 }

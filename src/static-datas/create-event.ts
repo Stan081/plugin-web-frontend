@@ -65,7 +65,7 @@ export const categoriesData: EventCategory[] = [
   { name: "Science & Tech", selected: false },
   { name: "Non-Profit", selected: false },
   { name: "Hangout", selected: false },
-  { name: "Family & Education", selected: false },
+  { name: "Family & Education", selected: false }
 ];
 
 export const pageContents: PageContentsType[] = [

@@ -6,11 +6,11 @@ const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
 // Schema for creating an event
 export const EventStepOneSchema = yup.object().shape({
   event_banner: yup
-  .mixed()
-  .nullable()
-  .test("required", "Image is required", (value) => {
-    return value instanceof File || value === null;
-  }),
+    .mixed()
+    .nullable()
+    .test("required", "Image is required", (value) => {
+      return value instanceof File || value === null;
+    }),
   event_thumbnail: yup
     .mixed()
     .nullable()
@@ -55,15 +55,15 @@ export const PhysicalLocationSchema = yup.object().shape({
   city: yup.string().required("select city"),
   state: yup.string().required("enter state"),
   country: yup.string().required("enter country of event"),
-  zipcode: yup.number().optional(),
+  zipcode: yup.number().truncate().positive().optional(),
 });
 
 export const OnlineVenueLinkSchema = yup.object().shape({
-  venue_link: yup.string().required("venue link is required"),
-  venue_platform: yup
+  venue_link: yup
     .string()
     .url("online link must be valid")
-    .required("Add online link"),
+    .required("venue link is required"),
+  venue_platform: yup.string().required("Add venue platform"),
 });
 
 // Define the individual guest schema

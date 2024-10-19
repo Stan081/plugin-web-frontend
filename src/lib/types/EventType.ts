@@ -41,3 +41,30 @@ export type RecurringEventType = {
   eventType: string;
   recurringEvent: RecurringType;
 };
+
+/* ----------------------*/
+
+type LocationAddressType = {
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  zipcode: string;
+};
+
+export type physicalLocationType = {
+  locationType: string;
+  physicalLocation: LocationAddressType;
+};
+
+/* ----------------------*/
+
+type OnlineAddress = {
+  onlineVenue: string;
+  venueLink: string;
+};
+
+export type OnlineAddressType = {
+  locationType: string;
+  onlineLocation: OnlineAddress;
+};
