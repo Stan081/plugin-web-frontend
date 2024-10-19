@@ -63,13 +63,13 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
 
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12">
-      <div className="w-full lg:w-1/2  px-4 lg:px-0">
+      <div className="w-full lg:w-2/5  px-4 lg:px-0">
         <Intro
           contents={pageContents}
           title="What kind of events do you organize?"
         />
       </div>
-      <div className="w-full h-full lg:w-1/2 mb-5">
+      <div className="w-full h-full lg:w-3/5 mb-5">
         <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <div className="flex flex-col justify-between gap-4 w-full h-full">
             <div className="h-[60vh] lg:h-[74vh] whitespace-normal overflow-y-auto">

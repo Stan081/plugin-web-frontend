@@ -23,13 +23,13 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
 
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 h-screen md:h-full">
-      <div className="w-full lg:w-1/2 px-4 lg:px-0 ">
+      <div className="w-full lg:w-2/5 px-4 lg:px-0 ">
         <Intro
           contents={contents}
           title={"Set up your ticketing options for attendees."}
         />
       </div>
-      <div className="w-full lg:w-1/2">
+      <div className="w-full lg:w-3/5">
         <FormContainer
           formTitle="Setting up Tickets"
           currPosition={[100, 80, 0]}

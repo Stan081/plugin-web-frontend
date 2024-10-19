@@ -1,3 +1,4 @@
+"use cli"
 import React from "react";
 import HintCard from "./HintCard";
 import Logo from "@/components/Logo";
