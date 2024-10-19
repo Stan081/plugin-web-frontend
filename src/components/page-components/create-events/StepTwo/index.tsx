@@ -7,12 +7,9 @@ import { StepsProps } from "@/pages/create-event";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { categoriesData, EventCategory } from "@/static-datas/create-event";
-import { getCookie } from "@/lib/cookies";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { EventCategoryAPI } from "@/pages/api/mutate/events/eventCategory";
-
-// import Cookies from "js-cookie";
 
 const pageContents = ["Think about the primary audience for your event."];
 
@@ -20,8 +17,7 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
   const [categories, setCategories] = useState<EventCategory[]>(categoriesData);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
 
-  console.log(getCookie('event_id'))
-  const {toast} = useToast()
+  const { toast } = useToast();
 
   const handleClick = (name: string) => {
     const updatedCategories = categories.map((category) =>
@@ -34,7 +30,6 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
     const selectedCategories = updatedCategories
       .filter((category) => category.selected)
       .map((category) => category.name);
-    // Cookies.set("selectedCategories", JSON.stringify(selectedCategories));
     setSelectedNames(selectedCategories);
   };
 
@@ -44,7 +39,7 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
       if (response?.message) {
         toast({
           variant: "success",
-          title: "Event has been added!",
+          title: "Uploaded successfully",
           description: `${response?.message}`,
         });
         next();
@@ -60,8 +55,11 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
   });
 
   const handleSubmit = useCallback(() => {
-    mutate(selectedNames)
-  }, [])
+    const data = {
+      eventCategory: selectedNames
+    }
+    mutate(data);
+  }, []);
 
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12">

@@ -36,8 +36,8 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 h-screen">
-      <div className="w-full h-full lg:w-1/2  px-4 lg:px-0">
+    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 md:h-screen">
+      <div className="w-full lg:w-1/2  px-4 lg:px-0">
         <Intro
           contents={changePageContent.content}
           title={changePageContent.introTitle}

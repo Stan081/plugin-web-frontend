@@ -14,7 +14,7 @@ export const EventCategoryAPI = async (
 ): Promise<StepTwoResponse> => {
   const token = getToken();
   try {
-    const response: AxiosResponse<StepTwoResponse> = await axios.post(
+    const response: AxiosResponse<StepTwoResponse> = await axios.put(
         PUT_EVENT_ID,
       data,
       {

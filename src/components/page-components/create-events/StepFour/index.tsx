@@ -69,9 +69,17 @@ const StepFour: React.FC<StepsProps> = ({ next, previous }) => {
 
           <div className="mt-6">
             {locationType === "physical" ? (
-              <PhysicalForm next={next} previous={previous}/>
+              <PhysicalForm
+                locationType={locationType}
+                next={next}
+                previous={previous}
+              />
             ) : (
-              <OnlineForm next={next} previous={previous}/>
+              <OnlineForm
+                locationType={locationType}
+                next={next}
+                previous={previous}
+              />
             )}
           </div>
         </FormContainer>
