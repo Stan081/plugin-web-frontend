@@ -3,17 +3,21 @@ import { Separator } from "@/components/ui/separator";
 import React from "react";
 
 type SlotPropsType = {
-    title: string,
-    unitPrice: string;
-    slotsLeft: string
-}
+  title: string;
+  unitPrice: string;
+  slotsLeft: string;
+};
 
-const EventsVendorPassSlot = ({title, unitPrice, slotsLeft}: SlotPropsType) => {
+const EventsVendorPassSlot = ({
+  title,
+  unitPrice,
+  slotsLeft,
+}: SlotPropsType) => {
   return (
-    <div className="h-[15vh] md:h-[20vh] flex border border-[#E8E8E8] rounded-xl">
-      <div className="h-full w-[15%] md:w-[10%] bg-[#F8F6F6]"></div>
+    <div className="h-auto md:h-[20vh] flex border border-[#E8E8E8] rounded-xl">
+      <div className=" md:h-full w-[15%] md:w-[20%] bg-[#F8F6F6] rounded-l-xl"></div>
       <div className="h-full w-[85%] md:w-[90%] flex flex-col justify-between">
-        <div className="h-[60%] flex items-center justify-between px-5">
+        <div className="h-auto md:h-[60%] flex items-center justify-between px-5 py-4">
           <p className="font-pally-regular text-lg md:text-2xl text-[#101928]">
             {title}
           </p>
@@ -21,14 +25,14 @@ const EventsVendorPassSlot = ({title, unitPrice, slotsLeft}: SlotPropsType) => {
             <Button
               variant="outline"
               size="sm"
-              className="flex items-center gap-1.5"
+              className="flex items-center gap-1.5" 
             >
               Buy Pass
             </Button>
           </div>
         </div>
         <Separator />
-        <div className="h-[40%] flex items-center justify-between px-5">
+        <div className="h-auto md:h-[40%] flex items-center justify-between px-5 py-3">
           <p className="font-pally-medium text-lg md:text-xl text-[#101928]">
             #{unitPrice}
             <span className="ml-1 font-pally-regular text-sm md:text-base text-[rgba(0,0,0,0.5)] ">
@@ -45,6 +49,5 @@ const EventsVendorPassSlot = ({title, unitPrice, slotsLeft}: SlotPropsType) => {
     </div>
   );
 };
-
 
 export default EventsVendorPassSlot;
