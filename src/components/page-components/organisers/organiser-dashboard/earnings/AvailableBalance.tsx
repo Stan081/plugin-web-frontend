@@ -9,10 +9,41 @@ import {
 } from "@/components/ui/select";
 import { toFiat } from "@/lib/amount";
 import { Fragment, useState } from "react";
-import WithdrawalProcess from "./withdrawal-flow/WithdrawalProcess";
+import WithdrawalInput from "./withdrawal-flow/WithdrawalInput";
+import WithdrawalOTP from "./withdrawal-flow/WithdrawalOTP";
+import WithdrawalReceipt from "./withdrawal-flow/WithdrawalReceipt";
 
 const AvailableBalance = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [currentStep, setCurrentStep] = useState<number>(1);
+
+  const nextStep = () => {
+    setCurrentStep((prev) => prev + 1);
+  };
+
+  const closeModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <WithdrawalInput close={closeModal} next={nextStep} open={showModal} />
+        );
+      case 2:
+        return (
+          <WithdrawalOTP close={closeModal} next={nextStep} open={showModal} />
+        );
+      case 3:
+        return (
+          <WithdrawalReceipt close={closeModal} open={showModal} />
+        );
+      default:
+        return;
+    }
+  };
 
   return (
     <Fragment>
@@ -41,20 +72,12 @@ const AvailableBalance = () => {
             </SelectContent>
           </Select>
 
-          <Button
-            onClick={() => setShowModal(!showModal)}
-            variant="destructive"
-          >
+          <Button onClick={closeModal} variant="destructive">
             Withdraw
           </Button>
         </div>
       </div>
-      {showModal && (
-        <WithdrawalProcess
-          open={showModal}
-          close={() => setShowModal(!showModal)}
-        />
-      )}
+      {showModal && <>{renderStepContent()}</>}
     </Fragment>
   );
 };

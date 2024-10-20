@@ -1,4 +1,4 @@
-
+"use client"
 import Container from "@/tw-components/container";
 import React from "react";
 import { BsExclamationCircle } from "react-icons/bs";

@@ -45,7 +45,7 @@ const transactions: Transaction[] = [
     date: "01 September, 2022 , 4:00 pm",
   },
   {
-    referenceNumber: "TRX987654321",
+    referenceNumber: "TRX98765431",
     amount: "₦968,075.18",
     status: "Completed",
     date: "01 September, 2022 , 4:00 pm",
