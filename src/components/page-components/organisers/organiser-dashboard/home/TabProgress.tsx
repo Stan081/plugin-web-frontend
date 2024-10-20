@@ -12,7 +12,7 @@ const TabProgress = React.forwardRef<
   <ProgressPrimitive.Root
     ref={ref}
     className={cn(
-      `relative h-1.5 w-full overflow-hidden rounded-xl bg-[#FBEAE9]`,
+      `relative h-2 w-full overflow-hidden rounded-xl bg-[#FBEAE9]`,
       className
     )}
     {...props}
