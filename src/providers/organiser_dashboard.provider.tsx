@@ -19,10 +19,11 @@ type IsCheckedState = {
 
 type OrganiserDashContextValue = {
   isChecked: IsCheckedState;
-  currentStep: number
+  currentStep: number;
+  eventState: string;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   nextSetUpStep: () => void;
-
+  setEventState: (key: string) => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -37,9 +38,8 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   //step for each campaign setup
   const [currentStep, setCurrentStep] = useState<number>(1);
 
-  const nextSetUpStep: () => void = () => {
-    setCurrentStep((prev) => prev + 1);
-  };
+  // switch organiser event tab
+  const [eventState, setEventState] = useState<string>("upcoming");
 
   // Setup campaign state
   const [isChecked, setIsChecked] = useState({
@@ -48,6 +48,11 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     campaignPlanState: false,
     StartCampaignState: false,
   });
+
+  // function to increment setup step
+  const nextSetUpStep: () => void = () => {
+    setCurrentStep((prev) => prev + 1);
+  };
 
   // handle function to checked
   const handleIsChecked = (key: keyof typeof isChecked) => {
@@ -60,8 +65,10 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   const ContextValue: OrganiserDashContextValue = {
     currentStep,
     isChecked,
+    eventState,
     handleIsChecked,
     nextSetUpStep,
+    setEventState,
   };
   return (
     <OrganiserDashContext.Provider value={ContextValue}>

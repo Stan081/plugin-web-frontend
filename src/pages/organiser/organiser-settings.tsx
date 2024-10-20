@@ -9,8 +9,8 @@ import React, { Fragment, useState } from "react";
 import { RiArrowLeftSLine } from "react-icons/ri";
 
 const tabLink = [
-  { title: "Organizer Profile", key: "profile" },
-  { title: "Campaign Plans", key: "plans" },
+  { title: "Organizer profile", key: "profile" },
+  { title: "Campaign plans", key: "plans" },
 ];
 
 const OrganiserSettings = () => {
