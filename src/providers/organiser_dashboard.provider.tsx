@@ -21,9 +21,13 @@ type OrganiserDashContextValue = {
   isChecked: IsCheckedState;
   currentStep: number;
   eventState: string;
+  showPreviewEvent: boolean;
+  showDeleteEvent: boolean;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   nextSetUpStep: () => void;
   setEventState: (key: string) => void;
+  handlePreviewEvent: () => void;
+  handleDeleteEvent: () => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -41,6 +45,12 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   // switch organiser event tab
   const [eventState, setEventState] = useState<string>("upcoming");
 
+  // show preview event state
+  const [showPreviewEvent, setShowPreviewEvent] = useState<boolean>(false);
+
+  // show preview event state
+  const [showDeleteEvent, setShowDeleteEvent] = useState<boolean>(false);
+
   // Setup campaign state
   const [isChecked, setIsChecked] = useState({
     campaignTypeState: false,
@@ -48,6 +58,16 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     campaignPlanState: false,
     StartCampaignState: false,
   });
+
+  // function to switch preview event
+  const handlePreviewEvent = () => {
+    setShowPreviewEvent(!showPreviewEvent);
+  };
+
+  // function to switch preview event
+  const handleDeleteEvent = () => {
+    setShowDeleteEvent(!showDeleteEvent);
+  };
 
   // function to increment setup step
   const nextSetUpStep: () => void = () => {
@@ -66,9 +86,13 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     currentStep,
     isChecked,
     eventState,
+    showPreviewEvent,
+    showDeleteEvent,
+    handlePreviewEvent,
     handleIsChecked,
     nextSetUpStep,
     setEventState,
+    handleDeleteEvent,
   };
   return (
     <OrganiserDashContext.Provider value={ContextValue}>

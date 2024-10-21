@@ -9,8 +9,34 @@ import React from "react";
 import { SlLocationPin } from "react-icons/sl";
 import { TfiWorld } from "react-icons/tfi";
 import { TabProgress } from "../home/TabProgress";
+import { HiOutlineDotsVertical } from "react-icons/hi";
+import { FiEdit2 } from "react-icons/fi";
+import { HiOutlineSpeakerphone } from "react-icons/hi";
+import { MdOutlineRemoveRedEye, MdLink } from "react-icons/md";
+import { HiOutlineTrash } from "react-icons/hi";
+import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
+import { useToast } from "@/components/ui/use-toast";
 
 const OrganiserEventCard = () => {
+  const { handlePreviewEvent } = useOrganiserDashContext();
+  const { toast } = useToast();
+
+  const handleCopyLink = async (saveLink: string) => {
+    try {
+      // Copy the link to the clipboard
+      await navigator.clipboard.writeText(saveLink);
+
+      toast({
+        variant: "success",
+        title: "Link copied to clipboard!",
+      });
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Failed to copy link.",
+      });
+    }
+  };
   const ticketSale: number = 5;
   const totalTicket: number = 20;
   return (
@@ -25,18 +51,45 @@ const OrganiserEventCard = () => {
           width={300}
           height={200}
         />
-        <div className="absolute top-2 left-2 ">
+        <div className="absolute top-2 left-2 flex justify-between items-center w-full">
           <p className="bg-[#2F80ED] text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
             Published
           </p>
           <Popover>
             <PopoverTrigger>
-              <p className="text-[#586170] font-pally-regular text-base md:text-lg flex items-center hover:underline whitespace-nowrap"></p>
+              <div className="bg-white p-2 rounded-full mr-6">
+                <HiOutlineDotsVertical />
+              </div>
             </PopoverTrigger>
-            <PopoverContent className="w-96 bg-white rounded-xl p-3">
-                <ul>
-                    <li></li>
-                </ul>
+            <PopoverContent className="w-48 bg-white rounded-xl p-3">
+              <div className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm">
+                <FiEdit2 size={18} color="#667185" />
+                Edit
+              </div>
+              <div className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm">
+                <HiOutlineSpeakerphone size={18} color="#667185" />
+                Promote event
+              </div>
+              <div
+                onClick={handlePreviewEvent}
+                className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
+              >
+                <MdOutlineRemoveRedEye size={18} color="#667185" />
+                Preview
+              </div>
+              <div
+                onClick={() =>
+                  handleCopyLink("http://localhost:3000/organiser/event")
+                }
+                className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
+              >
+                <MdLink size={18} color="#667185" />
+                Copy link
+              </div>
+              <div className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm">
+                <HiOutlineTrash size={18} color="#667185" />
+                Delete
+              </div>
             </PopoverContent>
           </Popover>
         </div>
@@ -68,7 +121,7 @@ const OrganiserEventCard = () => {
             Total sold
           </p>
           <div className=" w-52">
-            <TabProgress value={ticketSale} max={totalTicket} />
+            <TabProgress value={ticketSale} />
           </div>
           <p className="text-[#667185] whitespace-nowrap font-pally-regular">
             {ticketSale}/{totalTicket}

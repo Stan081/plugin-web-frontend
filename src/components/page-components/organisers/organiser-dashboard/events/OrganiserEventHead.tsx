@@ -15,7 +15,6 @@ const tabLink = [
 const OrganiserEventHead = () => {
   const { eventState, setEventState } = useOrganiserDashContext();
 
-  const router = useRouter();
   return (
     <div className="bg-gray-200 pt-6 md:pt-9">
       <Container className="flex justify-between items-center">
