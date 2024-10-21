@@ -84,7 +84,7 @@ const DelectEvent: FC<DeleteEventProps> = ({ open, close }) => {
                 <p className="destructive  hover:underline cursor-pointer rounded font-pally-regular flex gap-2 items-center">
                   <HiOutlineTrash size={18} /> Delete Event
                 </p>
-                <Button variant="outline">Keep event</Button>
+                <Button onClick={close} variant="outline">Keep event</Button>
               </div>
             </div>
           </DialogPanel>

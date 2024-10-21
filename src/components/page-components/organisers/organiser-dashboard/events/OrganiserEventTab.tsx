@@ -6,6 +6,7 @@ import OrganiserEventCard from "./OrganiserEventCard";
 import Container from "@/tw-components/container";
 import PreviewEvent from "./PreviewEvent";
 import DelectEvent from "./DelectEvent";
+import { organiserEvents } from "@/static-datas/organiser-date";
 
 const OrganiserEventTab = () => {
   const {
@@ -24,18 +25,21 @@ const OrganiserEventTab = () => {
         aria-labelledby={`tab-${eventState}`}
         className="mt-6 md:mt-10"
       >
-        {/* {eventState === "upcoming" && <div>rrgg</div>}
-        {eventState === "draft" && <div>ggdd</div>}
-        {eventState === "past_event" && <div>d</div>} */}
-        <OrganiserEventCard />
+        {eventState === "upcoming" && (
+          <div className="flex flex-wrap gap-6">
+            {organiserEvents.map((item: any) => (
+              <OrganiserEventCard key={String(item.id)} {...item} />
+            ))}
+          </div>
+        )}
+        {/* {eventState === "draft" && <div>ggdd</div>} */}
+        {/* {eventState === "past_event" && <div>d</div>} */}
         {showPreviewEvent && (
           <PreviewEvent open={showPreviewEvent} close={handlePreviewEvent} />
         )}
 
         {showDeleteEvent && (
-          <DelectEvent
-           open={showDeleteEvent} close={handleShowDeleteEvent}
-            />
+          <DelectEvent open={showDeleteEvent} close={handleShowDeleteEvent} />
         )}
       </div>
     </Container>

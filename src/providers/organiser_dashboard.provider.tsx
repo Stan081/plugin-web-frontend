@@ -23,11 +23,13 @@ type OrganiserDashContextValue = {
   eventState: string;
   showPreviewEvent: boolean;
   showDeleteEvent: boolean;
+  activeEvent: string;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   nextSetUpStep: () => void;
   setEventState: (key: string) => void;
   handlePreviewEvent: () => void;
   handleShowDeleteEvent: () => void;
+  setActiveEvent: (key: string) => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -50,6 +52,9 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
 
   // show preview event state
   const [showDeleteEvent, setShowDeleteEvent] = useState<boolean>(false);
+
+  // state for event organiser dashboard
+  const [activeEvent, setActiveEvent] = useState<string>("dashboard");
 
   // Setup campaign state
   const [isChecked, setIsChecked] = useState({
@@ -88,6 +93,8 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     eventState,
     showPreviewEvent,
     showDeleteEvent,
+    activeEvent,
+    setActiveEvent,
     handlePreviewEvent,
     handleIsChecked,
     nextSetUpStep,

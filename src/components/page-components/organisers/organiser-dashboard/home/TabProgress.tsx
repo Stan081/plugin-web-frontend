@@ -19,7 +19,7 @@ const TabProgress = React.forwardRef<
   >
     <ProgressPrimitive.Indicator
       className="h-full w-full flex-1 bg-[#D9302A] transition-all"
-      style={{ transform: `translateX(-${max ? max : 100 - (value || 0)}%)` }}
+      style={{ transform: `translateX(-${max - (value)}%)` }}
     />
   </ProgressPrimitive.Root>
 ));

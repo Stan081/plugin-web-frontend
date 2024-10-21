@@ -5,7 +5,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import Image from "next/image";
-import React from "react";
+import React, { FC } from "react";
 import { SlLocationPin } from "react-icons/sl";
 import { TfiWorld } from "react-icons/tfi";
 import { TabProgress } from "../home/TabProgress";
@@ -16,10 +16,21 @@ import { MdOutlineRemoveRedEye, MdLink } from "react-icons/md";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { OrganiserEventCardProps } from "@/static-datas/organiser-date";
 
-const OrganiserEventCard = () => {
-  const { handlePreviewEvent, handleShowDeleteEvent } = useOrganiserDashContext();
+const OrganiserEventCard: FC<OrganiserEventCardProps> = ({
+  id,
+  eventImage,
+  eventName,
+  ticketSale,
+  totalTicket,
+}) => {
+  const { handlePreviewEvent, handleShowDeleteEvent } =
+    useOrganiserDashContext();
   const { toast } = useToast();
+
+  const router = useRouter();
 
   const handleCopyLink = async (saveLink: string) => {
     try {
@@ -37,20 +48,19 @@ const OrganiserEventCard = () => {
       });
     }
   };
-  const ticketSale: number = 5;
-  const totalTicket: number = 20;
+
   return (
-    <div className="w-full max-w-md shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200 p-4">
+    <div className="w-full max-w-md shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200 p-4  hover:bg-gray-100 transition delay-75 ease-in-out">
       <div className="relative">
-        <Image
-          className="w-full h-48 md:h-72 object-cover rounded-lg"
-          src={
-            "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image3.jpeg?updatedAt=1722389364580"
-          }
-          alt="yyi"
-          width={300}
-          height={200}
-        />
+        {eventImage && (
+          <Image
+            className="w-full h-48 md:h-72 object-cover rounded-lg"
+            src={eventImage}
+            alt={eventName}
+            width={300}
+            height={200}
+          />
+        )}
         <div className="absolute top-2 left-2 flex justify-between items-center w-full">
           <p className="bg-[#2F80ED] text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
             Published
@@ -79,7 +89,7 @@ const OrganiserEventCard = () => {
               </div>
               <div
                 onClick={() =>
-                  handleCopyLink("http://localhost:3000/organiser/event")
+                  handleCopyLink(`http://localhost:3000/organiser/events/${id}`)
                 }
                 className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
               >
@@ -98,12 +108,13 @@ const OrganiserEventCard = () => {
         </div>
       </div>
       <div
-        //   onClick={() => handleCardClick(id)}
-        className="py-4 cursor-pointer  hover:bg-gray-100 transition delay-75 ease-in-out space-y-3"
+        onClick={() => router.push(`/organiser/events/${id}`)}
+        className="py-4 cursor-pointer space-y-3"
       >
-        <h2 className="text-lg md:text-xl font-bold font-pally-medium">
-          {/* {title.length > 16 ? title.slice(0, 16).concat("...") : title} */}{" "}
-          Sip and paint with Wakky taisk
+        <h2 className="text-lg md:text-xl font-pally-medium">
+          {eventName?.length > 16
+            ? eventName.slice(0, 16).concat("...")
+            : eventName}
         </h2>
         <p className="text-sm md:text-base text-[#667185]">
           Saturday , September 7th, 2023 @ 7:30pm GMT
@@ -124,7 +135,7 @@ const OrganiserEventCard = () => {
             Total sold
           </p>
           <div className=" w-52">
-            <TabProgress value={ticketSale} />
+            <TabProgress value={ticketSale} max={totalTicket} />
           </div>
           <p className="text-[#667185] whitespace-nowrap font-pally-regular">
             {ticketSale}/{totalTicket}
