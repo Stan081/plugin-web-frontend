@@ -89,7 +89,7 @@ const RefundPolicy = () => {
         />
         <label
           htmlFor="terms"
-          className="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          className="text-sm font-pally-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
           I have read and agree to the refund policies and guidelines outlined
           above. By checking this box, I acknowledge and accept responsibility

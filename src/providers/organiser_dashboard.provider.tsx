@@ -27,7 +27,7 @@ type OrganiserDashContextValue = {
   nextSetUpStep: () => void;
   setEventState: (key: string) => void;
   handlePreviewEvent: () => void;
-  handleDeleteEvent: () => void;
+  handleShowDeleteEvent: () => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -65,7 +65,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   };
 
   // function to switch preview event
-  const handleDeleteEvent = () => {
+  const handleShowDeleteEvent = () => {
     setShowDeleteEvent(!showDeleteEvent);
   };
 
@@ -92,7 +92,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     handleIsChecked,
     nextSetUpStep,
     setEventState,
-    handleDeleteEvent,
+    handleShowDeleteEvent,
   };
   return (
     <OrganiserDashContext.Provider value={ContextValue}>

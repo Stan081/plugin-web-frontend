@@ -5,10 +5,16 @@ import React from "react";
 import OrganiserEventCard from "./OrganiserEventCard";
 import Container from "@/tw-components/container";
 import PreviewEvent from "./PreviewEvent";
+import DelectEvent from "./DelectEvent";
 
 const OrganiserEventTab = () => {
-  const { eventState, showPreviewEvent, handlePreviewEvent } =
-    useOrganiserDashContext();
+  const {
+    eventState,
+    showPreviewEvent,
+    showDeleteEvent,
+    handlePreviewEvent,
+    handleShowDeleteEvent,
+  } = useOrganiserDashContext();
 
   return (
     <Container>
@@ -24,6 +30,12 @@ const OrganiserEventTab = () => {
         <OrganiserEventCard />
         {showPreviewEvent && (
           <PreviewEvent open={showPreviewEvent} close={handlePreviewEvent} />
+        )}
+
+        {showDeleteEvent && (
+          <DelectEvent
+           open={showDeleteEvent} close={handleShowDeleteEvent}
+            />
         )}
       </div>
     </Container>
