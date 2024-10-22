@@ -84,3 +84,74 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
   "venueLink": "Link"
   }
 }
+
+###
+
+PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+
+{
+  "eventHost": "no",
+  "isNotHost": {
+    "title": "Zoom or Meet",
+    "description": "Link",
+    "startTime": "Link",
+    "endTime": "Link"
+  }
+}
+
+###
+
+PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+
+{
+  "eventHost": "yes",
+  "isHost": {
+    "name": "Name",
+    "photo": "photo link",
+    "title": "Zoom or Meet",
+    "description": "Link",
+    "startTime": "Link",
+    "endTime": "Link"
+  }
+}
+
+### Photos/Videos urls up to 6
+
+PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+
+{
+  "eventPhotos": ["https://example.com/photo1.jpg",  "https://example.com/photo1.jpg",  "https://example.com/photo1.jpg"]
+}
+
+### Refund Policy
+
+PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+
+{
+  "refundPolicyAgreed": true
+}
+
+### Guest List
+
+PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+
+{
+  "guestList": [
+    {
+      "name": "David",
+      "photo": "photo link",
+      "role": "role"
+    }
+  ]
+}
+
