@@ -68,3 +68,9 @@ export type OnlineAddressType = {
   locationType: string;
   onlineLocation: OnlineAddress;
 };
+
+/* ----------------------*/
+
+export type EventMediaGallery = {
+  eventPhotos: string[]
+}

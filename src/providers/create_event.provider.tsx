@@ -87,7 +87,6 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
   // invitee data connect
   const [inviteeState, setInviteeState] = useState<InviteeDataProps[]>([]);
 
-  console.log(inviteeState);
 
   // Function to handle creating a new vendor
   const handleCreateInvitee = (data: InviteeDataProps) => {

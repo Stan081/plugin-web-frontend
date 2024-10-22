@@ -1,9 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdImages } from "react-icons/io";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { Button } from "@/components/ui/button";
+import { uploadImage } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import { EventMedia } from "@/pages/api/mutate/events/eventMedia";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from "@/tw-components/spinner";
 
 interface PhotoGridProps {
   maxUploads: number;
@@ -14,6 +19,8 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
   const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const { setValue } = useForm();
+
+  const { toast } = useToast();
 
   // Handle image upload for banner
   const handleImageUploadBanner = (
@@ -50,12 +57,36 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
     }
   };
 
-  const onSubmit = () => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventMedia(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "File has been uploaded",
+          description: `${response?.message}`,
+        });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = useCallback(() => {
     if (uploadedPhotos.length > 0) {
-      handleIsChecked("addMedia");
+      // const eventthumbnailResponse = await uploadImage();
+      // for(let singleImage of uploadedPhotos){
+
+      // }
       console.log(uploadedPhotos);
+      handleIsChecked("addMedia");
     }
-  };
+  }, []);
 
   return (
     <div className="md:p-4 rounded-md mx-auto">
@@ -104,7 +135,7 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
 
       <div onClick={onSubmit} className="flex justify-end mt-4">
         <Button variant="destructive" disabled={!uploadedPhotos.length}>
-          Save
+          {isPending ? <Spinner /> : "Save"}
         </Button>
       </div>
     </div>
