@@ -17,9 +17,12 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { IoMdImages } from "react-icons/io";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { guestList } from "@/static-datas/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { uploadImage } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 interface GuestModalProps {
   isOpen: boolean;
@@ -30,6 +33,7 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
   const { handleIsChecked } = useCreateEventContext();
   const [guestImage, setGuestImage] = React.useState<string | null>(null);
   const fileInputRefBanner = React.useRef<HTMLInputElement | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const form = useForm<EventGuest>({
     mode: "all",
@@ -41,18 +45,33 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
     resolver: yupResolver(EventGuestSchema),
   });
 
+  const { toast } = useToast();
+
   const isLoading = React.useMemo(() => form.formState.isSubmitting, [form]);
 
   // Handle image upload for guest
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setGuestImage(reader.result as string);
-        form.setValue("guest_image", reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setIsUploading(true); // Start spinner
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setGuestImage(imageUrl);
+        form.setValue("guest_image", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -72,35 +91,37 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
     }
   };
 
-  const onSubmit = React.useCallback(async (payload: EventGuest) => {
-    console.log(payload);
-    guestList.push({
-      id: String(Math.floor(Math.random() * 100)),
-      guestName: payload.guest_name,
-      role: payload.guest_role,
-      image: payload.guest_image,
-    });
-    close()
+  const onSubmit = React.useCallback(
+    async (payload: EventGuest) => {
+      console.log(payload);
+      guestList.push({
+        id: String(Math.floor(Math.random() * 100)),
+        guestName: payload.guest_name,
+        role: payload.guest_role,
+        image: payload.guest_image,
+      });
+      close();
 
-    handleIsChecked("addGests");
+      handleIsChecked("addGests");
 
-     // Reset form back to default values
-     form.reset({
-      guest_image: "",
-      guest_name: "",
-      guest_role: "",
-    });
+      // Reset form back to default values
+      form.reset({
+        guest_image: "",
+        guest_name: "",
+        guest_role: "",
+      });
 
-    // Reset guest image state
-    setGuestImage(null);
+      // Reset guest image state
+      setGuestImage(null);
 
-    // Clear the file input reference if necessary
-    if (fileInputRefBanner.current) {
-      fileInputRefBanner.current.value = "";
-    }
-  }, [guestList, close, form]);
+      // Clear the file input reference if necessary
+      if (fileInputRefBanner.current) {
+        fileInputRefBanner.current.value = "";
+      }
+    },
+    [guestList, close, form]
+  );
 
-  console.log(guestList);
   return (
     <Dialog
       open={isOpen}
@@ -188,17 +209,22 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
                             )}
                           </div>
                         </FormControl>
-                        <input
-                          id="file-input"
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageUpload}
-                          ref={(e) => {
-                            field.ref(e);
-                            fileInputRefBanner.current = e; // Set the ref
-                          }}
-                          style={{ display: "none" }}
-                        />
+
+                        {isUploading ? (
+                          <SpinnerOverlay />
+                        ) : (
+                          <input
+                            id="file-input"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            ref={(e) => {
+                              field.ref(e);
+                              fileInputRefBanner.current = e; // Set the ref
+                            }}
+                            style={{ display: "none" }}
+                          />
+                        )}
                         <FormMessage />
                       </FormItem>
                     )}

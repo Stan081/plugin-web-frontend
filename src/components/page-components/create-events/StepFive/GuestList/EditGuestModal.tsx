@@ -1,6 +1,6 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { RiCloseLine } from "react-icons/ri";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { EventGuest, EventGuestSchema } from "@/models/create-event-schema";
 import {
@@ -50,7 +50,6 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
     resolver: yupResolver(EventGuestSchema),
   });
 
-  const isLoading = React.useMemo(() => form.formState.isSubmitting, [form]);
 
   // Handle image upload for guest
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -203,7 +202,6 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
                             placeholder="E.g. John Doe"
                             type="text"
                             id="guest_name"
-                            disabled={isLoading}
                             className="w-full bg-white font-pally-regular"
                             {...field}
                           />
@@ -227,7 +225,6 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
                             placeholder="E.g MC, Artist, DJ'"
                             type="text"
                             id="event_name"
-                            disabled={isLoading}
                             autoFocus
                             className="w-full bg-white font-pally-regular"
                             {...field}
@@ -241,11 +238,11 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
 
                 <Button
                   type="submit"
-                  disabled={isLoading}
+                  // disabled={isLoading}
                   variant="destructive"
                   className="w-full"
                 >
-                  {isLoading ? "Submitting..." : "Save"}
+                  {true ? "Submitting..." : "Save"}
                 </Button>
               </form>
             </Form>

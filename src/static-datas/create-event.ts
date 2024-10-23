@@ -1,4 +1,30 @@
-export const timezone = ["(GMT+01:00) West Africa Standard Time - Lagos"];
+export const timezone = [
+  "(GMT-12:00) International Date Line West",
+  "(GMT-11:00) Coordinated Universal Time-11",
+  "(GMT-10:00) Hawaii-Aleutian Standard Time - Honolulu",
+  "(GMT-09:00) Alaska Standard Time - Anchorage",
+  "(GMT-08:00) Pacific Standard Time - Los Angeles",
+  "(GMT-07:00) Mountain Standard Time - Denver",
+  "(GMT-06:00) Central Standard Time - Chicago",
+  "(GMT-05:00) Eastern Standard Time - New York",
+  "(GMT-04:00) Atlantic Standard Time - Halifax",
+  "(GMT-03:00) Argentina Standard Time - Buenos Aires",
+  "(GMT-02:00) Coordinated Universal Time-02",
+  "(GMT-01:00) Azores Standard Time - Azores",
+  "(GMT+00:00) Greenwich Mean Time - London",
+  "(GMT+01:00) West Africa Standard Time - Lagos",
+  "(GMT+02:00) Eastern European Time - Cairo",
+  "(GMT+03:00) Arabian Standard Time - Riyadh",
+  "(GMT+04:00) Gulf Standard Time - Dubai",
+  "(GMT+05:00) Pakistan Standard Time - Karachi",
+  "(GMT+06:00) Bangladesh Standard Time - Dhaka",
+  "(GMT+07:00) Indochina Time - Bangkok",
+  "(GMT+08:00) China Standard Time - Beijing",
+  "(GMT+09:00) Japan Standard Time - Tokyo",
+  "(GMT+10:00) Australian Eastern Standard Time - Sydney",
+  "(GMT+11:00) Solomon Islands Time - Honiara",
+  "(GMT+12:00) New Zealand Standard Time - Wellington",
+];
 
 // default data for step two form
 export type EventCategory = {
@@ -13,7 +39,7 @@ export type PageContentsType = {
 };
 
 export type GuestListType = {
-  id: string;
+  id?: string;
   guestName: string;
   image: string;
   role: string;
@@ -51,7 +77,7 @@ export type SeatSectionListsType = {
   endTime?: string;
   startDate: string | Date;
   endDate: string | Date;
-  ticketPerks: string
+  ticketPerks: string;
 };
 
 export const categoriesData: EventCategory[] = [
@@ -65,7 +91,7 @@ export const categoriesData: EventCategory[] = [
   { name: "Science & Tech", selected: false },
   { name: "Non-Profit", selected: false },
   { name: "Hangout", selected: false },
-  { name: "Family & Education", selected: false }
+  { name: "Family & Education", selected: false },
 ];
 
 export const pageContents: PageContentsType[] = [

@@ -1,3 +1,5 @@
+import { string } from "yup";
+
 export type EventBasicInfoType = {
   eventBanner: string;
   thumbnail: string;
@@ -77,6 +79,18 @@ export type EventMediaGallery = {
 
 /* ----------------------*/
 
-export const RefundPolicyType = {
-  refundPolicyAgreed: Boolean,
+export type RefundPolicyType = {
+  refundPolicyAgreed: boolean,
+};
+
+/* ----------------------*/
+
+type GuestType = {
+  name: string,
+  photo: string,
+  role: string,
+};
+
+export type EventGuestListType = {
+  guestList: GuestType[],
 };

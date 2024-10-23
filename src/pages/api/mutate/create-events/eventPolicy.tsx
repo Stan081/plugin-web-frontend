@@ -10,7 +10,7 @@ type StepFivResponse = {
 };
 
 export const EventAgreedPolicy = async (
-  data: typeof RefundPolicyType
+  data: RefundPolicyType
 ): Promise<StepFivResponse> => {
   const token = getToken();
   try {

@@ -1,7 +1,7 @@
 "use client";
 
 import { Separator } from "@/components/ui/separator";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { guestList, GuestListType } from "@/static-datas/create-event";
 import GuestsComponent from "./GuestsComponent";
 import GuestModal from "./GuestModal";
@@ -9,12 +9,19 @@ import EditGuestModal from "./EditGuestModal";
 import GuestEmptyState from "./GuestEmptyState";
 import Spinner from "@/tw-components/spinner";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+import { EventGuestList } from "@/pages/api/mutate/create-events/eventGuestList";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
 const GuestList = () => {
+  const { handleIsChecked } = useCreateEventContext();
   const [guests, setGuests] = useState<GuestListType[]>(guestList);
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isOpenEdit, setIsOpenEdit] = React.useState<boolean>(false);
   const [editModal, setEditModal] = useState<GuestListType | null>();
+
+  const { toast } = useToast();
 
   const open = () => {
     setIsOpen(!isOpen);
@@ -34,6 +41,38 @@ const GuestList = () => {
     const getDeletedGuest = guests.filter((list) => list.id !== id);
     setGuests(getDeletedGuest);
   };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventGuestList(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Guest list has been added",
+          description: `${response?.message}`,
+        });
+        handleIsChecked("addGests");
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const handleSubmit = useCallback(() => {
+    const data = {
+      guestList: guests.map((item) => ({
+        name: item.guestName,
+        photo: item.image,
+        role: item.role,
+      })),
+    };
+    mutate(data);
+  }, []);
 
   return (
     <div className="mx-3 md:mx-8 flex flex-col gap-5">
@@ -63,10 +102,11 @@ const GuestList = () => {
             </button>
             <Button
               type="submit"
-              // disabled={isPending}
+              onClick={handleSubmit}
+              disabled={isPending}
               variant="destructive"
             >
-              {/* {isPending || isUploading ? <Spinner /> : "Next"} */} Save
+              {isPending ? <Spinner /> : "Save"}
             </Button>
           </div>
         </div>
