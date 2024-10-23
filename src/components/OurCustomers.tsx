@@ -51,7 +51,7 @@ const OurCustomers = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-  };
+  }; 
 
   useEffect(() => {
     resetTimeout();
@@ -82,8 +82,8 @@ const OurCustomers = () => {
                   Meet our amazing customers
                 </h2>
                 <p className="mx-auto font-pally-regular text-base md:text-lg text-[#586170] text-center md:max-w-xl">
-                  Whether it's a concert, conference, or local gathering, Plugin
-                  offers the essential tools for your event's success.
+                  Whether it&apos;s a concert, conference, or local gathering, Plugin
+                  offers the essential tools for your event&apos;s success.
                 </p>
               </div>
               <CarouselContent
