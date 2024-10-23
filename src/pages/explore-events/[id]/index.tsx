@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react"
 import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
 import AboutEventDetail from "@/components/page-components/eventpage/AboutEventDetail";

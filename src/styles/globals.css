@@ -53,3 +53,24 @@ button.absolute.right-4.top-4 {
   border-color: initial;
 }
 
+.features-card-shadow {
+  box-shadow: 0px 4px 6px -2px #0000000F,  0px 12px 16px -4px #7717160F;
+}
+
+.trapezium {
+  clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%);
+  background: linear-gradient(182.95deg, #FFF6F1 5.6%, #FDE5E3 92.46%);
+}
+
+.trapezium-reverse-container {
+background: linear-gradient(182.95deg, #FFF6F1 5.6%, #FDE5E3 92.46%);
+}
+
+.trapezium-reverse {
+  clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%);
+}
+
+
+
+
+
