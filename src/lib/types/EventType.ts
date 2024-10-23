@@ -72,5 +72,11 @@ export type OnlineAddressType = {
 /* ----------------------*/
 
 export type EventMediaGallery = {
-  eventPhotos: string[]
-}
+  eventPhotos: string[];
+};
+
+/* ----------------------*/
+
+export const RefundPolicyType = {
+  refundPolicyAgreed: Boolean,
+};

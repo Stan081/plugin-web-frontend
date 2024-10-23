@@ -26,7 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
-import { EventOnlineLocation } from "@/pages/api/mutate/events/eventLocationType";
+import { EventOnlineLocation } from "@/pages/api/mutate/create-events/eventLocationType";
 import { useMutation } from "@tanstack/react-query";
 
 interface OnlineFormProps extends StepsProps {
@@ -75,11 +75,11 @@ const OnlineForm: React.FC<OnlineFormProps> = ({
       locationType,
       onlineLocation: {
         onlineVenue: payload?.venue_platform,
-        venueLink: payload?.venue_link
-      }
-    }
+        venueLink: payload?.venue_link,
+      },
+    };
     console.log(data);
-    mutate(data)
+    mutate(data);
   }, []);
   return (
     <div>
@@ -177,7 +177,7 @@ const OnlineForm: React.FC<OnlineFormProps> = ({
                   disabled={isPending}
                   variant="destructive"
                 >
-                  {isPending ? <Spinner/> : "Next"}
+                  {isPending ? <Spinner /> : "Next"}
                 </Button>
               </div>
             </div>

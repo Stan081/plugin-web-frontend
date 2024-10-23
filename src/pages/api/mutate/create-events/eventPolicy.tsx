@@ -1,6 +1,6 @@
-import { EVENT_BASIC_INFO_URL } from "@/lib/constants";
+import { PUT_EVENT_ID } from "@/lib/constants";
 import { getToken } from "@/lib/token";
-import { EventMediaGallery } from "@/lib/types/EventType";
+import { RefundPolicyType } from "@/lib/types/EventType";
 import axios, { AxiosResponse } from "axios";
 
 type StepFivResponse = {
@@ -9,13 +9,13 @@ type StepFivResponse = {
   data?: any;
 };
 
-export const EventMedia = async (
-  data: EventMediaGallery
+export const EventAgreedPolicy = async (
+  data: typeof RefundPolicyType
 ): Promise<StepFivResponse> => {
   const token = getToken();
   try {
-    const response: AxiosResponse<StepFivResponse> = await axios.post(
-      EVENT_BASIC_INFO_URL,
+    const response: AxiosResponse<StepFivResponse> = await axios.put(
+      PUT_EVENT_ID,
       data,
       {
         headers: {

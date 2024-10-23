@@ -1,5 +1,5 @@
 import { StepsProps } from "@/pages/create-event";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import {
@@ -18,9 +18,13 @@ import GuestList from "./GuestList";
 import AddVendor from "./AddVendor";
 import PhotoGrid from "./AddPhotos/PhotoGrid";
 import AddAgenda from "./AddAgenda";
+import { useMutation } from "@tanstack/react-query";
+import { EventAgreedPolicy } from "@/pages/api/mutate/create-events/eventPolicy";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from "@/tw-components/spinner";
 
 const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
-  const { isChecked } = useCreateEventContext();
+  const { isChecked, handleIsChecked } = useCreateEventContext();
   const [changePageContent, setChangePageContent] = useState<PageContentsType>({
     id: "item-1",
     introTitle: "Outline the schedule of activities for your event.",
@@ -30,13 +34,53 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
     ],
   });
 
+  const { toast } = useToast();
+
   const handlePageContentChange = (id: string) => {
     const getClickedAccordion = pageContents.find((page) => page.id === id);
     setChangePageContent(getClickedAccordion);
   };
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventAgreedPolicy(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Policy has been submitted!",
+          description: `${response?.message}`,
+        });
+        handleIsChecked("refundPolicy");
+        next();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const handleSubmit = useCallback(() => {
+    if (!isChecked.refundPolicy) {
+      toast({
+        variant: "destructive",
+        title: "Accept Our Refund policy",
+        description: "You need to accept our refund policy to proceed",
+      });
+    } else {
+      const data = {
+        refundPolicyAgreed: isChecked.refundPolicy,
+      };
+      console.log(data)
+      mutate(data);
+    }
+  }, [toast, isChecked.refundPolicy]);
+
   return (
-    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 md:h-screen">
+    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 h-full md:h-screen">
       <div className="w-full lg:w-2/5  px-4 lg:px-0">
         <Intro
           contents={changePageContent.content}
@@ -46,7 +90,11 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
       <div className="w-full lg:w-3/5 bg-[#f0ded1]">
         <FormContainer formTitle="Event Details" currPosition={[100, 40, 0]}>
           <div className="flex flex-col justify-between gap-4 w-full h-full">
-            <Accordion type="single" collapsible className="w-full space-y-5 lg:h-[82vh] overflow-y-auto">
+            <Accordion
+              type="single"
+              collapsible
+              className="w-full space-y-5 lg:h-[82vh] overflow-y-auto"
+            >
               <AccordionItem
                 onClick={() => handlePageContentChange("item-1")}
                 value="item-1"
@@ -68,7 +116,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <AddAgenda/>
+                  <AddAgenda />
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem
@@ -185,11 +233,11 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                   </Button>
 
                   <Button
-                    disabled={!isChecked.refundPolicy}
-                    onClick={() => next()}
+                    disabled={!isChecked.refundPolicy && isPending}
+                    onClick={handleSubmit}
                     variant="destructive"
                   >
-                    Next
+                    {isPending ? <Spinner /> : "Next"}
                   </Button>
                 </div>
               </div>

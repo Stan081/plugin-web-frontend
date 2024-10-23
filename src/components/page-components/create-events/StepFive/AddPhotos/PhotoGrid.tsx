@@ -6,9 +6,10 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { Button } from "@/components/ui/button";
 import { uploadImage } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import { EventMedia } from "@/pages/api/mutate/events/eventMedia";
+import { EventMedia } from "@/pages/api/mutate/create-events/eventMedia";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 interface PhotoGridProps {
   maxUploads: number;
@@ -18,24 +19,42 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
   const { handleIsChecked } = useCreateEventContext();
   const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
-  const { setValue } = useForm();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { toast } = useToast();
 
   // Handle image upload for banner
-  const handleImageUploadBanner = (
+  const handleImageUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
+
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
+      setIsLoading(true);
+
+      try {
+        const uploadResult = await uploadImage(file);
+        const imageUrl = uploadResult.secure_url;
+
         if (uploadedPhotos.length < maxUploads) {
-          setUploadedPhotos((prev) => [...prev, reader.result as string]);
+          setUploadedPhotos((prev) => [...prev, imageUrl]); // Add the new image URL to the array
+        } else {
+          toast({
+            title: "Upload Limit Reached",
+            description: `You can only upload a maximum of ${maxUploads} images.`,
+            variant: "destructive",
+          });
         }
-        setValue("pass_thumbnail", reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        toast({
+          title: "Upload Error",
+          description: "An error occurred while uploading the image.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -44,7 +63,6 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
     const newPhotos = [...uploadedPhotos];
     newPhotos.splice(index, 1);
     setUploadedPhotos(newPhotos);
-    setValue("pass_thumbnail", "");
     if (fileInputRefThumbnail.current) {
       fileInputRefThumbnail.current.value = "";
     }
@@ -66,6 +84,7 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
           title: "File has been uploaded",
           description: `${response?.message}`,
         });
+        handleIsChecked("addMedia");
       }
     },
     onError: (error: any) => {
@@ -79,14 +98,18 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
 
   const onSubmit = useCallback(() => {
     if (uploadedPhotos.length > 0) {
-      // const eventthumbnailResponse = await uploadImage();
-      // for(let singleImage of uploadedPhotos){
-
-      // }
-      console.log(uploadedPhotos);
-      handleIsChecked("addMedia");
+      const data = {
+        eventPhotos: uploadedPhotos,
+      };
+      mutate(data);
+    } else {
+      toast({
+        title: "No Photos Uploaded",
+        description: "Please upload at least one photo before submitting.",
+        variant: "destructive",
+      });
     }
-  }, []);
+  }, [uploadedPhotos, toast]);
 
   return (
     <div className="md:p-4 rounded-md mx-auto">
@@ -124,13 +147,18 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
             </div>
           )}
         </div>
-        <input
-          type="file"
-          accept="image/*,video/*"
-          className="hidden"
-          ref={fileInputRefThumbnail}
-          onChange={handleImageUploadBanner}
-        />
+
+        {isLoading ? (
+          <SpinnerOverlay />
+        ) : (
+          <input
+            type="file"
+            accept="image/*,video/*"
+            className="hidden"
+            ref={fileInputRefThumbnail}
+            onChange={handleImageUpload}
+          />
+        )}
       </div>
 
       <div onClick={onSubmit} className="flex justify-end mt-4">

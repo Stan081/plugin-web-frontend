@@ -25,7 +25,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useMutation } from "@tanstack/react-query";
-import { EventPhysicalLocation } from "@/pages/api/mutate/events/eventLocationType";
+import { EventPhysicalLocation } from "@/pages/api/mutate/create-events/eventLocationType";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
 

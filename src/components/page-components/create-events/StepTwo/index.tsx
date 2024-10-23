@@ -9,7 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import { categoriesData, EventCategory } from "@/static-datas/create-event";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
-import { EventCategoryAPI } from "@/pages/api/mutate/events/eventCategory";
+import { EventCategoryAPI } from "@/pages/api/mutate/create-events/eventCategory";
+import Spinner from "@/tw-components/spinner";
 
 const pageContents = ["Think about the primary audience for your event."];
 
@@ -56,8 +57,8 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
 
   const handleSubmit = useCallback(() => {
     const data = {
-      eventCategory: selectedNames
-    }
+      eventCategory: selectedNames,
+    };
     mutate(data);
   }, []);
 
@@ -114,7 +115,7 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
                     onClick={handleSubmit}
                     variant="destructive"
                   >
-                    Next
+                    {isPending ? <Spinner /> : "Next"}
                   </Button>
                 </div>
               </div>

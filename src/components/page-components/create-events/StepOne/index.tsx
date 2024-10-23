@@ -23,10 +23,11 @@ import { FiEdit } from "react-icons/fi";
 import { Textarea } from "@/components/ui/textarea";
 import { uploadImage } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import { EventBasicInfo } from "@/pages/api/mutate/events/eventBasicInfo";
+import { EventBasicInfo } from "@/pages/api/mutate/create-events/eventBasicInfo";
 import { useToast } from "@/components/ui/use-toast";
-import { setCookie } from "@/lib/cookies";
+import { getCookie, setCookie } from "@/lib/cookies";
 import Spinner from "@/tw-components/spinner";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -38,6 +39,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
   const [imageThumbnail, setImageThumbnail] = useState<string | null>(null);
   const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const form = useForm<EventStepOne>({
     mode: "all",
@@ -53,11 +55,30 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
   const { toast } = useToast();
 
   // Handle image upload for banner
-  const handleImageUploadBanner = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUploadBanner = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = e.target.files?.[0] || null;
+
     if (file) {
-      setImageBanner(URL.createObjectURL(file));
-      form.setValue("event_banner", file);
+      setIsUploading(true); // Start spinner
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setImageBanner(imageUrl);
+        form.setValue("event_banner", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -78,13 +99,30 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
   };
 
   // Handle image upload for thumbnail
-  const handleImageUploadThumbnail = (
+  const handleImageUploadThumbnail = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0] || null;
+
     if (file) {
-      setImageThumbnail(URL.createObjectURL(file));
-      form.setValue("event_thumbnail", file);
+      setIsUploading(true); // Start spinner
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setImageThumbnail(imageUrl);
+        form.setValue("event_thumbnail", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -114,7 +152,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
           description: `${response?.message}`,
         });
         next();
-        setCookie('event_id', response?.data?._id)
+        setCookie("event_id", response?.data?._id);
       }
     },
     onError: (error: any) => {
@@ -126,17 +164,14 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     },
   });
 
-  const onSubmit = useCallback(async (payload: EventStepOne) => {
-    console.log(payload);
-    const eventBannerResponse = await uploadImage(payload?.event_banner);
-    const eventthumbnailResponse = await uploadImage(payload?.event_thumbnail);
+  const onSubmit = useCallback((payload: EventStepOne) => {
     const data = {
-      eventBanner: eventBannerResponse?.secure_url,
-      thumbnail: eventthumbnailResponse?.secure_url,
+      eventBanner: payload?.event_banner,
+      thumbnail: payload?.event_thumbnail,
       eventName: payload?.event_name,
       eventDescription: payload?.event_description,
     };
-    mutate(data)
+    mutate(data);
   }, []);
 
   return (
@@ -147,6 +182,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       <div className="w-full lg:w-2/5 px-4 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
+      {isUploading && <SpinnerOverlay />}
       <div className="w-full h-full lg:w-3/5">
         <FormContainer formTitle="Basic Information" currPosition={[20, 0, 0]}>
           <div>
@@ -376,7 +412,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                         disabled={isPending}
                         variant="destructive"
                       >
-                        {isPending ? <Spinner /> : "Next"}
+                        {isPending || isUploading ? <Spinner /> : "Next"}
                       </Button>
                     </div>
                   </div>
