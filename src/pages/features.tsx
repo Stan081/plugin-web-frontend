@@ -10,7 +10,7 @@ import HeroSection from "@/components/page-components/features/HeroSection";
 const FeaturesPage = () => {
   return (
     // All styling done, were desktop first styling
-    <Layout title="dyname text" showHeader showFooter>
+    <Layout title="Features Page" showHeader showFooter>
       <HeroSection />
       <DashboardManagement />
       <EarningsManagement />
