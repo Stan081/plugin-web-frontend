@@ -28,7 +28,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
 import { useMutation } from "@tanstack/react-query";
-import { OneTimeEvent } from "@/pages/api/mutate/events/eventTypeAPI";
+import { OneTimeEvent } from "@/pages/api/mutate/create-events/eventTypeAPI";
 import { useToast } from "@/components/ui/use-toast";
 
 interface OneTimeFormComponentProps extends StepsProps {

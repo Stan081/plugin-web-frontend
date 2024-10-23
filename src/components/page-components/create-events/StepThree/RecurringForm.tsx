@@ -30,7 +30,7 @@ import { timezone } from "@/static-datas/create-event";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
-import { RecurringEvent } from "@/pages/api/mutate/events/eventTypeAPI";
+import { RecurringEvent } from "@/pages/api/mutate/create-events/eventTypeAPI";
 import Spinner from "@/tw-components/spinner";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -110,7 +110,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
   });
 
   const onSubmit = useCallback((payload: RecurringForm) => {
-    const getSchedule = schedules.find(item => item.id === recurringSchedule)
+    const getSchedule = schedules.find((item) => item.id === recurringSchedule);
     const data = {
       eventType,
       recurringEvent: {
@@ -122,7 +122,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
         endDate: payload?.end_date,
       },
     };
-    mutate(data)
+    mutate(data);
   }, []);
 
   return (
