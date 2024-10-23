@@ -1,9 +1,11 @@
 import { GuestListType } from "@/static-datas/create-event";
 import Image from "next/image";
 import React from "react";
+import { HiOutlineTrash } from "react-icons/hi2";
 
 interface GuestsComponentProps extends GuestListType {
   handleEditGuest: (id: string) => void;
+  handleDeleteGuest: (id: string) => void;
 }
 
 const GuestsComponent: React.FC<GuestsComponentProps> = ({
@@ -12,6 +14,7 @@ const GuestsComponent: React.FC<GuestsComponentProps> = ({
   role,
   image,
   handleEditGuest,
+  handleDeleteGuest,
 }) => {
   return (
     <div className="rounded-lg p-4 border border-[#423730] flex items-center justify-between">
@@ -30,10 +33,20 @@ const GuestsComponent: React.FC<GuestsComponentProps> = ({
           <p className="font-pally-regular text-sm text-white/70">{role}</p>
         </div>
       </div>
-      <div onClick={() => handleEditGuest(id)} className="cursor-pointer">
-        <p className="font-pally-regular text-[#F9B6B1] text-sm underline">
-          Edit Details
+      <div className="flex items-center gap-3">
+        <p
+          onClick={() => handleEditGuest(id)}
+          className="cursor-pointer font-pally-regular text-[#F9B6B1] text-sm underline"
+        >
+          Edit
         </p>
+        <button
+          type="button"
+          onClick={() => handleDeleteGuest(id)}
+          className="out p-1.5 rounded-md"
+        >
+          <HiOutlineTrash size={18} color="#fff" />
+        </button>
       </div>
     </div>
   );
