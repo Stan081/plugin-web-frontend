@@ -93,7 +93,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
             <Accordion
               type="single"
               collapsible
-              className="w-full space-y-5 lg:h-[82vh] overflow-y-auto"
+              className="w-full space-y-5 lg:h-[72vh] overflow-y-auto"
             >
               <AccordionItem
                 onClick={() => handlePageContentChange("item-1")}
