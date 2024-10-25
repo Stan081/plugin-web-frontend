@@ -63,8 +63,6 @@ const VendorForm: FC<VendorFormProps> = ({
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [slot, setSlot] = useState<number>(0);
 
-  console.log(isSharedPass);
-
   const form = useForm<VendorsForm>({
     mode: "all",
     defaultValues: {
@@ -171,8 +169,6 @@ const VendorForm: FC<VendorFormProps> = ({
 
       handleReturnToList();
 
-      handleIsChecked("addVendors");
-
       // Reset form back to default values
       form.reset({
         pass_thumbnail: "",
@@ -181,9 +177,6 @@ const VendorForm: FC<VendorFormProps> = ({
         pass_category: [],
         available_slot: slot,
       });
-
-      // Reset guest image state
-      setVendorImage(null);
 
       // Clear the file input reference if necessary
       if (fileInputRefThumbnail.current) {

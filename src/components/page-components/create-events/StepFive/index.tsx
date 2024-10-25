@@ -80,7 +80,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   }, [toast, isChecked.refundPolicy]);
 
   return (
-    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 h-full md:h-screen">
+    <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 h-full lg:h-screen">
       <div className="w-full lg:w-2/5  px-4 lg:px-0">
         <Intro
           contents={changePageContent.content}

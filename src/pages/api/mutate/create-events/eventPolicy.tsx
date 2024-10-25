@@ -3,7 +3,7 @@ import { getToken } from "@/lib/token";
 import { RefundPolicyType } from "@/lib/types/EventType";
 import axios, { AxiosResponse } from "axios";
 
-type StepFivResponse = {
+type StepFiveResponse = {
   status: number;
   message: string;
   data?: any;
@@ -11,10 +11,10 @@ type StepFivResponse = {
 
 export const EventAgreedPolicy = async (
   data: RefundPolicyType
-): Promise<StepFivResponse> => {
+): Promise<StepFiveResponse> => {
   const token = getToken();
   try {
-    const response: AxiosResponse<StepFivResponse> = await axios.put(
+    const response: AxiosResponse<StepFiveResponse> = await axios.put(
       PUT_EVENT_ID,
       data,
       {

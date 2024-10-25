@@ -1,10 +1,5 @@
-import React, {
-  FC,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+"use client";
+import React, { FC, useCallback, useMemo, useRef, useState } from "react";
 import { IoMdImages } from "react-icons/io";
 import {
   Form,
@@ -14,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FiEdit, } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -26,6 +21,8 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AgendaSlotProps } from "./Slot";
+import { uploadImage } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
 
 interface SlotWithHostProps extends AgendaSlotProps {}
 
@@ -42,11 +39,12 @@ export const isHostTypes: { id: boolean; name: string }[] = [
 
 const SlotWithHost: FC<SlotWithHostProps> = ({
   handleReturnToList,
-  handleCreateVendor,
+  handleCreateAgenda,
 }) => {
   const { handleIsChecked, setIsHost, isHost } = useCreateEventContext();
   const [hostImage, setHostImage] = useState<string | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const form = useForm<SlotWithHostForm>({
     mode: "all",
@@ -64,18 +62,30 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
+  const { toast } = useToast();
+
   // Handle image upload for banner
-  const handleImageUploadBanner = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setHostImage(reader.result as string);
-        form.setValue("host_thumbnail", reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setIsUploading(true); // Start spinner
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setHostImage(imageUrl);
+        form.setValue("host_thumbnail", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -99,7 +109,7 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
     async (payload: SlotWithHostForm) => {
       console.log(payload);
 
-      handleCreateVendor({
+      handleCreateAgenda({
         hostImage: payload.host_thumbnail,
         hostName: payload.host_name,
         startTime: payload.start_time,
@@ -111,21 +121,15 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
 
       handleReturnToList();
 
-      handleIsChecked("addAgender");
-
       // Reset form back to default values
       form.reset({
         start_time: "",
         end_time: "",
         host_thumbnail: "",
-        isHost: isHost,
         host_name: "",
         agenda_title: "",
         agenda_description: "",
       });
-
-      // Reset guest image state
-      setHostImage(null);
 
       // Clear the file input reference if necessary
       if (fileInputRefThumbnail.current) {
@@ -200,7 +204,7 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
                       id="file-input-thumbnail"
                       type="file"
                       accept="image/*"
-                      onChange={handleImageUploadBanner}
+                      onChange={handleImageUpload}
                       ref={(e) => {
                         field.ref(e);
                         fileInputRefThumbnail.current = e;

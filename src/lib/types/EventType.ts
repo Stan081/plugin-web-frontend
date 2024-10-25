@@ -80,17 +80,34 @@ export type EventMediaGallery = {
 /* ----------------------*/
 
 export type RefundPolicyType = {
-  refundPolicyAgreed: boolean,
+  refundPolicyAgreed: boolean;
 };
 
 /* ----------------------*/
 
 type GuestType = {
-  name: string,
-  photo: string,
-  role: string,
+  name: string;
+  photo: string;
+  role: string;
 };
 
 export type EventGuestListType = {
-  guestList: GuestType[],
+  guestList: GuestType[];
+};
+
+/* ----------------------*/
+
+type AgendaType = {
+  title: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  host?: {
+    name: string;
+    photo: string;
+  };
+};
+
+export type EventAgendaType = {
+  eventAgendas: AgendaType[]
 };

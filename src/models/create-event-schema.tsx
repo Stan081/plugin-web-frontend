@@ -88,7 +88,7 @@ export const VendorFormSchema = yup.object().shape({
 
 export const SlotWithHostSchema = yup.object().shape({
   host_thumbnail: yup.string().required("Please upload host image"),
-  isHost: yup.boolean().required(),
+  isHost: yup.boolean().optional(),
   host_name: yup.string().required("Host name is is required"),
   agenda_title: yup.string().required("Agenda title is required"),
   agenda_description: yup.string().optional(),
@@ -103,7 +103,7 @@ export const SlotWithHostSchema = yup.object().shape({
 });
 
 export const SlotWithoutHostSchema = yup.object().shape({
-  isHost: yup.boolean().required(),
+  isHost: yup.boolean().optional(),
   agenda_title: yup.string().required("Agenda title is required"),
   agenda_description: yup.string().optional(),
   start_time: yup

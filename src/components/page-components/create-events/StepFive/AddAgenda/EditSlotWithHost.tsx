@@ -1,7 +1,6 @@
 import React, {
   FC,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -15,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FiEdit, FiWatch } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -26,10 +25,9 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { AgendaSlotProps } from "./Slot";
 import { isHostTypes } from "./SlotWithHost";
 import { AgendaLists, AgendaListsType } from "@/static-datas/create-event";
-
+import { IoReturnDownBackOutline } from "react-icons/io5";
 interface SlotWithHostProps extends AgendaListsType {
   handleReturnToList: () => void;
 }
@@ -229,7 +227,7 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
                         key={index}
                         onClick={() => setIsHost(!isHost)}
                         className={`py-2 px-4 rounded-full border ${
-                          isHost === type.id
+                          isHostValid === type.id
                             ? "bg-white text-black"
                             : "border-white"
                         }`}
@@ -380,7 +378,7 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
               onClick={handleReturnToList}
               className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
             >
-              <HiOutlineTrash size={20} color="#F9B6B1" />
+              <IoReturnDownBackOutline size={20} color="#F9B6B1" />
             </div>
             <button
               type="submit"

@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Form,
   FormControl,
@@ -23,14 +25,13 @@ interface SlotWithoutHostProps extends AgendaSlotProps {}
 
 const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
   handleReturnToList,
-  handleCreateVendor,
+  handleCreateAgenda,
 }) => {
-  const { setIsHost, isHost, handleIsChecked } = useCreateEventContext();
+  const { setIsHost, isHost } = useCreateEventContext();
 
   const form = useForm<SlotWithoutHostForm>({
     mode: "all",
     defaultValues: {
-      isHost: isHost,
       agenda_title: "",
       agenda_description: "",
       start_time: "",
@@ -44,23 +45,20 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
   const onSubmit = useCallback(
     async (payload: SlotWithoutHostForm) => {
       console.log(payload);
-      handleCreateVendor({
+      handleCreateAgenda({
         startTime: payload.start_time,
-        endTime: payload.end_time,
         isHost: payload.isHost,
+        endTime: payload.end_time,
         agendaTitle: payload.agenda_title,
         agendaDescription: payload.agenda_description,
       });
 
       handleReturnToList();
 
-      handleIsChecked("addAgender");
-
       // Reset form back to default values
       form.reset({
         start_time: "",
         end_time: "",
-        isHost: isHost,
         agenda_title: "",
         agenda_description: "",
       });
