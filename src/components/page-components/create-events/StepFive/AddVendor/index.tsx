@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import VendorEmptyState from "./VendorEmptyState";
 import VendorForm from "./VendorForm";
@@ -61,6 +61,10 @@ const AddVendor = () => {
     setFormState(VendorFormState.VIEW_LIST);
   };
 
+  const handleSubmit = useCallback(() => {
+    console.log(vendorListState)
+  }, [vendorListState]);
+
   return (
     <div className="mx-3 md:mx-8 flex flex-col gap-5">
       <p className="font-pally-regular text-sm text-white/60">
@@ -75,13 +79,13 @@ const AddVendor = () => {
           handleCreateVendor={handleCreateVendor}
         />
       ) : formState === VendorFormState.EDIT_VENDOR && selectedVendor ? (
-        <EditVendorForm handleDelete={handleDelete} {...selectedVendor} />
+        <EditVendorForm handleDelete={handleDelete} handleReturnToList={handleReturnToList} {...selectedVendor} />
       ) : formState === VendorFormState.VIEW_LIST &&
         vendorListState.length !== 0 ? (
         <div className="my-3 flex flex-col gap-3 w-full">
           {vendorListState.map((list) => (
             <VendorCard
-              key={list.id}
+              key={list.passTag}
               {...list}
               handleEditForm={handleEditForm}
               handleDelete={handleDelete} // Pass delete handler to VendorCard if necessary
@@ -97,7 +101,7 @@ const AddVendor = () => {
               Create Pass
             </button>
 
-            <Button variant="destructive">Save</Button>
+            <Button onClick={handleSubmit} variant="destructive">Save</Button>
           </div>
         </div>
       ) : (

@@ -19,6 +19,7 @@ import { isHostTypes } from "./SlotWithHost";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AgendaLists, AgendaListsType } from "@/static-datas/create-event";
+import { IoReturnDownBackOutline } from "react-icons/io5";
 
 interface SlotWithoutHostProps extends AgendaListsType {
   handleReturnToList: () => void;
@@ -92,7 +93,7 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
                       key={index}
                       onClick={() => setIsHost(!isHost)}
                       className={`py-2 px-4 rounded-full border ${
-                        isHost === type.id
+                        isHostValid === type.id
                           ? "bg-white text-black"
                           : "border-white"
                       }`}
@@ -213,7 +214,7 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
               onClick={handleReturnToList}
               className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
             >
-              <HiOutlineTrash size={20} color="#F9B6B1" />
+              <IoReturnDownBackOutline size={20} color="#F9B6B1" />
             </div>
             <button
               type="submit"

@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AgendaEmptyState from "./AgendaEmptyState";
 import AgendaSlot from "./Slot";
 import AgendLists from "./AgendLists";
@@ -11,6 +11,10 @@ import { Button } from "@/components/ui/button";
 import { Accordion } from "@/components/ui/accordion";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import EditSlot from "./EditSlot";
+import { EventAgenda } from "@/pages/api/mutate/create-events/eventAgenda";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from "@/tw-components/spinner";
 
 export enum AddAgendaState {
   VIEW_LIST,
@@ -19,6 +23,7 @@ export enum AddAgendaState {
 }
 
 const AddAgenda = () => {
+  const { handleIsChecked, isHost } = useCreateEventContext();
   const [formState, setFormState] = useState<AddAgendaState>(
     AddAgendaState.VIEW_LIST
   );
@@ -28,6 +33,8 @@ const AddAgenda = () => {
     AgendaListsType | undefined
   >(undefined);
   const [nextId, setNextId] = useState<number>(Date.now());
+
+  const { toast } = useToast();
 
   // Initialize the vendor list
   useEffect(() => {
@@ -45,7 +52,7 @@ const AddAgenda = () => {
   };
 
   // Function to handle creating a new vendor
-  const handleCreateVendor = (vendorData: AgendaListsType) => {
+  const handleCreateAgenda = (vendorData: AgendaListsType) => {
     const newAgenda = { ...vendorData, id: nextId };
     setAgendaListState((prevList) => [...prevList, newAgenda]);
     setNextId(Date.now());
@@ -63,6 +70,44 @@ const AddAgenda = () => {
     setAgendaListState(updatedList);
     setFormState(AddAgendaState.VIEW_LIST);
   };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventAgenda(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Event Agenda has been added",
+          description: `${response?.message}`,
+        });
+        handleIsChecked("addAgender");
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const handleSubmit = useCallback(() => {
+    const data = {
+      eventAgendas: agendaListState.map((item) => ({
+        title: item.agendaTitle,
+        description: item.agendaDescription,
+        startTime: item.startTime,
+        endTime: item.endTime,
+        host: {
+          name: item.hostName ?? "",
+          photo: item.hostImage ?? "",
+        },
+      })),
+    };
+    mutate(data);
+  }, [agendaListState]);
+
   return (
     <div className="mx-3 md:mx-8 flex flex-col gap-5">
       <p className="font-pally-regular text-sm text-white/60">
@@ -76,7 +121,7 @@ const AddAgenda = () => {
       {formState === AddAgendaState.CREATE_AGENDA ? (
         <AgendaSlot
           handleReturnToList={handleReturnToList}
-          handleCreateVendor={handleCreateVendor}
+          handleCreateAgenda={handleCreateAgenda}
         />
       ) : formState === AddAgendaState.EDIT_AGENDA && selectedAgenda ? (
         <EditSlot
@@ -106,7 +151,9 @@ const AddAgenda = () => {
               Add Slot
             </button>
 
-            <Button variant="destructive">Save</Button>
+            <Button onClick={handleSubmit} variant="destructive">
+              {isPending ? <Spinner /> : "Save"}
+            </Button>
           </div>
         </div>
       ) : (

@@ -32,10 +32,11 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { vendorList, VendorListType } from "@/static-datas/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { IoReturnDownBackOutline } from "react-icons/io5";
 
 interface EditVendorFormProps extends VendorListType {
   handleDelete: (id: number) => void;
-  
+  handleReturnToList: () => void;
 }
 
 const isSharedTypes: { id: boolean; name: string }[] = [
@@ -51,6 +52,7 @@ const isSharedTypes: { id: boolean; name: string }[] = [
 
 const EditVendorForm: FC<EditVendorFormProps> = ({
   handleDelete,
+  handleReturnToList,
   vendorImage,
   slot,
   passCategories,
@@ -58,7 +60,6 @@ const EditVendorForm: FC<EditVendorFormProps> = ({
   pricePass,
   id,
 }) => {
-  const { handleIsChecked } = useCreateEventContext();
   const [vendorsImage, setVendorImage] = useState<string | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isSharedPass, setIsSharedPass] = useState<boolean>(false);
@@ -157,34 +158,30 @@ const EditVendorForm: FC<EditVendorFormProps> = ({
     async (payload: VendorsForm) => {
       console.log(payload);
       vendorList.push({
-        id: id ?? Math.floor(Math.random() * 100),
-        vendorImage: payload.pass_thumbnail,
+        vendorImage:  payload.pass_thumbnail,
         slot: payload.available_slot,
-        pricePass: payload.pass_price,
+        pricePass:  payload.pass_price,
         passCategories: payload.pass_category,
         passTag: payload.pass_tag,
-        sharedPass: isSharedPass
+        sharedPass: isSharedPass,
       });
 
-      handleIsChecked("addVendors");
+      handleReturnToList();
 
-      // Reset form back to default values
-      form.reset({
-        pass_thumbnail: "",
-        shared_pass: isSharedPass,
-        pass_tag: "",
-        pass_price: 0,
-        pass_category: [],
-        available_slot: slot,
-      });
+      // // Reset form back to default values
+      // form.reset({
+      //   pass_thumbnail: "",
+      //   shared_pass: isSharedPass,
+      //   pass_tag: "",
+      //   pass_price: 0,
+      //   pass_category: [],
+      //   available_slot: slot,
+      // });
 
-      // Reset guest image state
-      setVendorImage(null);
-
-      // Clear the file input reference if necessary
-      if (fileInputRefThumbnail.current) {
-        fileInputRefThumbnail.current.value = "";
-      }
+      // // Clear the file input reference if necessary
+      // if (fileInputRefThumbnail.current) {
+      //   fileInputRefThumbnail.current.value = "";
+      // }
     },
     [vendorList, form]
   );
@@ -409,13 +406,13 @@ const EditVendorForm: FC<EditVendorFormProps> = ({
                     onClick={() => handleDelete(id)}
                     className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
                   >
-                    <HiOutlineTrash size={20} color="#F9B6B1" />
+                    <IoReturnDownBackOutline size={20} color="#F9B6B1" />
                   </div>
                   <button
                     type="submit"
                     className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"
                   >
-                    Create Pass
+                    Save Pass
                   </button>
                 </div>
               </div>

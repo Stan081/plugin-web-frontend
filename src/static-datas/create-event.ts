@@ -61,7 +61,7 @@ export type AgendaListsType = {
   startTime: string;
   endTime: string;
   hostName?: string;
-  isHost: boolean;
+  isHost?: boolean;
   agendaTitle: string;
   agendaDescription: string;
 };

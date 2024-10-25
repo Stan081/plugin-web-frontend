@@ -171,6 +171,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       eventName: payload?.event_name,
       eventDescription: payload?.event_description,
     };
+    console.log(data)
     mutate(data);
   }, []);
 
