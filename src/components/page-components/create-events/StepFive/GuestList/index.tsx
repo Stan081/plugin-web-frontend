@@ -30,7 +30,6 @@ const GuestList = () => {
 
 
   return (
-    (
       <div className="mx-3 md:mx-8 flex flex-col gap-5">
         <p className="font-pally-regular text-sm text-white/60">
           Create a special guest for your event{" "}
@@ -67,7 +66,6 @@ const GuestList = () => {
           {...editModal}
         />
       </div>
-    ) || null
   );
 };
 

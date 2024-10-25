@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import SaleTable from "./EventDashboard";
 
 const EventDetailDashboard = () => {
   const { toast } = useToast();
@@ -76,7 +77,7 @@ const EventDetailDashboard = () => {
         </li>
       </ul>
 
-      <ul className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+      <ul className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
         <li className="border-2 border-[#C7E2FC] rounded-xl bg-[#F2F8FE] flex items-start gap-6 p-5">
           <Image
             src={"/images/speakerImg.svg"}
@@ -110,11 +111,11 @@ const EventDetailDashboard = () => {
               </p>
               <div className="flex items-center justify-between gap-4 border border-[#667185] p-3 w-full rounded-md">
                 <p className="font-pally-regular text-[#667185] text-sm">
-                  {sharedLink.length > 40
-                    ? sharedLink.slice(0, 40).concat("...")
+                  {sharedLink.length > 30
+                    ? sharedLink.slice(0, 30).concat("...")
                     : sharedLink}
                 </p>
-                <div onClick={() => handleCopyLink(sharedLink)}>
+                <div onClick={() => handleCopyLink(sharedLink)} className="cursor-pointer">
                   <GoCopy size={20} color="#D9302A" />
                 </div>
               </div>
@@ -137,6 +138,8 @@ const EventDetailDashboard = () => {
           </div>
         </li>
       </ul>
+
+      <SaleTable/>
     </div>
   );
 };

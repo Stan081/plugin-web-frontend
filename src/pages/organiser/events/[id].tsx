@@ -1,6 +1,8 @@
 import DelectEvent from "@/components/page-components/organisers/organiser-dashboard/events/DelectEvent";
 import EventDetailDashboard from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-dashboard/EventDetailDashboard";
 import EventDetailSidebar from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/EventDetailSidebar";
+import EventDetailTickets from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/EventDetailTickets";
+import EventDetailManagement from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/menage-attendees/EventDetailManagement";
 import PreviewEvent from "@/components/page-components/organisers/organiser-dashboard/events/PreviewEvent";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import { organiserEvents } from "@/static-datas/organiser-date";
@@ -44,6 +46,8 @@ const OrganiserEventDetail = () => {
           <EventDetailSidebar {...getEventDetail} />
           <div className="w-full">
             {activeEvent === 'dashboard' && <EventDetailDashboard/>}
+            {activeEvent === 'attendees' && <EventDetailManagement/>}
+            {activeEvent === 'tickets' && <EventDetailTickets/>}
           </div>
         </div>
 

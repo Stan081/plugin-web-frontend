@@ -11,6 +11,13 @@ export const SavedEventsSchema = yup.object().shape({
   event_name: yup.string(),
 });
 
+// Schema for search event attendee
+export const AttendeeSchema = yup.object().shape({
+  attendee_email: yup.string(),
+});
+
+export type AttendeeSearchForm = yup.InferType<typeof AttendeeSchema>
+
 export type SavedEvents = yup.InferType<typeof SavedEventsSchema>
 
 export type SearchFields = yup.InferType<

@@ -38,7 +38,7 @@ const eventDetailTabLink = [
   },
   {
     title: "Ticket History",
-    key: "ticket",
+    key: "tickets",
     icon: LuTicket,
   },
   {
