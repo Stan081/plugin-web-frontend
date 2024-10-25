@@ -40,13 +40,11 @@ const GuestList = () => {
     return <p className="text-white mx-5 text-center mt-5">loading...</p>;
 
   return (
-
     <div className="mx-3 md:mx-8 flex flex-col gap-5">
       {isPending && <SpinnerOverlay />}
       <p className="font-pally-regular text-sm text-white/60">
         Create a special guest for your event{" "}
       </p>
-
 
       <Separator decorative />
 
@@ -83,7 +81,6 @@ const GuestList = () => {
         editGuestList={editModal}
       />
     </div>
-
   );
 };
 
