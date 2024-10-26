@@ -64,20 +64,11 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   });
 
   const handleSubmit = useCallback(() => {
-    if (!isChecked.refundPolicy) {
-      toast({
-        variant: "destructive",
-        title: "Accept Our Refund policy",
-        description: "You need to accept our refund policy to proceed",
-      });
-    } else {
-      const data = {
-        refundPolicyAgreed: isChecked.refundPolicy,
-      };
-      console.log(data)
-      mutate(data);
-    }
-  }, [toast, isChecked.refundPolicy]);
+    const data = {
+      refundPolicyAgreed: isChecked.refundPolicy,
+    };
+    mutate(data);
+  }, []);
 
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 h-full lg:h-screen">
@@ -88,7 +79,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
         />
       </div>
       <div className="w-full lg:w-3/5 bg-[#f0ded1]">
-        <FormContainer formTitle="Event Details" currPosition={[100, 40, 0]}>
+        <FormContainer formTitle="Event Details" currPosition={[100, 100, 0]}>
           <div className="flex flex-col justify-between gap-4 w-full h-full">
             <Accordion
               type="single"
@@ -233,7 +224,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                   </Button>
 
                   <Button
-                    disabled={!isChecked.refundPolicy && isPending}
+                    disabled={!isChecked.refundPolicy || isPending}
                     onClick={handleSubmit}
                     variant="destructive"
                   >

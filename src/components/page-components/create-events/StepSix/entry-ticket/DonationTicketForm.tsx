@@ -23,11 +23,14 @@ import { Button } from "@/components/ui/button";
 import { StepsProps } from "@/pages/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 
-interface DonationTicketFormProps extends StepsProps {}
+interface DonationTicketFormProps extends StepsProps {
+  entryTicket: string;
+}
 
 const DonationTicketForm: FC<DonationTicketFormProps> = ({
   next,
   previous,
+  entryTicket
 }) => {
   const { selectTicket } = useCreateEventContext();
 

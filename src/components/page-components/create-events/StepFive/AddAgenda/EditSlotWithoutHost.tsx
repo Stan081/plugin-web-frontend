@@ -209,7 +209,7 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
               </div>
             </div>
           </div>
-          <div className="flex gap-4 my-4">
+          <div className="flex gap-7 my-4">
             <div
               onClick={handleReturnToList}
               className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"

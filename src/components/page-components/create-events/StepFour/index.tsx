@@ -44,7 +44,7 @@ const StepFour: React.FC<StepsProps> = ({ next, previous }) => {
         />
       </div>
       <div className="w-full lg:w-3/5">
-        <FormContainer formTitle="Basic Information" currPosition={[80, 0, 0]}>
+        <FormContainer formTitle="Basic Information" currPosition={[100, 60, 0]}>
           <div className="flex flex-wrap justify-start items-end gap-5">
             <h3 className="font-pally-medium md:text-xl">
               What’s your location type:

@@ -17,10 +17,17 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Textarea } from "@headlessui/react";
 
-interface FreeTicketFormProps extends StepsProps {}
+interface FreeTicketFormProps extends StepsProps {
+  entryTicket: string;
+}
 
-const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
+const FreeTicketForm: FC<FreeTicketFormProps> = ({
+  previous,
+  next,
+  entryTicket,
+}) => {
   const { selectTicket } = useCreateEventContext();
 
   const form = useForm<FreeTicket>({
@@ -34,11 +41,31 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
       end_date: new Date(),
       start_time: "",
       end_time: "",
+      ticket_perks: "",
     },
     resolver: yupResolver(FreeTicketFormSchema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventEntryTicket(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Vendor has been added",
+          description: `${response?.message}`,
+        });
+        next();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
 
   const onSubmit = useCallback(async (payload: FreeTicket) => {
     console.log(payload);
@@ -257,6 +284,27 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ previous, next }) => {
                     </FormItem>
                   )}
                 />
+              </FormItem>
+
+              <FormItem>
+                <FormLabel className="text-white" htmlFor="ticket_perks">
+                  Ticket Peaks
+                </FormLabel>
+                <FormField
+                  control={form.control}
+                  name="ticket_perks"
+                  render={({ field }) => (
+                    <FormControl>
+                      <Textarea
+                        placeholder="Max  char - 200 Words"
+                        id="ticket_perks"
+                        className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
+                        {...field}
+                      />
+                    </FormControl>
+                  )}
+                />
+                <FormMessage />
               </FormItem>
             </div>
           </div>

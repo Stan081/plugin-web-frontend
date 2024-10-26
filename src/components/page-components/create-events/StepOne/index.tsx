@@ -67,6 +67,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
         const uploadResult = await uploadImage(file);
 
         const imageUrl = uploadResult.secure_url;
+        console.log(imageUrl)
 
         setImageBanner(imageUrl);
         form.setValue("event_banner", imageUrl);
@@ -172,12 +173,13 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       eventDescription: payload?.event_description,
     };
     console.log(data)
+    console.log(getCookie("event_id"))
     mutate(data);
   }, []);
 
   return (
     <div
-      className="flex flex-col lg:flex-row items-start gap-4 md:gap-12
+      className="flex flex-col lg:flex-row items-start gap-4 lg:gap-12
     "
     >
       <div className="w-full lg:w-2/5 px-4 lg:px-0">
@@ -185,7 +187,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       </div>
       {isUploading && <SpinnerOverlay />}
       <div className="w-full h-full lg:w-3/5">
-        <FormContainer formTitle="Basic Information" currPosition={[20, 0, 0]}>
+        <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <div>
             <Form {...form}>
               <form

@@ -9,7 +9,7 @@ export const EventStepOneSchema = yup.object().shape({
     .mixed()
     .nullable()
     .test("required", "Image is required", (value) => {
-      return value instanceof File || value === null;
+      return value !== null;
     }),
   event_thumbnail: yup
     .mixed()
@@ -161,6 +161,7 @@ export const FreeTicketFormSchema = yup.object().shape({
     .string()
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .optional(),
+  ticket_perks: yup.string().required("Ticket perks is required"),
 });
 
 export const DonationFormSchema = yup.object().shape({
@@ -191,6 +192,7 @@ export const DonationFormSchema = yup.object().shape({
     .string()
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .optional(),
+  ticket_perks: yup.string().required("Ticket perks is required"),
 });
 
 export const PaidSeatSectionFormSchema = yup.object().shape({

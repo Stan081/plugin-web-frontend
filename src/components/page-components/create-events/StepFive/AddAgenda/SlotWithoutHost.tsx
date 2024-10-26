@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Form,
@@ -46,6 +46,7 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
     async (payload: SlotWithoutHostForm) => {
       console.log(payload);
       handleCreateAgenda({
+        id: Math.floor(Math.random() * 100),
         startTime: payload.start_time,
         isHost: payload.isHost,
         endTime: payload.end_time,

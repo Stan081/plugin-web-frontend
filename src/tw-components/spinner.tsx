@@ -9,7 +9,7 @@ interface SpinnerAlternativeProps {
 const Spinner: React.FC<SpinnerAlternativeProps> = ({}) => {
   return (
     <div>
-      <Image src={"/gif/spinner.gif"} alt="spinner" width={50} height={25} />
+      <Image src={"/gif/spinner.gif"} alt="spinner" width={50} height={25} className="w-auto h-auto" />
     </div>
   );
 };

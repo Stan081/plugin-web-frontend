@@ -109,5 +109,39 @@ type AgendaType = {
 };
 
 export type EventAgendaType = {
-  eventAgendas: AgendaType[]
+  eventAgendas: AgendaType[];
+};
+
+/* ----------------------*/
+
+export type VendorType = {
+  thumbnail: string;
+  isPass: string;
+  vendorTag: string;
+  passCategory: string[];
+  price: number;
+  slots: number;
+};
+
+export type EventVendorType = {
+  eventVendors: VendorType[];
+};
+
+/* ----------------------*/
+
+type EntryTicketType = {
+  entryTicketType: string;
+  ticketName: string;
+  ticketPrice: number;
+  ticketQuantity: number;
+  startDate: Date
+  startTime: string;
+  endDate: Date;
+  endTime: string;
+  ticketPeaks: string;
+}
+
+export type EventEntryPaidType = {
+  ticketCategory: string;
+  entryTicket: EntryTicketType
 };

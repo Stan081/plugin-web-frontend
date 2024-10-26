@@ -23,7 +23,7 @@ export enum AddAgendaState {
 }
 
 const AddAgenda = () => {
-  const { handleIsChecked, isHost } = useCreateEventContext();
+  const { handleIsChecked } = useCreateEventContext();
   const [formState, setFormState] = useState<AddAgendaState>(
     AddAgendaState.VIEW_LIST
   );
@@ -35,11 +35,6 @@ const AddAgenda = () => {
   const [nextId, setNextId] = useState<number>(Date.now());
 
   const { toast } = useToast();
-
-  // Initialize the vendor list
-  useEffect(() => {
-    setAgendaListState(staticAgendaList);
-  }, []);
 
   // Function to handle form edit
   const handleEditForm = (id: number) => {

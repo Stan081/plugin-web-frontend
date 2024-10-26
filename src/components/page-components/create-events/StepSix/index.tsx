@@ -22,7 +22,7 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 h-screen md:h-full">
+    <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 h-full lg:h-screen">
       <div className="w-full lg:w-2/5 px-4 lg:px-0 ">
         <Intro
           contents={contents}
@@ -32,7 +32,7 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
       <div className="w-full lg:w-3/5">
         <FormContainer
           formTitle="Setting up Tickets"
-          currPosition={[100, 80, 0]}
+          currPosition={[100, 100, 50]}
         >
           <div className="flex flex-col justify-between gap-4 w-full h-full">
             {!selectTicket && (
@@ -41,10 +41,10 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
 
             {selectTicket === "" ? (
               <CreateTicketEmptyState open={handleShowModal} />
-            ) : selectTicket === "entry-ticket" ? (
+            ) : selectTicket === "entry" ? (
               <EntryTicket next={next} previous={previous} />
             ) : (
-              selectTicket === "group-ticket" && (
+              selectTicket === "group" && (
                 <GroupTicket next={next} previous={previous} />
               )
             )}

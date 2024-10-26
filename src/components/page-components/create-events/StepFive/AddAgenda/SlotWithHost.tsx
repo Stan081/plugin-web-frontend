@@ -23,6 +23,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { AgendaSlotProps } from "./Slot";
 import { uploadImage } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
+import { setCookie } from "@/lib/cookies";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 interface SlotWithHostProps extends AgendaSlotProps {}
 
@@ -108,8 +110,10 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
   const onSubmit = useCallback(
     async (payload: SlotWithHostForm) => {
       console.log(payload);
+      
 
       handleCreateAgenda({
+        id: Math.floor(Math.random() * 100),
         hostImage: payload.host_thumbnail,
         hostName: payload.host_name,
         startTime: payload.start_time,
@@ -141,6 +145,7 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
 
   return (
     <div>
+      {isUploading && <SpinnerOverlay/>}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
