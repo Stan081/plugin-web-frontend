@@ -39,7 +39,7 @@ const StepThree: React.FC<StepsProps> = ({ next, previous }) => {
         />
       </div>
       <div className="w-full lg:w-3/5 bg-[#f0ded1]">
-        <FormContainer formTitle="Basic Information" currPosition={[60, 0, 0]}>
+        <FormContainer formTitle="Basic Information" currPosition={[100, 20, 0]}>
           <div>
             <h3 className="font-pally-medium md:text-lg">
               Will this be a one-time event or a recurring one ?

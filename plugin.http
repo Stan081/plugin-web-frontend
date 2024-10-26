@@ -11,10 +11,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ###
 
-GET https://pluginapi.onrender.com/api/auth/me
+PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjQwNTEzLCJleHAiOjE3MzE4MzI1MTN9.pKWPM6SNVvGXO9bvdvAYTskWPKKAKgGEPtaBCwGK0Y8
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
 
 {
   "eventCategory": ["home", "start", "end", "done", "football"]
@@ -22,9 +21,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ###
 
-PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 {
 "eventType": "one-time",
@@ -39,9 +38,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ###
 
-PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 {
   "eventType": "recurring",
@@ -57,9 +56,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ###
 
-PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 {
   "locationType": "physical",
@@ -74,9 +73,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ###
 
-PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 {
   "locationType": "online",
@@ -88,9 +87,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ###
 
-PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 {
   "eventHost": "no",
@@ -104,9 +103,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ###
 
-PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 {
   "eventHost": "yes",
@@ -122,9 +121,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ### Photos/Videos urls up to 6
 
-PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 {
   "eventPhotos": ["https://example.com/photo1.jpg",  "https://example.com/photo1.jpg",  "https://example.com/photo1.jpg"]
@@ -132,9 +131,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ### Refund Policy
 
-PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 {
   "refundPolicyAgreed": true
@@ -142,9 +141,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ### Guest List
 
-PUT https://pluginapi.onrender.com/api/event/67128950bce4a69267c21e2e
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 {
   "guestList": [
@@ -155,4 +154,70 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
     }
   ]
 }
+
+### Event Ticket - Entry (Paid)
+
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+{
+  "ticketCategory": "entry",
+  "entryTicket": {
+      "entryTicketType": "paid",
+      "ticketName": "Ticket Name",
+      "ticketPrice": 5000,
+      "ticketQuantity": 60,
+      "startDate": "Date",
+      "startTime": "Time",
+      "endDate": "Date",
+      "endTime": "Time",
+      "ticketPeaks": "Peaks"
+  }
+}
+
+### Event Ticket - Entry (Free)
+
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+{
+  "ticketCategory": "entry",
+  "entryTicket": {
+      "entryTicketType": "free",
+      "ticketName": "Ticket Name",
+      "ticketQuantity": 60,
+      "startDate": "Date",
+      "startTime": "Time",
+      "endDate": "Date",
+      "endTime": "Time",
+      "ticketPeaks": "Peaks",
+      "reservation": "yes"
+  }
+}
+
+### Event Ticket - Entry (Donation)
+
+PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+{
+  "ticketCategory": "entry",
+  "entryTicket": {
+      "entryTicketType": "donation",
+      "ticketName": "Ticket Name",
+      "ticketQuantity": 60,
+      "minPrice": 500,
+      "maxPrice": 900,
+      "startDate": "Date",
+      "startTime": "Time",
+      "endDate": "Date",
+      "endTime": "Time",
+      "ticketPeaks": "Peaks",
+      "reservation": "yes"
+  }
+}
+
 

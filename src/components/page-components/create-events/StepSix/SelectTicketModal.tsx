@@ -13,7 +13,7 @@ interface SelectTicketModalProps {
 const tickets = [
   {
     id: 1,
-    slug: "entry-ticket",
+    slug: "entry",
     ticketTitle: "Entry Ticket",
     ticketDescription:
       "Create general admission tickets that allow entry without assigning a specific seat or section.",
@@ -22,7 +22,7 @@ const tickets = [
   },
   {
     id: 2,
-    slug: "group-ticket",
+    slug: "group",
     ticketTitle: "Grouped Tickets ",
     ticketDescription:
       "Create multiple ticket categories at once by associating tickets with specific seats or sections on the seat map.",

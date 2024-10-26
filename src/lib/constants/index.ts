@@ -1,5 +1,6 @@
 import { getCookie } from "../cookies";
 
+
 const event_id = getCookie("event_id");
 
 const BASE_URL: string = "https://pluginapi.onrender.com";

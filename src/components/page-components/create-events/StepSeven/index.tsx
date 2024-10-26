@@ -10,7 +10,7 @@ const StepSeven = () => {
       <div className="w-full lg:w-3/5 lg:px-0">
         <FormContainer
           formTitle="Publish Event"
-          currPosition={[100, 100, 50]}
+          currPosition={[100, 100, 100]}
         >
           <div className="overflow-hidden">
             <PublishComponent />

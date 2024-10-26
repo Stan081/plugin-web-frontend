@@ -17,11 +17,23 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { StepsProps } from "@/pages/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useMutation } from "@tanstack/react-query";
+import { EventEntryPaidTicket } from "@/pages/api/mutate/create-events/EventEntryTicket";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from "@/tw-components/spinner";
 
-interface PaidTicketFormProps extends StepsProps {}
+interface PaidTicketFormProps extends StepsProps {
+  entryTicket: string;
+}
 
-const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
+const PaidTicketForm: FC<PaidTicketFormProps> = ({
+  next,
+  previous,
+  entryTicket,
+}) => {
   const { selectTicket } = useCreateEventContext();
+
+  const { toast } = useToast();
 
   const form = useForm<PaidTicket>({
     mode: "all",
@@ -31,7 +43,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
       ticket_quantity: 0,
       ticket_price: 0,
       start_date: new Date(),
-      end_date: new Date(),
+      end_date: null,
       start_time: "",
       end_time: "",
       ticket_perks: "",
@@ -39,18 +51,52 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
     resolver: yupResolver(PaidTicketFormSchema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventEntryPaidTicket(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Vendor has been added",
+          description: `${response?.message}`,
+        });
+        next();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
 
   const onSubmit = useCallback(async (payload: PaidTicket) => {
     console.log(payload);
-    next();
+    const data = {
+      ticketCategory: payload.ticket_type,
+      entryTicket: {
+        entryTicketType: entryTicket,
+        ticketName: payload.ticket_name,
+        ticketPrice: payload.ticket_price,
+        ticketQuantity: payload.ticket_quantity,
+        startDate: payload.start_date,
+        startTime: payload.start_time,
+        endDate: payload.end_date,
+        endTime: payload.end_time,
+        ticketPeaks: payload.ticket_perks,
+      },
+    };
+    console.log(data);
+    mutate(data)
   }, []);
   return (
-    <div>
+    <div className="w-full h-full ">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col justify-between gap-4 w-full h-full  lg:h-[62vh]"
+          className="flex flex-col justify-between gap-4 w-full h-full"
         >
           <div className="flex flex-col justify-between gap-4 h-auto w-full">
             <FormItem className="w-full ">
@@ -67,7 +113,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
                         placeholder="Enter ticket name - max 200 characters"
                         type="text"
                         id="ticket-name"
-                        disabled={isLoading}
                         className="w-full bg-white text-black font-pally-regular"
                         {...field}
                         maxLength={200}
@@ -94,7 +139,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
                           placeholder="₦ Enter amount"
                           type="number"
                           id="price-pass"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -118,7 +162,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
                           placeholder="Enter ticket name"
                           type="number"
                           id="ticket-name"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -151,7 +194,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
                             placeholder="DD/MM/YY"
                             type="date"
                             id="start_date"
-                            disabled={isLoading}
                             className=" bg-white text-black font-pally-regular"
                             {...field}
                             value={formattedDate}
@@ -178,7 +220,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
                             placeholder="0:00"
                             type="time"
                             id="start_time"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -212,7 +253,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
                             placeholder="DD/MM/YY"
                             type="date"
                             id="end_date"
-                            disabled={isLoading}
                             className=" bg-white text-black font-pally-regular"
                             {...field}
                             value={formattedDate}
@@ -239,7 +279,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
                             placeholder="0:00"
                             type="time"
                             id="end_time"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -264,7 +303,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
                     <Textarea
                       placeholder="Max  char - 200 Words"
                       id="ticket_perks"
-                      disabled={isLoading}
                       className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
                       {...field}
                     />
@@ -294,8 +332,12 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ next, previous }) => {
                   Back
                 </Button>
 
-                <Button type="submit" variant="destructive">
-                  Next
+                <Button
+                  type="submit"
+                  variant="destructive"
+                  disabled={isPending}
+                >
+                  {isPending ? <Spinner /> : "Next"}
                 </Button>
               </div>
             </div>

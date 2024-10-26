@@ -24,12 +24,11 @@ const AddVendor = () => {
   const [selectedVendor, setSelectedVendor] = useState<
     VendorListType | undefined
   >(undefined);
-  const [nextId, setNextId] = useState<number>(Date.now()); // ID generator
+  // const [nextId, setNextId] = useState<number>(Date.now()); // ID generator
 
-  // Initialize the vendor list
   useEffect(() => {
     setVendorListState(staticVendorList);
-  }, []);
+  }, [vendorListState]);
 
   // Function to handle form edit
   const handleEditForm = (id: number) => {
@@ -41,13 +40,6 @@ const AddVendor = () => {
     }
   };
 
-  // Function to handle creating a new vendor
-  const handleCreateVendor = (vendorData: VendorListType) => {
-    const newVendor = { ...vendorData, id: nextId }; // Ensure each vendor has a unique ID
-    setVendorListState((prevList) => [...prevList, newVendor]); // Add new vendor to state
-    setNextId(Date.now()); // Update nextId to ensure uniqueness
-    setFormState(VendorFormState.VIEW_LIST);
-  };
 
   // Function to return to the vendor list view
   const handleReturnToList = () => {
@@ -61,10 +53,6 @@ const AddVendor = () => {
     setFormState(VendorFormState.VIEW_LIST);
   };
 
-  const handleSubmit = useCallback(() => {
-    console.log(vendorListState)
-  }, [vendorListState]);
-
   return (
     <div className="mx-3 md:mx-8 flex flex-col gap-5">
       <p className="font-pally-regular text-sm text-white/60">
@@ -76,33 +64,32 @@ const AddVendor = () => {
       {formState === VendorFormState.CREATE_VENDOR ? (
         <VendorForm
           handleReturnToList={handleReturnToList}
-          handleCreateVendor={handleCreateVendor}
         />
       ) : formState === VendorFormState.EDIT_VENDOR && selectedVendor ? (
-        <EditVendorForm handleDelete={handleDelete} handleReturnToList={handleReturnToList} {...selectedVendor} />
+        <EditVendorForm
+          handleDelete={handleDelete}
+          handleReturnToList={handleReturnToList}
+          {...selectedVendor}
+        />
       ) : formState === VendorFormState.VIEW_LIST &&
         vendorListState.length !== 0 ? (
         <div className="my-3 flex flex-col gap-3 w-full">
           {vendorListState.map((list) => (
             <VendorCard
-              key={list.passTag}
+              key={list.id}
               {...list}
               handleEditForm={handleEditForm}
               handleDelete={handleDelete} // Pass delete handler to VendorCard if necessary
             />
           ))}
 
-          <div className="mt-4 flex justify-between gap-5">
-            <button
-              onClick={() => setFormState(VendorFormState.CREATE_VENDOR)}
-              type="button"
-              className="border border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50 md:w-32"
-            >
-              Create Pass
-            </button>
-
-            <Button onClick={handleSubmit} variant="destructive">Save</Button>
-          </div>
+          <button
+            onClick={() => setFormState(VendorFormState.CREATE_VENDOR)}
+            type="button"
+            className="border border-dashed p-3 rounded-lg block mt-5 w-full hover:bg-[#423730]/50"
+          >
+            Create Pass
+          </button>
         </div>
       ) : (
         <VendorEmptyState
