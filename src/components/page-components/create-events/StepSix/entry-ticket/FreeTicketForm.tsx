@@ -18,6 +18,10 @@ import { Separator } from "@/components/ui/separator";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@headlessui/react";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+import { EventEntryFree } from "@/pages/api/mutate/create-events/EventEntryFree";
+import Spinner from "@/tw-components/spinner";
 
 interface FreeTicketFormProps extends StepsProps {
   entryTicket: string;
@@ -30,6 +34,8 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
 }) => {
   const { selectTicket } = useCreateEventContext();
 
+  const { toast } = useToast();
+
   const form = useForm<FreeTicket>({
     mode: "all",
     defaultValues: {
@@ -38,7 +44,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
       ticket_quantity: 0,
       reservation: "",
       start_date: new Date(),
-      end_date: new Date(),
+      end_date: null,
       start_time: "",
       end_time: "",
       ticket_perks: "",
@@ -47,12 +53,12 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: any) => EventEntryTicket(data),
+    mutationFn: (data: any) => EventEntryFree(data),
     onSuccess: (response) => {
       if (response?.message) {
         toast({
           variant: "success",
-          title: "Vendor has been added",
+          title: ` Your ${entryTicket} ticket has been added`,
           description: `${response?.message}`,
         });
         next();
@@ -67,9 +73,21 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
     },
   });
 
-  const onSubmit = useCallback(async (payload: FreeTicket) => {
-    console.log(payload);
-    next();
+  const onSubmit = useCallback(async (payload: FreeTicket) => {    const data = {
+      ticketCategory: payload.ticket_type,
+      entryTicket: {
+        entryTicketType: entryTicket,
+        ticketName: payload.ticket_name,
+        ticketQuantity: payload.ticket_quantity,
+        startDate: payload.start_date,
+        startTime: payload.start_time,
+        endDate: payload.end_date,
+        endTime: payload.end_time,
+        ticketPeaks: payload.ticket_perks,
+        reservation: payload.reservation,
+      },
+    };
+    mutate(data);
   }, []);
   return (
     <div className="w-full h-full ">
@@ -94,7 +112,6 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
                           placeholder="Enter ticket name - max 200 characters"
                           type="text"
                           id="ticket-name"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           maxLength={200}
                           {...field}
@@ -120,7 +137,6 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
                           placeholder="Enter ticket name"
                           type="number"
                           id="ticket-name"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -152,7 +168,6 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
                               placeholder="DD/MM/YY"
                               type="date"
                               id="start_date"
-                              disabled={isLoading}
                               className=" bg-white text-black font-pally-regular"
                               {...field}
                               value={formattedDate}
@@ -179,7 +194,6 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
                               placeholder="0:00"
                               type="time"
                               id="start_time"
-                              disabled={isLoading}
                               className="bg-white text-black font-pally-regular"
                               {...field}
                             />
@@ -213,7 +227,6 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
                               placeholder="DD/MM/YY"
                               type="date"
                               id="end_date"
-                              disabled={isLoading}
                               className=" bg-white text-black font-pally-regular"
                               {...field}
                               value={formattedDate}
@@ -240,7 +253,6 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
                               placeholder="0:00"
                               type="time"
                               id="end_time"
-                              disabled={isLoading}
                               className="bg-white text-black font-pally-regular"
                               {...field}
                             />
@@ -328,8 +340,12 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
                   Back
                 </Button>
 
-                <Button type="submit" variant="destructive">
-                  Next
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  variant="destructive"
+                >
+                  {isPending ? <Spinner /> : "Next"}
                 </Button>
               </div>
             </div>

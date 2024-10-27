@@ -57,7 +57,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
       if (response?.message) {
         toast({
           variant: "success",
-          title: "Vendor has been added",
+          title: ` Your ${entryTicket} ticket has been added`,
           description: `${response?.message}`,
         });
         next();
@@ -73,7 +73,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
   });
 
   const onSubmit = useCallback(async (payload: PaidTicket) => {
-    console.log(payload);
     const data = {
       ticketCategory: payload.ticket_type,
       entryTicket: {
@@ -88,8 +87,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
         ticketPeaks: payload.ticket_perks,
       },
     };
-    console.log(data);
-    mutate(data)
+    mutate(data);
   }, []);
   return (
     <div className="w-full h-full ">
