@@ -134,14 +134,33 @@ type EntryTicketType = {
   ticketName: string;
   ticketPrice: number;
   ticketQuantity: number;
-  startDate: Date
+  startDate: Date;
   startTime: string;
   endDate: Date;
   endTime: string;
   ticketPeaks: string;
-}
+};
 
 export type EventEntryPaidType = {
   ticketCategory: string;
-  entryTicket: EntryTicketType
+  entryTicket: EntryTicketType;
+};
+
+/* ----------------------*/
+
+type EntryFreeType = {
+  entryTicketType: string;
+  ticketName: string;
+  ticketQuantity: number;
+  startDate: Date;
+  startTime: string;
+  endDate: Date;
+  endTime: string;
+  ticketPeaks: string;
+  reservation: string;
+};
+
+export type EventEntryFreeType = {
+  ticketCategory: string;
+  entryTicket: EntryFreeType;
 };
