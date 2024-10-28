@@ -1,6 +1,7 @@
 "use client";
 
 import CardComponent from "@/components/CardComponent";
+import CardComponent2 from "@/components/CardComponent2";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
@@ -46,12 +47,14 @@ const PopularEvent = () => {
               </li>
             ))}
           </ul>
+          <CardComponent2 />
           <div
             id={`panel-${isActive}`}
             role="tabpanel"
             aria-labelledby={`tab-${isActive}`}
             className="mt-6 md:mt-10 flex lg:flex-row gap-5 overflow-x-auto w-full pb-8"
           >
+           
             {cardData.slice(0, 4).map((card) => (
               <CardComponent key={card.id} {...card} />
             ))}
