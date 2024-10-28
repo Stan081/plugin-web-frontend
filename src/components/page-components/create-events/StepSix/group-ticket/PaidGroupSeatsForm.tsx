@@ -42,7 +42,6 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { extractColors } from "extract-colors";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { IoReturnDownBackOutline } from "react-icons/io5";
 import { EventGroupPaid } from "@/pages/api/mutate/create-events/EventGroupPaid";
 import { useMutation } from "@tanstack/react-query";
 import Spinner from "@/tw-components/spinner";
@@ -53,9 +52,9 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
   handleReturnToList,
   handleCreateVendor,
 }) => {
-  const [quantity, setQuantity] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(null);
   const { selectTicket, seatType } = useCreateEventContext();
-  const [ticketPrice, setTicketPrice] = useState<number>(0);
+  const [ticketPrice, setTicketPrice] = useState<number>(null);
   const [labelImage, setlabelImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -189,7 +188,7 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
 
   const onSubmit = useCallback(async (payload: PaidSeatSection) => {
     const data = {
-      ticketCategory: payload.ticket_type,
+      ticketCategory: payload.ticket_type.concat('ed'),
       groupedTicket: [
         {
           groupedTicketType: payload.seat_type,
@@ -260,7 +259,9 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
             </FormItem>
 
             <FormItem className="col-span-1">
-              <FormLabel className="text-white">Ticket category</FormLabel>
+              <FormLabel className="text-white" htmlFor="ticket_category">
+                Ticket category
+              </FormLabel>
               <FormField
                 control={form.control}
                 name="ticket_category"
@@ -272,7 +273,10 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
                           onValueChange={(value) => field.onChange(value)}
                           defaultValue={String(field.value)}
                         >
-                          <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
+                          <SelectTrigger
+                            id="ticket_category"
+                            className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full"
+                          >
                             <SelectValue placeholder="Select venue" />
                           </SelectTrigger>
                           <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
@@ -320,7 +324,7 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
                 />
               </FormItem>
               <FormItem className="w-1/2 ">
-                <FormLabel className="text-white" htmlFor="ticket-name">
+                <FormLabel className="text-white" htmlFor="ticket-quantity">
                   Ticket Quantity
                 </FormLabel>
                 <FormField
@@ -330,9 +334,9 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
                     <FormItem>
                       <FormControl>
                         <Input
-                          placeholder="Enter ticket name"
+                          placeholder="Enter ticket quantity"
                           type="number"
-                          id="ticket-name"
+                          id="ticket-quantity"
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -486,12 +490,12 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
             <Separator />
 
             <FormItem className="w-full mt-6 space-y-3 px-4">
-              <FormLabel className="text-white">
+              <p className="text-base font-pally-regular text-white">
                 {" "}
                 Labeling helps you and your attendees easily identify and find
                 sections, seats or areas in the venue. Use labels to make your
                 tickets more unique
-              </FormLabel>
+              </p>
               <FormField
                 control={form.control}
                 name="label_image"
@@ -559,7 +563,10 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
                   </FormItem>
                 )}
               />
-              <FormLabel className="mt-3 text-white font-pally-medium">
+              <FormLabel
+                htmlFor="file-input-thumbnail"
+                className="mt-3 text-white font-pally-medium"
+              >
                 Label Guide ( optional )
               </FormLabel>
             </FormItem>
