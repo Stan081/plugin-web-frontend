@@ -53,3 +53,10 @@ button.absolute.right-4.top-4 {
   border-color: initial;
 }
 
+.trapezium-reverse {
+  clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%);
+}
+
+.half-trapezium {
+  clip-path: polygon(0% 50%, 100% 0%, 100% 100%, 0% 100%);
+}
