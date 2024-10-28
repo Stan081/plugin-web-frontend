@@ -90,11 +90,11 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
     mutate(data);
   }, []);
   return (
-    <div className="w-full h-full ">
+    <div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-20 w-full h-full"
+          className="flex flex-col gap-20"
         >
           <div>
             <div className="flex flex-col justify-between gap-4 w-full h-full">

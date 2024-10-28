@@ -221,6 +221,8 @@ export const PaidSeatSectionFormSchema = yup.object().shape({
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .optional(),
   ticket_perks: yup.string().required("Ticket perks is required"),
+  label_image: yup.string().required("Please upload host image"),
+  label_color: yup.string().required("Select a color pallete"),
 });
 
 export const FreeSeatSectionFormSchema = yup.object().shape({
