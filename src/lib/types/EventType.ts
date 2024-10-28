@@ -207,3 +207,24 @@ export type EventGroupPaidType = {
   ticketCategory: string;
   groupedTicket: GroupPaidType;
 };
+
+/* ----------------------*/
+
+type GroupFreeType = {
+  groupedTicketType: string;
+  ticketName: string;
+  ticketCategory: string;
+  ticketQuantity: number;
+  startDate: Date;
+  startTime: string;
+  endDate: Date;
+  endTime: string;
+  ticketPeaks: string;
+  seatMap: string;
+  color: string;
+};
+
+export type EventGroupFreeType = {
+  ticketCategory: string;
+  groupedTicket: GroupFreeType;
+};
