@@ -164,3 +164,24 @@ export type EventEntryFreeType = {
   ticketCategory: string;
   entryTicket: EntryFreeType;
 };
+
+/* ----------------------*/
+
+type EntryDonationType = {
+  entryTicketType: string;
+  ticketName: string;
+  ticketQuantity: number;
+  minPrice: number;
+  maxPrice: number;
+  startDate: Date;
+  startTime: string;
+  endDate: Date;
+  endTime: string;
+  ticketPeaks: string;
+  reservation: string;
+};
+
+export type EventEntryDonationType = {
+  ticketCategory: string;
+  entryTicket: EntryDonationType;
+};

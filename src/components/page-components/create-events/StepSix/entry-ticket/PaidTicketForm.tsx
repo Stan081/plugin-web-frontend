@@ -288,7 +288,6 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
                 />
               </FormItem>
             </div>
-
             <FormItem>
               <FormLabel className="text-white" htmlFor="ticket_perks">
                 Ticket Peaks
