@@ -139,7 +139,7 @@ const Pricing = () => {
           <br />
           Manage Your Event
         </h2>
-        <div className="mt-20 w-[80%] h-[90vh] mx-auto flex gap-5 ">
+        <div className="mt-20 w-[80%] h-[95vh] mx-auto flex gap-5 ">
           <div className="relative w-1/2 h-full bg-[#FFF1F0] rounded-lg">
             <div className="p-10 ">
               <p className="font-pally-medium text-3xl text-[#020912]">
@@ -150,20 +150,114 @@ const Pricing = () => {
                 ticketed or free, and reach a wider audience
               </p>
             </div>
-            <figure className="absolute w-full h-1/2 bg-sky-500"></figure>
-            <figure className="absolute bottom-0 w-full h-1/2 bg-green-500 bg-opacity-50">
+
+            <div className="relative w-full">
+              <figure className="absolute w-full h-60">
+                <Image
+                  fill={true}
+                  src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730126958/pricing-images/party-2.png"
+                  alt="Party Banner 1"
+                  className="object-cover"
+                />
+              </figure>
+            </div>
+
+            <div className="relative w-full">
+              <figure className="absolute top-8 w-full h-60">
+                <Image
+                  fill={true}
+                  src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730126958/pricing-images/party-2.png"
+                  alt="Party Banner 1"
+                  className="object-cover"
+                />
+              </figure>
+            </div>
+
+            <div className="relative w-full">
+              <figure className="absolute top-[25vh] w-full h-40">
+                <Image
+                  fill={true}
+                  src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730126489/pricing-images/party-3.png"
+                  alt="Party Banner 2"
+                  className="object-cover"
+                />
+              </figure>
+            </div>
+
+            {/* crowd*/}
+            <figure className="absolute bottom-0 w-full h-[55%] ">
               <Image
                 fill={true}
                 alt="Crowd"
                 src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730109316/pricing-images/crowd.png"
-                className="object-fill"
+                className="object-cover object-top rounded-b-lg"
               />
             </figure>
           </div>
           <div className="w-1/2 h-full flex flex-col gap-5">
-            <div className="w-full h-1/2 bg-green-500 rounded-lg"></div>
-            <div className="w-full h-1/2 bg-green-500 rounded-lg"></div>
+            <div className="relative w-full h-1/2 bg-[#ECF2FE] rounded-lg">
+              <div className="p-10 ">
+                <p className="font-pally-medium text-3xl text-[#020912]">
+                  Private Events
+                </p>
+                <p className="font-pally-regular text-lg text-[#586170]">
+                  Host exclusive events by sending personalized invitations,
+                  keeping your event accessible to a select group
+                </p>
+              </div>
+              <div className="absolute w-full bottom-0 h-1/2">
+                <figure className="size-full">
+                  <Image
+                    fill={true}
+                    src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730127651/pricing-images/party-balloons.png"
+                    alt="Party Balloons"
+                    className="object-cover top-0"
+                  />
+                </figure>
+                <figure className="absolute left-1/3 bottom-0 h-[120%] w-1/3">
+                  <Image
+                    fill={true}
+                    src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730128429/pricing-images/padlock.png"
+                    alt="Padlock"
+                    className="object-contain"
+                  />
+                </figure>
+              </div>
+            </div>
+            <div className="relative w-full h-1/2 bg-[#FBF1E1] rounded-lg overflow-hidden">
+              <div className="half-trapezium absolute w-full h-[25%] bottom-0 bg-[#EFC8C5]"></div>
+              <figure className="absolute w-1/2 h-1/2 bottom-0 left-[15%]">
+                <Image
+                  fill={true}
+                  src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730129337/pricing-images/calendar.png"
+                  alt="Calendar"
+                  className="object-cover"
+                />
+              </figure>
+            </div>
           </div>
+        </div>
+      </Section>
+
+      <Section className="w-full trapezium-reverse-container bg-[#211913]">
+        <div className=" trapezium-reverse size-full bg-[#FFF1F0] flex flex-col justify-center">
+          <div className="text-center space-y-3 py-20 w-[70%] mx-auto">
+            <h2 className="font-pally-medium text-4xl leading-10 text-[#020912] w-[60%] mx-auto">
+              Effortless Ticket Management and Real-Time Insights
+            </h2>
+            <p className="font-pally-regular text-base text-[#475367] w-[60%] mx-auto">
+              Track sales, check in attendees, and monitor event progress using
+              Plugin’s powerful ticket management tools.
+            </p>
+          </div>
+          <figure className="relative w-[80%] mx-auto h-[90vh]">
+            <Image
+              fill={true}
+              src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730124769/pricing-images/ticket-mgt.png"
+              alt="Ticket Management"
+              className="object-contain object-to"
+            />
+          </figure>
         </div>
       </Section>
 
