@@ -25,7 +25,7 @@ const EntryTicket: FC<EntryTicketProps> = ({ next, previous }) => {
   const [entryTicket, setEntryTicket] = useState<string>("paid");
 
   return (
-    <div className="overflow-y-auto  lg:h-[72vh] w-full">
+    <div className=" w-full">
       <h3 className="font-pally-bold text-2xl">Entry Ticket</h3>
 
       <div className="flex flex-wrap items-end gap-3 mt-3">

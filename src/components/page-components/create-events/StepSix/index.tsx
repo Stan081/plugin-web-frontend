@@ -34,7 +34,7 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
           formTitle="Setting up Tickets"
           currPosition={[100, 100, 50]}
         >
-          <div className="flex flex-col justify-between gap-4 w-full h-full">
+          <div className="flex flex-col justify-between gap-4 w-full lg:h-[82vh] px-3 overflow-y-auto">
             {!selectTicket && (
               <SelectTicketModal isOpen={showModal} close={handleShowModal} />
             )}
