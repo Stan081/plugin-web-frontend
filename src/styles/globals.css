@@ -80,7 +80,6 @@ background: linear-gradient(182.95deg, #FFF6F1 5.6%, #FDE5E3 92.46%);
   clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%);
 }
 
-
-
-
-
+.half-trapezium {
+  clip-path: polygon(0% 50%, 100% 0%, 100% 100%, 0% 100%);
+}
