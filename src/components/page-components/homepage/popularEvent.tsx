@@ -1,6 +1,5 @@
 "use client";
 
-import CardComponent from "@/components/CardComponent";
 import CardComponent2 from "@/components/CardComponent2";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
@@ -48,7 +47,6 @@ const PopularEvent = () => {
             ))}
             
           </ul>
-
           <div
             id={`panel-${isActive}`}
             role="tabpanel"
@@ -58,7 +56,6 @@ const PopularEvent = () => {
            
             {cardData.slice(0, 4).map((card) => (
                <CardComponent2  key={card.id} {...card}  />
-              // <CardComponent key={card.id} {...card}  />
             ))}
           </div>
         </Container>
