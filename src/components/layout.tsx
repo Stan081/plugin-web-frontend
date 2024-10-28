@@ -1,11 +1,6 @@
-import React from "react"
+import React from "react";
 
-import {
-  ComponentPropsWithRef,
-  FC,
-  useCallback,
-  useState,
-} from "react";
+import { ComponentPropsWithRef, FC, useCallback, useState } from "react";
 import Meta from "./Meta";
 import Footer from "./Footer";
 import Header from "./Header";
