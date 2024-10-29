@@ -228,3 +228,18 @@ export type EventGroupFreeType = {
   ticketCategory: string;
   groupedTicket: GroupFreeType;
 };
+
+/* ----------------------*/
+
+export type EventPublishType = {
+  organizer: {
+    photo: string;
+    name: string;
+  };
+  isVisible: true;
+  publishStatus: string;
+  eventSchedule: {
+    startDate: Date;
+    startTime: string;
+  };
+};

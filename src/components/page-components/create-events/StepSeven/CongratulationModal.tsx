@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const CongratulationModal: FC<{
   open: boolean;
@@ -32,9 +33,12 @@ const CongratulationModal: FC<{
                     book tickets for your events
                   </p>
 
-                  <div className="flex justify-center mt-5">
+                  <Link
+                    href={`/organiser`}
+                    className="flex justify-center mt-5"
+                  >
                     <Button variant="destructive">Manange Event</Button>
-                  </div>
+                  </Link>
                 </div>
                 <div className="h-[40vh] w-1/2">
                   <Image

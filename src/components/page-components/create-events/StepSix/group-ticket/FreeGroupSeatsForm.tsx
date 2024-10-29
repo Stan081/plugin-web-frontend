@@ -51,9 +51,7 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
   handleReturnToList,
   handleCreateVendor,
 }) => {
-  const [quantity, setQuantity] = useState<number>(null);
   const { selectTicket, seatType } = useCreateEventContext();
-  const [ticketPrice, setTicketPrice] = useState<number>(null);
   const [labelImage, setlabelImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -66,7 +64,7 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
       ticket_type: selectTicket,
       ticket_name: "",
       ticket_category: "",
-      ticket_quantity: quantity,
+      ticket_quantity: null,
       start_date: new Date(),
       end_date: null,
       start_time: "",
@@ -120,7 +118,7 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
   ) => {
     const file = event.target.files?.[0];
     if (file) {
-      setIsUploading(true); // Start spinner
+      setIsUploading(true);
 
       try {
         const uploadResult = await uploadImage(file);
