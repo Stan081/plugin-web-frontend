@@ -273,8 +273,19 @@ export const PublishFormSchema = yup.object().shape({
   organiser_photo: yup.string().required(),
   organiser_name: yup.string().required(),
   event_visibility: yup.string().required(),
-  PublishWhen: yup.string().required(),
-  schedulePublish: ScheduleForm.optional(),
+  publishWhen: yup.boolean().required(),
+  schedulePublish: yup.object().shape({
+    start_date: yup.date().when("publishWhen", {
+      is: false,
+      then: (schema) => schema.required("Start date is required"),
+      otherwise: (schema) => schema.optional(),
+    }),
+    start_time: yup.string().when("publishWhen", {
+      is: false,
+      then: (schema) => schema.required("Start time is required"),
+      otherwise: (schema) => schema.optional(),
+    }),
+  }),
 });
 
 export type InviteeListForm = yup.InferType<typeof InviteeListSchema>;

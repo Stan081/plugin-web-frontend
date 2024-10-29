@@ -24,12 +24,13 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import InviteeInfo from "./InviteeInfo";
-import { Textarea } from "@/components/ui/textarea";
-import { PiInfoBold } from "react-icons/pi";
-import { useCreateEventContext } from "@/providers/create_event.provider";
-import InviteeCard from "./InviteeCard";
 import CongratulationModal from "./CongratulationModal";
+import { uploadImage } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useMutation } from "@tanstack/react-query";
+import { EventPublish } from "@/pages/api/mutate/create-events/EventPublish";
+import Spinner from "@/tw-components/spinner";
 
 const PublishComponent = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -38,6 +39,7 @@ const PublishComponent = () => {
   const [selectedVisibility, setSelectedVisibility] =
     useState<string>("public");
   const [checkSchedule, setCheckSchedule] = useState<string>("now");
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const form = useForm<PublishForm>({
     mode: "all",
@@ -45,7 +47,7 @@ const PublishComponent = () => {
       organiser_photo: "",
       organiser_name: "",
       event_visibility: selectedVisibility,
-      PublishWhen: checkSchedule,
+      publishWhen: true,
       schedulePublish: {
         start_date: new Date(),
         start_time: "",
@@ -54,22 +56,38 @@ const PublishComponent = () => {
     resolver: yupResolver(PublishFormSchema),
   });
 
+  const publishWhen = form.watch("publishWhen");
+
   useEffect(() => {
     form.setValue("event_visibility", selectedVisibility);
   }, [selectedVisibility, form.setValue]);
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
 
   // Handle image upload for banner
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setOrganiserImage(reader.result as string);
-        form.setValue("organiser_photo", reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setIsUploading(true);
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setOrganiserImage(imageUrl);
+        form.setValue("organiser_photo", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -89,8 +107,43 @@ const PublishComponent = () => {
     }
   };
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventPublish(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: publishWhen
+            ? "Event has been published"
+            : "Event has been schedule",
+          description: `${response?.message}`,
+        });
+        setShowModal(!showModal)
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
   const onSubmit = useCallback(async (payload: PublishForm) => {
-    console.log(payload);
+    const data = {
+      organizer: {
+        photo: payload.organiser_photo,
+        name: payload.organiser_name,
+      },
+      isVisible: true,
+      publishStatus: payload.publishWhen ? "yes" : "no",
+      eventSchedule: {
+        startDate: payload.schedulePublish.start_date,
+        startTime: payload.schedulePublish.start_time,
+      },
+    };
+    mutate(data);
   }, []);
 
   return (
@@ -101,6 +154,7 @@ const PublishComponent = () => {
           close={() => setShowModal(!showModal)}
         />
       )}
+      {isUploading && <SpinnerOverlay />}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -189,7 +243,6 @@ const PublishComponent = () => {
                           placeholder="Enter Organizer name"
                           type="text"
                           id="organiser_name"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -253,69 +306,25 @@ const PublishComponent = () => {
               />
             </FormItem>
 
-            {/* {selectedVisibility === "private" && (
-            <FormItem className="w-full px-4">
-              <FormLabel className="text-white" htmlFor="message">
-                Invite message
-              </FormLabel>
-              <FormField
-                control={form.control}
-                name="inviteesMessage.message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Enter a brief message you want your  invitees to see when"
-                        id="message"
-                        disabled={isLoading}
-                        className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="mt-2 flex items-center gap-3 bg-[#F4E1C4] text-[#3D2E21] p-2 rounded text-sm">
-                <span>
-                  <PiInfoBold size={16} />
-                </span>
-                <p className="font-pally-regular">
-                  This message would be sent to invitees added to this event.
-                </p>
-              </div>
-            </FormItem>
-          )}
-
-          {selectedVisibility === "private" && (
-            <div>
-              {inviteeState.length !== 0 &&
-                inviteeState.map((invitee, index) => (
-                  <InviteeCard key={index} {...invitee} />
-                ))}
-              <InviteeInfo />
-            </div>
-          )} */}
-
             <FormItem>
               <FormField
                 control={form.control}
-                name="PublishWhen"
+                name="publishWhen"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="text-lg ">
+                    <FormLabel className="text-lg">
                       When should we publish your event?
                     </FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={(value) => {
-                          field.onChange(value);
                           setCheckSchedule(value);
+                          field.onChange(value === "now"); // Converts to boolean when updating field value
                         }}
                         defaultValue={checkSchedule}
                         className="space-y-3"
                       >
-                        <FormItem className=" space-y-1 flex items-center space-x-3">
+                        <FormItem className="space-y-1 flex items-center space-x-3">
                           <FormControl>
                             <RadioGroupItem value="now" />
                           </FormControl>
@@ -339,7 +348,7 @@ const PublishComponent = () => {
               />
             </FormItem>
 
-            {checkSchedule === "later" && (
+            {!publishWhen && (
               <div className="flex items-start gap-4">
                 <FormItem className="w-full">
                   <FormLabel className="text-white" htmlFor="start_date">
@@ -361,7 +370,6 @@ const PublishComponent = () => {
                               placeholder="DD/MM/YY"
                               type="date"
                               id="start_date"
-                              disabled={isLoading}
                               className=" bg-white text-black font-pally-regular"
                               {...field}
                               value={formattedDate}
@@ -388,7 +396,6 @@ const PublishComponent = () => {
                               placeholder="0:00"
                               type="time"
                               id="start_time"
-                              disabled={isLoading}
                               className="bg-white text-black font-pally-regular"
                               {...field}
                             />
@@ -414,8 +421,8 @@ const PublishComponent = () => {
                 Back
               </Button>
 
-              <Button type="submit" variant="destructive">
-                Publish Event
+              <Button type="submit" disabled={isPending} variant="destructive">
+                {isPending ? <Spinner /> : "Publish Event"}
               </Button>
             </div>
           </div>
