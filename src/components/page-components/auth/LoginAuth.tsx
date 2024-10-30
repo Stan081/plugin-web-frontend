@@ -58,7 +58,6 @@ const LoginAuth = () => {
   });
 
   const onSubmit = useCallback(async (payload: LoginFields) => {
-    console.log(payload);
     setCookie("email", payload.email);
     const data = {
       email: payload.email,
