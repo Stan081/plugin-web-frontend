@@ -22,7 +22,7 @@ const tickets = [
   },
   {
     id: 2,
-    slug: "grouped",
+    slug: "group",
     ticketTitle: "Grouped Tickets ",
     ticketDescription:
       "Create multiple ticket categories at once by associating tickets with specific seats or sections on the seat map.",

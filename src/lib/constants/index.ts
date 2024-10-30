@@ -1,5 +1,6 @@
 import { getCookie } from "../cookies";
 
+const user_id = getCookie("user_id");
 
 const event_id = getCookie("event_id");
 
@@ -20,3 +21,5 @@ export const GET_USER_URL: string = `${API_URL}/auth/me`;
 export const EVENT_BASIC_INFO_URL: string = `${API_URL}/event`;
 
 export const PUT_EVENT_ID: string = `${API_URL}/event/${event_id}`;
+
+export const EDIT_PROFILE_ROLE: string = `${API_URL}/user/${user_id}`;

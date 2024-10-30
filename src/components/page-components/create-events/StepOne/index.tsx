@@ -28,6 +28,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { getCookie, setCookie } from "@/lib/cookies";
 import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useMe } from "@/pages/api/query/me";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -67,7 +68,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
         const uploadResult = await uploadImage(file);
 
         const imageUrl = uploadResult.secure_url;
-        console.log(imageUrl)
+        console.log(imageUrl);
 
         setImageBanner(imageUrl);
         form.setValue("event_banner", imageUrl);
@@ -164,6 +165,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       });
     },
   });
+  const { data: userData } = useMe();
 
   const onSubmit = useCallback((payload: EventStepOne) => {
     const data = {
@@ -172,9 +174,12 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       eventName: payload?.event_name,
       eventDescription: payload?.event_description,
     };
-    console.log(data)
-    console.log(getCookie("event_id"))
+    console.log(getCookie("event_id"));
     mutate(data);
+    if (userData?.data?.role === "user") {
+      const val = { role: "organizer" };
+      //mutate(val)
+    }
   }, []);
 
   return (

@@ -47,28 +47,3 @@ export const VerifyCode = async (
     throw new Error(error.response?.data?.message);
   }
 };
-
-// //get user
-// export const useMe = () => {
-//   const token = getToken();
-//   const options = {
-//     headers: {
-//       accept: "application/json",
-//       Authorization: "Bearer " + token,
-//     },
-//   };
-//   return useQuery({
-//     queryKey: ["me"],
-//     queryFn: () =>
-//       instance
-//         .get(BACKEND_URLS.auth.me, options)
-//         .then((res) => res.data)
-//         .catch((err) => {
-//           throw err?.response?.data;
-//         }),
-
-//     retry: false,
-//     refetchOnWindowFocus: false,
-//     refetchOnMount: false,
-//   });
-// };

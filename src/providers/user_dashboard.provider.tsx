@@ -1,4 +1,5 @@
 "use client";
+import { setCookie } from "@/lib/cookies";
 import { deleteToken, getToken } from "@/lib/token";
 import { SignupFieldType } from "@/lib/types/AuthType";
 import { useMe } from "@/pages/api/query/me";
@@ -27,7 +28,7 @@ const UserDashContext = createContext<UserDashContextValue | null>(null);
 UserDashContext.displayName = "UserDashContext";
 
 export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { data: userData,  } = useMe();
+  const { data: userData } = useMe();
   const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
   const [user, setUser] = useState<SignupFieldType>();
   const router = useRouter();
@@ -47,6 +48,7 @@ export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     if (userData) {
       setUser(userData?.data);
+      setCookie("user_id", userData?.data?._id);
     }
   }, [userData]);
 
