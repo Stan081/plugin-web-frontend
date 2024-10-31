@@ -65,12 +65,12 @@ const SaleTable = () => {
   };
 
   return (
-    <div className=" mt-6">
+    <div className=" mt-7">
       <div className="flex justify-start gap-5 items-center mb-4">
-        <p className="text-sm font-pally-regular border rounded-3xl py-1 px-2 text-gray-700">
+        <p className="text-sm font-pally-medium border rounded-3xl py-1 px-2 text-gray-700">
           Recent sales
         </p>
-        <p className="text-sm text-gray-500 font-pally-regular">
+        <p className="text-sm text-gray-500 font-pally-medium">
           Sales by ticket type
         </p>
       </div>

@@ -9,6 +9,7 @@ import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import SaleTable from "./EventDashboard";
+import EventTicketsStats from "./EventTicketsStats";
 
 const EventDetailDashboard = () => {
   const { toast } = useToast();
@@ -39,43 +40,7 @@ const EventDetailDashboard = () => {
         </p>
       </div>
 
-      <ul className="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        <li className="border-2 rounded-md p-4 space-y-2">
-          <p className="font-pally-medium text-[#281E17] text-base md:text-xl">
-            5050{" "}
-            <span className="font-pally-regular text-sm md:text-base">
-              / 2500
-            </span>
-          </p>
-          <p className="font-pally-regular text-[#515A6A] text-base md:text-lg">
-            Tickets sold
-          </p>
-        </li>
-        <li className="border-2 rounded-md p-4 space-y-2">
-          <p className="font-pally-medium text-[#281E17] text-base md:text-xl">
-            N24.4k
-          </p>
-          <p className="font-pally-regular text-[#515A6A] text-base md:text-lg">
-            Net Sale
-          </p>
-        </li>
-        <li className="border-2 rounded-md p-4 space-y-2">
-          <p className="font-pally-medium text-[#281E17] text-base md:text-xl">
-            N24.4k
-          </p>
-          <p className="font-pally-regular text-[#515A6A] text-base md:text-lg">
-            Sale Profits
-          </p>
-        </li>
-        <li className="border-2 rounded-md p-4 space-y-2">
-          <p className="font-pally-medium text-[#281E17] text-base md:text-xl">
-            4.4k
-          </p>
-          <p className="font-pally-regular text-[#515A6A] text-base md:text-lg">
-            Attendees
-          </p>
-        </li>
-      </ul>
+      <EventTicketsStats/>
 
       <ul className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
         <li className="border-2 border-[#C7E2FC] rounded-xl bg-[#F2F8FE] flex items-start gap-6 p-5">
