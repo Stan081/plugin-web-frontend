@@ -97,7 +97,7 @@ export type EventGuestListType = {
 
 /* ----------------------*/
 
-type AgendaType = {
+export type AgendaType = {
   title: string;
   description: string;
   startTime: string;
@@ -106,10 +106,6 @@ type AgendaType = {
     name: string;
     photo: string;
   };
-};
-
-export type EventAgendaType = {
-  eventAgendas: AgendaType[];
 };
 
 /* ----------------------*/

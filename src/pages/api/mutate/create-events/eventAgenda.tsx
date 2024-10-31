@@ -1,6 +1,6 @@
-import { PUT_EVENT_ID } from "@/lib/constants";
+import { EVENT_AGENDA } from "@/lib/constants";
 import { getToken } from "@/lib/token";
-import { EventAgendaType } from "@/lib/types/EventType";
+import { AgendaType } from "@/lib/types/EventType";
 import axios, { AxiosResponse } from "axios";
 
 type StepFiveResponse = {
@@ -10,12 +10,12 @@ type StepFiveResponse = {
 };
 
 export const EventAgenda = async (
-  data: EventAgendaType
+  data: AgendaType
 ): Promise<StepFiveResponse> => {
   const token = getToken();
   try {
-    const response: AxiosResponse<StepFiveResponse> = await axios.put(
-      PUT_EVENT_ID,
+    const response: AxiosResponse<StepFiveResponse> = await axios.post(
+      EVENT_AGENDA,
       data,
       {
         headers: {

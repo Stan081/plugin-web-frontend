@@ -15,6 +15,7 @@ import { EventAgenda } from "@/pages/api/mutate/create-events/eventAgenda";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
+import { AgendaType } from "@/lib/types/EventType";
 
 export enum AddAgendaState {
   VIEW_LIST,
@@ -23,33 +24,25 @@ export enum AddAgendaState {
 }
 
 const AddAgenda = () => {
-  const { handleIsChecked } = useCreateEventContext();
+  const { allAgenda } = useCreateEventContext();
+
   const [formState, setFormState] = useState<AddAgendaState>(
     AddAgendaState.VIEW_LIST
   );
 
   const [agendaListState, setAgendaListState] = useState<AgendaListsType[]>([]);
-  const [selectedAgenda, setSelectedAgenda] = useState<
-    AgendaListsType | undefined
-  >(undefined);
-  const [nextId, setNextId] = useState<number>(Date.now());
+  const [selectedAgenda, setSelectedAgenda] = useState<any | undefined>(
+    undefined
+  );
 
   // Function to handle form edit
   const handleEditForm = (id: number) => {
-    const getEditAgenda = agendaListState.find((list) => list.id === id);
+    const getEditAgenda = allAgenda?.data.find((list) => list._id === id);
 
     if (getEditAgenda) {
       setSelectedAgenda(getEditAgenda);
-      setFormState(AddAgendaState.EDIT_AGENDA);
     }
-  };
-
-  // Function to handle creating a new vendor
-  const handleCreateAgenda = (vendorData: AgendaListsType) => {
-    const newAgenda = { ...vendorData, id: nextId };
-    setAgendaListState((prevList) => [...prevList, newAgenda]);
-    setNextId(Date.now());
-    setFormState(AddAgendaState.VIEW_LIST);
+    setFormState(AddAgendaState.EDIT_AGENDA);
   };
 
   // Function to return to the vendor list view
@@ -75,23 +68,18 @@ const AddAgenda = () => {
       <Separator decorative />
 
       {formState === AddAgendaState.CREATE_AGENDA ? (
-        <AgendaSlot
-          handleReturnToList={handleReturnToList}
-          handleCreateAgenda={handleCreateAgenda}
-        />
+        <AgendaSlot handleReturnToList={handleReturnToList} />
       ) : formState === AddAgendaState.EDIT_AGENDA && selectedAgenda ? (
-        <EditSlot
-          handleReturnToList={handleReturnToList}
-          selectedAgenda={selectedAgenda}
-        />
+        <EditSlot selectedAgenda={selectedAgenda} handleReturnToList={handleReturnToList} />
       ) : formState === AddAgendaState.VIEW_LIST &&
-        agendaListState.length !== 0 ? (
+        allAgenda?.data.length !== 0 ? (
         <div className="my-3 flex flex-col gap-3 w-full">
           <Accordion type="single" collapsible className="w-full space-y-5">
-            {agendaListState.map((list) => (
+            {allAgenda?.data.map((list) => (
               <AgendLists
-                key={list.id}
+                key={list._id}
                 {...list}
+                _id={list._id}
                 handleEditForm={handleEditForm}
                 handleDelete={handleDelete}
               />
@@ -101,9 +89,9 @@ const AddAgenda = () => {
           <button
             onClick={() => setFormState(AddAgendaState.CREATE_AGENDA)}
             type="button"
-            className="border border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50 md:w-32"
+            className="border block mt-5 border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50"
           >
-            Add Slot
+            Add Agenda
           </button>
         </div>
       ) : (

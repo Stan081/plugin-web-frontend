@@ -79,7 +79,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
       schedule: recurringSchedule,
       start_date: new Date(),
       start_time: "",
-      end_date: new Date(),
+      end_date: null,
       end_time: "",
       timezone: "",
     },

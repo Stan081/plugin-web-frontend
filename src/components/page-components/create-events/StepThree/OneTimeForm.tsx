@@ -47,7 +47,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
     defaultValues: {
       start_date: new Date(),
       start_time: "",
-      end_date: new Date(),
+      end_date: null,
       end_time: "",
       timezone: "",
     },
@@ -78,7 +78,6 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
   });
 
   const onSubmit = useCallback((payload: OneTimeForm) => {
-    console.log(payload);
     const data = {
       eventType,
       oneTimeEvent: {
@@ -89,7 +88,6 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
         endDate: payload?.end_date,
       },
     };
-    console.log(data);
     mutate(data);
   }, []);
 
