@@ -11,12 +11,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ###
 
-PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
+PUT https://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 {
-  "eventCategory": ["home", "start", "end", "done", "football"]
+  "eventCategory": [  "Food & Drinks",
+      "Science & Tech",
+      "Family & Education",
+      "Music"]
 }
 
 ###
@@ -237,15 +240,21 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 
+### Get Event 
+
+GET https://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
 ### Get Event Agendas by Id
 
-GET http://localhost:8000/api/event/671d318c510463096862c3c6/agendas
+GET https://pluginapi.onrender.com/api/event/672339a294fa8d589b17ae66/agendas
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 ### Edit Event Agendas by Id
 
-PATCH http://localhost:8000/api/event/671d318c510463096862c3c6/agendas/6722a01c28d711d8654dca7f
+PATCH https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6/agendas/6722a01c28d711d8654dca7f
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
@@ -260,19 +269,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliM
 
 ### Delete Event Agendas by Id
 
-DELETE http://localhost:8000/api/event/671d318c510463096862c3c6/agendas/6722a01c28d711d8654dca7f
+DELETE https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6/agendas/6722a01c28d711d8654dca7f
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 ### Get Event Vendors by Id
 
-GET http://localhost:8000/api/event/671d318c510463096862c3c6/vendors
+GET https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6/vendors
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
 ### Edit Event Vendors by Id
 
-PATCH http://localhost:8000/api/event/671d318c510463096862c3c6/vendors/6723366e0c45397e075b88de
+PATCH https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6/vendors/6723366e0c45397e075b88de
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
 
@@ -282,6 +291,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliM
 
 ### Delete Event Vendor by Id
 
-DELETE http://localhost:8000/api/event/671d318c510463096862c3c6/vendors/6723366e0c45397e075b88de
+DELETE https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6/vendors/6723366e0c45397e075b88de
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE

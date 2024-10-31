@@ -23,8 +23,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { AgendaSlotProps } from "./Slot";
 import { uploadImage } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
-import { setCookie } from "@/lib/cookies";
+import { getCookie, setCookie } from "@/lib/cookies";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useMutation } from "@tanstack/react-query";
+import { EventAgenda } from "@/pages/api/mutate/create-events/eventAgenda";
 
 interface SlotWithHostProps extends AgendaSlotProps {}
 
@@ -67,7 +69,9 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
   const { toast } = useToast();
 
   // Handle image upload for banner
-  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
       setIsUploading(true); // Start spinner
@@ -107,45 +111,87 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
     }
   };
 
-  const onSubmit = useCallback(
-    async (payload: SlotWithHostForm) => {
-      console.log(payload);
-      
-
-      handleCreateAgenda({
-        id: Math.floor(Math.random() * 100),
-        hostImage: payload.host_thumbnail,
-        hostName: payload.host_name,
-        startTime: payload.start_time,
-        endTime: payload.end_time,
-        isHost: payload.isHost,
-        agendaTitle: payload.agenda_title,
-        agendaDescription: payload.agenda_description,
-      });
-
-      handleReturnToList();
-
-      // Reset form back to default values
-      form.reset({
-        start_time: "",
-        end_time: "",
-        host_thumbnail: "",
-        host_name: "",
-        agenda_title: "",
-        agenda_description: "",
-      });
-
-      // Clear the file input reference if necessary
-      if (fileInputRefThumbnail.current) {
-        fileInputRefThumbnail.current.value = "";
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventAgenda(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Event Agenda has been added",
+          description: `${response?.message}`,
+        });
+        handleIsChecked("addAgender");
       }
     },
-    [form]
-  );
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = useCallback((payload: SlotWithHostForm) => {
+    const data = {
+      eventAgendas: [
+        {
+          title: payload.agenda_title,
+          description: payload.agenda_description,
+          startTime: payload.start_time,
+          endTime: payload.end_time,
+          host: {
+            name: payload.host_name,
+            photo: payload.host_thumbnail,
+          },
+        },
+      ],
+    };
+
+    console.log(data)
+    console.log(getCookie("event_id"))
+
+    mutate(data);
+  }, []);
+
+  // const onSubmit = useCallback(
+  //   async (payload: SlotWithHostForm) => {
+  //     console.log(payload);
+
+  //     handleCreateAgenda({
+  //       id: Math.floor(Math.random() * 100),
+  //       hostImage: payload.host_thumbnail,
+  //       hostName: payload.host_name,
+  //       startTime: payload.start_time,
+  //       endTime: payload.end_time,
+  //       isHost: payload.isHost,
+  //       agendaTitle: payload.agenda_title,
+  //       agendaDescription: payload.agenda_description,
+  //     });
+
+  //     handleReturnToList();
+
+  //     // Reset form back to default values
+  //     form.reset({
+  //       start_time: "",
+  //       end_time: "",
+  //       host_thumbnail: "",
+  //       host_name: "",
+  //       agenda_title: "",
+  //       agenda_description: "",
+  //     });
+
+  //     // Clear the file input reference if necessary
+  //     if (fileInputRefThumbnail.current) {
+  //       fileInputRefThumbnail.current.value = "";
+  //     }
+  //   },
+  //   [form]
+  // );
 
   return (
     <div>
-      {isUploading && <SpinnerOverlay/>}
+      {isUploading && <SpinnerOverlay />}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

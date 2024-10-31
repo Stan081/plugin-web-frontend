@@ -25,7 +25,7 @@ import { uploadImage } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { EventBasicInfo } from "@/pages/api/mutate/create-events/eventBasicInfo";
 import { useToast } from "@/components/ui/use-toast";
-import { getCookie, setCookie } from "@/lib/cookies";
+import { getCookie, removeCookie, setCookie } from "@/lib/cookies";
 import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMe } from "@/pages/api/query/me";
@@ -71,7 +71,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
         const uploadResult = await uploadImage(file);
 
         const imageUrl = uploadResult.secure_url;
-        console.log(imageUrl);
 
         setImageBanner(imageUrl);
         form.setValue("event_banner", imageUrl);
@@ -147,6 +146,17 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     }
   };
 
+  // Modified refetchEventID with logging
+  const refetchEventID = (key: string, data: any) => {
+    const evtID = getCookie(key);
+
+    if (evtID) {
+      removeCookie(key);
+    } else {
+      setCookie(key, data);
+    }
+  };
+
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => EventBasicInfo(data),
     onSuccess: (response) => {
@@ -157,7 +167,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
           description: `${response?.message}`,
         });
         next();
-        setCookie("event_id", response?.data?._id);
+        refetchEventID("event_id", response?.data?._id);
       }
     },
     onError: (error: any) => {
@@ -169,24 +179,26 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     },
   });
 
-  const {mutate: mutateRole, isPending: isLoading} = useEditProfileRole()
+  const { mutate: mutateRole } = useEditProfileRole();
 
-  const onSubmit = useCallback((payload: EventStepOne) => {
-    const data = {
-      eventBanner: payload?.event_banner,
-      thumbnail: payload?.event_thumbnail,
-      eventName: payload?.event_name,
-      eventDescription: payload?.event_description,
-    };
-    console.log(getCookie("event_id"));
+  const onSubmit = useCallback(
+    (payload: EventStepOne) => {
+      const data = {
+        eventBanner: payload?.event_banner,
+        thumbnail: payload?.event_thumbnail,
+        eventName: payload?.event_name,
+        eventDescription: payload?.event_description,
+      };
 
-    mutate(data);
+      if (userData?.data?.role === "user") {
+        const roleData = { role: "organizer" };
+        mutateRole(roleData);
+      }
 
-    if (userData?.data?.role === "user") {
-      const val = { role: "organizer" };
-      mutateRole(val)
-    }
-  }, [userData]);
+      mutate(data);
+    },
+    [mutateRole, userData]
+  );
 
   return (
     <div

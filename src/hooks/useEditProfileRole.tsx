@@ -18,7 +18,7 @@ export const useEditProfileRole = () => {
     onError: (error: any) => {
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
+        title: "No Organiser role",
         description: error?.message,
       });
     },
