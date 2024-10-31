@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import AgendaEmptyState from "./AgendaEmptyState";
 import AgendaSlot from "./Slot";
 import AgendLists from "./AgendLists";
@@ -7,15 +7,11 @@ import {
   AgendaLists as staticAgendaList,
   AgendaListsType,
 } from "@/static-datas/create-event";
-import { Button } from "@/components/ui/button";
 import { Accordion } from "@/components/ui/accordion";
-import { useCreateEventContext } from "@/providers/create_event.provider";
 import EditSlot from "./EditSlot";
-import { EventAgenda } from "@/pages/api/mutate/create-events/eventAgenda";
-import { useMutation } from "@tanstack/react-query";
-import { useToast } from "@/components/ui/use-toast";
-import Spinner from "@/tw-components/spinner";
-import { AgendaType } from "@/lib/types/EventType";
+import { useGetEventAgenda } from "@/hooks/events/useGetEventAgendas";
+import { useDeleteAgenda } from "@/hooks/events/useDeleteEventAgenda";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 export enum AddAgendaState {
   VIEW_LIST,
@@ -24,13 +20,13 @@ export enum AddAgendaState {
 }
 
 const AddAgenda = () => {
-  const { allAgenda } = useCreateEventContext();
+  const { data: allAgenda, isLoading } = useGetEventAgenda();
+  const { mutate: deleteAgenda, isPending } = useDeleteAgenda();
 
   const [formState, setFormState] = useState<AddAgendaState>(
     AddAgendaState.VIEW_LIST
   );
 
-  const [agendaListState, setAgendaListState] = useState<AgendaListsType[]>([]);
   const [selectedAgenda, setSelectedAgenda] = useState<any | undefined>(
     undefined
   );
@@ -52,13 +48,15 @@ const AddAgenda = () => {
 
   // Function to handle delete
   const handleDelete = (id: number) => {
-    const updatedList = agendaListState.filter((vendor) => vendor.id !== id);
-    setAgendaListState(updatedList);
-    setFormState(AddAgendaState.VIEW_LIST);
+    deleteAgenda({ agendaId: id });
   };
+
+  if (isLoading)
+    return <p className="text-white mx-5 text-center mt-5">loading...</p>;
 
   return (
     <div className="mx-3 md:mx-8 flex flex-col gap-5">
+      {isPending && <SpinnerOverlay />}
       <p className="font-pally-regular text-sm text-white/60">
         Add an itinerary or schedule to your event. You can include the time, a
         description of what will happen, and who will host this part of the
@@ -70,7 +68,10 @@ const AddAgenda = () => {
       {formState === AddAgendaState.CREATE_AGENDA ? (
         <AgendaSlot handleReturnToList={handleReturnToList} />
       ) : formState === AddAgendaState.EDIT_AGENDA && selectedAgenda ? (
-        <EditSlot selectedAgenda={selectedAgenda} handleReturnToList={handleReturnToList} />
+        <EditSlot
+          selectedAgenda={selectedAgenda}
+          handleReturnToList={handleReturnToList}
+        />
       ) : formState === AddAgendaState.VIEW_LIST &&
         allAgenda?.data.length !== 0 ? (
         <div className="my-3 flex flex-col gap-3 w-full">
