@@ -37,7 +37,6 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
   handleReturnToList,
   selectedAgenda,
 }) => {
-  const { setIsHost, isHost: isHostValid } = useCreateEventContext();
   const [hostImage, setHostImage] = useState<string | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);

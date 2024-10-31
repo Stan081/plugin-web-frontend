@@ -1,19 +1,21 @@
 import { toFiat } from "@/lib/amount";
+import { VendorType } from "@/lib/types/EventType";
 import { VendorListType } from "@/static-datas/create-event";
 import React from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
 
-interface VendorCardProps extends VendorListType {
+interface VendorCardProps extends VendorType {
   handleEditForm: (id: number) => void;
   handleDelete: (id: number) => void;
+  _id: number;
 }
 
 const VendorCard: React.FC<VendorCardProps> = ({
-  id,
-  slot,
-  passTag,
-  pricePass,
-  sharedPass,
+  _id,
+  slots,
+  price,
+  isPass,
+  vendorTag,
   handleEditForm,
   handleDelete,
 }) => {
@@ -25,29 +27,29 @@ const VendorCard: React.FC<VendorCardProps> = ({
         <div className="flex justify-between items-center gap-5">
           <div>
             <p className="font-pally-medium text-sm text-[#667185]">
-              {sharedPass ? "Single Pass" : "Shared Pass"}
+              {isPass ? "Single Pass" : "Shared Pass"}
             </p>
             <p className="font-pally-medium md:text-lg text-[#475367]">
-              {passTag}
+              {vendorTag}
             </p>
           </div>
 
           <p className="text-[#475367] font-pally-medium text-base lg:text-xl">
-            {toFiat(pricePass)}{" "}
+            {toFiat(price)}{" "}
             <span className="font-pally-regular text-base">per pass</span>
           </p>
         </div>
         <div className="flex justify-between items-center gap-5">
           <p className="border border-[#344054] rounded-2xl px-2 py-1 font-pally-regular text-[#344054]">
-            {slot} Slot created
+            {slots} Slot created
           </p>
           <div className="flex ju gap-4">
-            <div onClick={() => handleEditForm(id)} className="cursor-pointer">
+            <div onClick={() => handleEditForm(_id)} className="cursor-pointer">
               <p className="font-pally-regular text-sm underline destructive">
                 Edit Pass
               </p>
             </div>
-            <div onClick={() => handleDelete(id)} className="cursor-pointer bg-black/70 rounded p-1">
+            <div onClick={() => handleDelete(_id)} className="cursor-pointer bg-black/70 rounded p-1">
               <HiOutlineTrash size={16} className="text-white hover:text-red-500" />
             </div>
           </div>

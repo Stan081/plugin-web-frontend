@@ -315,3 +315,67 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliM
         }
   
 }
+
+### Vendor 
+
+
+POST http://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b/vendors
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+ {
+      "isPass": "no",
+      "thumbnail": "hrrh",
+      "vendorTag": "tag",
+      "passCategory": ["cat4", "cat5", "cat6"],
+      "price": 50000,
+      "slots": 40
+}
+
+
+
+###
+
+GET http://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b/vendors
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+
+
+### Get Event Guests by Id
+
+GET http://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b/guests
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+### Add Guest to the List
+
+POST http://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b/guests
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+{
+
+      "name": "Oladele",
+      "photo": "photo link",
+      "role": "role"
+}
+
+
+### Edit Event Guests by Id
+
+PATCH http://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b/guests/6723fee89f482bd9b7643708
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+{
+    "name": "David",
+    "photo": "photo link",
+    "role": "Man"
+}
+
+### Delete Event Guest by Id
+
+DELETE http://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b/guests/67240af4bc960afad7cfb921
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE

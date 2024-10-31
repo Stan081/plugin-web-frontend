@@ -26,4 +26,8 @@ export const EDIT_PROFILE_ROLE: string = `${API_URL}/users/${user_id}`;
 
 export const EVENT_AGENDA: string = `${API_URL}/event/${event_id}/agendas`;
 
+export const EVENT_VENDOR: string = `${API_URL}/event/${event_id}/vendors`;
+
+export const EVENT_GUEST: string = `${API_URL}/event/${event_id}/guests`;
+
 

@@ -25,7 +25,7 @@ import { FiEdit } from "react-icons/fi";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { Button } from "@/components/ui/button";
 import { IoReturnDownBackOutline } from "react-icons/io5";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EventVendor } from "@/pages/api/mutate/create-events/eventVendor";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
@@ -86,6 +86,8 @@ const VendorForm: FC<VendorFormProps> = ({ handleReturnToList }) => {
   }, [isSharedPass, form.setValue]);
 
   const { toast } = useToast();
+
+  const client = useQueryClient();
 
   // Handle image upload for banner
   const handleImageUploadBanner = async (
@@ -170,10 +172,11 @@ const VendorForm: FC<VendorFormProps> = ({ handleReturnToList }) => {
       if (response?.message) {
         toast({
           variant: "success",
-          title: "Vendor has been added",
+          title: "Event vendor has been added",
           description: `${response?.message}`,
         });
-        handleIsChecked("addVendors");
+        client.invalidateQueries({ queryKey: ["eventVendors"] });
+        handleReturnToList();
       }
     },
     onError: (error: any) => {
@@ -189,42 +192,22 @@ const VendorForm: FC<VendorFormProps> = ({ handleReturnToList }) => {
     async (payload: VendorsForm) => {
       console.log(payload);
       const data = {
-        eventVendor: [
-          {
-            thumbnail: payload.pass_thumbnail ?? "",
-            slots: payload.available_slot,
-            price: payload.pass_price,
-            passCategory: payload.pass_category,
-            vendorTag: payload.pass_tag,
-            isPass: payload.shared_pass ? "Yes" : "No",
-          },
-        ],
+        thumbnail: payload.pass_thumbnail ?? "",
+        slots: payload.available_slot,
+        price: payload.pass_price,
+        passCategory: payload.pass_category,
+        vendorTag: payload.pass_tag,
+        isPass: payload.shared_pass ? "yes" : "no",
       };
 
       mutate(data);
-
-      handleReturnToList();
-
-      // Reset form back to default values
-      form.reset({
-        pass_thumbnail: "",
-        pass_tag: "",
-        pass_price: 0,
-        pass_category: [],
-        available_slot: slot,
-      });
-
-      // Clear the file input reference
-      if (fileInputRefThumbnail.current) {
-        fileInputRefThumbnail.current.value = "";
-      }
     },
-    [handleReturnToList, form]
+    []
   );
 
   return (
     <div className="mb-3">
-      {isUploading && <SpinnerOverlay/>}
+      {isUploading && <SpinnerOverlay />}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
