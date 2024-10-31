@@ -9,12 +9,10 @@ import { AgendaListsType } from "@/static-datas/create-event";
 
 export interface AgendaSlotProps {
   handleReturnToList: () => void;
-  handleCreateAgenda?: (vendorData: AgendaListsType) => void;
 }
 
 const AgendaSlot: FC<AgendaSlotProps> = ({
   handleReturnToList,
-  handleCreateAgenda,
 }) => {
   const { isHost } = useCreateEventContext();
   const [alert, setAlert] = useState<boolean>(() => true);
@@ -37,12 +35,10 @@ const AgendaSlot: FC<AgendaSlotProps> = ({
 
       {isHost ? (
         <SlotWithHost
-          handleCreateAgenda={handleCreateAgenda}
           handleReturnToList={handleReturnToList}
         />
       ) : (
         <SlotWithoutHost
-          handleCreateAgenda={handleCreateAgenda}
           handleReturnToList={handleReturnToList}
         />
       )}

@@ -3,22 +3,29 @@ import React, { FC } from "react";
 import EditSlotWithHost from "./EditSlotWithHost";
 import EditSlotWithoutHost from "./EditSlotWithoutHost";
 import { AgendaSlotProps } from "./Slot";
+import { useCreateEventContext } from "@/providers/create_event.provider";
+import { AgendaType } from "@/lib/types/EventType";
 
-interface EditSlotProps extends AgendaSlotProps {
-  selectedAgenda: AgendaListsType;
+interface EditSlotProps {
+  handleReturnToList: () => void;
+  selectedAgenda: any;
 }
 
 const EditSlot: FC<EditSlotProps> = ({
-  selectedAgenda,
   handleReturnToList,
+  selectedAgenda,
 }) => {
+  const { allAgenda } = useCreateEventContext();
   return (
     <div>
-      {selectedAgenda?.isHost ? (
-        <EditSlotWithHost {...selectedAgenda} handleReturnToList={handleReturnToList} />
+      {allAgenda?.data?.host ? (
+        <EditSlotWithHost
+          selectedAgenda={selectedAgenda}
+          handleReturnToList={handleReturnToList}
+        />
       ) : (
         <EditSlotWithoutHost
-          {...selectedAgenda}
+        selectedAgenda={selectedAgenda}
           handleReturnToList={handleReturnToList}
         />
       )}

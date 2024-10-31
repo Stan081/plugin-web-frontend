@@ -28,22 +28,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { isHostTypes } from "./SlotWithHost";
 import { AgendaLists, AgendaListsType } from "@/static-datas/create-event";
 import { IoReturnDownBackOutline } from "react-icons/io5";
-interface SlotWithHostProps extends AgendaListsType {
+import { AgendaType } from "@/lib/types/EventType";
+interface SlotWithHostProps {
   handleReturnToList: () => void;
+  selectedAgenda: any;
 }
 
 const EditSlotWithHost: FC<SlotWithHostProps> = ({
   handleReturnToList,
-  hostImage: hostPhoto,
-  hostName,
-  endTime,
-  startTime,
-  isHost,
-  agendaTitle,
-  agendaDescription,
+  selectedAgenda
 }) => {
   const {
-    handleIsChecked,
     setIsHost,
     isHost: isHostValid,
   } = useCreateEventContext();
@@ -53,13 +48,13 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
   const form = useForm<SlotWithHostForm>({
     mode: "all",
     defaultValues: {
-      start_time: startTime ?? "",
-      end_time: endTime ?? "",
-      host_thumbnail: hostPhoto ?? "",
-      isHost: isHost,
-      host_name: hostName ?? "",
-      agenda_title: agendaTitle ?? "",
-      agenda_description: agendaDescription ?? "",
+      start_time: selectedAgenda?.startTime ?? "",
+      end_time: selectedAgenda?.endTime ?? "",
+      host_thumbnail: selectedAgenda?.host?.photo ?? "",
+      isHost: !selectedAgenda?.host ? true : false,
+      host_name: selectedAgenda?.host?.name ?? "",
+      agenda_title: selectedAgenda?.title ?? "",
+      agenda_description: selectedAgenda?.description ?? "",
     },
     resolver: yupResolver(SlotWithHostSchema),
   });
@@ -118,7 +113,7 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
         start_time: "",
         end_time: "",
         host_thumbnail: "",
-        isHost: isHost,
+        isHost: !selectedAgenda?.host,
         host_name: "",
         agenda_title: "",
         agenda_description: "",
@@ -216,28 +211,6 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
               </FormLabel>
             </FormItem>
             <div className="w-full">
-              <div className="flex justify-start items-baseline gap-4">
-                <p className="font-pally-regular text-base md:text-lg">
-                  Do you have a Host?
-                </p>
-                <div className="flex flex-wrap gap-4 text-white">
-                  {isHostTypes.map(
-                    (type: { id: boolean; name: string }, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setIsHost(!isHost)}
-                        className={`py-2 px-4 rounded-full border ${
-                          isHostValid === type.id
-                            ? "bg-white text-black"
-                            : "border-white"
-                        }`}
-                      >
-                        {type.name}
-                      </button>
-                    )
-                  )}
-                </div>
-              </div>
               <div className="space-y-4 mt-5">
                 <FormItem className="w-full">
                   <FormLabel className="text-white" htmlFor="host_name">

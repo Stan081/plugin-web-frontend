@@ -23,10 +23,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { AgendaSlotProps } from "./Slot";
 import { uploadImage } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
-import { getCookie, setCookie } from "@/lib/cookies";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMutation } from "@tanstack/react-query";
 import { EventAgenda } from "@/pages/api/mutate/create-events/eventAgenda";
+import { Button } from "@/components/ui/button";
+import Spinner from "@/tw-components/spinner";
 
 interface SlotWithHostProps extends AgendaSlotProps {}
 
@@ -41,10 +42,7 @@ export const isHostTypes: { id: boolean; name: string }[] = [
   },
 ];
 
-const SlotWithHost: FC<SlotWithHostProps> = ({
-  handleReturnToList,
-  handleCreateAgenda,
-}) => {
+const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
   const { handleIsChecked, setIsHost, isHost } = useCreateEventContext();
   const [hostImage, setHostImage] = useState<string | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
@@ -63,8 +61,6 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
     },
     resolver: yupResolver(SlotWithHostSchema),
   });
-
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
   const { toast } = useToast();
 
@@ -120,10 +116,11 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
           title: "Event Agenda has been added",
           description: `${response?.message}`,
         });
-        handleIsChecked("addAgender");
+        handleReturnToList();
       }
     },
     onError: (error: any) => {
+      console.log(error);
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",
@@ -132,62 +129,26 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
     },
   });
 
-  const onSubmit = useCallback((payload: SlotWithHostForm) => {
-    const data = {
-      eventAgendas: [
-        {
-          title: payload.agenda_title,
-          description: payload.agenda_description,
-          startTime: payload.start_time,
-          endTime: payload.end_time,
-          host: {
-            name: payload.host_name,
-            photo: payload.host_thumbnail,
-          },
+  const onSubmit = useCallback(
+    async (payload: SlotWithHostForm) => {
+      console.log(payload);
+
+      const data = {
+        title: payload?.agenda_title,
+        description: payload?.agenda_description,
+        startTime: payload?.start_time,
+        endTime: payload?.end_time,
+        host: {
+          name: payload?.host_name,
+          photo: payload?.host_thumbnail,
         },
-      ],
-    };
+      };
 
-    console.log(data)
-    console.log(getCookie("event_id"))
+      mutate(data);
 
-    mutate(data);
-  }, []);
-
-  // const onSubmit = useCallback(
-  //   async (payload: SlotWithHostForm) => {
-  //     console.log(payload);
-
-  //     handleCreateAgenda({
-  //       id: Math.floor(Math.random() * 100),
-  //       hostImage: payload.host_thumbnail,
-  //       hostName: payload.host_name,
-  //       startTime: payload.start_time,
-  //       endTime: payload.end_time,
-  //       isHost: payload.isHost,
-  //       agendaTitle: payload.agenda_title,
-  //       agendaDescription: payload.agenda_description,
-  //     });
-
-  //     handleReturnToList();
-
-  //     // Reset form back to default values
-  //     form.reset({
-  //       start_time: "",
-  //       end_time: "",
-  //       host_thumbnail: "",
-  //       host_name: "",
-  //       agenda_title: "",
-  //       agenda_description: "",
-  //     });
-
-  //     // Clear the file input reference if necessary
-  //     if (fileInputRefThumbnail.current) {
-  //       fileInputRefThumbnail.current.value = "";
-  //     }
-  //   },
-  //   [form]
-  // );
+    },
+    []
+  );
 
   return (
     <div>
@@ -308,7 +269,6 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
                             placeholder="Enter host name"
                             type="text"
                             id="host_name"
-                            disabled={isLoading}
                             className="w-full bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -333,7 +293,6 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
                             placeholder="Enter session title"
                             type="text"
                             id="agenda_title"
-                            disabled={isLoading}
                             className="w-full bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -360,7 +319,6 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
                           <Textarea
                             placeholder="Max  char - 200 Words"
                             id="agenda_description"
-                            disabled={isLoading}
                             className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
                             {...field}
                           />
@@ -386,7 +344,6 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
                                 placeholder="0:00"
                                 type="time"
                                 id="start_time"
-                                disabled={isLoading}
                                 className="bg-white text-black font-pally-regular"
                                 {...field}
                               />
@@ -412,7 +369,6 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
                                 placeholder="0:00"
                                 type="time"
                                 id="start_time"
-                                disabled={isLoading}
                                 className="bg-white text-black font-pally-regular"
                                 {...field}
                               />
@@ -429,12 +385,14 @@ const SlotWithHost: FC<SlotWithHostProps> = ({
           </div>
 
           <div className="flex gap-4 mb-4">
-            <button
+            <Button
               type="submit"
-              className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"
+              disabled={isPending}
+              variant="destructive"
+              className="w-full"
             >
-              Save Session
-            </button>
+              {isPending ? <Spinner /> : "Save Session"}
+            </Button>
           </div>
         </form>
       </Form>

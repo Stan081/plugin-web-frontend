@@ -14,52 +14,65 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { FC, useCallback, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { HiOutlineTrash } from "react-icons/hi2";
-import { isHostTypes } from "./SlotWithHost";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { AgendaLists, AgendaListsType } from "@/static-datas/create-event";
 import { IoReturnDownBackOutline } from "react-icons/io5";
+import { AgendaType } from "@/lib/types/EventType";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { EventAgenda } from "@/pages/api/mutate/create-events/eventAgenda";
+import { EditEventAgenda } from "@/pages/api/mutate/create-events/editEventAgenda";
 
-interface SlotWithoutHostProps extends AgendaListsType {
+interface SlotWithoutHostProps {
   handleReturnToList: () => void;
+  selectedAgenda: any;
 }
 
 const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
   handleReturnToList,
-  endTime,
-  startTime,
-  isHost,
-  agendaTitle,
-  agendaDescription,
+  selectedAgenda,
 }) => {
   const { setIsHost, isHost: isHostValid } = useCreateEventContext();
 
   const form = useForm<SlotWithoutHostForm>({
     mode: "all",
     defaultValues: {
-      isHost: isHostValid,
-      agenda_title: agendaTitle ?? "",
-      agenda_description: agendaDescription ?? "",
-      start_time: startTime ?? "",
-      end_time: endTime ?? "",
+      isHost: selectedAgenda?.host ? true : false,
+      agenda_title: selectedAgenda?.title ?? "",
+      agenda_description: selectedAgenda?.description ?? "",
+      start_time: selectedAgenda?.startTime ?? "",
+      end_time: selectedAgenda?.endTime ?? "",
     },
     resolver: yupResolver(SlotWithoutHostSchema),
   });
 
+  const { toast } = useToast();
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EditEventAgenda(data, selectedAgenda?._id),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Event Agenda has been added",
+          description: `${response?.message}`,
+        });
+        handleReturnToList();
+      }
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
 
   const onSubmit = useCallback(
     async (payload: SlotWithoutHostForm) => {
       console.log(payload);
-      AgendaLists.push({
-        startTime: payload.start_time,
-        endTime: payload.end_time,
-        isHost: payload.isHost,
-        agendaTitle: payload.agenda_title,
-        agendaDescription: payload.agenda_description,
-      });
 
       handleReturnToList();
 
@@ -67,7 +80,6 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
       form.reset({
         start_time: "",
         end_time: "",
-        isHost: isHost,
         agenda_title: "",
         agenda_description: "",
       });
@@ -82,28 +94,6 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
           <div className="w-full">
-            <div className="flex justify-start items-baseline gap-4">
-              <p className="font-pally-regular text-base md:text-lg">
-                Do you have a Host?
-              </p>
-              <div className="flex flex-wrap gap-4 text-white">
-                {isHostTypes.map(
-                  (type: { id: boolean; name: string }, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setIsHost(!isHost)}
-                      className={`py-2 px-4 rounded-full border ${
-                        isHostValid === type.id
-                          ? "bg-white text-black"
-                          : "border-white"
-                      }`}
-                    >
-                      {type.name}
-                    </button>
-                  )
-                )}
-              </div>
-            </div>
             <div className="space-y-4 mt-5">
               <FormItem className="w-full">
                 <FormLabel className="text-white" htmlFor="agenda_title">
@@ -119,7 +109,6 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
                           placeholder="Enter session title"
                           type="text"
                           id="agenda_title"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -143,7 +132,6 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
                         <Textarea
                           placeholder="Max  char - 200 Words"
                           id="agenda_description"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
                           {...field}
                         />
@@ -169,7 +157,6 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
                               placeholder="0:00"
                               type="time"
                               id="start_time"
-                              disabled={isLoading}
                               className="bg-white text-black font-pally-regular"
                               {...field}
                             />
@@ -195,7 +182,6 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
                               placeholder="0:00"
                               type="time"
                               id="start_time"
-                              disabled={isLoading}
                               className="bg-white text-black font-pally-regular"
                               {...field}
                             />
