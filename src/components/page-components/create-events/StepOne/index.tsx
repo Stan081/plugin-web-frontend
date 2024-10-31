@@ -29,6 +29,7 @@ import { getCookie, setCookie } from "@/lib/cookies";
 import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMe } from "@/pages/api/query/me";
+import { useEditProfileRole } from "@/hooks/useEditProfileRole";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -52,6 +53,8 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     },
     resolver: yupResolver(EventStepOneSchema),
   });
+
+  const { data: userData } = useMe();
 
   const { toast } = useToast();
 
@@ -165,7 +168,8 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       });
     },
   });
-  const { data: userData } = useMe();
+
+  const {mutate: mutateRole, isPending: isLoading} = useEditProfileRole()
 
   const onSubmit = useCallback((payload: EventStepOne) => {
     const data = {
@@ -175,12 +179,14 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       eventDescription: payload?.event_description,
     };
     console.log(getCookie("event_id"));
+
     mutate(data);
+
     if (userData?.data?.role === "user") {
       const val = { role: "organizer" };
-      //mutate(val)
+      mutateRole(val)
     }
-  }, []);
+  }, [userData]);
 
   return (
     <div

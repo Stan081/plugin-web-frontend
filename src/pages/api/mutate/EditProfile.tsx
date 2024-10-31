@@ -8,7 +8,7 @@ type EditProfileResponse = {
   data?: any;
 };
 
-export const EditProfile = async (
+export const EditProfileRole = async (
   data: {role: string}
 ): Promise<EditProfileResponse> => {
   const token = getToken();

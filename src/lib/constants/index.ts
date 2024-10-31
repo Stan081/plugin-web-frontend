@@ -22,4 +22,4 @@ export const EVENT_BASIC_INFO_URL: string = `${API_URL}/event`;
 
 export const PUT_EVENT_ID: string = `${API_URL}/event/${event_id}`;
 
-export const EDIT_PROFILE_ROLE: string = `${API_URL}/user/${user_id}`;
+export const EDIT_PROFILE_ROLE: string = `${API_URL}/users/${user_id}`;
