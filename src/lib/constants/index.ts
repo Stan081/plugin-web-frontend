@@ -30,4 +30,8 @@ export const EVENT_VENDOR: string = `${API_URL}/event/${event_id}/vendors`;
 
 export const EVENT_GUEST: string = `${API_URL}/event/${event_id}/guests`;
 
+export const EVENT_PHOTO: string = `${API_URL}/event/${event_id}/photos`;
+
+export const DELETE_EVENT_PHOTO: string = `${API_URL}/event/${event_id}/photo`;
+
 

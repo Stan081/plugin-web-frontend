@@ -379,3 +379,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliM
 DELETE http://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b/guests/67240af4bc960afad7cfb921
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+###
+
+### Get Event Photos
+
+GET http://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b/photos
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+### Delete Event Photo
+
+DELETE http://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b/photo
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+{
+  "photoUrl": "https://res.cloudinary.com/dbhbyikta/image/upload/v1730413721/h0r447tttesfb65escrf.jpg"
+}

@@ -25,11 +25,13 @@ import Spinner from "@/tw-components/spinner";
 import { useGetEventAgenda } from "@/hooks/events/useGetEventAgendas";
 import { useGetEventVendors } from "@/hooks/events/useGetEventVendors";
 import { useGetEventGuests } from "@/hooks/events/useGetEventGuests";
+import { useGetEventPhotos } from "@/hooks/events/useGetEventPhotos";
 
 const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   const { data: allAgenda } = useGetEventAgenda();
   const { data: allVendor } = useGetEventVendors();
   const { data: allGuests } = useGetEventGuests();
+  const { data: allPhotos } = useGetEventPhotos();
   const { isChecked, handleIsChecked } = useCreateEventContext();
   const [changePageContent, setChangePageContent] = useState<PageContentsType>({
     id: "item-1",
@@ -123,7 +125,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
               >
                 <AccordionTrigger>
                   <div className="flex justify-start items-center gap-4">
-                    {!isChecked.addMedia ? (
+                    {!allPhotos?.data.length ? (
                       <div className="border border-white rounded-full h-4 w-4" />
                     ) : (
                       <div className="bg-green-600 rounded-full p-0.5">
