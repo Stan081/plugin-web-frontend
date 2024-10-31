@@ -5,23 +5,30 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { Button } from "@/components/ui/button";
 import { uploadImage } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EventMedia } from "@/pages/api/mutate/create-events/eventMedia";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useGetEventPhotos } from "@/hooks/events/useGetEventPhotos";
+import { DeleteEventPhoto } from "@/pages/api/mutate/create-events/deleteEventPhoto";
 
 interface PhotoGridProps {
   maxUploads: number;
 }
 
 const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
+  const { data: allPhotos } = useGetEventPhotos();
   const { handleIsChecked } = useCreateEventContext();
-  const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
+  const [uploadedPhotos, setUploadedPhotos] = useState<string[] | null>(
+    allPhotos?.data || null
+  );
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { toast } = useToast();
+
+  const client = useQueryClient();
 
   // Handle image upload for banner
   const handleImageUpload = async (
@@ -58,13 +65,43 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
     }
   };
 
+  const { mutate: MuatatPhoto, isPending: isPhotoPending } = useMutation({
+    mutationFn: (data: any) => DeleteEventPhoto(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Your event agenda has been updated",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["eventPhotos"] });
+      }
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
   // Handle image delete for an uploaded image
   const handleImageDelete = (index: number) => {
-    const newPhotos = [...uploadedPhotos];
-    newPhotos.splice(index, 1);
-    setUploadedPhotos(newPhotos);
-    if (fileInputRefThumbnail.current) {
-      fileInputRefThumbnail.current.value = "";
+    const getSelPhoto = uploadedPhotos.find((_, i) => i === index);
+
+    const data = {
+      photoUrl: typeof getSelPhoto === "string" ? getSelPhoto : getSelPhoto,
+    };
+
+    if (data.photoUrl) {
+      MuatatPhoto(data);
+      if (fileInputRefThumbnail.current) {
+        fileInputRefThumbnail.current.value = "";
+      }
+    } else {
+      console.log("No photo URL found for deletion");
     }
   };
 
@@ -113,6 +150,7 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
 
   return (
     <div className="md:p-4 rounded-md mx-auto">
+      {isPhotoPending && <SpinnerOverlay />}
       <h2 className="text-base font-pally-regular mb-4">
         {uploadedPhotos.length} of {maxUploads} - Photos/Videos uploaded
       </h2>
