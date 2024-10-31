@@ -17,11 +17,11 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { IoReturnDownBackOutline } from "react-icons/io5";
-import { AgendaType } from "@/lib/types/EventType";
 import { useToast } from "@/components/ui/use-toast";
-import { useMutation } from "@tanstack/react-query";
-import { EventAgenda } from "@/pages/api/mutate/create-events/eventAgenda";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EditEventAgenda } from "@/pages/api/mutate/create-events/editEventAgenda";
+import { Button } from "@/components/ui/button";
+import Spinner from "@/tw-components/spinner";
 
 interface SlotWithoutHostProps {
   handleReturnToList: () => void;
@@ -32,7 +32,6 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
   handleReturnToList,
   selectedAgenda,
 }) => {
-  const { setIsHost, isHost: isHostValid } = useCreateEventContext();
 
   const form = useForm<SlotWithoutHostForm>({
     mode: "all",
@@ -48,15 +47,18 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
 
   const { toast } = useToast();
 
+  const client = useQueryClient();
+
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => EditEventAgenda(data, selectedAgenda?._id),
     onSuccess: (response) => {
       if (response?.message) {
         toast({
           variant: "success",
-          title: "Event Agenda has been added",
+          title: "Your event agenda has been updated",
           description: `${response?.message}`,
         });
+        client.invalidateQueries({ queryKey: ["eventAgendas"] });
         handleReturnToList();
       }
     },
@@ -74,15 +76,14 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
     async (payload: SlotWithoutHostForm) => {
       console.log(payload);
 
-      handleReturnToList();
+      const data = {
+        title: payload?.agenda_title,
+        description: payload?.agenda_description,
+        startTime: payload?.start_time,
+        endTime: payload?.end_time,
+      };
 
-      // Reset form back to default values
-      form.reset({
-        start_time: "",
-        end_time: "",
-        agenda_title: "",
-        agenda_description: "",
-      });
+      mutate(data);
     },
     [form]
   );
@@ -202,12 +203,14 @@ const EditSlotWithoutHost: FC<SlotWithoutHostProps> = ({
             >
               <IoReturnDownBackOutline size={20} color="#F9B6B1" />
             </div>
-            <button
+            <Button
               type="submit"
-              className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"
+              className="w-full"
+              variant="destructive"
+              disabled={isPending}
             >
-              Save Session
-            </button>
+              {isPending ? <Spinner /> : `Save edit`}
+            </Button>
           </div>
         </form>
       </Form>

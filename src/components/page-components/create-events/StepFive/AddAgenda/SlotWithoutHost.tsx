@@ -23,7 +23,7 @@ import { AgendaSlotProps } from "./Slot";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
 import { EventAgenda } from "@/pages/api/mutate/create-events/eventAgenda";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 
 interface SlotWithoutHostProps extends AgendaSlotProps {}
@@ -44,6 +44,8 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({ handleReturnToList }) => {
 
   const { toast } = useToast();
 
+  const client = useQueryClient();
+
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => EventAgenda(data),
     onSuccess: (response) => {
@@ -53,6 +55,7 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({ handleReturnToList }) => {
           title: "Event Agenda has been added",
           description: `${response?.message}`,
         });
+        client.invalidateQueries({ queryKey: ["eventAgendas"] });
         handleReturnToList();
       }
     },

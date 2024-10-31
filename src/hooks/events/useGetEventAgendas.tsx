@@ -1,7 +1,7 @@
 import { EVENT_AGENDA } from "@/lib/constants";
 import { getToken } from "@/lib/token";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios"; // Import axios if not using a custom axios instance
+import axios from "axios";
 
 export const useGetEventAgenda = () => {
   const token = getToken();
@@ -18,11 +18,10 @@ export const useGetEventAgenda = () => {
     queryFn: () =>
       axios
         .get(EVENT_AGENDA, options)
-        .then((res) => res.data)
+        .then((res) => res?.data)
         .catch((err) => {
-          throw err?.response?.data || err.message; // Better error handling
+          throw err?.response?.data || err.message; // Improved error handling
         }),
-
     retry: true, 
     refetchOnWindowFocus: false,
     refetchOnMount: true, 

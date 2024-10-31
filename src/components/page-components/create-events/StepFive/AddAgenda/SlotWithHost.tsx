@@ -24,7 +24,7 @@ import { AgendaSlotProps } from "./Slot";
 import { uploadImage } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EventAgenda } from "@/pages/api/mutate/create-events/eventAgenda";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
@@ -63,6 +63,8 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
   });
 
   const { toast } = useToast();
+
+  const client = useQueryClient();
 
   // Handle image upload for banner
   const handleImageUpload = async (
@@ -116,6 +118,7 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
           title: "Event Agenda has been added",
           description: `${response?.message}`,
         });
+        client.invalidateQueries({ queryKey: ["eventAgendas"] });
         handleReturnToList();
       }
     },
