@@ -18,49 +18,70 @@ import { FiEdit } from "react-icons/fi";
 import { IoMdImages } from "react-icons/io";
 import Image from "next/image";
 import React from "react";
-import { GuestListType } from "@/static-datas/create-event";
+import { uploadImage } from "@/lib/utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { EditEventGuest } from "@/pages/api/mutate/create-events/editEventGuest";
+import Spinner from "@/tw-components/spinner";
 
-interface EditGuestModalProps extends GuestListType {
+interface EditGuestModalProps {
   open: boolean;
   close: () => void;
+  editGuestList: any;
 }
 
 const EditGuestModal: React.FC<EditGuestModalProps> = ({
-  id,
-  guestName,
-  role,
-  image,
+  editGuestList,
   open,
   close,
 }) => {
-  const [guestImage, setGuestImage] = React.useState<string | null>(image);
+  const [guestImage, setGuestImage] = React.useState<string | null>(null);
+  const [isUploading, setIsUploading] = React.useState<boolean>(false);
   const fileInputRefBanner = React.useRef<HTMLInputElement | null>(null);
 
   React.useEffect(() => {
-    setGuestImage(image);
-  }, [image]);
+    setGuestImage(editGuestList?.photo);
+  }, [editGuestList?.photo]);
 
   const form = useForm<EventGuest>({
     mode: "all",
     defaultValues: {
-      guest_image: image ?? "",
-      guest_name: guestName ?? "",
-      guest_role: role ?? "",
+      guest_image: editGuestList?.photo,
+      guest_name: editGuestList?.name,
+      guest_role: editGuestList?.role,
     },
     resolver: yupResolver(EventGuestSchema),
   });
 
+  const { toast } = useToast();
+
+  const client = useQueryClient();
 
   // Handle image upload for guest
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setGuestImage(reader.result as string);
-        form.setValue("guest_image", reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setIsUploading(true); // Start spinner
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setGuestImage(imageUrl);
+        form.setValue("guest_image", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -80,9 +101,53 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
     }
   };
 
-  const onSubmit = React.useCallback(async (payload: EventGuest) => {
-    console.log(payload);
-  }, []);
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EditEventGuest(data, editGuestList?._id),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Your event agenda has been updated",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["eventGuests"] });
+        close();
+      }
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = React.useCallback(
+    async (payload: EventGuest) => {
+      console.log(payload);
+
+      const data = {
+        name: payload?.guest_name,
+        photo: payload?.guest_image,
+        role: payload?.guest_role,
+      };
+
+      mutate(data);
+
+      form.reset({
+        guest_image: "",
+        guest_name: "",
+        guest_role: "",
+      });
+
+      if (fileInputRefBanner.current) {
+        fileInputRefBanner.current.value = "";
+      }
+    },
+    [form]
+  );
   return (
     <Dialog
       open={open}
@@ -92,6 +157,7 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
     >
       <div className="fixed inset-0 w-screen overflow-y-auto">
         <div className="absolute inset-0 bg-black opacity-80"></div>
+        {isUploading && <SpinnerOverlay />}
         <div className="flex min-h-full items-center justify-center p-4">
           <DialogPanel
             transition
@@ -187,7 +253,6 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
                   />
                 </FormItem>
 
-
                 <FormItem className="w-full">
                   <FormLabel className="text-[#667185]" htmlFor="event_name">
                     Guest Name
@@ -238,11 +303,11 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
 
                 <Button
                   type="submit"
-                  // disabled={isLoading}
-                  variant="destructive"
                   className="w-full"
+                  variant="destructive"
+                  disabled={isPending}
                 >
-                  {true ? "Submitting..." : "Save"}
+                  {isPending ? <Spinner /> : `Save edit`}
                 </Button>
               </form>
             </Form>

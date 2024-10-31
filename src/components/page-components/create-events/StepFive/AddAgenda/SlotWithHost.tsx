@@ -148,7 +148,6 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
       };
 
       mutate(data);
-
     },
     []
   );

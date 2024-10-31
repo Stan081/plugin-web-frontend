@@ -22,8 +22,14 @@ import { useMutation } from "@tanstack/react-query";
 import { EventAgreedPolicy } from "@/pages/api/mutate/create-events/eventPolicy";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
+import { useGetEventAgenda } from "@/hooks/events/useGetEventAgendas";
+import { useGetEventVendors } from "@/hooks/events/useGetEventVendors";
+import { useGetEventGuests } from "@/hooks/events/useGetEventGuests";
 
 const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
+  const { data: allAgenda } = useGetEventAgenda();
+  const { data: allVendor } = useGetEventVendors();
+  const { data: allGuests } = useGetEventGuests();
   const { isChecked, handleIsChecked } = useCreateEventContext();
   const [changePageContent, setChangePageContent] = useState<PageContentsType>({
     id: "item-1",
@@ -93,7 +99,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
               >
                 <AccordionTrigger>
                   <div className="flex justify-start items-center gap-4">
-                    {!isChecked.addAgender ? (
+                    {!allAgenda?.data.length ? (
                       <div className="border border-white rounded-full h-4 w-4" />
                     ) : (
                       <div className="bg-green-600 rounded-full p-0.5">
@@ -141,7 +147,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
               >
                 <AccordionTrigger>
                   <div className="flex justify-start items-center gap-4">
-                    {!isChecked.addGests ? (
+                    {!allGuests?.data.length ? (
                       <div className="border border-white rounded-full h-4 w-4" />
                     ) : (
                       <div className="bg-green-600 rounded-full p-0.5">
@@ -165,7 +171,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
               >
                 <AccordionTrigger>
                   <div className="flex justify-start items-center gap-4">
-                    {!isChecked.addVendors ? (
+                    {!allVendor?.data.length ? (
                       <div className="border border-white rounded-full h-4 w-4" />
                     ) : (
                       <div className="bg-green-600 rounded-full p-0.5">

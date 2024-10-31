@@ -85,14 +85,10 @@ export type RefundPolicyType = {
 
 /* ----------------------*/
 
-type GuestType = {
+export type GuestType = {
   name: string;
   photo: string;
   role: string;
-};
-
-export type EventGuestListType = {
-  guestList: GuestType[];
 };
 
 /* ----------------------*/
@@ -111,16 +107,12 @@ export type AgendaType = {
 /* ----------------------*/
 
 export type VendorType = {
-  thumbnail: string;
+  thumbnail?: string;
   isPass: string;
   vendorTag: string;
   passCategory: string[];
   price: number;
   slots: number;
-};
-
-export type EventVendorType = {
-  eventVendors: VendorType[];
 };
 
 /* ----------------------*/

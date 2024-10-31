@@ -3,10 +3,6 @@ import React, { useState } from "react";
 import AgendaEmptyState from "./AgendaEmptyState";
 import AgendaSlot from "./Slot";
 import AgendLists from "./AgendLists";
-import {
-  AgendaLists as staticAgendaList,
-  AgendaListsType,
-} from "@/static-datas/create-event";
 import { Accordion } from "@/components/ui/accordion";
 import EditSlot from "./EditSlot";
 import { useGetEventAgenda } from "@/hooks/events/useGetEventAgendas";
