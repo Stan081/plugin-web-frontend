@@ -60,7 +60,6 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
     const data = {
       eventCategory: selectedNames,
     };
-    console.log(getCookie("event_id"))
     mutate(data);
   }, []);
 

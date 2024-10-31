@@ -13,7 +13,7 @@ export const EditProfileRole = async (
 ): Promise<EditProfileResponse> => {
   const token = getToken();
   try {
-    const response: AxiosResponse<EditProfileResponse> = await axios.put(
+    const response: AxiosResponse<EditProfileResponse> = await axios.patch(
       EDIT_PROFILE_ROLE,
       data,
       {

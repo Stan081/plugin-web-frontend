@@ -34,8 +34,6 @@ const AddAgenda = () => {
   >(undefined);
   const [nextId, setNextId] = useState<number>(Date.now());
 
-  const { toast } = useToast();
-
   // Function to handle form edit
   const handleEditForm = (id: number) => {
     const getEditAgenda = agendaListState.find((list) => list.id === id);
@@ -65,43 +63,6 @@ const AddAgenda = () => {
     setAgendaListState(updatedList);
     setFormState(AddAgendaState.VIEW_LIST);
   };
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: (data: any) => EventAgenda(data),
-    onSuccess: (response) => {
-      if (response?.message) {
-        toast({
-          variant: "success",
-          title: "Event Agenda has been added",
-          description: `${response?.message}`,
-        });
-        handleIsChecked("addAgender");
-      }
-    },
-    onError: (error: any) => {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: error?.message,
-      });
-    },
-  });
-
-  const handleSubmit = useCallback(() => {
-    const data = {
-      eventAgendas: agendaListState.map((item) => ({
-        title: item.agendaTitle,
-        description: item.agendaDescription,
-        startTime: item.startTime,
-        endTime: item.endTime,
-        host: {
-          name: item.hostName ?? "",
-          photo: item.hostImage ?? "",
-        },
-      })),
-    };
-    mutate(data);
-  }, [agendaListState]);
 
   return (
     <div className="mx-3 md:mx-8 flex flex-col gap-5">
@@ -137,19 +98,13 @@ const AddAgenda = () => {
             ))}
           </Accordion>
 
-          <div className="mt-4 flex justify-between gap-5">
-            <button
-              onClick={() => setFormState(AddAgendaState.CREATE_AGENDA)}
-              type="button"
-              className="border border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50 md:w-32"
-            >
-              Add Slot
-            </button>
-
-            <Button onClick={handleSubmit} variant="destructive">
-              {isPending ? <Spinner /> : "Save"}
-            </Button>
-          </div>
+          <button
+            onClick={() => setFormState(AddAgendaState.CREATE_AGENDA)}
+            type="button"
+            className="border border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50 md:w-32"
+          >
+            Add Slot
+          </button>
         </div>
       ) : (
         <AgendaEmptyState
