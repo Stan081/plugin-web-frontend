@@ -11,31 +11,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjN
 
 ###
 
-<<<<<<< HEAD
-PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjM5NzAyLCJleHAiOjE3MzE4MzE3MDJ9.3k_aZobHMFIJTIwFlJiZ-lppfsB8Suwg_RSi6Q5vSL0
-=======
-<<<<<<< HEAD
-PUT https://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
-=======
-GET https://pluginapi.onrender.com/api/auth/me
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjQwNTEzLCJleHAiOjE3MzE4MzI1MTN9.pKWPM6SNVvGXO9bvdvAYTskWPKKAKgGEPtaBCwGK0Y8
->>>>>>> d6ac768 (Chore(organiser-dashboard))
->>>>>>> 8932ffa (Chore(organiser-dashboard))
-
-{
-  "eventCategory": [  "Food & Drinks",
-      "Science & Tech",
-      "Family & Education",
-      "Music"]
-}
-
-###
-
 PUT https://pluginapi.onrender.com/api/event/671d318c510463096862c3c6
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
