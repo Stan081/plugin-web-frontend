@@ -397,3 +397,30 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliM
 {
   "photoUrl": "https://res.cloudinary.com/dbhbyikta/image/upload/v1730413721/h0r447tttesfb65escrf.jpg"
 }
+
+### Add Group Ticket
+
+POST http://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b/groupedTickets
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE
+
+ {
+      "groupedTicketType": "paid",
+      "ticketName": "Ticket Name",
+      "ticketCategory": "Ticket Category",
+      "ticketPrice": 5000,
+      "ticketQuantity": 60,
+      "startDate": "2024-10-10T19:01:47.426+00:00",
+      "startTime": "Time",
+      "endDate": "2024-10-10T19:01:47.426+00:00",
+      "endTime": "Time",
+      "ticketPeaks": "Peaks",
+       "seatMap": "string",
+      "color": "string"
+}
+
+### Get Event Group tickets
+
+GET http://pluginapi.onrender.com/api/event/672343e2063c2992b36fdf1b/groupedTickets
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mjk5NTczMjQsImV4cCI6MTczMjU0OTMyNH0.enIqrdlbmxfvzOlmg_lkXPu8X_CVPwN5K1-n5UnHYxE

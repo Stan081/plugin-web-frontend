@@ -4,11 +4,11 @@ import {
   PaidSeatSectionFormSchema,
 } from "@/models/create-event-schema";
 import {
-  seatedTypes,
+
   useCreateEventContext,
 } from "@/providers/create_event.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import React, { FC, useCallback, useEffect} from "react";
 import {
   Form,
   FormControl,
@@ -27,51 +27,42 @@ import {
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  SeatSectionLists,
-  SeatSectionListsType,
-} from "@/static-datas/create-event";
 import { IoReturnDownBackOutline } from "react-icons/io5";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EditEventGroup } from "@/pages/api/mutate/create-events/EditEventGroup";
+import Spinner from "@/tw-components/spinner";
+import { Button } from "@/components/ui/button";
 
-interface EditPaidSeatDetailProps extends SeatSectionListsType {
+interface EditPaidSeatDetailProps {
   handleReturnToList: () => void;
+  selectedTicket: any;
 }
 
 const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
   handleReturnToList,
-  seatType,
-  ticketCategory,
-  ticketName,
-  ticketPerks,
-  ticketPrice,
-  ticketQuantity,
-  startDate,
-  startTime,
-  endDate,
-  endTime,
+  selectedTicket,
 }) => {
-  const [quantity, setQuantity] = useState<number>(0);
   const {
     selectTicket,
     seatType: seatTypeState,
     handleClick,
   } = useCreateEventContext();
-  const [ticketPriceState, setTicketPriceState] = useState<number>(0);
 
   const form = useForm<PaidSeatSection>({
     mode: "all",
     defaultValues: {
-      seat_type: seatType ?? seatTypeState,
-      ticket_type: selectTicket,
-      ticket_name: ticketName ?? "",
-      ticket_category: ticketCategory ?? "",
-      ticket_quantity: ticketQuantity ?? quantity,
-      ticket_price: ticketPrice ?? ticketPriceState,
-      start_date: new Date(startDate) ?? new Date(),
-      end_date: new Date(endDate) ?? new Date(),
-      start_time: startTime ?? "",
-      end_time: endTime ?? "",
-      ticket_perks: ticketPerks ?? "",
+      seat_type: selectedTicket?.seatType ?? seatTypeState,
+      ticket_type: selectedTicket?.selectTicket,
+      ticket_name: selectedTicket?.ticketName ?? "",
+      ticket_category: selectedTicket?.ticketCategory ?? "",
+      ticket_quantity: selectedTicket?.ticketQuantity,
+      ticket_price: selectedTicket?.ticketPrice,
+      start_date: new Date(selectedTicket?.startDate) ?? new Date(),
+      end_date: new Date(selectedTicket?.endDate) ?? new Date(),
+      start_time: selectedTicket?.startTime ?? "",
+      end_time: selectedTicket?.endTime ?? "",
+      ticket_perks: selectedTicket?.ticketPerks ?? "",
     },
     resolver: yupResolver(PaidSeatSectionFormSchema),
   });
@@ -84,70 +75,53 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
     form.setValue("ticket_type", selectTicket);
   }, [selectTicket, form.setValue]);
 
-  useEffect(() => {
-    form.setValue("ticket_quantity", quantity);
-  }, [quantity, form.setValue]);
+  const { toast } = useToast();
 
-  useEffect(() => {
-    form.setValue("ticket_price", ticketPriceState);
-  }, [ticketPriceState, form.setValue]);
+  const client = useQueryClient();
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EditEventGroup(data, selectedTicket?._id),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Your paid group event ticket has been updated",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["groupEvents"] });
+        handleReturnToList();
+      }
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
 
-  const onSubmit = useCallback(async (payload: PaidSeatSection) => {
-    console.log(payload);
-    SeatSectionLists.push({
-      seatType: payload.seat_type,
+  const onSubmit = useCallback((payload: PaidSeatSection) => {
+
+    const data = {
+      groupedTicketType: payload.seat_type,
       ticketName: payload.ticket_name,
       ticketCategory: payload.ticket_category,
       ticketQuantity: payload.ticket_quantity,
-      ticketPerks: payload.ticket_perks,
       ticketPrice: payload.ticket_price,
       startDate: payload.start_date,
-      endDate: payload.end_date,
       startTime: payload.start_time,
+      endDate: payload.end_date,
       endTime: payload.end_time,
-    });
-
-    handleReturnToList();
-
-    form.reset({
-      seat_type: seatTypeState,
-      ticket_type: selectTicket,
-      ticket_name: "",
-      ticket_category: "",
-      ticket_quantity: quantity,
-      ticket_price: ticketPriceState,
-      start_date: new Date(),
-      end_date: new Date(),
-      start_time: "",
-      end_time: "",
-      ticket_perks: "",
-    });
+      ticketPeaks: payload.ticket_perks,
+      seatMap: payload.label_image,
+      color: payload.label_color,
+    };
+    mutate(data);
   }, []);
   return (
     <div>
-      <div className="flex justify-start items-end gap-5 mb-6">
-        <h3 className="font-pally-medium md:text-xl">
-          Specify your ticket type
-        </h3>
-
-        <div className="flex flex-wrap gap-4 mt-5 text-white">
-          {seatedTypes.map((seat) => (
-            <button
-              key={seat.id}
-              onClick={() => handleClick(seat.id)}
-              className={`py-2 px-4 rounded-full border ${
-                 seatType === seat.id
-                  ? "bg-white text-black"
-                  : "border-white"
-              }`}
-            >
-              {seat.name}
-            </button>
-          ))}
-        </div>
-      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -168,7 +142,6 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
                         placeholder="Enter ticket name"
                         type="text"
                         id="ticket-name"
-                        disabled={isLoading}
                         className="w-full bg-white text-black font-pally-regular"
                         {...field}
                         maxLength={200}
@@ -231,7 +204,6 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
                           placeholder="₦ Enter amount"
                           type="number"
                           id="price-pass"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -255,7 +227,6 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
                           placeholder="Enter ticket name"
                           type="number"
                           id="ticket-name"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -288,7 +259,6 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
                             placeholder="DD/MM/YY"
                             type="date"
                             id="start_date"
-                            disabled={isLoading}
                             className=" bg-white text-black font-pally-regular"
                             {...field}
                             value={formattedDate}
@@ -315,7 +285,6 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
                             placeholder="0:00"
                             type="time"
                             id="start_time"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -349,7 +318,6 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
                             placeholder="DD/MM/YY"
                             type="date"
                             id="end_date"
-                            disabled={isLoading}
                             className=" bg-white text-black font-pally-regular"
                             {...field}
                             value={formattedDate}
@@ -376,7 +344,6 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
                             placeholder="0:00"
                             type="time"
                             id="end_time"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -401,7 +368,6 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
                     <Textarea
                       placeholder="Max  char - 200 Words"
                       id="ticket_perks"
-                      disabled={isLoading}
                       className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
                       {...field}
                     />
@@ -419,12 +385,14 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
             >
               <IoReturnDownBackOutline size={20} color="#F9B6B1" />
             </div>
-            <button
+            <Button
               type="submit"
-              className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"
+              className="w-full"
+              variant="destructive"
+              disabled={isPending}
             >
-              Save Session
-            </button>
+              {isPending ? <Spinner /> : `Save edit`}
+            </Button>
           </div>
         </form>
       </Form>

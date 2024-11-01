@@ -34,4 +34,4 @@ export const EVENT_PHOTO: string = `${API_URL}/event/${event_id}/photos`;
 
 export const DELETE_EVENT_PHOTO: string = `${API_URL}/event/${event_id}/photo`;
 
-
+export const EVENT_GROUP: string = `${API_URL}/event/${event_id}/groupedTickets`;
