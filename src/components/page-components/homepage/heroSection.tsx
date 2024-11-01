@@ -117,8 +117,8 @@ const HeroSection = () => {
                             />
                             <motion.div
                               animate={{ y: 0 }}
-                              initial={{ y: -50 }}
-                              transition={{ duration: 1.2, type: "spring" }}
+                              initial={{ y: 150 }}
+                              transition={{ duration: 1.0, type: "spring" }}
                               className="text-left space-y-2"
                             >
                               <h1 className="text-3xl md:text-5xl font-pally-bold">

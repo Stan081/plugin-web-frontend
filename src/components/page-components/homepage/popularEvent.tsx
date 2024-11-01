@@ -48,7 +48,7 @@ const PopularEvent = () => {
             ))}
             
           </ul>
-          <CardComponent2 />
+
           <div
             id={`panel-${isActive}`}
             role="tabpanel"
@@ -57,7 +57,8 @@ const PopularEvent = () => {
           >
            
             {cardData.slice(0, 4).map((card) => (
-              <CardComponent key={card.id} {...card} />
+               <CardComponent2  key={card.id} {...card}  />
+              // <CardComponent key={card.id} {...card}  />
             ))}
           </div>
         </Container>
