@@ -1,5 +1,4 @@
 import React from "react";
-import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Container from "@/tw-components/container";
@@ -71,7 +70,7 @@ const TopLocation = () => {
         <h2 className="text-3xl font-pally-medium my-7 text-white">
           Top Locations
         </h2>
-        <Slider {...settings}>
+        {/* <Slider {...settings}>
           {locations.map((location, index) => (
             <div key={index} className="relative px-2 ">
               <div className="h-[250px]">
@@ -90,7 +89,7 @@ const TopLocation = () => {
               </div>
             </div>
           ))}
-        </Slider>
+        </Slider> */}
       </Container>
     </div>
   );
