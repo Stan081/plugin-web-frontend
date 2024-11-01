@@ -6,6 +6,7 @@ import React, { useState } from "react";
 const RefundPolicy = () => {
   const { isChecked, handleIsChecked } = useCreateEventContext();
 
+
   return (
     <div className="mx-8 space-y-4">
       <div className="space-y-2">

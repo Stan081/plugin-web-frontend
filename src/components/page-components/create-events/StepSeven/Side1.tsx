@@ -9,7 +9,7 @@ import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 const Side1 = () => {
   const [showMore, setShowMore] = useState<boolean>(false);
   return (
-    <div className="w-full lg:w-1/2 px-4 lg:px-0">
+    <div className="w-full lg:w-2/5 px-4 lg:px-0">
       <Logo />
       <div className="flex flex-col justify-between md:space-y-5 mt-6 ">
         <h1 className="text-[#020912] font-pally-regular text-xl md:text-3xl w-full md:max-w-xl md:leading-tight">

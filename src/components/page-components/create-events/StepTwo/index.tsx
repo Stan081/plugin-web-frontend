@@ -1,19 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import { StepsProps } from "@/pages/create-event";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { categoriesData, EventCategory } from "@/static-datas/create-event";
-// import Cookies from "js-cookie";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+import { EventCategoryAPI } from "@/pages/api/mutate/create-events/eventCategory";
+import Spinner from "@/tw-components/spinner";
+import { getCookie } from "@/lib/cookies";
 
 const pageContents = ["Think about the primary audience for your event."];
 
 const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
   const [categories, setCategories] = useState<EventCategory[]>(categoriesData);
   const [selectedNames, setSelectedNames] = useState<string[]>([]);
+
+  const { toast } = useToast();
 
   const handleClick = (name: string) => {
     const updatedCategories = categories.map((category) =>
@@ -26,21 +32,47 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
     const selectedCategories = updatedCategories
       .filter((category) => category.selected)
       .map((category) => category.name);
-    // Cookies.set("selectedCategories", JSON.stringify(selectedCategories));
     setSelectedNames(selectedCategories);
   };
 
-console.log(selectedNames)
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventCategoryAPI(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Uploaded successfully",
+          description: `${response?.message}`,
+        });
+        next();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const handleSubmit = useCallback(() => {
+    const data = {
+      eventCategory: selectedNames,
+    };
+    mutate(data);
+  }, []);
+
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12">
-      <div className="w-full lg:w-1/2  px-4 lg:px-0">
+      <div className="w-full lg:w-2/5  px-4 lg:px-0">
         <Intro
           contents={pageContents}
           title="What kind of events do you organize?"
         />
       </div>
-      <div className="w-full h-full lg:w-1/2 mb-5">
-        <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
+      <div className="w-full h-full lg:w-3/5 mb-5">
+        <FormContainer formTitle="Basic Information" currPosition={[80, 0, 0]}>
           <div className="flex flex-col justify-between gap-4 w-full h-full">
             <div className="h-[60vh] lg:h-[74vh] whitespace-normal overflow-y-auto">
               <h3 className="font-pally-medium md:text-lg">
@@ -80,11 +112,11 @@ console.log(selectedNames)
                   </Button>
 
                   <Button
-                    disabled={selectedNames.length < 1}
-                    onClick={() => next()}
+                    disabled={selectedNames.length < 1 || isPending}
+                    onClick={handleSubmit}
                     variant="destructive"
                   >
-                    Next
+                    {isPending ? <Spinner /> : "Next"}
                   </Button>
                 </div>
               </div>

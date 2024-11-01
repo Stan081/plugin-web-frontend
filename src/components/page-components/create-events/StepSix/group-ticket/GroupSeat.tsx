@@ -6,13 +6,11 @@ import { seatedTypes, useCreateEventContext } from "@/providers/create_event.pro
 
 export interface GroupSeatProps {
   handleReturnToList: () => void;
-  handleCreateVendor?: (vendorData: SeatSectionListsType) => void;
 }
 
 
 const GroupSeat: FC<GroupSeatProps> = ({
   handleReturnToList,
-  handleCreateVendor,
 }) => {
   const {seatType, handleClick} = useCreateEventContext()
   return (
@@ -22,7 +20,7 @@ const GroupSeat: FC<GroupSeatProps> = ({
           Specify your ticket type
         </h3>
 
-        <div className="flex flex-wrap gap-4 text-white">
+        <div className="flex flex-wrap gap-4">
           {seatedTypes.map((seat) => (
             <button
               key={seat.id}
@@ -40,12 +38,10 @@ const GroupSeat: FC<GroupSeatProps> = ({
         {seatType === "paid" ? (
           <PaidGroupSeatsForm
             handleReturnToList={handleReturnToList}
-            handleCreateVendor={handleCreateVendor}
           />
         ) : (
           <FreeGroupSeatsForm
             handleReturnToList={handleReturnToList}
-            handleCreateVendor={handleCreateVendor}
           />
         )}
       </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { LuClipboardList } from "react-icons/lu";
 
+
 const GuestEmptyState: React.FC<{open: () => void}> = ({open}) => {
   return (
     <div className="border border-[#423730] rounded-xl w-full max-w-sm mx-auto p-6 my-5 space-y-5">

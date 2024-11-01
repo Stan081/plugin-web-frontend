@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import HintCard from "./HintCard";
 import Logo from "@/components/Logo";
@@ -15,13 +16,13 @@ const Intro: React.FC<{ contents: string[]; title: string }> = ({
   return (
     <>
       <Logo />
-      <div className="flex flex-row lg:flex-col justify-between items-center lg:items-start md:space-y-12 mt-4 lg:mt-28">
+      <div className="flex flex-row lg:flex-col justify-between items-center md:space-y-12 lg:mt-28">
         <h1 className="text-[#020912] font-pally-regular text-lg lg:text-4xl w-full md:max-w-xl md:leading-tight">
           {title}
         </h1>
         <HintCard contents={contents} />
 
-        <div className="block lg:hidden">
+        <div className="block lg:hidden h-full">
           <Popover>
             <PopoverTrigger>
               <div className="p-2 rounded-full border border-[#FA8334]">

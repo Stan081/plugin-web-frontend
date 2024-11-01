@@ -15,7 +15,7 @@ export interface StepsProps {
 }
 
 export default function Signup() {
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(6);
 
   const nextStep = () => {
     setCurrentStep((prev) => prev + 1);
@@ -42,7 +42,7 @@ export default function Signup() {
       case 6:
         return <StepSix next={nextStep} previous={previousStep} />;
       case 7:
-        return <StepSeven/>;
+        return <StepSeven />;
       default:
         return;
     }

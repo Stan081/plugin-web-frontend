@@ -1,5 +1,7 @@
 "use client";
 
+import { useGetEventAgenda } from "@/hooks/events/useGetEventAgendas";
+import { AgendaType } from "@/lib/types/EventType";
 /* eslint-disable no-unused-vars */
 import {
   createContext,
@@ -34,6 +36,7 @@ type CreateEventContextValue = {
   isHost: boolean;
   seatType: string;
   selectTicket: string;
+  allAgenda: any;
   inviteeState: InviteeDataProps[];
   handleCreateInvitee: (keys: InviteeDataProps) => void;
   handleClick: (key: string) => void;
@@ -87,7 +90,8 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
   // invitee data connect
   const [inviteeState, setInviteeState] = useState<InviteeDataProps[]>([]);
 
-  console.log(inviteeState);
+  const { data: allAgenda } = useGetEventAgenda();
+
 
   // Function to handle creating a new vendor
   const handleCreateInvitee = (data: InviteeDataProps) => {
@@ -122,6 +126,7 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     isHost,
     selectTicket,
     inviteeState,
+    allAgenda,
     handleCreateInvitee,
     setSelectedTicket,
     handleIsChecked,

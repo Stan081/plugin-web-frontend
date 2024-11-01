@@ -9,10 +9,12 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import Image from "next/image";
 import { AgendaListsType } from "@/static-datas/create-event";
 import { calculateDuration } from "@/lib/utils";
+import { AgendaType } from "@/lib/types/EventType";
 
-interface AgendListsProps extends AgendaListsType {
+interface AgendListsProps extends AgendaType {
   handleEditForm: (id: number) => void;
   handleDelete: (id: number) => void;
+  _id: number;
 }
 
 const bgColor = [
@@ -31,12 +33,10 @@ const bgColor = [
 ];
 
 const AgendLists: FC<AgendListsProps> = ({
-  id,
-  hostImage,
-  isHost,
-  agendaDescription,
-  agendaTitle,
-  hostName,
+  _id,
+  description,
+  title,
+  host,
   startTime,
   endTime,
   handleEditForm,
@@ -54,7 +54,7 @@ const AgendLists: FC<AgendListsProps> = ({
 
   return (
     <AccordionItem
-      value={`item-${id}`}
+      value={`item-${_id}`}
       style={{
         borderColor: selectedColor.border,
         backgroundColor: selectedColor.bgColor,
@@ -66,48 +66,41 @@ const AgendLists: FC<AgendListsProps> = ({
           <p className="text-[#667185] text-sm font-pally-regular">
             Duration : {duration}
           </p>
-          <p className="text-[#101928] font-pally-medium text-xl">
-            {agendaTitle}
-          </p>
+          <p className="text-[#101928] font-pally-medium text-xl">{title}</p>
         </div>
       </AccordionTrigger>
       <AccordionContent>
         <p className="font-pally-regular text-[#667185] md:text-lg">
-          {agendaDescription}
+          {description}
         </p>
         <div className="mt-5 flex justify-between items-center">
-          {isHost ? (
+          {host?.photo ? (
             <div className="flex items-center gap-4">
-              {hostImage && (
-                <Image
-                  src={hostImage}
-                  width={40}
-                  height={40}
-                  alt={hostName}
-                  className="w-10 h-10 pointer-events-none object-cover rounded-full"
-                />
-              )}
+              <Image
+                src={host.photo}
+                width={40}
+                height={40}
+                alt={host.name || "Host"}
+                className="w-10 h-10 pointer-events-none object-cover rounded-full"
+              />
               <div>
                 <p className="font-pally-regular text-sm text-[#667185]">
                   Host
                 </p>
-                <p className="font-pally-medium text-[#667185]">{hostName}</p>
+                <p className="font-pally-medium text-[#667185]">{host.name}</p>
               </div>
             </div>
           ) : (
             <div />
           )}
           <div className="flex justify-end gap-4">
-            <div
-              onClick={() => handleEditForm(id)}
-              className="cursor-pointer"
-            >
+            <div onClick={() => handleEditForm(_id)} className="cursor-pointer">
               <p className="font-pally-regular text-sm underline destructive">
                 Edit Pass
               </p>
             </div>
             <div
-              onClick={() => handleDelete(id)}
+              onClick={() => handleDelete(_id)}
               className="cursor-pointer bg-black/70 rounded p-1"
             >
               <HiOutlineTrash

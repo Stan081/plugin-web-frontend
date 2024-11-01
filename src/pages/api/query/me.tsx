@@ -24,7 +24,7 @@ export const useMe = () => {
         }),
 
     retry: true, 
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     refetchOnMount: true, 
   });
 };

@@ -12,3 +12,11 @@ export const setCookie = (key: string, value: any) => {
     console.error("Error setting value:", error);
   }
 };
+
+export const removeCookie = (key: string) => {
+  try {
+    Cookies.remove(key);
+  } catch (error) {
+    console.error("Error removing cookie:", error);
+  }
+};

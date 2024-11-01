@@ -1,16 +1,13 @@
 import { Separator } from "@/components/ui/separator";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AgendaEmptyState from "./AgendaEmptyState";
 import AgendaSlot from "./Slot";
 import AgendLists from "./AgendLists";
-import {
-  AgendaLists as staticAgendaList,
-  AgendaListsType,
-} from "@/static-datas/create-event";
-import { Button } from "@/components/ui/button";
 import { Accordion } from "@/components/ui/accordion";
-import { useCreateEventContext } from "@/providers/create_event.provider";
 import EditSlot from "./EditSlot";
+import { useGetEventAgenda } from "@/hooks/events/useGetEventAgendas";
+import { useDeleteAgenda } from "@/hooks/events/useDeleteEventAgenda";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 export enum AddAgendaState {
   VIEW_LIST,
@@ -19,37 +16,25 @@ export enum AddAgendaState {
 }
 
 const AddAgenda = () => {
+  const { data: allAgenda, isLoading } = useGetEventAgenda();
+  const { mutate: deleteAgenda, isPending } = useDeleteAgenda();
+
   const [formState, setFormState] = useState<AddAgendaState>(
     AddAgendaState.VIEW_LIST
   );
 
-  const [agendaListState, setAgendaListState] = useState<AgendaListsType[]>([]);
-  const [selectedAgenda, setSelectedAgenda] = useState<
-    AgendaListsType | undefined
-  >(undefined);
-  const [nextId, setNextId] = useState<number>(Date.now());
-
-  // Initialize the vendor list
-  useEffect(() => {
-    setAgendaListState(staticAgendaList);
-  }, []);
+  const [selectedAgenda, setSelectedAgenda] = useState<any | undefined>(
+    undefined
+  );
 
   // Function to handle form edit
   const handleEditForm = (id: number) => {
-    const getEditAgenda = agendaListState.find((list) => list.id === id);
+    const getEditAgenda = allAgenda?.data.find((list) => list._id === id);
 
     if (getEditAgenda) {
       setSelectedAgenda(getEditAgenda);
-      setFormState(AddAgendaState.EDIT_AGENDA);
     }
-  };
-
-  // Function to handle creating a new vendor
-  const handleCreateVendor = (vendorData: AgendaListsType) => {
-    const newAgenda = { ...vendorData, id: nextId };
-    setAgendaListState((prevList) => [...prevList, newAgenda]);
-    setNextId(Date.now());
-    setFormState(AddAgendaState.VIEW_LIST);
+    setFormState(AddAgendaState.EDIT_AGENDA);
   };
 
   // Function to return to the vendor list view
@@ -59,12 +44,15 @@ const AddAgenda = () => {
 
   // Function to handle delete
   const handleDelete = (id: number) => {
-    const updatedList = agendaListState.filter((vendor) => vendor.id !== id);
-    setAgendaListState(updatedList);
-    setFormState(AddAgendaState.VIEW_LIST);
+    deleteAgenda({ agendaId: id });
   };
+
+  if (isLoading)
+    return <p className="text-white mx-5 text-center mt-5">loading...</p>;
+
   return (
     <div className="mx-3 md:mx-8 flex flex-col gap-5">
+      {isPending && <SpinnerOverlay />}
       <p className="font-pally-regular text-sm text-white/60">
         Add an itinerary or schedule to your event. You can include the time, a
         description of what will happen, and who will host this part of the
@@ -74,40 +62,34 @@ const AddAgenda = () => {
       <Separator decorative />
 
       {formState === AddAgendaState.CREATE_AGENDA ? (
-        <AgendaSlot
-          handleReturnToList={handleReturnToList}
-          handleCreateVendor={handleCreateVendor}
-        />
+        <AgendaSlot handleReturnToList={handleReturnToList} />
       ) : formState === AddAgendaState.EDIT_AGENDA && selectedAgenda ? (
         <EditSlot
-          handleReturnToList={handleReturnToList}
           selectedAgenda={selectedAgenda}
+          handleReturnToList={handleReturnToList}
         />
       ) : formState === AddAgendaState.VIEW_LIST &&
-        agendaListState.length !== 0 ? (
+        allAgenda?.data.length !== 0 ? (
         <div className="my-3 flex flex-col gap-3 w-full">
           <Accordion type="single" collapsible className="w-full space-y-5">
-            {agendaListState.map((list) => (
+            {allAgenda?.data.map((list) => (
               <AgendLists
-                key={list.id}
+                key={list._id}
                 {...list}
+                _id={list._id}
                 handleEditForm={handleEditForm}
                 handleDelete={handleDelete}
               />
             ))}
           </Accordion>
 
-          <div className="mt-4 flex justify-between gap-5">
-            <button
-              onClick={() => setFormState(AddAgendaState.CREATE_AGENDA)}
-              type="button"
-              className="border border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50 md:w-32"
-            >
-              Add Slot
-            </button>
-
-            <Button variant="destructive">Save</Button>
-          </div>
+          <button
+            onClick={() => setFormState(AddAgendaState.CREATE_AGENDA)}
+            type="button"
+            className="border block mt-5 border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50"
+          >
+            Add Agenda
+          </button>
         </div>
       ) : (
         <AgendaEmptyState

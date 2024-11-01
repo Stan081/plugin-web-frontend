@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, useCallback, useMemo, useRef, useState } from "react";
 import { IoMdImages } from "react-icons/io";
 import {
   Form,
@@ -15,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { FiEdit, FiWatch } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -26,60 +19,66 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { AgendaSlotProps } from "./Slot";
-import { isHostTypes } from "./SlotWithHost";
-import { AgendaLists, AgendaListsType } from "@/static-datas/create-event";
+import { IoReturnDownBackOutline } from "react-icons/io5";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EditEventAgenda } from "@/pages/api/mutate/create-events/editEventAgenda";
+import { Button } from "@/components/ui/button";
+import Spinner from "@/tw-components/spinner";
+import { uploadImage } from "@/lib/utils";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
-interface SlotWithHostProps extends AgendaListsType {
+interface SlotWithHostProps {
   handleReturnToList: () => void;
+  selectedAgenda: any;
 }
 
 const EditSlotWithHost: FC<SlotWithHostProps> = ({
   handleReturnToList,
-  hostImage: hostPhoto,
-  hostName,
-  endTime,
-  startTime,
-  isHost,
-  agendaTitle,
-  agendaDescription,
+  selectedAgenda,
 }) => {
-  const {
-    handleIsChecked,
-    setIsHost,
-    isHost: isHostValid,
-  } = useCreateEventContext();
   const [hostImage, setHostImage] = useState<string | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const form = useForm<SlotWithHostForm>({
     mode: "all",
     defaultValues: {
-      start_time: startTime ?? "",
-      end_time: endTime ?? "",
-      host_thumbnail: hostPhoto ?? "",
-      isHost: isHost,
-      host_name: hostName ?? "",
-      agenda_title: agendaTitle ?? "",
-      agenda_description: agendaDescription ?? "",
+      start_time: selectedAgenda?.startTime ?? "",
+      end_time: selectedAgenda?.endTime ?? "",
+      host_thumbnail: selectedAgenda?.host?.photo ?? "",
+      isHost: !selectedAgenda?.host ? true : false,
+      host_name: selectedAgenda?.host?.name ?? "",
+      agenda_title: selectedAgenda?.title ?? "",
+      agenda_description: selectedAgenda?.description ?? "",
     },
     resolver: yupResolver(SlotWithHostSchema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
-
   // Handle image upload for banner
-  const handleImageUploadBanner = (
+  const handleImageUploadBanner = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setHostImage(reader.result as string);
-        form.setValue("host_thumbnail", reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setIsUploading(true); // Start spinner
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setHostImage(imageUrl);
+        form.setValue("host_thumbnail", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -99,46 +98,56 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
     }
   };
 
+  const { toast } = useToast();
+
+  const client = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EditEventAgenda(data, selectedAgenda?._id),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Your event agenda has been updated",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["eventAgendas"] });
+        handleReturnToList();
+      }
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
   const onSubmit = useCallback(
     async (payload: SlotWithHostForm) => {
       console.log(payload);
 
-      AgendaLists.push({
-        hostImage: payload.host_thumbnail,
-        hostName: payload.host_name,
-        startTime: payload.start_time,
-        endTime: payload.end_time,
-        isHost: payload.isHost,
-        agendaTitle: payload.agenda_title,
-        agendaDescription: payload.agenda_description,
-      });
+      const data = {
+        title: payload?.agenda_title,
+        description: payload?.agenda_description,
+        startTime: payload?.start_time,
+        endTime: payload?.end_time,
+        host: {
+          name: payload?.host_name,
+          photo: payload?.host_thumbnail,
+        },
+      };
 
-      handleReturnToList();
-
-      // Reset form back to default values
-      form.reset({
-        start_time: "",
-        end_time: "",
-        host_thumbnail: "",
-        isHost: isHost,
-        host_name: "",
-        agenda_title: "",
-        agenda_description: "",
-      });
-
-      // Reset guest image state
-      setHostImage(null);
-
-      // Clear the file input reference if necessary
-      if (fileInputRefThumbnail.current) {
-        fileInputRefThumbnail.current.value = "";
-      }
+      mutate(data);
     },
     [form]
   );
 
   return (
     <div>
+      {isUploading && <SpinnerOverlay />}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -218,28 +227,6 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
               </FormLabel>
             </FormItem>
             <div className="w-full">
-              <div className="flex justify-start items-baseline gap-4">
-                <p className="font-pally-regular text-base md:text-lg">
-                  Do you have a Host?
-                </p>
-                <div className="flex flex-wrap gap-4 text-white">
-                  {isHostTypes.map(
-                    (type: { id: boolean; name: string }, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setIsHost(!isHost)}
-                        className={`py-2 px-4 rounded-full border ${
-                          isHost === type.id
-                            ? "bg-white text-black"
-                            : "border-white"
-                        }`}
-                      >
-                        {type.name}
-                      </button>
-                    )
-                  )}
-                </div>
-              </div>
               <div className="space-y-4 mt-5">
                 <FormItem className="w-full">
                   <FormLabel className="text-white" htmlFor="host_name">
@@ -255,7 +242,6 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
                             placeholder="Enter host name"
                             type="text"
                             id="host_name"
-                            disabled={isLoading}
                             className="w-full bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -280,7 +266,6 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
                             placeholder="Enter session title"
                             type="text"
                             id="agenda_title"
-                            disabled={isLoading}
                             className="w-full bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -307,7 +292,6 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
                           <Textarea
                             placeholder="Max  char - 200 Words"
                             id="agenda_description"
-                            disabled={isLoading}
                             className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
                             {...field}
                           />
@@ -333,7 +317,6 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
                                 placeholder="0:00"
                                 type="time"
                                 id="start_time"
-                                disabled={isLoading}
                                 className="bg-white text-black font-pally-regular"
                                 {...field}
                               />
@@ -359,7 +342,6 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
                                 placeholder="0:00"
                                 type="time"
                                 id="start_time"
-                                disabled={isLoading}
                                 className="bg-white text-black font-pally-regular"
                                 {...field}
                               />
@@ -380,14 +362,16 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
               onClick={handleReturnToList}
               className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
             >
-              <HiOutlineTrash size={20} color="#F9B6B1" />
+              <IoReturnDownBackOutline size={20} color="#F9B6B1" />
             </div>
-            <button
+            <Button
               type="submit"
-              className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"
+              className="w-full"
+              variant="destructive"
+              disabled={isPending}
             >
-              Save Session
-            </button>
+              {isPending ? <Spinner /> : `Save edit`}
+            </Button>
           </div>
         </form>
       </Form>

@@ -17,9 +17,14 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { IoMdImages } from "react-icons/io";
 import Image from "next/image";
-import React from "react";
-import { guestList } from "@/static-datas/create-event";
+import React, { useCallback, useState } from "react";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { uploadImage } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EventGuestList } from "@/pages/api/mutate/create-events/eventGuestList";
+import Spinner from "@/tw-components/spinner";
 
 interface GuestModalProps {
   isOpen: boolean;
@@ -27,9 +32,9 @@ interface GuestModalProps {
 }
 
 const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
-  const { handleIsChecked } = useCreateEventContext();
   const [guestImage, setGuestImage] = React.useState<string | null>(null);
   const fileInputRefBanner = React.useRef<HTMLInputElement | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const form = useForm<EventGuest>({
     mode: "all",
@@ -41,18 +46,31 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
     resolver: yupResolver(EventGuestSchema),
   });
 
-  const isLoading = React.useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
 
   // Handle image upload for guest
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setGuestImage(reader.result as string);
-        form.setValue("guest_image", reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setIsUploading(true); // Start spinner
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setGuestImage(imageUrl);
+        form.setValue("guest_image", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -71,36 +89,56 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
       fileInputRefBanner.current.click();
     }
   };
+  const client = useQueryClient();
 
-  const onSubmit = React.useCallback(async (payload: EventGuest) => {
-    console.log(payload);
-    guestList.push({
-      id: String(Math.floor(Math.random() * 100)),
-      guestName: payload.guest_name,
-      role: payload.guest_role,
-      image: payload.guest_image,
-    });
-    close()
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventGuestList(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Event Agenda has been added",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["eventGuests"] });
+        close();
+      }
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
 
-    handleIsChecked("addGests");
+  const onSubmit = useCallback(
+    async (payload: EventGuest) => {
+      console.log(payload);
 
-     // Reset form back to default values
-     form.reset({
-      guest_image: "",
-      guest_name: "",
-      guest_role: "",
-    });
+      const data = {
+        name: payload?.guest_name,
+        photo: payload?.guest_image,
+        role: payload?.guest_role,
+      };
 
-    // Reset guest image state
-    setGuestImage(null);
+      mutate(data);
 
-    // Clear the file input reference if necessary
-    if (fileInputRefBanner.current) {
-      fileInputRefBanner.current.value = "";
-    }
-  }, [guestList, close, form]);
+      form.reset({
+        guest_image: "",
+        guest_name: "",
+        guest_role: "",
+      });
 
-  console.log(guestList);
+      if (fileInputRefBanner.current) {
+        fileInputRefBanner.current.value = "";
+      }
+    },
+    [form]
+  );
+
   return (
     <Dialog
       open={isOpen}
@@ -110,6 +148,7 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
     >
       <div className="fixed inset-0 w-screen overflow-y-auto">
         <div className="absolute inset-0 bg-black opacity-80"></div>
+        {isUploading && <SpinnerOverlay />}
         <div className="flex min-h-full items-center justify-center p-4">
           <DialogPanel
             transition
@@ -188,6 +227,7 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
                             )}
                           </div>
                         </FormControl>
+
                         <input
                           id="file-input"
                           type="file"
@@ -199,6 +239,7 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
                           }}
                           style={{ display: "none" }}
                         />
+
                         <FormMessage />
                       </FormItem>
                     )}
@@ -219,7 +260,6 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
                             placeholder="E.g. John Doe"
                             type="text"
                             id="guest_name"
-                            disabled={isLoading}
                             className="w-full bg-white font-pally-regular"
                             {...field}
                           />
@@ -243,7 +283,6 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
                             placeholder="E.g MC, Artist, DJ'"
                             type="text"
                             id="event_name"
-                            disabled={isLoading}
                             autoFocus
                             className="w-full bg-white font-pally-regular"
                             {...field}
@@ -255,13 +294,8 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
                   />
                 </FormItem>
 
-                <Button
-                  type="submit"
-                  disabled={isLoading}
-                  variant="destructive"
-                  className="w-full"
-                >
-                  {isLoading ? "Submitting..." : "Save"}
+                <Button type="submit" variant="destructive" className="w-full">
+                  {isPending ? <Spinner /> : "Save"}
                 </Button>
               </form>
             </Form>

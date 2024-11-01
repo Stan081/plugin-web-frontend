@@ -31,15 +31,15 @@ const StepThree: React.FC<StepsProps> = ({ next, previous }) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 h-screen">
-      <div className="w-full lg:w-1/2  px-4 lg:px-0">
+    <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 md:h-screen">
+      <div className="w-full lg:w-2/5 px-4 lg:px-0">
         <Intro
           contents={pageContents}
           title="Specify when your event will take place."
         />
       </div>
-      <div className="w-full lg:w-1/2 bg-[#f0ded1]">
-        <FormContainer formTitle="Basic Information" currPosition={[60, 0, 0]}>
+      <div className="w-full lg:w-3/5 bg-[#f0ded1]">
+        <FormContainer formTitle="Basic Information" currPosition={[100, 20, 0]}>
           <div>
             <h3 className="font-pally-medium md:text-lg">
               Will this be a one-time event or a recurring one ?
@@ -68,9 +68,9 @@ const StepThree: React.FC<StepsProps> = ({ next, previous }) => {
             </h4>
 
             {eventType === "one-time" ? (
-              <OneTimeFormComponent next={next} previous={previous} />
+              <OneTimeFormComponent eventType={eventType} next={next} previous={previous} />
             ) : (
-              <RecurringForm next={next} previous={previous} />
+              <RecurringForm eventType={eventType} next={next} previous={previous} />
             )}
           </div>
         </FormContainer>
