@@ -74,7 +74,6 @@ const GuestList = () => {
 
       <GuestModal isOpen={isOpen} close={close} />
 
-
       <EditGuestModal
         open={isOpenEdit}
         close={() => setIsOpenEdit(!isOpenEdit)}

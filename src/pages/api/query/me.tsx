@@ -25,7 +25,6 @@ export const useMe = () => {
 
 
     retry: true, 
-
     refetchOnWindowFocus: false,
     refetchOnMount: true, 
   });
