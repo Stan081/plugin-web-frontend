@@ -2,11 +2,6 @@
 
 import { Fragment, useState } from "react";
 import { RiCloseLine, RiMenu4Fill } from "react-icons/ri";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "./ui/dialog";
 import Link from "next/link";
 import Logo from "./Logo";

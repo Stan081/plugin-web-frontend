@@ -10,8 +10,8 @@ import StepSix from "@/components/page-components/create-events/StepSix";
 import StepSeven from "@/components/page-components/create-events/StepSeven";
 
 export interface StepsProps {
-  next: () => void;
-  previous: () => void;
+  next?: () => void;
+  previous?: () => void;
 }
 
 export default function Signup() {

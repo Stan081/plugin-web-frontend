@@ -3,10 +3,10 @@ export type CardProps = {
   image: string;
   eventType?: string;
   title: string;
-  date: string;
-  location: string;
+  date?: string;
+  location?: string;
   priceRange?: string;
-  type: 'upcoming' | 'past';
+  type?: 'upcoming' | 'past';
 };
 
 export const cardData: CardProps[] = [
