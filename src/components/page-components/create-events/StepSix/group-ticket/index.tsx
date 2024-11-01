@@ -1,23 +1,15 @@
-import React, { FC, useEffect, useState } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import React, { FC, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCreateEventContext } from "@/providers/create_event.provider";
-import { GrFormCheckmark } from "react-icons/gr";
 import { StepsProps } from "@/pages/create-event";
 import SeatCard from "./SeatCard";
-import {
-  SeatSectionListsType,
-  SeatSectionLists as staticSeatSection,
-} from "@/static-datas/create-event";
 import EditPaidSeatDetail from "./EditPaidSeatDetail";
 import EditFreeSeatDetail from "./EditFreeSeatDetail";
 import GroupSeat from "./GroupSeat";
+import { useGetGroupEvent } from "@/hooks/events/useGetGroupEvent";
+import { useDeleteEventGroup } from "@/hooks/events/useDeleteEventGroup";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 interface GroupTicketProps extends StepsProps {}
 
@@ -28,42 +20,23 @@ export enum GroupTicketState {
 }
 
 const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
-  const { isCheckedGroup, seatType } = useCreateEventContext();
+  const { seatType } = useCreateEventContext();
+  const { data: allGroupEvent, isLoading } = useGetGroupEvent();
+  const { mutate: deleteGroupTicket, isPending } = useDeleteEventGroup();
+  const { selectTicket: selectedState } = useCreateEventContext();
   const [formState, setFormState] = useState<GroupTicketState>(
-    GroupTicketState.CREATE_TICKET
+    GroupTicketState.VIEW_LIST
   );
 
-  const [groupTicketListState, setGroupTicketListState] = useState<
-    SeatSectionListsType[]
-  >([]);
-  const [selectedTicket, setSelectedTicket] = useState<
-    SeatSectionListsType | undefined
-  >(undefined);
-  const [nextId, setNextId] = useState<number>(Date.now());
+  const [selectedTicket, setSelectedTicket] = useState<any | undefined>(null);
 
-  // Initialize the vendor list
-  useEffect(() => {
-    setGroupTicketListState(staticSeatSection);
-  }, []);
-
-  // Function to handle form edit
   const handleEditForm = (id: number) => {
-    const getEditGroupticket = groupTicketListState.find(
-      (list) => list.id === id
-    );
+    const getEditGroup = allGroupEvent?.data.find((list) => list._id === id);
 
-    if (getEditGroupticket) {
-      setSelectedTicket(getEditGroupticket);
-      setFormState(GroupTicketState.EDIT_TICKET);
+    if (getEditGroup) {
+      setSelectedTicket(getEditGroup);
     }
-  };
-
-  // Function to handle creating a new vendor
-  const handleCreateVendor = (groupTicketData: SeatSectionListsType) => {
-    const newTicket = { ...groupTicketData, id: nextId };
-    setGroupTicketListState((prevList) => [...prevList, newTicket]);
-    setNextId(Date.now());
-    setFormState(GroupTicketState.VIEW_LIST);
+    setFormState(GroupTicketState.EDIT_TICKET);
   };
 
   // Function to return to the group ticket list view
@@ -73,65 +46,57 @@ const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
 
   // Function to handle delete
   const handleDelete = (id: number) => {
-    const updatedList = groupTicketListState.filter(
-      (ticket) => ticket.id !== id
-    );
-    setGroupTicketListState(updatedList);
-    setFormState(GroupTicketState.VIEW_LIST);
+    deleteGroupTicket({ groupTicketId: id });
   };
 
+  if (isLoading)
+    return <p className="text-white mx-5 text-center mt-5">loading...</p>;
+
   return (
-    <div className=" flex flex-col justify-between gap-4 w-full">
-      {formState === GroupTicketState.CREATE_TICKET ||
-      !groupTicketListState.length ? (
-        <GroupSeat
-          handleReturnToList={handleReturnToList}
-          handleCreateVendor={handleCreateVendor}
-        />
+    <div className=" flex flex-col justify-between gap-4 w-full lg:h-[82vh]">
+      {isPending && <SpinnerOverlay />}
+      {formState === GroupTicketState.CREATE_TICKET ? (
+        <GroupSeat handleReturnToList={handleReturnToList} />
       ) : formState === GroupTicketState.EDIT_TICKET &&
         selectedTicket &&
         seatType === "paid" ? (
         <EditPaidSeatDetail
           handleReturnToList={handleReturnToList}
-          {...selectedTicket}
+          selectedTicket={selectedTicket}
         />
       ) : formState === GroupTicketState.EDIT_TICKET &&
         selectedTicket &&
         seatType === "free" ? (
         <EditFreeSeatDetail
           handleReturnToList={handleReturnToList}
-          {...selectedTicket}
+          selectedTicket={selectedTicket}
         />
       ) : (
         formState === GroupTicketState.VIEW_LIST &&
-        groupTicketListState.length !== 0 && (
+        selectedState === "group" && (
           <div className="my-3 flex flex-col gap-3 w-full">
             <div className="space-y-4">
-              {groupTicketListState.map((list) => (
-                <SeatCard
-                  key={list.id}
-                  id={list.id}
-                  ticketName={list.ticketName}
-                  ticketQuantity={list.ticketQuantity}
-                  ticketCategory={list.ticketCategory}
-                  ticketPrice={list?.ticketPrice}
-                  seatType={list.seatType}
-                  handleEditForm={handleEditForm}
-                  handleDelete={handleDelete}
-                />
-              ))}
+              {allGroupEvent?.data.length !== 0 &&
+                allGroupEvent?.data.map((list) => (
+                  <SeatCard
+                    key={list.id}
+                    _id={list.id}
+                    {...list}
+                    handleEditForm={handleEditForm}
+                    handleDelete={handleDelete}
+                  />
+                ))}
             </div>
 
             <div className="mt-4 flex justify-between gap-5">
               <button
                 onClick={() => setFormState(GroupTicketState.CREATE_TICKET)}
                 type="button"
-                className="border border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50 md:w-32"
+                className="border border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50"
               >
                 Add Ticket
               </button>
 
-              <Button variant="destructive">Save</Button>
             </div>
           </div>
         )
@@ -157,9 +122,7 @@ const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
             </Button>
 
             <Button
-              disabled={
-                !isCheckedGroup.sectionDetail && !isCheckedGroup.labelling
-              }
+              disabled={!allGroupEvent?.data.length}
               onClick={() => next()}
               variant="destructive"
             >

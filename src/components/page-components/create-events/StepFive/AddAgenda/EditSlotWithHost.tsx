@@ -141,8 +141,6 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
       };
 
       mutate(data);
-
-      handleReturnToList();
     },
     [form]
   );

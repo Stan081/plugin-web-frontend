@@ -36,7 +36,7 @@ import { GroupSeatProps } from "./GroupSeat";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { extractColors } from "extract-colors";
 import { EventGroupFree } from "@/pages/api/mutate/create-events/EventGroupFree";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { uploadImage } from "@/lib/utils";
 import { FiEdit } from "react-icons/fi";
@@ -49,7 +49,6 @@ interface FreeGroupSeatsFormProps extends GroupSeatProps {}
 
 const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
   handleReturnToList,
-  handleCreateVendor,
 }) => {
   const { selectTicket, seatType } = useCreateEventContext();
   const [labelImage, setlabelImage] = useState<string | null>(null);
@@ -109,8 +108,9 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
     form.setValue("ticket_type", selectTicket);
   }, [selectTicket, form.setValue]);
 
-
   const { toast } = useToast();
+
+  const client = useQueryClient();
 
   // Handle image upload for banner
   const handleImageUpload = async (
@@ -164,6 +164,8 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
           title: "Free group ticket has been added",
           description: `${response?.message}`,
         });
+        client.invalidateQueries({ queryKey: ["groupEvents"] });
+        handleReturnToList();
       }
     },
     onError: (error: any) => {
@@ -175,40 +177,21 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
     },
   });
 
-  const onSubmit = useCallback(async (payload: FreeSeatSection) => {
+  const onSubmit = useCallback((payload: FreeSeatSection) => {
     const data = {
-      ticketCategory: payload.ticket_type.concat('ed'),
-      groupedTicket: [
-        {
-          groupedTicketType: payload.seat_type,
-          ticketName: payload.ticket_name,
-          ticketCategory: payload.ticket_category,
-          ticketQuantity: payload.ticket_quantity,
-          startDate: payload.start_date,
-          startTime: payload.start_time,
-          endDate: payload.end_date,
-          endTime: payload.end_time,
-          ticketPeaks: payload.ticket_perks,
-          seatMap: payload.label_image,
-          color: payload.label_color,
-        },
-      ],
+      groupedTicketType: payload.seat_type,
+      ticketName: payload.ticket_name,
+      ticketCategory: payload.ticket_category,
+      ticketQuantity: payload.ticket_quantity,
+      startDate: payload.start_date,
+      startTime: payload.start_time,
+      endDate: payload.end_date,
+      endTime: payload.end_time,
+      ticketPeaks: payload.ticket_perks,
+      seatMap: payload.label_image ?? '',
+      color: payload.label_color ?? '',
     };
     mutate(data);
-    // handleReturnToList();
-
-    // form.reset({
-    //   seat_type: seatType,
-    //   ticket_type: selectTicket,
-    //   ticket_name: "",
-    //   ticket_category: "",
-    //   ticket_quantity: quantity,
-    //   start_date: new Date(),
-    //   end_date: new Date(),
-    //   start_time: "",
-    //   end_time: "",
-    //   ticket_perks: "",
-    // });
   }, []);
   return (
     <div>
@@ -518,7 +501,10 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
                   </FormItem>
                 )}
               />
-              <FormLabel htmlFor="file-input-thumbnail" className="mt-3 text-white font-pally-medium">
+              <FormLabel
+                htmlFor="file-input-thumbnail"
+                className="mt-3 text-white font-pally-medium"
+              >
                 Label Guide ( optional )
               </FormLabel>
             </FormItem>

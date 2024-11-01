@@ -1,6 +1,6 @@
-import { PUT_EVENT_ID } from "@/lib/constants";
+import { EVENT_GROUP } from "@/lib/constants";
 import { getToken } from "@/lib/token";
-import { EventGroupPaidType } from "@/lib/types/EventType";
+import { GroupPaidType } from "@/lib/types/EventType";
 import axios, { AxiosResponse } from "axios";
 
 type StepsixResponse = {
@@ -10,12 +10,12 @@ type StepsixResponse = {
 };
 
 export const EventGroupPaid = async (
-  data: EventGroupPaidType
+  data: GroupPaidType
 ): Promise<StepsixResponse> => {
   const token = getToken();
   try {
-    const response: AxiosResponse<StepsixResponse> = await axios.put(
-      PUT_EVENT_ID,
+    const response: AxiosResponse<StepsixResponse> = await axios.post(
+      EVENT_GROUP,
       data,
       {
         headers: {

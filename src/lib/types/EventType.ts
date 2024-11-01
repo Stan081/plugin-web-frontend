@@ -176,25 +176,21 @@ export type EventEntryDonationType = {
 
 /* ----------------------*/
 
-type GroupPaidType = {
-  groupedTicketType: string;
-  ticketName: string;
-  ticketCategory: string;
-  ticketQuantity: number;
-  ticketPrice: number;
-  startDate: Date;
-  startTime: string;
-  endDate: Date;
-  endTime: string;
-  ticketPeaks: string;
-  seatMap: string;
-  color: string;
+export type GroupPaidType = {
+  groupedTicketType?: string;
+  ticketName?: string;
+  ticketCategory?: string;
+  ticketQuantity?: number;
+  ticketPrice?: number;
+  startDate?: Date;
+  startTime?: string;
+  endDate?: Date;
+  endTime?: string;
+  ticketPeaks?: string;
+  seatMap?: string;
+  color?: string;
 };
 
-export type EventGroupPaidType = {
-  ticketCategory: string;
-  groupedTicket: GroupPaidType;
-};
 
 /* ----------------------*/
 

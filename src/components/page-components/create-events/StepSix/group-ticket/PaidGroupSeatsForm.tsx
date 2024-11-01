@@ -43,14 +43,13 @@ import { extractColors } from "extract-colors";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { EventGroupPaid } from "@/pages/api/mutate/create-events/EventGroupPaid";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "@/tw-components/spinner";
 
 interface PaidGroupSeatsFormProps extends GroupSeatProps {}
 
 const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
   handleReturnToList,
-  handleCreateVendor,
 }) => {
   const [quantity, setQuantity] = useState<number>(null);
   const { selectTicket, seatType } = useCreateEventContext();
@@ -113,15 +112,9 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
     form.setValue("ticket_type", selectTicket);
   }, [selectTicket, form.setValue]);
 
-  useEffect(() => {
-    form.setValue("ticket_quantity", quantity);
-  }, [quantity, form.setValue]);
-
-  useEffect(() => {
-    form.setValue("ticket_price", ticketPrice);
-  }, [ticketPrice, form.setValue]);
-
   const { toast } = useToast();
+
+  const client = useQueryClient();
 
   // Handle image upload for banner
   const handleImageUpload = async (
@@ -175,6 +168,8 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
           title: "Paid group ticket has been added",
           description: `${response?.message}`,
         });
+        client.invalidateQueries({ queryKey: ["groupEvents"] })
+        handleReturnToList();
       }
     },
     onError: (error: any) => {
@@ -186,42 +181,22 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
     },
   });
 
-  const onSubmit = useCallback(async (payload: PaidSeatSection) => {
+  const onSubmit = useCallback((payload: PaidSeatSection) => {
     const data = {
-      ticketCategory: payload.ticket_type.concat('ed'),
-      groupedTicket: [
-        {
-          groupedTicketType: payload.seat_type,
-          ticketName: payload.ticket_name,
-          ticketCategory: payload.ticket_category,
-          ticketQuantity: payload.ticket_quantity,
-          ticketPrice: payload.ticket_price,
-          startDate: payload.start_date,
-          startTime: payload.start_time,
-          endDate: payload.end_date,
-          endTime: payload.end_time,
-          ticketPeaks: payload.ticket_perks,
-          seatMap: payload.label_image,
-          color: payload.label_color,
-        },
-      ],
+      groupedTicketType: payload.seat_type,
+      ticketName: payload.ticket_name,
+      ticketCategory: payload.ticket_category,
+      ticketQuantity: payload.ticket_quantity,
+      ticketPrice: payload.ticket_price,
+      startDate: payload.start_date,
+      startTime: payload.start_time,
+      endDate: payload.end_date,
+      endTime: payload.end_time,
+      ticketPeaks: payload.ticket_perks,
+      seatMap: payload.label_image,
+      color: payload.label_color,
     };
     mutate(data);
-    // handleReturnToList();
-
-    // form.reset({
-    //  .ticket_type: seatType,
-    //   ticket_type: selectTicket,
-    //   ticket_name: "",
-    //   ticket_category: "",
-    //   ticket_quantity: quantity,
-    //   ticket_price: ticketPrice,
-    //   start_date: new Date(),
-    //   end_date: new Date(),
-    //   start_time: "",
-    //   end_time: "",
-    //   ticket_perks: "",
-    // });
   }, []);
 
   return (

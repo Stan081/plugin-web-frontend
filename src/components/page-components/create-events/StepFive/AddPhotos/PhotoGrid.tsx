@@ -1,5 +1,4 @@
 import React, { useState, useRef, useCallback } from "react";
-import { useForm } from "react-hook-form";
 import { IoMdImages } from "react-icons/io";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { useCreateEventContext } from "@/providers/create_event.provider";
