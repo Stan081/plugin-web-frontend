@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useCreateEventContext } from "@/providers/create_event.provider";
 import { GrFormCheckmark } from "react-icons/gr";
 import RefundPolicy from "./RefundPolicy";
 import { pageContents, PageContentsType } from "@/static-datas/create-event";
@@ -26,13 +25,14 @@ import { useGetEventAgenda } from "@/hooks/events/useGetEventAgendas";
 import { useGetEventVendors } from "@/hooks/events/useGetEventVendors";
 import { useGetEventGuests } from "@/hooks/events/useGetEventGuests";
 import { useGetEventPhotos } from "@/hooks/events/useGetEventPhotos";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   const { data: allAgenda } = useGetEventAgenda();
   const { data: allVendor } = useGetEventVendors();
   const { data: allGuests } = useGetEventGuests();
   const { data: allPhotos } = useGetEventPhotos();
-  const { isChecked, handleIsChecked } = useCreateEventContext();
+  const { data: eventById } = useGetEvent();
   const [changePageContent, setChangePageContent] = useState<PageContentsType>({
     id: "item-1",
     introTitle: "Outline the schedule of activities for your event.",
@@ -43,6 +43,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   });
 
   const { toast } = useToast();
+  console.log(eventById?.data)
 
   const handlePageContentChange = (id: string) => {
     const getClickedAccordion = pageContents.find((page) => page.id === id);
@@ -58,7 +59,6 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
           title: "Policy has been submitted!",
           description: `${response?.message}`,
         });
-        handleIsChecked("refundPolicy");
         next();
       }
     },
@@ -73,7 +73,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
 
   const handleSubmit = useCallback(() => {
     const data = {
-      refundPolicyAgreed: isChecked.refundPolicy,
+      refundPolicyAgreed: true,
     };
     mutate(data);
   }, []);
@@ -197,7 +197,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
               >
                 <AccordionTrigger>
                   <div className="flex justify-start items-center gap-4">
-                    {!isChecked.refundPolicy ? (
+                    {!eventById?.data?.refundPolicyAgreed ? (
                       <div className="border border-white rounded-full h-4 w-4" />
                     ) : (
                       <div className="bg-green-600 rounded-full p-0.5">
@@ -232,7 +232,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                   </Button>
 
                   <Button
-                    disabled={!isChecked.refundPolicy || isPending}
+                    disabled={ isPending}
                     onClick={handleSubmit}
                     variant="destructive"
                   >
