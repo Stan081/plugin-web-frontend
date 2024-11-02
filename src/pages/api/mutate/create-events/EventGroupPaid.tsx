@@ -15,7 +15,7 @@ export const EventGroupPaid = async (
   const token = getToken();
   try {
     const response: AxiosResponse<StepsixResponse> = await axios.post(
-      EVENT_GROUP,
+      EVENT_GROUP(),
       data,
       {
         headers: {

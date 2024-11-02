@@ -15,7 +15,7 @@ export const EventEntryFree = async (
   const token = getToken();
   try {
     const response: AxiosResponse<StepSixResponse> = await axios.put(
-      PUT_EVENT_ID,
+      PUT_EVENT_ID(),
       data,
       {
         headers: {

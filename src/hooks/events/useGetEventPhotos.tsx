@@ -17,7 +17,7 @@ export const useGetEventPhotos = () => {
     queryKey: ["eventPhotos"],
     queryFn: () =>
       axios
-        .get(EVENT_PHOTO, options)
+        .get(EVENT_PHOTO(), options)
         .then((res) => res?.data)
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling

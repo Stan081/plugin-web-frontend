@@ -17,7 +17,7 @@ export const useGetEvent = () => {
     queryKey: ["eventById"],
     queryFn: () =>
       axios
-        .get(PUT_EVENT_ID, options)
+        .get(PUT_EVENT_ID(), options)
         .then((res) => res?.data)
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling

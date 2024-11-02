@@ -9,9 +9,8 @@ import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const Side1 = () => {
-  const [showMore, setShowMore] = useState<boolean>(false);
+  // const [showMore, setShowMore] = useState<boolean>(false);
   const { data: eventData, isLoading } = useGetEvent();
-  const huj: string = "bjfjndue884";
   return (
     <div className="w-full lg:w-2/5 px-4 lg:px-0">
       {isLoading && <SpinnerOverlay />}
@@ -23,7 +22,7 @@ const Side1 = () => {
         <div className="mt-5 lg:mt-0 flex flex-row lg:flex-col items-start gap-5">
           <div className="md:border-4 lg:mt-4 border-[#FBD4D1] rounded-md w-24 h-24 lg:w-3/5 lg:h-56">
             <Image
-              src={eventData?.data?.thumbnail}
+              src={eventData?.data?.thumbnail ?? '/images/blue-bg.png'}
               width={487}
               height={270}
               alt="koo"

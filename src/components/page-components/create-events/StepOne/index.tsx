@@ -30,6 +30,7 @@ import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMe } from "@/pages/api/query/me";
 import { useEditProfileRole } from "@/hooks/useEditProfileRole";
+import { PUT_EVENT_ID } from "@/lib/constants";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -167,7 +168,11 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
           description: `${response?.message}`,
         });
         next();
+        // Set the cookie here
         setCookie("event_id", response?.data?._id);
+        
+        // Log the endpoint after setting the cookie to confirm
+        console.log(PUT_EVENT_ID);
       }
     },
     onError: (error: any) => {
@@ -180,8 +185,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
   });
 
   const { mutate: mutateRole } = useEditProfileRole();
-
-  const getEvtID = getCookie("event_id");
 
   const onSubmit = useCallback(
     (payload: EventStepOne) => {
@@ -198,12 +201,11 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
         mutateRole(roleData);
       }
 
-      if (getEvtID) {
+      // Ensure `event_id` is removed before setting a new one
+      if (getCookie("event_id")) {
         removeCookie("event_id");
-      } else {
-        mutate(data);
-        // console.log('working')
       }
+      mutate(data);
     },
     [mutateRole, userData]
   );

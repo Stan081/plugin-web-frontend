@@ -17,7 +17,7 @@ export const EditEventGroup = async (
   const id: string = String(GroupTicketID);
   try {
     const response: AxiosResponse<StepSixResponse> = await axios.patch(
-      EVENT_GROUP + `/${id}`,
+      EVENT_GROUP() + `/${id}`,
       data,
       {
         headers: {

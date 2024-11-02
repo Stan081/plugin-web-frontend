@@ -15,7 +15,7 @@ export const EventGuestList = async (
   const token = getToken();
   try {
     const response: AxiosResponse<StepFiveResponse> = await axios.post(
-      EVENT_GUEST,
+      EVENT_GUEST(),
       data,
       {
         headers: {

@@ -83,7 +83,6 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({
         zipcode: String(payload?.zipcode),
       },
     };
-    console.log(data);
     mutate(data);
   }, []);
 

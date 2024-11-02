@@ -17,7 +17,7 @@ export const useGetGroupEvent = () => {
     queryKey: ["groupEvents"],
     queryFn: () =>
       axios
-        .get(EVENT_GROUP, options)
+        .get(EVENT_GROUP(), options)
         .then((res) => res?.data)
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling

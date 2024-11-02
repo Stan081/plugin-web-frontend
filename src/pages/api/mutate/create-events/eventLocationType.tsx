@@ -15,7 +15,7 @@ export const EventPhysicalLocation = async (
   const token = getToken();
   try {
     const response: AxiosResponse<StepFourResponse> = await axios.put(
-        PUT_EVENT_ID,
+        PUT_EVENT_ID(),
       data,
       {
         headers: {
@@ -36,7 +36,7 @@ export const EventOnlineLocation = async (
   const token = getToken();
   try {
     const response: AxiosResponse<StepFourResponse> = await axios.put(
-        PUT_EVENT_ID,
+        PUT_EVENT_ID(),
       data,
       {
         headers: {
