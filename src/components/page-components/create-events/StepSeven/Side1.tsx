@@ -13,11 +13,11 @@ const Side1 = () => {
   const [showMore, setShowMore] = useState<boolean>(false);
   const { data: eventData, isLoading } = useGetEvent();
 
-  const startDate =
+  const startDate: string =
     eventData?.data?.oneTimeEvent?.startDate ||
     eventData?.data?.recurringEvent?.startDate;
 
-  const startTime =
+  const startTime: string =
     eventData?.data?.oneTimeEvent?.startTime ||
     eventData?.data?.recurringEvent?.startTime;
 
@@ -30,17 +30,18 @@ const Side1 = () => {
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
 
-  const [hour, minute] = startTime.split(":");
+  const [hour, minute] = startTime ? startTime.split(":") : ["00", "00"];
   const formattedTime = new Date(
-    0,
-    0,
-    0,
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
     Number(hour),
     Number(minute)
   ).toLocaleTimeString("en-GB", {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
+    timeZone: "UTC", // Ensures consistent timezone rendering
   });
   return (
     <div className="w-full lg:w-2/5 px-4 lg:px-0">
@@ -63,7 +64,6 @@ const Side1 = () => {
 
           <div className="w-full max-w-xl">
             <p className="font-pally-medium text-lg lg:text-xl text-[#2F231B] mb-1">
-              {/* {getEvent?.data?.eventName} */}
               {eventData?.data?.eventName.slice(0, 1).toLocaleUpperCase() +
                 eventData?.data?.eventName.slice(1)}
             </p>
