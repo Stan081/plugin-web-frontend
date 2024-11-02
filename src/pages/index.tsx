@@ -8,11 +8,8 @@ import PopularEvent from "@/components/page-components/homepage/popularEvent";
 import TopLocation from "@/components/page-components/homepage/topLocations";
 import OurCustomers from "@/components/OurCustomers";
 import Layout from "@/components/layout";
-import { getToken } from "@/lib/token";
 
 export default function Home() {
-  const gen = getToken();
-  console.log(gen)
   return (
     <Layout title="Welcome to Plugin" showHeader showFooter>
       <HeroSection />

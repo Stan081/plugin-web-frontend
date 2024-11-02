@@ -167,7 +167,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
           description: `${response?.message}`,
         });
         next();
-        refetchEventID("event_id", response?.data?._id);
+        setCookie("event_id", response?.data?._id);
       }
     },
     onError: (error: any) => {
@@ -181,9 +181,12 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
 
   const { mutate: mutateRole } = useEditProfileRole();
 
+  const getEvtID = getCookie("event_id");
+
   const onSubmit = useCallback(
     (payload: EventStepOne) => {
       const data = {
+        userId: userData?.data?._id,
         eventBanner: payload?.event_banner,
         thumbnail: payload?.event_thumbnail,
         eventName: payload?.event_name,
@@ -195,7 +198,12 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
         mutateRole(roleData);
       }
 
-      mutate(data);
+      if (getEvtID) {
+        removeCookie("event_id");
+      } else {
+        mutate(data);
+        // console.log('working')
+      }
     },
     [mutateRole, userData]
   );

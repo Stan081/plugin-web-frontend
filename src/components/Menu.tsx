@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { RiArrowDownSLine } from "react-icons/ri";
@@ -11,6 +12,8 @@ import { Separator } from "./ui/separator";
 import { LuLayoutGrid } from "react-icons/lu";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
+import { useMe } from "@/pages/api/query/me";
+import Spinner from "@/tw-components/spinner";
 
 const items = [
   {
@@ -42,16 +45,21 @@ const items = [
 
 const MenuLinks = () => {
   const { user, logout } = useUserDashContext();
+  const { isLoading } = useMe();
   return (
     <Popover>
       <PopoverTrigger>
-        <div className="flex justify-start items-center">
-          <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
-            {`${user?.name?.firstname.slice(0, 1)}` +
-              `${user?.name?.lastname.slice(0, 1)}`}
-          </p>
-          <RiArrowDownSLine className="ml-2" />
-        </div>
+        {!isLoading ? (
+          <div className="flex justify-start items-center">
+            <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
+              {`${user?.name?.firstname.slice(0, 1)}` +
+                `${user?.name?.lastname.slice(0, 1)}`}
+            </p>
+            <RiArrowDownSLine className="ml-2" />
+          </div>
+        ) : (
+          <Spinner />
+        )}
       </PopoverTrigger>
       <PopoverContent className="bg-white flex flex-col gap-2">
         <div className="my-2 space-y-1">

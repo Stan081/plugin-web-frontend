@@ -8,10 +8,11 @@ import { setToken } from "@/lib/token";
 import { VerifyLoginCode } from "@/pages/api/mutate/Login";
 import { getCookie } from "@/lib/cookies";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const OTPLoginVerification = () => {
   const [otp, setOtp] = useState<string>("");
-  const {setShouldRedirect} = useUserDashContext()
+  const { setShouldRedirect } = useUserDashContext();
 
   const router = useRouter();
 
@@ -20,12 +21,12 @@ const OTPLoginVerification = () => {
 
   const client = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: VerifyCodeType) => VerifyLoginCode(data),
     onSuccess: (response) => {
       setToken(response?.token);
       client.invalidateQueries({ queryKey: ["me"] });
-      client.refetchQueries({queryKey: ["me"]}); 
+      client.refetchQueries({ queryKey: ["me"] });
       toast({
         variant: "success",
         title: "Verified",
@@ -50,13 +51,14 @@ const OTPLoginVerification = () => {
         code: otp,
       };
       mutate(data);
-      setShouldRedirect(true)
+      setShouldRedirect(true);
     },
     [mutate]
   );
 
   return (
     <div className="mt-6">
+      {isPending && <SpinnerOverlay />}
       <p className="text-sm font-pally-regular mb-2 text-[#98A2B3]">
         Verification Code
       </p>
