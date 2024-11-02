@@ -92,7 +92,7 @@ const SignupAuth = () => {
     <div>
       <Form {...form}>
         <form
-          onClick={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-4 my-5"
         >
           <FormItem className="w-full">

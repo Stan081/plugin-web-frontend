@@ -1,3 +1,4 @@
+"use client"
 import {
   Form,
   FormControl,
@@ -9,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { LoginFields, LoginSchema } from "@/models/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useCallback, useMemo, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -30,9 +31,8 @@ const LoginAuth = () => {
     resolver: yupResolver(LoginSchema),
   });
 
-  //  initialise router
+  // Initialise router
   const router = useRouter();
-
   const { toast } = useToast();
 
   const { mutate, isPending } = useMutation({
@@ -44,7 +44,6 @@ const LoginAuth = () => {
           title: "Verify OTP",
           description: `${response?.message}`,
         });
-
         router.push("/verify-login");
       }
     },
@@ -57,22 +56,26 @@ const LoginAuth = () => {
     },
   });
 
-  const onSubmit = useCallback((payload: LoginFields) => {
+  const onSubmit = (payload: LoginFields) => {
     setCookie("email", payload.email);
+    console.log(payload);
     const data = {
       email: payload.email,
     };
     mutate(data);
-  }, []);
+  };
+
   return (
     <div>
       <Form {...form}>
         <form
-          onClick={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-4 my-5"
         >
           <FormItem className="w-full">
-            <FormLabel className="text-white">Email address</FormLabel>
+            <FormLabel className="text-white" htmlFor="email_address">
+              Email address
+            </FormLabel>
             <FormField
               control={form.control}
               name="email"
@@ -82,9 +85,8 @@ const LoginAuth = () => {
                     <Input
                       placeholder="youraddress@email.com"
                       type="text"
-                      autoCorrect="off"
                       id="email_address"
-                      className="w-full bg-white font-pally-regular"
+                      className="w-full bg-white text-black font-pally-regular"
                       {...field}
                     />
                   </FormControl>
