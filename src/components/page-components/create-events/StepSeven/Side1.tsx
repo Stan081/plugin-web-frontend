@@ -5,11 +5,16 @@ import { IoCalendarOutline } from "react-icons/io5";
 import { HiOutlineClock } from "react-icons/hi2";
 import { SlLocationPin } from "react-icons/sl";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const Side1 = () => {
   const [showMore, setShowMore] = useState<boolean>(false);
+  const { data: eventData, isLoading } = useGetEvent();
+  const huj: string = "bjfjndue884";
   return (
     <div className="w-full lg:w-2/5 px-4 lg:px-0">
+      {isLoading && <SpinnerOverlay />}
       <Logo />
       <div className="flex flex-col justify-between md:space-y-5 mt-6 ">
         <h1 className="text-[#020912] font-pally-regular text-xl md:text-3xl w-full md:max-w-xl md:leading-tight">
@@ -18,7 +23,7 @@ const Side1 = () => {
         <div className="mt-5 lg:mt-0 flex flex-row lg:flex-col items-start gap-5">
           <div className="md:border-4 lg:mt-4 border-[#FBD4D1] rounded-md w-24 h-24 lg:w-3/5 lg:h-56">
             <Image
-              src={"/images/blue-bg.png"}
+              src={eventData?.data?.thumbnail}
               width={487}
               height={270}
               alt="koo"
@@ -28,13 +33,13 @@ const Side1 = () => {
 
           <div className="w-full max-w-xl">
             <p className="font-pally-medium text-lg lg:text-xl text-[#2F231B] mb-1">
-              Sip ‘n’ Paint with WakkyTails
+              {/* {getEvent?.data?.eventName} */}
+              {eventData?.data?.eventName.slice(0, 1).toLocaleUpperCase() +
+                eventData?.data?.eventName.slice(1)}
             </p>
             <p className="font-pally-regular text-sm lg:text-lg text-[#2F231B]">
-              Join us for Sip 'n' Paint with Wakkytails at Uyai at Dusk! Enjoy a
-              creative evening of painting and sipping exquisite cocktails.
-              Perfect for all skill levels, come relax and unleash your inner
-              artist!
+              {eventData?.data?.eventDescription.slice(0, 1).toLocaleUpperCase() +
+                eventData?.data?.eventDescription.slice(1)}
             </p>
           </div>
         </div>
@@ -56,12 +61,18 @@ const Side1 = () => {
           </li>
         </ul>
 
-        <p
+        {/* <p
           onClick={() => setShowMore(!showMore)}
           className="text-sm font-pally-medium text-[#475367] flex items-center gap-2"
         >
           {showMore ? "Show less" : "Show more"}{" "}
-          <span>{showMore ? <RiArrowUpSLine size={17} /> : <RiArrowDownSLine  size={17}/>}</span>
+          <span>
+            {showMore ? (
+              <RiArrowUpSLine size={17} />
+            ) : (
+              <RiArrowDownSLine size={17} />
+            )}
+          </span>
         </p>
 
         {showMore && (
@@ -81,7 +92,7 @@ const Side1 = () => {
               </p>
             </li>
           </ul>
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -181,9 +181,10 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
 
   const { mutate: mutateRole } = useEditProfileRole();
 
+  const getEvtID = getCookie("event_id");
+
   const onSubmit = useCallback(
     (payload: EventStepOne) => {
-      console.log(userData?.data)
       const data = {
         userId: userData?.data?._id,
         eventBanner: payload?.event_banner,
@@ -197,11 +198,11 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
         mutateRole(roleData);
       }
 
-      const getEvtID = getCookie("event_id");
       if (getEvtID) {
         removeCookie("event_id");
       } else {
         mutate(data);
+        // console.log('working')
       }
     },
     [mutateRole, userData]

@@ -22,8 +22,8 @@ export const useGetEventAgenda = () => {
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling
         }),
-    retry: true, 
-    refetchOnWindowFocus: false,
-    refetchOnMount: true, 
+    // retry: true, 
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: true, 
   });
 };
