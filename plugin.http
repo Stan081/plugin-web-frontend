@@ -427,7 +427,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliM
 
 ### Get Event by Id
 
-GET http://pluginapi.onrender.com/api/event/67265b05933ca581879c6169
+GET http://pluginapi.onrender.com/api/event/67266f1d933ca581879c6340
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDgyNDliMWYxZmQxODhkNjNlNGI0MCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzA1NTkzMjUsImV4cCI6MTczMzE1MTMyNX0.CWmNySvewgm6liXQCavS5IRysE_HslbwrGegFQjlMbg
 

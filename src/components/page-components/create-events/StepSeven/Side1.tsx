@@ -1,3 +1,4 @@
+"use client";
 import Logo from "@/components/Logo";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -9,8 +10,38 @@ import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const Side1 = () => {
-  // const [showMore, setShowMore] = useState<boolean>(false);
+  const [showMore, setShowMore] = useState<boolean>(false);
   const { data: eventData, isLoading } = useGetEvent();
+
+  const startDate =
+    eventData?.data?.oneTimeEvent?.startDate ||
+    eventData?.data?.recurringEvent?.startDate;
+
+  const startTime =
+    eventData?.data?.oneTimeEvent?.startTime ||
+    eventData?.data?.recurringEvent?.startTime;
+
+  const date = new Date(startDate);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  };
+
+  const formattedDate = date.toLocaleDateString("en-GB", options);
+
+  const [hour, minute] = startTime.split(":");
+  const formattedTime = new Date(
+    0,
+    0,
+    0,
+    Number(hour),
+    Number(minute)
+  ).toLocaleTimeString("en-GB", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
   return (
     <div className="w-full lg:w-2/5 px-4 lg:px-0">
       {isLoading && <SpinnerOverlay />}
@@ -22,7 +53,7 @@ const Side1 = () => {
         <div className="mt-5 lg:mt-0 flex flex-row lg:flex-col items-start gap-5">
           <div className="md:border-4 lg:mt-4 border-[#FBD4D1] rounded-md w-24 h-24 lg:w-3/5 lg:h-56">
             <Image
-              src={eventData?.data?.thumbnail ?? '/images/blue-bg.png'}
+              src={eventData?.data?.thumbnail ?? "/images/blue-bg.png"}
               width={487}
               height={270}
               alt="koo"
@@ -37,7 +68,9 @@ const Side1 = () => {
                 eventData?.data?.eventName.slice(1)}
             </p>
             <p className="font-pally-regular text-sm lg:text-lg text-[#2F231B]">
-              {eventData?.data?.eventDescription.slice(0, 1).toLocaleUpperCase() +
+              {eventData?.data?.eventDescription
+                .slice(0, 1)
+                .toLocaleUpperCase() +
                 eventData?.data?.eventDescription.slice(1)}
             </p>
           </div>
@@ -46,11 +79,11 @@ const Side1 = () => {
         <ul className="space-y-2 hidden lg:block">
           <li className="flex gap-3 items-center">
             <IoCalendarOutline color="#D9302A" size={20} />
-            <p className="font-pally-regular text-[#344054]">Sat, Sept 17</p>
+            <p className="font-pally-regular text-[#344054]">{formattedDate}</p>
           </li>
           <li className="flex gap-3 items-center">
             <HiOutlineClock color="#D9302A" size={20} />
-            <p className="font-pally-regular text-[#344054]">17, 10:00AM</p>
+            <p className="font-pally-regular text-[#344054]">{formattedTime}</p>
           </li>
           <li className="flex gap-3 items-center">
             <SlLocationPin color="#D9302A" size={20} />
@@ -60,9 +93,9 @@ const Side1 = () => {
           </li>
         </ul>
 
-        {/* <p
+        <p
           onClick={() => setShowMore(!showMore)}
-          className="text-sm font-pally-medium text-[#475367] flex items-center gap-2"
+          className="mt-4 md:hidden text-sm font-pally-medium text-[#475367] flex items-center gap-2"
         >
           {showMore ? "Show less" : "Show more"}{" "}
           <span>
@@ -78,11 +111,15 @@ const Side1 = () => {
           <ul className="space-y-2">
             <li className="flex gap-3 items-center">
               <IoCalendarOutline color="#D9302A" size={20} />
-              <p className="font-pally-regular text-[#344054]">Sat, Sept 17</p>
+              <p className="font-pally-regular text-[#344054]">
+                {formattedDate}
+              </p>
             </li>
             <li className="flex gap-3 items-center">
               <HiOutlineClock color="#D9302A" size={20} />
-              <p className="font-pally-regular text-[#344054]">17, 10:00AM</p>
+              <p className="font-pally-regular text-[#344054]">
+                {formattedTime}
+              </p>
             </li>
             <li className="flex gap-3 items-center">
               <SlLocationPin color="#D9302A" size={20} />
@@ -91,7 +128,7 @@ const Side1 = () => {
               </p>
             </li>
           </ul>
-        )} */}
+        )}
       </div>
     </div>
   );
