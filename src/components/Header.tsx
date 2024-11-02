@@ -9,6 +9,7 @@ import ListEventCard from "./ListEventLinks";
 import { NavigationDialog } from "./NavigationDialog";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import MenuLinks from "./Menu";
+import { useMe } from "@/pages/api/query/me";
 
 const Header = () => {
   const { user } = useUserDashContext();
@@ -40,7 +41,7 @@ const Header = () => {
               Help
             </Link>
 
-            {!user ? (
+            {!user? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
                   Get Started
@@ -51,7 +52,7 @@ const Header = () => {
             )}
           </div>
           <div className="md:hidden block">
-            {!user ? (
+            {!user? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
                   Get Started

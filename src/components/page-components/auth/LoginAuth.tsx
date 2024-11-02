@@ -57,7 +57,7 @@ const LoginAuth = () => {
     },
   });
 
-  const onSubmit = useCallback(async (payload: LoginFields) => {
+  const onSubmit = useCallback((payload: LoginFields) => {
     setCookie("email", payload.email);
     const data = {
       email: payload.email,
@@ -84,7 +84,6 @@ const LoginAuth = () => {
                       type="text"
                       autoCorrect="off"
                       id="email_address"
-                      disabled={isPending}
                       className="w-full bg-white font-pally-regular"
                       {...field}
                     />
