@@ -15,7 +15,7 @@ export const EventMedia = async (
   const token = getToken();
   try {
     const response: AxiosResponse<StepFiveResponse> = await axios.put(
-      PUT_EVENT_ID,
+      PUT_EVENT_ID(),
       data,
       {
         headers: {

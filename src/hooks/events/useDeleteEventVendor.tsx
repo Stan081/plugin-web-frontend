@@ -12,7 +12,7 @@ export const useDeleteVendor = () => {
 
   return useMutation({
     mutationFn: ({ vendorId }: { vendorId: number }) => {
-      const url = EVENT_VENDOR + `/${vendorId}`;
+      const url = EVENT_VENDOR() + `/${vendorId}`;
       return axios.delete(url, {
         headers: {
           Accept: "application/json",

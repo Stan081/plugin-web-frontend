@@ -17,7 +17,7 @@ export const useGetEventGuests = () => {
     queryKey: ["eventGuests"],
     queryFn: () =>
       axios
-        .get(EVENT_GUEST, options)
+        .get(EVENT_GUEST(), options)
         .then((res) => res?.data)
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling

@@ -15,7 +15,7 @@ export const EventGroupFree = async (
   const token = getToken();
   try {
     const response: AxiosResponse<StepSixResponse> = await axios.post(
-      EVENT_GROUP,
+      EVENT_GROUP(),
       data,
       {
         headers: {

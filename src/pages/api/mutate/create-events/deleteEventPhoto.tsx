@@ -15,7 +15,7 @@ export const DeleteEventPhoto = async (data: {
 
   try {
     const response: AxiosResponse<StepFiveResponse> = await axios.delete(
-      DELETE_EVENT_PHOTO,
+      DELETE_EVENT_PHOTO(),
       {
         headers: {
           Authorization: `Bearer ${token}`,

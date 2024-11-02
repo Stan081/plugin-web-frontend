@@ -9,7 +9,7 @@ export interface InputProps
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, loading, type, value, onChange, ...props }, ref) => {
+  ({ className, loading, type, value = '', onChange, ...props }, ref) => {
     if (loading) return <Skeleton className="w-[200px] h-3" />;
     return (
       <input
@@ -26,6 +26,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
+
 Input.displayName = 'Input';
 
 export { Input };

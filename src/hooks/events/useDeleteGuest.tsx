@@ -12,7 +12,7 @@ export const useDeleteGuest = () => {
 
   return useMutation({
     mutationFn: ({ guestId }: { guestId: number }) => {
-      const url = EVENT_GUEST + `/${guestId}`;
+      const url = EVENT_GUEST() + `/${guestId}`;
       return axios.delete(url, {
         headers: {
           Accept: "application/json",

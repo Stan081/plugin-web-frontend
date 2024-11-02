@@ -17,7 +17,7 @@ export const EditEventVendor = async (
   const id: string = String(vendorID);
   try {
     const response: AxiosResponse<StepFiveResponse> = await axios.patch(
-      EVENT_VENDOR + `/${id}`,
+      EVENT_VENDOR() + `/${id}`,
       data,
       {
         headers: {

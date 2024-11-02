@@ -17,7 +17,7 @@ export const EditEventGuest = async (
   const id: string = String(guestID);
   try {
     const response: AxiosResponse<StepFiveResponse> = await axios.patch(
-      EVENT_GUEST + `/${id}`,
+      EVENT_GUEST() + `/${id}`,
       data,
       {
         headers: {
