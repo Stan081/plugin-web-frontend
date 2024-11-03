@@ -17,7 +17,7 @@ export interface StepsProps {
 }
 
 export default function Signup() {
-  const [currentStep, setCurrentStep] = useState<number>(7);
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const token = getToken();
   const router = useRouter();
 
