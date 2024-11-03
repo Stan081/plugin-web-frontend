@@ -227,3 +227,18 @@ export type EventPublishType = {
     startTime: string;
   };
 };
+
+/* ----------------------*/
+
+export type CreateOrganiserProfileType = {
+  userId: string;
+  banner: string;
+  thumbnail:string;
+  name:string;
+  tagline:string;
+  bio:string;
+  socials: {
+    facebook:string;
+    instagram: string;
+  }
+};

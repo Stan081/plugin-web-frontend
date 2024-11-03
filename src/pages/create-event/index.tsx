@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@/tw-components/container";
 import StepOne from "@/components/page-components/create-events/StepOne";
 import StepTwo from "@/components/page-components/create-events/StepTwo";
@@ -8,6 +8,8 @@ import StepFour from "@/components/page-components/create-events/StepFour";
 import StepFive from "@/components/page-components/create-events/StepFive";
 import StepSix from "@/components/page-components/create-events/StepSix";
 import StepSeven from "@/components/page-components/create-events/StepSeven";
+import { getToken } from "@/lib/token";
+import { useRouter } from "next/navigation";
 
 export interface StepsProps {
   next?: () => void;
@@ -15,7 +17,17 @@ export interface StepsProps {
 }
 
 export default function Signup() {
-  const [currentStep, setCurrentStep] = useState<number>(5);
+  const [currentStep, setCurrentStep] = useState<number>(7);
+  const token = getToken();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (token) {
+      return;
+    } else {
+      router.push("/login");
+    }
+  }, [router]);
 
   const nextStep = () => {
     setCurrentStep((prev) => prev + 1);
