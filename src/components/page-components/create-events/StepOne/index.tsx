@@ -147,16 +147,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     }
   };
 
-  // Modified refetchEventID with logging
-  const refetchEventID = (key: string, data: any) => {
-    const evtID = getCookie(key);
-
-    if (evtID) {
-      removeCookie(key);
-    } else {
-      setCookie(key, data);
-    }
-  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => EventBasicInfo(data),
@@ -170,9 +160,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
         next();
         // Set the cookie here
         setCookie("event_id", response?.data?._id);
-        
-        // Log the endpoint after setting the cookie to confirm
-        console.log(PUT_EVENT_ID);
       }
     },
     onError: (error: any) => {

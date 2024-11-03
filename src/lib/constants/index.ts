@@ -16,6 +16,8 @@ export const GET_USER_URL: string = `${API_URL}/auth/me`;
 
 export const EVENT_BASIC_INFO_URL: string = `${API_URL}/event`;
 
+export const ORGANISER_PROFILE: string = `${API_URL}/organizers`
+
 export const PUT_EVENT_ID = (): string => {
   const eventId = getCookie("event_id");
   return `${API_URL}/event/${eventId}`;
@@ -50,7 +52,9 @@ export const DELETE_EVENT_PHOTO = (): string => {
     const eventId = getCookie("event_id");
   return `${API_URL}/event/${eventId}/photo`;
 };
+
 export const EVENT_GROUP = (): string => {
     const eventId = getCookie("event_id");
   return `${API_URL}/event/${eventId}/groupedTickets`;
 };
+
