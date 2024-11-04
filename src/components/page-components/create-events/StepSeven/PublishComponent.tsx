@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import {
   Form,
   FormControl,
@@ -24,7 +24,7 @@ import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
 import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
-const PublishComponent = () => {
+const PublishComponent: FC<{ clearStep: () => void }> = ({ clearStep }) => {
   const { data: userData } = useMe();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfileForm, setShowProfileForm] = useState<boolean>(false);
@@ -76,27 +76,35 @@ const PublishComponent = () => {
     },
   });
 
-  const onSubmit = useCallback(async (payload: PublishForm) => {
-    const data = {
-      isPublished: payload.publishWhen,
-      publishStatus: payload?.event_visibility,
-      eventSchedule: {
-        startDate: payload?.schedulePublish.start_date ?? new Date(),
-        startTime: payload?.schedulePublish.start_time ?? "",
-      },
-    };
-    console.log(!userData?.data?.isOrganizer);
+  const onSubmit = (payload: PublishForm) => {
     if (!userData?.data?.isOrganizer) {
       return setShowProfileForm(!showProfileForm);
     }
-    mutate(data);
-    // console.log(data);
-  }, []);
+    if (payload?.publishWhen === true) {
+      const data = {
+        isPublished: payload.publishWhen,
+        publishStatus: payload?.event_visibility,
+      };
+      console.log(data, "True");
+      mutate(data);
+    } else {
+      const data = {
+        isPublished: payload.publishWhen,
+        publishStatus: payload?.event_visibility,
+        eventSchedule: {
+          startDate: payload?.schedulePublish.start_date,
+          startTime: payload?.schedulePublish.start_time,
+        },
+      };
+      mutate(data);
+    }
+  };
 
   return (
     <div>
       {showModal && (
         <CongratulationModal
+          clearStep={clearStep}
           open={showModal}
           close={() => setShowModal(!showModal)}
         />

@@ -45,7 +45,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
   const form = useForm<OneTimeForm>({
     mode: "all",
     defaultValues: {
-      start_date: new Date(),
+      start_date: null,
       start_time: "",
       end_date: null,
       end_time: "",

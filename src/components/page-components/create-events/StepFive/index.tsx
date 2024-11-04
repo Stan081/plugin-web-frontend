@@ -1,5 +1,6 @@
+"use client";
 import { StepsProps } from "@/pages/create-event";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import {
@@ -26,6 +27,7 @@ import { useGetEventVendors } from "@/hooks/events/useGetEventVendors";
 import { useGetEventGuests } from "@/hooks/events/useGetEventGuests";
 import { useGetEventPhotos } from "@/hooks/events/useGetEventPhotos";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
 const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   const { data: allAgenda } = useGetEventAgenda();
@@ -33,6 +35,10 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   const { data: allGuests } = useGetEventGuests();
   const { data: allPhotos } = useGetEventPhotos();
   const { data: eventById } = useGetEvent();
+  const [hydrated, setHydrated] = useState<boolean>(false);
+
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+
   const [changePageContent, setChangePageContent] = useState<PageContentsType>({
     id: "item-1",
     introTitle: "Outline the schedule of activities for your event.",
@@ -42,7 +48,16 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
     ],
   });
 
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
   const { toast } = useToast();
+
+  // Function to handle checkbox change
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+  };
 
   const handlePageContentChange = (id: string) => {
     const getClickedAccordion = pageContents.find((page) => page.id === id);
@@ -70,20 +85,23 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
     },
   });
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     const data = {
-      refundPolicyAgreed: true,
+      refundPolicyAgreed: isChecked,
     };
+    // console.log(data);
     mutate(data);
-  }, []);
+  };
 
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 h-full lg:h-screen">
       <div className="w-full lg:w-2/5  px-4 lg:px-0">
-        <Intro
-          contents={changePageContent.content}
-          title={changePageContent.introTitle}
-        />
+        {hydrated && (
+          <Intro
+            contents={changePageContent.content}
+            title={changePageContent.introTitle}
+          />
+        )}
       </div>
       <div className="w-full lg:w-3/5 bg-[#f0ded1]">
         <FormContainer formTitle="Event Details" currPosition={[100, 100, 0]}>
@@ -207,7 +225,10 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <RefundPolicy />
+                  <RefundPolicy
+                    isChecked={isChecked}
+                    handleCheckboxChange={handleCheckboxChange}
+                  />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -231,7 +252,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
                   </Button>
 
                   <Button
-                    disabled={ isPending}
+                    disabled={isPending || !isChecked}
                     onClick={handleSubmit}
                     variant="destructive"
                   >

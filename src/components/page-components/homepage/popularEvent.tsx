@@ -1,14 +1,25 @@
 "use client";
 
 import CardComponent from "@/components/CardComponent";
+import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import React, { useState } from "react";
 
 const PopularEvent = () => {
-  // Define state fo tab
   const [isActive, setIsActive] = useState<string>("physical");
+
+  const { data: events } = useGetAllEvents();
+
+  const now = new Date();
+
+  const publishedType = events?.data.filter((item) => {
+    const startDate = new Date(
+      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+    );
+    return item.isPublished === true && startDate > now;
+  });
 
   const tabLink = [
     { title: "Physical", key: "physical" },
@@ -45,7 +56,6 @@ const PopularEvent = () => {
                 </button>
               </li>
             ))}
-            
           </ul>
           <div
             id={`panel-${isActive}`}
@@ -54,7 +64,7 @@ const PopularEvent = () => {
             className="mt-6 md:mt-10 flex lg:flex-row gap-5 overflow-x-auto w-full pb-8"
           >
             {cardData.slice(0, 4).map((card) => (
-              <CardComponent key={card.id} {...card} />
+              <CardComponent key={card.id} card={card} />
             ))}
           </div>
         </Container>

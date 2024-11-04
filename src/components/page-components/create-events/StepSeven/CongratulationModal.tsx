@@ -7,7 +7,8 @@ import Link from "next/link";
 const CongratulationModal: FC<{
   open: boolean;
   close: (key: boolean) => void;
-}> = ({ open, close }) => {
+  clearStep: () => void;
+}> = ({ open, close , clearStep}) => {
   return (
     <div>
       <Dialog
@@ -36,6 +37,7 @@ const CongratulationModal: FC<{
                   <Link
                     href={`/organiser`}
                     className="flex justify-center mt-5"
+                    onClick={clearStep}
                   >
                     <Button variant="destructive">Manange Event</Button>
                   </Link>

@@ -41,9 +41,9 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
     defaultValues: {
       ticket_type: selectTicket,
       ticket_name: "",
-      ticket_quantity: 0,
+      ticket_quantity: null,
       reservation: "",
-      start_date: new Date(),
+      start_date: null,
       end_date: null,
       start_time: "",
       end_time: "",

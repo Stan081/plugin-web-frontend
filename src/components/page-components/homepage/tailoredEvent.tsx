@@ -9,12 +9,85 @@ import { cardData } from "@/static-datas/cards-data";
 import CardComponent from "@/components/CardComponent";
 import Link from "next/link";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
-import { UIitems } from "@/static-datas/tailored-data";
 
 const TailoredEvent: React.FC = () => {
-  const { data: events } = useGetAllEvents();
-  const [getPublished, setGetPublished] = useState<any[]>(events?.data);
+  const { data: events, isLoading } = useGetAllEvents();
 
+  const now = new Date();
+
+  const upcomingPublishedData = events?.data.filter((item) => {
+    const startDate = new Date(
+      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+    );
+    return item.isPublished === true && startDate > now;
+  });
+
+  const UIitems = [
+    {
+      id: 1,
+      label: "Concerts",
+      color: "bg-[rgba(255,84,3,0.05)] border-orange-500",
+      position: "top-0 right-20",
+      mobilePosition: "top-0 right-4",
+      rotate: [-8, 36, -8],
+    },
+    {
+      id: 2,
+      label: "Religion",
+      color: "bg-[#F6DDE5] border-[#FA7070]",
+      position: "top-28 left-10",
+      mobilePosition: "top-10 left-20",
+      rotate: [-13, 10, -13],
+    },
+    {
+      id: 3,
+      label: "Business",
+      color: "bg-[#E4E7EC] border-[#515A6A]",
+      position: "top-32 left-56",
+      mobilePosition: "top-32 right-10",
+      rotate: [40, -20, 40],
+    },
+    {
+      id: 4,
+      label: "Campaign",
+      color: "bg-[#E4EBFF] border-[#4D77FF]",
+      position: "top-64 left-32",
+      mobilePosition: "top-64 right-3",
+      rotate: [9, -30, 9],
+    },
+    {
+      id: 5,
+      label: "Others",
+      color: "bg-[rgba(255,84,3,0.05)] border-orange-500",
+      position: "top-0 left-20",
+      mobilePosition: "top-0 left-6",
+      rotate: [16, -8, 16],
+    },
+    {
+      id: 6,
+      label: "Parties",
+      color: "bg-[#E4EBFF] border-[#4D77FF]",
+      position: "top-28 right-80",
+      mobilePosition: "bottom-0 right-20",
+      rotate: [44, -20, 44],
+    },
+    {
+      id: 7,
+      label: "Hangout",
+      color: "bg-[#F6DDE5] border-[#FA7070]",
+      position: "top-32 left-40",
+      mobilePosition: "top-32 left-6",
+      rotate: [-16, 33, -16],
+    },
+    {
+      id: 8,
+      label: "Corporate",
+      color: "bg-[#E4E7EC] border-[#515A6A]",
+      position: "top-64 left-20",
+      mobilePosition: "top-64 left-4",
+      rotate: [9, -30, 9],
+    },
+  ];
 
   const variants = (num: number[]) => ({
     animate: {
@@ -46,6 +119,10 @@ const TailoredEvent: React.FC = () => {
       </Container>
     );
   };
+
+  if (isLoading) {
+    <p>loading...</p>;
+  }
 
   return (
     <Section id="our-tailored-events" className="isolate p-0">
@@ -104,9 +181,13 @@ const TailoredEvent: React.FC = () => {
         <Container className="mt-20 md:mt-40 overflow-auto px-4 md:px-0">
           <h2 className="text-3xl font-pally-medium mb-6">Upcoming Events</h2>
           <div className="flex lg:flex-row gap-6 overflow-x-auto scroll-smooth whitespace-nowrap w-full pb-8">
-            {events?.data.map((card) => (
-              <CardComponent key={card.id} card={card} />
-            ))}
+            {upcomingPublishedData?.length > 0 ? (
+              upcomingPublishedData.map((card) => (
+                <CardComponent key={card._id} card={card} />
+              ))
+            ) : (
+              <p>No published data</p>
+            )}
           </div>
         </Container>
       </div>

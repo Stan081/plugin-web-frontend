@@ -10,6 +10,7 @@ import StepSix from "@/components/page-components/create-events/StepSix";
 import StepSeven from "@/components/page-components/create-events/StepSeven";
 import { getToken } from "@/lib/token";
 import { useRouter } from "next/navigation";
+import { getCookie, removeCookie, setCookie } from "@/lib/cookies";
 
 export interface StepsProps {
   next?: () => void;
@@ -17,7 +18,10 @@ export interface StepsProps {
 }
 
 export default function CreateEvent() {
-  const [currentStep, setCurrentStep] = useState<number>(7);
+  const [currentStep, setCurrentStep] = useState<number>(() => {
+    const savedStep = getCookie("currentStep");
+    return savedStep ? Number(savedStep) : 1;
+  });
   const token = getToken();
   const router = useRouter();
 
@@ -29,6 +33,10 @@ export default function CreateEvent() {
     }
   }, [router]);
 
+  useEffect(() => {
+    setCookie("currentStep", currentStep.toString());
+  }, [currentStep]);
+
   const nextStep = () => {
     setCurrentStep((prev) => prev + 1);
   };
@@ -37,6 +45,13 @@ export default function CreateEvent() {
     if (currentStep > 1) {
       setCurrentStep((prev) => prev - 1);
     }
+  };
+
+  const clearStep = () => {
+    setTimeout(() => {
+      removeCookie("currentStep");
+      setCurrentStep(1);
+    }, 10000);
   };
 
   const renderStepContent = () => {
@@ -54,7 +69,7 @@ export default function CreateEvent() {
       case 6:
         return <StepSix next={nextStep} previous={previousStep} />;
       case 7:
-        return <StepSeven />;
+        return <StepSeven clearStep={clearStep} />;
       default:
         return;
     }

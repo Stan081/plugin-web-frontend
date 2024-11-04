@@ -96,7 +96,6 @@ const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
               >
                 Add Ticket
               </button>
-
             </div>
           </div>
         )
