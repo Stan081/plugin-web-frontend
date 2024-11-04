@@ -198,8 +198,12 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
         )}
       </div>
 
-      <div onClick={onSubmit} className="flex justify-end mt-4">
-        <Button variant="destructive" disabled={!uploadedPhotos.length}>
+      <div className="flex justify-end mt-4">
+        <Button
+          onClick={onSubmit}
+          variant="destructive"
+          disabled={!uploadedPhotos.length}
+        >
           {isPending ? <Spinner /> : "Save"}
         </Button>
       </div>

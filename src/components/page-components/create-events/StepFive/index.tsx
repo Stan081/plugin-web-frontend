@@ -43,7 +43,6 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
   });
 
   const { toast } = useToast();
-  console.log(eventById?.data)
 
   const handlePageContentChange = (id: string) => {
     const getClickedAccordion = pageContents.find((page) => page.id === id);

@@ -193,8 +193,8 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
       endDate: payload.end_date,
       endTime: payload.end_time,
       ticketPeaks: payload.ticket_perks,
-      seatMap: payload.label_image,
-      color: payload.label_color,
+      seatMap: payload?.label_image ?? '',
+      color: payload?.label_color ?? '',
     };
     mutate(data);
   }, []);

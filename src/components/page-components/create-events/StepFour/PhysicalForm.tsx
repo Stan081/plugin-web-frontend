@@ -80,9 +80,11 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({
         address: payload?.address,
         city: payload?.city,
         state: payload?.state,
+        country: payload?.country,
         zipcode: String(payload?.zipcode),
       },
     };
+    // console.log(data)
     mutate(data);
   }, []);
 

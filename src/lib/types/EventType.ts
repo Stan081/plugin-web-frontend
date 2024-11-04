@@ -216,15 +216,11 @@ export type EventGroupFreeType = {
 /* ----------------------*/
 
 export type EventPublishType = {
-  organizer: {
-    photo: string;
-    name: string;
-  };
-  isVisible: true;
-  publishStatus: string;
-  eventSchedule: {
-    startDate: Date;
-    startTime: string;
+  isVisible: boolean;
+  publishStatus?: string;
+  eventSchedule?: {
+    startDate?: Date;
+    startTime?: string;
   };
 };
 

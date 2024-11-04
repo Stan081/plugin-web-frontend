@@ -12,17 +12,13 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PublishForm, PublishFormSchema } from "@/models/create-event-schema";
-import { HiOutlineTrash } from "react-icons/hi2";
-import { FiEdit } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import CongratulationModal from "./CongratulationModal";
-import { uploadImage } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
-import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EventPublish } from "@/pages/api/mutate/create-events/EventPublish";
 import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
@@ -35,11 +31,12 @@ const PublishComponent = () => {
   const [selectedVisibility, setSelectedVisibility] =
     useState<string>("public");
   const [checkSchedule, setCheckSchedule] = useState<string>("now");
+
   const form = useForm<PublishForm>({
     mode: "all",
     defaultValues: {
       event_visibility: selectedVisibility,
-      publishWhen: true,
+      publishWhen: checkSchedule === "now" ? true : false,
       schedulePublish: {
         start_date: new Date(),
         start_time: "",
@@ -48,13 +45,13 @@ const PublishComponent = () => {
     resolver: yupResolver(PublishFormSchema),
   });
 
-  const publishWhen = form.watch("publishWhen");
-
   useEffect(() => {
     form.setValue("event_visibility", selectedVisibility);
   }, [selectedVisibility, form.setValue]);
 
   const { toast } = useToast();
+
+  const publishWhen = form.watch("publishWhen");
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => EventPublish(data),
@@ -81,18 +78,19 @@ const PublishComponent = () => {
 
   const onSubmit = useCallback(async (payload: PublishForm) => {
     const data = {
-      isVisible: true,
-      publishStatus: payload.publishWhen ? "yes" : "no",
+      isPublished: payload.publishWhen,
+      publishStatus: payload?.event_visibility,
       eventSchedule: {
-        startDate: payload.schedulePublish.start_date,
-        startTime: payload.schedulePublish.start_time,
+        startDate: payload?.schedulePublish.start_date ?? new Date(),
+        startTime: payload?.schedulePublish.start_time ?? "",
       },
     };
-    console.log(userData?.data?.isOrganizer)
+    console.log(!userData?.data?.isOrganizer);
     if (!userData?.data?.isOrganizer) {
       return setShowProfileForm(!showProfileForm);
     }
     mutate(data);
+    // console.log(data);
   }, []);
 
   return (

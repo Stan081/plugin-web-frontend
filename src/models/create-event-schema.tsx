@@ -271,19 +271,22 @@ const inviteeInformation = yup.object().shape({
 
 export const PublishFormSchema = yup.object().shape({
   event_visibility: yup.string().required(),
-  publishWhen: yup.boolean().required(),
-  schedulePublish: yup.object().shape({
-    start_date: yup.date().when("publishWhen", {
-      is: false,
-      then: (schema) => schema.required("Start date is required"),
-      otherwise: (schema) => schema.optional(),
-    }),
-    start_time: yup.string().when("publishWhen", {
-      is: false,
-      then: (schema) => schema.required("Start time is required"),
-      otherwise: (schema) => schema.optional(),
-    }),
-  }),
+  publishWhen: yup.boolean().optional(),
+  schedulePublish: yup
+    .object()
+    .shape({
+      start_date: yup.date().when("publishWhen", {
+        is: false,
+        then: (schema) => schema.optional(),
+        otherwise: (schema) => schema.optional(),
+      }),
+      start_time: yup.string().when("publishWhen", {
+        is: false,
+        then: (schema) => schema.optional(),
+        otherwise: (schema) => schema.optional(),
+      }),
+    })
+    .optional(),
 });
 
 const OrganiserProfileMedia = yup.object().shape({
