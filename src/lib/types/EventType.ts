@@ -155,6 +155,12 @@ export type EventEntryFreeType = {
 
 /* ----------------------*/
 
+export type EventTicketsType = {
+  ticketCategory: string;
+};
+
+/* ----------------------*/
+
 type EntryDonationType = {
   entryTicketType: string;
   ticketName: string;
@@ -190,7 +196,6 @@ export type GroupPaidType = {
   seatMap?: string;
   color?: string;
 };
-
 
 /* ----------------------*/
 
@@ -229,12 +234,12 @@ export type EventPublishType = {
 export type CreateOrganiserProfileType = {
   userId: string;
   banner: string;
-  thumbnail:string;
-  name:string;
-  tagline:string;
-  bio:string;
+  thumbnail: string;
+  name: string;
+  tagline: string;
+  bio: string;
   socials: {
-    facebook:string;
+    facebook: string;
     instagram: string;
-  }
+  };
 };

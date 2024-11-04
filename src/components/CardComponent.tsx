@@ -48,7 +48,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
 
   const getEntry = card?.entryTicket && card?.entryTicket?.ticketPrice;
 
-  console.log(getEntry);
+  console.log(getGroupPrice);
   return (
     <div className="w-full max-w-xs shrink-0 rounded-xl overflow-hidden bg-white border flex flex-col justify-between border-gray-200 ">
       <div className="relative">

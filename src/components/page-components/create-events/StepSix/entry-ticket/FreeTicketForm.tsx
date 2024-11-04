@@ -73,8 +73,8 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
     },
   });
 
-  const onSubmit = useCallback(async (payload: FreeTicket) => {    const data = {
-      ticketCategory: payload.ticket_type,
+  const onSubmit = useCallback((payload: FreeTicket) => {
+    const data = {
       entryTicket: {
         entryTicketType: entryTicket,
         ticketName: payload.ticket_name,

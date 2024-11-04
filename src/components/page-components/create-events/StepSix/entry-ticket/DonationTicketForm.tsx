@@ -78,10 +78,9 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
     },
   });
 
-  const onSubmit = useCallback(async (payload: DonationForm) => {
+  const onSubmit = useCallback((payload: DonationForm) => {
     console.log(payload);
     const data = {
-      ticketCategory: payload.ticket_type,
       entryTicket: {
         entryTicketType: entryTicket,
         ticketName: payload.ticket_name,
@@ -93,10 +92,9 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
         endDate: payload.end_date,
         endTime: payload.end_time,
         ticketPeaks: payload.ticket_perks,
-        // reservation: payload.
       },
     };
-    // mutate(data);
+    mutate(data);
   }, []);
   return (
     <div>

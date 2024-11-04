@@ -44,7 +44,7 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
             ) : selectTicket === "entry" ? (
               <EntryTicket next={next} previous={previous} />
             ) : (
-              selectTicket === "group" && (
+              selectTicket === "grouped" && (
                 <GroupTicket next={next} previous={previous} />
               )
             )}

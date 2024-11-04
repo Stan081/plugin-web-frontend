@@ -24,7 +24,6 @@ const PopularEvent = () => {
   const tabLink = [
     { title: "Physical", key: "physical" },
     { title: "Virtual", key: "virtual" },
-    { title: "Pre-sale", key: "pre-sale" },
   ];
 
   return (
