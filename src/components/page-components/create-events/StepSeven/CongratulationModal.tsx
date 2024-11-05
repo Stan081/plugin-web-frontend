@@ -1,5 +1,6 @@
-import React, { FC } from "react";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+"use client"
+import React, { FC, useEffect } from "react";
+import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -9,6 +10,9 @@ const CongratulationModal: FC<{
   close: (key: boolean) => void;
   clearStep: () => void;
 }> = ({ open, close , clearStep}) => {
+  useEffect(() => {
+    clearStep()
+  },[clearStep])
   return (
     <div>
       <Dialog
@@ -37,7 +41,6 @@ const CongratulationModal: FC<{
                   <Link
                     href={`/organiser`}
                     className="flex justify-center mt-5"
-                    onClick={clearStep}
                   >
                     <Button variant="destructive">Manange Event</Button>
                   </Link>

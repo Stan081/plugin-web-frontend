@@ -121,7 +121,7 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
           title: "File has been uploaded",
           description: `${response?.message}`,
         });
-        handleIsChecked("addMedia");
+        client.invalidateQueries({ queryKey: ["eventPhotos"] });
       }
     },
     onError: (error: any) => {

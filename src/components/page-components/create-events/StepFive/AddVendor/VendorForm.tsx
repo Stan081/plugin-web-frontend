@@ -66,7 +66,7 @@ const VendorForm: FC<VendorFormProps> = ({ handleReturnToList }) => {
       pass_thumbnail: "",
       shared_pass: isSharedPass,
       pass_tag: "",
-      pass_price: 0,
+      pass_price: null,
       pass_category: [],
       available_slot: slot,
     },

@@ -42,15 +42,11 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
     timeZone: "UTC",
   });
 
-  const getGroupPrice =
+  const getGroupPrices =
     card?.ticketCategory === "grouped" &&
-    card?.groupedTicket
-      ?.filter((item) => item?.ticketPrice !== undefined)
-      .map((item) => item?.ticketPrice);
+    card?.groupedTicket?.find((item) => item?.groupedTicketType === "paid");
 
-  const getEntry = card?.entryTicket && card?.entryTicket?.ticketPrice;
-
-  console.log(getGroupPrice);
+  console.log(getGroupPrices?.ticketPrice);
   return (
     <div className="w-full max-w-xs shrink-0 rounded-xl overflow-hidden bg-white border flex flex-col justify-between border-gray-200 ">
       <div className="relative">
@@ -103,8 +99,9 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
         <div className="flex items-center gap-1 mt-3">
           <TicketIcon />
           <p className="text-sm md:text-lg text-black font-pally-medium">
-            {toFiat(card?.entryTicket?.ticketPrice)}
-            {/* 900 */}
+            {toFiat(
+              getGroupPrices?.ticketPrice || card?.entryTicket?.ticketPrice
+            )}
           </p>
         </div>
       </div>

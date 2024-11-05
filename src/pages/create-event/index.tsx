@@ -51,6 +51,7 @@ export default function CreateEvent() {
     setTimeout(() => {
       removeCookie("currentStep");
       setCurrentStep(1);
+      router.push(`/organiser`);
     }, 10000);
   };
 

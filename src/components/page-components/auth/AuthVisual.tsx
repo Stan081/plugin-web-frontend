@@ -13,7 +13,7 @@ const AuthVisual = () => {
           <li className="w-72 h-72 absolute top-0 rounded-lg">
             <Image
               src={
-                "https://res.cloudinary.com/dbhbyikta/image/upload/v1730590395/Plugin/auth-image/xhqltatlrmggzyxpwn7v.jpg"
+                "/images/people-watching-in-the-stage.jpg"
               }
               alt="Auth"
               width={270}
@@ -24,7 +24,7 @@ const AuthVisual = () => {
           <li className="w-72 h-72 absolute top-10 right-0 rounded-lg">
             <Image
               src={
-                "https://res.cloudinary.com/dbhbyikta/image/upload/v1730590395/Plugin/auth-image/juvg85dgyaom4bfu5ggh.jpg"
+                "/images/party-fans-raised-their-hands.jpg"
               }
               alt="Auth"
               width={270}
@@ -35,7 +35,7 @@ const AuthVisual = () => {
           <li className="w-72 h-72 absolute top-40 z-10 right-1/3 rounded-lg">
             <Image
               src={
-                "https://res.cloudinary.com/dbhbyikta/image/upload/v1730590395/Plugin/auth-image/hs963xjiupoyi3pmjpuq.jpg"
+                "/images/laughing-people-in-party.jpg"
               }
               alt="Auth"
               width={270}
