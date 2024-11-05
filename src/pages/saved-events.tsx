@@ -29,9 +29,9 @@ const SavedEvents = () => {
         </div>
 
         <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-9 py-6">
-          {cardData.map((card) => (
+          {/* {cardData.map((card) => (
             <CardComponent key={card.id} {...card} />
-          ))}
+          ))} */}
         </div>
         <div className="block md:hidden">
           <TicketComponent tickets={cardData} />
