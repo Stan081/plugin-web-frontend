@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import classNames from "classnames";
 import { ComponentPropsWithRef, FC } from "react";
@@ -23,7 +23,7 @@ const Logo: FC<LogoProps> = ({ className, white }) => {
         {white ? (
           <Image
             src="/images/logo_white.svg"
-            alt="NoImpunity Logo"
+            alt="Plugin Logo"
             width={128}
             height={32}
             className="w-auto h-auto"
@@ -31,7 +31,7 @@ const Logo: FC<LogoProps> = ({ className, white }) => {
         ) : (
           <Image
             src="/images/plugin-logo.svg"
-            alt="NoImpunity Logo"
+            alt="Plugin Logo"
             width={128}
             height={32}
             className="w-auto h-auto"

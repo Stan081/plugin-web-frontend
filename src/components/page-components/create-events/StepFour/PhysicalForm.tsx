@@ -139,7 +139,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({
                             <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
                               <SelectValue placeholder="select city" />
                             </SelectTrigger>
-                            <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
+                            <SelectContent className="w-full border z-0 bg-primary-foreground rounded-sm bg-white">
                               {["city"].map((city, index) => {
                                 return (
                                   <SelectItem key={index} value={city}>
@@ -174,7 +174,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({
                             <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
                               <SelectValue placeholder="select state" />
                             </SelectTrigger>
-                            <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
+                            <SelectContent className="w-full border z-0 bg-primary-foreground rounded-sm bg-white">
                               {["state"].map((state, index) => {
                                 return (
                                   <SelectItem key={index} value={state}>
@@ -209,7 +209,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({
                             <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
                               <SelectValue placeholder="select country" />
                             </SelectTrigger>
-                            <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
+                            <SelectContent className="w-full border z-0 bg-primary-foreground rounded-sm bg-white">
                               {["country"].map((country, index) => {
                                 return (
                                   <SelectItem key={index} value={country}>

@@ -162,7 +162,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="flex flex-col justify-between h-[50vh] md:h-[64vh] whitespace-normal overflow-y-auto">
+          <div className="flex flex-col justify-between h-[60vh] md:h-[40vh] whitespace-normal overflow-y-auto">
             <div className="grid grid-cols-2 gap-5 h-auto w-auto">
               <FormItem>
                 <FormLabel className="text-white" htmlFor="start_date">
@@ -312,7 +312,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
               </FormItem>
             </div>
           </div>
-          <div className="sticky z-50 bottom-0 bg-[#281E17]">
+          <div className="sticky z-30 bottom-0 bg-[#281E17]">
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
