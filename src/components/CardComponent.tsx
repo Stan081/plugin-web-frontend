@@ -42,9 +42,11 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
     timeZone: "UTC",
   });
 
-  const getGroupPrice = card?.groupTicket
-    ?.filter((item) => item?.ticketPrice !== undefined)
-    .map((item) => item.ticketPrice); // Extract ticketPrice from each object
+  const getGroupPrice =
+    card?.ticketCategory === "grouped" &&
+    card?.groupedTicket
+      ?.filter((item) => item?.ticketPrice !== undefined)
+      .map((item) => item?.ticketPrice);
 
   const getEntry = card?.entryTicket && card?.entryTicket?.ticketPrice;
 

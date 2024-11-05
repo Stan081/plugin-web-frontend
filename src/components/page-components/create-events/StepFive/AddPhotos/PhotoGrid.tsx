@@ -1,3 +1,4 @@
+"use client"
 import React, { useState, useRef, useCallback } from "react";
 import { IoMdImages } from "react-icons/io";
 import { HiOutlineTrash } from "react-icons/hi2";

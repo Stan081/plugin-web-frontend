@@ -1,7 +1,6 @@
-import { Checkbox } from "@/components/ui/checkbox";
+"use client"
 import { Separator } from "@/components/ui/separator";
-import { useCreateEventContext } from "@/providers/create_event.provider";
-import React, { FC, useState } from "react";
+import React, { FC,} from "react";
 
 const RefundPolicy: FC<{ isChecked: boolean; handleCheckboxChange: any }> = ({
   isChecked,

@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { FaHouseCircleExclamation } from "react-icons/fa6";
 

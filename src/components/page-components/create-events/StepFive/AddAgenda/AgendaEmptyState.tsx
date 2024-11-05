@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { LuCalendarDays } from "react-icons/lu";
 
@@ -8,7 +9,7 @@ const AgendaEmptyState: React.FC<{ open: () => void }> = ({ open }) => {
         <LuCalendarDays size={38} color="#000" />
       </div>
       <p className="font-pally-regular text-sm text-white/60 text-center">
-      You have no Agenda slot for this event 
+        You have no Agenda slot for this event
       </p>
 
       <button
