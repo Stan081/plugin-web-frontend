@@ -18,10 +18,7 @@ export interface StepsProps {
 }
 
 export default function CreateEvent() {
-  const [currentStep, setCurrentStep] = useState<number>(() => {
-    const savedStep = getCookie("currentStep");
-    return savedStep ? Number(savedStep) : 1;
-  });
+  const [currentStep, setCurrentStep] = useState<number>(7);
   const token = getToken();
   const router = useRouter();
 

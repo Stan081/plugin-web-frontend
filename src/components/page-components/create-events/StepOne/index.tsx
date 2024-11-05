@@ -147,7 +147,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     }
   };
 
-
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => EventBasicInfo(data),
     onSuccess: (response) => {
@@ -171,7 +170,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     },
   });
 
-  const { mutate: mutateRole } = useEditProfileRole();
+  const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
 
   const onSubmit = useCallback(
     (payload: EventStepOne) => {
@@ -184,15 +183,20 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       };
 
       if (userData?.data?.role === "user") {
-        const roleData = { role: "organizer" };
-        mutateRole(roleData);
+        const data = { role: "organizer" };
+        mutateRole(data);
       }
 
       // Ensure `event_id` is removed before setting a new one
       if (getCookie("event_id")) {
         removeCookie("event_id");
       }
-      mutate(data);
+      if (isPendingRole) {
+        <SpinnerOverlay />;
+      } else {
+        mutate(data);
+        // console.log(data)
+      }
     },
     [mutateRole, userData]
   );
