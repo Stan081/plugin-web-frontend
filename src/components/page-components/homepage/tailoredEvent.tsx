@@ -9,6 +9,8 @@ import { cardData } from "@/static-datas/cards-data";
 import CardComponent from "@/components/CardComponent";
 import Link from "next/link";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
+import SkeletonImage from "@/tw-components/skeleton/image";
+import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 
 const TailoredEvent: React.FC = () => {
   const { data: events, isLoading } = useGetAllEvents();
@@ -181,12 +183,18 @@ const TailoredEvent: React.FC = () => {
         <Container className="mt-20 md:mt-40 overflow-auto px-4 md:px-0">
           <h2 className="text-3xl font-pally-medium mb-6">Upcoming Events</h2>
           <div className="flex lg:flex-row gap-6 overflow-x-auto scroll-smooth whitespace-nowrap w-full pb-8">
-            {upcomingPublishedData?.length > 0 ? (
-              upcomingPublishedData.map((card) => (
-                <CardComponent key={card._id} card={card} />
-              ))
+            {isLoading ? (
+              <CardSkeleton/>
             ) : (
-              <p>No published data</p>
+              <>
+                {upcomingPublishedData?.length > 0 ? (
+                  upcomingPublishedData.map((card) => (
+                    <CardComponent key={card._id} card={card} />
+                  ))
+                ) : (
+                  <p>No published data</p>
+                )}
+              </>
             )}
           </div>
         </Container>

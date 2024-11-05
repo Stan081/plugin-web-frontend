@@ -1,3 +1,4 @@
+"use client"
 import Layout from "@/components/layout";
 import Logo from "@/components/Logo";
 import OTPVerification from "@/components/page-components/auth/OTPVerification";
