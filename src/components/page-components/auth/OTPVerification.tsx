@@ -63,7 +63,7 @@ const OTPVerification = () => {
       <p className="text-sm font-pally-regular mb-2 text-[#98A2B3]">
         Verification Code
       </p>
-      <OtpBox numDigits={6} onComplete={handleOtpComplete} />
+      <OtpBox numDigits={5} onComplete={handleOtpComplete} />
       <div className="border w-full mt-5 border-[#98A2B333]/20" />
       <div className="flex mt-10 text-sm md:text-base text-[#98A2B3]">
         <p>Didn’t get the code?</p>
