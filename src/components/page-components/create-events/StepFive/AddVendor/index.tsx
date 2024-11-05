@@ -1,11 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+"use client"
+import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import VendorEmptyState from "./VendorEmptyState";
 import VendorForm from "./VendorForm";
-import {
-  vendorList,
-  VendorListType,
-} from "@/static-datas/create-event";
 import VendorCard from "./VendorCard";
 import EditVendorForm from "./EditVendorForm";
 import { useGetEventVendors } from "@/hooks/events/useGetEventVendors";

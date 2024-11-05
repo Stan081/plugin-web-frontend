@@ -1,30 +1,9 @@
-POST https://pluginapi.onrender.com/api/event
+### Get All Events
+
+GET http://pluginapi.onrender.com/api/event/events
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MTA4OWVjNjI4Y2MwYmY5MTkyY2JhNCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI5MjQwNTEzLCJleHAiOjE3MzE4MzI1MTN9.pKWPM6SNVvGXO9bvdvAYTskWPKKAKgGEPtaBCwGK0Y8
 
-{
-  "eventBanner": "Emma",
-  "thumbnail": "cloudinary link to image",
-  "eventName": "Event Name",
-  "eventDescription": "Event Description"
-}
+### Get Single Event by Id
 
-### Add Organizer profile
-
-POST http://pluginapi.onrender.com/api/organizers
+GET http://pluginapi.onrender.com/api/event/events/67289a162199b35c54798a8d
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjY5ZDFkYzUxZTZkNDRhOWQxZjMxMCIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzMwNTgzODU3LCJleHAiOjE3MzMxNzU4NTd9._lBOAXievuU1OSk-enW0l1FuZPA0q_54Nu9SKwDz6-Y
-
-{
-	"userId": "67269d1dc51e6d44a9d1f310",
-  "banner": "Image String",
-  "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5q2pFvd1NnpP8vVM-jnEw32x7Nvl5Y7J5Pg&s",
-  "name": "Oganizer Name",
-  "tagline": "Tagline",
-  "bio": "Tagline",
-  "socials": {
-			"facebook": "https://facebook.com",
-			"instagram": "https://instagram.com"
-		}
-}
-

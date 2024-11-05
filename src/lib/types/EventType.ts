@@ -155,6 +155,12 @@ export type EventEntryFreeType = {
 
 /* ----------------------*/
 
+export type EventTicketsType = {
+  ticketCategory: string;
+};
+
+/* ----------------------*/
+
 type EntryDonationType = {
   entryTicketType: string;
   ticketName: string;
@@ -191,7 +197,6 @@ export type GroupPaidType = {
   color?: string;
 };
 
-
 /* ----------------------*/
 
 type GroupFreeType = {
@@ -216,15 +221,11 @@ export type EventGroupFreeType = {
 /* ----------------------*/
 
 export type EventPublishType = {
-  organizer: {
-    photo: string;
-    name: string;
-  };
-  isVisible: true;
-  publishStatus: string;
-  eventSchedule: {
-    startDate: Date;
-    startTime: string;
+  isVisible: boolean;
+  publishStatus?: string;
+  eventSchedule?: {
+    startDate?: Date;
+    startTime?: string;
   };
 };
 
@@ -233,12 +234,12 @@ export type EventPublishType = {
 export type CreateOrganiserProfileType = {
   userId: string;
   banner: string;
-  thumbnail:string;
-  name:string;
-  tagline:string;
-  bio:string;
+  thumbnail: string;
+  name: string;
+  tagline: string;
+  bio: string;
   socials: {
-    facebook:string;
+    facebook: string;
     instagram: string;
-  }
+  };
 };

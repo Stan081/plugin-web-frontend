@@ -1,3 +1,4 @@
+"use client"
 import { AgendaListsType } from "@/static-datas/create-event";
 import React, { FC } from "react";
 import EditSlotWithHost from "./EditSlotWithHost";

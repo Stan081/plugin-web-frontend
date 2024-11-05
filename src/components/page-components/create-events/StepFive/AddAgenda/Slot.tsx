@@ -1,3 +1,4 @@
+"use client"
 import React, { FC, useState } from "react";
 
 import { FiWatch } from "react-icons/fi";

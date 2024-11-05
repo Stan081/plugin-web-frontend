@@ -77,7 +77,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
     mode: "all",
     defaultValues: {
       schedule: recurringSchedule,
-      start_date: new Date(),
+      start_date: null,
       start_time: "",
       end_date: null,
       end_time: "",
@@ -291,7 +291,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
                           <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
                             <SelectValue placeholder="select timezone" />
                           </SelectTrigger>
-                          <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
+                          <SelectContent className="w-full border z-50 bg-primary-foreground rounded-sm bg-white">
                             {timezone.map((zone, index) => {
                               return (
                                 <SelectItem key={index} value={zone}>

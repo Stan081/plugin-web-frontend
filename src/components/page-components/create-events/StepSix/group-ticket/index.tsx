@@ -25,7 +25,7 @@ const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
   const { mutate: deleteGroupTicket, isPending } = useDeleteEventGroup();
   const { selectTicket: selectedState } = useCreateEventContext();
   const [formState, setFormState] = useState<GroupTicketState>(
-    GroupTicketState.VIEW_LIST
+    GroupTicketState.CREATE_TICKET
   );
 
   const [selectedTicket, setSelectedTicket] = useState<any | undefined>(null);
@@ -96,7 +96,6 @@ const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
               >
                 Add Ticket
               </button>
-
             </div>
           </div>
         )

@@ -18,6 +18,8 @@ export const EVENT_BASIC_INFO_URL: string = `${API_URL}/event`;
 
 export const ORGANISER_PROFILE: string = `${API_URL}/organizers`
 
+export const GET_ALL_EVENTS: string = `${API_URL}/event/events`
+
 export const PUT_EVENT_ID = (): string => {
   const eventId = getCookie("event_id");
   return `${API_URL}/event/${eventId}`;

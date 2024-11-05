@@ -57,8 +57,6 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
     },
   });
 
-  console.log(getCookie('event_id'))
-
   const handleSubmit = useCallback(() => {
     const data = {
       eventCategory: selectedNames,

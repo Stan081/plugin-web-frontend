@@ -1,20 +1,47 @@
 "use client";
 
 import CardComponent from "@/components/CardComponent";
+import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import React, { useState } from "react";
 
+const tabLink = [
+  { title: "Physical", key: "physical" },
+  { title: "Virtual", key: "virtual" },
+];
+
 const PopularEvent = () => {
-  // Define state fo tab
   const [isActive, setIsActive] = useState<string>("physical");
 
-  const tabLink = [
-    { title: "Physical", key: "physical" },
-    { title: "Virtual", key: "virtual" },
-    { title: "Pre-sale", key: "pre-sale" },
-  ];
+  const { data: events } = useGetAllEvents();
+
+  const now = new Date();
+
+  const physicalPublishedType = events?.data.filter((item) => {
+    const startDate = new Date(
+      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+    );
+
+    return (
+      item.isPublished === true &&
+      item?.locationType === "physical" &&
+      startDate > now
+    );
+  });
+
+  const onlinePublishedType = events?.data.filter((item) => {
+    const startDate = new Date(
+      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+    );
+
+    return (
+      item.isPublished === true &&
+      item?.locationType === "online" &&
+      startDate > now
+    );
+  });
 
   return (
     <Section id="popular-event" className="p-0 overflow-hidden">
@@ -45,7 +72,6 @@ const PopularEvent = () => {
                 </button>
               </li>
             ))}
-            
           </ul>
           <div
             id={`panel-${isActive}`}
@@ -53,9 +79,23 @@ const PopularEvent = () => {
             aria-labelledby={`tab-${isActive}`}
             className="mt-6 md:mt-10 flex lg:flex-row gap-5 overflow-x-auto w-full pb-8"
           >
-            {cardData.slice(0, 4).map((card) => (
-              <CardComponent key={card.id} {...card} />
-            ))}
+            {isActive === "physical" && (
+              <>
+                {physicalPublishedType?.length > 0 &&
+                  physicalPublishedType.map((card) => (
+                    <CardComponent key={card.id} card={card} />
+                  ))}
+              </>
+            )}
+
+            {isActive === "virtual" && (
+              <>
+                {onlinePublishedType?.length > 0 &&
+                  onlinePublishedType.map((card) => (
+                    <CardComponent key={card.id} card={card} />
+                  ))}
+              </>
+            )}
           </div>
         </Container>
       </div>
