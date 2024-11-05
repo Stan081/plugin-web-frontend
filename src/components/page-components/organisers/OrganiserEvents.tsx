@@ -45,9 +45,10 @@ const OrganiserEvents = () => {
           aria-labelledby={`tab-${isActive}`}
           className="mt-6 md:pb-20 pb-6 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  h-[80vh] md:h-full mx-auto"
         >
-          {cardData.map((card) => (
+          {/* {cardData.map((card) => (
             <CardComponent key={card.id} {...card} />
-          ))}
+          ))} */}
+          working...
         </div>
       </div>
     </div>
