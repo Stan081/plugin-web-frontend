@@ -12,7 +12,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { EventCategoryAPI } from "@/pages/api/mutate/create-events/eventCategory";
 import Spinner from "@/tw-components/spinner";
 import { getCookie } from "@/lib/cookies";
-import { EVENT_AGENDA, PUT_EVENT_ID } from "@/lib/constants";
+import { EDIT_PROFILE_ROLE, EVENT_AGENDA, PUT_EVENT_ID } from "@/lib/constants";
 
 const pageContents = ["Think about the primary audience for your event."];
 
@@ -62,6 +62,7 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
       eventCategory: selectedNames,
     };
     mutate(data);
+    // console.log(EDIT_PROFILE_ROLE())
   }, []);
 
   return (

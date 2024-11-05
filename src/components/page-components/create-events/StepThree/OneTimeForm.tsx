@@ -263,7 +263,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                           <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
                             <SelectValue placeholder="select timezone" />
                           </SelectTrigger>
-                          <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
+                          <SelectContent className="w-full border z-50 bg-primary-foreground rounded-sm bg-white">
                             {timezone.map((zone, index) => {
                               return (
                                 <SelectItem key={index} value={zone}>
@@ -284,7 +284,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
               </FormItem>
             </div>
           </div>
-          <div className="sticky z-50 bottom-0 bg-[#281E17]">
+          <div className="sticky z-30 bottom-0 bg-[#281E17]">
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
