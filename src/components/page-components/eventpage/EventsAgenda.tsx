@@ -5,14 +5,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import eventsAgendaData from "@/static-datas/events-agenda-data";
+import { calculateDuration } from "@/lib/utils";
 
-const EventsAgenda = () => {
+const EventsAgenda: React.FC<{ event: any }> = ({ event }) => {
   const accordionStyles = {
     first: "border-[#40B869] bg-[#F2FAF5]",
     second: "border-[#F58B86] bg-[#FFEEED]",
     third: "border-[#F5B546] bg-[#FEF6E7]",
   };
+
+  let mk: string = "llo";
+
   return (
     <section>
       <p className="text-[#2C2B2E] text-base md:text-lg font-pally-medium">
@@ -21,45 +24,52 @@ const EventsAgenda = () => {
 
       <Accordion type="single" collapsible>
         <ul className="space-y-5 mt-4">
-          {eventsAgendaData.map((agenda, index) => (
-            <li key={agenda.hostName}>
+          {event.map((agenda) => (
+            <li key={agenda._id}>
               <AccordionItem
-                value={agenda.hostName as string}
+                value={agenda._id as string}
                 className={`
                 px-5 border border-t-4 rounded-lg 
-                ${index % 3 === 0 && accordionStyles.first} 
-                ${index % 3 === 1 && accordionStyles.second} 
-                ${index % 3 === 2 && accordionStyles.third} 
+                ${agenda._id && accordionStyles.first} 
+                ${agenda._id && accordionStyles.second} 
+                ${agenda._id && accordionStyles.third} 
                 `}
               >
                 <AccordionTrigger className=" font-pally-medium text-base md:text-lg">
                   <div className="flex flex-col items-start">
-                    <p className="font-pally-regular text-sm text-[#667185]">
-                      Duration: {agenda.duration}
+                    <p className="font-pally-medium text-sm text-[#667185]">
+                      Duration:{" "}
+                      <span className="font-pally-regular">
+                        {calculateDuration(agenda?.startTime, agenda?.endTime)}
+                      </span>
                     </p>
                     <p className="font-pally-medium text-lg text-[#101928]">
-                      Opening speech
+                      {agenda?.title?.slice(0, 1).toLocaleUpperCase() +
+                        agenda?.title?.slice(1)}
                     </p>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className=" font-pally-regular text-base md:text-lg">
                   <div className="space-y-3">
                     <p className="font-pally-regular text-base text-[#667185]">
-                      {agenda.details}
+                      {agenda?.description?.slice(0, 1).toLocaleUpperCase() +
+                        agenda?.description?.slice(1)}
                     </p>
-                    <div className="flex gap-5">
-                      <figure
-                        className={`${agenda.hostAvatar} relative size-10 border-2 border-[#D9D9D9] rounded-full`}
-                      ></figure>
-                      <div className="flex flex-col justify-between">
-                        <p className="font-pally-regular text-xs text-[#667185]">
-                          Host
-                        </p>
-                        <p className="font-pally-regular text-base text-[#101928]">
-                          {agenda.hostName}
-                        </p>
+                    {agenda?.host && (
+                      <div className="flex gap-5">
+                        <figure
+                          className={`${agenda?.host?.photo} relative size-10 border-2 border-[#D9D9D9] rounded-full`}
+                        ></figure>
+                        <div className="flex flex-col justify-between">
+                          <p className="font-pally-regular text-xs text-[#667185]">
+                            Host
+                          </p>
+                          <p className="font-pally-regular text-base text-[#101928]">
+                            {agenda?.host?.name}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </AccordionContent>
               </AccordionItem>

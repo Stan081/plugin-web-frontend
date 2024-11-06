@@ -45,7 +45,7 @@ const items = [
 
 const MenuLinks = () => {
   const { user, logout } = useUserDashContext();
-  const { isLoading } = useMe();
+  const { data: userDate, isLoading } = useMe();
   return (
     <Popover>
       <PopoverTrigger>
@@ -79,13 +79,16 @@ const MenuLinks = () => {
         </div>
         <Separator />
         <div className="my-2 space-y-1">
-          <Link
-            href={`/#`}
-            className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md"
-          >
-            <LuLayoutGrid size={18} />
-            Manage events
-          </Link>
+          {userDate?.data?.role === "organizer" &&
+            userDate?.data?.isOrganizer && (
+              <Link
+                href={`/organiser/events`}
+                className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md"
+              >
+                <LuLayoutGrid size={18} />
+                Manage events
+              </Link>
+            )}
           <div
             onClick={logout}
             className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base cursor-pointer hover:bg-gray-200 p-1.5 rounded-md"

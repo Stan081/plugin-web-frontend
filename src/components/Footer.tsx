@@ -71,7 +71,7 @@ const Footer = () => {
                 <h4 className=" font-pally-medium tex-black text-base md:text-lg">
                   Dowload App on
                 </h4>
-                <ul className="flex items-center gap-5">
+                <ul className="flex flex-row md:flex-col items-center gap-5">
                   {footerData.f3.map((list, index) => (
                     <li
                       key={index}

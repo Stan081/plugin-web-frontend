@@ -1,7 +1,7 @@
 import { CardProps } from "@/static-datas/cards-data";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
+import React, { FC, Fragment, useState } from "react";
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 
 const CardComponent2: FC<{ card: any }> = ({ card }) => {
@@ -12,48 +12,58 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
     router.push(`/explore-events/${id}`);
   };
   return (
-    <div className="min-w-[25%] group relative inline-block bg-[#221A14] rounded-2xl overflow-hidden ">
-      <button className="w-full aspect-square block overflow-hidden">
-        <figure className="relative size-full">
-          <div className="absolute z-20 top-2 right-2 bg-black bg-opacity-50 text-white p-2 rounded-full cursor-pointer">
-            {!isFavorite ? (
-              <RiHeartLine size={24} />
-            ) : (
-              <RiHeartFill size={24} color="#EB7257" />
-            )}
-          </div>
-          <div className="group-hover:opacity-0 absolute z-10 bottom-2 left-5 bg-destructive text-white text-xs font-semibold px-2 py-1 rounded-3xl">
+    <div
+      onClick={() => handleCardClick(card?._id)}
+      className="flex flex-col min-w-[25%] bg-[#221A14] rounded-2xl cursor-pointer"
+    >
+      <div className="group relative inline-block overflow-hidden rounded-2xl">
+        <button className="w-full aspect-square block overflow-hidden">
+          <figure className="relative size-full">
+            <div className="group-hover:opacity-0 absolute z-10 bottom-2 left-5 bg-destructive text-white text-xs font-semibold px-2 py-1 rounded-3xl">
+              {card?.publishStatus}
+            </div>
+            <Image
+              fill={true}
+              src={card?.thumbnail ?? "/images/blue-bg.png"}
+              alt={card?.eventName || "Event image"}
+              className="object-cover"
+            />
+          </figure>
+        </button>
+        {/* The hover card */}
+        <div className="appear z-10 hidden backdrop-blur-[2px] px-5 py-1 font-pally-regular text-white justify-center items-start w-full h-full top-0 group-hover:flex flex-col group-hover:absolute bg-black bg-opacity-50 space-y-3">
+          <p className="inline-flex bg-destructive text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
             {card?.publishStatus}
-          </div>
-          <Image
-            fill={true}
-            src="/images/corn.jpg"
-            alt="corn"
-            className="object-cover"
-          />
-        </figure>
-      </button>
-      {/* The hover card */}
-      <div className="appear z-10 hidden backdrop-blur-[2px] px-5 py-1 font-pally-regular text-white justify-center items-start w-full h-full top-0 group-hover:flex flex-col group-hover:absolute bg-black bg-opacity-50 ">
-        <p className="inline-flex bg-destructive text-white text-xs font-semibold px-2 py-1 rounded-3xl">
-          {card?.publishStatus}
-        </p>
-        <h2 className="text-lg md:text-xl font-bold font-pally-medium">
+          </p>
+          <h2 className="text-lg md:text-2xl font-pally-medium">
+            {card?.eventName?.length > 25
+              ? card?.eventName.slice(0, 25).concat("...")
+              : card?.eventName}
+          </h2>
+          <p className="text-sm md:text-md text-slate-200 font-pally-regular">
+            {card?.locationType === "physical"
+              ? card?.physicalLocation?.address
+              : "Online"}
+          </p>
+        </div>
+      </div>
+      <div className="flex items-center gap-4 justify-between p-4">
+        <p className=" text-sm md:text-lg text-white font-bold font-pally-medium">
           {card?.eventName?.length > 25
             ? card?.eventName.slice(0, 25).concat("...")
             : card?.eventName}
-        </h2>
-        <p className="text-sm md:text-lg text-slate-200 font-pally-regular">
-          {card?.locationType === "physical"
-            ? card?.physicalLocation?.address
-            : "Online"}
         </p>
+        <div
+          onClick={() => setIsFavorite(!isFavorite)}
+          className=" bg-white text-white p-1 md:p-2 rounded-full cursor-pointer"
+        >
+          {!isFavorite ? (
+            <RiHeartLine color="#000" className="text-sm md:text-lg" />
+          ) : (
+            <RiHeartFill className="destructive text-sm md:text-lg" />
+          )}
+        </div>
       </div>
-      <p className="p-3 text-lg md:text-xl text-white font-bold font-pally-medium">
-        {card?.eventName?.length > 25
-          ? card?.eventName.slice(0, 25).concat("...")
-          : card?.eventName}
-      </p>
     </div>
   );
 };

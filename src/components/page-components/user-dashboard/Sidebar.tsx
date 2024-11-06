@@ -10,6 +10,7 @@ import { RiAccountCircleLine } from "react-icons/ri";
 import { BsTicketPerforated } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
+import { useMe } from "@/pages/api/query/me";
 
 type Props = {
   open: boolean;
@@ -41,6 +42,7 @@ const menuLinks = [
 
 const Sidebar: FC<Props> = ({ open, toggle }) => {
   const { logout } = useUserDashContext();
+  const { data: user } = useMe();
   const router = useRouter();
 
   const renderSidebar = (hidden: boolean) => {
@@ -58,12 +60,15 @@ const Sidebar: FC<Props> = ({ open, toggle }) => {
           <nav className="flex shrink-0 h-full flex-1 flex-col gap-4 md:gap-8 pb-5">
             <div className="flex justify-start items-center gap-4">
               <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular flex justify-center items-center">
-                OM
+                {`${user?.data?.name?.firstname.slice(0, 1)}` +
+                  `${user?.data?.name?.lastname.slice(0, 1)}`}
               </p>
               <div>
-                <p className="font-pally-medium text-lg ">Oluchi Miracle</p>
+                <p className="font-pally-medium text-lg ">
+                  {user?.data?.name?.firstname} {user?.data?.name?.lastname}
+                </p>
                 <p className="text-[#586170] font-pally-regular">
-                  oluchiMiracle@gmail.com
+                  {user?.data?.email}
                 </p>
               </div>
             </div>
@@ -109,7 +114,7 @@ const Sidebar: FC<Props> = ({ open, toggle }) => {
                 <p className="font-pally-medium text-xl pb-2">
                   List an event in 160 seconds
                 </p>
-                <Link href={'/create-event'}>
+                <Link href={"/create-event"}>
                   <Button
                     variant="destructive"
                     className="w-full max-w-44 mx-auto"
