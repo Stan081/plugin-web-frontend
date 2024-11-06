@@ -1,10 +1,5 @@
 "use client";
-import React, {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import { StepsProps } from "@/pages/create-event";
@@ -27,6 +22,15 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { Textarea } from "@/components/ui/textarea";
 import { uploadImage } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import { EventBasicInfo } from "@/pages/api/mutate/create-events/eventBasicInfo";
+import { useToast } from "@/components/ui/use-toast";
+import { getCookie, removeCookie, setCookie } from "@/lib/cookies";
+import Spinner from "@/tw-components/spinner";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useMe } from "@/pages/api/query/me";
+import { useEditProfileRole } from "@/hooks/useEditProfileRole";
+import { PUT_EVENT_ID } from "@/lib/constants";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -38,6 +42,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
   const [imageThumbnail, setImageThumbnail] = useState<string | null>(null);
   const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const form = useForm<EventStepOne>({
     mode: "all",
@@ -50,14 +55,35 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     resolver: yupResolver(EventStepOneSchema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { data: userData } = useMe();
+
+  const { toast } = useToast();
 
   // Handle image upload for banner
-  const handleImageUploadBanner = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUploadBanner = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = e.target.files?.[0] || null;
+
     if (file) {
-      setImageBanner(URL.createObjectURL(file));
-      form.setValue("event_banner", file);
+      setIsUploading(true); // Start spinner
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setImageBanner(imageUrl);
+        form.setValue("event_banner", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -78,13 +104,30 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
   };
 
   // Handle image upload for thumbnail
-  const handleImageUploadThumbnail = (
+  const handleImageUploadThumbnail = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = e.target.files?.[0] || null;
+
     if (file) {
-      setImageThumbnail(URL.createObjectURL(file));
-      form.setValue("event_thumbnail", file);
+      setIsUploading(true); // Start spinner
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setImageThumbnail(imageUrl);
+        form.setValue("event_thumbnail", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -104,31 +147,78 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     }
   };
 
-  const onSubmit = useCallback(async (payload: EventStepOne) => {
-    console.log(payload);
-    const eventBannerResponse = await uploadImage(payload?.event_banner);
-    const eventthumbnailResponse = await uploadImage(payload?.event_thumbnail);
-    // console.log(res);
-    // next();
-  }, []);
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventBasicInfo(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "File has been uploaded",
+          description: `${response?.message}`,
+        });
+        next();
+        // Set the cookie here
+        setCookie("event_id", response?.data?._id);
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
+
+  const onSubmit = useCallback(
+    (payload: EventStepOne) => {
+      const data = {
+        userId: userData?.data?._id,
+        eventBanner: payload?.event_banner,
+        thumbnail: payload?.event_thumbnail,
+        eventName: payload?.event_name,
+        eventDescription: payload?.event_description,
+      };
+
+      if (userData?.data?.role === "user") {
+        const data = { role: "organizer" };
+        mutateRole(data);
+      }
+
+      // Ensure `event_id` is removed before setting a new one
+      if (getCookie("event_id")) {
+        removeCookie("event_id");
+      }
+      if (isPendingRole) {
+        <SpinnerOverlay />;
+      } else {
+        mutate(data);
+        // console.log(data)
+      }
+    },
+    [mutateRole, userData]
+  );
 
   return (
     <div
-      className="flex flex-col lg:flex-row items-start gap-4 md:gap-12
+      className="flex flex-col lg:flex-row items-start gap-4 lg:gap-12
     "
     >
-      <div className="w-full lg:w-1/2 px-4 lg:px-0">
+      <div className="w-full lg:w-2/5 px-4 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
-      <div className="w-full h-full lg:w-1/2">
-        <FormContainer formTitle="Basic Information" currPosition={[20, 0, 0]}>
+      {isUploading && <SpinnerOverlay />}
+      <div className="w-full h-full lg:w-3/5">
+        <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <div>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex flex-col justify-between gap-4 w-full h-full mb-6 px-3"
               >
-                <div className="lg:h-[64vh] whitespace-normal overflow-y-auto">
+                <div className="lg:h-[70vh] whitespace-normal overflow-y-auto">
                   <FormItem className="w-full">
                     <FormLabel className="text-white font-pally-medium">
                       Event Banner
@@ -294,7 +384,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                                   placeholder="E.g., 'Summer Music Festival 2024'"
                                   type="text"
                                   id="event_name"
-                                  disabled={isLoading}
                                   className="w-full bg-white text-black font-pally-regular"
                                   {...field}
                                 />
@@ -320,7 +409,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                                 <Textarea
                                   placeholder="Max  char - 200 Words"
                                   id="event_description"
-                                  disabled={isLoading}
                                   className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
                                   {...field}
                                 />
@@ -348,10 +436,10 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                     <div onClick={previous} className="flex items-center gap-8">
                       <Button
                         type="submit"
-                        disabled={isLoading}
+                        disabled={isPending}
                         variant="destructive"
                       >
-                        {isLoading ? "Submitting..." : "Next"}
+                        {isPending || isUploading ? <Spinner /> : "Next"}
                       </Button>
                     </div>
                   </div>

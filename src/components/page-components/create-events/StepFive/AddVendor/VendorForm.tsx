@@ -1,12 +1,5 @@
 "use client";
-import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import { IoMdImages } from "react-icons/io";
 import {
   Form,
@@ -29,13 +22,19 @@ import { VendorsForm, VendorFormSchema } from "@/models/create-event-schema";
 import { Input } from "@/components/ui/input";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
-import { vendorList, VendorListType } from "@/static-datas/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { Button } from "@/components/ui/button";
+import { IoReturnDownBackOutline } from "react-icons/io5";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EventVendor } from "@/pages/api/mutate/create-events/eventVendor";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from "@/tw-components/spinner";
+import { VendorType } from "@/lib/types/EventType";
+import { uploadImage } from "@/lib/utils";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 interface VendorFormProps {
   handleReturnToList: () => void;
-  handleCreateVendor: (vendorData: VendorListType) => void;
 }
 
 const isSharedTypes: { id: boolean; name: string }[] = [
@@ -49,10 +48,7 @@ const isSharedTypes: { id: boolean; name: string }[] = [
   },
 ];
 
-const VendorForm: FC<VendorFormProps> = ({
-  handleReturnToList,
-  handleCreateVendor,
-}) => {
+const VendorForm: FC<VendorFormProps> = ({ handleReturnToList }) => {
   const { handleIsChecked } = useCreateEventContext();
   const [vendorImage, setVendorImage] = useState<string | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
@@ -62,8 +58,7 @@ const VendorForm: FC<VendorFormProps> = ({
   // State to store the selected categories as an array of strings
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [slot, setSlot] = useState<number>(0);
-
-  console.log(isSharedPass);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const form = useForm<VendorsForm>({
     mode: "all",
@@ -71,7 +66,7 @@ const VendorForm: FC<VendorFormProps> = ({
       pass_thumbnail: "",
       shared_pass: isSharedPass,
       pass_tag: "",
-      pass_price: 0,
+      pass_price: null,
       pass_category: [],
       available_slot: slot,
     },
@@ -90,20 +85,34 @@ const VendorForm: FC<VendorFormProps> = ({
     form.setValue("shared_pass", isSharedPass);
   }, [isSharedPass, form.setValue]);
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
+
+  const client = useQueryClient();
 
   // Handle image upload for banner
-  const handleImageUploadBanner = (
+  const handleImageUploadBanner = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setVendorImage(reader.result as string);
-        form.setValue("pass_thumbnail", reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      setIsUploading(true); // Start spinner
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setVendorImage(imageUrl);
+        form.setValue("pass_thumbnail", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -157,44 +166,48 @@ const VendorForm: FC<VendorFormProps> = ({
     });
   };
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventVendor(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Event vendor has been added",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["eventVendors"] });
+        handleReturnToList();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
   const onSubmit = useCallback(
     async (payload: VendorsForm) => {
       console.log(payload);
-      handleCreateVendor({
-        vendorImage: payload.pass_thumbnail,
-        slot: payload.available_slot,
-        pricePass: payload.pass_price,
-        passCategories: payload.pass_category,
-        passTag: payload.pass_tag,
-        sharedPass: isSharedPass,
-      });
+      const data = {
+        thumbnail: payload.pass_thumbnail ?? "",
+        slots: payload.available_slot,
+        price: payload.pass_price,
+        passCategory: payload.pass_category,
+        vendorTag: payload.pass_tag,
+        isPass: payload.shared_pass ? "yes" : "no",
+      };
 
-      handleReturnToList();
-
-      handleIsChecked("addVendors");
-
-      // Reset form back to default values
-      form.reset({
-        pass_thumbnail: "",
-        pass_tag: "",
-        pass_price: 0,
-        pass_category: [],
-        available_slot: slot,
-      });
-
-      // Reset guest image state
-      setVendorImage(null);
-
-      // Clear the file input reference if necessary
-      if (fileInputRefThumbnail.current) {
-        fileInputRefThumbnail.current.value = "";
-      }
+      mutate(data);
     },
-    [vendorList, handleReturnToList, form]
+    []
   );
 
   return (
     <div className="mb-3">
+      {isUploading && <SpinnerOverlay />}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -273,7 +286,7 @@ const VendorForm: FC<VendorFormProps> = ({
                 Pass Thumbnail ( optional )
               </FormLabel>
             </FormItem>
-            <div className="w-full space-y-4">
+            <div className="w-full flex flex-col gap-3">
               <div className="flex justify-start items-baseline gap-4">
                 <p className="font-pally-regular text-base md:text-lg">
                   Is this a shared Pass
@@ -311,7 +324,6 @@ const VendorForm: FC<VendorFormProps> = ({
                           placeholder="eg. ( Phone Booth, shared space )"
                           type="text"
                           id="vendor-pass"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -373,7 +385,6 @@ const VendorForm: FC<VendorFormProps> = ({
                           placeholder="₦ Enter amount"
                           type="number"
                           id="price-pass"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -405,9 +416,15 @@ const VendorForm: FC<VendorFormProps> = ({
                 </div>
               </div>
 
-              <div className="flex justify-center gap-4 mt-5">
+              <div className="flex justify-center gap-7 mt-8">
+                <div
+                  onClick={handleReturnToList}
+                  className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
+                >
+                  <IoReturnDownBackOutline size={20} color="#F9B6B1" />
+                </div>
                 <Button variant="destructive" type="submit" className="w-full">
-                  Create Pass
+                  {isPending ? <Spinner /> : "Create Pass"}
                 </Button>
               </div>
             </div>

@@ -22,12 +22,19 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { StepsProps } from "@/pages/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useToast } from "@/components/ui/use-toast";
+import { EventEntryDonationTicket } from "@/pages/api/mutate/create-events/EventEntryDonationTicket";
+import { useMutation } from "@tanstack/react-query";
+import Spinner from "@/tw-components/spinner";
 
-interface DonationTicketFormProps extends StepsProps {}
+interface DonationTicketFormProps extends StepsProps {
+  entryTicket: string;
+}
 
 const DonationTicketForm: FC<DonationTicketFormProps> = ({
   next,
   previous,
+  entryTicket,
 }) => {
   const { selectTicket } = useCreateEventContext();
 
@@ -36,22 +43,58 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
     defaultValues: {
       ticket_type: selectTicket,
       ticket_name: "",
-      ticket_quantity: 0,
-      min_price: 0,
-      max_price: 0,
-      start_date: new Date(),
-      end_date: new Date(),
+      ticket_quantity: null,
+      min_price: null,
+      max_price: null,
+      start_date: null,
+      end_date: null,
       start_time: "",
       end_time: "",
+      ticket_perks: "",
     },
     resolver: yupResolver(DonationFormSchema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
 
-  const onSubmit = useCallback(async (payload: PaidTicket) => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventEntryDonationTicket(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: ` Your ${entryTicket} ticket has been added`,
+          description: `${response?.message}`,
+        });
+        next();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = useCallback((payload: DonationForm) => {
     console.log(payload);
-    next();
+    const data = {
+      entryTicket: {
+        entryTicketType: entryTicket,
+        ticketName: payload.ticket_name,
+        minPrice: payload.min_price,
+        maxPrice: payload.max_price,
+        ticketQuantity: payload.ticket_quantity,
+        startDate: payload.start_date,
+        startTime: payload.start_time,
+        endDate: payload.end_date,
+        endTime: payload.end_time,
+        ticketPeaks: payload.ticket_perks,
+      },
+    };
+    mutate(data);
   }, []);
   return (
     <div>
@@ -75,7 +118,6 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
                         placeholder="Enter ticket name - max 200 characters"
                         type="text"
                         id="ticket-name"
-                        disabled={isLoading}
                         className="w-full bg-white text-black font-pally-regular"
                         {...field}
                         maxLength={200}
@@ -101,7 +143,6 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
                         placeholder="Enter ticket name"
                         type="number"
                         id="ticket-name"
-                        disabled={isLoading}
                         className="w-full bg-white text-black font-pally-regular"
                         {...field}
                       />
@@ -112,7 +153,7 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
               />
             </FormItem>
 
-            <div className="flex flex-col md:flex-row items-start gap-4">
+            <div className="flex flex-row items-start gap-4">
               <FormItem className="w-1/2">
                 <FormLabel className="text-white" htmlFor="min-price">
                   Minimum price
@@ -127,7 +168,6 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
                           placeholder="₦ Enter minimum amount"
                           type="number"
                           id="min-price"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -151,7 +191,6 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
                           placeholder="Enter max price"
                           type="number"
                           id="max-price"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -184,7 +223,6 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
                             placeholder="DD/MM/YY"
                             type="date"
                             id="start_date"
-                            disabled={isLoading}
                             className=" bg-white text-black font-pally-regular"
                             {...field}
                             value={formattedDate}
@@ -211,7 +249,6 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
                             placeholder="0:00"
                             type="time"
                             id="start_time"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -245,7 +282,6 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
                             placeholder="DD/MM/YY"
                             type="date"
                             id="end_date"
-                            disabled={isLoading}
                             className=" bg-white text-black font-pally-regular"
                             {...field}
                             value={formattedDate}
@@ -272,7 +308,6 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
                             placeholder="0:00"
                             type="time"
                             id="end_time"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -284,6 +319,26 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
                 />
               </FormItem>
             </div>
+            <FormItem>
+              <FormLabel className="text-white" htmlFor="ticket_perks">
+                Ticket Peaks
+              </FormLabel>
+              <FormField
+                control={form.control}
+                name="ticket_perks"
+                render={({ field }) => (
+                  <FormControl>
+                    <Textarea
+                      placeholder="Max  char - 200 Words"
+                      id="ticket_perks"
+                      className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
+                      {...field}
+                    />
+                  </FormControl>
+                )}
+              />
+              <FormMessage />
+            </FormItem>
           </div>
 
           <div className="sticky bottom-0 bg-[#281E17]">
@@ -305,8 +360,12 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
                   Back
                 </Button>
 
-                <Button type="submit" variant="destructive">
-                  Next
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  variant="destructive"
+                >
+                  {isPending ? <Spinner /> : "Next"}
                 </Button>
               </div>
             </div>

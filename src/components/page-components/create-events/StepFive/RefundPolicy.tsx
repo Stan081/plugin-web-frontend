@@ -1,11 +1,11 @@
-import { Checkbox } from "@/components/ui/checkbox";
+"use client"
 import { Separator } from "@/components/ui/separator";
-import { useCreateEventContext } from "@/providers/create_event.provider";
-import React, { useState } from "react";
+import React, { FC,} from "react";
 
-const RefundPolicy = () => {
-  const { isChecked, handleIsChecked } = useCreateEventContext();
-
+const RefundPolicy: FC<{ isChecked: boolean; handleCheckboxChange: any }> = ({
+  isChecked,
+  handleCheckboxChange,
+}) => {
   return (
     <div className="mx-8 space-y-4">
       <div className="space-y-2">
@@ -83,13 +83,13 @@ const RefundPolicy = () => {
         <input
           type="checkbox"
           id="terms"
-          checked={isChecked.refundPolicy}
-          onChange={() => handleIsChecked("refundPolicy")}
+          checked={isChecked}
+          onChange={handleCheckboxChange}
           className="h-4 w-4 shrink-0 border rounded bg-[#D9302A] text-white"
         />
         <label
           htmlFor="terms"
-          className="text-sm font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          className="text-sm font-pally-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
           I have read and agree to the refund policies and guidelines outlined
           above. By checking this box, I acknowledge and accept responsibility

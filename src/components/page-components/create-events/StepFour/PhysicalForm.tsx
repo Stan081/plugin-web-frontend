@@ -24,8 +24,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useMutation } from "@tanstack/react-query";
+import { EventPhysicalLocation } from "@/pages/api/mutate/create-events/eventLocationType";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from "@/tw-components/spinner";
 
-const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
+interface PhysicalFormProps extends StepsProps {
+  locationType: string;
+}
+
+const PhysicalForm: React.FC<PhysicalFormProps> = ({
+  next,
+  previous,
+  locationType,
+}) => {
   const form = useForm<PhysicalLocation>({
     mode: "all",
     defaultValues: {
@@ -38,18 +50,47 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
     resolver: yupResolver(PhysicalLocationSchema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
 
-  const onSubmit = useCallback(async (payload: PhysicalLocation) => {
-    console.log(payload);
-    next();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventPhysicalLocation(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Uploaded Successfully",
+          description: `${response?.message}`,
+        });
+        next();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = useCallback((payload: PhysicalLocation) => {
+    const data = {
+      locationType,
+      physicalLocation: {
+        address: payload?.address,
+        city: payload?.city,
+        state: payload?.state,
+        country: payload?.country,
+        zipcode: String(payload?.zipcode),
+      },
+    };
+    // console.log(data)
+    mutate(data);
   }, []);
 
   return (
     <div>
-      <h4 className="font-pally-medium md:text-lg">
-        Location Address
-      </h4>
+      <h4 className="font-pally-medium md:text-lg">Location Address</h4>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -72,7 +113,6 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
                             placeholder="Search for location or address"
                             type="text"
                             id="physical_location"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -99,7 +139,7 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
                             <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
                               <SelectValue placeholder="select city" />
                             </SelectTrigger>
-                            <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
+                            <SelectContent className="w-full border z-0 bg-primary-foreground rounded-sm bg-white">
                               {["city"].map((city, index) => {
                                 return (
                                   <SelectItem key={index} value={city}>
@@ -134,7 +174,7 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
                             <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
                               <SelectValue placeholder="select state" />
                             </SelectTrigger>
-                            <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
+                            <SelectContent className="w-full border z-0 bg-primary-foreground rounded-sm bg-white">
                               {["state"].map((state, index) => {
                                 return (
                                   <SelectItem key={index} value={state}>
@@ -169,7 +209,7 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
                             <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
                               <SelectValue placeholder="select country" />
                             </SelectTrigger>
-                            <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
+                            <SelectContent className="w-full border z-0 bg-primary-foreground rounded-sm bg-white">
                               {["country"].map((country, index) => {
                                 return (
                                   <SelectItem key={index} value={country}>
@@ -203,7 +243,6 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
                             placeholder="Enter zipcode"
                             type="number"
                             id="zipcode"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -237,10 +276,10 @@ const PhysicalForm: React.FC<StepsProps> = ({ next, previous }) => {
 
                 <Button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isPending}
                   variant="destructive"
                 >
-                  {isLoading ? "Submitting..." : "Next"}
+                  {isPending ? <Spinner /> : "Next"}
                 </Button>
               </div>
             </div>

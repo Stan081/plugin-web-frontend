@@ -6,11 +6,11 @@ const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
 // Schema for creating an event
 export const EventStepOneSchema = yup.object().shape({
   event_banner: yup
-  .mixed()
-  .nullable()
-  .test("required", "Image is required", (value) => {
-    return value instanceof File || value === null;
-  }),
+    .mixed()
+    .nullable()
+    .test("required", "Image is required", (value) => {
+      return value !== null;
+    }),
   event_thumbnail: yup
     .mixed()
     .nullable()
@@ -55,15 +55,15 @@ export const PhysicalLocationSchema = yup.object().shape({
   city: yup.string().required("select city"),
   state: yup.string().required("enter state"),
   country: yup.string().required("enter country of event"),
-  zipcode: yup.number().optional(),
+  zipcode: yup.number().truncate().positive().optional(),
 });
 
 export const OnlineVenueLinkSchema = yup.object().shape({
-  venue_link: yup.string().required("venue link is required"),
-  venue_platform: yup
+  venue_link: yup
     .string()
     .url("online link must be valid")
-    .required("Add online link"),
+    .required("venue link is required"),
+  venue_platform: yup.string().required("Add venue platform"),
 });
 
 // Define the individual guest schema
@@ -88,7 +88,7 @@ export const VendorFormSchema = yup.object().shape({
 
 export const SlotWithHostSchema = yup.object().shape({
   host_thumbnail: yup.string().required("Please upload host image"),
-  isHost: yup.boolean().required(),
+  isHost: yup.boolean().optional(),
   host_name: yup.string().required("Host name is is required"),
   agenda_title: yup.string().required("Agenda title is required"),
   agenda_description: yup.string().optional(),
@@ -103,7 +103,7 @@ export const SlotWithHostSchema = yup.object().shape({
 });
 
 export const SlotWithoutHostSchema = yup.object().shape({
-  isHost: yup.boolean().required(),
+  isHost: yup.boolean().optional(),
   agenda_title: yup.string().required("Agenda title is required"),
   agenda_description: yup.string().optional(),
   start_time: yup
@@ -161,6 +161,7 @@ export const FreeTicketFormSchema = yup.object().shape({
     .string()
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .optional(),
+  ticket_perks: yup.string().required("Ticket perks is required"),
 });
 
 export const DonationFormSchema = yup.object().shape({
@@ -191,6 +192,7 @@ export const DonationFormSchema = yup.object().shape({
     .string()
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .optional(),
+  ticket_perks: yup.string().required("Ticket perks is required"),
 });
 
 export const PaidSeatSectionFormSchema = yup.object().shape({
@@ -219,6 +221,8 @@ export const PaidSeatSectionFormSchema = yup.object().shape({
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .optional(),
   ticket_perks: yup.string().required("Ticket perks is required"),
+  label_image: yup.string().optional(),
+  label_color: yup.string().optional(),
 });
 
 export const FreeSeatSectionFormSchema = yup.object().shape({
@@ -242,6 +246,8 @@ export const FreeSeatSectionFormSchema = yup.object().shape({
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .optional(),
   ticket_perks: yup.string().required("Ticket perks is required"),
+  label_image: yup.string().optional(),
+  label_color: yup.string().optional(),
 });
 
 const ScheduleForm = yup.object().shape({
@@ -264,13 +270,50 @@ const inviteeInformation = yup.object().shape({
 });
 
 export const PublishFormSchema = yup.object().shape({
-  organiser_photo: yup.string().required(),
-  organiser_name: yup.string().required(),
   event_visibility: yup.string().required(),
-  PublishWhen: yup.string().required(),
-  schedulePublish: ScheduleForm.optional(),
+  publishWhen: yup.boolean().optional(),
+  schedulePublish: yup
+    .object()
+    .shape({
+      start_date: yup.date().when("publishWhen", {
+        is: false,
+        then: (schema) => schema.optional(),
+        otherwise: (schema) => schema.optional(),
+      }),
+      start_time: yup.string().when("publishWhen", {
+        is: false,
+        then: (schema) => schema.optional(),
+        otherwise: (schema) => schema.optional(),
+      }),
+    })
+    .optional(),
 });
 
+const OrganiserProfileMedia = yup.object().shape({
+  facebook: yup.string().url("link must be a valid url").optional(),
+  instagram: yup.string().url("link must be a valid url").required(""),
+});
+
+export const OrganiserProfileSchema = yup.object().shape({
+  organiser_name: yup.string().required("Enter your name"),
+  organiser_photo: yup
+    .mixed()
+    .nullable()
+    .test("required", "Image is required", (value) => {
+      return value !== null;
+    }),
+  organiser_banner: yup
+    .mixed()
+    .nullable()
+    .test("required", "Image is required", (value) => {
+      return value !== null;
+    }),
+  organiser_bio: yup.string().required("Write about yourself"),
+  tagline: yup.string().optional(),
+  social_media: OrganiserProfileMedia.optional(),
+});
+
+export type OrganiserProfileForm = yup.InferType<typeof OrganiserProfileSchema>;
 export type InviteeListForm = yup.InferType<typeof InviteeListSchema>;
 export type PublishForm = yup.InferType<typeof PublishFormSchema>;
 export type FreeSeatSection = yup.InferType<typeof FreeSeatSectionFormSchema>;

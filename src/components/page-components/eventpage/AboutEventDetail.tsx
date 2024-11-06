@@ -16,7 +16,7 @@ interface Props {
 
 const AboutEventDetail: React.FC = () => {
   return (
-    <div className="space-y-5 mt-4 w-full lg:w-1/2">
+    <div className="space-y-5 mt-4">
       <div className="space-y-1 my-6">
         <p className="text-[#2C2B2E] text-base md:text-lg font-pally-regular">
           70C Bennet Bassey Esau Street, Ewet Housing, Uyo

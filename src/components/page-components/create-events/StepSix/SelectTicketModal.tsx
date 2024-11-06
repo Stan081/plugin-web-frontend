@@ -4,6 +4,9 @@ import { RiCloseLine } from "react-icons/ri";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+import { EventTicketType } from "@/pages/api/mutate/create-events/EventTicketType";
 
 interface SelectTicketModalProps {
   isOpen: boolean;
@@ -13,7 +16,7 @@ interface SelectTicketModalProps {
 const tickets = [
   {
     id: 1,
-    slug: "entry-ticket",
+    slug: "entry",
     ticketTitle: "Entry Ticket",
     ticketDescription:
       "Create general admission tickets that allow entry without assigning a specific seat or section.",
@@ -22,7 +25,7 @@ const tickets = [
   },
   {
     id: 2,
-    slug: "group-ticket",
+    slug: "grouped",
     ticketTitle: "Grouped Tickets ",
     ticketDescription:
       "Create multiple ticket categories at once by associating tickets with specific seats or sections on the seat map.",
@@ -33,10 +36,39 @@ const tickets = [
 
 const SelectTicketModal: FC<SelectTicketModalProps> = ({ isOpen, close }) => {
   const { setSelectedTicket } = useCreateEventContext();
+
+  const { toast } = useToast();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventTicketType(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: `Your ticket choice has been added`,
+          description: `${response?.message}`,
+        });
+        close();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
   // get selected ticket
   const handleClicked = (id: number) => {
     const getSelected = tickets.find((tick) => tick.id === id);
     setSelectedTicket(getSelected.slug);
+    const data= {
+      ticketCategory: getSelected?.slug
+    }
+    console.log(data)
+    mutate(data)
   };
 
   return (
@@ -83,9 +115,9 @@ const SelectTicketModal: FC<SelectTicketModalProps> = ({ isOpen, close }) => {
                     <Button
                       variant="destructive"
                       className="mt-5"
+                      disabled={isPending}
                       onClick={() => {
                         handleClicked(ticket.id);
-                        close();
                       }}
                     >
                       Create {ticket.ticketTitle}

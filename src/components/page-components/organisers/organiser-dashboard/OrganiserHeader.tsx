@@ -6,13 +6,11 @@ import Logo from "../../../Logo";
 import Link from "next/link";
 import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { NavigationDialog } from "../../../NavigationDialog";
-import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import MenuLinks from "../../../Menu";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 
 const OrganiserHeader = () => {
-  const { organiser } = useOrganiserDashContext();
 
   const router = useRouter();
 
@@ -37,13 +35,13 @@ const OrganiserHeader = () => {
         className: getHeaderLinkState("/organiser"),
       },
       {
-        path: "/organiser/event",
+        path: "/organiser/events",
         title: "Event",
-        className: getHeaderLinkState("/organiser/event"),
+        className: getHeaderLinkState("/organiser/events"),
       },
       {
         path: "/organiser/earnings",
-        title: "Earninigs",
+        title: "Earnings",
         className: getHeaderLinkState("/organiser/earnings"),
       },
       {

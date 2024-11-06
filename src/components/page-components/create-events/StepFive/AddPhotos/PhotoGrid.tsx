@@ -1,45 +1,107 @@
-import React, { useState, useRef } from "react";
-import { useForm } from "react-hook-form";
+"use client"
+import React, { useState, useRef, useCallback } from "react";
 import { IoMdImages } from "react-icons/io";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { Button } from "@/components/ui/button";
+import { uploadImage } from "@/lib/utils";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EventMedia } from "@/pages/api/mutate/create-events/eventMedia";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from "@/tw-components/spinner";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useGetEventPhotos } from "@/hooks/events/useGetEventPhotos";
+import { DeleteEventPhoto } from "@/pages/api/mutate/create-events/deleteEventPhoto";
 
 interface PhotoGridProps {
   maxUploads: number;
 }
 
 const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
+  const { data: allPhotos } = useGetEventPhotos();
   const { handleIsChecked } = useCreateEventContext();
-  const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
+  const [uploadedPhotos, setUploadedPhotos] = useState<string[] | null>(
+    allPhotos?.data || null
+  );
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
-  const { setValue } = useForm();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const { toast } = useToast();
+
+  const client = useQueryClient();
 
   // Handle image upload for banner
-  const handleImageUploadBanner = (
+  const handleImageUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
+
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
+      setIsLoading(true);
+
+      try {
+        const uploadResult = await uploadImage(file);
+        const imageUrl = uploadResult.secure_url;
+
         if (uploadedPhotos.length < maxUploads) {
-          setUploadedPhotos((prev) => [...prev, reader.result as string]);
+          setUploadedPhotos((prev) => [...prev, imageUrl]); // Add the new image URL to the array
+        } else {
+          toast({
+            title: "Upload Limit Reached",
+            description: `You can only upload a maximum of ${maxUploads} images.`,
+            variant: "destructive",
+          });
         }
-        setValue("pass_thumbnail", reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        toast({
+          title: "Upload Error",
+          description: "An error occurred while uploading the image.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
+  const { mutate: MuatatPhoto, isPending: isPhotoPending } = useMutation({
+    mutationFn: (data: any) => DeleteEventPhoto(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Your event agenda has been updated",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["eventPhotos"] });
+      }
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
   // Handle image delete for an uploaded image
   const handleImageDelete = (index: number) => {
-    const newPhotos = [...uploadedPhotos];
-    newPhotos.splice(index, 1);
-    setUploadedPhotos(newPhotos);
-    setValue("pass_thumbnail", "");
-    if (fileInputRefThumbnail.current) {
-      fileInputRefThumbnail.current.value = "";
+    const getSelPhoto = uploadedPhotos.find((_, i) => i === index);
+
+    const data = {
+      photoUrl: typeof getSelPhoto === "string" ? getSelPhoto : getSelPhoto,
+    };
+
+    if (data.photoUrl) {
+      MuatatPhoto(data);
+      if (fileInputRefThumbnail.current) {
+        fileInputRefThumbnail.current.value = "";
+      }
+    } else {
+      console.log("No photo URL found for deletion");
     }
   };
 
@@ -50,15 +112,45 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
     }
   };
 
-  const onSubmit = () => {
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventMedia(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "File has been uploaded",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["eventPhotos"] });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = useCallback(() => {
     if (uploadedPhotos.length > 0) {
-      handleIsChecked("addMedia");
-      console.log(uploadedPhotos);
+      const data = {
+        eventPhotos: uploadedPhotos,
+      };
+      mutate(data);
+    } else {
+      toast({
+        title: "No Photos Uploaded",
+        description: "Please upload at least one photo before submitting.",
+        variant: "destructive",
+      });
     }
-  };
+  }, [uploadedPhotos, toast]);
 
   return (
     <div className="md:p-4 rounded-md mx-auto">
+      {isPhotoPending && <SpinnerOverlay />}
       <h2 className="text-base font-pally-regular mb-4">
         {uploadedPhotos.length} of {maxUploads} - Photos/Videos uploaded
       </h2>
@@ -93,18 +185,27 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
             </div>
           )}
         </div>
-        <input
-          type="file"
-          accept="image/*,video/*"
-          className="hidden"
-          ref={fileInputRefThumbnail}
-          onChange={handleImageUploadBanner}
-        />
+
+        {isLoading ? (
+          <SpinnerOverlay />
+        ) : (
+          <input
+            type="file"
+            accept="image/*,video/*"
+            className="hidden"
+            ref={fileInputRefThumbnail}
+            onChange={handleImageUpload}
+          />
+        )}
       </div>
 
-      <div onClick={onSubmit} className="flex justify-end mt-4">
-        <Button variant="destructive" disabled={!uploadedPhotos.length}>
-          Save
+      <div className="flex justify-end mt-4">
+        <Button
+          onClick={onSubmit}
+          variant="destructive"
+          disabled={!uploadedPhotos.length}
+        >
+          {isPending ? <Spinner /> : "Save"}
         </Button>
       </div>
     </div>

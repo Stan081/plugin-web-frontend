@@ -32,10 +32,18 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { vendorList, VendorListType } from "@/static-datas/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { IoReturnDownBackOutline } from "react-icons/io5";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EditEventVendor } from "@/pages/api/mutate/create-events/EditEventVendor";
+import Spinner from "@/tw-components/spinner";
+import { Button } from "@/components/ui/button";
+import { useDeleteVendor } from "@/hooks/events/useDeleteEventVendor";
 
-interface EditVendorFormProps extends VendorListType {
+interface EditVendorFormProps {
   handleDelete: (id: number) => void;
-  
+  handleReturnToList: () => void;
+  selectedVendor: any;
 }
 
 const isSharedTypes: { id: boolean; name: string }[] = [
@@ -51,30 +59,25 @@ const isSharedTypes: { id: boolean; name: string }[] = [
 
 const EditVendorForm: FC<EditVendorFormProps> = ({
   handleDelete,
-  vendorImage,
-  slot,
-  passCategories,
-  passTag,
-  pricePass,
-  id,
+  handleReturnToList,
+  selectedVendor,
 }) => {
-  const { handleIsChecked } = useCreateEventContext();
   const [vendorsImage, setVendorImage] = useState<string | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isSharedPass, setIsSharedPass] = useState<boolean>(false);
   // State to store the selected categories as an array of strings
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [availableSlot, setAvailableSlot] = useState<number>(0);
 
   const form = useForm<VendorsForm>({
     mode: "all",
     defaultValues: {
-      pass_thumbnail: vendorImage ?? "",
-      shared_pass: isSharedPass,
-      pass_tag: passTag ?? "",
-      pass_price: pricePass ?? 0,
-      pass_category: passCategories ?? [],
-      available_slot: slot ?? availableSlot,
+      pass_thumbnail: selectedVendor?.thumbnail ?? "",
+      shared_pass:
+        selectedVendor?.isPass === "yes" ? isSharedPass : !isSharedPass,
+      pass_tag: selectedVendor?.vendorTag ?? "",
+      pass_price: selectedVendor?.price ?? 0,
+      pass_category: selectedVendor?.passCategory ?? [],
+      available_slot: selectedVendor?.slots ?? 0,
     },
     resolver: yupResolver(VendorFormSchema),
   });
@@ -82,12 +85,6 @@ const EditVendorForm: FC<EditVendorFormProps> = ({
   useEffect(() => {
     form.setValue("pass_category", selectedCategories);
   }, [selectedCategories, form.setValue]);
-
-  useEffect(() => {
-    form.setValue("available_slot", availableSlot);
-  }, [availableSlot, form.setValue]);
-
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
   // Handle image upload for banner
   const handleImageUploadBanner = (
@@ -128,66 +125,46 @@ const EditVendorForm: FC<EditVendorFormProps> = ({
     );
   };
 
-  // Function to handle deleting a selected category
-  const handleDeleteSelected = (categoryToDelete: string) => {
-    setSelectedCategories((prevSelected) =>
-      prevSelected.filter((category) => category !== categoryToDelete)
-    );
-  };
+  const { toast } = useToast();
 
-  //   handle increment on availableSlot
-  const handleIncrement = () => {
-    setAvailableSlot((prev) => {
-      return prev + 1;
-    });
-  };
+  const client = useQueryClient();
 
-  //   handle decrement on availableSlot
-  const handleDecrement = () => {
-    setAvailableSlot((prev) => {
-      if (prev < 1) {
-        return prev;
-      } else {
-        return prev - 1;
-      }
-    });
-  };
-
-  const onSubmit = useCallback(
-    async (payload: VendorsForm) => {
-      console.log(payload);
-      vendorList.push({
-        id: id ?? Math.floor(Math.random() * 100),
-        vendorImage: payload.pass_thumbnail,
-        slot: payload.available_slot,
-        pricePass: payload.pass_price,
-        passCategories: payload.pass_category,
-        passTag: payload.pass_tag,
-        sharedPass: isSharedPass
-      });
-
-      handleIsChecked("addVendors");
-
-      // Reset form back to default values
-      form.reset({
-        pass_thumbnail: "",
-        shared_pass: isSharedPass,
-        pass_tag: "",
-        pass_price: 0,
-        pass_category: [],
-        available_slot: slot,
-      });
-
-      // Reset guest image state
-      setVendorImage(null);
-
-      // Clear the file input reference if necessary
-      if (fileInputRefThumbnail.current) {
-        fileInputRefThumbnail.current.value = "";
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EditEventVendor(data, selectedVendor?._id),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Your event vendor has been updated",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["eventVendors"] });
+        handleReturnToList();
       }
     },
-    [vendorList, form]
-  );
+    onError: (error: any) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = useCallback(async (payload: VendorsForm) => {
+    console.log(payload);
+    const data = {
+      thumbnail: payload.pass_thumbnail ?? "",
+      slots: payload.available_slot,
+      price: payload.pass_price,
+      passCategory: payload.pass_category,
+      vendorTag: payload.pass_tag,
+      isPass: payload.shared_pass ? "yes" : "no",
+    };
+
+    mutate(data);
+  }, []);
 
   return (
     <div className="mb-3">
@@ -308,7 +285,6 @@ const EditVendorForm: FC<EditVendorFormProps> = ({
                             placeholder="eg. ( Phone Booth, shared space )"
                             type="text"
                             id="vendor-pass"
-                            disabled={isLoading}
                             className="w-full bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -332,7 +308,7 @@ const EditVendorForm: FC<EditVendorFormProps> = ({
                         >
                           {cat}
                           <span
-                            onClick={() => handleDeleteSelected(cat)}
+                            onClick={() => handleDelete(selectedVendor?._id)}
                             className="cursor-pointer text-red-500"
                           >
                             x
@@ -370,7 +346,6 @@ const EditVendorForm: FC<EditVendorFormProps> = ({
                             placeholder="₦ Enter amount"
                             type="number"
                             id="price-pass"
-                            disabled={isLoading}
                             className="w-full bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -381,42 +356,45 @@ const EditVendorForm: FC<EditVendorFormProps> = ({
                   />
                 </FormItem>
 
-                <div>
-                  <p className="font-pally-regular text-white">
+                <FormItem className="w-full">
+                  <FormLabel className="text-white" htmlFor="slots-available">
                     Slot Available
-                  </p>
-                  <div className="mt-3 flex gap-4">
-                    <div
-                      onClick={handleDecrement}
-                      className={` w-8 h-8 text-center text-xl rounded bg-white text-black hover:bg-white/90 cursor-pointer`}
-                    >
-                      -
-                    </div>
-                    <div className="w-16 h-8 text-center flex justify-center items-center rounded bg-white text-black ">
-                      {slot}
-                    </div>
-                    <div
-                      onClick={handleIncrement}
-                      className={` w-8 h-8 text-center text-xl rounded bg-white text-black hover:bg-white/90 cursor-pointer`}
-                    >
-                      +
-                    </div>
-                  </div>
-                </div>
+                  </FormLabel>
+                  <FormField
+                    control={form.control}
+                    name="available_slot"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter slot amount"
+                            type="number"
+                            id="slots-available"
+                            className="w-full bg-white text-black font-pally-regular"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </FormItem>
 
                 <div className="flex gap-4">
                   <div
-                    onClick={() => handleDelete(id)}
+                    onClick={handleReturnToList}
                     className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
                   >
-                    <HiOutlineTrash size={20} color="#F9B6B1" />
+                    <IoReturnDownBackOutline size={20} color="#F9B6B1" />
                   </div>
-                  <button
+                  <Button
                     type="submit"
-                    className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"
+                    className="w-full"
+                    variant="destructive"
+                    disabled={isPending}
                   >
-                    Create Pass
-                  </button>
+                    {isPending ? <Spinner /> : `Save edit`}
+                  </Button>
                 </div>
               </div>
             </div>

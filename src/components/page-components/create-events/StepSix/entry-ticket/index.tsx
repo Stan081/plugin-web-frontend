@@ -2,7 +2,6 @@ import React, { FC, useState } from "react";
 import PaidTicketForm from "./PaidTicketForm";
 import { StepsProps } from "@/pages/create-event";
 import FreeTicketForm from "./FreeTicketForm";
-import { useCreateEventContext } from "@/providers/create_event.provider";
 import DonationTicketForm from "./DonationTicketForm";
 
 interface EntryTicketProps extends StepsProps {}
@@ -26,7 +25,7 @@ const EntryTicket: FC<EntryTicketProps> = ({ next, previous }) => {
   const [entryTicket, setEntryTicket] = useState<string>("paid");
 
   return (
-    <div className="h-full w-full">
+    <div className=" w-full">
       <h3 className="font-pally-bold text-2xl">Entry Ticket</h3>
 
       <div className="flex flex-wrap items-end gap-3 mt-3">
@@ -49,11 +48,11 @@ const EntryTicket: FC<EntryTicketProps> = ({ next, previous }) => {
 
       <div className="mt-6">
         {entryTicket === "paid" ? (
-          <PaidTicketForm next={next} previous={previous} />
+          <PaidTicketForm entryTicket={entryTicket} next={next} previous={previous} />
         ) : entryTicket === "free" ? (
-          <FreeTicketForm next={next} previous={previous} />
+          <FreeTicketForm  entryTicket={entryTicket} next={next} previous={previous} />
         ) : (
-          <DonationTicketForm next={next} previous={previous} />
+          <DonationTicketForm  entryTicket={entryTicket} next={next} previous={previous} />
         )}
       </div>
     </div>

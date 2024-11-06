@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Separator } from "@/components/ui/separator";
 import React, { useState } from "react";
@@ -7,12 +7,16 @@ import GuestsComponent from "./GuestsComponent";
 import GuestModal from "./GuestModal";
 import EditGuestModal from "./EditGuestModal";
 import GuestEmptyState from "./GuestEmptyState";
+import { useGetEventGuests } from "@/hooks/events/useGetEventGuests";
+import { useDeleteGuest } from "@/hooks/events/useDeleteGuest";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const GuestList = () => {
-  const [guests, setGuests] = useState<GuestListType[]>(guestList);
+  const { data: allGuests, isLoading } = useGetEventGuests();
+  const { mutate: deleteGuest, isPending } = useDeleteGuest();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isOpenEdit, setIsOpenEdit] = React.useState<boolean>(false);
-  const [editModal, setEditModal] = useState<GuestListType | null>();
+  const [editModal, setEditModal] = useState<any | null>();
 
   const open = () => {
     setIsOpen(!isOpen);
@@ -22,52 +26,60 @@ const GuestList = () => {
     setIsOpen(false);
   };
 
-  const handleEditGuest = (id: string) => {
-    const getClickedGuest = guests.find((list) => list.id === id);
+  const handleEditGuest = (id: number) => {
+    const getClickedGuest = allGuests?.data.find((list) => list._id === id);
     setEditModal(getClickedGuest);
     setIsOpenEdit(!isOpenEdit);
   };
 
+  const handleDelete = (id: number) => {
+    deleteGuest({ guestId: id });
+  };
+
+  if (isLoading)
+    return <p className="text-white mx-5 text-center mt-5">loading...</p>;
 
   return (
-    (
-      <div className="mx-3 md:mx-8 flex flex-col gap-5">
-        <p className="font-pally-regular text-sm text-white/60">
-          Create a special guest for your event{" "}
-        </p>
+    <div className="mx-3 md:mx-8 flex flex-col gap-5">
+      {isPending && <SpinnerOverlay />}
+      <p className="font-pally-regular text-sm text-white/60">
+        Create a special guest for your event{" "}
+      </p>
 
-        <Separator decorative />
+      <Separator decorative />
 
-        {guests.length !== 0 ? (
-          <div className="my-5 space-y-5">
-            {guests.map((list) => (
-              <GuestsComponent
-                key={list.id}
-                {...list}
-                handleEditGuest={handleEditGuest}
-              />
-            ))}
-            <button
-              onClick={open}
-              type="button"
-              className="border border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50"
-            >
-              New Guest
-            </button>
-          </div>
-        ) : (
-          <GuestEmptyState open={open} />
-        )}
+      {allGuests?.data.length !== 0 ? (
+        <div className="my-5 space-y-5">
+          {allGuests?.data.map((list) => (
+            <GuestsComponent
+              key={list._id}
+              {...list}
+              _id={list._id}
+              handleEditGuest={handleEditGuest}
+              handleDeleteGuest={handleDelete}
+            />
+          ))}
 
-        <GuestModal isOpen={isOpen} close={close} />
+          <button
+            onClick={open}
+            type="button"
+            className="border w-full border-dashed p-3 rounded-lg hover:bg-[#423730]/50"
+          >
+            New Guest
+          </button>
+        </div>
+      ) : (
+        <GuestEmptyState open={open} />
+      )}
 
-        <EditGuestModal
-          open={isOpenEdit}
-          close={() => setIsOpenEdit(!isOpenEdit)}
-          {...editModal}
-        />
-      </div>
-    ) || null
+      <GuestModal isOpen={isOpen} close={close} />
+
+      <EditGuestModal
+        open={isOpenEdit}
+        close={() => setIsOpenEdit(!isOpenEdit)}
+        editGuestList={editModal}
+      />
+    </div>
   );
 };
 

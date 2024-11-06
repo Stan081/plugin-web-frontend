@@ -1,17 +1,26 @@
-POST https://pluginapi.onrender.com/api/event
+### Get All Events
+
+GET http://pluginapi.onrender.com/api/event/events
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MDkwODllOGE3MTNmYTI2MmQ2YmUxYyIsImVtYWlsIjoiZGF2aWRvbGFkZWxlODBAZ21haWwuY29tIiwiaWF0IjoxNzI4ODQyMzk3LCJleHAiOjE3MzE0MzQzOTd9.6xOqeBfZvgEsvyMWGK4ecZXKoWDTNCck4F5-WBVOMsw
+
+### Get All Events
+
+GET http://pluginapi.onrender.com/api/event/events
+Content-Type: application/json
+
+### Get Single Event by Id
+
+GET http://pluginapi.onrender.com/api/event/events/67289a162199b35c54798a8d
+Content-Type: application/json
+
+
+###
+
+PATCH https://pluginapi.onrender.com/api/users/6726a9b8fccd9497a51c25d9
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzA3MzgzMDksImV4cCI6MTczMzMzMDMwOX0.vBGjgGpgaFPtKicXdq-kbrxWMrDmNy4s2sYdVRFQiZo
 
 {
-  "eventBanner": "Emma",
-  "thumbnail": "cloudinary link to image",
-  "eventName": "Event Name",
-  "eventDescription": "Event Description"
+ "role": "organizer",
+ "isOrganizer": false
 }
-
-###
-
-GET https://pluginapi.onrender.com/api/event
-Content-Type: application/json
-
-###

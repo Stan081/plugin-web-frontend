@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import {
   Form,
   FormControl,
@@ -18,23 +12,22 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PublishForm, PublishFormSchema } from "@/models/create-event-schema";
-import { HiOutlineTrash } from "react-icons/hi2";
-import { FiEdit } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import InviteeInfo from "./InviteeInfo";
-import { Textarea } from "@/components/ui/textarea";
-import { PiInfoBold } from "react-icons/pi";
-import { useCreateEventContext } from "@/providers/create_event.provider";
-import InviteeCard from "./InviteeCard";
 import CongratulationModal from "./CongratulationModal";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { EventPublish } from "@/pages/api/mutate/create-events/EventPublish";
+import Spinner from "@/tw-components/spinner";
+import { useMe } from "@/pages/api/query/me";
+import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
-const PublishComponent = () => {
+const PublishComponent: FC<{ clearStep: () => void }> = ({ clearStep }) => {
+  const { data: userData } = useMe();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [organiserImage, setOrganiserImage] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [showProfileForm, setShowProfileForm] = useState<boolean>(false);
   const [selectedVisibility, setSelectedVisibility] =
     useState<string>("public");
   const [checkSchedule, setCheckSchedule] = useState<string>("now");
@@ -42,10 +35,8 @@ const PublishComponent = () => {
   const form = useForm<PublishForm>({
     mode: "all",
     defaultValues: {
-      organiser_photo: "",
-      organiser_name: "",
       event_visibility: selectedVisibility,
-      PublishWhen: checkSchedule,
+      publishWhen: checkSchedule === "now" ? true : false,
       schedulePublish: {
         start_date: new Date(),
         start_time: "",
@@ -58,47 +49,71 @@ const PublishComponent = () => {
     form.setValue("event_visibility", selectedVisibility);
   }, [selectedVisibility, form.setValue]);
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
 
-  // Handle image upload for banner
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setOrganiserImage(reader.result as string);
-        form.setValue("organiser_photo", reader.result as string);
+  const publishWhen = form.watch("publishWhen");
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventPublish(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: publishWhen
+            ? "Event has been published"
+            : "Event has been schedule",
+          description: `${response?.message}`,
+        });
+        setShowModal(!showModal);
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = (payload: PublishForm) => {
+    if (!userData?.data?.isOrganizer) {
+      return setShowProfileForm(!showProfileForm);
+    }
+    if (payload?.publishWhen === true) {
+      const data = {
+        isPublished: payload.publishWhen,
+        publishStatus: payload?.event_visibility,
       };
-      reader.readAsDataURL(file);
+      console.log(data, "True");
+      mutate(data);
+    } else {
+      const data = {
+        isPublished: payload.publishWhen,
+        publishStatus: payload?.event_visibility,
+        eventSchedule: {
+          startDate: payload?.schedulePublish.start_date,
+          startTime: payload?.schedulePublish.start_time,
+        },
+      };
+      mutate(data);
     }
   };
-
-  // Handle image delete for organiser photo
-  const handleImageDelete = () => {
-    setOrganiserImage(null);
-    form.setValue("organiser_photo", "");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
-
-  // Handle edit for organiser photo
-  const handleEditClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
-  const onSubmit = useCallback(async (payload: PublishForm) => {
-    console.log(payload);
-  }, []);
 
   return (
     <div>
       {showModal && (
         <CongratulationModal
+          clearStep={clearStep}
           open={showModal}
           close={() => setShowModal(!showModal)}
+        />
+      )}
+
+      {showProfileForm && (
+        <ProfileFormModal
+          open={showProfileForm}
+          close={() => setShowProfileForm(!showProfileForm)}
         />
       )}
       <Form {...form}>
@@ -107,107 +122,13 @@ const PublishComponent = () => {
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
           <div className="h-[74vh] whitespace-normal overflow-y-auto space-y-5">
-            <div className="mt-5 flex items-start gap-3">
-              <FormItem className="w-32 space-y-3">
-                <FormField
-                  control={form.control}
-                  name="organiser_photo"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <div className="organiserImage-uploader">
-                          {organiserImage ? (
-                            <div>
-                              <div className="relative h-20 w-20 bg-no-repeat bg-center bg-cover flex items-center justify-center overflow-hidden rounded-full border-4">
-                                <img
-                                  src={organiserImage}
-                                  alt="Uploaded"
-                                  className="w-auto h-auto pointer-events-none object-cover"
-                                />
-                              </div>
-
-                              <div className="text-center text-white mt-4 flex gap-5">
-                                <button
-                                  type="button"
-                                  onClick={handleEditClick}
-                                  className="outline outline-white/50 p-1.5 rounded-md bg-white"
-                                >
-                                  <FiEdit size={18} color="#000" />
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={handleImageDelete}
-                                  className="outline outline-white/50 p-1.5 rounded-md bg-white"
-                                >
-                                  <HiOutlineTrash size={18} color="#000" />
-                                </button>
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="py-9 bg-white/10 cursor-pointer rounded-full w-20 h-20">
-                              <label htmlFor="file-input">
-                                <div className="flex flex-col justify-center items-center gap-2 cursor-pointer">
-                                  <p className="font-pally-regular text-[#F58B86] underline text-xs">
-                                    Upload Photo
-                                  </p>
-                                </div>
-                              </label>
-                            </div>
-                          )}
-                        </div>
-                      </FormControl>
-                      <input
-                        id="file-input"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        ref={(e) => {
-                          field.ref(e);
-                          fileInputRef.current = e; // Set the ref
-                        }}
-                        style={{ display: "none" }}
-                      />
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormLabel className="text-white mt-4 block">
-                  Organiser photo
-                </FormLabel>
-              </FormItem>
-              <FormItem className="w-full max-w-3xl">
-                <FormLabel className="text-white" htmlFor="organiser_name">
-                  Organiser Name
-                </FormLabel>
-                <FormField
-                  control={form.control}
-                  name="organiser_name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter Organizer name"
-                          type="text"
-                          id="organiser_name"
-                          disabled={isLoading}
-                          className="w-full bg-white text-black font-pally-regular"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </FormItem>
-            </div>
-
             <FormItem>
               <FormField
                 control={form.control}
                 name="event_visibility"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="text-lg ">
+                    <FormLabel className="text-xl ">
                       Who can see your event?
                     </FormLabel>
                     <FormControl>
@@ -253,69 +174,25 @@ const PublishComponent = () => {
               />
             </FormItem>
 
-            {/* {selectedVisibility === "private" && (
-            <FormItem className="w-full px-4">
-              <FormLabel className="text-white" htmlFor="message">
-                Invite message
-              </FormLabel>
-              <FormField
-                control={form.control}
-                name="inviteesMessage.message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Enter a brief message you want your  invitees to see when"
-                        id="message"
-                        disabled={isLoading}
-                        className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="mt-2 flex items-center gap-3 bg-[#F4E1C4] text-[#3D2E21] p-2 rounded text-sm">
-                <span>
-                  <PiInfoBold size={16} />
-                </span>
-                <p className="font-pally-regular">
-                  This message would be sent to invitees added to this event.
-                </p>
-              </div>
-            </FormItem>
-          )}
-
-          {selectedVisibility === "private" && (
-            <div>
-              {inviteeState.length !== 0 &&
-                inviteeState.map((invitee, index) => (
-                  <InviteeCard key={index} {...invitee} />
-                ))}
-              <InviteeInfo />
-            </div>
-          )} */}
-
             <FormItem>
               <FormField
                 control={form.control}
-                name="PublishWhen"
+                name="publishWhen"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="text-lg ">
+                    <FormLabel className="text-xl">
                       When should we publish your event?
                     </FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={(value) => {
-                          field.onChange(value);
                           setCheckSchedule(value);
+                          field.onChange(value === "now"); // Converts to boolean when updating field value
                         }}
                         defaultValue={checkSchedule}
                         className="space-y-3"
                       >
-                        <FormItem className=" space-y-1 flex items-center space-x-3">
+                        <FormItem className="space-y-1 flex items-center space-x-3">
                           <FormControl>
                             <RadioGroupItem value="now" />
                           </FormControl>
@@ -339,7 +216,7 @@ const PublishComponent = () => {
               />
             </FormItem>
 
-            {checkSchedule === "later" && (
+            {!publishWhen && (
               <div className="flex items-start gap-4">
                 <FormItem className="w-full">
                   <FormLabel className="text-white" htmlFor="start_date">
@@ -361,7 +238,6 @@ const PublishComponent = () => {
                               placeholder="DD/MM/YY"
                               type="date"
                               id="start_date"
-                              disabled={isLoading}
                               className=" bg-white text-black font-pally-regular"
                               {...field}
                               value={formattedDate}
@@ -388,7 +264,6 @@ const PublishComponent = () => {
                               placeholder="0:00"
                               type="time"
                               id="start_time"
-                              disabled={isLoading}
                               className="bg-white text-black font-pally-regular"
                               {...field}
                             />
@@ -414,8 +289,8 @@ const PublishComponent = () => {
                 Back
               </Button>
 
-              <Button type="submit" variant="destructive">
-                Publish Event
+              <Button type="submit" disabled={isPending} variant="destructive">
+                {isPending ? <Spinner /> : "Publish Event"}
               </Button>
             </div>
           </div>

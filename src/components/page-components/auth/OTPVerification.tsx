@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import { setToken } from "@/lib/token";
 import { getCookie } from "@/lib/cookies";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const OTPVerification = () => {
   const [otp, setOtp] = useState<string>("");
@@ -20,7 +21,7 @@ const OTPVerification = () => {
 
   const client = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: VerifyCodeType) => VerifyCode(data),
     onSuccess: (response) => {
       setToken(response?.token);
@@ -58,10 +59,11 @@ const OTPVerification = () => {
 
   return (
     <div className="mt-6">
+      {isPending && <SpinnerOverlay/>}
       <p className="text-sm font-pally-regular mb-2 text-[#98A2B3]">
         Verification Code
       </p>
-      <OtpBox numDigits={6} onComplete={handleOtpComplete} />
+      <OtpBox numDigits={5} onComplete={handleOtpComplete} />
       <div className="border w-full mt-5 border-[#98A2B333]/20" />
       <div className="flex mt-10 text-sm md:text-base text-[#98A2B3]">
         <p>Didn’t get the code?</p>

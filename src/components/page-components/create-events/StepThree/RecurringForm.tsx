@@ -29,6 +29,14 @@ import {
 import { timezone } from "@/static-datas/create-event";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
+import { RecurringEvent } from "@/pages/api/mutate/create-events/eventTypeAPI";
+import Spinner from "@/tw-components/spinner";
+import { useToast } from "@/components/ui/use-toast";
+
+interface RecurringFormComponentProps extends StepsProps {
+  eventType: string;
+}
 
 const schedules: { id: string; name: string }[] = [
   {
@@ -57,32 +65,68 @@ const schedules: { id: string; name: string }[] = [
   },
 ];
 
-const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
+const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
+  next,
+  previous,
+  eventType,
+}) => {
   const [alert, setAlert] = useState<boolean>(true);
-  const [recurringSchedule, setRecurringSchedule] = useState<string>("");
+  const [recurringSchedule, setRecurringSchedule] = useState<string>("1");
 
   const form = useForm<RecurringForm>({
     mode: "all",
     defaultValues: {
       schedule: recurringSchedule,
-      start_date: new Date(),
+      start_date: null,
       start_time: "",
-      end_date: new Date(),
+      end_date: null,
       end_time: "",
       timezone: "",
     },
     resolver: yupResolver(RecurringFormShema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
 
-  const onSubmit = useCallback(async (payload: RecurringForm) => {
-    console.log(payload);
-    next();
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => RecurringEvent(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Uploaded Successfully",
+          description: `${response?.message}`,
+        });
+        next();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = useCallback((payload: RecurringForm) => {
+    const getSchedule = schedules.find((item) => item.id === recurringSchedule);
+    const data = {
+      eventType,
+      recurringEvent: {
+        scheduleReference: getSchedule?.name,
+        startDate: payload?.start_date,
+        startTime: payload?.end_time,
+        timeZone: payload?.timezone,
+        endTime: payload?.end_time,
+        endDate: payload?.end_date,
+      },
+    };
+    mutate(data);
   }, []);
 
   return (
-    <div className=" md:h-[64vh] whitespace-normal overflow-y-auto">
+    <div className="">
       <div className="flex flex-wrap gap-3.5 my-5 text-white">
         {schedules.map((type) => (
           <button
@@ -118,7 +162,7 @@ const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between h-[60vh] md:h-[40vh] whitespace-normal overflow-y-auto">
             <div className="grid grid-cols-2 gap-5 h-auto w-auto">
               <FormItem>
                 <FormLabel className="text-white" htmlFor="start_date">
@@ -140,7 +184,6 @@ const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                             placeholder="DD/MM/YY"
                             type="date"
                             id="start_date"
-                            disabled={isLoading}
                             className=" bg-white text-black font-pally-regular"
                             {...field}
                             value={formattedDate}
@@ -167,7 +210,6 @@ const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                             placeholder="0:00"
                             type="time"
                             id="start_time"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -198,7 +240,6 @@ const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                             placeholder="DD/MM/YY"
                             type="date"
                             id="end_date"
-                            disabled={isLoading}
                             className=" bg-white text-black font-pally-regular"
                             {...field}
                             value={formattedDate}
@@ -225,7 +266,6 @@ const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                             placeholder="0:00"
                             type="time"
                             id="end_time"
-                            disabled={isLoading}
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -240,7 +280,7 @@ const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                 <FormLabel>Timezone</FormLabel>
                 <FormField
                   control={form.control}
-                  name="end_time"
+                  name="timezone"
                   render={({ field }) => {
                     return (
                       <FormControl>
@@ -251,7 +291,7 @@ const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
                           <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
                             <SelectValue placeholder="select timezone" />
                           </SelectTrigger>
-                          <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
+                          <SelectContent className="w-full border z-50 bg-primary-foreground rounded-sm bg-white">
                             {timezone.map((zone, index) => {
                               return (
                                 <SelectItem key={index} value={zone}>
@@ -272,7 +312,7 @@ const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
               </FormItem>
             </div>
           </div>
-          <div className="sticky z-50 bottom-0 bg-[#281E17]">
+          <div className="sticky z-30 bottom-0 bg-[#281E17]">
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
@@ -293,10 +333,10 @@ const RecurringFormComponent: React.FC<StepsProps> = ({ next, previous }) => {
 
                 <Button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isPending}
                   variant="destructive"
                 >
-                  {isLoading ? "Submitting..." : "Next"}
+                  {isPending ? <Spinner /> : "Next"}
                 </Button>
               </div>
             </div>

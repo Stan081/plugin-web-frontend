@@ -37,14 +37,14 @@ const StepFour: React.FC<StepsProps> = ({ next, previous }) => {
       className="flex flex-col lg:flex-row items-start gap-4 md:gap-12
     "
     >
-      <div className="w-full lg:w-1/2  px-4 lg:px-0">
+      <div className="w-full lg:w-2/5  px-4 lg:px-0">
         <Intro
           contents={pageContents}
           title="Where will your event take place?"
         />
       </div>
-      <div className="w-full lg:w-1/2">
-        <FormContainer formTitle="Basic Information" currPosition={[80, 0, 0]}>
+      <div className="w-full lg:w-3/5">
+        <FormContainer formTitle="Basic Information" currPosition={[100, 60, 0]}>
           <div className="flex flex-wrap justify-start items-end gap-5">
             <h3 className="font-pally-medium md:text-xl">
               What’s your location type:
@@ -69,9 +69,17 @@ const StepFour: React.FC<StepsProps> = ({ next, previous }) => {
 
           <div className="mt-6">
             {locationType === "physical" ? (
-              <PhysicalForm next={next} previous={previous}/>
+              <PhysicalForm
+                locationType={locationType}
+                next={next}
+                previous={previous}
+              />
             ) : (
-              <OnlineForm next={next} previous={previous}/>
+              <OnlineForm
+                locationType={locationType}
+                next={next}
+                previous={previous}
+              />
             )}
           </div>
         </FormContainer>

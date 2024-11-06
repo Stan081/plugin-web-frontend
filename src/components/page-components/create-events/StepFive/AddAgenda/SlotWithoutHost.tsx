@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Form,
   FormControl,
@@ -18,19 +20,20 @@ import { isHostTypes } from "./SlotWithHost";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AgendaSlotProps } from "./Slot";
+import { Button } from "@/components/ui/button";
+import Spinner from "@/tw-components/spinner";
+import { EventAgenda } from "@/pages/api/mutate/create-events/eventAgenda";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
 
 interface SlotWithoutHostProps extends AgendaSlotProps {}
 
-const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
-  handleReturnToList,
-  handleCreateVendor,
-}) => {
-  const { setIsHost, isHost, handleIsChecked } = useCreateEventContext();
+const SlotWithoutHost: FC<SlotWithoutHostProps> = ({ handleReturnToList }) => {
+  const { setIsHost, isHost } = useCreateEventContext();
 
   const form = useForm<SlotWithoutHostForm>({
     mode: "all",
     defaultValues: {
-      isHost: isHost,
       agenda_title: "",
       agenda_description: "",
       start_time: "",
@@ -39,31 +42,45 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
     resolver: yupResolver(SlotWithoutHostSchema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
+
+  const client = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventAgenda(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Event Agenda has been added",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["eventAgendas"] });
+        handleReturnToList();
+      }
+    },
+    onError: (error: any) => {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
 
   const onSubmit = useCallback(
     async (payload: SlotWithoutHostForm) => {
       console.log(payload);
-      handleCreateVendor({
-        startTime: payload.start_time,
-        endTime: payload.end_time,
-        isHost: payload.isHost,
-        agendaTitle: payload.agenda_title,
-        agendaDescription: payload.agenda_description,
-      });
 
-      handleReturnToList();
+      const data = {
+        title: payload?.agenda_title,
+        description: payload?.agenda_description,
+        startTime: payload?.start_time,
+        endTime: payload?.end_time,
+      };
 
-      handleIsChecked("addAgender");
-
-      // Reset form back to default values
-      form.reset({
-        start_time: "",
-        end_time: "",
-        isHost: isHost,
-        agenda_title: "",
-        agenda_description: "",
-      });
+      mutate(data);
     },
     [form]
   );
@@ -112,7 +129,6 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
                           placeholder="Enter session title"
                           type="text"
                           id="agenda_title"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -136,7 +152,6 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
                         <Textarea
                           placeholder="Max  char - 200 Words"
                           id="agenda_description"
-                          disabled={isLoading}
                           className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
                           {...field}
                         />
@@ -162,7 +177,6 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
                               placeholder="0:00"
                               type="time"
                               id="start_time"
-                              disabled={isLoading}
                               className="bg-white text-black font-pally-regular"
                               {...field}
                             />
@@ -188,7 +202,6 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
                               placeholder="0:00"
                               type="time"
                               id="start_time"
-                              disabled={isLoading}
                               className="bg-white text-black font-pally-regular"
                               {...field}
                             />
@@ -202,13 +215,15 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({
               </div>
             </div>
           </div>
-          <div className="flex gap-4 my-4">
-            <button
+          <div className="flex gap-4 mb-4">
+            <Button
               type="submit"
-              className="p-2.5 rounded-lg w-full border border-white text-white hover:bg-[#463B34]"
+              disabled={isPending}
+              variant="destructive"
+              className="w-full"
             >
-              Save Session
-            </button>
+              {isPending ? <Spinner /> : "Save Session"}
+            </Button>
           </div>
         </form>
       </Form>

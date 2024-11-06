@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React from "react";
 
 /* eslint-disable no-unused-vars */
 import {
@@ -10,22 +10,96 @@ import {
   useState,
 } from "react";
 
-type OrganiserDashContextValue = {
-  organiser: string;
-  setOrganiser: (key: string) => void;
+type IsCheckedState = {
+  campaignTypeState: boolean;
+  selectEventState: boolean;
+  campaignPlanState: boolean;
+  StartCampaignState: boolean;
 };
 
-const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(null);
+type OrganiserDashContextValue = {
+  isChecked: IsCheckedState;
+  currentStep: number;
+  eventState: string;
+  showPreviewEvent: boolean;
+  showDeleteEvent: boolean;
+  activeEvent: string;
+  handleIsChecked: (key: keyof IsCheckedState) => void;
+  nextSetUpStep: () => void;
+  setEventState: (key: string) => void;
+  handlePreviewEvent: () => void;
+  handleShowDeleteEvent: () => void;
+  setActiveEvent: (key: string) => void;
+};
+
+const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
+  null
+);
 
 OrganiserDashContext.displayName = "OrganiserDashContext";
 
-export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [organiser, setOrganiser] = useState<string>('');
-  
+export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
+  children,
+}) => {
+  //step for each campaign setup
+  const [currentStep, setCurrentStep] = useState<number>(1);
+
+  // switch organiser event tab
+  const [eventState, setEventState] = useState<string>("upcoming");
+
+  // show preview event state
+  const [showPreviewEvent, setShowPreviewEvent] = useState<boolean>(false);
+
+  // show preview event state
+  const [showDeleteEvent, setShowDeleteEvent] = useState<boolean>(false);
+
+  // state for event organiser dashboard
+  const [activeEvent, setActiveEvent] = useState<string>("attendees");
+
+  // Setup campaign state
+  const [isChecked, setIsChecked] = useState({
+    campaignTypeState: false,
+    selectEventState: false,
+    campaignPlanState: false,
+    StartCampaignState: false,
+  });
+
+  // function to switch preview event
+  const handlePreviewEvent = () => {
+    setShowPreviewEvent(!showPreviewEvent);
+  };
+
+  // function to switch preview event
+  const handleShowDeleteEvent = () => {
+    setShowDeleteEvent(!showDeleteEvent);
+  };
+
+  // function to increment setup step
+  const nextSetUpStep: () => void = () => {
+    setCurrentStep((prev) => prev + 1);
+  };
+
+  // handle function to checked
+  const handleIsChecked = (key: keyof typeof isChecked) => {
+    setIsChecked((prevState) => ({
+      ...prevState,
+      [key]: true,
+    }));
+  };
 
   const ContextValue: OrganiserDashContextValue = {
-    organiser,
-    setOrganiser
+    currentStep,
+    isChecked,
+    eventState,
+    showPreviewEvent,
+    showDeleteEvent,
+    activeEvent,
+    setActiveEvent,
+    handlePreviewEvent,
+    handleIsChecked,
+    nextSetUpStep,
+    setEventState,
+    handleShowDeleteEvent,
   };
   return (
     <OrganiserDashContext.Provider value={ContextValue}>

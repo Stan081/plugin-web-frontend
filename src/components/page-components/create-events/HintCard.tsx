@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { TiLightbulb } from "react-icons/ti";
 

@@ -24,8 +24,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from "@/tw-components/spinner";
+import { EventOnlineLocation } from "@/pages/api/mutate/create-events/eventLocationType";
+import { useMutation } from "@tanstack/react-query";
 
-const OnlineForm: React.FC<StepsProps> = ({ next, previous }) => {
+interface OnlineFormProps extends StepsProps {
+  locationType: string;
+}
+
+const OnlineForm: React.FC<OnlineFormProps> = ({
+  next,
+  previous,
+  locationType,
+}) => {
   const form = useForm<OnlineVenueLink>({
     mode: "all",
     defaultValues: {
@@ -35,11 +47,39 @@ const OnlineForm: React.FC<StepsProps> = ({ next, previous }) => {
     resolver: yupResolver(OnlineVenueLinkSchema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => EventOnlineLocation(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Uploaded Successfully",
+          description: `${response?.message}`,
+        });
+        next();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: error?.message,
+      });
+    },
+  });
 
   const onSubmit = useCallback(async (payload: OnlineVenueLink) => {
-    console.log(payload);
-    next();
+    const data = {
+      locationType,
+      onlineLocation: {
+        onlineVenue: payload?.venue_platform,
+        venueLink: payload?.venue_link,
+      },
+    };
+    console.log(data);
+    mutate(data);
   }, []);
   return (
     <div>
@@ -100,8 +140,7 @@ const OnlineForm: React.FC<StepsProps> = ({ next, previous }) => {
                           <Input
                             placeholder="https://example.com"
                             type="text"
-                            id="physical_location"
-                            disabled={isLoading}
+                            id="venue_link"
                             className="bg-white text-black font-pally-regular"
                             {...field}
                           />
@@ -135,10 +174,10 @@ const OnlineForm: React.FC<StepsProps> = ({ next, previous }) => {
 
                 <Button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isPending}
                   variant="destructive"
                 >
-                  {isLoading ? "Submitting..." : "Next"}
+                  {isPending ? <Spinner /> : "Next"}
                 </Button>
               </div>
             </div>

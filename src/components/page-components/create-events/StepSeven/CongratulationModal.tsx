@@ -1,12 +1,18 @@
-import React, { FC } from "react";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+"use client"
+import React, { FC, useEffect } from "react";
+import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const CongratulationModal: FC<{
   open: boolean;
   close: (key: boolean) => void;
-}> = ({ open, close }) => {
+  clearStep: () => void;
+}> = ({ open, close , clearStep}) => {
+  useEffect(() => {
+    clearStep()
+  },[clearStep])
   return (
     <div>
       <Dialog
@@ -32,9 +38,12 @@ const CongratulationModal: FC<{
                     book tickets for your events
                   </p>
 
-                  <div className="flex justify-center mt-5">
+                  <Link
+                    href={`/organiser`}
+                    className="flex justify-center mt-5"
+                  >
                     <Button variant="destructive">Manange Event</Button>
-                  </div>
+                  </Link>
                 </div>
                 <div className="h-[40vh] w-1/2">
                   <Image
