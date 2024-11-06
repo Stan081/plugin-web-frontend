@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import Faq from "@/components/faq";
 import TailoredEvent from "@/components/page-components/homepage/tailoredEvent";
 import ListEvent from "@/components/page-components/homepage/listEvent";

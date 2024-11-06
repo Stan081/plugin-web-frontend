@@ -1,6 +1,5 @@
 "use client";
 import { Section } from "@/tw-components/Section";
-
 import React, { useEffect, useRef, useState } from "react";
 import {
   Carousel,
@@ -115,20 +114,26 @@ const HeroSection = () => {
                               alt={`${slide.title} logo`}
                               className="w-24 h-24 md:w-56 md:h-56 mb-4"
                             />
+                            <motion.div
+                              animate={{ y: 0 }}
+                              initial={{ y: 150 }}
+                              transition={{ duration: 1.0, type: "spring" }}
+                              className="text-left space-y-2"
+                            >
+                              <h1 className="text-3xl md:text-5xl font-pally-bold">
+                                {slide.title}
+                              </h1>
+                              <p className="text-lg mb-6 font-pally-regular text-start">
+                                {slide.description}
+                              </p>
+                              <button className="bg-red-500 text-white px-6 py-3 rounded-md font-pally-regular">
+                                Get Tickets Now
+                              </button>
+                            </motion.div>
                           </motion.div>
                         ) : (
                           <div className="w-24 h-24 md:w-56 md:h-56 mb-4 rounded-lg" />
                         )}
-
-                        <h1 className="text-3xl md:text-5xl font-pally-bold">
-                          {slide.title}
-                        </h1>
-                        <p className="text-lg mb-6 font-pally-regular text-start">
-                          {slide.description}
-                        </p>
-                        <button className="bg-red-500 text-white px-6 py-3 rounded-md font-pally-regular">
-                          Get Tickets Now
-                        </button>
                       </div>
                     </Container>
                   </div>
