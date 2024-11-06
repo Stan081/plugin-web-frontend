@@ -6,12 +6,13 @@ import Logo from "../../../Logo";
 import Link from "next/link";
 import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import { NavigationDialog } from "../../../NavigationDialog";
-import MenuLinks from "../../../Menu";
 import classNames from "classnames";
 import { useRouter } from "next/router";
+import { useMe } from "@/pages/api/query/me";
+import Spinner from "@/tw-components/spinner";
 
 const OrganiserHeader = () => {
-
+  const { data: user, isLoading } = useMe();
   const router = useRouter();
 
   const getHeaderLinkState = useCallback(
@@ -70,13 +71,22 @@ const OrganiserHeader = () => {
           </div>
 
           <div className="flex gap-4 items-center">
-            <div className="flex gap-2 items-center cursor-pointer hover:underline">
+            <Link href={`/accounts`} className="flex gap-2 items-center cursor-pointer hover:underline">
               <HiOutlineSwitchHorizontal size={18} className="text-gray-600" />
               <p className="font-pally-medium text-gray-600">
                 Switch to attendee
               </p>
-            </div>
-            <MenuLinks />
+            </Link>
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              <div className="flex justify-start items-center">
+                <p className="rounded-full w-10 h-10 p-2 border text-center border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
+                  {`${user?.data?.name?.firstname.slice(0, 1)}` +
+                    `${user?.data?.name?.lastname.slice(0, 1)}`}
+                </p>
+              </div>
+            )}
           </div>
         </nav>
       </Container>
