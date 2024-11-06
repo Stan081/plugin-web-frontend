@@ -1,9 +1,7 @@
 "use client";
 
-import CardComponent from "@/components/CardComponent";
 import CardComponent2 from "@/components/CardComponent2";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
-import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
@@ -89,7 +87,7 @@ const PopularEvent = () => {
                   <>
                     {physicalPublishedType?.length > 0 &&
                       physicalPublishedType.map((card) => (
-                        <CardComponent key={card.id} card={card} />
+                        <CardComponent2 key={card.id} card={card} />
                       ))}
                   </>
                 )}
@@ -104,14 +102,12 @@ const PopularEvent = () => {
                   <>
                     {onlinePublishedType?.length > 0 &&
                       onlinePublishedType.map((card) => (
-                        // <CardComponent key={card.id} card={card} />
                         <CardComponent2 key={card.id} card={card} />
                       ))}
                   </>
                 )}
               </>
             )}
-            {/* <CardComponent2  /> */}
           </div>
         </Container>
       </div>

@@ -10,7 +10,11 @@ Content-Type: application/json
 
 ### Get Single Event by Id
 
+<<<<<<< HEAD
 GET http://pluginapi.onrender.com/api/event/events/672b717e3d0080c63fcbb55f
+=======
+GET http://pluginapi.onrender.com/api/event/events/67297b5ae75c5496396595ce
+>>>>>>> a1aad26 (Chore(event-detail-api): Add Agenda api)
 Content-Type: application/json
 
 
