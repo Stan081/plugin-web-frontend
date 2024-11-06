@@ -10,7 +10,7 @@ Content-Type: application/json
 
 ### Get Single Event by Id
 
-GET http://pluginapi.onrender.com/api/event/events/67289a162199b35c54798a8d
+GET http://pluginapi.onrender.com/api/event/events/67297b5ae75c5496396595ce
 Content-Type: application/json
 
 
