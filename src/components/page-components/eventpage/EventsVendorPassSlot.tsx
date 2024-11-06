@@ -1,21 +1,36 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { toFiat } from "@/lib/amount";
 import React from "react";
 
 type SlotPropsType = {
   title: string;
-  unitPrice: string;
+  unitPrice: number;
   slotsLeft: string;
+  thumbnail?: string;
 };
 
 const EventsVendorPassSlot = ({
   title,
   unitPrice,
   slotsLeft,
+  thumbnail,
 }: SlotPropsType) => {
   return (
     <div className="h-auto md:h-[20vh] flex border border-[#E8E8E8] rounded-xl">
-      <div className=" md:h-full w-[15%] md:w-[20%] bg-[#F8F6F6] rounded-l-xl"></div>
+      {thumbnail ? (
+        <div className=" md:h-full w-[15%] md:w-[20%] bg-[#F8F6F6] ">
+          <img
+            className="w-full h-full object-cover rounded-tl-xl rounded-bl-xl"
+            src={thumbnail ?? "/images/blue-bg.png"}
+            alt={title || "Event Vendor"}
+            width={300}
+            height={200}
+          />
+        </div>
+      ) : (
+        <div className=" md:h-full w-[15%] md:w-[20%] bg-[#F8F6F6] rounded-l-xl"></div>
+      )}
       <div className="h-full w-[85%] md:w-[90%] flex flex-col justify-between">
         <div className="h-auto md:h-[60%] flex items-center justify-between px-5 py-4">
           <p className="font-pally-regular text-lg md:text-2xl text-[#101928]">
@@ -25,7 +40,7 @@ const EventsVendorPassSlot = ({
             <Button
               variant="outline"
               size="sm"
-              className="flex items-center gap-1.5" 
+              className="flex items-center gap-1.5"
             >
               Buy Pass
             </Button>
@@ -34,7 +49,7 @@ const EventsVendorPassSlot = ({
         <Separator />
         <div className="h-auto md:h-[40%] flex items-center justify-between px-5 py-3">
           <p className="font-pally-medium text-lg md:text-xl text-[#101928]">
-            #{unitPrice}
+            {toFiat(unitPrice)}
             <span className="ml-1 font-pally-regular text-sm md:text-base text-[rgba(0,0,0,0.5)] ">
               per pass
             </span>
