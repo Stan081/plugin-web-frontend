@@ -77,6 +77,7 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
 
       {event?.eventVendors && <EventsVendorPass vendor={event?.eventVendors} />}
 
+
       <Separator />
 
       <MeetYourOganiser />
