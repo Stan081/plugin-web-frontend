@@ -71,11 +71,11 @@ const Footer = () => {
                 <h4 className=" font-pally-medium tex-black text-base md:text-lg">
                   Dowload App on
                 </h4>
-                <ul className="space-y-4">
+                <ul className="flex items-center gap-5">
                   {footerData.f3.map((list, index) => (
                     <li
                       key={index}
-                      className="bg-black py-2 rounded-lg flex items-center justify-center gap-4"
+                      className="bg-black w-full p-2 rounded-lg flex items-center justify-center gap-4"
                     >
                       <div>
                         <Image
@@ -87,7 +87,7 @@ const Footer = () => {
                         />
                       </div>
                       <div className="">
-                        <p className=" font-pally-regular text-[#D0D5DD]">
+                        <p className=" font-pally-regular text-[#D0D5DD] text-xs">
                           {list.shortText}
                         </p>
                         <p className=" font-pally-bold text-white">

@@ -1,6 +1,7 @@
 "use client";
 
 import CardComponent from "@/components/CardComponent";
+import CardComponent2 from "@/components/CardComponent2";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
@@ -53,7 +54,7 @@ const PopularEvent = () => {
             {tabLink.map((tab) => (
               <li key={tab.key} role="presentation">
                 <button
-                  className={`border py-2 px-3 rounded-3xl ${
+                  className={`border py-1 px-2 md:py-2 md:px-3 rounded-3xl ${
                     isActive === tab.key
                       ? "border-2 border-[#D9302A] text-[#D9302A]"
                       : "border-[#586170] text-[#586170]"
@@ -80,11 +81,11 @@ const PopularEvent = () => {
             aria-labelledby={`tab-${isActive}`}
             className="mt-6 md:mt-10 flex lg:flex-row gap-5 overflow-x-auto w-full pb-8"
           >
-            {isLoading ? (
-              <CardSkeleton />
-            ) : (
+            {isActive === "physical" && (
               <>
-                {isActive === "physical" && (
+                {isLoading ? (
+                  <CardSkeleton />
+                ) : (
                   <>
                     {physicalPublishedType?.length > 0 &&
                       physicalPublishedType.map((card) => (
@@ -95,20 +96,22 @@ const PopularEvent = () => {
               </>
             )}
 
-            {isLoading ? (
-              <CardSkeleton />
-            ) : (
+            {isActive === "virtual" && (
               <>
-                {isActive === "virtual" && (
+                {isLoading ? (
+                  <CardSkeleton />
+                ) : (
                   <>
                     {onlinePublishedType?.length > 0 &&
                       onlinePublishedType.map((card) => (
-                        <CardComponent key={card.id} card={card} />
+                        // <CardComponent key={card.id} card={card} />
+                        <CardComponent2 key={card.id} card={card} />
                       ))}
                   </>
                 )}
               </>
             )}
+            {/* <CardComponent2  /> */}
           </div>
         </Container>
       </div>
