@@ -14,9 +14,9 @@ const EventsVendorPass: React.FC<{vendor: any}> = ({vendor}) => {
           <EventsVendorPassSlot
             key={slot?._id}
             title={slot?.vendorTag}
-            unitPrice={slot.unitPrice}
-            slotsLeft={slot.slotsLeft}
-            thumbnail={slot?.}
+            unitPrice={slot?.price}
+            slotsLeft={slot?.slot}
+            thumbnail={slot?.thumbnail}
           />
         ))}
       </div>
