@@ -71,11 +71,11 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
 
       <Separator />
 
-      <EventsAgenda event={event?.eventAgendas} />
+      {event?.eventAgendas && <EventsAgenda event={event?.eventAgendas} />}
 
       <Separator />
 
-      <EventsVendorPass vendor={event?.eventVendors} />
+      {event?.eventVendors && <EventsVendorPass vendor={event?.eventVendors} />}
 
       <Separator />
 
@@ -87,11 +87,11 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
 
       <Separator />
 
-      <EventsSpeakers />
+      {event?.guestList && <EventsSpeakers guests={event?.guestList} />}
 
       <Separator />
 
-      <EventsTags />
+      {event?.eventCategory && <EventsTags tags={event?.eventCategory} />}
     </div>
   );
 };
