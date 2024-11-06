@@ -1,7 +1,6 @@
 import Layout from "@/components/layout";
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
-import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { cardData } from "@/static-datas/cards-data";
 import EventFilterComponent from "@/components/page-components/eventpage/EventFilterComponent";
