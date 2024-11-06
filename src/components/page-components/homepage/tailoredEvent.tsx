@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Container from "@/tw-components/container";
@@ -8,10 +8,23 @@ import { Section } from "@/tw-components/Section";
 import { cardData } from "@/static-datas/cards-data";
 import CardComponent from "@/components/CardComponent";
 import Link from "next/link";
+import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
+import SkeletonImage from "@/tw-components/skeleton/image";
+import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 
 const TailoredEvent: React.FC = () => {
-  // Temp mock data
-  const items = [
+  const { data: events, isLoading } = useGetAllEvents();
+
+  const now = new Date();
+
+  const upcomingPublishedData = events?.data.filter((item) => {
+    const startDate = new Date(
+      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+    );
+    return item.isPublished === true && startDate > now;
+  });
+
+  const UIitems = [
     {
       id: 1,
       label: "Concerts",
@@ -109,6 +122,10 @@ const TailoredEvent: React.FC = () => {
     );
   };
 
+  if (isLoading) {
+    <p>loading...</p>;
+  }
+
   return (
     <Section id="our-tailored-events" className="isolate p-0">
       <div className="bg-whiteNoise bg-cover backdrop-blur-md py-8 md:py-20">
@@ -116,7 +133,7 @@ const TailoredEvent: React.FC = () => {
         <Container className="hidden lg:block">
           <div className="flex justify-between gap-10 w-full mx-auto">
             <ul className="w-[25%] p-0 list-none relative ">
-              {items.slice(0, 4).map((item) => (
+              {UIitems.slice(0, 4).map((item) => (
                 <motion.li
                   key={item.id as number}
                   className={`absolute ${item.position} ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular`}
@@ -145,7 +162,7 @@ const TailoredEvent: React.FC = () => {
             </div>
 
             <ul className="w-[25%] p-0 list-none relative ">
-              {items.slice(4, 8).map((item) => (
+              {UIitems.slice(4, 8).map((item) => (
                 <motion.li
                   key={item.id as number}
                   className={`absolute ${item.position} ${item.color} border-2 rounded-full py-2.5 px-5 font-pally-regular`}
@@ -166,9 +183,19 @@ const TailoredEvent: React.FC = () => {
         <Container className="mt-20 md:mt-40 overflow-auto px-4 md:px-0">
           <h2 className="text-3xl font-pally-medium mb-6">Upcoming Events</h2>
           <div className="flex lg:flex-row gap-6 overflow-x-auto scroll-smooth whitespace-nowrap w-full pb-8">
-            {cardData.map((card) => (
-              <CardComponent key={card.id} {...card} />
-            ))}
+            {isLoading ? (
+              <CardSkeleton/>
+            ) : (
+              <>
+                {upcomingPublishedData?.length > 0 ? (
+                  upcomingPublishedData.map((card) => (
+                    <CardComponent key={card._id} card={card} />
+                  ))
+                ) : (
+                  <p>No published data</p>
+                )}
+              </>
+            )}
           </div>
         </Container>
       </div>

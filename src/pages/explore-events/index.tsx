@@ -1,7 +1,6 @@
 import Layout from "@/components/layout";
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
-import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 import { cardData } from "@/static-datas/cards-data";
 import EventFilterComponent from "@/components/page-components/eventpage/EventFilterComponent";
@@ -52,7 +51,7 @@ const ExploreEventsPage = () => {
               {isGridView ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-8 mt-3">
                   {cardData.map((card) => (
-                    <CardComponent key={card.id} {...card} />
+                    <p>hello</p>
                   ))}
                 </div>
               ) : (

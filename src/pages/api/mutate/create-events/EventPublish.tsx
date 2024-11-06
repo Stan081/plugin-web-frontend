@@ -15,7 +15,7 @@ export const EventPublish = async (
   const token = getToken();
   try {
     const response: AxiosResponse<StepSevenResponse> = await axios.put(
-      PUT_EVENT_ID,
+      PUT_EVENT_ID(),
       data,
       {
         headers: {

@@ -17,7 +17,7 @@ export const useGetEventAgenda = () => {
     queryKey: ["eventAgendas"],
     queryFn: () =>
       axios
-        .get(EVENT_AGENDA, options)
+        .get(EVENT_AGENDA(), options)
         .then((res) => res?.data)
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling

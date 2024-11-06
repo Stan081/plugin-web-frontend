@@ -77,7 +77,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
     mode: "all",
     defaultValues: {
       schedule: recurringSchedule,
-      start_date: new Date(),
+      start_date: null,
       start_time: "",
       end_date: null,
       end_time: "",
@@ -162,7 +162,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="flex flex-col justify-between h-[50vh] md:h-[64vh] whitespace-normal overflow-y-auto">
+          <div className="flex flex-col justify-between h-[60vh] md:h-[40vh] whitespace-normal overflow-y-auto">
             <div className="grid grid-cols-2 gap-5 h-auto w-auto">
               <FormItem>
                 <FormLabel className="text-white" htmlFor="start_date">
@@ -291,7 +291,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
                           <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
                             <SelectValue placeholder="select timezone" />
                           </SelectTrigger>
-                          <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
+                          <SelectContent className="w-full border z-50 bg-primary-foreground rounded-sm bg-white">
                             {timezone.map((zone, index) => {
                               return (
                                 <SelectItem key={index} value={zone}>
@@ -312,7 +312,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
               </FormItem>
             </div>
           </div>
-          <div className="sticky z-50 bottom-0 bg-[#281E17]">
+          <div className="sticky z-30 bottom-0 bg-[#281E17]">
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button

@@ -6,6 +6,8 @@ import MeetYourOganiser from "../user-dashboard/MeetYourOganiser";
 import ShowLocation from "./ShowLocation";
 import EventsTags from "./EventsTags";
 import EventsSpeakers from "./EventsGuests";
+import EventsAgenda from "./EventsAgenda";
+import EventsVendorPass from "./EventsVendorPass";
 
 interface Props {
   location: string;
@@ -23,7 +25,9 @@ const AboutEventDetail: React.FC = () => {
           Sun, July 28 2024, 8:00 PM
         </p>
       </div>
+
       <Separator />
+
       <div>
         <p className="text-[#2C2B2E] text-base md:text-lg font-pally-medium">
           About the event
@@ -37,6 +41,15 @@ const AboutEventDetail: React.FC = () => {
           meaningful connections and spreading positive vibes.
         </p>
       </div>
+
+      <Separator />
+
+      <EventsAgenda />
+
+      <Separator />
+
+      <EventsVendorPass />
+
       <Separator />
 
       <MeetYourOganiser />

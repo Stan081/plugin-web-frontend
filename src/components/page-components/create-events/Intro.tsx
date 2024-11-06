@@ -17,9 +17,9 @@ const Intro: React.FC<{ contents: string[]; title: string }> = ({
     <>
       <Logo />
       <div className="flex flex-row lg:flex-col justify-between items-center md:space-y-12 lg:mt-28">
-        <h1 className="text-[#020912] font-pally-regular text-lg lg:text-4xl w-full md:max-w-xl md:leading-tight">
+        <h2 className="text-[#020912] font-pally-regular text-lg lg:text-4xl w-full md:max-w-xl md:leading-tight">
           {title}
-        </h1>
+        </h2>
         <HintCard contents={contents} />
 
         <div className="block lg:hidden h-full">

@@ -45,6 +45,7 @@ import { Button } from "@/components/ui/button";
 import { EventGroupPaid } from "@/pages/api/mutate/create-events/EventGroupPaid";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "@/tw-components/spinner";
+import { IoReturnDownBackOutline } from "react-icons/io5";
 
 interface PaidGroupSeatsFormProps extends GroupSeatProps {}
 
@@ -68,7 +69,7 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
       ticket_category: "",
       ticket_quantity: quantity,
       ticket_price: ticketPrice,
-      start_date: new Date(),
+      start_date: null,
       end_date: null,
       start_time: "",
       end_time: "",
@@ -168,7 +169,7 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
           title: "Paid group ticket has been added",
           description: `${response?.message}`,
         });
-        client.invalidateQueries({ queryKey: ["groupEvents"] })
+        client.invalidateQueries({ queryKey: ["groupEvents"] });
         handleReturnToList();
       }
     },
@@ -193,8 +194,8 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
       endDate: payload.end_date,
       endTime: payload.end_time,
       ticketPeaks: payload.ticket_perks,
-      seatMap: payload.label_image,
-      color: payload.label_color,
+      seatMap: payload?.label_image ?? "",
+      color: payload?.label_color ?? "",
     };
     mutate(data);
   }, []);
@@ -453,7 +454,7 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
                     <Textarea
                       placeholder="Max  char - 200 Words"
                       id="ticket_perks"
-                      className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
+                      className="w-full bg-white text-black font-pally-regular h-32 md:h-56 focus:outline-none focus:border-none"
                       {...field}
                     />
                   </FormControl>
@@ -594,6 +595,12 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
           </div>
 
           <div className="flex justify-end gap-4 mb-4">
+            <div
+              onClick={handleReturnToList}
+              className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
+            >
+              <IoReturnDownBackOutline size={20} color="#F9B6B1" />
+            </div>
             <Button variant="destructive" type="submit">
               {isPending ? <Spinner /> : `Save Session`}
             </Button>

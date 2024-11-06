@@ -10,13 +10,10 @@ import { exlporeEventsbreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
-import { notFound, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
-import { FC } from "react";
+import React from "react";
 
-interface PreviewEventPageProp {
-  propId?: string;
-}
 
 const ExploreEventDetailPage = () => {
   const param = useParams<{ id: string }>();
@@ -45,9 +42,8 @@ const ExploreEventDetailPage = () => {
 
           <SimilarEvents />
         </Container>
-        <div className="lg:hidden">
-          <TicketCTA price={checkCardId.priceRange} id={checkCardId.id} />
-        </div>
+        <TicketCTA price={checkCardId.priceRange} id={checkCardId.id} />
+
       </Section>
     </Layout>
   );

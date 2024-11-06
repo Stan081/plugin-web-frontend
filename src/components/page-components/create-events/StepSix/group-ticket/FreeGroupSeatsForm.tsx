@@ -44,6 +44,7 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { IoMdImages } from "react-icons/io";
 import Spinner from "@/tw-components/spinner";
 import { Button } from "@/components/ui/button";
+import { IoReturnDownBackOutline } from "react-icons/io5";
 
 interface FreeGroupSeatsFormProps extends GroupSeatProps {}
 
@@ -64,7 +65,7 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
       ticket_name: "",
       ticket_category: "",
       ticket_quantity: null,
-      start_date: new Date(),
+      start_date: null,
       end_date: null,
       start_time: "",
       end_time: "",
@@ -188,8 +189,8 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
       endDate: payload.end_date,
       endTime: payload.end_time,
       ticketPeaks: payload.ticket_perks,
-      seatMap: payload.label_image ?? '',
-      color: payload.label_color ?? '',
+      seatMap: payload.label_image ?? "",
+      color: payload.label_color ?? "",
     };
     mutate(data);
   }, []);
@@ -557,6 +558,12 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
           </div>
 
           <div className="flex justify-end gap-4 mb-4">
+            <div
+              onClick={handleReturnToList}
+              className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
+            >
+              <IoReturnDownBackOutline size={20} color="#F9B6B1" />
+            </div>
             <Button variant="destructive" type="submit">
               {isPending ? <Spinner /> : `Save Session`}
             </Button>

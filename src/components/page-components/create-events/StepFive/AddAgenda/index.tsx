@@ -1,3 +1,4 @@
+"use client"
 import { Separator } from "@/components/ui/separator";
 import React, { useState } from "react";
 import AgendaEmptyState from "./AgendaEmptyState";
@@ -20,7 +21,7 @@ const AddAgenda = () => {
   const { mutate: deleteAgenda, isPending } = useDeleteAgenda();
 
   const [formState, setFormState] = useState<AddAgendaState>(
-    AddAgendaState.VIEW_LIST
+    AddAgendaState.CREATE_AGENDA
   );
 
   const [selectedAgenda, setSelectedAgenda] = useState<any | undefined>(

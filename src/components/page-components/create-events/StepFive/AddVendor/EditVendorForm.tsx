@@ -382,7 +382,7 @@ const EditVendorForm: FC<EditVendorFormProps> = ({
 
                 <div className="flex gap-4">
                   <div
-                    onClick={() => handleDelete(selectedVendor?._id)}
+                    onClick={handleReturnToList}
                     className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
                   >
                     <IoReturnDownBackOutline size={20} color="#F9B6B1" />

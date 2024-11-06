@@ -14,7 +14,7 @@ export const EditProfileRole = async (
   const token = getToken();
   try {
     const response: AxiosResponse<EditProfileResponse> = await axios.patch(
-      EDIT_PROFILE_ROLE,
+      EDIT_PROFILE_ROLE(),
       data,
       {
         headers: {

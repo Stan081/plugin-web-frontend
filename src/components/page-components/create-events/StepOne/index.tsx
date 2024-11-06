@@ -30,6 +30,7 @@ import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMe } from "@/pages/api/query/me";
 import { useEditProfileRole } from "@/hooks/useEditProfileRole";
+import { PUT_EVENT_ID } from "@/lib/constants";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -146,17 +147,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     }
   };
 
-  // Modified refetchEventID with logging
-  const refetchEventID = (key: string, data: any) => {
-    const evtID = getCookie(key);
-
-    if (evtID) {
-      removeCookie(key);
-    } else {
-      setCookie(key, data);
-    }
-  };
-
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => EventBasicInfo(data),
     onSuccess: (response) => {
@@ -167,6 +157,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
           description: `${response?.message}`,
         });
         next();
+        // Set the cookie here
         setCookie("event_id", response?.data?._id);
       }
     },
@@ -179,9 +170,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     },
   });
 
-  const { mutate: mutateRole } = useEditProfileRole();
-
-  const getEvtID = getCookie("event_id");
+  const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
 
   const onSubmit = useCallback(
     (payload: EventStepOne) => {
@@ -194,15 +183,19 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       };
 
       if (userData?.data?.role === "user") {
-        const roleData = { role: "organizer" };
-        mutateRole(roleData);
+        const data = { role: "organizer" };
+        mutateRole(data);
       }
 
-      if (getEvtID) {
+      // Ensure `event_id` is removed before setting a new one
+      if (getCookie("event_id")) {
         removeCookie("event_id");
+      }
+      if (isPendingRole) {
+        <SpinnerOverlay />;
       } else {
         mutate(data);
-        // console.log('working')
+        // console.log(data)
       }
     },
     [mutateRole, userData]

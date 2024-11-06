@@ -17,7 +17,7 @@ export const EditEventAgenda = async (
   const id: string = String(agendaID);
   try {
     const response: AxiosResponse<StepFiveResponse> = await axios.patch(
-      EVENT_AGENDA + `/${id}`,
+      EVENT_AGENDA() + `/${id}`,
       data,
       {
         headers: {

@@ -40,9 +40,9 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
     defaultValues: {
       ticket_type: selectTicket,
       ticket_name: "",
-      ticket_quantity: 0,
-      ticket_price: 0,
-      start_date: new Date(),
+      ticket_quantity: null,
+      ticket_price: null,
+      start_date: null,
       end_date: null,
       start_time: "",
       end_time: "",

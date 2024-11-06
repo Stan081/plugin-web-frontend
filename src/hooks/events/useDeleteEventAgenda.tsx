@@ -12,7 +12,7 @@ export const useDeleteAgenda = () => {
 
   return useMutation({
     mutationFn: ({ agendaId }: { agendaId: number }) => {
-      const url = EVENT_AGENDA + `/${agendaId}`;
+      const url = EVENT_AGENDA() + `/${agendaId}`;
       return axios.delete(url, {
         headers: {
           Accept: "application/json",

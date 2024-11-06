@@ -12,7 +12,7 @@ export const useDeleteEventGroup = () => {
 
   return useMutation({
     mutationFn: ({ groupTicketId }: { groupTicketId: number }) => {
-      const url = EVENT_GROUP + `/${groupTicketId}`;
+      const url = EVENT_GROUP() + `/${groupTicketId}`;
       return axios.delete(url, {
         headers: {
           Accept: "application/json",
