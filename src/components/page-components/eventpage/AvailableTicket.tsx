@@ -3,8 +3,40 @@ import Ticket from "./ticket";
 import { availableTickets } from "@/static-datas/ticketsData";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { calculateDuration } from "@/lib/utils";
 
-const AvailableTicket: React.FC<{ id: string }> = ({ id }) => {
+const AvailableTicket: React.FC<{ id: string; event: any }> = ({
+  id,
+  event,
+}) => {
+  const getEntryTicketCountdown = () => {
+    const now = new Date();
+
+    if (event?.ticketCategory === "entry" && event.entryTicket?.startDate) {
+      const startDate = new Date(event.entryTicket.startDate);
+      const timeDifference = startDate.getTime() - now.getTime();
+      const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+      return daysRemaining > 0 ? daysRemaining : 0;
+    }
+    return null;
+  };
+
+  const getFirstTicketCountdown = (groupedTicket: any[]) => {
+    if (!Array.isArray(groupedTicket) || groupedTicket.length === 0) {
+      return null; // Return null if groupedTicket is not an array or is empty
+    }
+
+    const now = new Date();
+    const firstTicketStartDate = new Date(groupedTicket[0].startDate);
+    const timeDifference = firstTicketStartDate.getTime() - now.getTime();
+
+    // Calculate the countdown in days
+    const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    return daysRemaining > 0 ? daysRemaining : 0; // Return 0 if the start date has passed
+  };
+
   return (
     <div className="mb-6 mt-8 lg:flex justify-end w-full max-w-xl hidden">
       <div>
@@ -13,7 +45,13 @@ const AvailableTicket: React.FC<{ id: string }> = ({ id }) => {
             AVAILABLE TICKETS
           </h6>
           <p className="rounded-3xl text-sm text-[#523300] font-pally-medium px-2 py-1 bg-[#F7D394]">
-            Ticket sales ending in 3 days
+            {`Ticket sales ending in
+             ${
+               (event?.ticketCategory === "entry" &&
+                 getEntryTicketCountdown()) ||
+               getFirstTicketCountdown(event?.groupedTicket)
+             }
+              days`}
           </p>
         </div>
 

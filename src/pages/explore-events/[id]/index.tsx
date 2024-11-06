@@ -44,7 +44,7 @@ const ExploreEventDetailPage = () => {
               <div className="w-full lg:w-1/2">
                 <AboutEventDetail event={cardId} />
               </div>
-              <AvailableTicket id={cardId._id} />
+              <AvailableTicket event={cardId} id={cardId._id} />
             </div>
 
             <SimilarEvents />
