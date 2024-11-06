@@ -4,10 +4,10 @@ import React, { FC, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import { MdOutlineDesktopWindows } from "react-icons/md";
 import { RiSmartphoneLine } from "react-icons/ri";
-import {
-  PreviewEventMobile,
-  PreviewEventPage,
-} from "@/pages/explore-events/[id]";
+// import {
+//   PreviewEventMobile,
+//   PreviewEventPage,
+// } from "@/pages/explore-events/[id]";
 
 interface PreviewEventProps {
   open: boolean;
@@ -95,14 +95,14 @@ const PreviewEvent: FC<PreviewEventProps> = ({ open, close }) => {
                 <RiCloseLine size={20} />
               </div>
             </DialogTitle>
-            <div className="p-6 h-[80vh] overflow-y-auto">
+            {/* <div className="p-6 h-[80vh] overflow-y-auto">
               {view === "desktop" && <PreviewEventPage propId="1" />}
               {view === "mobile" && (
                 <div className="mx-auto w-[500px]">
                   <PreviewEventMobile propId="1" />
                 </div>
               )}
-            </div>
+            </div> */}
           </DialogPanel>
         </div>
       </div>
