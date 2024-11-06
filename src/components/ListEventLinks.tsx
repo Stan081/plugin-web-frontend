@@ -8,32 +8,37 @@ import ListAdd from "./icons/list-add";
 import Grid2 from "./icons/grid-2";
 import Money2 from "./icons/money-2";
 import Link from "next/link";
-
-const eventlists = [
-  {
-    name: "Create events",
-    description: "List your event",
-    icon: <ListAdd />,
-    bgColor: "bg-[#FBDFD2]",
-    link: "/create-event",
-  },
-  {
-    name: "Features",
-    description: "Discover the benefits of Plugin",
-    icon: <Grid2 />,
-    bgColor: "bg-[#E4C9FF]",
-    link: "/#",
-  },
-  {
-    name: "Pricing",
-    description: "Explore the planning price",
-    icon: <Money2 />,
-    bgColor: "bg-[#C9F8FF]",
-    link: "/#",
-  },
-];
+import { useMe } from "@/pages/api/query/me";
 
 const ListEvent = () => {
+  const { data: userDate } = useMe();
+  const eventlists = [
+    ...(userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer
+      ? []
+      : [
+          {
+            name: "Create events",
+            description: "List your event",
+            icon: <ListAdd />,
+            bgColor: "bg-[#FBDFD2]",
+            link: "/create-event",
+          },
+        ]),
+    {
+      name: "Features",
+      description: "Discover the benefits of Plugin",
+      icon: <Grid2 />,
+      bgColor: "bg-[#E4C9FF]",
+      link: "/#",
+    },
+    {
+      name: "Pricing",
+      description: "Explore the planning price",
+      icon: <Money2 />,
+      bgColor: "bg-[#C9F8FF]",
+      link: "/#",
+    },
+  ];
   return (
     <Popover>
       <PopoverTrigger>

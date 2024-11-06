@@ -35,12 +35,12 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
           <p className="inline-flex bg-destructive text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
             {card?.publishStatus}
           </p>
-          <h2 className="text-lg md:text-xl font-bold font-pally-medium">
+          <h2 className="text-lg md:text-2xl font-pally-medium">
             {card?.eventName?.length > 25
               ? card?.eventName.slice(0, 25).concat("...")
               : card?.eventName}
           </h2>
-          <p className="text-sm md:text-lg text-slate-200 font-pally-regular">
+          <p className="text-sm md:text-md text-slate-200 font-pally-regular">
             {card?.locationType === "physical"
               ? card?.physicalLocation?.address
               : "Online"}

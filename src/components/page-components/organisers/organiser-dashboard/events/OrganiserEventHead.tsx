@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import Container from "@/tw-components/container";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { LuCalendarPlus } from "react-icons/lu";
 
@@ -14,6 +14,8 @@ const tabLink = [
 
 const OrganiserEventHead = () => {
   const { eventState, setEventState } = useOrganiserDashContext();
+
+  const router = useRouter()
 
   return (
     <div className="bg-gray-200 pt-6 md:pt-9">
@@ -54,7 +56,7 @@ const OrganiserEventHead = () => {
             ))}
           </ul>
         </div>
-        <Link href={"/create-event"}>
+        <Link href={"/list-event"}>
           <Button variant="destructive" className=" flex items-center gap-3">
             <LuCalendarPlus size={26} />
             Create event
