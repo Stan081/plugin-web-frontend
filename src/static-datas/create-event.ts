@@ -26,12 +26,6 @@ export const timezone = [
   "(GMT+12:00) New Zealand Standard Time - Wellington",
 ];
 
-// default data for step two form
-export type EventCategory = {
-  name: string;
-  selected: boolean;
-};
-
 export type PageContentsType = {
   id: string;
   introTitle: string;
@@ -80,18 +74,18 @@ export type SeatSectionListsType = {
   ticketPerks: string;
 };
 
-export const categoriesData: EventCategory[] = [
-  { name: "Music", selected: false },
-  { name: "Business", selected: false },
-  { name: "Food & Drinks", selected: false },
-  { name: "Community", selected: false },
-  { name: "Arts", selected: false },
-  { name: "Entertainment", selected: false },
-  { name: "Health", selected: false },
-  { name: "Science & Tech", selected: false },
-  { name: "Non-Profit", selected: false },
-  { name: "Hangout", selected: false },
-  { name: "Family & Education", selected: false },
+export const categoriesData: string[] = [
+  "Music",
+  "Business",
+  "Food & Drinks",
+  "Community",
+  "Arts",
+  "Entertainment",
+  "Health",
+  "Science & Tech",
+  "Non-Profit",
+  "Hangout",
+  "Family & Education",
 ];
 
 export const pageContents: PageContentsType[] = [

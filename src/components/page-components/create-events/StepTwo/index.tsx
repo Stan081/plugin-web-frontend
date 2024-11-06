@@ -1,39 +1,37 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import { StepsProps } from "@/pages/create-event";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { categoriesData, EventCategory } from "@/static-datas/create-event";
-import { useMutation } from "@tanstack/react-query";
+import { categoriesData } from "@/static-datas/create-event";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { EventCategoryAPI } from "@/pages/api/mutate/create-events/eventCategory";
 import Spinner from "@/tw-components/spinner";
-import { getCookie } from "@/lib/cookies";
-import { EDIT_PROFILE_ROLE, EVENT_AGENDA, PUT_EVENT_ID } from "@/lib/constants";
+import { useGetEventById } from "@/hooks/events/useGetEventById";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const pageContents = ["Think about the primary audience for your event."];
 
-const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
-  const [categories, setCategories] = useState<EventCategory[]>(categoriesData);
-  const [selectedNames, setSelectedNames] = useState<string[]>([]);
+const StepTwo: React.FC<StepsProps> = ({ next }) => {
+  const { data: eventId, isLoading } = useGetEventById();
+  const [selectedNames, setSelectedNames] = useState<string[]>(
+    eventId?.data?.eventCategory || []
+  );
 
   const { toast } = useToast();
+  const client = useQueryClient();
 
-  const handleClick = (name: string) => {
-    const updatedCategories = categories.map((category) =>
-      category.name === name
-        ? { ...category, selected: !category.selected }
-        : category
+  const handleClick = (category: string) => {
+    // Toggle selection by checking if the category is already in selectedNames
+    setSelectedNames((prevSelected) =>
+      prevSelected.includes(category)
+        ? prevSelected.filter((name) => name !== category)
+        : [...prevSelected, category]
     );
-    setCategories(updatedCategories);
-
-    const selectedCategories = updatedCategories
-      .filter((category) => category.selected)
-      .map((category) => category.name);
-    setSelectedNames(selectedCategories);
   };
 
   const { mutate, isPending } = useMutation({
@@ -45,6 +43,7 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
           title: "Uploaded successfully",
           description: `${response?.message}`,
         });
+        client.invalidateQueries({ queryKey: ["eventID"] });
         next();
       }
     },
@@ -57,17 +56,18 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
     },
   });
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     const data = {
-      eventCategory: selectedNames,
+      eventCategory: [...selectedNames],
     };
     mutate(data);
-    // console.log(EDIT_PROFILE_ROLE())
-  }, []);
+    console.log(data);
+  };
 
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12">
-      <div className="w-full lg:w-2/5  px-4 lg:px-0">
+      {isLoading && <SpinnerOverlay />}
+      <div className="w-full lg:w-2/5 px-4 lg:px-0">
         <Intro
           contents={pageContents}
           title="What kind of events do you organize?"
@@ -81,15 +81,17 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
                 Choose the category that best describes your event
               </h3>
               <div className="flex flex-wrap gap-4 mt-5 text-white">
-                {categories.map((category) => (
+                {categoriesData.map((category, index) => (
                   <button
-                    key={category.name}
-                    onClick={() => handleClick(category.name)}
+                    key={index}
+                    onClick={() => handleClick(category)}
                     className={`py-2 px-4 rounded-full border ${
-                      category.selected ? "bg-white text-black" : "border-white"
+                      selectedNames.includes(category)
+                        ? "bg-white text-black"
+                        : "border-white"
                     }`}
                   >
-                    {category.name}
+                    {category}
                   </button>
                 ))}
               </div>
@@ -106,13 +108,6 @@ const StepTwo: React.FC<StepsProps> = ({ next, previous }) => {
                 </Button>
 
                 <div className="flex items-center gap-8">
-                  <Button
-                    onClick={previous}
-                    className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
-                  >
-                    Back
-                  </Button>
-
                   <Button
                     disabled={selectedNames.length < 1 || isPending}
                     onClick={handleSubmit}

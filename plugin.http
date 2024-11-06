@@ -10,7 +10,7 @@ Content-Type: application/json
 
 ### Get Single Event by Id
 
-GET http://pluginapi.onrender.com/api/event/events/67289a162199b35c54798a8d
+GET http://pluginapi.onrender.com/api/event/events/672b717e3d0080c63fcbb55f
 Content-Type: application/json
 
 
@@ -23,4 +23,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
 {
  "role": "organizer",
  "isOrganizer": false
+}
+
+### Add Event categories
+
+PUT https://pluginapi.onrender.com/api/event/6728fed2f8ae16584053abbf
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzA4OTgyNTcsImV4cCI6MTczMzQ5MDI1N30.vlgc-LLefIZn_4P3cPr7HbjsIcvpHdW2-lU_1OWu7d8
+
+{
+   "eventCategory": ["home", "start", "end", "done", "football"]
 }

@@ -30,7 +30,7 @@ import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMe } from "@/pages/api/query/me";
 import { useEditProfileRole } from "@/hooks/useEditProfileRole";
-import { PUT_EVENT_ID } from "@/lib/constants";
+import { useGetEventById } from "@/hooks/events/useGetEventById";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -38,6 +38,8 @@ const pageContents = [
 ];
 
 const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
+  const {data:eventId} = useGetEventById()
+  const { data: userData } = useMe();
   const [imageBanner, setImageBanner] = useState<string | null>(null);
   const [imageThumbnail, setImageThumbnail] = useState<string | null>(null);
   const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
@@ -47,15 +49,14 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
   const form = useForm<EventStepOne>({
     mode: "all",
     defaultValues: {
-      event_banner: null,
-      event_thumbnail: null,
-      event_name: "",
-      event_description: "",
+      event_banner: eventId?.data?.eventBanner ?? "",
+      event_thumbnail: eventId?.data?.thumbnail ?? "",
+      event_name: eventId?.data?.eventName ?? "",
+      event_description: eventId?.data?.eventDescription ?? "",
     },
     resolver: yupResolver(EventStepOneSchema),
   });
 
-  const { data: userData } = useMe();
 
   const { toast } = useToast();
 
