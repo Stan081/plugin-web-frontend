@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
-import { cardData } from "@/static-datas/cards-data";
 import CardComponent from "@/components/CardComponent";
 import Link from "next/link";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
-import SkeletonImage from "@/tw-components/skeleton/image";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 
 const TailoredEvent: React.FC = () => {
