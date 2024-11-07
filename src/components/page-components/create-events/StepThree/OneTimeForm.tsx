@@ -26,10 +26,12 @@ import { timezone } from "@/static-datas/create-event";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { OneTimeEvent } from "@/pages/api/mutate/create-events/eventTypeAPI";
 import { useToast } from "@/components/ui/use-toast";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 interface OneTimeFormComponentProps {
   eventType: string;
@@ -38,25 +40,27 @@ interface OneTimeFormComponentProps {
 const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
   eventType,
 }) => {
-  const {
-    nextStep: next,
-    previousStep: previous,
-  } = useCreateEventContext();
+  const { nextStep: next, previousStep: previous } = useCreateEventContext();
+  const { data: event, isLoading: loading } = useGetEvent();
   const [alert, setAlert] = useState<boolean>(true);
 
   const form = useForm<OneTimeForm>({
     mode: "all",
     defaultValues: {
-      start_date: null,
-      start_time: "",
-      end_date: null,
-      end_time: "",
-      timezone: "",
+      start_date: new Date(event?.data?.oneTimeEvent?.startDate) || null,
+      start_time: event?.data?.oneTimeEvent?.startTime ?? "",
+      end_date: new Date(event?.data?.oneTimeEvent?.endDate) || null,
+      end_time: event?.data?.oneTimeEvent?.endTime ?? "",
+      timezone: event?.data?.oneTimeEvent?.timeZone ?? "",
     },
     resolver: yupResolver(OneTimeFormShema),
   });
 
+  // new Date(event?.data?.oneTimeEvent?.startDate)
+
   const { toast } = useToast();
+
+  const client = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => OneTimeEvent(data),
@@ -67,6 +71,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
           title: "Uploaded Successfully",
           description: `${response?.message}`,
         });
+        client.invalidateQueries({ queryKey: ["eventID"] });
         next();
       }
     },
@@ -95,6 +100,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
 
   return (
     <div>
+      {loading && <SpinnerOverlay />}
       {alert && (
         <div className="my-5 flex justify-between items-center bg-[#FFF1F0] rounded-lg p-1.5">
           <div className="flex items-center gap-3">

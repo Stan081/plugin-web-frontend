@@ -33,6 +33,8 @@ import { RecurringEvent } from "@/pages/api/mutate/create-events/eventTypeAPI";
 import Spinner from "@/tw-components/spinner";
 import { useToast } from "@/components/ui/use-toast";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 interface RecurringFormComponentProps {
   eventType: string;
@@ -68,22 +70,21 @@ const schedules: { id: string; name: string }[] = [
 const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
   eventType,
 }) => {
-  const {
-    nextStep: next,
-    previousStep: previous,
-  } = useCreateEventContext();
+  const { nextStep: next, previousStep: previous } = useCreateEventContext();
+  const { data: event, isLoading: loading } = useGetEvent();
   const [alert, setAlert] = useState<boolean>(true);
   const [recurringSchedule, setRecurringSchedule] = useState<string>("1");
 
   const form = useForm<RecurringForm>({
     mode: "all",
     defaultValues: {
-      schedule: recurringSchedule,
-      start_date: null,
-      start_time: "",
-      end_date: null,
-      end_time: "",
-      timezone: "",
+      schedule:
+        event?.data?.recurringEvent?.scheduleReference || recurringSchedule,
+      start_date: new Date(event?.data?.recurringEvent?.startDate) || null,
+      start_time: event?.data?.recurringEvent?.startTime ?? "",
+      end_date: new Date(event?.data?.recurringEvent?.endDate) || null,
+      end_time: event?.data?.recurringEvent?.endTime ?? "",
+      timezone: event?.data?.recurringEvent?.timeZone ?? "",
     },
     resolver: yupResolver(RecurringFormShema),
   });
@@ -129,6 +130,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
 
   return (
     <div className="">
+      {loading && <SpinnerOverlay/>}
       <div className="flex flex-wrap gap-3.5 my-5 text-white">
         {schedules.map((type) => (
           <button

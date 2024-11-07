@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import OneTimeFormComponent from "./OneTimeForm";
 import RecurringForm from "./RecurringForm";
+import { Section } from "@/tw-components/Section";
 
 const pageContents = [
   "Double-check dates and times to avoid scheduling conflicts.",
@@ -39,7 +40,7 @@ const StepThree: React.FC= () => {
       </div>
       <div className="w-full lg:w-3/5 bg-[#f0ded1]">
         <FormContainer formTitle="Basic Information" currPosition={[100, 20, 0]}>
-          <div>
+          <Fragment>
             <h3 className="font-pally-medium md:text-lg">
               Will this be a one-time event or a recurring one ?
             </h3>
@@ -59,12 +60,12 @@ const StepThree: React.FC= () => {
                 </button>
               ))}
             </div>
-          </div>
+          </Fragment>
 
           <div className="mt-6">
-            <h4 className="font-pally-medium md:text-lg">
+            <p className="font-pally-medium md:text-lg">
               Choose the category that best describes your event
-            </h4>
+            </p>
 
             {eventType === "one-time" ? (
               <OneTimeFormComponent eventType={eventType} />

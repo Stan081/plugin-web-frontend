@@ -28,6 +28,8 @@ import Spinner from "@/tw-components/spinner";
 import { EventOnlineLocation } from "@/pages/api/mutate/create-events/eventLocationType";
 import { useMutation } from "@tanstack/react-query";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 interface OnlineFormProps {
   locationType: string;
@@ -40,11 +42,13 @@ const OnlineForm: React.FC<OnlineFormProps> = ({
     nextStep: next,
     previousStep: previous,
   } = useCreateEventContext();
+  const { data: event, isLoading: loading } = useGetEvent();
+
   const form = useForm<OnlineVenueLink>({
     mode: "all",
     defaultValues: {
-      venue_platform: "",
-      venue_link: "",
+      venue_platform: event?.data?.onlineLocation?.onlineVenue ?? "",
+      venue_link: event?.data?.onlineLocation?.venueLink ?? "",
     },
     resolver: yupResolver(OnlineVenueLinkSchema),
   });
@@ -85,6 +89,7 @@ const OnlineForm: React.FC<OnlineFormProps> = ({
   }, []);
   return (
     <div>
+      {loading && <SpinnerOverlay/>}
       <h4 className="font-pally-medium md:text-lg">Virtual Address</h4>
       <Form {...form}>
         <form

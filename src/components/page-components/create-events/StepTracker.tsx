@@ -1,3 +1,4 @@
+"use client"
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useRouter } from "next/navigation";

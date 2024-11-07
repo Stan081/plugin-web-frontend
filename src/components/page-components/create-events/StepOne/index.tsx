@@ -21,7 +21,7 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { Textarea } from "@/components/ui/textarea";
 import { uploadImage } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EventBasicInfo } from "@/pages/api/mutate/create-events/eventBasicInfo";
 import { useToast } from "@/components/ui/use-toast";
 import { getCookie, removeCookie, setCookie } from "@/lib/cookies";
@@ -30,6 +30,8 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMe } from "@/pages/api/query/me";
 import { useEditProfileRole } from "@/hooks/useEditProfileRole";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useUpdateBasicInfo } from "@/hooks/events/useUpdateBasicInfo";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -37,13 +39,15 @@ const pageContents = [
 ];
 
 const StepOne: React.FC = () => {
-  const {
-    nextStep: next,
-    previousStep: previous,
-  } = useCreateEventContext();
+  const { nextStep: next, previousStep: previous } = useCreateEventContext();
   const { data: userData } = useMe();
-  const [imageBanner, setImageBanner] = useState<string | null>(null);
-  const [imageThumbnail, setImageThumbnail] = useState<string | null>(null);
+  const { data: event, isLoading: loadingEvent } = useGetEvent();
+  const [imageBanner, setImageBanner] = useState<string | null>(
+    event?.data?.eventBanner
+  );
+  const [imageThumbnail, setImageThumbnail] = useState<string | null>(
+    event?.data?.thumbnail
+  );
   const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -51,15 +55,17 @@ const StepOne: React.FC = () => {
   const form = useForm<EventStepOne>({
     mode: "all",
     defaultValues: {
-      event_banner:  "",
-      event_thumbnail: "",
-      event_name: "",
-      event_description: "",
+      event_banner: event?.data?.eventBanner ?? "",
+      event_thumbnail: event?.data?.thumbnail || "",
+      event_name: event?.data?.eventName || "",
+      event_description: event?.data?.eventDescription || "",
     },
     resolver: yupResolver(EventStepOneSchema),
   });
 
   const { toast } = useToast();
+
+  const client = useQueryClient();
 
   // Handle image upload for banner
   const handleImageUploadBanner = async (
@@ -159,7 +165,7 @@ const StepOne: React.FC = () => {
           description: `${response?.message}`,
         });
         next();
-        // Set the cookie here
+        client.invalidateQueries({ queryKey: ["eventById"] });
         setCookie("event_id", response?.data?._id);
       }
     },
@@ -173,6 +179,9 @@ const StepOne: React.FC = () => {
   });
 
   const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
+
+  const { mutate: mutateUpdate, isPending: isUpdatePending } =
+    useUpdateBasicInfo();
 
   const onSubmit = useCallback(
     (payload: EventStepOne) => {
@@ -191,13 +200,9 @@ const StepOne: React.FC = () => {
 
       // Ensure `event_id` is removed before setting a new one
       if (getCookie("event_id")) {
-        removeCookie("event_id");
-      }
-      if (isPendingRole) {
-        <SpinnerOverlay />;
+        mutateUpdate(data);
       } else {
         mutate(data);
-        // console.log(data)
       }
     },
     [mutateRole, userData]
@@ -211,7 +216,7 @@ const StepOne: React.FC = () => {
       <div className="w-full lg:w-2/5 px-4 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
-      {isUploading && <SpinnerOverlay />}
+      {isUploading || loadingEvent && <SpinnerOverlay />}
       <div className="w-full h-full lg:w-3/5">
         <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <div>
@@ -438,10 +443,10 @@ const StepOne: React.FC = () => {
                     <div onClick={previous} className="flex items-center gap-8">
                       <Button
                         type="submit"
-                        disabled={isPending}
+                        disabled={isPending || isUpdatePending}
                         variant="destructive"
                       >
-                        {isPending || isUploading ? <Spinner /> : "Next"}
+                        {isPending || isUpdatePending ? <Spinner /> : "Next"}
                       </Button>
                     </div>
                   </div>
