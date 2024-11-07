@@ -2,7 +2,6 @@ import React, { FC, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCreateEventContext } from "@/providers/create_event.provider";
-import { StepsProps } from "@/pages/create-event";
 import SeatCard from "./SeatCard";
 import EditPaidSeatDetail from "./EditPaidSeatDetail";
 import EditFreeSeatDetail from "./EditFreeSeatDetail";
@@ -11,16 +10,18 @@ import { useGetGroupEvent } from "@/hooks/events/useGetGroupEvent";
 import { useDeleteEventGroup } from "@/hooks/events/useDeleteEventGroup";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
-interface GroupTicketProps extends StepsProps {}
-
 export enum GroupTicketState {
   VIEW_LIST,
   CREATE_TICKET,
   EDIT_TICKET,
 }
 
-const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
-  const { seatType } = useCreateEventContext();
+const GroupTicket: FC = () => {
+  const {
+    seatType,
+    nextStep: next,
+    previousStep: previous,
+  } = useCreateEventContext();
   const { data: allGroupEvent, isLoading } = useGetGroupEvent();
   const { mutate: deleteGroupTicket, isPending } = useDeleteEventGroup();
   const { selectTicket: selectedState } = useCreateEventContext();
@@ -122,7 +123,7 @@ const GroupTicket: FC<GroupTicketProps> = ({ next, previous }) => {
 
             <Button
               disabled={!allGroupEvent?.data.length}
-              onClick={() => next()}
+              onClick={next}
               variant="destructive"
             >
               Next

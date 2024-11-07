@@ -1,18 +1,20 @@
-"use client"
+"use client";
 import React, { FC, useEffect } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
 const CongratulationModal: FC<{
   open: boolean;
   close: (key: boolean) => void;
-  clearStep: () => void;
-}> = ({ open, close , clearStep}) => {
+}> = ({ open, close }) => {
+  const { clearStep } = useCreateEventContext();
+
   useEffect(() => {
-    clearStep()
-  },[clearStep])
+    clearStep();
+  }, [clearStep]);
   return (
     <div>
       <Dialog

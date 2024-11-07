@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { StepsProps } from "@/pages/create-event";
 import { OneTimeForm, OneTimeFormShema } from "@/models/create-event-schema";
 import { Input } from "@/components/ui/input";
 import {
@@ -30,16 +29,19 @@ import Spinner from "@/tw-components/spinner";
 import { useMutation } from "@tanstack/react-query";
 import { OneTimeEvent } from "@/pages/api/mutate/create-events/eventTypeAPI";
 import { useToast } from "@/components/ui/use-toast";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
-interface OneTimeFormComponentProps extends StepsProps {
+interface OneTimeFormComponentProps {
   eventType: string;
 }
 
 const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
-  next,
-  previous,
   eventType,
 }) => {
+  const {
+    nextStep: next,
+    previousStep: previous,
+  } = useCreateEventContext();
   const [alert, setAlert] = useState<boolean>(true);
 
   const form = useForm<OneTimeForm>({

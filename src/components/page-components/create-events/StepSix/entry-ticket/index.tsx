@@ -1,10 +1,7 @@
-import React, { FC, useState } from "react";
+import React, { useState } from "react";
 import PaidTicketForm from "./PaidTicketForm";
-import { StepsProps } from "@/pages/create-event";
 import FreeTicketForm from "./FreeTicketForm";
 import DonationTicketForm from "./DonationTicketForm";
-
-interface EntryTicketProps extends StepsProps {}
 
 const entryTicketTypes: { id: string; name: string }[] = [
   {
@@ -21,7 +18,7 @@ const entryTicketTypes: { id: string; name: string }[] = [
   },
 ];
 
-const EntryTicket: FC<EntryTicketProps> = ({ next, previous }) => {
+const EntryTicket = () => {
   const [entryTicket, setEntryTicket] = useState<string>("paid");
 
   return (
@@ -48,11 +45,11 @@ const EntryTicket: FC<EntryTicketProps> = ({ next, previous }) => {
 
       <div className="mt-6">
         {entryTicket === "paid" ? (
-          <PaidTicketForm entryTicket={entryTicket} next={next} previous={previous} />
+          <PaidTicketForm entryTicket={entryTicket} />
         ) : entryTicket === "free" ? (
-          <FreeTicketForm  entryTicket={entryTicket} next={next} previous={previous} />
+          <FreeTicketForm  entryTicket={entryTicket} />
         ) : (
-          <DonationTicketForm  entryTicket={entryTicket} next={next} previous={previous} />
+          <DonationTicketForm  entryTicket={entryTicket} />
         )}
       </div>
     </div>

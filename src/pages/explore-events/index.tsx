@@ -8,6 +8,7 @@ import CardComponent from "@/components/CardComponent";
 import EventListComponent from "@/components/page-components/eventpage/EventListComponent";
 import Container from "@/tw-components/container";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
+import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 
 const ExploreEventsPage = () => {
   const { data: events, isLoading } = useGetAllEvents();
@@ -56,12 +57,18 @@ const ExploreEventsPage = () => {
             <div className="w-full">
               {isGridView ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-8 mt-3">
-                  {publishedEvents?.length !== 0 ? (
-                    publishedEvents?.map((card) => (
-                      <CardComponent key={card._id} card={card} />
-                    ))
+                  {isLoading ? (
+                    <CardSkeleton />
                   ) : (
-                    <p>No event uploaded</p>
+                    <>
+                      {publishedEvents?.length !== 0 ? (
+                        publishedEvents?.map((card) => (
+                          <CardComponent key={card._id} card={card} />
+                        ))
+                      ) : (
+                        <p>No event uploaded</p>
+                      )}
+                    </>
                   )}
                 </div>
               ) : (

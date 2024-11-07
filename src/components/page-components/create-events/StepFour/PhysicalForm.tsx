@@ -1,5 +1,5 @@
-import { StepsProps } from "@/pages/create-event";
-import React, { useCallback, useMemo } from "react";
+"use client"
+import React, { useCallback } from "react";
 import {
   Form,
   FormControl,
@@ -28,16 +28,19 @@ import { useMutation } from "@tanstack/react-query";
 import { EventPhysicalLocation } from "@/pages/api/mutate/create-events/eventLocationType";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
-interface PhysicalFormProps extends StepsProps {
+interface PhysicalFormProps {
   locationType: string;
 }
 
 const PhysicalForm: React.FC<PhysicalFormProps> = ({
-  next,
-  previous,
   locationType,
 }) => {
+  const {
+    nextStep: next,
+    previousStep: previous,
+  } = useCreateEventContext();
   const form = useForm<PhysicalLocation>({
     mode: "all",
     defaultValues: {
@@ -96,7 +99,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="mt-8 pb-10 h-[50vh] whitespace-normal overflow-y-auto">
+          <div className="mt-8 pb-10 h-[45vh] whitespace-normal overflow-y-auto">
             <div className="grid grid-cols-2 gap-5 h-auto w-auto">
               <FormItem className="col-span-2">
                 <FormLabel className="text-white" htmlFor="physical_location">

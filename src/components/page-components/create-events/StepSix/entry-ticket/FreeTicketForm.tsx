@@ -1,8 +1,7 @@
 "use client";
 import { FreeTicket, FreeTicketFormSchema } from "@/models/create-event-schema";
-import { StepsProps } from "@/pages/create-event";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, useCallback} from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -23,16 +22,18 @@ import { useToast } from "@/components/ui/use-toast";
 import { EventEntryFree } from "@/pages/api/mutate/create-events/EventEntryFree";
 import Spinner from "@/tw-components/spinner";
 
-interface FreeTicketFormProps extends StepsProps {
+interface FreeTicketFormProps {
   entryTicket: string;
 }
 
 const FreeTicketForm: FC<FreeTicketFormProps> = ({
-  previous,
-  next,
   entryTicket,
 }) => {
-  const { selectTicket } = useCreateEventContext();
+  const {
+    selectTicket,
+    nextStep: next,
+    previousStep: previous,
+  } = useCreateEventContext();
 
   const { toast } = useToast();
 

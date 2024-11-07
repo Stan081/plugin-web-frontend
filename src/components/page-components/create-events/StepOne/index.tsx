@@ -2,7 +2,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
-import { StepsProps } from "@/pages/create-event";
 import { Button } from "@/components/ui/button";
 import { IoMdImages } from "react-icons/io";
 import {
@@ -31,14 +30,19 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMe } from "@/pages/api/query/me";
 import { useEditProfileRole } from "@/hooks/useEditProfileRole";
 import { useGetEventById } from "@/hooks/events/useGetEventById";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
 const pageContents = [
   "Make your event name short and memorable.",
   "Focus on unique aspects to make your description engaging.",
 ];
 
-const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
-  const {data:eventId} = useGetEventById()
+const StepOne: React.FC = () => {
+  const { data: eventId } = useGetEventById();
+  const {
+    nextStep: next,
+    previousStep: previous,
+  } = useCreateEventContext();
   const { data: userData } = useMe();
   const [imageBanner, setImageBanner] = useState<string | null>(null);
   const [imageThumbnail, setImageThumbnail] = useState<string | null>(null);
@@ -56,7 +60,6 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
     },
     resolver: yupResolver(EventStepOneSchema),
   });
-
 
   const { toast } = useToast();
 
@@ -219,7 +222,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex flex-col justify-between gap-4 w-full h-full mb-6 px-3"
               >
-                <div className="lg:h-[70vh] whitespace-normal overflow-y-auto">
+                <div className="h-[60vh] whitespace-normal overflow-y-auto">
                   <FormItem className="w-full">
                     <FormLabel className="text-white font-pally-medium">
                       Event Banner

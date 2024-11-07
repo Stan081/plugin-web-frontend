@@ -15,23 +15,25 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { StepsProps } from "@/pages/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useMutation } from "@tanstack/react-query";
 import { EventEntryPaidTicket } from "@/pages/api/mutate/create-events/EventEntryTicket";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
 
-interface PaidTicketFormProps extends StepsProps {
+interface PaidTicketFormProps {
   entryTicket: string;
 }
 
 const PaidTicketForm: FC<PaidTicketFormProps> = ({
-  next,
-  previous,
   entryTicket,
 }) => {
-  const { selectTicket } = useCreateEventContext();
+  const {
+    selectTicket,
+    nextStep: next,
+    previousStep: previous,
+  } = useCreateEventContext();
+
 
   const { toast } = useToast();
 

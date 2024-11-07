@@ -4,14 +4,14 @@ import Side1 from "./Side1";
 import FormContainer from "../FormContainer";
 import PublishComponent from "./PublishComponent";
 
-const StepSeven: FC<{ clearStep: () => void }> = ({ clearStep }) => {
+const StepSeven: FC = () => {
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 h-screen">
       <Side1 />
       <div className="w-full lg:w-3/5 lg:px-0">
         <FormContainer formTitle="Publish Event" currPosition={[100, 100, 100]}>
           <div className="overflow-hidden">
-            <PublishComponent clearStep={clearStep} />
+            <PublishComponent />
           </div>
         </FormContainer>
       </div>

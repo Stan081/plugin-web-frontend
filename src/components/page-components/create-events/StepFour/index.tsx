@@ -1,6 +1,5 @@
 "use client";
 
-import { StepsProps } from "@/pages/create-event";
 import React, { useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
@@ -24,7 +23,7 @@ const locationTypes: { id: string; name: string }[] = [
   },
 ];
 
-const StepFour: React.FC<StepsProps> = ({ next, previous }) => {
+const StepFour: React.FC = () => {
   const [locationType, setLocationType] = useState<string>("physical");
 
   // handle event type change
@@ -44,7 +43,10 @@ const StepFour: React.FC<StepsProps> = ({ next, previous }) => {
         />
       </div>
       <div className="w-full lg:w-3/5">
-        <FormContainer formTitle="Basic Information" currPosition={[100, 60, 0]}>
+        <FormContainer
+          formTitle="Basic Information"
+          currPosition={[100, 60, 0]}
+        >
           <div className="flex flex-wrap justify-start items-end gap-5">
             <h3 className="font-pally-medium md:text-xl">
               What’s your location type:
@@ -69,17 +71,9 @@ const StepFour: React.FC<StepsProps> = ({ next, previous }) => {
 
           <div className="mt-6">
             {locationType === "physical" ? (
-              <PhysicalForm
-                locationType={locationType}
-                next={next}
-                previous={previous}
-              />
+              <PhysicalForm locationType={locationType} />
             ) : (
-              <OnlineForm
-                locationType={locationType}
-                next={next}
-                previous={previous}
-              />
+              <OnlineForm locationType={locationType} />
             )}
           </div>
         </FormContainer>

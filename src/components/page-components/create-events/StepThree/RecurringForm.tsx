@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { StepsProps } from "@/pages/create-event";
 import {
   RecurringForm,
   RecurringFormShema,
@@ -33,8 +32,9 @@ import { useMutation } from "@tanstack/react-query";
 import { RecurringEvent } from "@/pages/api/mutate/create-events/eventTypeAPI";
 import Spinner from "@/tw-components/spinner";
 import { useToast } from "@/components/ui/use-toast";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
-interface RecurringFormComponentProps extends StepsProps {
+interface RecurringFormComponentProps {
   eventType: string;
 }
 
@@ -66,10 +66,12 @@ const schedules: { id: string; name: string }[] = [
 ];
 
 const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
-  next,
-  previous,
   eventType,
 }) => {
+  const {
+    nextStep: next,
+    previousStep: previous,
+  } = useCreateEventContext();
   const [alert, setAlert] = useState<boolean>(true);
   const [recurringSchedule, setRecurringSchedule] = useState<string>("1");
 
@@ -162,7 +164,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="flex flex-col justify-between h-[60vh] md:h-[40vh] whitespace-normal overflow-y-auto">
+          <div className="flex flex-col justify-between h-[60vh] md:h-[33vh] whitespace-normal overflow-y-auto">
             <div className="grid grid-cols-2 gap-5 h-auto w-auto">
               <FormItem>
                 <FormLabel className="text-white" htmlFor="start_date">

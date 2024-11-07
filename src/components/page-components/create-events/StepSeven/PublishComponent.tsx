@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Form,
   FormControl,
@@ -24,7 +24,7 @@ import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
 import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
-const PublishComponent: FC<{ clearStep: () => void }> = ({ clearStep }) => {
+const PublishComponent: FC = () => {
   const { data: userData } = useMe();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfileForm, setShowProfileForm] = useState<boolean>(false);
@@ -104,7 +104,6 @@ const PublishComponent: FC<{ clearStep: () => void }> = ({ clearStep }) => {
     <div>
       {showModal && (
         <CongratulationModal
-          clearStep={clearStep}
           open={showModal}
           close={() => setShowModal(!showModal)}
         />

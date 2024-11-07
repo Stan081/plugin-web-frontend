@@ -1,4 +1,3 @@
-import { StepsProps } from "@/pages/create-event";
 import React, { useCallback, useMemo } from "react";
 import {
   Form,
@@ -28,16 +27,19 @@ import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
 import { EventOnlineLocation } from "@/pages/api/mutate/create-events/eventLocationType";
 import { useMutation } from "@tanstack/react-query";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
-interface OnlineFormProps extends StepsProps {
+interface OnlineFormProps {
   locationType: string;
 }
 
 const OnlineForm: React.FC<OnlineFormProps> = ({
-  next,
-  previous,
   locationType,
 }) => {
+  const {
+    nextStep: next,
+    previousStep: previous,
+  } = useCreateEventContext();
   const form = useForm<OnlineVenueLink>({
     mode: "all",
     defaultValues: {

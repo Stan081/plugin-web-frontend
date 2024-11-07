@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, useCallback } from "react";
 import {
   Form,
   FormControl,
@@ -13,30 +13,29 @@ import { useForm } from "react-hook-form";
 import {
   DonationForm,
   DonationFormSchema,
-  PaidTicket,
-  PaidTicketFormSchema,
 } from "@/models/create-event-schema";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { StepsProps } from "@/pages/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useToast } from "@/components/ui/use-toast";
 import { EventEntryDonationTicket } from "@/pages/api/mutate/create-events/EventEntryDonationTicket";
 import { useMutation } from "@tanstack/react-query";
 import Spinner from "@/tw-components/spinner";
 
-interface DonationTicketFormProps extends StepsProps {
+interface DonationTicketFormProps {
   entryTicket: string;
 }
 
 const DonationTicketForm: FC<DonationTicketFormProps> = ({
-  next,
-  previous,
   entryTicket,
 }) => {
-  const { selectTicket } = useCreateEventContext();
+  const {
+    selectTicket,
+    nextStep: next,
+    previousStep: previous,
+  } = useCreateEventContext();
 
   const form = useForm<DonationForm>({
     mode: "all",

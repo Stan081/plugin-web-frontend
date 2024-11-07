@@ -55,8 +55,8 @@ const OrganiserHeader = () => {
   );
 
   return (
-    <header className="border-b w-full">
-      <Container className="container px-4 md:px-0 py-2">
+    <header className="border-b w-full bg-white">
+      <Container className="container px-4 md:px-0">
         <nav className="flex justify-between items-center gap-5">
           <div className="space-x-6 md:space-x-0 flex md:gap-6 items-center">
             <NavigationDialog />

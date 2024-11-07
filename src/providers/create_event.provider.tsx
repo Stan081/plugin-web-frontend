@@ -1,13 +1,15 @@
 "use client";
 
 import { useGetEventAgenda } from "@/hooks/events/useGetEventAgendas";
-import { AgendaType } from "@/lib/types/EventType";
+import { getCookie, removeCookie, setCookie } from "@/lib/cookies";
+import { useRouter } from "next/navigation";
 /* eslint-disable no-unused-vars */
 import {
   createContext,
   FC,
   PropsWithChildren,
   useContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -17,30 +19,24 @@ export type InviteeDataProps = {
   passcode: string | null;
 };
 
-export type IsCheckedState = {
-  addAgender: boolean;
-  addMedia: boolean;
-  addGests: boolean;
-  addVendors: boolean;
-  refundPolicy: boolean;
-};
-
 export type IsCheckedGroupState = {
   sectionDetail: boolean;
   labelling: boolean;
 };
 
 type CreateEventContextValue = {
-  isChecked: IsCheckedState;
+  currentStep: number
   isCheckedGroup: IsCheckedGroupState;
   isHost: boolean;
   seatType: string;
   selectTicket: string;
   allAgenda: any;
   inviteeState: InviteeDataProps[];
+  nextStep: () => void;
+  previousStep: () => void;
+  clearStep: () => void;
   handleCreateInvitee: (keys: InviteeDataProps) => void;
   handleClick: (key: string) => void;
-  handleIsChecked: (key: keyof IsCheckedState) => void;
   handleIsCheckedGroup: (key: keyof IsCheckedGroupState) => void;
   setIsHost: (id: boolean) => void;
   setSelectedTicket: (key: string) => void;
@@ -64,16 +60,9 @@ export const seatedTypes: { id: string; name: string }[] = [
 ];
 
 export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [currentStep, setCurrentStep] = useState<number>( 7);
   //state to get selected ticket
   const [selectTicket, setSelectedTicket] = useState<string>("");
-  // state to check each accordion
-  const [isChecked, setIsChecked] = useState({
-    addAgender: false,
-    addMedia: false,
-    addGests: false,
-    addVendors: false,
-    refundPolicy: false,
-  });
 
   // state to check each accordion for group ticket
   const [isCheckedGroup, setIsCheckedGroup] = useState({
@@ -93,6 +82,13 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
   const { data: allAgenda } = useGetEventAgenda();
 
 
+  useEffect(() => {
+    setCookie("currentStep", currentStep.toString());
+  }, [currentStep]);
+
+  const router = useRouter();
+
+
   // Function to handle creating a new vendor
   const handleCreateInvitee = (data: InviteeDataProps) => {
     const newInvitee = { ...data };
@@ -103,13 +99,6 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     setSeatType(id);
   };
 
-  // handle function to checked
-  const handleIsChecked = (key: keyof typeof isChecked) => {
-    setIsChecked((prevState) => ({
-      ...prevState,
-      [key]: !prevState[key],
-    }));
-  };
 
   // function to check Group ticket
   const handleIsCheckedGroup = (key: keyof typeof isCheckedGroup) => {
@@ -119,17 +108,38 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     }));
   };
 
+
+  const nextStep = () => {
+    setCurrentStep((prev) => prev + 1);
+  };
+
+  const previousStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
+  const clearStep = () => {
+    setTimeout(() => {
+      removeCookie("currentStep");
+      setCurrentStep(1);
+      router.push(`/organiser`);
+    }, 10000);
+  };
+
   const ContextValue: CreateEventContextValue = {
-    isChecked,
+    currentStep,
     seatType,
     isCheckedGroup,
     isHost,
     selectTicket,
     inviteeState,
     allAgenda,
+    nextStep,
+    previousStep,
+    clearStep,
     handleCreateInvitee,
     setSelectedTicket,
-    handleIsChecked,
     handleIsCheckedGroup,
     setIsHost,
     handleClick,
