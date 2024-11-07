@@ -55,7 +55,7 @@ export default function CreateEvent() {
       {userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer && (
         <OrganiserHeader />
       )}
-      <Container className="px-0 py-3">
+      <Container className="px-0 py-3 lg:pt-6">
         <div className="scrollbar-hide ">{renderStepContent()}</div>
       </Container>
     </div>

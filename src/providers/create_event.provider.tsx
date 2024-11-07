@@ -60,7 +60,10 @@ export const seatedTypes: { id: string; name: string }[] = [
 ];
 
 export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [currentStep, setCurrentStep] = useState<number>( 7);
+  const [currentStep, setCurrentStep] = useState<number>(() => {
+    const savedStep = getCookie("currentStep");
+    return savedStep ? Number(savedStep) : 1;
+  });
   //state to get selected ticket
   const [selectTicket, setSelectedTicket] = useState<string>("");
 

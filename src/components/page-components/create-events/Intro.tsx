@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/popover";
 import { useMe } from "@/pages/api/query/me";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import StepTracker from "./StepTracker";
 
 const Intro: React.FC<{ contents: string[]; title: string }> = ({
   contents,
@@ -24,7 +25,7 @@ const Intro: React.FC<{ contents: string[]; title: string }> = ({
         <Fragment>
           {userData?.data?.role === "organizer" &&
           userData?.data?.isOrganizer ? (
-            <p>here</p>
+            <StepTracker/>
           ) : (
             <Fragment>
               <Logo />
