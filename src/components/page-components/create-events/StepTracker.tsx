@@ -1,6 +1,5 @@
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { useCreateEventContext } from "@/providers/create_event.provider";
-import Spinner from "@/tw-components/spinner";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { GrFormCheckmark } from "react-icons/gr";
@@ -8,7 +7,7 @@ import { RiArrowLeftSLine } from "react-icons/ri";
 
 const StepTracker = () => {
   const { currentStep } = useCreateEventContext();
-  const { data: event, isLoading } = useGetEvent();
+  const { data: event } = useGetEvent();
   const router = useRouter();
   return (
     <div>
