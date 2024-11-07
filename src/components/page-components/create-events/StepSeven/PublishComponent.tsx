@@ -120,7 +120,7 @@ const PublishComponent: FC = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="h-[74vh] whitespace-normal overflow-y-auto space-y-5">
+          <div className="h-[64vh] whitespace-normal overflow-y-auto space-y-5">
             <FormItem>
               <FormField
                 control={form.control}

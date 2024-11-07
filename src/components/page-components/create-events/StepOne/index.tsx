@@ -29,7 +29,6 @@ import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMe } from "@/pages/api/query/me";
 import { useEditProfileRole } from "@/hooks/useEditProfileRole";
-import { useGetEventById } from "@/hooks/events/useGetEventById";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 
 const pageContents = [
@@ -38,7 +37,6 @@ const pageContents = [
 ];
 
 const StepOne: React.FC = () => {
-  const { data: eventId } = useGetEventById();
   const {
     nextStep: next,
     previousStep: previous,
@@ -53,10 +51,10 @@ const StepOne: React.FC = () => {
   const form = useForm<EventStepOne>({
     mode: "all",
     defaultValues: {
-      event_banner: eventId?.data?.eventBanner ?? "",
-      event_thumbnail: eventId?.data?.thumbnail ?? "",
-      event_name: eventId?.data?.eventName ?? "",
-      event_description: eventId?.data?.eventDescription ?? "",
+      event_banner:  "",
+      event_thumbnail: "",
+      event_name: "",
+      event_description: "",
     },
     resolver: yupResolver(EventStepOneSchema),
   });

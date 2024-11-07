@@ -60,10 +60,7 @@ export const seatedTypes: { id: string; name: string }[] = [
 ];
 
 export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [currentStep, setCurrentStep] = useState<number>(() => {
-    const savedStep = getCookie("currentStep");
-    return savedStep ? Number(savedStep) : 1;
-  });
+  const [currentStep, setCurrentStep] = useState<number>( 1);
   //state to get selected ticket
   const [selectTicket, setSelectedTicket] = useState<string>("");
 
@@ -125,6 +122,7 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
   const clearStep = () => {
     setTimeout(() => {
       removeCookie("currentStep");
+      removeCookie("event_id");
       setCurrentStep(1);
       router.push(`/organiser`);
     }, 10000);
