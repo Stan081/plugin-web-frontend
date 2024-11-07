@@ -48,7 +48,7 @@ const StepTracker = () => {
         <div className="block mt-5">
           <div className={`flex flex-col justify-between `}>
             <div className="flex items-center gap-2">
-              {currentStep > 4 ? (
+              {event?.data?.locationType !== "" || currentStep > 4 ? (
                 <div className="bg-green-600 rounded-full p-0.5">
                   <GrFormCheckmark color="#fff" size={18} />
                 </div>
