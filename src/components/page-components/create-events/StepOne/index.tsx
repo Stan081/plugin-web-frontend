@@ -216,7 +216,7 @@ const StepOne: React.FC = () => {
       <div className="w-full lg:w-2/5 px-4 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
-      {isUploading || loadingEvent && <SpinnerOverlay />}
+      {/* {isUploading || loadingEvent && <SpinnerOverlay />} */}
       <div className="w-full h-full lg:w-3/5">
         <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <div>

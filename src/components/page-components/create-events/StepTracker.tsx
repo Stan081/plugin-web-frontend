@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useRouter } from "next/navigation";
@@ -10,8 +10,73 @@ const StepTracker = () => {
   const { currentStep } = useCreateEventContext();
   const { data: event } = useGetEvent();
   const router = useRouter();
+
+  const startDate: string =
+    event?.data?.oneTimeEvent?.startDate ||
+    event?.data?.recurringEvent?.startDate;
+
+  const startTime: string =
+    event?.data?.oneTimeEvent?.startTime ||
+    event?.data?.recurringEvent?.startTime;
+
+  const date = new Date(startDate);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  };
+
+  const formattedDate = date.toLocaleDateString("en-GB", options);
+
+  const [hour, minute] = startTime ? startTime.split(":") : ["00", "00"];
+  const formattedTime = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    Number(hour),
+    Number(minute)
+  ).toLocaleTimeString("en-GB", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+    timeZone: "UTC",
+  });
   return (
     <div>
+      <div className="lg:hidden flex gap-5">
+        <div className="bg-gray-600 h-16 w-16 flex justify-center items-center rounded-lg">
+          {currentStep > 1 ? (
+            <img
+              src={event?.data?.thumbnail}
+              width={320}
+              height={120}
+              alt={event?.data?.eventName}
+              className="w-full h-full rounded-lg object-cover"
+            />
+          ) : (
+            <p className="text-center font-pally-medium text-xs text-gray-300">
+              No event banner
+            </p>
+          )}
+        </div>
+        <div className="space-y-3">
+          <p className="font-pally-medium text-[#616873] text-base">
+            {currentStep > 1 && event?.data?.eventName
+              ? event?.data?.eventName
+              : " 'Untitled' "}
+          </p>
+          <p className="flex items-center gap-3 text-sm text-gray-600">
+            {event?.data?.oneTimeEvent?.startDate ||
+            event?.data?.recurringEvent?.startDate ? (
+              <span>
+                {formattedDate} | {formattedTime}
+              </span>
+            ) : (
+              "Date not set yet"
+            )}
+          </p>
+        </div>
+      </div>
       <div className="bg-white rounded-xl p-6 lg:block hidden space-y-4 w-full max-w-md">
         <p
           onClick={() => router.back()}
@@ -24,7 +89,7 @@ const StepTracker = () => {
         </p>
 
         <div className="bg-gray-600 h-40 w-full flex justify-center items-center rounded-lg">
-          {currentStep > 1 && event?.data?.thumbnail ? (
+          {currentStep > 1 ? (
             <img
               src={event?.data?.thumbnail}
               width={320}
@@ -48,7 +113,7 @@ const StepTracker = () => {
         <div className="block mt-5">
           <div className={`flex flex-col justify-between `}>
             <div className="flex items-center gap-2">
-              {event?.data?.locationType !== "" || currentStep > 4 ? (
+              {currentStep > 4 ? (
                 <div className="bg-green-600 rounded-full p-0.5">
                   <GrFormCheckmark color="#fff" size={18} />
                 </div>
