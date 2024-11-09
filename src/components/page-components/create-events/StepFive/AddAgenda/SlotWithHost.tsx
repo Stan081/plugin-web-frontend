@@ -43,7 +43,7 @@ export const isHostTypes: { id: boolean; name: string }[] = [
 ];
 
 const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
-  const { handleIsChecked, setIsHost, isHost } = useCreateEventContext();
+  const { setIsHost, isHost } = useCreateEventContext();
   const [hostImage, setHostImage] = useState<string | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);

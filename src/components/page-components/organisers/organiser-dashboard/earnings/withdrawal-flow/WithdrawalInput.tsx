@@ -2,11 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toFiat } from "@/lib/amount";
-import { StepsProps } from "@/pages/create-event";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import React, { FC, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import { RxInfoCircled } from "react-icons/rx";
+import { StepsProps } from "../AvailableBalance";
 
 interface WithdrawalInputProps extends StepsProps {
   close: () => void;

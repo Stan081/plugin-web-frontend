@@ -1,8 +1,8 @@
 import { OtpBox } from "@/components/OtpBox";
-import { StepsProps } from "@/pages/create-event";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import React, { FC, useCallback, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
+import { StepsProps } from "../AvailableBalance";
 
 interface WithdrawalOTPProps extends StepsProps {
   close: () => void;

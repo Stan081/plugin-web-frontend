@@ -19,7 +19,6 @@ interface PhotoGridProps {
 
 const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
   const { data: allPhotos } = useGetEventPhotos();
-  const { handleIsChecked } = useCreateEventContext();
   const [uploadedPhotos, setUploadedPhotos] = useState<string[] | null>(
     allPhotos?.data || null
   );

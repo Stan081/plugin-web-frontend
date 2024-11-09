@@ -49,7 +49,6 @@ const isSharedTypes: { id: boolean; name: string }[] = [
 ];
 
 const VendorForm: FC<VendorFormProps> = ({ handleReturnToList }) => {
-  const { handleIsChecked } = useCreateEventContext();
   const [vendorImage, setVendorImage] = useState<string | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isSharedPass, setIsSharedPass] = useState<boolean>(

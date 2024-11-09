@@ -13,6 +13,11 @@ import WithdrawalInput from "./withdrawal-flow/WithdrawalInput";
 import WithdrawalOTP from "./withdrawal-flow/WithdrawalOTP";
 import WithdrawalReceipt from "./withdrawal-flow/WithdrawalReceipt";
 
+export type StepsProps = {
+  next?: () => void,
+  previous?: () => void
+}
+
 const AvailableBalance = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 

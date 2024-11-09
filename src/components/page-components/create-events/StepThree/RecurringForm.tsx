@@ -35,7 +35,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
-import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
+
 
 interface RecurringFormComponentProps {
   eventType: string;
