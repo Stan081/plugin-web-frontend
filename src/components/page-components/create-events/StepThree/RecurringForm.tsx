@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { StepsProps } from "@/pages/create-event";
 import {
   RecurringForm,
   RecurringFormShema,
@@ -33,8 +32,12 @@ import { useMutation } from "@tanstack/react-query";
 import { RecurringEvent } from "@/pages/api/mutate/create-events/eventTypeAPI";
 import Spinner from "@/tw-components/spinner";
 import { useToast } from "@/components/ui/use-toast";
+import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
-interface RecurringFormComponentProps extends StepsProps {
+interface RecurringFormComponentProps {
   eventType: string;
 }
 
@@ -66,22 +69,31 @@ const schedules: { id: string; name: string }[] = [
 ];
 
 const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
-  next,
-  previous,
   eventType,
 }) => {
+  const {
+    nextStep: next,
+    previousStep: previous,
+    saveToDraft,
+  } = useCreateEventContext();
+  const { data: event, isLoading: loading } = useGetEvent();
   const [alert, setAlert] = useState<boolean>(true);
   const [recurringSchedule, setRecurringSchedule] = useState<string>("1");
 
   const form = useForm<RecurringForm>({
     mode: "all",
     defaultValues: {
-      schedule: recurringSchedule,
-      start_date: null,
-      start_time: "",
-      end_date: null,
-      end_time: "",
-      timezone: "",
+      schedule:
+        event?.data?.recurringEvent?.scheduleReference || recurringSchedule,
+      start_date: event?.data?.recurringEvent?.startDate
+        ? new Date(event.data.recurringEvent.startDate)
+        : undefined,
+      start_time: event?.data?.recurringEvent?.startTime ?? "",
+      end_date: event?.data?.recurringEvent?.endDate
+        ? new Date(event.data.recurringEvent.endDate)
+        : undefined,
+      end_time: event?.data?.recurringEvent?.endTime ?? "",
+      timezone: event?.data?.recurringEvent?.timeZone ?? "",
     },
     resolver: yupResolver(RecurringFormShema),
   });
@@ -127,6 +139,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
 
   return (
     <div className="">
+      {loading && <SpinnerOverlay />}
       <div className="flex flex-wrap gap-3.5 my-5 text-white">
         {schedules.map((type) => (
           <button
@@ -162,7 +175,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="flex flex-col justify-between h-[60vh] md:h-[40vh] whitespace-normal overflow-y-auto">
+          <div className="flex flex-col justify-between h-[60vh] md:h-[33vh] whitespace-normal overflow-y-auto">
             <div className="grid grid-cols-2 gap-5 h-auto w-auto">
               <FormItem>
                 <FormLabel className="text-white" htmlFor="start_date">
@@ -172,10 +185,11 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
                   control={form.control}
                   name="start_date"
                   render={({ field }) => {
-                    const formattedDate =
-                      field.value instanceof Date
+                    const formattedDate = field.value
+                      ? field.value instanceof Date
                         ? field.value.toISOString().split("T")[0]
-                        : field.value;
+                        : ""
+                      : "";
 
                     return (
                       <FormItem>
@@ -228,10 +242,11 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
                   control={form.control}
                   name="end_date"
                   render={({ field }) => {
-                    const formattedDate =
-                      field.value instanceof Date
+                    const formattedDate = field.value
+                      ? field.value instanceof Date
                         ? field.value.toISOString().split("T")[0]
-                        : field.value;
+                        : ""
+                      : "";
 
                     return (
                       <FormItem>
@@ -316,7 +331,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
-                onClick={() => {}}
+                onClick={saveToDraft}
                 variant="outline"
                 className="text-white border-white hover:bg-[#6c5442]"
               >

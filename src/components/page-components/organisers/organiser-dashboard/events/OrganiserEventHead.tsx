@@ -56,7 +56,7 @@ const OrganiserEventHead = () => {
             ))}
           </ul>
         </div>
-        <Link href={"/list-event"}>
+        <Link href={"/create-event"}>
           <Button variant="destructive" className=" flex items-center gap-3">
             <LuCalendarPlus size={26} />
             Create event

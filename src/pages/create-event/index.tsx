@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Container from "@/tw-components/container";
 import StepOne from "@/components/page-components/create-events/StepOne";
 import StepTwo from "@/components/page-components/create-events/StepTwo";
@@ -10,18 +10,16 @@ import StepSix from "@/components/page-components/create-events/StepSix";
 import StepSeven from "@/components/page-components/create-events/StepSeven";
 import { getToken } from "@/lib/token";
 import { useRouter } from "next/navigation";
-import { getCookie, removeCookie, setCookie } from "@/lib/cookies";
-
-export interface StepsProps {
-  next?: () => void;
-  previous?: () => void;
-}
+import OrganiserHeader from "@/components/page-components/organisers/organiser-dashboard/OrganiserHeader";
+import { useMe } from "../api/query/me";
+import { useCreateEventContext } from "@/providers/create_event.provider";
+import ProfileFormModal from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
 export default function CreateEvent() {
-  const [currentStep, setCurrentStep] = useState<number>(() => {
-    const savedStep = getCookie("currentStep");
-    return savedStep ? Number(savedStep) : 1;
-  });
+  const { data: userDate } = useMe();
+  const { currentStep, setShowProfileForm, showProfileForm } =
+    useCreateEventContext();
+
   const token = getToken();
   const router = useRouter();
 
@@ -33,51 +31,38 @@ export default function CreateEvent() {
     }
   }, [router]);
 
-  useEffect(() => {
-    setCookie("currentStep", currentStep.toString());
-  }, [currentStep]);
-
-  const nextStep = () => {
-    setCurrentStep((prev) => prev + 1);
-  };
-
-  const previousStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep((prev) => prev - 1);
-    }
-  };
-
-  const clearStep = () => {
-    setTimeout(() => {
-      removeCookie("currentStep");
-      setCurrentStep(1);
-      router.push(`/organiser`);
-    }, 10000);
-  };
-
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return <StepOne next={nextStep} previous={previousStep} />;
+        return <StepOne />;
       case 2:
-        return <StepTwo next={nextStep} previous={previousStep} />;
+        return <StepTwo />;
       case 3:
-        return <StepThree next={nextStep} previous={previousStep} />;
+        return <StepThree />;
       case 4:
-        return <StepFour next={nextStep} previous={previousStep} />;
+        return <StepFour />;
       case 5:
-        return <StepFive next={nextStep} previous={previousStep} />;
+        return <StepFive />;
       case 6:
-        return <StepSix next={nextStep} previous={previousStep} />;
+        return <StepSix />;
       case 7:
-        return <StepSeven clearStep={clearStep} />;
+        return <StepSeven />;
       default:
         return;
     }
   };
   return (
-    <div className="bg-[#f0ded1] lg:h-screen w-svw bg-cover bg-no-repeat py-3">
-      <Container className="px-0">
+    <div className="bg-[#f0ded1] lg:h-screen w-svw bg-cover bg-no-repeat">
+      {userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer && (
+        <OrganiserHeader />
+      )}
+      {showProfileForm && (
+        <ProfileFormModal
+          open={showProfileForm}
+          close={() => setShowProfileForm(!showProfileForm)}
+        />
+      )}
+      <Container className="px-0 py-3 lg:pt-6">
         <div className="scrollbar-hide ">{renderStepContent()}</div>
       </Container>
     </div>

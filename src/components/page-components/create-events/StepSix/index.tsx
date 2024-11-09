@@ -1,4 +1,3 @@
-import { StepsProps } from "@/pages/create-event";
 import React, { FC, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
@@ -13,7 +12,7 @@ const contents = [
   "Ensure the agenda flows smoothly and includes buffer times.",
 ];
 
-const StepSix: FC<StepsProps> = ({ next, previous }) => {
+const StepSix: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const { selectTicket } = useCreateEventContext();
 
@@ -34,7 +33,7 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
           formTitle="Setting up Tickets"
           currPosition={[100, 100, 50]}
         >
-          <div className="flex flex-col justify-between gap-4 w-full lg:h-[82vh] px-3 overflow-y-auto">
+          <div className="flex flex-col justify-between gap-4 w-full lg:h-[70vh] px-3 overflow-y-auto">
             {!selectTicket && (
               <SelectTicketModal isOpen={showModal} close={handleShowModal} />
             )}
@@ -42,10 +41,10 @@ const StepSix: FC<StepsProps> = ({ next, previous }) => {
             {selectTicket === "" ? (
               <CreateTicketEmptyState open={handleShowModal} />
             ) : selectTicket === "entry" ? (
-              <EntryTicket next={next} previous={previous} />
+              <EntryTicket />
             ) : (
               selectTicket === "grouped" && (
-                <GroupTicket next={next} previous={previous} />
+                <GroupTicket />
               )
             )}
           </div>

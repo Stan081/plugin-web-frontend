@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, useCallback } from "react";
 import {
   Form,
   FormControl,
@@ -10,33 +10,28 @@ import {
 } from "@/components/ui/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import {
-  DonationForm,
-  DonationFormSchema,
-  PaidTicket,
-  PaidTicketFormSchema,
-} from "@/models/create-event-schema";
+import { DonationForm, DonationFormSchema } from "@/models/create-event-schema";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { StepsProps } from "@/pages/create-event";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useToast } from "@/components/ui/use-toast";
 import { EventEntryDonationTicket } from "@/pages/api/mutate/create-events/EventEntryDonationTicket";
 import { useMutation } from "@tanstack/react-query";
 import Spinner from "@/tw-components/spinner";
 
-interface DonationTicketFormProps extends StepsProps {
+interface DonationTicketFormProps {
   entryTicket: string;
 }
 
-const DonationTicketForm: FC<DonationTicketFormProps> = ({
-  next,
-  previous,
-  entryTicket,
-}) => {
-  const { selectTicket } = useCreateEventContext();
+const DonationTicketForm: FC<DonationTicketFormProps> = ({ entryTicket }) => {
+  const {
+    selectTicket,
+    nextStep: next,
+    previousStep: previous,
+    saveToDraft,
+  } = useCreateEventContext();
 
   const form = useForm<DonationForm>({
     mode: "all",
@@ -345,7 +340,7 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
-                onClick={() => {}}
+                onClick={saveToDraft}
                 variant="outline"
                 className="text-white border-white hover:bg-[#6c5442]"
               >

@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
-import { StepsProps } from "@/pages/create-event";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { categoriesData } from "@/static-datas/create-event";
@@ -11,13 +10,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { EventCategoryAPI } from "@/pages/api/mutate/create-events/eventCategory";
 import Spinner from "@/tw-components/spinner";
-import { useGetEventById } from "@/hooks/events/useGetEventById";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 const pageContents = ["Think about the primary audience for your event."];
 
-const StepTwo: React.FC<StepsProps> = ({ next }) => {
-  const { data: eventId, isLoading } = useGetEventById();
+const StepTwo: React.FC = () => {
+  const { data: eventId, isLoading } = useGetEvent();
+  const { nextStep: next, previousStep: previous, saveToDraft } = useCreateEventContext();
   const [selectedNames, setSelectedNames] = useState<string[]>(
     eventId?.data?.eventCategory || []
   );
@@ -76,7 +77,7 @@ const StepTwo: React.FC<StepsProps> = ({ next }) => {
       <div className="w-full h-full lg:w-3/5 mb-5">
         <FormContainer formTitle="Basic Information" currPosition={[80, 0, 0]}>
           <div className="flex flex-col justify-between gap-4 w-full h-full">
-            <div className="h-[60vh] lg:h-[74vh] whitespace-normal overflow-y-auto">
+            <div className="h-[60vh] whitespace-normal overflow-y-auto">
               <h3 className="font-pally-medium md:text-lg">
                 Choose the category that best describes your event
               </h3>
@@ -100,7 +101,7 @@ const StepTwo: React.FC<StepsProps> = ({ next }) => {
               <Separator />
               <div className="py-5 flex justify-between items-center">
                 <Button
-                  onClick={() => {}}
+                  onClick={saveToDraft}
                   variant="outline"
                   className="text-white border-white hover:bg-[#6c5442]"
                 >
@@ -108,6 +109,12 @@ const StepTwo: React.FC<StepsProps> = ({ next }) => {
                 </Button>
 
                 <div className="flex items-center gap-8">
+                  <Button
+                    onClick={previous}
+                    className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
+                  >
+                    Back
+                  </Button>
                   <Button
                     disabled={selectedNames.length < 1 || isPending}
                     onClick={handleSubmit}

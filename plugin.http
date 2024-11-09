@@ -16,10 +16,6 @@ Content-Type: application/json
 
 ###
 
-PATCH https://pluginapi.onrender.com/api/event/67297b5ae75c5496396595ce
+GET  https://pluginapi.onrender.com/api/event/672d269c3df217774668ba93
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzA3MzgzMDksImV4cCI6MTczMzMzMDMwOX0.vBGjgGpgaFPtKicXdq-kbrxWMrDmNy4s2sYdVRFQiZo
-
-{
- "eventCategory": ['Food', 'drinks', 'outdoor']
-}

@@ -1,6 +1,5 @@
 "use client";
-import { StepsProps } from "@/pages/create-event";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import {
@@ -28,13 +27,19 @@ import { useGetEventGuests } from "@/hooks/events/useGetEventGuests";
 import { useGetEventPhotos } from "@/hooks/events/useGetEventPhotos";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
-const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
+const StepFive: React.FC = () => {
   const { data: allAgenda } = useGetEventAgenda();
   const { data: allVendor } = useGetEventVendors();
   const { data: allGuests } = useGetEventGuests();
   const { data: allPhotos } = useGetEventPhotos();
   const { data: eventById } = useGetEvent();
+  const {
+    nextStep: next,
+    previousStep: previous,
+    saveToDraft,
+  } = useCreateEventContext();
   const [hydrated, setHydrated] = useState<boolean>(false);
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -89,7 +94,6 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
     const data = {
       refundPolicyAgreed: isChecked,
     };
-    // console.log(data);
     mutate(data);
   };
 
@@ -103,13 +107,14 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
           />
         )}
       </div>
+
       <div className="w-full lg:w-3/5 bg-[#f0ded1]">
         <FormContainer formTitle="Event Details" currPosition={[100, 100, 0]}>
-          <div className="flex flex-col justify-between gap-4 w-full h-full">
+          <div className="flex flex-col justify-between gap-4 w-full">
             <Accordion
               type="single"
               collapsible
-              className="w-full space-y-5 lg:h-[72vh] overflow-y-auto"
+              className="w-full space-y-5 lg:h-[60vh] overflow-y-auto"
             >
               <AccordionItem
                 onClick={() => handlePageContentChange("item-1")}
@@ -236,7 +241,7 @@ const StepFive: React.FC<StepsProps> = ({ next, previous }) => {
               <Separator />
               <div className="py-5 flex justify-between items-center">
                 <Button
-                  onClick={() => {}}
+                  onClick={saveToDraft}
                   variant="outline"
                   className="text-white border-white hover:bg-[#6c5442]"
                 >

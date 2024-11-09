@@ -41,7 +41,7 @@ const Side1 = () => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "UTC", // Ensures consistent timezone rendering
+    timeZone: "UTC",
   });
   return (
     <div className="w-full lg:w-2/5 px-4 lg:px-0">

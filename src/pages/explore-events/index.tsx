@@ -7,13 +7,20 @@ import EventFilterComponent from "@/components/page-components/eventpage/EventFi
 import CardComponent from "@/components/CardComponent";
 import EventListComponent from "@/components/page-components/eventpage/EventListComponent";
 import Container from "@/tw-components/container";
+import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
+import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 
 const ExploreEventsPage = () => {
+  const { data: events, isLoading } = useGetAllEvents();
   const [isGridView, setIsGridView] = useState(true);
 
   const handleToggleView = () => {
     setIsGridView((prevView) => !prevView);
   };
+
+  const publishedEvents: any[] = events?.data?.filter((item) => {
+    return item?.isPublished === true;
+  });
 
   return (
     <Layout title="Explore events" showHeader showFooter>
@@ -50,9 +57,19 @@ const ExploreEventsPage = () => {
             <div className="w-full">
               {isGridView ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-8 mt-3">
-                  {cardData.map((card) => (
-                    <p>hello</p>
-                  ))}
+                  {isLoading ? (
+                    <CardSkeleton />
+                  ) : (
+                    <>
+                      {publishedEvents?.length !== 0 ? (
+                        publishedEvents?.map((card) => (
+                          <CardComponent key={card._id} card={card} />
+                        ))
+                      ) : (
+                        <p>No event uploaded</p>
+                      )}
+                    </>
+                  )}
                 </div>
               ) : (
                 <div className="flex flex-col gap-6 pb-8 mt-3">

@@ -2,7 +2,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
-import { StepsProps } from "@/pages/create-event";
 import { Button } from "@/components/ui/button";
 import { IoMdImages } from "react-icons/io";
 import {
@@ -22,7 +21,7 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { Textarea } from "@/components/ui/textarea";
 import { uploadImage } from "@/lib/utils";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EventBasicInfo } from "@/pages/api/mutate/create-events/eventBasicInfo";
 import { useToast } from "@/components/ui/use-toast";
 import { getCookie, removeCookie, setCookie } from "@/lib/cookies";
@@ -30,18 +29,25 @@ import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMe } from "@/pages/api/query/me";
 import { useEditProfileRole } from "@/hooks/useEditProfileRole";
-import { useGetEventById } from "@/hooks/events/useGetEventById";
+import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useUpdateBasicInfo } from "@/hooks/events/useUpdateBasicInfo";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 const pageContents = [
   "Make your event name short and memorable.",
   "Focus on unique aspects to make your description engaging.",
 ];
 
-const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
-  const {data:eventId} = useGetEventById()
+const StepOne: React.FC = () => {
+  const { nextStep: next,} = useCreateEventContext();
   const { data: userData } = useMe();
-  const [imageBanner, setImageBanner] = useState<string | null>(null);
-  const [imageThumbnail, setImageThumbnail] = useState<string | null>(null);
+  const { data: event, isLoading: loadingEvent } = useGetEvent();
+  const [imageBanner, setImageBanner] = useState<string | null>(
+    event?.data?.eventBanner
+  );
+  const [imageThumbnail, setImageThumbnail] = useState<string | null>(
+    event?.data?.thumbnail
+  );
   const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -49,16 +55,17 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
   const form = useForm<EventStepOne>({
     mode: "all",
     defaultValues: {
-      event_banner: eventId?.data?.eventBanner ?? "",
-      event_thumbnail: eventId?.data?.thumbnail ?? "",
-      event_name: eventId?.data?.eventName ?? "",
-      event_description: eventId?.data?.eventDescription ?? "",
+      event_banner: event?.data?.eventBanner ?? "",
+      event_thumbnail: event?.data?.thumbnail || "",
+      event_name: event?.data?.eventName || "",
+      event_description: event?.data?.eventDescription || "",
     },
     resolver: yupResolver(EventStepOneSchema),
   });
 
-
   const { toast } = useToast();
+
+  const client = useQueryClient();
 
   // Handle image upload for banner
   const handleImageUploadBanner = async (
@@ -158,7 +165,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
           description: `${response?.message}`,
         });
         next();
-        // Set the cookie here
+        client.invalidateQueries({ queryKey: ["eventById"] });
         setCookie("event_id", response?.data?._id);
       }
     },
@@ -172,6 +179,9 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
   });
 
   const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
+
+  const { mutate: mutateUpdate, isPending: isUpdatePending } =
+    useUpdateBasicInfo();
 
   const onSubmit = useCallback(
     (payload: EventStepOne) => {
@@ -190,13 +200,9 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
 
       // Ensure `event_id` is removed before setting a new one
       if (getCookie("event_id")) {
-        removeCookie("event_id");
-      }
-      if (isPendingRole) {
-        <SpinnerOverlay />;
+        mutateUpdate(data);
       } else {
         mutate(data);
-        // console.log(data)
       }
     },
     [mutateRole, userData]
@@ -210,7 +216,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
       <div className="w-full lg:w-2/5 px-4 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
-      {isUploading && <SpinnerOverlay />}
+      {isUploading || loadingEvent && <SpinnerOverlay />}
       <div className="w-full h-full lg:w-3/5">
         <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <div>
@@ -219,7 +225,7 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex flex-col justify-between gap-4 w-full h-full mb-6 px-3"
               >
-                <div className="lg:h-[70vh] whitespace-normal overflow-y-auto">
+                <div className="h-[60vh] whitespace-normal overflow-y-auto">
                   <FormItem className="w-full">
                     <FormLabel className="text-white font-pally-medium">
                       Event Banner
@@ -425,24 +431,14 @@ const StepOne: React.FC<StepsProps> = ({ next, previous }) => {
 
                 <div className="sticky z-50 bottom-0 bg-[#281E17]">
                   <Separator />
-                  <div className="py-5 flex justify-between items-center">
+                  <div className="py-5 flex justify-end items-center">
                     <Button
-                      onClick={() => {}}
-                      variant="outline"
-                      className="text-white border-white hover:bg-[#6c5442]"
+                      type="submit"
+                      disabled={isPending || isUpdatePending}
+                      variant="destructive"
                     >
-                      Save Progress
+                      {isPending || isUpdatePending ? <Spinner /> : "Next"}
                     </Button>
-
-                    <div onClick={previous} className="flex items-center gap-8">
-                      <Button
-                        type="submit"
-                        disabled={isPending}
-                        variant="destructive"
-                      >
-                        {isPending || isUploading ? <Spinner /> : "Next"}
-                      </Button>
-                    </div>
                   </div>
                 </div>
               </form>

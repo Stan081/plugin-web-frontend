@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Form,
   FormControl,
@@ -23,9 +23,11 @@ import { EventPublish } from "@/pages/api/mutate/create-events/EventPublish";
 import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
 import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
-const PublishComponent: FC<{ clearStep: () => void }> = ({ clearStep }) => {
+const PublishComponent: FC = () => {
   const { data: userData } = useMe();
+  const { previousStep: previous } = useCreateEventContext();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfileForm, setShowProfileForm] = useState<boolean>(false);
   const [selectedVisibility, setSelectedVisibility] =
@@ -104,7 +106,6 @@ const PublishComponent: FC<{ clearStep: () => void }> = ({ clearStep }) => {
     <div>
       {showModal && (
         <CongratulationModal
-          clearStep={clearStep}
           open={showModal}
           close={() => setShowModal(!showModal)}
         />
@@ -121,7 +122,7 @@ const PublishComponent: FC<{ clearStep: () => void }> = ({ clearStep }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
-          <div className="h-[74vh] whitespace-normal overflow-y-auto space-y-5">
+          <div className="h-[64vh] whitespace-normal overflow-y-auto space-y-5">
             <FormItem>
               <FormField
                 control={form.control}
@@ -283,7 +284,7 @@ const PublishComponent: FC<{ clearStep: () => void }> = ({ clearStep }) => {
 
             <div className=" py-5 flex items-center justify-end gap-8">
               <Button
-                // onClick={previous}
+                onClick={previous}
                 className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
               >
                 Back

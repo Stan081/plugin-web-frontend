@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { StepsProps } from "@/pages/create-event";
 import { OneTimeForm, OneTimeFormShema } from "@/models/create-event-schema";
 import { Input } from "@/components/ui/input";
 import {
@@ -27,34 +26,47 @@ import { timezone } from "@/static-datas/create-event";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { OneTimeEvent } from "@/pages/api/mutate/create-events/eventTypeAPI";
 import { useToast } from "@/components/ui/use-toast";
+import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
-interface OneTimeFormComponentProps extends StepsProps {
+interface OneTimeFormComponentProps {
   eventType: string;
 }
 
 const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
-  next,
-  previous,
   eventType,
 }) => {
+  const {
+    nextStep: next,
+    previousStep: previous,
+    saveToDraft,
+  } = useCreateEventContext();
+  const { data: event, isLoading: loading } = useGetEvent();
   const [alert, setAlert] = useState<boolean>(true);
 
   const form = useForm<OneTimeForm>({
     mode: "all",
     defaultValues: {
-      start_date: null,
-      start_time: "",
-      end_date: null,
-      end_time: "",
-      timezone: "",
+      start_date: event?.data?.oneTimeEvent?.startDate
+        ? new Date(event.data.oneTimeEvent.startDate)
+        : undefined,
+      start_time: event?.data?.oneTimeEvent?.startTime ?? "",
+      end_date: event?.data?.oneTimeEvent?.endDate
+      ? new Date(event.data.oneTimeEvent.endDate)
+      : undefined,
+      end_time: event?.data?.oneTimeEvent?.endTime ?? "",
+      timezone: event?.data?.oneTimeEvent?.timeZone ?? "",
     },
     resolver: yupResolver(OneTimeFormShema),
   });
 
   const { toast } = useToast();
+
+  const client = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => OneTimeEvent(data),
@@ -65,6 +77,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
           title: "Uploaded Successfully",
           description: `${response?.message}`,
         });
+        client.invalidateQueries({ queryKey: ["eventID"] });
         next();
       }
     },
@@ -93,6 +106,8 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
 
   return (
     <div>
+      {loading && <SpinnerOverlay />}
+
       {alert && (
         <div className="my-5 flex justify-between items-center bg-[#FFF1F0] rounded-lg p-1.5">
           <div className="flex items-center gap-3">
@@ -122,11 +137,11 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                   control={form.control}
                   name="start_date"
                   render={({ field }) => {
-                    // Convert Date to YYYY-MM-DD if it's a Date object
-                    const formattedDate =
-                      field.value instanceof Date
-                        ? field.value.toISOString().split("T")[0] // Format Date to "YYYY-MM-DD"
-                        : field.value; // Use the value if it's already a string
+                    const formattedDate = field.value
+                      ? field.value instanceof Date
+                        ? field.value.toISOString().split("T")[0]
+                        : ""
+                      : "";
 
                     return (
                       <FormItem>
@@ -195,11 +210,11 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                   control={form.control}
                   name="end_date"
                   render={({ field }) => {
-                    // Same logic for end_date
-                    const formattedDate =
-                      field.value instanceof Date
+                    const formattedDate = field.value
+                      ? field.value instanceof Date
                         ? field.value.toISOString().split("T")[0]
-                        : field.value;
+                        : ""
+                      : "";
 
                     return (
                       <FormItem>
@@ -212,7 +227,6 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                             {...field}
                             value={formattedDate}
                             onChange={(e) => {
-                              // Ensure the selected date is converted back to Date object for RHF
                               field.onChange(new Date(e.target.value));
                             }}
                           />
@@ -288,7 +302,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
-                onClick={() => {}}
+                onClick={saveToDraft}
                 variant="outline"
                 className="text-white border-white hover:bg-[#6c5442]"
               >
