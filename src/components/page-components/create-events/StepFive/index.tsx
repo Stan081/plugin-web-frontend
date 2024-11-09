@@ -27,6 +27,7 @@ import { useGetEventGuests } from "@/hooks/events/useGetEventGuests";
 import { useGetEventPhotos } from "@/hooks/events/useGetEventPhotos";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
 const StepFive: React.FC = () => {
   const { data: allAgenda } = useGetEventAgenda();
@@ -37,6 +38,7 @@ const StepFive: React.FC = () => {
   const {
     nextStep: next,
     previousStep: previous,
+    saveToDraft,
   } = useCreateEventContext();
   const [hydrated, setHydrated] = useState<boolean>(false);
 
@@ -105,6 +107,7 @@ const StepFive: React.FC = () => {
           />
         )}
       </div>
+
       <div className="w-full lg:w-3/5 bg-[#f0ded1]">
         <FormContainer formTitle="Event Details" currPosition={[100, 100, 0]}>
           <div className="flex flex-col justify-between gap-4 w-full">
@@ -238,7 +241,7 @@ const StepFive: React.FC = () => {
               <Separator />
               <div className="py-5 flex justify-between items-center">
                 <Button
-                  onClick={() => {}}
+                  onClick={saveToDraft}
                   variant="outline"
                   className="text-white border-white hover:bg-[#6c5442]"
                 >

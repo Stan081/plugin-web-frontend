@@ -39,7 +39,7 @@ const pageContents = [
 ];
 
 const StepOne: React.FC = () => {
-  const { nextStep: next, previousStep: previous } = useCreateEventContext();
+  const { nextStep: next,} = useCreateEventContext();
   const { data: userData } = useMe();
   const { data: event, isLoading: loadingEvent } = useGetEvent();
   const [imageBanner, setImageBanner] = useState<string | null>(
@@ -216,7 +216,7 @@ const StepOne: React.FC = () => {
       <div className="w-full lg:w-2/5 px-4 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
-      {/* {isUploading || loadingEvent && <SpinnerOverlay />} */}
+      {isUploading || loadingEvent && <SpinnerOverlay />}
       <div className="w-full h-full lg:w-3/5">
         <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <div>
@@ -431,24 +431,14 @@ const StepOne: React.FC = () => {
 
                 <div className="sticky z-50 bottom-0 bg-[#281E17]">
                   <Separator />
-                  <div className="py-5 flex justify-between items-center">
+                  <div className="py-5 flex justify-end items-center">
                     <Button
-                      onClick={() => {}}
-                      variant="outline"
-                      className="text-white border-white hover:bg-[#6c5442]"
+                      type="submit"
+                      disabled={isPending || isUpdatePending}
+                      variant="destructive"
                     >
-                      Save Progress
+                      {isPending || isUpdatePending ? <Spinner /> : "Next"}
                     </Button>
-
-                    <div onClick={previous} className="flex items-center gap-8">
-                      <Button
-                        type="submit"
-                        disabled={isPending || isUpdatePending}
-                        variant="destructive"
-                      >
-                        {isPending || isUpdatePending ? <Spinner /> : "Next"}
-                      </Button>
-                    </div>
                   </div>
                 </div>
               </form>

@@ -33,6 +33,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
     selectTicket,
     nextStep: next,
     previousStep: previous,
+    saveToDraft,
   } = useCreateEventContext();
 
   const { toast } = useToast();
@@ -326,7 +327,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
-                onClick={() => {}}
+                onClick={saveToDraft}
                 variant="outline"
                 className="text-white border-white hover:bg-[#6c5442]"
               >

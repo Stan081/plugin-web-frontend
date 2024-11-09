@@ -10,10 +10,7 @@ import {
 } from "@/components/ui/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import {
-  DonationForm,
-  DonationFormSchema,
-} from "@/models/create-event-schema";
+import { DonationForm, DonationFormSchema } from "@/models/create-event-schema";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
@@ -28,13 +25,12 @@ interface DonationTicketFormProps {
   entryTicket: string;
 }
 
-const DonationTicketForm: FC<DonationTicketFormProps> = ({
-  entryTicket,
-}) => {
+const DonationTicketForm: FC<DonationTicketFormProps> = ({ entryTicket }) => {
   const {
     selectTicket,
     nextStep: next,
     previousStep: previous,
+    saveToDraft,
   } = useCreateEventContext();
 
   const form = useForm<DonationForm>({
@@ -344,7 +340,7 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
-                onClick={() => {}}
+                onClick={saveToDraft}
                 variant="outline"
                 className="text-white border-white hover:bg-[#6c5442]"
               >

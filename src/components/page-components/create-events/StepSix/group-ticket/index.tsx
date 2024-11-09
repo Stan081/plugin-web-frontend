@@ -21,6 +21,7 @@ const GroupTicket: FC = () => {
     seatType,
     nextStep: next,
     previousStep: previous,
+    saveToDraft,
   } = useCreateEventContext();
   const { data: allGroupEvent, isLoading } = useGetGroupEvent();
   const { mutate: deleteGroupTicket, isPending } = useDeleteEventGroup();
@@ -106,7 +107,7 @@ const GroupTicket: FC = () => {
         <Separator />
         <div className="py-5 flex justify-between items-center">
           <Button
-            onClick={() => {}}
+            onClick={saveToDraft}
             variant="outline"
             className="text-white border-white hover:bg-[#6c5442]"
           >

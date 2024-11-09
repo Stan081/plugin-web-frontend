@@ -40,23 +40,29 @@ interface OneTimeFormComponentProps {
 const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
   eventType,
 }) => {
-  const { nextStep: next, previousStep: previous } = useCreateEventContext();
+  const {
+    nextStep: next,
+    previousStep: previous,
+    saveToDraft,
+  } = useCreateEventContext();
   const { data: event, isLoading: loading } = useGetEvent();
   const [alert, setAlert] = useState<boolean>(true);
 
   const form = useForm<OneTimeForm>({
     mode: "all",
     defaultValues: {
-      start_date: new Date(event?.data?.oneTimeEvent?.startDate) || null,
+      start_date: event?.data?.oneTimeEvent?.startDate
+        ? new Date(event.data.oneTimeEvent.startDate)
+        : undefined,
       start_time: event?.data?.oneTimeEvent?.startTime ?? "",
-      end_date: new Date(event?.data?.oneTimeEvent?.endDate) || null,
+      end_date: event?.data?.oneTimeEvent?.endDate
+      ? new Date(event.data.oneTimeEvent.endDate)
+      : undefined,
       end_time: event?.data?.oneTimeEvent?.endTime ?? "",
       timezone: event?.data?.oneTimeEvent?.timeZone ?? "",
     },
     resolver: yupResolver(OneTimeFormShema),
   });
-
-  // new Date(event?.data?.oneTimeEvent?.startDate)
 
   const { toast } = useToast();
 
@@ -101,6 +107,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
   return (
     <div>
       {loading && <SpinnerOverlay />}
+
       {alert && (
         <div className="my-5 flex justify-between items-center bg-[#FFF1F0] rounded-lg p-1.5">
           <div className="flex items-center gap-3">
@@ -130,11 +137,11 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                   control={form.control}
                   name="start_date"
                   render={({ field }) => {
-                    // Convert Date to YYYY-MM-DD if it's a Date object
-                    const formattedDate =
-                      field.value instanceof Date
-                        ? field.value.toISOString().split("T")[0] // Format Date to "YYYY-MM-DD"
-                        : field.value; // Use the value if it's already a string
+                    const formattedDate = field.value
+                      ? field.value instanceof Date
+                        ? field.value.toISOString().split("T")[0]
+                        : ""
+                      : "";
 
                     return (
                       <FormItem>
@@ -203,11 +210,11 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                   control={form.control}
                   name="end_date"
                   render={({ field }) => {
-                    // Same logic for end_date
-                    const formattedDate =
-                      field.value instanceof Date
+                    const formattedDate = field.value
+                      ? field.value instanceof Date
                         ? field.value.toISOString().split("T")[0]
-                        : field.value;
+                        : ""
+                      : "";
 
                     return (
                       <FormItem>
@@ -220,7 +227,6 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                             {...field}
                             value={formattedDate}
                             onChange={(e) => {
-                              // Ensure the selected date is converted back to Date object for RHF
                               field.onChange(new Date(e.target.value));
                             }}
                           />
@@ -296,7 +302,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
-                onClick={() => {}}
+                onClick={saveToDraft}
                 variant="outline"
                 className="text-white border-white hover:bg-[#6c5442]"
               >

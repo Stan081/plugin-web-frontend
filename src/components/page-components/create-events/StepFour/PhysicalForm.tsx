@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useCallback } from "react";
 import {
   Form,
@@ -29,17 +29,17 @@ import { EventPhysicalLocation } from "@/pages/api/mutate/create-events/eventLoc
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
 interface PhysicalFormProps {
   locationType: string;
 }
 
-const PhysicalForm: React.FC<PhysicalFormProps> = ({
-  locationType,
-}) => {
+const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
   const {
     nextStep: next,
     previousStep: previous,
+    saveToDraft,
   } = useCreateEventContext();
   const form = useForm<PhysicalLocation>({
     mode: "all",
@@ -262,7 +262,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
-                onClick={() => {}}
+                onClick={saveToDraft}
                 variant="outline"
                 className="text-white border-white hover:bg-[#6c5442]"
               >

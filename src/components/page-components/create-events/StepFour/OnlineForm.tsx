@@ -30,17 +30,17 @@ import { useMutation } from "@tanstack/react-query";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
 interface OnlineFormProps {
   locationType: string;
 }
 
-const OnlineForm: React.FC<OnlineFormProps> = ({
-  locationType,
-}) => {
+const OnlineForm: React.FC<OnlineFormProps> = ({ locationType }) => {
   const {
     nextStep: next,
     previousStep: previous,
+    saveToDraft,
   } = useCreateEventContext();
   const { data: event, isLoading: loading } = useGetEvent();
 
@@ -89,7 +89,8 @@ const OnlineForm: React.FC<OnlineFormProps> = ({
   }, []);
   return (
     <div>
-      {loading && <SpinnerOverlay/>}
+      {loading && <SpinnerOverlay />}
+
       <h4 className="font-pally-medium md:text-lg">Virtual Address</h4>
       <Form {...form}>
         <form
@@ -164,7 +165,7 @@ const OnlineForm: React.FC<OnlineFormProps> = ({
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
-                onClick={() => {}}
+                onClick={saveToDraft}
                 variant="outline"
                 className="text-white border-white hover:bg-[#6c5442]"
               >

@@ -18,7 +18,7 @@ const pageContents = ["Think about the primary audience for your event."];
 
 const StepTwo: React.FC = () => {
   const { data: eventId, isLoading } = useGetEvent();
-  const { nextStep: next, previousStep: previous } = useCreateEventContext();
+  const { nextStep: next, previousStep: previous, saveToDraft } = useCreateEventContext();
   const [selectedNames, setSelectedNames] = useState<string[]>(
     eventId?.data?.eventCategory || []
   );
@@ -101,7 +101,7 @@ const StepTwo: React.FC = () => {
               <Separator />
               <div className="py-5 flex justify-between items-center">
                 <Button
-                  onClick={() => {}}
+                  onClick={saveToDraft}
                   variant="outline"
                   className="text-white border-white hover:bg-[#6c5442]"
                 >

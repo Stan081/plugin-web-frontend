@@ -35,6 +35,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
 interface RecurringFormComponentProps {
   eventType: string;
@@ -70,7 +71,11 @@ const schedules: { id: string; name: string }[] = [
 const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
   eventType,
 }) => {
-  const { nextStep: next, previousStep: previous } = useCreateEventContext();
+  const {
+    nextStep: next,
+    previousStep: previous,
+    saveToDraft,
+  } = useCreateEventContext();
   const { data: event, isLoading: loading } = useGetEvent();
   const [alert, setAlert] = useState<boolean>(true);
   const [recurringSchedule, setRecurringSchedule] = useState<string>("1");
@@ -80,9 +85,13 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
     defaultValues: {
       schedule:
         event?.data?.recurringEvent?.scheduleReference || recurringSchedule,
-      start_date: new Date(event?.data?.recurringEvent?.startDate) || null,
+      start_date: event?.data?.recurringEvent?.startDate
+        ? new Date(event.data.recurringEvent.startDate)
+        : undefined,
       start_time: event?.data?.recurringEvent?.startTime ?? "",
-      end_date: new Date(event?.data?.recurringEvent?.endDate) || null,
+      end_date: event?.data?.recurringEvent?.endDate
+        ? new Date(event.data.recurringEvent.endDate)
+        : undefined,
       end_time: event?.data?.recurringEvent?.endTime ?? "",
       timezone: event?.data?.recurringEvent?.timeZone ?? "",
     },
@@ -130,7 +139,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
 
   return (
     <div className="">
-      {loading && <SpinnerOverlay/>}
+      {loading && <SpinnerOverlay />}
       <div className="flex flex-wrap gap-3.5 my-5 text-white">
         {schedules.map((type) => (
           <button
@@ -176,10 +185,11 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
                   control={form.control}
                   name="start_date"
                   render={({ field }) => {
-                    const formattedDate =
-                      field.value instanceof Date
+                    const formattedDate = field.value
+                      ? field.value instanceof Date
                         ? field.value.toISOString().split("T")[0]
-                        : field.value;
+                        : ""
+                      : "";
 
                     return (
                       <FormItem>
@@ -232,10 +242,11 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
                   control={form.control}
                   name="end_date"
                   render={({ field }) => {
-                    const formattedDate =
-                      field.value instanceof Date
+                    const formattedDate = field.value
+                      ? field.value instanceof Date
                         ? field.value.toISOString().split("T")[0]
-                        : field.value;
+                        : ""
+                      : "";
 
                     return (
                       <FormItem>
@@ -320,7 +331,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
-                onClick={() => {}}
+                onClick={saveToDraft}
                 variant="outline"
                 className="text-white border-white hover:bg-[#6c5442]"
               >

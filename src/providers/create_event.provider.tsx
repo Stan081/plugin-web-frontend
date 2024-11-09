@@ -2,6 +2,7 @@
 
 import { useGetEventAgenda } from "@/hooks/events/useGetEventAgendas";
 import { getCookie, removeCookie, setCookie } from "@/lib/cookies";
+import { useMe } from "@/pages/api/query/me";
 import { useRouter } from "next/navigation";
 /* eslint-disable no-unused-vars */
 import {
@@ -25,7 +26,8 @@ export type IsCheckedGroupState = {
 };
 
 type CreateEventContextValue = {
-  currentStep: number
+  currentStep: number;
+  showProfileForm: boolean;
   isCheckedGroup: IsCheckedGroupState;
   isHost: boolean;
   seatType: string;
@@ -34,7 +36,9 @@ type CreateEventContextValue = {
   inviteeState: InviteeDataProps[];
   nextStep: () => void;
   previousStep: () => void;
+  setShowProfileForm: (key: boolean) => void;
   clearStep: () => void;
+  saveToDraft: () => void;
   handleCreateInvitee: (keys: InviteeDataProps) => void;
   handleClick: (key: string) => void;
   handleIsCheckedGroup: (key: keyof IsCheckedGroupState) => void;
@@ -60,10 +64,14 @@ export const seatedTypes: { id: string; name: string }[] = [
 ];
 
 export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
+  const { data: userData } = useMe();
   const [currentStep, setCurrentStep] = useState<number>(() => {
     const savedStep = getCookie("currentStep");
     return savedStep ? Number(savedStep) : 1;
   });
+
+  const [showProfileForm, setShowProfileForm] = useState<boolean>(false);
+
   //state to get selected ticket
   const [selectTicket, setSelectedTicket] = useState<string>("");
 
@@ -84,13 +92,11 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const { data: allAgenda } = useGetEventAgenda();
 
-
   useEffect(() => {
     setCookie("currentStep", currentStep.toString());
   }, [currentStep]);
 
   const router = useRouter();
-
 
   // Function to handle creating a new vendor
   const handleCreateInvitee = (data: InviteeDataProps) => {
@@ -102,7 +108,6 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     setSeatType(id);
   };
 
-
   // function to check Group ticket
   const handleIsCheckedGroup = (key: keyof typeof isCheckedGroup) => {
     setIsCheckedGroup((prevState) => ({
@@ -110,7 +115,6 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
       [key]: !prevState[key],
     }));
   };
-
 
   const nextStep = () => {
     setCurrentStep((prev) => prev + 1);
@@ -131,6 +135,13 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     }, 10000);
   };
 
+  const saveToDraft = () => {
+    if (!userData?.data?.isOrganizer) {
+      return setShowProfileForm(!showProfileForm);
+    }
+    router.push('/organiser')
+  };
+
   const ContextValue: CreateEventContextValue = {
     currentStep,
     seatType,
@@ -139,6 +150,9 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     selectTicket,
     inviteeState,
     allAgenda,
+    showProfileForm,
+    saveToDraft,
+    setShowProfileForm,
     nextStep,
     previousStep,
     clearStep,

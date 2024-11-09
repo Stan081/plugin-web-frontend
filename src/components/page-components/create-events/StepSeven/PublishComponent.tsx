@@ -23,9 +23,11 @@ import { EventPublish } from "@/pages/api/mutate/create-events/EventPublish";
 import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
 import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
+import { useCreateEventContext } from "@/providers/create_event.provider";
 
 const PublishComponent: FC = () => {
   const { data: userData } = useMe();
+  const { previousStep: previous } = useCreateEventContext();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfileForm, setShowProfileForm] = useState<boolean>(false);
   const [selectedVisibility, setSelectedVisibility] =
@@ -282,7 +284,7 @@ const PublishComponent: FC = () => {
 
             <div className=" py-5 flex items-center justify-end gap-8">
               <Button
-                // onClick={previous}
+                onClick={previous}
                 className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
               >
                 Back

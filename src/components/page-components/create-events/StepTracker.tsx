@@ -88,21 +88,21 @@ const StepTracker = () => {
           Back to event
         </p>
 
-        <div className="bg-gray-600 h-40 w-full flex justify-center items-center rounded-lg">
-          {currentStep > 1 ? (
-            <img
-              src={event?.data?.thumbnail}
-              width={320}
-              height={120}
-              alt={event?.data?.eventName}
-              className="w-full h-full rounded-lg object-cover"
-            />
-          ) : (
+        {currentStep > 1 ? (
+          <img
+            src={event?.data?.thumbnail}
+            width={320}
+            height={120}
+            alt={event?.data?.eventName}
+            className="w-full h-40 rounded-lg object-cover"
+          />
+        ) : (
+          <div className="bg-gray-600 h-40 w-full flex justify-center items-center rounded-lg">
             <p className="text-center font-pally-medium text-sm text-gray-300">
               No event banner
             </p>
-          )}
-        </div>
+          </div>
+        )}
 
         <p className="font-pally-medium text-[#616873] text-2xl">
           {currentStep > 1 && event?.data?.eventName

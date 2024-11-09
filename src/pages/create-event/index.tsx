@@ -13,10 +13,12 @@ import { useRouter } from "next/navigation";
 import OrganiserHeader from "@/components/page-components/organisers/organiser-dashboard/OrganiserHeader";
 import { useMe } from "../api/query/me";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import ProfileFormModal from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
 export default function CreateEvent() {
   const { data: userDate } = useMe();
-  const { currentStep } = useCreateEventContext();
+  const { currentStep, setShowProfileForm, showProfileForm } =
+    useCreateEventContext();
 
   const token = getToken();
   const router = useRouter();
@@ -29,21 +31,20 @@ export default function CreateEvent() {
     }
   }, [router]);
 
-
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return <StepOne/>;
+        return <StepOne />;
       case 2:
-        return <StepTwo/>;
+        return <StepTwo />;
       case 3:
-        return <StepThree/>;
+        return <StepThree />;
       case 4:
-        return <StepFour/>;
+        return <StepFour />;
       case 5:
-        return <StepFive/>;
+        return <StepFive />;
       case 6:
-        return <StepSix/>;
+        return <StepSix />;
       case 7:
         return <StepSeven />;
       default:
@@ -54,6 +55,12 @@ export default function CreateEvent() {
     <div className="bg-[#f0ded1] lg:h-screen w-svw bg-cover bg-no-repeat">
       {userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer && (
         <OrganiserHeader />
+      )}
+      {showProfileForm && (
+        <ProfileFormModal
+          open={showProfileForm}
+          close={() => setShowProfileForm(!showProfileForm)}
+        />
       )}
       <Container className="px-0 py-3 lg:pt-6">
         <div className="scrollbar-hide ">{renderStepContent()}</div>
