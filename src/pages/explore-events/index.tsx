@@ -9,10 +9,24 @@ import EventListComponent from "@/components/page-components/eventpage/EventList
 import Container from "@/tw-components/container";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
+import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
 
 const ExploreEventsPage = () => {
-  const { data: events, isLoading } = useGetAllEvents();
+  // const { data: events, isLoading } = useGetAllEvents();
   const [isGridView, setIsGridView] = useState(true);
+
+  const [filters, setFilters] = useState({
+    minPrice: 100,
+    maxPrice: 200,
+    locationType: "physical",
+    eventType: "one-time",
+  });
+
+  const { data: events, isLoading, isError } = useFilteredEvents(filters);
+
+  const handleFilterChange = (newFilters: Partial<typeof filters>) => {
+    setFilters((prevFilters) => ({ ...prevFilters, ...newFilters }));
+  };
 
   const handleToggleView = () => {
     setIsGridView((prevView) => !prevView);
@@ -23,6 +37,13 @@ const ExploreEventsPage = () => {
   });
   
 
+  const isEmpty = !events?.data || events.data.length === 0;
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError){
+    console.log(events?.data)
+    return <div>Error loading events</div>
+  };
   return (
     <Layout title="Explore events" showHeader showFooter>
       {/*Explore Events Layout*/}
@@ -53,6 +74,18 @@ const ExploreEventsPage = () => {
           </div>
         </div>
         <Container className="px-0 md:px-6">
+          {isEmpty ? (
+            <div>No events found for the selected filters.</div>
+          ) : (
+            events?.data?.map((event) => (
+              <div key={event.id} className="event-card">
+                {/* Render your event details here */}
+                <h2>{event.title}</h2>
+                <p>{event.date}</p>
+                <p>{event.location}</p>
+              </div>
+            ))
+          )}
           <div className="flex gap-5 mt-10">
             <EventFilterComponent />
             <div className="w-full">
