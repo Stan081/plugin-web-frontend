@@ -84,11 +84,11 @@ const AdPackages = () => {
   return (
     // DESKTOP-FIRST STYLING
     <Section className=" bg-whiteNoise py-20 xs:max-md:space-y-10">
-      <div className="space-y-2 xs:max-md:w-[80%] xs:max-md:mx-auto">
-        <h2 className="font-pally-medium text-4xl xs:max-md:text-3xl xs:max-md:w-80 xs:max-md:mx-auto text-center text-[#020912]">
+      <div className="space-y-2 xs:max-md:w-full xs:max-md:mx-auto">
+        <h2 className="font-pally-medium text-4xl xs:max-md:text-3xl xs:max-md:w-[80%] xs:max-md:mx-auto text-center text-[#020912]">
           Get More Attendees With Our Ad Packages!
         </h2>
-        <p className="font-pally-regular text-lg text-center text-[#475367] w-[26rem] xs:max-md:w-96 mx-auto">
+        <p className="font-pally-regular text-lg text-center text-[#475367] w-[26rem] xs:max-md:w-[90%] mx-auto">
           Choose from our Basic, Pro, or Premium plans to target audiences and
           drive more ticket sales.
         </p>
@@ -140,8 +140,8 @@ const AdPackages = () => {
                   } rounded-2xl`}
                   onClick={() => openAccordion(ad.title)}
                 >
-                  <AccordionTrigger className=" font-pally-medium text-2xl text-[#344054] ">
-                    <div className="flex items-center gap-2">
+                  <AccordionTrigger className=" font-pally-medium text-xl  text-[#344054] ">
+                    <div className="flex items-end gap-2">
                       <div className="">
                         <input
                           checked={isOpen === ad.title}

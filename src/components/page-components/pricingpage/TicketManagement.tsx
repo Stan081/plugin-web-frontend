@@ -10,7 +10,7 @@ const TicketManagement = () => {
           <h2 className="capitalize font-pally-medium text-4xl xs:max-md:text-3xl leading-10 text-[#020912] w-[35rem] xs:max-md:w-[90%] mx-auto">
             Effortless Ticket Management and Real-Time Insights
           </h2>
-          <p className="font-pally-regular text-base text-[#475367] w-[60%] mx-auto">
+          <p className="font-pally-regular text-base text-[#475367] w-[60%] xs:max-md:w-[90%] mx-auto">
             Track sales, check in attendees, and monitor event progress using
             Plugin’s powerful ticket management tools.
           </p>
