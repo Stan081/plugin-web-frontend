@@ -17,7 +17,7 @@ const ExploreTools = () => {
       <div className="mt-16 xs:max-md:mt-10 w-[80%] xs:max-md:w-[95%] h-[95vh] xs:max-md:h-auto mx-auto flex xs:max-md:flex-col gap-5 ">
         {/* free paid events image */}
         <div className="relative w-1/2 xs:max-md:w-full h-full xs:max-md:h-[70vh] bg-[#FFF1F0]  rounded-lg">
-          <div className="px-5 pt-10">
+          <div className="px-5 pt-10 xs:max-md:pt-5">
             <p className="font-pally-medium text-3xl text-[#020912]">
               Free/Paid Events Listing
             </p>
@@ -74,7 +74,7 @@ const ExploreTools = () => {
         <div className="w-1/2 xs:max-md:w-full h-full flex flex-col gap-5">
           {/* Private Ebents */}
           <div className="relative w-full h-1/2 xs:max-md:h-[35vh] bg-[#ECF2FE] rounded-lg overflow-hidden">
-            <div className="px-5 pt-10 ">
+            <div className="px-5 pt-10 xs:max-md:pt-5">
               <p className="font-pally-medium text-3xl text-[#020912]">
                 Private Events
               </p>
@@ -104,7 +104,7 @@ const ExploreTools = () => {
           </div>
           {/* Recurring Events */}
           <div className="relative w-full h-1/2 xs:max-md:h-[35vh] bg-[#FBF1E1] rounded-lg overflow-hidden">
-            <div className="px-5 pt-10">
+            <div className="px-5 pt-10 xs:max-md:pt-5">
               <p className="font-pally-medium text-3xl text-[#020912]">
                 Recurring Events
               </p>

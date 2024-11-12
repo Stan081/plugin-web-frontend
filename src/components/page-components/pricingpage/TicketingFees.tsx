@@ -33,10 +33,10 @@ const TicketingFees = () => {
               return (
                 <div
                   key={data.text}
-                  className="flex xs:max-md:items-center xs:max-md:ml-16 gap-2 xs:max-md:gap-4 w-1/2 min-w-[200px] xs:max-md:w-full"
+                  className="flex xs:max-md:items-center xs:max-md:ml-16 gap-2 w-1/2 min-w-[200px] xs:max-md:w-full"
                 >
-                  <figure className="size-8 min-w-8 xs:max-md:size-10 bg-black rounded-full"></figure>
-                  <p className="font-pally-regular text-base xs:max-md:text-lg text-[#212121] text-wra">
+                  <figure className="size-8 min-w-8 bg-black rounded-full"></figure>
+                  <p className="font-pally-regular text-[#212121] text-wra">
                     {data.text}
                   </p>
                 </div>
