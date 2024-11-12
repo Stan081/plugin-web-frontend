@@ -5,9 +5,15 @@ import ticketingFeesData from "@/static-datas/ticketing-fees-data";
 
 const TicketingFees = () => {
   return (
+<<<<<<< HEAD
     <Section className="flex xs:max-md:flex-col justify-center gap-[5vw] xs:max-md:gap-5 w-[80%] xs:max-md:w-[90%] mx-auto py-20 xs:max-md:pt-0">
       <div className="flex items-center xs:max-md:justify-center">
         <figure className="relative size-[25rem] xs:max-md:size-80">
+=======
+    <Section className="flex justify-center gap-32 w-[80%] mx-auto py-40">
+      <div className="flex items-center">
+        <figure className="relative size-[25rem]">
+>>>>>>> f82709ee73c3ad30da93255d576e1188a71c114e
           <Image
             fill={true}
             src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730119374/pricing-images/pie-chart.png"
@@ -16,6 +22,7 @@ const TicketingFees = () => {
           />
         </figure>
       </div>
+<<<<<<< HEAD
       <div className="w-1/2 xs:max-md:w-full xs:max-md:text-center flex items-center xs:max-md:justify-center">
         <div className="space-y-8 xs:max-md:space-y-6 ">
           <div className="w-full xs:max-md:space-y-3">
@@ -37,6 +44,24 @@ const TicketingFees = () => {
                 >
                   <figure className="size-8 min-w-8 xs:max-md:size-10 bg-black rounded-full"></figure>
                   <p className="font-pally-regular text-base xs:max-md:text-lg text-[#212121] text-wra">
+=======
+      <div className="w-1/2 flex items-center">
+        <div className="space-y-8">
+          <h2 className="font-pally-medium text-4xl text-[#020912]">
+            Simple And Transparent
+            <br /> Ticketing Fees
+          </h2>
+          <p className="font-pally-regular text-base text-[#212121]">
+            Plugin ensures smooth ticketing with a transparent 10% commission on
+            paid tickets, while free tickets come at no cost to you,
+          </p>
+          <div className="flex flex-wrap justify-between gap-y-5">
+            {ticketingFeesData.map((data) => {
+              return (
+                <div key={data.text} className="flex gap-2 w-1/2">
+                  <figure className="size-8 bg-black rounded-full"></figure>
+                  <p className="font-pally-regular text-base text-[#212121] text-wrap">
+>>>>>>> f82709ee73c3ad30da93255d576e1188a71c114e
                     {data.text}
                   </p>
                 </div>
