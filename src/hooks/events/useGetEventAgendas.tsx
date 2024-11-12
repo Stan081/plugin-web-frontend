@@ -9,7 +9,7 @@ export const useGetEventAgenda = () => {
   const options = {
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer ${token}`, 
+      Authorization: `Bearer ${token}`,
     },
   };
 
@@ -22,8 +22,6 @@ export const useGetEventAgenda = () => {
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling
         }),
-    // retry: true, 
-    // refetchOnWindowFocus: false,
-    // refetchOnMount: true, 
+    retry: false,
   });
 };

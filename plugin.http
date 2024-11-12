@@ -1,21 +1,26 @@
-### Get All Events
-
-GET http://pluginapi.onrender.com/api/event/events
+### Add an Event to favourite
+POST https://pluginapi.onrender.com/api/favourites
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
 
-### Get All Events
+{
+  "eventId": "6730b1560cdd60d3807d5dfb"
+}
 
-GET http://pluginapi.onrender.com/api/event/events
+### Get all favorited events by a user
+
+GET https://pluginapi.onrender.com/api/favourites
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
 
-### Get Single Event by Id
+### Check if an event is favourited using the event Id
 
-GET http://pluginapi.onrender.com/api/event/events/67297b5ae75c5496396595ce
+GET https://pluginapi.onrender.com/api/favourites/6730b1560cdd60d3807d5dfb
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
 
+### Remove an Event from favourite
 
-###
-
-GET  https://pluginapi.onrender.com/api/event/672d269c3df217774668ba93
+DELETE https://pluginapi.onrender.com/api/favourites/6731bf753a92aa6391fa01e8
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzA3MzgzMDksImV4cCI6MTczMzMzMDMwOX0.vBGjgGpgaFPtKicXdq-kbrxWMrDmNy4s2sYdVRFQiZo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU

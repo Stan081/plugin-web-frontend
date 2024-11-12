@@ -4,10 +4,17 @@ import React, { FC, useState } from "react";
 import TicketIcon from "./icons/ticket";
 import { useRouter } from "next/router"; // Ensure correct import for useRouter
 import { toFiat } from "@/lib/amount";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "./ui/use-toast";
+import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
+import { useDeleteBookmark } from "@/hooks/events/bookmark-favourite/useDeleteBookmark";
 
 const CardComponent: FC<{ card: any }> = ({ card }) => {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const {mutate: removeBookmark} = useDeleteBookmark()
   const router = useRouter();
+
+  const {toast} = useToast()
 
   const handleCardClick = (id: string) => {
     router.push(`/explore-events/${id}`);
@@ -47,6 +54,38 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
     card?.groupedTicket?.find((item) => item?.groupedTicketType === "paid");
 
   console.log(getGroupPrices?.ticketPrice);
+
+  const { mutate } = useMutation({
+    mutationFn: (data: any) => AddFavourite(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Event has been added to bookmark",
+          description: `${response?.message}`,
+        });
+        // setCookie("event_id", response?.data?._id);
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Event has not been added to bookmark",
+        description: error?.message,
+      });
+    },
+  });
+
+  const handleBookmark = () => {
+    if(isFavorite){
+      const data = {
+        eventId: card?._id
+      }
+      mutate(data)
+    }else{
+      removeBookmark(card?._id)
+    }
+  }
   return (
     <div className="w-full max-w-xs shrink-0 rounded-xl overflow-hidden bg-white border flex flex-col justify-between border-gray-200 ">
       <div className="relative">
@@ -62,7 +101,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
           {card?.publishStatus}
         </div>
         <div
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={handleBookmark}
           className="absolute top-2 right-2 bg-black bg-opacity-50 text-white p-2 rounded-full cursor-pointer"
         >
           {!isFavorite ? (

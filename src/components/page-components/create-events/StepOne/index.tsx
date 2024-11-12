@@ -41,6 +41,9 @@ const pageContents = [
 const StepOne: React.FC = () => {
   const { nextStep: next,} = useCreateEventContext();
   const { data: userData } = useMe();
+  const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
+  const { mutate: mutateUpdate, isPending: isUpdatePending } =
+    useUpdateBasicInfo();
   const { data: event, isLoading: loadingEvent } = useGetEvent();
   const [imageBanner, setImageBanner] = useState<string | null>(
     event?.data?.eventBanner
@@ -178,11 +181,6 @@ const StepOne: React.FC = () => {
     },
   });
 
-  const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
-
-  const { mutate: mutateUpdate, isPending: isUpdatePending } =
-    useUpdateBasicInfo();
-
   const onSubmit = useCallback(
     (payload: EventStepOne) => {
       const data = {
@@ -207,6 +205,7 @@ const StepOne: React.FC = () => {
     },
     [mutateRole, userData]
   );
+  if(isUpdatePending) return  <SpinnerOverlay />
 
   return (
     <div
@@ -216,7 +215,7 @@ const StepOne: React.FC = () => {
       <div className="w-full lg:w-2/5 px-4 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
-      {isUploading || loadingEvent && <SpinnerOverlay />}
+      {isUploading && <SpinnerOverlay />}
       <div className="w-full h-full lg:w-3/5">
         <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <div>

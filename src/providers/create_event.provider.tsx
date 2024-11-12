@@ -140,6 +140,7 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
       return setShowProfileForm(!showProfileForm);
     }
     router.push('/organiser')
+    removeCookie("event_id")
   };
 
   const ContextValue: CreateEventContextValue = {
