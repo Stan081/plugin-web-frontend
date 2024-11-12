@@ -4,15 +4,20 @@ import { Section } from "@/tw-components/Section";
 
 const ExploreTools = () => {
   return (
-    <Section className="bg-[#211913] py-20">
-      <h2 className="font-pally-medium text-4xl text-center text-white">
-        Explore Tools To Host And
-        <br />
-        Manage Your Event
-      </h2>
-      <div className="mt-20 w-[80%] h-[95vh] mx-auto flex gap-5 ">
-        <div className="relative w-1/2 h-full bg-[#FFF1F0] rounded-lg">
-          <div className="p-5 ">
+    <Section className="bg-[#211913 py-20 xs:max-md:py-16 w-full">
+      <div className="text-center space-y-3 w-[70%] xs:max-md:w-full mx-auto">
+        <h2 className="font-pally-medium text-4xl leading-10 text-[#020912] w-[30rem] xs:max-md:w-[80%] mx-auto">
+          Publish an event at zero cost with no hidden fees 
+        </h2>
+        <p className="font-pally-regular text-base xs:max-md:text-lg text-[#475367] w-[60%] xs:max-md:w-full mx-auto">
+          Explore tools to Host and Manage Your Event
+        </p>
+      </div>
+
+      <div className="mt-16 xs:max-md:mt-10 w-[80%] xs:max-md:w-[95%] h-[95vh] xs:max-md:h-auto mx-auto flex xs:max-md:flex-col gap-5 ">
+        {/* free paid events image */}
+        <div className="relative w-1/2 xs:max-md:w-full h-full xs:max-md:h-[70vh] bg-[#FFF1F0]  rounded-lg">
+          <div className="px-5 pt-10">
             <p className="font-pally-medium text-3xl text-[#020912]">
               Free/Paid Events Listing
             </p>
@@ -65,9 +70,11 @@ const ExploreTools = () => {
             />
           </figure>
         </div>
-        <div className="w-1/2 h-full flex flex-col gap-5">
-          <div className="relative w-full h-1/2 bg-[#ECF2FE] rounded-lg">
-            <div className="p-5 ">
+
+        <div className="w-1/2 xs:max-md:w-full h-full flex flex-col gap-5">
+          {/* Private Ebents */}
+          <div className="relative w-full h-1/2 xs:max-md:h-[35vh] bg-[#ECF2FE] rounded-lg overflow-hidden">
+            <div className="px-5 pt-10 ">
               <p className="font-pally-medium text-3xl text-[#020912]">
                 Private Events
               </p>
@@ -76,13 +83,13 @@ const ExploreTools = () => {
                 keeping your event accessible to a select group
               </p>
             </div>
-            <div className="absolute w-full bottom-0 h-1/2">
+            <div className="absolute w-full bottom-0 h-[40%]">
               <figure className="size-full">
                 <Image
                   fill={true}
                   src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730127651/pricing-images/party-balloons.png"
                   alt="Party Balloons"
-                  className="object-cover top-0"
+                  className="object-cover object-top"
                 />
               </figure>
               <figure className="absolute left-1/3 bottom-0 h-[120%] w-1/3">
@@ -90,13 +97,14 @@ const ExploreTools = () => {
                   fill={true}
                   src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730128429/pricing-images/padlock.png"
                   alt="Padlock"
-                  className="object-contain"
+                  className="object-contain object-bottom"
                 />
               </figure>
             </div>
           </div>
-          <div className="relative w-full h-1/2 bg-[#FBF1E1] rounded-lg overflow-hidden">
-            <div className="p-5 ">
+          {/* Recurring Events */}
+          <div className="relative w-full h-1/2 xs:max-md:h-[35vh] bg-[#FBF1E1] rounded-lg overflow-hidden">
+            <div className="px-5 pt-10">
               <p className="font-pally-medium text-3xl text-[#020912]">
                 Recurring Events
               </p>
@@ -111,7 +119,7 @@ const ExploreTools = () => {
                 fill={true}
                 src="https://res.cloudinary.com/dbhbyikta/image/upload/v1730129337/pricing-images/calendar.png"
                 alt="Calendar"
-                className="object-cover"
+                className="object-contain object-bottom"
               />
             </figure>
           </div>

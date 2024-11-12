@@ -30,9 +30,9 @@ const Faq = () => {
                 <AccordionItem
                   value={faq.question as string}
                   className={`${
-                    index === 0
-                      ? `border-t border-r border-l rounded-tr-3xl rounded-tl-3xl`
-                      : `border-r border-l`
+                    index !== (faqs.length - 1)
+                      ? `relative border-b border-b-transparent -mb-10 pb-10 border-t border-r border-l rounded-t-3xl`
+                      : `border-t border-r border-l rounded-t-3xl`
                   }  pt-3 px-4`}
                 >
                   <AccordionTrigger className=" font-pally-medium text-base md:text-lg">{faq.question}</AccordionTrigger>
