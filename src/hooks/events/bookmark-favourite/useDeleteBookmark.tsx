@@ -4,14 +4,14 @@ import { getToken } from "@/lib/token";
 import { EVENT_FAVOURITE } from "@/lib/constants";
 import { useToast } from "@/components/ui/use-toast";
 
-export const useDeleteBookmark = () => {
+export const useDeleteBookmark = (id:string) => {
   const token = getToken();
 
   const { toast } = useToast();
   const client = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id }: { id: string }) => {
+    mutationFn: () => {
       const url = EVENT_FAVOURITE + `/${id}`;
       return axios.delete(url, {
         headers: {
@@ -30,7 +30,7 @@ export const useDeleteBookmark = () => {
     onError: (error) => {
       toast({
         variant: "destructive",
-        title: "Failed to delete agenda",
+        title: "Failed to remove bookmark",
         description: error?.message,
       });
     },

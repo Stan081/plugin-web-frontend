@@ -39,7 +39,7 @@ const pageContents = [
 ];
 
 const StepOne: React.FC = () => {
-  const { nextStep: next,} = useCreateEventContext();
+  const { nextStep: next } = useCreateEventContext();
   const { data: userData } = useMe();
   const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
   const { mutate: mutateUpdate, isPending: isUpdatePending } =
@@ -55,13 +55,15 @@ const StepOne: React.FC = () => {
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
+  const eventID = getCookie("event_id");
+
   const form = useForm<EventStepOne>({
     mode: "all",
     defaultValues: {
-      event_banner: event?.data?.eventBanner ?? "",
-      event_thumbnail: event?.data?.thumbnail || "",
-      event_name: event?.data?.eventName || "",
-      event_description: event?.data?.eventDescription || "",
+      event_banner: eventID ? event?.data?.eventBanner : "",
+      event_thumbnail: eventID ? event?.data?.thumbnail : "",
+      event_name: eventID ? event?.data?.eventName : "",
+      event_description: eventID ? event?.data?.eventDescription : "",
     },
     resolver: yupResolver(EventStepOneSchema),
   });
@@ -197,7 +199,7 @@ const StepOne: React.FC = () => {
       }
 
       // Ensure `event_id` is removed before setting a new one
-      if (getCookie("event_id")) {
+      if (eventID) {
         mutateUpdate(data);
       } else {
         mutate(data);
@@ -205,7 +207,7 @@ const StepOne: React.FC = () => {
     },
     [mutateRole, userData]
   );
-  if(isUpdatePending) return  <SpinnerOverlay />
+  if (isUpdatePending) return <SpinnerOverlay />;
 
   return (
     <div
