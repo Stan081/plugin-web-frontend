@@ -139,7 +139,11 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     if (!userData?.data?.isOrganizer) {
       return setShowProfileForm(!showProfileForm);
     }
-    router.push('/organiser')
+    setCurrentStep(1);
+    router.push("/organiser");
+    if (getCookie("event_id")) {
+      removeCookie("event_id");
+    }
   };
 
   const ContextValue: CreateEventContextValue = {

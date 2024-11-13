@@ -1,13 +1,31 @@
 "use client";
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import TicketIcon from "./icons/ticket";
 import { useRouter } from "next/router"; // Ensure correct import for useRouter
 import { toFiat } from "@/lib/amount";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "./ui/use-toast";
+import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
+import { useDeleteBookmark } from "@/hooks/events/bookmark-favourite/useDeleteBookmark";
+import { useCheckBookmark } from "@/hooks/events/bookmark-favourite/useCheckBookmark";
+import RotateLoader from "@/tw-components/rotate";
+import Image from "next/image";
 
 const CardComponent: FC<{ card: any }> = ({ card }) => {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const { data: isCheck, isLoading: isLoadingBookmark } = useCheckBookmark(
+    card?._id
+  );
+  const { mutate: removeBookmark, isPending } = useDeleteBookmark(card?._id);
   const router = useRouter();
+  console.log(isCheck?.data);
+  // const client = useQueryClient();
+
+  // useEffect(() => {
+  //   client.invalidateQueries({ queryKey: ["isBookmark"] });
+  // }, [isCheck?.isFavorited]);
+
+  const { toast } = useToast();
 
   const handleCardClick = (id: string) => {
     router.push(`/explore-events/${id}`);
@@ -47,6 +65,38 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
     card?.groupedTicket?.find((item) => item?.groupedTicketType === "paid");
 
   console.log(getGroupPrices?.ticketPrice);
+
+  const { mutate } = useMutation({
+    mutationFn: (data: any) => AddFavourite(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Event has been saved",
+          // description: `${response?.message}`,
+        });
+        // setCookie("event_id", response?.data?._id);
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Event has not been added to bookmark",
+        description: error?.message,
+      });
+    },
+  });
+
+  const handleBookmark = () => {
+    if (!isCheck?.data?.isFavorited) {
+      const data = {
+        eventId: card?._id,
+      };
+      mutate(data);
+    } else {
+      removeBookmark(card?._id);
+    }
+  };
   return (
     <div className="w-full max-w-xs shrink-0 rounded-xl overflow-hidden bg-white border flex flex-col justify-between border-gray-200 ">
       <div className="relative">
@@ -62,13 +112,26 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
           {card?.publishStatus}
         </div>
         <div
-          onClick={() => setIsFavorite(!isFavorite)}
+          onClick={handleBookmark}
           className="absolute top-2 right-2 bg-black bg-opacity-50 text-white p-2 rounded-full cursor-pointer"
         >
-          {!isFavorite ? (
-            <RiHeartLine size={24} />
+          {isLoadingBookmark || isPending ? (
+            <Image
+              src={"/gif/Animation.gif"}
+              alt="spinner"
+              width={50}
+              height={25}
+              className="w-7 h-7 p-0 bg-white rounded-full"
+              unoptimized
+            />
           ) : (
-            <RiHeartFill size={24} color="#EB7257" />
+            <>
+              {!isCheck?.data?.isFavorited ? (
+                <RiHeartLine size={24} />
+              ) : (
+                <RiHeartFill size={24} className="destructive" />
+              )}
+            </>
           )}
         </div>
       </div>
@@ -89,18 +152,20 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
 
         <div className="flex items-center gap-4">
           <p className="text-sm md:text-lg destructive font-pally-regular">
-            {formattedDate}
+            {formattedDate ?? "No set date"}
           </p>
           <div className="h-5 border border-gray-400" />
           <p className="text-sm md:text-lg destructive font-pally-regular">
-            {formattedTime}
+            {formattedTime ?? "No set time"}
           </p>
         </div>
         <div className="flex items-center gap-1 mt-3">
           <TicketIcon />
           <p className="text-sm md:text-lg text-black font-pally-medium">
-            {toFiat(
-              getGroupPrices?.ticketPrice || card?.entryTicket?.ticketPrice
+            {card?.entryTicket?.ticketPrice ? (
+              toFiat(card?.entryTicket?.ticketPrice)
+            ) : (
+              <span className=" text-sm">Click to explore price</span>
             )}
           </p>
         </div>
