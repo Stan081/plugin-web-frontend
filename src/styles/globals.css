@@ -63,6 +63,7 @@ button.absolute.right-4.top-4 {
     transform: scale(0.1);
   }
 }
+
 .features-card-shadow {
   box-shadow: 0px 4px 6px -2px #0000000F,  0px 12px 16px -4px #7717160F;
 }
