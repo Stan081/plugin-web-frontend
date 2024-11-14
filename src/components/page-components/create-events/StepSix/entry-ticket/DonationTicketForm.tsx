@@ -178,7 +178,7 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({ entryTicket }) => {
                 </FormLabel>
                 <FormField
                   control={form.control}
-                  name="ticket_quantity"
+                  name="max_price"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>

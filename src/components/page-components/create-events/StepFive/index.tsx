@@ -27,7 +27,6 @@ import { useGetEventGuests } from "@/hooks/events/useGetEventGuests";
 import { useGetEventPhotos } from "@/hooks/events/useGetEventPhotos";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { useCreateEventContext } from "@/providers/create_event.provider";
-import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
 const StepFive: React.FC = () => {
   const { data: allAgenda } = useGetEventAgenda();

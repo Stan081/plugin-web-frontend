@@ -132,25 +132,22 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
     },
   });
 
-  const onSubmit = useCallback(
-    async (payload: SlotWithHostForm) => {
-      console.log(payload);
+  const onSubmit = useCallback(async (payload: SlotWithHostForm) => {
+    console.log(payload);
 
-      const data = {
-        title: payload?.agenda_title,
-        description: payload?.agenda_description,
-        startTime: payload?.start_time,
-        endTime: payload?.end_time,
-        host: {
-          name: payload?.host_name,
-          photo: payload?.host_thumbnail,
-        },
-      };
+    const data = {
+      title: payload?.agenda_title,
+      description: payload?.agenda_description,
+      startTime: payload?.start_time,
+      endTime: payload?.end_time,
+      host: {
+        name: payload?.host_name,
+        photo: payload?.host_thumbnail,
+      },
+    };
 
-      mutate(data);
-    },
-    []
-  );
+    mutate(data);
+  }, []);
 
   return (
     <div>
@@ -386,13 +383,11 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
             </div>
           </div>
 
-          <div className="flex gap-4 mb-4">
-            <Button
-              type="submit"
-              disabled={isPending}
-              variant="destructive"
-              className="w-full"
-            >
+          <div className="flex justify-end gap-4 mb-4">
+            <Button variant="outline" onClick={handleReturnToList} className="border bg-white">
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isPending} variant="destructive">
               {isPending ? <Spinner /> : "Save Session"}
             </Button>
           </div>

@@ -24,3 +24,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
 DELETE https://pluginapi.onrender.com/api/favourites/6728bc5a8b0259bda9812557
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
+
+###
+
+GET http://pluginapi.onrender.com/api/event/67289a162199b35c54798a8d
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU

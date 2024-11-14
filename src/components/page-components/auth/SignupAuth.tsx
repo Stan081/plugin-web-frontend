@@ -194,7 +194,7 @@ const SignupAuth = () => {
             type="submit"
             className="mt-8"
           >
-            {isPending ? <Spinner size="md" /> : "Create account"}
+            {isPending ? <Spinner /> : "Create account"}
           </Button>
         </form>
       </Form>

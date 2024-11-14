@@ -215,13 +215,15 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({ handleReturnToList }) => {
               </div>
             </div>
           </div>
-          <div className="flex gap-4 mb-4">
+          <div className="flex justify-end gap-4 mb-4">
             <Button
-              type="submit"
-              disabled={isPending}
-              variant="destructive"
-              className="w-full"
+              variant="outline"
+              onClick={handleReturnToList}
+              className="border bg-white"
             >
+              Cancel
+            </Button>
+            <Button type="submit" disabled={isPending} variant="destructive">
               {isPending ? <Spinner /> : "Save Session"}
             </Button>
           </div>

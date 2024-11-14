@@ -8,6 +8,7 @@ import EventsTags from "./EventsTags";
 import EventsSpeakers from "./EventsGuests";
 import EventsAgenda from "./EventsAgenda";
 import EventsVendorPass from "./EventsVendorPass";
+import EventGallery from "./EventGallery";
 
 const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
   const startDate: string =
@@ -77,7 +78,6 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
 
       {event?.eventVendors && <EventsVendorPass vendor={event?.eventVendors} />}
 
-
       <Separator />
 
       <MeetYourOganiser />
@@ -85,6 +85,10 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
       <Separator />
 
       <ShowLocation />
+
+      <Separator />
+
+      {event?.eventPhotos && <EventGallery photos={event?.eventPhotos} />}
 
       <Separator />
 

@@ -19,8 +19,8 @@ const ExploreEventDetailPage = () => {
   const { data: events, isLoading } = useGetAllEvents();
   const param = useParams<{ id: string }>();
   const cardId = events?.data.find((card) => card?._id === param?.id);
-  //   Temporary routing
-  if (!cardId) {
+
+  if (!cardId || isLoading) {
     return <SpinnerOverlay />;
   }
   return (
