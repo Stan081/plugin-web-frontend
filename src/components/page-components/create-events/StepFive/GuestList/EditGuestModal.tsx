@@ -1,3 +1,4 @@
+"use client"
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { RiCloseLine } from "react-icons/ri";
 import { useForm } from "react-hook-form";
@@ -254,7 +255,7 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
                 </FormItem>
 
                 <FormItem className="w-full">
-                  <FormLabel className="text-[#667185]" htmlFor="event_name">
+                  <FormLabel className="text-[#667185]" htmlFor="guest_name">
                     Guest Name
                   </FormLabel>
                   <FormField
@@ -277,7 +278,7 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
                   />
                 </FormItem>
                 <FormItem className="w-full">
-                  <FormLabel className="text-[#667185]" htmlFor="event_name">
+                  <FormLabel className="text-[#667185]" htmlFor="guest_role">
                     Guest Role (Optional)
                   </FormLabel>
                   <FormField
@@ -289,7 +290,7 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
                           <Input
                             placeholder="E.g MC, Artist, DJ'"
                             type="text"
-                            id="event_name"
+                            id="guest_role"
                             autoFocus
                             className="w-full bg-white font-pally-regular"
                             {...field}

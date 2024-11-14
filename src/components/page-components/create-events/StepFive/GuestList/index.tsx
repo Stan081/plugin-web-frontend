@@ -1,7 +1,7 @@
 "use client";
 
 import { Separator } from "@/components/ui/separator";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { guestList, GuestListType } from "@/static-datas/create-event";
 import GuestsComponent from "./GuestsComponent";
 import GuestModal from "./GuestModal";
@@ -16,7 +16,8 @@ const GuestList = () => {
   const { mutate: deleteGuest, isPending } = useDeleteGuest();
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const [isOpenEdit, setIsOpenEdit] = React.useState<boolean>(false);
-  const [editModal, setEditModal] = useState<any | null>();
+  const [editModal, setEditModal] = useState<any>();
+
 
   const open = () => {
     setIsOpen(!isOpen);

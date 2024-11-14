@@ -39,11 +39,17 @@ const EventsGuests: React.FC<{ guests: any }> = ({ guests }) => {
         Guests
       </h2>
 
-      <div className="mt-5 flex lg:flex-row gap-6 overflow-x-auto w-full pb-8">
-        {guests.map((guest) => (
-          <GuestCard key={guest._id} guest={guest} />
-        ))}
-      </div>
+      {guests.length !== 0 ? (
+        <div className="mt-5 flex lg:flex-row gap-6 overflow-x-auto w-full pb-8">
+          {guests.map((guest) => (
+            <GuestCard key={guest._id} guest={guest} />
+          ))}
+        </div>
+      ) : (
+        <p className="font-pally-regular mt-5 text-gray-500">
+          Event guests has not been added
+        </p>
+      )}
     </div>
   );
 };

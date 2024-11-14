@@ -1,15 +1,14 @@
 "use client";
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import TicketIcon from "./icons/ticket";
 import { useRouter } from "next/router"; // Ensure correct import for useRouter
 import { toFiat } from "@/lib/amount";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useToast } from "./ui/use-toast";
 import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
 import { useDeleteBookmark } from "@/hooks/events/bookmark-favourite/useDeleteBookmark";
 import { useCheckBookmark } from "@/hooks/events/bookmark-favourite/useCheckBookmark";
-import RotateLoader from "@/tw-components/rotate";
 import Image from "next/image";
 
 const CardComponent: FC<{ card: any }> = ({ card }) => {
@@ -19,11 +18,6 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
   const { mutate: removeBookmark, isPending } = useDeleteBookmark(card?._id);
   const router = useRouter();
   console.log(isCheck?.data);
-  // const client = useQueryClient();
-
-  // useEffect(() => {
-  //   client.invalidateQueries({ queryKey: ["isBookmark"] });
-  // }, [isCheck?.isFavorited]);
 
   const { toast } = useToast();
 

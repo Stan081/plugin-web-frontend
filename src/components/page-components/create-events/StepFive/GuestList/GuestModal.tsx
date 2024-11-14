@@ -1,3 +1,4 @@
+"use client"
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { RiCloseLine } from "react-icons/ri";
 import { useForm } from "react-hook-form";
@@ -17,7 +18,7 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { IoMdImages } from "react-icons/io";
 import Image from "next/image";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { uploadImage } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
@@ -39,12 +40,18 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
   const form = useForm<EventGuest>({
     mode: "all",
     defaultValues: {
-      guest_image: "",
+      guest_image: null,
       guest_name: "",
       guest_role: "",
     },
     resolver: yupResolver(EventGuestSchema),
   });
+
+  useEffect(() => {
+    form.reset({
+      guest_image: "",
+    });
+  }, [form.reset]);
 
   const { toast } = useToast();
 
@@ -114,30 +121,23 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
     },
   });
 
-  const onSubmit = useCallback(
-    async (payload: EventGuest) => {
-      console.log(payload);
+  const onSubmit = (payload: EventGuest) => {
+    console.log(payload);
 
-      const data = {
-        name: payload?.guest_name,
-        photo: payload?.guest_image,
-        role: payload?.guest_role,
-      };
+    const data = {
+      name: payload?.guest_name,
+      photo: payload?.guest_image,
+      role: payload?.guest_role,
+    };
 
-      mutate(data);
+    mutate(data);
 
-      form.reset({
-        guest_image: "",
-        guest_name: "",
-        guest_role: "",
-      });
-
-      if (fileInputRefBanner.current) {
-        fileInputRefBanner.current.value = "";
-      }
-    },
-    [form]
-  );
+    form.reset({
+      guest_image: "",
+      guest_name: "",
+      guest_role: "",
+    });
+  };
 
   return (
     <Dialog
