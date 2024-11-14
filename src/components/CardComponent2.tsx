@@ -1,7 +1,6 @@
-import { CardProps } from "@/static-datas/cards-data";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { FC, Fragment, useState } from "react";
+import React, { FC, useState } from "react";
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 
 const CardComponent2: FC<{ card: any }> = ({ card }) => {
