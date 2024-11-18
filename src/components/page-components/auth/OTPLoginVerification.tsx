@@ -26,7 +26,6 @@ const OTPLoginVerification = () => {
     onSuccess: (response) => {
       setToken(response?.token);
       client.invalidateQueries({ queryKey: ["me"] });
-      client.refetchQueries({ queryKey: ["me"] });
       toast({
         variant: "success",
         title: "Verified",
@@ -43,18 +42,15 @@ const OTPLoginVerification = () => {
     },
   });
 
-  const handleOtpComplete = useCallback(
-    (otp: string) => {
-      setOtp(otp);
-      const data = {
-        email,
-        code: otp,
-      };
-      mutate(data);
-      setShouldRedirect(true);
-    },
-    [mutate]
-  );
+  const handleOtpComplete = (otp: string) => {
+    setOtp(otp);
+    const data = {
+      email,
+      code: otp,
+    };
+    mutate(data);
+    setShouldRedirect(true);
+  };
 
   return (
     <div className="mt-6">

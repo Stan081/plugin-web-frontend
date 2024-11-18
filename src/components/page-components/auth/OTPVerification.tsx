@@ -12,7 +12,7 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const OTPVerification = () => {
   const [otp, setOtp] = useState<string>("");
-  const {setShouldRedirect} = useUserDashContext()
+  const { setShouldRedirect } = useUserDashContext();
   const router = useRouter();
 
   const email = getCookie("email");
@@ -26,7 +26,6 @@ const OTPVerification = () => {
     onSuccess: (response) => {
       setToken(response?.token);
       client.invalidateQueries({ queryKey: ["me"] });
-      client.refetchQueries({ queryKey: ["me"] });
       toast({
         variant: "success",
         title: "Verified",
@@ -44,22 +43,19 @@ const OTPVerification = () => {
     },
   });
 
-  const handleOtpComplete = useCallback(
-    (otp: string) => {
-      setOtp(otp);
-      const data = {
-        email,
-        code: otp,
-      };
-      mutate(data);
-      setShouldRedirect(true)
-    },
-    [mutate]
-  );
+  const handleOtpComplete = (otp: string) => {
+    setOtp(otp);
+    const data = {
+      email,
+      code: otp,
+    };
+    mutate(data);
+    setShouldRedirect(true);
+  }
 
   return (
     <div className="mt-6">
-      {isPending && <SpinnerOverlay/>}
+      {isPending && <SpinnerOverlay />}
       <p className="text-sm font-pally-regular mb-2 text-[#98A2B3]">
         Verification Code
       </p>
