@@ -1,3 +1,4 @@
+"use client"
 import { FC, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import clsx from "clsx";
@@ -11,6 +12,7 @@ import { BsTicketPerforated } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import { useMe } from "@/pages/api/query/me";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
   open: boolean;
@@ -42,7 +44,7 @@ const menuLinks = [
 
 const Sidebar: FC<Props> = ({ open, toggle }) => {
   const { logout } = useUserDashContext();
-  const { data: user } = useMe();
+  const { data: user, isLoading } = useMe();
   const router = useRouter();
 
   const renderSidebar = (hidden: boolean) => {
@@ -58,20 +60,30 @@ const Sidebar: FC<Props> = ({ open, toggle }) => {
       >
         <div className="hidden md:flex grow my-9 flex-col gap-y-5 overflow-y-auto h-full">
           <nav className="flex shrink-0 h-full flex-1 flex-col gap-4 md:gap-8 pb-5">
-            <div className="flex justify-start items-center gap-4">
-              <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular flex justify-center items-center">
-                {`${user?.data?.name?.firstname.slice(0, 1)}` +
-                  `${user?.data?.name?.lastname.slice(0, 1)}`}
-              </p>
-              <div>
-                <p className="font-pally-medium text-lg ">
-                  {user?.data?.name?.firstname} {user?.data?.name?.lastname}
-                </p>
-                <p className="text-[#586170] font-pally-regular">
-                  {user?.data?.email}
-                </p>
+            {isLoading ? (
+              <div className="flex gap-5">
+                <Skeleton className="rounded-full w-10 h-10" />
+                <div className="space-y-3">
+                  <Skeleton className="h-5 w-[120px]" />
+                  <Skeleton className="h-5 w-[120px]" />
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex justify-start items-center gap-4">
+                <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular flex justify-center items-center">
+                  {`${user?.data?.name?.firstname.slice(0, 1)}` +
+                    `${user?.data?.name?.lastname.slice(0, 1)}`}
+                </p>
+                <div>
+                  <p className="font-pally-medium text-lg ">
+                    {user?.data?.name?.firstname} {user?.data?.name?.lastname}
+                  </p>
+                  <p className="text-[#586170] font-pally-regular">
+                    {user?.data?.email}
+                  </p>
+                </div>
+              </div>
+            )}
             <ul role="list" className="flex flex-col gap-2 flex-1 h-full">
               {menuLinks.map(({ href, label, icon }, index) => {
                 const Icon = icon;

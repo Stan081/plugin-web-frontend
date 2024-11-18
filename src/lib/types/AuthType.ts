@@ -12,6 +12,18 @@ export type SignupFieldType = {
   platform: string;
 };
 
+export type EditUserType = {
+  name: {
+    firstname: string;
+    lastname: string;
+  };
+  email: string;
+  contact: {
+    phone: string;
+    country: string;
+  };
+};
+
 export type VerifyCodeType = {
   email: string | string[];
   code: string;
