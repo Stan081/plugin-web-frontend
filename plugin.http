@@ -30,3 +30,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
 GET http://pluginapi.onrender.com/api/event/67289a162199b35c54798a8d
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
+
+
+###
+
+PATCH http://pluginapi.onrender.com/api/users/6726a9b8fccd9497a51c25d9
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzE4ODc2NTYsImV4cCI6MTczNDQ3OTY1Nn0.u0ZpXn-Hs6OfmdoajFgNL6sBX1spM-aRc58CN4gwoN0
+
+{
+ "name" : {
+  "firstname" : "Emmanuell",
+  "lastname": "Essien"
+ },
+  "contact": {
+      "phone": "+2349050663712",
+      "country": "Nigeria"
+    },
+    "email": "ehmaessien@gmail.com",
+}

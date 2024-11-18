@@ -1,11 +1,19 @@
 import GoBack from "@/components/GoBack";
 import Layout from "@/components/layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getToken } from "@/lib/token";
 import { accountItems } from "@/static-datas/account-data";
 import { Section } from "@/tw-components/Section";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const AccountPage = () => {
+  const token = getToken();
+  const router = useRouter();
+  useEffect(() => {
+    if (token) return;
+    router.push("/login");
+  }, [router, token]);
   return (
     <Layout title="Account settings" showHeader showFooter showSidebar>
       <Section
