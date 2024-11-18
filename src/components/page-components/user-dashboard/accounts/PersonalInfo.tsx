@@ -9,8 +9,6 @@ const PersonalInfo = () => {
   const { data: user, isLoading } = useMe();
   const [isShow, setIsShow] = useState<boolean>(false);
 
-console.log(user?.data)
-
   return (
     <Fragment>
       {isShow && <EditUserAcount open={isShow} close={() => setIsShow(!isShow)}/>}
