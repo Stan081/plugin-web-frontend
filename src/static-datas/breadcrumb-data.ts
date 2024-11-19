@@ -30,14 +30,14 @@ export const exlporeEventsbreadcrumbArr = [
   },
 ];
 
-export const checkoutBreadcrumbArr = (title: string): BreadcrumbProps[] => {
+export const checkoutBreadcrumbArr = (title: string, id: string): BreadcrumbProps[] => {
   return [
     {
       href: "/explore-events",
       name: "Explore Events",
     },
     {
-      href: `/explore-events/${title}/checkout`,
+      href: `/explore-events/${id}`,
       name: title,
     },
     {

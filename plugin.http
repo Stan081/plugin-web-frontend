@@ -49,3 +49,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
     },
     "email": "ehmaessien@gmail.com",
 }
+
+
+### Get organizer by id
+GET http://pluginapi.onrender.com/api/organizers/6728bc5a8b0259bda9812557
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzE5NDE4MTgsImV4cCI6MTczNDUzMzgxOH0.AmZhU2F_9LsiB-2t5av7qyAxBRMk4hX0ZVBdzRlcGRE
+
+### Get all Organizers
+GET http://pluginapi.onrender.com/api/organizers/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzE5NDE4MTgsImV4cCI6MTczNDUzMzgxOH0.AmZhU2F_9LsiB-2t5av7qyAxBRMk4hX0ZVBdzRlcGRE
+
+
+### Get Event Guests by Id
+
+GET http://pluginapi.onrender.com/api/event/6728bc5a8b0259bda9812557
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzE5NDE4MTgsImV4cCI6MTczNDUzMzgxOH0.AmZhU2F_9LsiB-2t5av7qyAxBRMk4hX0ZVBdzRlcGRE

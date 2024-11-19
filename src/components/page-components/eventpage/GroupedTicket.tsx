@@ -14,7 +14,7 @@ interface Props {
   image: string;
 }
 
-const Ticket: React.FC<Props> = ({ price, ticketName, maxCount, image }) => {
+const GroupedTicket: React.FC<Props> = ({ price, ticketName, maxCount, image }) => {
   const [counter, setCounter] = useState<number>(0);
 
   //   Get max count
@@ -83,4 +83,4 @@ const Ticket: React.FC<Props> = ({ price, ticketName, maxCount, image }) => {
   );
 };
 
-export default Ticket;
+export default GroupedTicket;

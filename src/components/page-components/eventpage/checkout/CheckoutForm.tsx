@@ -17,14 +17,17 @@ import React, { useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { boolean } from "yup";
+import { useMe } from "@/pages/api/query/me";
 
 const CheckoutForm = () => {
+  const { data: user } = useMe();
+  console.log(user?.data);
   const form = useForm<CheckoutForms>({
     mode: "all",
     defaultValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
+      first_name: user?.data?.name?.firstname || "",
+      last_name: user?.data?.name?.lastname || "",
+      email: user?.data?.email || "",
       isUpdated: false,
       isEmail: false,
     },
@@ -77,9 +80,7 @@ const CheckoutForm = () => {
                       <Input
                         placeholder="Enter your first name"
                         type="text"
-                        autoCorrect="off"
                         id="first_name"
-                        disabled={isLoading}
                         className="w-full bg-white font-pally-regular"
                         {...field}
                       />
@@ -100,9 +101,7 @@ const CheckoutForm = () => {
                       <Input
                         placeholder="Enter your last name"
                         type="text"
-                        autoCorrect="off"
                         id="last_name"
-                        disabled={isLoading}
                         className="w-full bg-white font-pally-regular"
                         {...field}
                       />
@@ -124,9 +123,7 @@ const CheckoutForm = () => {
                     <Input
                       placeholder="youraddress@email.com"
                       type="text"
-                      autoCorrect="off"
                       id="email_address"
-                      disabled={isLoading}
                       className="w-full bg-white font-pally-regular"
                       {...field}
                     />
@@ -137,7 +134,7 @@ const CheckoutForm = () => {
             />
           </FormItem>
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="isUpdated"
             render={({ field }) => (
@@ -176,7 +173,7 @@ const CheckoutForm = () => {
                 </FormLabel>
               </FormItem>
             )}
-          />
+          /> */}
 
           <p className="text-sm font-pally-regular text-[#515A6A]">
             By clicking Register, I agree to the Plugin Terms of Service

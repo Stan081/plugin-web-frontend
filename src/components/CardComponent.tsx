@@ -31,34 +31,30 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
   const startTime: string =
     card?.oneTimeEvent?.startTime || card?.recurringEvent?.startTime;
 
-  const date = new Date(startDate);
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-  };
-
-  const formattedDate = date.toLocaleDateString("en-GB", options);
-
-  const [hour, minute] = startTime ? startTime.split(":") : ["00", "00"];
-  const formattedTime = new Date(
-    date.getFullYear(),
-    date.getMonth(),
-    date.getDate(),
-    Number(hour),
-    Number(minute)
-  ).toLocaleTimeString("en-GB", {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-    timeZone: "UTC",
-  });
-
-  const getGroupPrices =
-    card?.ticketCategory === "grouped" &&
-    card?.groupedTicket?.find((item) => item?.groupedTicketType === "paid");
-
-  console.log(getGroupPrices?.ticketPrice);
+    const date = new Date(startDate);
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric", // Add year to the options
+    };
+    
+    const formattedDate = date.toLocaleDateString("en-GB", options);
+    
+    const [hour, minute] = startTime ? startTime.split(":") : ["00", "00"];
+    const formattedTime = new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      Number(hour),
+      Number(minute)
+    ).toLocaleTimeString("en-GB", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      timeZone: "UTC",
+    });
+    
 
   const { mutate } = useMutation({
     mutationFn: (data: any) => AddFavourite(data),

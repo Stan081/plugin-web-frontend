@@ -20,8 +20,14 @@ const ExploreEventDetailPage = () => {
   const param = useParams<{ id: string }>();
   const cardId = events?.data.find((card) => card?._id === param?.id);
 
-  if (!cardId || isLoading) {
+  console.log(cardId);
+
+  if (isLoading) {
     return <SpinnerOverlay />;
+  }
+
+  if (!cardId) {
+    return <p>Event not found</p>;
   }
   return (
     <Layout title={cardId?.eventName} showHeader showFooter>
@@ -41,7 +47,7 @@ const ExploreEventDetailPage = () => {
             />
 
             <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">
-              <div className="w-full lg:w-1/2">
+              <div className="w-full">
                 <AboutEventDetail event={cardId} />
               </div>
               <AvailableTicket event={cardId} id={cardId._id} />

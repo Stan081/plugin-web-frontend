@@ -11,7 +11,8 @@ import {
 } from "react";
 
 type EventsContextValue = {
-
+  counter: number;
+  setCounter: ( key: any) => void;
 };
 
 const EventsDashContext = createContext<EventsContextValue | null>(null);
@@ -19,11 +20,9 @@ const EventsDashContext = createContext<EventsContextValue | null>(null);
 EventsDashContext.displayName = "EventsDashContext";
 
 export const EventsProvider: FC<PropsWithChildren> = ({ children }) => {
-  
+  const [counter, setCounter] = useState<number>(0);
 
-  const ContextValue: EventsContextValue = {
-
-  };
+  const ContextValue: EventsContextValue = { counter, setCounter };
   return (
     <EventsDashContext.Provider value={ContextValue}>
       {children}

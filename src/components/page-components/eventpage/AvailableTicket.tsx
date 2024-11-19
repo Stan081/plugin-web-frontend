@@ -1,14 +1,13 @@
 import React from "react";
-import Ticket from "./ticket";
+import GroupedTicket from "./GroupedTicket";
 import { availableTickets } from "@/static-datas/ticketsData";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { calculateDuration } from "@/lib/utils";
+import EntryTicketComponent from "./EntryTicketComponent";
 
 const AvailableTicket: React.FC<{ id: string; event: any }> = ({
   id,
   event,
 }) => {
+
   const getEntryTicketCountdown = () => {
     const now = new Date();
 
@@ -55,26 +54,24 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
           </p>
         </div>
 
-        <div className="mt-7 w-96 space-y-5">
-          {availableTickets.map((ticket) => (
-            <Ticket
-              key={ticket.id}
-              price={ticket.price}
-              ticketName={ticket.ticketName}
-              image={ticket.image}
-              maxCount={ticket.maxCount}
-            />
-          ))}
+        <div className="mt-7 w-full max-w-96 space-y-5">
+          {event?.ticketCategory === "grouped" && (
+            <>
+              {availableTickets.map((ticket) => (
+                <GroupedTicket
+                  key={ticket.id}
+                  price={ticket.price}
+                  ticketName={ticket.ticketName}
+                  image={ticket.image}
+                  maxCount={ticket.maxCount}
+                />
+              ))}
+            </>
+          )}
 
-          <Link href={`/explore-events/${id}/checkout`}>
-            <Button
-              variant="destructive"
-              size="lg"
-              className="mt-5 w-full py-3"
-            >
-              Checkout
-            </Button>
-          </Link>
+          {event?.ticketCategory === "entry" && (
+            <EntryTicketComponent entryTicket={event?.entryTicket} id={id} />
+          )}
         </div>
       </div>
     </div>

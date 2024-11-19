@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { RiCloseLine } from "react-icons/ri";
 import { availableTickets } from "@/static-datas/ticketsData";
-import Ticket from "./ticket";
+import Ticket from "./GroupedTicket";
 import Link from "next/link";
 
 const TicketCTA: React.FC<{ price: string; id: string }> = ({ price, id }) => {
