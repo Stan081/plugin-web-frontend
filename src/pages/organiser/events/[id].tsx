@@ -1,7 +1,7 @@
 import DelectEvent from "@/components/page-components/organisers/organiser-dashboard/events/DelectEvent";
 import EventDetailDashboard from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-dashboard/EventDetailDashboard";
 import EventDetailSidebar from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/EventDetailSidebar";
-import EventDetailTickets from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/EventDetailTickets";
+import EventDetailTickets from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/ticket-history/EventDetailTickets";
 import EventDetailManagement from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/menage-attendees/EventDetailManagement";
 import PreviewEvent from "@/components/page-components/organisers/organiser-dashboard/events/PreviewEvent";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
