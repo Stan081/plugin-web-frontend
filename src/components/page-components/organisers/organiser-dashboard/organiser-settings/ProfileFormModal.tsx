@@ -30,15 +30,14 @@ import { CreateOrganiserProfile } from "@/pages/api/mutate/organiser/organiserPr
 import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
 import { useGetOrgProfileById } from "@/hooks/organiserProfile/useGetOrganiserProfile";
-import { getCookie } from "@/lib/cookies";
+import { useUpdateOrganiserProfile } from "@/hooks/organiserProfile/useUpdateOrganiserProfile";
+import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 
-interface ProfileFormModalProps {
-  open: boolean;
-  close: () => void;
-}
-
-const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
-  const { data: orgProfile } = useGetOrgProfileById();
+const ProfileFormModal: FC = ({}) => {
+  const { data: orgProfile, isLoading } = useGetOrgProfileById();
+  const { mutate: UpdateProfile, isPending: updateLoading } =
+    useUpdateOrganiserProfile();
+    const {showProfile, handleCloseProfile} = useOrganiserDashContext()
   const [imageBanner, setImageBanner] = useState<string | null>(
     orgProfile?.data?.banner || null
   );
@@ -164,11 +163,11 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
       if (response?.message) {
         toast({
           variant: "success",
-          title: "File has been uploaded",
+          title: "Organiser profile has been created",
           description: `${response?.message}`,
         });
-        client.invalidateQueries({ queryKey: ["me"] });
-        close();
+        client.invalidateQueries({ queryKey: ["organiserProfile"] });
+        handleCloseProfile();
       }
     },
     onError: (error: any) => {
@@ -192,17 +191,20 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
         instagram: payload?.social_media?.instagram,
       },
     };
-    mutate(data);
-    console.log(data);
+    if (orgProfile?.data) {
+      UpdateProfile(data);
+    } else {
+      mutate(data);
+    }
   }, []);
   return (
     <Dialog
-      open={open}
+      open={showProfile}
       as="div"
       className="relative z-10 focus:outline-none"
-      onClose={close}
+      onClose={handleCloseProfile}
     >
-      {isUploading && <SpinnerOverlay />}
+      {isUploading || isLoading && <SpinnerOverlay />}
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="flex min-h-full items-center justify-center p-4">
@@ -218,7 +220,7 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
                 Add Organiser Profile
               </p>
               <div
-                onClick={close}
+                onClick={handleCloseProfile}
                 className="p-1.5 rounded-full bg-gray-200 cursor-pointer"
               >
                 <RiCloseLine size={20} />
@@ -505,9 +507,13 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
                       <Button
                         variant="destructive"
                         type="submit"
-                        disabled={isPending}
+                        disabled={isPending || updateLoading}
                       >
-                        {isPending ? <Spinner /> : `Add Profile`}
+                        {isPending || updateLoading ? (
+                          <Spinner />
+                        ) : (
+                          `Add Profile`
+                        )}
                       </Button>
                     </div>
                   </div>

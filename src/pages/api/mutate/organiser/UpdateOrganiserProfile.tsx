@@ -14,7 +14,7 @@ export const UpdateOrganiserProfile = async (
 ): Promise<OrganiserProfileResponse> => {
   const token = getToken();
   try {
-    const response: AxiosResponse<OrganiserProfileResponse> = await axios.post(
+    const response: AxiosResponse<OrganiserProfileResponse> = await axios.patch(
         UPDATE_ORG_PROFILE(),
       data,
       {

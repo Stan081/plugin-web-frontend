@@ -19,6 +19,7 @@ type IsCheckedState = {
 
 type OrganiserDashContextValue = {
   isChecked: IsCheckedState;
+  showProfile: boolean
   currentStep: number;
   eventState: string;
   showPreviewEvent: boolean;
@@ -30,6 +31,7 @@ type OrganiserDashContextValue = {
   handlePreviewEvent: () => void;
   handleShowDeleteEvent: () => void;
   setActiveEvent: (key: string) => void;
+  handleCloseProfile: () => void
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -43,6 +45,9 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
 }) => {
   //step for each campaign setup
   const [currentStep, setCurrentStep] = useState<number>(1);
+
+  // Organiser setting modal for profile
+  const [showProfile, setShowProfile] = useState<boolean>(false);
 
   // switch organiser event tab
   const [eventState, setEventState] = useState<string>("upcoming");
@@ -87,8 +92,15 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     }));
   };
 
+  // handle close organiser profile modal
+
+  const handleCloseProfile = () => {
+    setShowProfile(!showProfile)
+  }
+
   const ContextValue: OrganiserDashContextValue = {
     currentStep,
+    showProfile,
     isChecked,
     eventState,
     showPreviewEvent,
@@ -99,6 +111,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     handleIsChecked,
     nextSetUpStep,
     setEventState,
+    handleCloseProfile,
     handleShowDeleteEvent,
   };
   return (
