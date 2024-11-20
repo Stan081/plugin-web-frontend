@@ -1,42 +1,20 @@
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import React from "react";
-import { TiTick } from "react-icons/ti";
+import React, { FC } from "react";
 
-const TicketPlacement = () => {
-  // temp data
-  const ticketfeature = [
-    "Access to the barn Area",
-    "Access to DANCE HALL",
-    "GIVE ACCESS TO ONE PERSON",
-  ];
+const TicketPlacement:FC<{text:string}> = ({text}) => {
+
   return (
     <div className="bg-[#211913] p-3 rounded-lg w-56 space-y-3">
-      <div className="flex items-center gap-3">
-        <p className="text-sm text-white font-pally-regular whitespace-nowrap">
-          Ticket Sales
-        </p>
-        <Progress value={20} />
-      </div>
 
-      <Separator />
-
-      <div>
+      <div className="space-y-4">
         <p className="text-sm text-[#D0D5DD] font-pally-regular whitespace-nowrap">
-          Ticket Sales
+          Ticket Peaks
         </p>
 
-        <ul>
-          {ticketfeature.map((item, index) => (
-            <li
-              key={index}
-              className="flex items-center gap-1.5 text-sm font-pally-regular text-[#D0D5DD]"
-            >
-              <TiTick color="#F7C164"/>
-              {item}
-            </li>
-          ))}
-        </ul>
+        <p className="flex items-center gap-1.5 text-sm font-pally-regular text-[#D0D5DD]">
+          {text}
+        </p>
       </div>
     </div>
   );

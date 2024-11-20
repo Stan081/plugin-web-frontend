@@ -8,10 +8,11 @@ import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import { setToken } from "@/lib/token";
 import { VerifyLoginCode } from "@/pages/api/mutate/Login";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useMe } from "@/pages/api/query/me";
 
 const VerifyLogin = () => {
   const [otp, setOtp] = useState<string>("");
-  const { user: User } = useUserDashContext();
+  const { data: userData } = useMe();
 
   const router = useRouter();
 
@@ -45,7 +46,7 @@ const VerifyLogin = () => {
     (otp: string) => {
       setOtp(otp);
       const data = {
-        email: User?.email,
+        email: userData?.data?.email,
         code: otp,
       };
       mutate(data);

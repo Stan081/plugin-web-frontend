@@ -24,13 +24,13 @@ const OTPVerification = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (data: VerifyCodeType) => VerifyCode(data),
     onSuccess: (response) => {
-      setToken(response?.token);
-      client.invalidateQueries({ queryKey: ["me"] });
       toast({
         variant: "success",
         title: "Verified",
         description: `${response?.message}`,
       });
+      setToken(response?.token);
+      client.invalidateQueries({ queryKey: ["me"] });
       router.push("/");
     },
     onError: (error: any) => {
@@ -51,7 +51,7 @@ const OTPVerification = () => {
     };
     mutate(data);
     setShouldRedirect(true);
-  }
+  };
 
   return (
     <div className="mt-6">
