@@ -29,6 +29,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateOrganiserProfile } from "@/pages/api/mutate/organiser/organiserProfile";
 import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
+import { useGetOrgProfileById } from "@/hooks/organiserProfile/useGetOrganiserProfile";
+import { getCookie } from "@/lib/cookies";
 
 interface ProfileFormModalProps {
   open: boolean;
@@ -36,8 +38,13 @@ interface ProfileFormModalProps {
 }
 
 const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
-  const [imageBanner, setImageBanner] = useState<string | null>(null);
-  const [imageThumbnail, setImageThumbnail] = useState<string | null>(null);
+  const { data: orgProfile } = useGetOrgProfileById();
+  const [imageBanner, setImageBanner] = useState<string | null>(
+    orgProfile?.data?.banner || null
+  );
+  const [imageThumbnail, setImageThumbnail] = useState<string | null>(
+    orgProfile?.data?.thumbnail || null
+  );
   const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -46,14 +53,14 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
   const form = useForm<OrganiserProfileForm>({
     mode: "all",
     defaultValues: {
-      organiser_name: "",
-      organiser_photo: null,
-      organiser_banner: null,
-      organiser_bio: "",
-      tagline: "",
+      organiser_name: orgProfile?.data?.name ?? "",
+      organiser_photo: orgProfile?.data?.thumbnail ?? null,
+      organiser_banner: orgProfile?.data?.banner ?? null,
+      organiser_bio: orgProfile?.data?.bio ?? "",
+      tagline: orgProfile?.data?.tagline ?? "",
       social_media: {
-        facebook: "",
-        instagram: "",
+        facebook: orgProfile?.data?.socials?.facebook ?? "",
+        instagram: orgProfile?.data?.socials?.instagram ?? "",
       },
     },
     resolver: yupResolver(OrganiserProfileSchema),
@@ -161,7 +168,7 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
           description: `${response?.message}`,
         });
         client.invalidateQueries({ queryKey: ["me"] });
-        close()
+        close();
       }
     },
     onError: (error: any) => {
@@ -295,9 +302,7 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
                     />
                   </FormItem>
                   <FormItem className="w-full max-w-48">
-                    <FormLabel>
-                      Organiser photo
-                    </FormLabel>
+                    <FormLabel>Organiser photo</FormLabel>
                     <FormField
                       control={form.control}
                       name="organiser_photo"
@@ -343,7 +348,6 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
                                       <p className="font-pally-regular text-[#F58B86] underline">
                                         Add Photo
                                       </p>
-                                      
                                     </div>
                                   </label>
                                 </div>

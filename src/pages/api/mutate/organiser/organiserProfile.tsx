@@ -1,6 +1,6 @@
 import { ORGANISER_PROFILE } from "@/lib/constants";
 import { getToken } from "@/lib/token";
-import { CreateOrganiserProfileType } from "@/lib/types/EventType";
+import { OrganiserProfileType } from "@/lib/types/EventType";
 import axios, { AxiosResponse } from "axios";
 
 type OrganiserProfileResponse = {
@@ -10,7 +10,7 @@ type OrganiserProfileResponse = {
 };
 
 export const CreateOrganiserProfile = async (
-  data: CreateOrganiserProfileType
+  data: OrganiserProfileType
 ): Promise<OrganiserProfileResponse> => {
   const token = getToken();
   try {

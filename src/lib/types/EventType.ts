@@ -231,7 +231,7 @@ export type EventPublishType = {
 
 /* ----------------------*/
 
-export type CreateOrganiserProfileType = {
+export type OrganiserProfileType = {
   userId: string;
   banner: string;
   thumbnail: string;

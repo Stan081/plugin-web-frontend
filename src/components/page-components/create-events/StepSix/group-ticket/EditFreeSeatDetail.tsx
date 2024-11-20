@@ -24,7 +24,6 @@ import {
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { IoReturnDownBackOutline } from "react-icons/io5";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EditEventGroup } from "@/pages/api/mutate/create-events/EditEventGroup";
@@ -347,9 +346,9 @@ const EditFreeSeatDetail: FC<EditFreeSeatDetailProps> = ({
           <div className="flex gap-4 mb-4">
             <div
               onClick={handleReturnToList}
-              className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
+              className="p-2 rounded flex justify-center items-center bg-[#463B34] cursor-pointer"
             >
-              <IoReturnDownBackOutline size={20} color="#F9B6B1" />
+              <p className="text-white font-pally-regular">Cancel</p>
             </div>
             <Button
               type="submit"

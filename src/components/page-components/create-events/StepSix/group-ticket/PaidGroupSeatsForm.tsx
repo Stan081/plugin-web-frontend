@@ -10,7 +10,6 @@ import React, {
   FC,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -45,7 +44,6 @@ import { Button } from "@/components/ui/button";
 import { EventGroupPaid } from "@/pages/api/mutate/create-events/EventGroupPaid";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "@/tw-components/spinner";
-import { IoReturnDownBackOutline } from "react-icons/io5";
 
 interface PaidGroupSeatsFormProps extends GroupSeatProps {}
 
@@ -253,7 +251,7 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
                             id="ticket_category"
                             className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full"
                           >
-                            <SelectValue placeholder="Select venue" />
+                            <SelectValue placeholder="Select" />
                           </SelectTrigger>
                           <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
                             {["Non-seated", "Seated"].map((state, index) => {
@@ -597,9 +595,9 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
           <div className="flex justify-end gap-4 mb-4">
             <div
               onClick={handleReturnToList}
-              className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
+              className="p-2 rounded flex justify-center items-center bg-[#463B34] cursor-pointer"
             >
-              <IoReturnDownBackOutline size={20} color="#F9B6B1" />
+              <p className="text-white font-pally-regular">Cancel</p>
             </div>
             <Button variant="destructive" type="submit">
               {isPending ? <Spinner /> : `Save Session`}

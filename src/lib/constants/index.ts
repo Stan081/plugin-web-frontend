@@ -66,3 +66,13 @@ export const EVENT_GROUP = (): string => {
   const eventId = getCookie("event_id");
   return `${API_URL}/event/${eventId}/groupedTickets`;
 };
+
+export const GET_ORG_PROFILE = (): string => {
+  const userId = getCookie("user_id");
+  return `${API_URL}/organizers/organizer/${userId}`;
+};
+
+export const UPDATE_ORG_PROFILE = (): string => {
+  const userId = getCookie("user_id");
+  return `${API_URL}/organizers/${userId}`;
+};
