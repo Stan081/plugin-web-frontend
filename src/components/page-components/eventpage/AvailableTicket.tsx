@@ -1,6 +1,5 @@
 import React from "react";
 import GroupedTicket from "./GroupedTicket";
-import { availableTickets } from "@/static-datas/ticketsData";
 import EntryTicketComponent from "./EntryTicketComponent";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";

@@ -44,7 +44,7 @@ const items = [
 ];
 
 const MenuLinks = () => {
-  const { user, logout } = useUserDashContext();
+  const { logout } = useUserDashContext();
   const { data: userDate, isLoading } = useMe();
   return (
     <Popover>
@@ -52,8 +52,8 @@ const MenuLinks = () => {
         {!isLoading ? (
           <div className="flex justify-start items-center">
             <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
-              {`${user?.name?.firstname.slice(0, 1)}` +
-                `${user?.name?.lastname.slice(0, 1)}`}
+              {`${userDate?.data?.name?.firstname.slice(0, 1)}` +
+                `${userDate?.data?.name?.lastname.slice(0, 1)}`}
             </p>
             <RiArrowDownSLine className="ml-2" />
           </div>

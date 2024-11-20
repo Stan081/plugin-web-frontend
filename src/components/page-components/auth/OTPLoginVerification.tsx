@@ -24,14 +24,14 @@ const OTPLoginVerification = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (data: VerifyCodeType) => VerifyLoginCode(data),
     onSuccess: (response) => {
-      setToken(response?.token);
-      client.invalidateQueries({ queryKey: ["me"] });
       toast({
         variant: "success",
         title: "Verified",
         description: `${response?.message}`,
       });
+      client.invalidateQueries({ queryKey: ["me"] });
       router.push("/");
+      setToken(response?.token);
     },
     onError: (error: any) => {
       toast({
