@@ -42,7 +42,7 @@ const TicketCTA: React.FC<{ price: string; id: string }> = ({ price, id }) => {
               </DrawerClose>
             </DrawerHeader>
             <div className="my-5">
-              <div className="space-y-4">
+              {/* <div className="space-y-4">
                 {availableTickets.map((ticket) => (
                   <Ticket
                     key={ticket.id}
@@ -62,7 +62,7 @@ const TicketCTA: React.FC<{ price: string; id: string }> = ({ price, id }) => {
                     Checkout
                   </Button>
                 </Link>
-              </div>
+              </div> */}
             </div>
           </div>
         </DrawerContent>
