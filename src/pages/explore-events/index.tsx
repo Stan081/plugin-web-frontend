@@ -21,6 +21,7 @@ const ExploreEventsPage = () => {
   const publishedEvents: any[] = events?.data?.filter((item) => {
     return item?.isPublished === true;
   });
+  
 
   return (
     <Layout title="Explore events" showHeader showFooter>

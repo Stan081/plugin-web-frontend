@@ -10,20 +10,17 @@ import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
 import { useDeleteBookmark } from "@/hooks/events/bookmark-favourite/useDeleteBookmark";
 import { useCheckBookmark } from "@/hooks/events/bookmark-favourite/useCheckBookmark";
 import Image from "next/image";
+import Link from "next/link";
 
 const CardComponent: FC<{ card: any }> = ({ card }) => {
   const { data: isCheck, isLoading: isLoadingBookmark } = useCheckBookmark(
     card?._id
   );
   const { mutate: removeBookmark, isPending } = useDeleteBookmark(card?._id);
-  const router = useRouter();
-  console.log(isCheck?.data);
 
   const { toast } = useToast();
 
-  const handleCardClick = (id: string) => {
-    router.push(`/explore-events/${id}`);
-  };
+  console.log(isCheck?.data)
 
   const startDate: string =
     card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
@@ -125,8 +122,8 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
           )}
         </div>
       </div>
-      <div
-        onClick={() => handleCardClick(card?._id)}
+      <Link
+       href={`/explore-events/${card?._id}`}
         className="p-4 cursor-pointer  hover:bg-gray-100 transition delay-75 ease-in-out"
       >
         <h2 className="text-lg md:text-xl font-bold font-pally-medium">
@@ -159,7 +156,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
             )}
           </p>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

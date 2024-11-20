@@ -20,8 +20,6 @@ const ExploreEventDetailPage = () => {
   const param = useParams<{ id: string }>();
   const cardId = events?.data.find((card) => card?._id === param?.id);
 
-  console.log(cardId);
-
   if (isLoading) {
     return <SpinnerOverlay />;
   }

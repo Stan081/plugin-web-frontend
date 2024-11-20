@@ -7,8 +7,6 @@ import { useEventsContext } from "@/providers/events.provider";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-
-
 type Props = {
   ticketQuantity: number;
   ticketName: string;
@@ -19,13 +17,13 @@ type Props = {
 
 interface EntryProps {
   entryTicket: Props;
-  id: string
+  id: string;
 }
 
 const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
   const { counter, setCounter } = useEventsContext();
 
-  const router = useRouter()
+  const router = useRouter();
 
   //   Get max count
   const maximumCount = entryTicket?.ticketQuantity;
@@ -70,7 +68,10 @@ const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
           <div className="flex items-center gap-3">
             <button
               onClick={handleDecrement}
-              className="border border-[#555A6E] text-[#555A6E] p-1 rounded-full cursor-pointer"
+              className={`border border-[#555A6E] ${
+                counter === 0 ? "bg-gray-200 border-gray-200 cursor-not-allowed" : "cursor-pointer"
+              } text-[#555A6E] p-1 rounded-full`}
+              disabled={counter === 0}
             >
               <HiOutlineMinus size={18} />
             </button>
