@@ -32,8 +32,8 @@ const ActiveProfileCard: FC<{}> = ({}) => {
             <Skeleton className="w-40 h-32 rounded-lg" />
           ) : (
             <Image
-              src={ orgProfile?.data?.thumbnail ??"/images/blue-bg.png"}
-              alt="event"
+              src={orgProfile?.data?.thumbnail ?? "/images/blue-bg.png"}
+              alt={orgProfile?.data?.name ?? "Organiser name"}
               width={160}
               height={134}
               className="rounded-lg pointer-events-none object-cover w-40 h-32"
@@ -44,11 +44,14 @@ const ActiveProfileCard: FC<{}> = ({}) => {
               <Skeleton className="w-32 h-6" />
             ) : (
               <p className="text-[#101928] font-pally-medium text-base md:text-lg">
-                {orgProfile?.data?.name}
+                {orgProfile?.data?.name
+                  ? orgProfile?.data?.name?.slice(0, 1).toLocaleUpperCase() +
+                    orgProfile?.data?.name.slice(1)
+                  : orgProfile?.data?.name}
               </p>
             )}
 
-            <p className="text-[#036B26] rounded-full bg-[#DFFDE9] border border-[#B5E3C4] py-0.5 px-2">
+            <p className="text-[#036B26] rounded-full bg-[#DFFDE9] border border-[#B5E3C4] py-0.5 px-1.5 text-sm">
               Active
             </p>
           </div>

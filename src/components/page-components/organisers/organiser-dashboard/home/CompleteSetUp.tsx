@@ -22,7 +22,7 @@ const setUp = [
     icon: <HiOutlineUserCircle size={28} color="#667185" />,
     title: "Set-up Organizer Profile",
     description: "Highlight your brand by your name, image and bio",
-    completed: false,
+    completed: true,
     path: "/organiser/organiser-settings",
     button: "Set-up Profile",
   },
@@ -40,6 +40,38 @@ const setUp = [
 
 const CompleteSetUp = () => {
   const [isCompleted, setIsComplete] = useState<boolean>(false);
+
+  const setUp = [
+    {
+      id: 1,
+      icon: <BsCalendar4Week size={28} color="#667185" />,
+      title: " Publish an event",
+      description:
+        "Create and publish events for attendees all around the world",
+      completed: true,
+      path: "/#",
+      button: "Create Event",
+    },
+    {
+      id: 1,
+      icon: <HiOutlineUserCircle size={28} color="#667185" />,
+      title: "Set-up Organizer Profile",
+      description: "Highlight your brand by your name, image and bio",
+      completed: true,
+      path: "/organiser/organiser-settings",
+      button: "Set-up Profile",
+    },
+    {
+      id: 1,
+      icon: <PiBankDuotone size={28} color="#667185" />,
+      title: "Add pay-out account",
+      description:
+        "Add an account where we can send all your funds to when you make a withdrawal",
+      completed: false,
+      path: "/",
+      button: "Add Payout Details",
+    },
+  ];
   return (
     <Container className="my-12">
       <div className="space-y-2">
