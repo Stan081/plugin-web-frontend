@@ -8,7 +8,7 @@ const OrganiserTitle = () => {
   const { data: orgProfile, isLoading } = useGetOrgProfileById();
   const OrganiserContent = () => {
     return (
-      <div className="border-t-4 shadow-md border-[#281E172E] rounded-lg p-4 bg-[#F6F7F8] flex gap-4">
+      <div className="border-t-4 shadow-md border-[#281E172E] rounded-lg p-4 bg-[#F6F7F8] hidden lg:flex gap-4">
         {isLoading ? (
           <Skeleton className="w-16 h-16 rounded-md" />
         ) : (
@@ -47,11 +47,11 @@ const OrganiserTitle = () => {
 
   return (
     <Container>
-      <div className=" flex justify-between pt-9 pb-4 md:pt-20">
+      <div className=" flex justify-between pt-7 pb-4 md:pt-20">
         {isLoading ? (
           <Skeleton className="w-48 h-12" />
         ) : (
-          <h1 className="text-[#2E394C] font-pally-bold text-5xl">
+          <h1 className="text-[#2E394C] font-pally-bold text-2xl lg:text-5xl">
             Welcome{" "}
             {orgProfile?.data?.name
               ? orgProfile?.data?.name?.slice(0, 1).toLocaleUpperCase() +

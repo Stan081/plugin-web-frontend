@@ -8,7 +8,7 @@ import { HiOutlineSwitchHorizontal } from "react-icons/hi";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import OrganiserMenu from "./OrganiserMenu";
-import { OrganiserDialog } from "./OrganiserDailog";
+import { OrganiserDialog } from "./OrganiserDialog";
 
 const OrganiserHeader = () => {
   const router = useRouter();
@@ -53,11 +53,11 @@ const OrganiserHeader = () => {
   );
 
   return (
-    <header className="border-b w-full bg-white">
-      <Container className="container px-4 md:px-0">
-        <nav className="flex justify-between items-center gap-5">
+    <header className="border-b bg-white">
+      <Container className="w-full">
+        <nav className="flex justify-between items-center w-full gap-5">
           <div className="space-x-6 md:space-x-0 flex md:gap-6 items-center">
-            <OrganiserDialog />
+            <OrganiserDialog/>
             <Logo />
           </div>
           <div className="hidden lg:flex items-center gap-6">

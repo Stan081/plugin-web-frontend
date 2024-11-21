@@ -21,11 +21,11 @@ const HomeTabs = () => {
   const [isActive, setIsActive] = useState<string>("upcoming");
   return (
     <Container>
-      <ul className="flex justify-start items-center gap-4 align-baseline">
+      <ul className="flex justify-start items-center gap-4 align-baseline whitespace-nowrap overflow-x-auto pb-4">
         {tabLink.map((tab) => (
           <li key={tab.key} role="presentation">
             <button
-              className={`font-pally-regular py-2 px-3 rounded-3xl ${
+              className={`font-pally-regular p-1.5 md:py-2 md:px-3 rounded-3xl ${
                 isActive === tab.key
                   ? "border border-[#101928]  text-[#101928]"
                   : " text-[#586170] "
@@ -66,9 +66,9 @@ const HomeTabs = () => {
         aria-labelledby={`tab-${isActive}`}
         className="mt-6 md:mt-10 flex flex-col gap-5 overflow-x-auto w-full pb-8"
       >
-        {organiserData[0].organiserEvents.map((card) => (
+        {/* {organiserData[0].organiserEvents.map((card) => (
           <HomeTabCard key={card.id} />
-        ))}
+        ))} */}
       </div>
     </Container>
   );
