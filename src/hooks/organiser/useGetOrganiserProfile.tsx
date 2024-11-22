@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export const useGetOrgProfileById = () => {
-
   const options = {
     headers: {
       Accept: "application/json",
@@ -19,6 +18,6 @@ export const useGetOrgProfileById = () => {
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling
         }),
-    retry: true, 
+    retry: true,
   });
 };

@@ -29,7 +29,8 @@ const PublishComponent: FC = () => {
   const { data: userData } = useMe();
   const { previousStep: previous } = useCreateEventContext();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [showProfileForm, setShowProfileForm] = useState<boolean>(false);
+  const { currentStep, setShowProfileForm, showProfileForm } =
+    useCreateEventContext();
   const [selectedVisibility, setSelectedVisibility] =
     useState<string>("public");
   const [checkSchedule, setCheckSchedule] = useState<string>("now");
@@ -53,6 +54,8 @@ const PublishComponent: FC = () => {
 
   const { toast } = useToast();
 
+  const client = useQueryClient();
+
   const publishWhen = form.watch("publishWhen");
 
   const { mutate, isPending } = useMutation({
@@ -66,6 +69,7 @@ const PublishComponent: FC = () => {
             : "Event has been schedule",
           description: `${response?.message}`,
         });
+        client.invalidateQueries({ queryKey: ["organiserEvents"] });
         setShowModal(!showModal);
       }
     },

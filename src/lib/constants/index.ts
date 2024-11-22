@@ -1,6 +1,6 @@
 import { getCookie } from "../cookies";
 
-const BASE_URL: string = "https://pluginapi.onrender.com";
+export const BASE_URL: string = "https://pluginapi.onrender.com";
 
 export const API_URL: string = `${BASE_URL}/api`;
 
@@ -23,6 +23,8 @@ export const GET_ALL_EVENTS: string = `${API_URL}/event/events`;
 export const EVENT_FAVOURITE: string = `${API_URL}/favourites`;
 
 export const GET_ORGANISER: string = `${API_URL}/organizers/organizer`
+
+export const GET_ORGANISER_EVENTS: string = `${API_URL}/organizers/events`
 
 export const ALL_ORGANISERS: string = `${API_URL}/organizers`
 

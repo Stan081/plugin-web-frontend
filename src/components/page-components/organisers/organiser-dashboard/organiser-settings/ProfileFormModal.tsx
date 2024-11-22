@@ -33,11 +33,15 @@ import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
 import { useUpdateOrganiserProfile } from "@/hooks/organiser/useUpdateOrganiserProfile";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 
-const ProfileFormModal: FC = ({}) => {
+interface Props {
+  open: boolean;
+  close: () => void;
+}
+
+const ProfileFormModal: FC<Props> = ({open, close}) => {
   const { data: orgProfile, isLoading } = useGetOrgProfileById();
   const { mutate: UpdateProfile, isPending: updateLoading } =
     useUpdateOrganiserProfile();
-  const { showProfile, handleCloseProfile } = useOrganiserDashContext();
   const [imageBanner, setImageBanner] = useState<string | null>(
     orgProfile?.data?.banner || null
   );
@@ -167,7 +171,7 @@ const ProfileFormModal: FC = ({}) => {
           description: `${response?.message}`,
         });
         client.invalidateQueries({ queryKey: ["organiserProfile"] });
-        handleCloseProfile();
+        close();
       }
     },
     onError: (error: any) => {
@@ -199,10 +203,10 @@ const ProfileFormModal: FC = ({}) => {
   }, []);
   return (
     <Dialog
-      open={showProfile}
+      open={open}
       as="div"
       className="relative z-10 focus:outline-none"
-      onClose={handleCloseProfile}
+      onClose={close}
     >
       {isUploading || (isLoading && <SpinnerOverlay />)}
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -220,7 +224,7 @@ const ProfileFormModal: FC = ({}) => {
                 Add Organiser Profile
               </p>
               <div
-                onClick={handleCloseProfile}
+                onClick={close}
                 className="p-1.5 rounded-full bg-gray-200 cursor-pointer"
               >
                 <RiCloseLine size={20} />

@@ -91,7 +91,9 @@ const ActiveProfileCard: FC<{}> = ({}) => {
         </Popover>
       </div>
       {showDeleteMode && <DeleteProfilePrompt />}
-      {showProfile && <ProfileFormModal />}
+      {showProfile && (
+        <ProfileFormModal open={showProfile} close={handleCloseProfile} />
+      )}
     </Fragment>
   );
 };

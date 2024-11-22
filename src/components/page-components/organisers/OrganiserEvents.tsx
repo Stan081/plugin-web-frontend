@@ -1,24 +1,43 @@
 import CardComponent from "@/components/CardComponent";
-import { cardData } from "@/static-datas/cards-data";
-import React, { useState } from "react";
+import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
+import React, { FC, Fragment, useState } from "react";
 
-const OrganiserEvents = () => {
+const OrganiserEvents: FC<{ orgId: string }> = ({ orgId }) => {
+  const { data: organiserEvents, isLoading } = useGetOrganiserEvents(orgId);
+
   // Define state fo tab
   const [isActive, setIsActive] = useState<string>("upcoming");
+
+  const now = new Date();
+
+  const upcomingEvents = organiserEvents?.data?.data.filter((item) => {
+    const startDate = new Date(
+      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+    );
+    return item.isPublished === true && startDate > now;
+  });
+
+  const pastEvents = organiserEvents?.data?.data.filter((item) => {
+    const startDate = new Date(
+      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+    );
+    return item.isPublished === true && startDate < now;
+  });
 
   const tabLink = [
     { title: "Upcoming event", key: "upcoming" },
     { title: "Past event", key: "past" },
   ];
   return (
-    <div className="flex flex-col lg:flex-row justify-between w-full mx-auto gap-8 ">
+    <div className="flex flex-col lg:flex-row justify-between items-start w-full mx-auto gap-8 ">
       <div className="w-[380px] ml-40 h-[580px]" />
       <div className="w-full max-w-5xl mt-3 lg:mt-4">
-        <ul className="flex justify-start items-center gap-4 align-baseline">
+        <ul className="flex justify-start items-start md:items-center gap-4 md:align-baseline">
           {tabLink.map((tab) => (
             <li key={tab.key} role="presentation">
               <button
-                className={`border py-2 px-3 rounded-3xl ${
+                className={`border p-2 md:py-2 md:px-3 rounded-3xl ${
                   isActive === tab.key
                     ? "border-2 border-[#D9302A] text-[#D9302A]"
                     : "border-[#586170] text-[#586170]"
@@ -45,10 +64,38 @@ const OrganiserEvents = () => {
           aria-labelledby={`tab-${isActive}`}
           className="mt-6 md:pb-20 pb-6 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  h-[80vh] md:h-full mx-auto"
         >
-          {/* {cardData.map((card) => (
-            <CardComponent key={card.id} {...card} />
-          ))} */}
-          working...
+          {isLoading ? (
+            <CardSkeleton />
+          ) : (
+            <Fragment>
+              {isActive === "upcoming" && (
+                <>
+                  {upcomingEvents?.length !== 0 ? (
+                    upcomingEvents.map((card: any) => (
+                      <CardComponent key={card._id} card={card} />
+                    ))
+                  ) : (
+                    <p className="font-pally-regular text-gray-600">
+                      No Upcoming event
+                    </p>
+                  )}
+                </>
+              )}
+              {isActive === "past" && (
+                <>
+                  {pastEvents?.length !== 0 ? (
+                    pastEvents.map((card: any) => (
+                      <CardComponent key={card._id} card={card} />
+                    ))
+                  ) : (
+                    <p className="font-pally-regular text-gray-600">
+                      No past event
+                    </p>
+                  )}
+                </>
+              )}
+            </Fragment>
+          )}
         </div>
       </div>
     </div>

@@ -5,15 +5,35 @@ import React, { useState } from "react";
 import { RiUserAddLine } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import { BsCopy } from "react-icons/bs";
 import { PiFlagPennantFill } from "react-icons/pi";
 import Link from "next/link";
+import { useToast } from "@/components/ui/use-toast";
 
 const OrganiserInfo: React.FC<{
   organiser: any;
 }> = ({ organiser }) => {
   const [isShown, setIsShown] = useState<boolean>(false);
+
+  const { toast } = useToast();
+
+  const handleCopyLink = async (saveLink: string) => {
+    try {
+      // Copy the link to the clipboard
+      await navigator.clipboard.writeText(saveLink);
+
+      toast({
+        variant: "success",
+        title: "Link copied to clipboard!",
+      });
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Failed to copy link.",
+      });
+    }
+  };
+
   return (
     <div className="absolute top-52 md:top-56 left-0 md:left-24 z-20 float-right">
       <div className="w-full md:max-w-sm border bg-white rounded-xl shadow-md shadow-[#8F706E26]/15 p-4">
@@ -87,6 +107,11 @@ const OrganiserInfo: React.FC<{
         </div>
 
         <div
+          onClick={() =>
+            handleCopyLink(
+              `plugin-web-app-246343005561.us-central1.run.app/organiser/${organiser?.userId}`
+            )
+          }
           className="mt-6 cursor-pointer px-2 py-1 rounded-lg border flex items-center gap-2 w-32
       "
         >

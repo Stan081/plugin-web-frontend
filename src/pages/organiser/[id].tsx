@@ -3,12 +3,11 @@ import Layout from "@/components/layout";
 import OrganiserEvents from "@/components/page-components/organisers/OrganiserEvents";
 import OrganiserInfo from "@/components/page-components/organisers/OrganiserInfo";
 import { useAllOrganisers } from "@/hooks/organiser/userAllOrganiser";
-import { organiserData } from "@/static-datas/organiser-date";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import Image from "next/image";
-import { notFound, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import React from "react";
 
 const OrganiserDetailPage = () => {
@@ -17,7 +16,7 @@ const OrganiserDetailPage = () => {
   const organiser = organisers?.data?.find(
     (orgs) => String(orgs?.userId) === params?.id
   );
-  //   Temporary routing
+
   if (!organiser) {
     return <h4>Not Found!!</h4>;
   }
@@ -45,7 +44,7 @@ const OrganiserDetailPage = () => {
               organiser={organiser}
             />
 
-            <OrganiserEvents />
+            <OrganiserEvents orgId={organiser?.userId} />
           </div>
         </Container>
       </Section>
