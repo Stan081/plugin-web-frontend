@@ -16,7 +16,7 @@ const Header = () => {
   const { data: userData, isLoading } = useMe();
   return (
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md">
-      <Container className="container px-4 md:px-0">
+      <Container>
         <nav className="flex justify-between items-center gap-5">
           <div className="space-x-6 md:space-x-0 flex md:gap-6 items-center">
             <NavigationDialog />

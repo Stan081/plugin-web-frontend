@@ -1,5 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGetOrgProfileById } from "@/hooks/organiserProfile/useGetOrganiserProfile";
+import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
 import Container from "@/tw-components/container";
 import Image from "next/image";
 import React from "react";

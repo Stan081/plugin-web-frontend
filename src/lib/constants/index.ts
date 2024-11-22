@@ -22,6 +22,10 @@ export const GET_ALL_EVENTS: string = `${API_URL}/event/events`;
 
 export const EVENT_FAVOURITE: string = `${API_URL}/favourites`;
 
+export const GET_ORGANISER: string = `${API_URL}/organizers/organizer`
+
+export const ALL_ORGANISERS: string = `${API_URL}/organizers`
+
 export const GET_EVENT_BY_ID = (): string => {
   const eventId = getCookie("event_id");
   return `${API_URL}/event/events/${eventId}`;

@@ -15,7 +15,7 @@ import ViewProfile from "./ViewProfile";
 import ProfileFormModal from "./ProfileFormModal";
 import { useRouter } from "next/router";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
-import { useGetOrgProfileById } from "@/hooks/organiserProfile/useGetOrganiserProfile";
+import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const ActiveProfileCard: FC<{}> = ({}) => {

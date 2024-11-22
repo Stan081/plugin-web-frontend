@@ -8,21 +8,19 @@ import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { BsCopy } from "react-icons/bs";
 import { PiFlagPennantFill } from "react-icons/pi";
+import Link from "next/link";
 
 const OrganiserInfo: React.FC<{
-  organiserName: string;
-  aboutOrganiser: string;
-}> = ({ organiserName, aboutOrganiser }) => {
+  organiser: any;
+}> = ({ organiser }) => {
   const [isShown, setIsShown] = useState<boolean>(false);
   return (
     <div className="absolute top-52 md:top-56 left-0 md:left-24 z-20 float-right">
       <div className="w-full md:max-w-sm border bg-white rounded-xl shadow-md shadow-[#8F706E26]/15 p-4">
         <div className="h-36 w-36 mx-auto">
           <Image
-            src={
-              "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816"
-            }
-            alt="About-us"
+            src={organiser?.thumbnail}
+            alt={organiser?.name}
             width={1226}
             height={609}
             className=" pointer-events-none w-full h-full object-cover rounded-lg"
@@ -30,7 +28,10 @@ const OrganiserInfo: React.FC<{
         </div>
         <div className="my-4">
           <h3 className="font-pally-medium text-2xl text-center">
-            {organiserName}
+            {organiser?.name
+              ? organiser?.name?.slice(0, 1).toLocaleUpperCase() +
+                organiser?.name.slice(1)
+              : organiser?.name}
           </h3>
 
           <div className="flex items-center justify-center mt-2 gap-4">
@@ -50,16 +51,18 @@ const OrganiserInfo: React.FC<{
         <div className="space-y-2 my-4">
           <h4 className="font-pally-medium">About us</h4>
           <p className="font-pally-regular text-[#667185] md:text-base">
-            {isShown && aboutOrganiser.length > 150
-              ? aboutOrganiser.slice(0, 150).concat("..")
-              : aboutOrganiser}
+            {isShown && organiser?.bio?.length > 150
+              ? organiser?.bio?.slice(0, 150).concat("...")
+              : organiser?.bio}
           </p>
-          <p
-            onClick={() => setIsShown(!isShown)}
-            className="font-pally-medium cursor-pointer"
-          >
-            {!isShown ? <ShowLess /> : <ShowMore />}
-          </p>
+          {organiser?.bio?.length > 150 && (
+            <p
+              onClick={() => setIsShown(!isShown)}
+              className="font-pally-medium cursor-pointer"
+            >
+              {!isShown ? <ShowLess /> : <ShowMore />}
+            </p>
+          )}
         </div>
 
         <Separator />
@@ -67,17 +70,20 @@ const OrganiserInfo: React.FC<{
         <div className="my-4">
           <h4 className="font-pally-medium">Connect with us on</h4>
 
-          <ul className="mt-3 flex items-center gap-5">
-            <li>
+          <div className="mt-3 flex items-center gap-5">
+            <Link
+              href={`${organiser?.data?.socials?.facebook}`}
+              target="_blank"
+            >
               <FaFacebook size={26} />
-            </li>
-            <li>
+            </Link>
+            <Link
+              href={`${organiser?.data?.socials?.instagram}`}
+              target="_blank"
+            >
               <FaInstagram size={26} />
-            </li>
-            <li>
-              <FaXTwitter size={26} />
-            </li>
-          </ul>
+            </Link>
+          </div>
         </div>
 
         <div
@@ -93,7 +99,7 @@ const OrganiserInfo: React.FC<{
       <p className="mt-7 font-pally-regular flex items-center gap-2 underline cursor-pointer px-4 text-gray-500">
         {" "}
         <span className="inline-block">
-          <PiFlagPennantFill className="text-gray-500"/>
+          <PiFlagPennantFill className="text-red-500" />
         </span>{" "}
         Report Organizer{" "}
       </p>

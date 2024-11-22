@@ -29,15 +29,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateOrganiserProfile } from "@/pages/api/mutate/organiser/organiserProfile";
 import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
-import { useGetOrgProfileById } from "@/hooks/organiserProfile/useGetOrganiserProfile";
-import { useUpdateOrganiserProfile } from "@/hooks/organiserProfile/useUpdateOrganiserProfile";
+import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
+import { useUpdateOrganiserProfile } from "@/hooks/organiser/useUpdateOrganiserProfile";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 
 const ProfileFormModal: FC = ({}) => {
   const { data: orgProfile, isLoading } = useGetOrgProfileById();
   const { mutate: UpdateProfile, isPending: updateLoading } =
     useUpdateOrganiserProfile();
-    const {showProfile, handleCloseProfile} = useOrganiserDashContext()
+  const { showProfile, handleCloseProfile } = useOrganiserDashContext();
   const [imageBanner, setImageBanner] = useState<string | null>(
     orgProfile?.data?.banner || null
   );
@@ -204,7 +204,7 @@ const ProfileFormModal: FC = ({}) => {
       className="relative z-10 focus:outline-none"
       onClose={handleCloseProfile}
     >
-      {isUploading || isLoading && <SpinnerOverlay />}
+      {isUploading || (isLoading && <SpinnerOverlay />)}
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="flex min-h-full items-center justify-center p-4">
