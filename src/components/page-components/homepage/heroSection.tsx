@@ -93,7 +93,7 @@ const HeroSection = () => {
                   onMouseLeave={() => setHoveredIndex(null)}
                 >
                   <div
-                    className="relative h-[80vh] bg-no-repeat bg-center bg-cover flex items-center justify-start"
+                    className="relative h-[80vh] xs:max-md:h-[60vh] bg-no-repeat bg-center bg-cover flex items-center justify-start"
                     style={{ backgroundImage: `url(${slide.backgroundImage})` }}
                   >
                     {hoveredIndex === index && (

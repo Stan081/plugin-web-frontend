@@ -1,7 +1,6 @@
-import { CardProps } from "@/static-datas/cards-data";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { FC, Fragment, useState } from "react";
+import React, { FC, useState } from "react";
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 
 const CardComponent2: FC<{ card: any }> = ({ card }) => {
@@ -14,12 +13,12 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
   return (
     <div
       onClick={() => handleCardClick(card?._id)}
-      className="flex flex-col min-w-[25%] bg-[#221A14] rounded-2xl cursor-pointer"
+      className="flex flex-col w-[25%] xs:max-md:min-w-[230px] bg-[#221A14] rounded-2xl cursor-pointer"
     >
       <div className="group relative inline-block overflow-hidden rounded-2xl">
-        <button className="w-full aspect-square block overflow-hidden">
+        <button className="w-full aspect-square xs:max-md:max-h-[300px] block overflow-hidden">
           <figure className="relative size-full">
-            <div className="group-hover:opacity-0 absolute z-10 bottom-2 left-5 bg-destructive text-white text-xs font-semibold px-2 py-1 rounded-3xl">
+            <div className="group-hover:opacity-0 absolute z-10 bottom-2 left-5 bg-destructive text-white text-xs font-semibold px-2 py-1 rounded-3xl uppercase">
               {card?.publishStatus}
             </div>
             <Image
@@ -31,8 +30,8 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
           </figure>
         </button>
         {/* The hover card */}
-        <div className="appear z-10 hidden backdrop-blur-[2px] px-5 py-1 font-pally-regular text-white justify-center items-start w-full h-full top-0 group-hover:flex flex-col group-hover:absolute bg-black bg-opacity-50 space-y-3">
-          <p className="inline-flex bg-destructive text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
+        <div className="rounded-2xl appear z-10 hidden backdrop-blur-[2px] px-5 py-1 font-pally-regular text-white justify-center items-start w-full h-full top-0 group-hover:flex flex-col group-hover:absolute bg-black bg-opacity-50 space-y-3">
+          <p className="inline-flex bg-destructive text-white text-xs font-pally-regular px-2 py-1 rounded-3xl uppercase">
             {card?.publishStatus}
           </p>
           <h2 className="text-lg md:text-2xl font-pally-medium">
