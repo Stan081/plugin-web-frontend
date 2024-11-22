@@ -15,14 +15,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { Checkbox } from "@/components/ui/checkbox";
-import { boolean } from "yup";
 import { useMe } from "@/pages/api/query/me";
 import { PhoneNumberInput } from "@/components/PhoneNumberInput";
 
 const CheckoutForm = () => {
   const { data: user } = useMe();
-  console.log(user?.data);
   const form = useForm<CheckoutForms>({
     mode: "all",
     defaultValues: {

@@ -80,7 +80,7 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
 
       <Separator />
 
-      <MeetYourOganiser />
+      <MeetYourOganiser organiserId={event?.userId} />
 
       <Separator />
 

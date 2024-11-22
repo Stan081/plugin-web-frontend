@@ -20,7 +20,7 @@ const OrganiserSettings = () => {
   return (
     <Fragment>
       <OrganiserHeader />
-      <div className="bg-gray-200 pt-6 md:pt-9">
+      <div className="bg-gray-100 pt-6 md:pt-9">
         <Container className="space-y-5">
           <p
             onClick={() => router.back()}

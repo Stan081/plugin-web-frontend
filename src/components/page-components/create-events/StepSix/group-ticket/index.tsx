@@ -30,6 +30,8 @@ const GroupTicket: FC = () => {
     GroupTicketState.CREATE_TICKET
   );
 
+  console.log(allGroupEvent?.data)
+
   const [selectedTicket, setSelectedTicket] = useState<any | undefined>(null);
 
   const handleEditForm = (id: number) => {
@@ -75,14 +77,14 @@ const GroupTicket: FC = () => {
         />
       ) : (
         formState === GroupTicketState.VIEW_LIST &&
-        selectedState === "group" && (
+        selectedState === "grouped" && (
           <div className="my-3 flex flex-col gap-3 w-full">
             <div className="space-y-4">
               {allGroupEvent?.data.length !== 0 &&
                 allGroupEvent?.data.map((list) => (
                   <SeatCard
-                    key={list.id}
-                    _id={list.id}
+                    key={list._id}
+                    _id={list._id}
                     {...list}
                     handleEditForm={handleEditForm}
                     handleDelete={handleDelete}

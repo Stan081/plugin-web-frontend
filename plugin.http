@@ -1,77 +1,33 @@
-### Add an Event to favourite
-POST https://pluginapi.onrender.com/api/favourites
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
-
-{
-  "eventId": "6730b1560cdd60d3807d5dfb"
-}
-
-### Get all favorited events by a user
-
-GET https://pluginapi.onrender.com/api/favourites
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
-
-### Check if an event is favourited using the event Id
-
-GET https://pluginapi.onrender.com/api/favourites/6728fed2f8ae16584053abbf
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
-
-### Remove an Event from favourite
-
-DELETE https://pluginapi.onrender.com/api/favourites/6728bc5a8b0259bda9812557
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
-
-###
-
-GET http://pluginapi.onrender.com/api/event/67289a162199b35c54798a8d
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
-
-
-###
-
-PATCH http://pluginapi.onrender.com/api/users/6726a9b8fccd9497a51c25d9
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzE4ODc2NTYsImV4cCI6MTczNDQ3OTY1Nn0.u0ZpXn-Hs6OfmdoajFgNL6sBX1spM-aRc58CN4gwoN0
-
-{
- "name" : {
-  "firstname" : "Emmanuell",
-  "lastname": "Essien"
- },
-  "contact": {
-      "phone": "+2349050663712",
-      "country": "Nigeria"
-    },
-    "email": "ehmaessien@gmail.com",
-}
-
-
-### Get organizer by id
-GET http://pluginapi.onrender.com/api/organizers/6728bc5a8b0259bda9812557
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzE5NDE4MTgsImV4cCI6MTczNDUzMzgxOH0.AmZhU2F_9LsiB-2t5av7qyAxBRMk4hX0ZVBdzRlcGRE
 
 ### Get all Organizers
-GET http://pluginapi.onrender.com/api/organizers/
+GET https://pluginapi.onrender.com/api/organizers
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzE5NDE4MTgsImV4cCI6MTczNDUzMzgxOH0.AmZhU2F_9LsiB-2t5av7qyAxBRMk4hX0ZVBdzRlcGRE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
 
+### Edit Organizer profile - using userId
 
-### Get Event Guests by Id
-
-GET http://pluginapi.onrender.com/api/event/events
+PATCH https://pluginapi.onrender.com/api/organizers/6726a999fccd9497a51c25d3
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzE5NDE4MTgsImV4cCI6MTczNDUzMzgxOH0.AmZhU2F_9LsiB-2t5av7qyAxBRMk4hX0ZVBdzRlcGRE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
 
+{
+  "banner": "Image Strings",
+  "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5q2pFvd1NnpP8vVM-jnEw32x7Nvl5Y7J5Pg&s",
+  "name": "Oganizer Name",
+  "tagline": "Tagline",
+  "bio": "Tagline",
+  "socials": {
+			"facebook": "https://facebook.com",
+			"instagram": "https://instagram.com"
+		}
+}
 
-### Check if an event is favourited using the event Id
-
-GET http://pluginapi.onrender.com/api/favourites
+### Get organizer by id using userId - for user front only
+GET https://pluginapi.onrender.com/api/organizers/organizer/6726a9b8fccd9497a51c25d9
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzE5NDE4MTgsImV4cCI6MTczNDUzMzgxOH0.AmZhU2F_9LsiB-2t5av7qyAxBRMk4hX0ZVBdzRlcGRE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
 
+### Get events by organiser using userID
+GET https://pluginapi.onrender.com/api/organizers/events/6726a9b8fccd9497a51c25d9
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8

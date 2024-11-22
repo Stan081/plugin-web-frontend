@@ -39,7 +39,7 @@ export const NavigationDialog = () => {
       description: "Explore the planning price",
       icon: <Money2 />,
       bgColor: "bg-[#C9F8FF]",
-      link: "/#",
+      link: "/pricing",
     },
   ];
   return (

@@ -1,6 +1,6 @@
 import { getCookie } from "../cookies";
 
-const BASE_URL: string = "https://pluginapi.onrender.com";
+export const BASE_URL: string = "https://pluginapi.onrender.com";
 
 export const API_URL: string = `${BASE_URL}/api`;
 
@@ -21,6 +21,12 @@ export const ORGANISER_PROFILE: string = `${API_URL}/organizers`;
 export const GET_ALL_EVENTS: string = `${API_URL}/event/events`;
 
 export const EVENT_FAVOURITE: string = `${API_URL}/favourites`;
+
+export const GET_ORGANISER: string = `${API_URL}/organizers/organizer`
+
+export const GET_ORGANISER_EVENTS: string = `${API_URL}/organizers/events`
+
+export const ALL_ORGANISERS: string = `${API_URL}/organizers`
 
 export const GET_EVENT_BY_ID = (): string => {
   const eventId = getCookie("event_id");
@@ -65,4 +71,14 @@ export const DELETE_EVENT_PHOTO = (): string => {
 export const EVENT_GROUP = (): string => {
   const eventId = getCookie("event_id");
   return `${API_URL}/event/${eventId}/groupedTickets`;
+};
+
+export const GET_ORG_PROFILE = (): string => {
+  const userId = getCookie("user_id");
+  return `${API_URL}/organizers/organizer/${userId}`;
+};
+
+export const UPDATE_ORG_PROFILE = (): string => {
+  const userId = getCookie("user_id");
+  return `${API_URL}/organizers/${userId}`;
 };

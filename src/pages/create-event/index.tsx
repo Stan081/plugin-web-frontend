@@ -14,11 +14,14 @@ import OrganiserHeader from "@/components/page-components/organisers/organiser-d
 import { useMe } from "../api/query/me";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import ProfileFormModal from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
+import { Section } from "@/tw-components/Section";
 
 export default function CreateEvent() {
   const { data: userDate } = useMe();
   const { currentStep, setShowProfileForm, showProfileForm } =
     useCreateEventContext();
+
+    // const { showProfile, handleCloseProfile } = useOrganiserDashContext();
 
   const token = getToken();
   const router = useRouter();
@@ -52,7 +55,7 @@ export default function CreateEvent() {
     }
   };
   return (
-    <div className="bg-[#f0ded1] lg:h-screen w-svw bg-cover bg-no-repeat">
+    <Section className="bg-[#f0ded1] lg:h-screen w-svw bg-cover bg-no-repeat">
       {userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer && (
         <OrganiserHeader />
       )}
@@ -65,6 +68,6 @@ export default function CreateEvent() {
       <Container className="px-0 py-3 lg:pt-6">
         <div className="scrollbar-hide ">{renderStepContent()}</div>
       </Container>
-    </div>
+    </Section>
   );
 }

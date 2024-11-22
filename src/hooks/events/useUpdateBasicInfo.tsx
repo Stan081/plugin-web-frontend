@@ -10,7 +10,7 @@ export const useUpdateBasicInfo = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => UpdateBasicInfo(data),
     onSuccess: (response) => {
-      if (response?.message) {
+      if (response?.data) {
         toast({
           variant: "success",
           title: "Basic info has been updated",

@@ -29,15 +29,25 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateOrganiserProfile } from "@/pages/api/mutate/organiser/organiserProfile";
 import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
+import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
+import { useUpdateOrganiserProfile } from "@/hooks/organiser/useUpdateOrganiserProfile";
+import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 
-interface ProfileFormModalProps {
+interface Props {
   open: boolean;
   close: () => void;
 }
 
-const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
-  const [imageBanner, setImageBanner] = useState<string | null>(null);
-  const [imageThumbnail, setImageThumbnail] = useState<string | null>(null);
+const ProfileFormModal: FC<Props> = ({open, close}) => {
+  const { data: orgProfile, isLoading } = useGetOrgProfileById();
+  const { mutate: UpdateProfile, isPending: updateLoading } =
+    useUpdateOrganiserProfile();
+  const [imageBanner, setImageBanner] = useState<string | null>(
+    orgProfile?.data?.banner || null
+  );
+  const [imageThumbnail, setImageThumbnail] = useState<string | null>(
+    orgProfile?.data?.thumbnail || null
+  );
   const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -46,14 +56,14 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
   const form = useForm<OrganiserProfileForm>({
     mode: "all",
     defaultValues: {
-      organiser_name: "",
-      organiser_photo: null,
-      organiser_banner: null,
-      organiser_bio: "",
-      tagline: "",
+      organiser_name: orgProfile?.data?.name ?? "",
+      organiser_photo: orgProfile?.data?.thumbnail ?? null,
+      organiser_banner: orgProfile?.data?.banner ?? null,
+      organiser_bio: orgProfile?.data?.bio ?? "",
+      tagline: orgProfile?.data?.tagline ?? "",
       social_media: {
-        facebook: "",
-        instagram: "",
+        facebook: orgProfile?.data?.socials?.facebook ?? "",
+        instagram: orgProfile?.data?.socials?.instagram ?? "",
       },
     },
     resolver: yupResolver(OrganiserProfileSchema),
@@ -157,11 +167,11 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
       if (response?.message) {
         toast({
           variant: "success",
-          title: "File has been uploaded",
+          title: "Organiser profile has been created",
           description: `${response?.message}`,
         });
-        client.invalidateQueries({ queryKey: ["me"] });
-        close()
+        client.invalidateQueries({ queryKey: ["organiserProfile"] });
+        close();
       }
     },
     onError: (error: any) => {
@@ -185,8 +195,11 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
         instagram: payload?.social_media?.instagram,
       },
     };
-    mutate(data);
-    console.log(data);
+    if (orgProfile?.data) {
+      UpdateProfile(data);
+    } else {
+      mutate(data);
+    }
   }, []);
   return (
     <Dialog
@@ -195,7 +208,7 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
       className="relative z-10 focus:outline-none"
       onClose={close}
     >
-      {isUploading && <SpinnerOverlay />}
+      {isUploading || (isLoading && <SpinnerOverlay />)}
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="flex min-h-full items-center justify-center p-4">
@@ -295,9 +308,7 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
                     />
                   </FormItem>
                   <FormItem className="w-full max-w-48">
-                    <FormLabel>
-                      Organiser photo
-                    </FormLabel>
+                    <FormLabel>Organiser photo</FormLabel>
                     <FormField
                       control={form.control}
                       name="organiser_photo"
@@ -343,7 +354,6 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
                                       <p className="font-pally-regular text-[#F58B86] underline">
                                         Add Photo
                                       </p>
-                                      
                                     </div>
                                   </label>
                                 </div>
@@ -501,9 +511,13 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
                       <Button
                         variant="destructive"
                         type="submit"
-                        disabled={isPending}
+                        disabled={isPending || updateLoading}
                       >
-                        {isPending ? <Spinner /> : `Add Profile`}
+                        {isPending || updateLoading ? (
+                          <Spinner />
+                        ) : (
+                          `Add Profile`
+                        )}
                       </Button>
                     </div>
                   </div>
