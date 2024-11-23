@@ -1,3 +1,4 @@
+"use client"
 import Faq from "@/components/faq";
 import Layout from "@/components/layout";
 import AdPackages from "@/components/page-components/pricingpage/AdPackages";

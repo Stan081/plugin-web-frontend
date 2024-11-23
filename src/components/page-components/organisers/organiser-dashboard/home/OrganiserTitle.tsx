@@ -1,11 +1,18 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
+import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useMe } from "@/pages/api/query/me";
 import Container from "@/tw-components/container";
 import Image from "next/image";
 import React from "react";
 
 const OrganiserTitle = () => {
   const { data: orgProfile, isLoading } = useGetOrgProfileById();
+  const { data: user } = useMe();
+  const { data: orgEvents } = useGetOrganiserEvents(user?.data?._id);
+
+  console.log(orgEvents?.data)
+
   const OrganiserContent = () => {
     return (
       <div className="border-t-4 shadow-md border-[#281E172E] rounded-lg p-4 bg-[#F6F7F8] hidden lg:flex gap-4">
@@ -33,7 +40,7 @@ const OrganiserTitle = () => {
           )}
           <div className="flex items-center gap-4">
             <p className="text-[#667185] font-pally-regular text-base">
-              2 Events Hosted
+              {orgEvents?.data?.data?.length} events hosted
             </p>
             <div className="border border-[#667185] h-4" />
             <p className="text-[#667185] font-pally-regular text-base">
