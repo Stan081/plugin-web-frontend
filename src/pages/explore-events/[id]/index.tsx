@@ -12,7 +12,6 @@ import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { useParams } from "next/navigation";
 import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
-import React, { FC } from "react";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 

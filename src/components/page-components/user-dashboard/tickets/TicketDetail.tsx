@@ -36,7 +36,7 @@ const TicketDetail: React.FC<CardProps> = ({ id,title, location, date }) => {
       <Separator />
 
       {/* Oganiser */}
-      <MeetYourOganiser />
+      <MeetYourOganiser organiserId="" />
     </div>
   );
 };
