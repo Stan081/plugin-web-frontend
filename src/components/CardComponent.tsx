@@ -20,7 +20,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
 
   const { toast } = useToast();
 
-  console.log(isCheck?.data)
+  console.log(isCheck?.data);
 
   const startDate: string =
     card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
@@ -28,30 +28,29 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
   const startTime: string =
     card?.oneTimeEvent?.startTime || card?.recurringEvent?.startTime;
 
-    const date = new Date(startDate);
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-      year: "numeric", // Add year to the options
-    };
-    
-    const formattedDate = date.toLocaleDateString("en-GB", options);
-    
-    const [hour, minute] = startTime ? startTime.split(":") : ["00", "00"];
-    const formattedTime = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      Number(hour),
-      Number(minute)
-    ).toLocaleTimeString("en-GB", {
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-      timeZone: "UTC",
-    });
-    
+  const date = new Date(startDate);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric", // Add year to the options
+  };
+
+  const formattedDate = date.toLocaleDateString("en-GB", options);
+
+  const [hour, minute] = startTime ? startTime.split(":") : ["00", "00"];
+  const formattedTime = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    Number(hour),
+    Number(minute)
+  ).toLocaleTimeString("en-GB", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+    timeZone: "UTC",
+  });
 
   const { mutate } = useMutation({
     mutationFn: (data: any) => AddFavourite(data),
@@ -123,7 +122,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
         </div>
       </div>
       <Link
-       href={`/explore-events/${card?._id}`}
+        href={`/explore-events/${card?._id}`}
         className="p-4 cursor-pointer  hover:bg-gray-100 transition delay-75 ease-in-out"
       >
         <h2 className="text-lg md:text-xl font-bold font-pally-medium">
