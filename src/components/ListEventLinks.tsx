@@ -29,7 +29,7 @@ const ListEvent = () => {
       description: "Discover the benefits of Plugin",
       icon: <Grid2 />,
       bgColor: "bg-[#E4C9FF]",
-      link: "/#",
+      link: "/features",
     },
     {
       name: "Pricing",

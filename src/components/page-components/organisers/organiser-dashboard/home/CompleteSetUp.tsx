@@ -6,40 +6,17 @@ import { HiOutlineUserCircle } from "react-icons/hi2";
 import { PiBankDuotone } from "react-icons/pi";
 import { RiArrowRightSLine } from "react-icons/ri";
 import Link from "next/link";
-
-const setUp = [
-  {
-    id: 1,
-    icon: <BsCalendar4Week size={28} color="#667185" />,
-    title: " Publish an event",
-    description: "Create and publish events for attendees all around the world",
-    completed: true,
-    path: "/#",
-    button: "Create Event",
-  },
-  {
-    id: 1,
-    icon: <HiOutlineUserCircle size={28} color="#667185" />,
-    title: "Set-up Organizer Profile",
-    description: "Highlight your brand by your name, image and bio",
-    completed: true,
-    path: "/organiser/organiser-settings",
-    button: "Set-up Profile",
-  },
-  {
-    id: 1,
-    icon: <PiBankDuotone size={28} color="#667185" />,
-    title: "Add pay-out account",
-    description:
-      "Add an account where we can send all your funds to when you make a withdrawal",
-    completed: false,
-    path: "/",
-    button: "Add Payout Details",
-  },
-];
+import { useMe } from "@/pages/api/query/me";
+import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
 
 const CompleteSetUp = () => {
   const [isCompleted, setIsComplete] = useState<boolean>(false);
+  const { data: user } = useMe();
+  const {
+    data: organiserEvents,
+    isLoading,
+    isError,
+  } = useGetOrganiserEvents(user?.data?._id);
 
   const setUp = [
     {
@@ -48,12 +25,12 @@ const CompleteSetUp = () => {
       title: " Publish an event",
       description:
         "Create and publish events for attendees all around the world",
-      completed: true,
+      completed: organiserEvents?.data?.data[0]?.isPublished,
       path: "/#",
       button: "Create Event",
     },
     {
-      id: 1,
+      id: 2,
       icon: <HiOutlineUserCircle size={28} color="#667185" />,
       title: "Set-up Organizer Profile",
       description: "Highlight your brand by your name, image and bio",
@@ -62,7 +39,7 @@ const CompleteSetUp = () => {
       button: "Set-up Profile",
     },
     {
-      id: 1,
+      id: 3,
       icon: <PiBankDuotone size={28} color="#667185" />,
       title: "Add pay-out account",
       description:
