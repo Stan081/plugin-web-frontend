@@ -6,8 +6,6 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
-import { OrganiserEventCardProps } from "@/static-datas/organiser-date";
-import { useRouter } from "next/router";
 import React, { FC } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import {

@@ -18,7 +18,7 @@ const OrganiserEventHead = () => {
   const router = useRouter()
 
   return (
-    <div className="bg-gray-200 pt-6 md:pt-9">
+    <div className="bg-gray-100 pt-6 md:pt-9">
       <Container className="flex justify-between items-center">
         <div className="space-y-6 ">
           <div>
