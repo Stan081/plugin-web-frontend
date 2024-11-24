@@ -11,7 +11,9 @@ const OrganiserTitle = () => {
   const { data: user } = useMe();
   const { data: orgEvents } = useGetOrganiserEvents(user?.data?._id);
 
-  console.log(orgEvents?.data)
+  const isPublish = orgEvents?.data?.data?.filter((event) => {
+    return event?.isPublished;
+  });
 
   const OrganiserContent = () => {
     return (
@@ -40,7 +42,7 @@ const OrganiserTitle = () => {
           )}
           <div className="flex items-center gap-4">
             <p className="text-[#667185] font-pally-regular text-base">
-              {orgEvents?.data?.data?.length} events hosted
+              {isPublish?.length} events hosted
             </p>
             <div className="border border-[#667185] h-4" />
             <p className="text-[#667185] font-pally-regular text-base">

@@ -6,9 +6,17 @@ import { HiOutlineUserCircle } from "react-icons/hi2";
 import { PiBankDuotone } from "react-icons/pi";
 import { RiArrowRightSLine } from "react-icons/ri";
 import Link from "next/link";
+import { useMe } from "@/pages/api/query/me";
+import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
 
 const CompleteSetUp = () => {
   const [isCompleted, setIsComplete] = useState<boolean>(false);
+  const { data: user } = useMe();
+  const {
+    data: organiserEvents,
+    isLoading,
+    isError,
+  } = useGetOrganiserEvents(user?.data?._id);
 
   const setUp = [
     {
@@ -17,7 +25,7 @@ const CompleteSetUp = () => {
       title: " Publish an event",
       description:
         "Create and publish events for attendees all around the world",
-      completed: true,
+      completed: organiserEvents?.data?.data[0]?.isPublished,
       path: "/#",
       button: "Create Event",
     },
