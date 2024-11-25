@@ -38,7 +38,7 @@ const CheckoutEvent = () => {
             pageName={"Checkout"}
           />
 
-          <div className="mt-6 md:my-8 flex flex-col-reverse md:flex-row justify-between gap-6 md:gap-10 w-full">
+          <div className="my-6 md:my-8 flex flex-col-reverse md:flex-row justify-between gap-6 md:gap-10 w-full">
             <CheckoutContactInfo />
             <CheckoutSummary event={checkCardId}/>
           </div>

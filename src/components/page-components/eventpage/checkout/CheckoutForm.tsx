@@ -17,9 +17,13 @@ import React, { useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useMe } from "@/pages/api/query/me";
 import { PhoneNumberInput } from "@/components/PhoneNumberInput";
+import { useEventsContext } from "@/providers/events.provider";
+import { removeCookie } from "@/lib/cookies";
 
 const CheckoutForm = () => {
   const { data: user } = useMe();
+  const { tickets, entryData } = useEventsContext();
+
   const form = useForm<CheckoutForms>({
     mode: "all",
     defaultValues: {
@@ -46,6 +50,17 @@ const CheckoutForm = () => {
     [form.formState.errors]
   );
 
+  const totalticketPrice = (): number => {
+    const total = tickets.reduce((sum, item) => {
+      if (item?.price) {
+        return sum + item.quantity * item.price;
+      }
+      return sum;
+    }, 0);
+    console.log(total);
+    return total;
+  };
+
   const onSubmit = useCallback(async (payload: CheckoutForms) => {
     console.log(payload);
     if (!payload) {
@@ -53,6 +68,16 @@ const CheckoutForm = () => {
         variant: "destructive",
         title: "Please fill in the field",
       });
+    }
+    if (tickets || entryData) {
+      const data = {
+        user: payload,
+        ticket: tickets || entryData,
+        total: tickets ? totalticketPrice() : 0,
+      };
+      console.log(data);
+      removeCookie("tickets")
+      removeCookie("entryTicket")
     }
   }, []);
   return (
