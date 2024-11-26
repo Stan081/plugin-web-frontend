@@ -19,6 +19,7 @@ export const useGetAllEvents = () => {
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling
         }),
-    retry: false, 
+    retry: false,
+    refetchOnMount: true, 
   });
 };

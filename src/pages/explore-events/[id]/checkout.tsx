@@ -9,7 +9,7 @@ import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
-import { notFound, useParams } from "next/navigation";
+import {  useParams } from "next/navigation";
 import React from "react";
 
 const CheckoutEvent = () => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import GroupedTicket from "./GroupedTicket";
 import EntryTicketComponent from "./EntryTicketComponent";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
   id,
   event,
 }) => {
-  const {tickets} = useEventsContext()
+  const { tickets } = useEventsContext();
   const getEntryTicketCountdown = () => {
     const now = new Date();
 
@@ -50,7 +50,7 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
 
     return null;
   };
-  const router  = useRouter()
+  const router = useRouter();
 
   const checkIfEndDateReached = () => {
     if (event?.entryTicket?.endDate) {
@@ -78,11 +78,11 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
   };
 
   const handleGroupTicket = () => {
-    if(tickets.length > 0){
-      console.log(tickets)
-      router.push(`/explore-events/${id}/checkout`)
+    if (tickets.length > 0) {
+      console.log(tickets);
+      router.push(`/explore-events/${id}/checkout`);
     }
-  }
+  };
 
   return (
     <div className="mb-6 mt-8 lg:block w-full max-w-lg hidden">

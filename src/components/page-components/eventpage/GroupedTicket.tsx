@@ -34,11 +34,6 @@ const GroupedTicket = ({ groupedTicket, id }) => {
 
   const {tickets, setTickets} = useEventsContext()
 
-  useEffect(() => {
-    if(getCookie("tickets"))
-      removeCookie("tickets")
-  },[])
-
   // Update counter when tickets or ticket name changes
   useEffect(() => {
     const ticket = tickets.find((t) => t.name === groupedTicket.ticketName);

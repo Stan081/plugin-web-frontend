@@ -58,16 +58,18 @@ const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
   }, []);
 
   const handleEntryTicket = () => {
-    if(counter > 0){
+    if (counter > 0) {
       const data = {
         name: entryTicket?.ticketName,
-        price: entryTicket?.ticketPrice,
-        quantity: counter
-      }
-      setCookie('entryTicket', data)
-      router.push(`/explore-events/${id}/checkout`)
+        price:
+          entryTicket?.ticketPrice === undefined ? 0 : entryTicket?.ticketPrice,
+        quantity: counter,
+      };
+      setCookie("entryTicket", data);
+      router.push(`/explore-events/${id}/checkout`);
     }
-  }
+  };
+
   return (
     <Fragment>
       <div className="border border-[#CFD9E8] rounded-lg flex justify-between items-start">
@@ -90,7 +92,9 @@ const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
             <button
               onClick={handleDecrement}
               className={`border border-[#555A6E] ${
-                counter === 0 ? "bg-gray-200 border-gray-200 cursor-not-allowed" : "cursor-pointer"
+                counter === 0
+                  ? "bg-gray-200 border-gray-200 cursor-not-allowed"
+                  : "cursor-pointer"
               } text-[#555A6E] p-1 rounded-full`}
               disabled={counter === 0}
             >

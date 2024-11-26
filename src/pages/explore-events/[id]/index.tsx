@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react"
+import React, { useEffect } from "react";
 import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
 import AboutEventDetail from "@/components/page-components/eventpage/AboutEventDetail";
@@ -14,13 +14,18 @@ import { useParams } from "next/navigation";
 import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { getCookie, removeCookie } from "@/lib/cookies";
 
 const ExploreEventDetailPage = () => {
   const { data: events, isLoading } = useGetAllEvents();
   const param = useParams<{ id: string }>();
   const cardId = events?.data.find((card) => card?._id === param?.id);
 
-  console.log(cardId)
+  useEffect(() => {
+    if (getCookie("tickets") || getCookie("entryTicket"))
+      removeCookie("tickets");
+    removeCookie("entryTicket");
+  }, [getCookie, removeCookie]);
 
   if (isLoading) {
     return <SpinnerOverlay />;

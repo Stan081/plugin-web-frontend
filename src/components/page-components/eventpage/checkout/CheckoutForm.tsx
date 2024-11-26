@@ -18,7 +18,7 @@ import { useForm } from "react-hook-form";
 import { useMe } from "@/pages/api/query/me";
 import { PhoneNumberInput } from "@/components/PhoneNumberInput";
 import { useEventsContext } from "@/providers/events.provider";
-import { removeCookie } from "@/lib/cookies";
+import { getCookie, removeCookie } from "@/lib/cookies";
 
 const CheckoutForm = () => {
   const { data: user } = useMe();
@@ -37,11 +37,10 @@ const CheckoutForm = () => {
     resolver: yupResolver(CheckoutFormSchema),
   });
 
-  //  initialise router
-  const router = useRouter();
-
   //   toast
   const { toast } = useToast();
+
+  const ticketCookie = getCookie("tickets")
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
@@ -72,7 +71,7 @@ const CheckoutForm = () => {
     if (tickets || entryData) {
       const data = {
         user: payload,
-        ticket: tickets || entryData,
+        ticket: ticketCookie ? tickets : entryData?.quantity,
         total: tickets ? totalticketPrice() : 0,
       };
       console.log(data);
