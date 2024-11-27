@@ -37,7 +37,9 @@ const items = [
 
 const OrganiserMenu = () => {
   const { logout } = useUserDashContext();
-  const { data: userDate, isLoading } = useMe();
+  const { data: userData, isLoading } = useMe();
+
+  console.log('useData:', userData)
   return (
     <Fragment>
       {!isLoading ? (
@@ -45,8 +47,8 @@ const OrganiserMenu = () => {
           <PopoverTrigger>
             <div className="flex justify-start items-center">
               <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
-                {`${userDate?.data?.name?.firstname.slice(0, 1)}` +
-                  `${userDate?.data?.name?.lastname.slice(0, 1)}`}
+                {`${userData?.data?.name?.firstname.slice(0, 1)}` +
+                  `${userData?.data?.name?.lastname.slice(0, 1)}`}
               </p>
               <RiArrowDownSLine className="ml-2" />
             </div>

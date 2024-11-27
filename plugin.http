@@ -57,8 +57,15 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
 
 
+
 ### Get Event by Id
 
-GET http://pluginapi.onrender.com/api/event/673dfd297b0bb80e17ab45c6
+GET http://pluginapi.onrender.com/api/event/6743228014b2df3835103b22
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
+
+### Get Event by Id
+
+GET http://pluginapi.onrender.com/api/event/events
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8

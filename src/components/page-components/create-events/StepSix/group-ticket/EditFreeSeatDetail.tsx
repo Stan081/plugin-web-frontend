@@ -5,7 +5,7 @@ import {
 } from "@/models/create-event-schema";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { FC, useCallback, useEffect } from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import {
   Form,
   FormControl,
@@ -29,6 +29,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EditEventGroup } from "@/pages/api/mutate/create-events/EditEventGroup";
 import Spinner from "@/tw-components/spinner";
 import { Button } from "@/components/ui/button";
+import { extractColors } from "extract-colors";
+import { uploadImage } from "@/lib/utils";
+import { IoMdImages } from "react-icons/io";
+import { HiOutlineTrash } from "react-icons/hi2";
+import { FiEdit } from "react-icons/fi";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 interface EditFreeSeatDetailProps {
   handleReturnToList: () => void;
@@ -40,6 +46,12 @@ const EditFreeSeatDetail: FC<EditFreeSeatDetailProps> = ({
   selectedTicket,
 }) => {
   const { selectTicket, seatType: seatTypeState } = useCreateEventContext();
+  const [labelImage, setlabelImage] = useState<string | null>(
+    (selectedTicket?.seatMap as string) || null
+  );
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [getSelectedColor, setGetSelectedColor] = useState<string[]>([]);
 
   const form = useForm<FreeSeatSection>({
     mode: "all",
@@ -53,10 +65,37 @@ const EditFreeSeatDetail: FC<EditFreeSeatDetailProps> = ({
       end_date: new Date(selectedTicket?.endDate) ?? null,
       start_time: selectedTicket?.startTime ?? "",
       end_time: selectedTicket?.endTime ?? "",
-      ticket_perks: selectedTicket?.ticketPerks ?? "",
+      ticket_perks: selectedTicket?.ticketPeaks ?? "",
+      label_image: selectedTicket?.seatMap ?? "",
+      label_color: "",
     },
     resolver: yupResolver(FreeSeatSectionFormSchema),
   });
+
+  useEffect(() => {
+    if (!labelImage) return;
+
+    const image = new Image();
+    image.src = labelImage;
+
+    image.onload = () => {
+      // Only proceed if the image has valid width and height
+      if (image.width > 0 && image.height > 0) {
+        extractColors(labelImage)
+          .then((resp) => {
+            const colors = resp.map((item) => item.hex);
+            setGetSelectedColor((prev) => [...prev, ...colors]);
+          })
+          .catch(console.error);
+      } else {
+        console.error("Image dimensions are invalid");
+      }
+    };
+
+    image.onerror = () => {
+      console.error("Failed to load the image");
+    };
+  }, [labelImage]);
 
   useEffect(() => {
     form.setValue("seat_type", seatTypeState);
@@ -69,6 +108,48 @@ const EditFreeSeatDetail: FC<EditFreeSeatDetailProps> = ({
   const { toast } = useToast();
 
   const client = useQueryClient();
+
+  const handleImageUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setIsUploading(true); // Start spinner
+
+      try {
+        const uploadResult = await uploadImage(file);
+
+        const imageUrl = uploadResult.secure_url;
+
+        setlabelImage(imageUrl);
+        form.setValue("label_image", imageUrl);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error in uploading image",
+          description: error?.message,
+        });
+      } finally {
+        setIsUploading(false);
+      }
+    }
+  };
+
+  // Handle image delete for image thumbnail
+  const handleImageDelete = () => {
+    setlabelImage(null);
+    form.setValue("label_image", "");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  // Handle edit for vendor thumbnail
+  const handleEditClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => EditEventGroup(data, selectedTicket?._id),
@@ -112,6 +193,7 @@ const EditFreeSeatDetail: FC<EditFreeSeatDetailProps> = ({
   }, []);
   return (
     <div>
+      {isUploading && <SpinnerOverlay />}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -340,6 +422,134 @@ const EditFreeSeatDetail: FC<EditFreeSeatDetailProps> = ({
                 )}
               />
               <FormMessage />
+            </FormItem>
+
+            <FormItem className="w-full mt-6 space-y-3 px-4">
+              <p className="text-base font-pally-regular text-white">
+                {" "}
+                Labeling helps you and your attendees easily identify and find
+                sections, seats or areas in the venue. Use labels to make your
+                tickets more unique
+              </p>
+              <FormField
+                control={form.control}
+                name="label_image"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="image-uploader">
+                        {labelImage ? (
+                          <div className="relative">
+                            <div className="relative h-[20vh] bg-no-repeat bg-center bg-cover flex items-center justify-center overflow-hidden rounded-md ">
+                              <img
+                                src={labelImage}
+                                alt="Uploaded"
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="absolute inset-0 bg-black opacity-50"></div>
+
+                            <div className="absolute right-5 bottom-0 z-10 text-center text-white p-4 flex gap-5">
+                              <button
+                                type="button"
+                                onClick={handleEditClick}
+                                className="outline outline-white/50 p-1.5 rounded-md bg-white"
+                              >
+                                <FiEdit size={18} color="#000" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={handleImageDelete}
+                                className="outline outline-white/50 p-1.5 rounded-md bg-white"
+                              >
+                                <HiOutlineTrash size={18} color="#000" />
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="py-9 bg-white/10 cursor-pointer rounded-lg">
+                            <label htmlFor="file-input-thumbnail">
+                              <div className="flex flex-col justify-center items-center gap-2 cursor-pointer">
+                                <IoMdImages size={28} />
+                                <p className="font-pally-regular text-[#F58B86] underline">
+                                  Tap to Upload
+                                </p>
+                                <p className="font-pally-medium text-[#F7D394] text-sm mx-5 text-center">
+                                  ( JPEG, PNG, GIF, no larger than 10MB. )
+                                </p>
+                              </div>
+                            </label>
+                          </div>
+                        )}
+                      </div>
+                    </FormControl>
+                    <input
+                      id="file-input-thumbnail"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      ref={(e) => {
+                        field.ref(e);
+                        fileInputRef.current = e;
+                      }}
+                      style={{ display: "none" }}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormLabel
+                htmlFor="file-input-thumbnail"
+                className="mt-3 text-white font-pally-medium"
+              >
+                Label Guide ( optional )
+              </FormLabel>
+            </FormItem>
+
+            <FormItem className="w-full px-4">
+              <FormLabel className="text-white">Label color </FormLabel>
+              <FormField
+                control={form.control}
+                name="label_color"
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormControl>
+                        <Select
+                          onValueChange={(value) => field.onChange(value)}
+                          defaultValue={String(field.value)}
+                        >
+                          <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
+                            <SelectValue placeholder="Assign colour" />
+                          </SelectTrigger>
+                          <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
+                            {getSelectedColor.length !== 0 ? (
+                              getSelectedColor.map((state) => {
+                                return (
+                                  <SelectItem key={state} value={state}>
+                                    <div className="flex items-center gap-2">
+                                      <span
+                                        style={{ backgroundColor: state }}
+                                        className="h-5 w-5 border rounded"
+                                      />
+                                      {state}
+                                    </div>
+                                  </SelectItem>
+                                );
+                              })
+                            ) : (
+                              <p className="font-pally-regular text-sm">
+                                Upload an image to get seat colour
+                              </p>
+                            )}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
+              />
             </FormItem>
           </div>
 

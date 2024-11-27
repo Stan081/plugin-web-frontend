@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import CreateTicketEmptyState from "./CreateTicketEmptyState";
@@ -15,8 +15,15 @@ const contents = [
 
 const StepSix: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { selectTicket } = useCreateEventContext();
-  const {data: event} = useGetEvent()
+  const { selectTicket, setSelectedTicket } = useCreateEventContext();
+
+  const {data:event} = useGetEvent()
+
+  useEffect(() => {
+    if(event?.data?.ticketCategory){
+      setSelectedTicket(event?.data?.ticketCategory)
+    }
+  }, [event?.data, selectTicket])
 
   const handleShowModal = () => {
     setShowModal(!showModal);
@@ -45,9 +52,7 @@ const StepSix: FC = () => {
             ) : selectTicket === "entry" ? (
               <EntryTicket />
             ) : (
-              selectTicket === "grouped" && (
-                <GroupTicket />
-              )
+              selectTicket === "grouped" && <GroupTicket />
             )}
           </div>
         </FormContainer>

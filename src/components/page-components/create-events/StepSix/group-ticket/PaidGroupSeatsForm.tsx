@@ -50,9 +50,7 @@ interface PaidGroupSeatsFormProps extends GroupSeatProps {}
 const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
   handleReturnToList,
 }) => {
-  const [quantity, setQuantity] = useState<number>(null);
   const { selectTicket, seatType } = useCreateEventContext();
-  const [ticketPrice, setTicketPrice] = useState<number>(null);
   const [labelImage, setlabelImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -65,8 +63,8 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
       ticket_type: selectTicket,
       ticket_name: "",
       ticket_category: "",
-      ticket_quantity: quantity,
-      ticket_price: ticketPrice,
+      ticket_quantity: null,
+      ticket_price: null,
       start_date: null,
       end_date: null,
       start_time: "",

@@ -144,7 +144,9 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     if (getCookie("event_id")) {
       removeCookie("event_id");
     }
-    setCurrentStep(1);
+    setTimeout(() => {
+      setCurrentStep(1);
+    }, 2000);
   };
 
   const ContextValue: CreateEventContextValue = {
