@@ -208,7 +208,7 @@ const ProfileFormModal: FC<Props> = ({open, close}) => {
       className="relative z-10 focus:outline-none"
       onClose={close}
     >
-      {isUploading || (isLoading && <SpinnerOverlay />)}
+      {isUploading && <SpinnerOverlay />}
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="flex min-h-full items-center justify-center p-4">

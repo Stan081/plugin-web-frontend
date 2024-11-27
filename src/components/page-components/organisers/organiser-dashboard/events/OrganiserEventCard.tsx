@@ -17,6 +17,7 @@ import { HiOutlineTrash } from "react-icons/hi";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { setCookie } from "@/lib/cookies";
 
 const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
   const { handlePreviewEvent, handleShowDeleteEvent } =
@@ -72,6 +73,13 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
     }
   };
 
+  const handleEditEvent = () => {
+    setCookie("event_id", event?._id);
+    setTimeout(() => {
+      router.push("/create-event");
+    }, 4000);
+  };
+
   return (
     <div className="w-full max-w-md shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200 p-4  hover:bg-gray-100 transition delay-75 ease-in-out">
       <div className="relative">
@@ -94,7 +102,10 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
               </div>
             </PopoverTrigger>
             <PopoverContent className="w-48 bg-white rounded-xl p-3">
-              <div className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm">
+              <div
+                onClick={handleEditEvent}
+                className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
+              >
                 <FiEdit2 size={18} color="#667185" />
                 Edit
               </div>

@@ -6,6 +6,7 @@ import SelectTicketModal from "./SelectTicketModal";
 import EntryTicket from "./entry-ticket";
 import GroupTicket from "./group-ticket";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 const contents = [
   "Break down the event into segments (e.g., welcome drinks, painting session, cocktail break).",
@@ -15,6 +16,7 @@ const contents = [
 const StepSix: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const { selectTicket } = useCreateEventContext();
+  const {data: event} = useGetEvent()
 
   const handleShowModal = () => {
     setShowModal(!showModal);

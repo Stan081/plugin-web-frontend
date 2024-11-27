@@ -21,6 +21,8 @@ const ExploreEventDetailPage = () => {
   const param = useParams<{ id: string }>();
   const cardId = events?.data.find((card) => card?._id === param?.id);
 
+  console.log(cardId)
+
   useEffect(() => {
     if (getCookie("tickets") || getCookie("entryTicket"))
       removeCookie("tickets");

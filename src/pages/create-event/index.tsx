@@ -21,8 +21,6 @@ export default function CreateEvent() {
   const { currentStep, setShowProfileForm, showProfileForm } =
     useCreateEventContext();
 
-    // const { showProfile, handleCloseProfile } = useOrganiserDashContext();
-
   const token = getToken();
   const router = useRouter();
 
