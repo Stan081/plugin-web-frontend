@@ -45,7 +45,7 @@ const StepTracker = () => {
     <div>
       <div className="lg:hidden flex gap-5">
         <div className="bg-gray-600 h-16 w-16 flex justify-center items-center rounded-lg">
-          {currentStep > 1 ? (
+          {event?.data?.thumbnail ? (
             <img
               src={event?.data?.thumbnail}
               width={320}
@@ -61,7 +61,7 @@ const StepTracker = () => {
         </div>
         <div className="space-y-3">
           <p className="font-pally-medium text-[#616873] text-base">
-            {currentStep > 1 && event?.data?.eventName
+            {currentStep > 1 || event?.data?.eventName
               ? event?.data?.eventName
               : " 'Untitled' "}
           </p>
@@ -88,7 +88,7 @@ const StepTracker = () => {
           Back to event
         </p>
 
-        {currentStep > 1 ? (
+        {event?.data?.thumbnail ? (
           <img
             src={event?.data?.thumbnail}
             width={320}
@@ -105,7 +105,7 @@ const StepTracker = () => {
         )}
 
         <p className="font-pally-medium text-[#616873] text-2xl">
-          {currentStep > 1 && event?.data?.eventName
+          {currentStep > 1 || event?.data?.eventName
             ? event?.data?.eventName
             : " 'Untitled' "}
         </p>
@@ -113,7 +113,10 @@ const StepTracker = () => {
         <div className="block mt-5">
           <div className={`flex flex-col justify-between `}>
             <div className="flex items-center gap-2">
-              {currentStep > 4 ? (
+              {currentStep > 4 ||
+              event?.data?.oneTimeEvent?.startDate ||
+              event?.data?.recurringEvent?.startDate ||
+              event?.data?.locationType !== "" ? (
                 <div className="bg-green-600 rounded-full p-0.5">
                   <GrFormCheckmark color="#fff" size={18} />
                 </div>
@@ -139,7 +142,10 @@ const StepTracker = () => {
           </div>
           <div className={`flex flex-col justify-between `}>
             <div className="flex items-center gap-2">
-              {currentStep > 6 ? (
+              {currentStep > 6 ||
+              event?.data?.ticketCategory ||
+              event?.data?.groupedTicket.length !== 0 ||
+              event?.data?.entryTicket ? (
                 <div className="bg-green-600 rounded-full p-0.5">
                   <GrFormCheckmark color="#fff" size={18} />
                 </div>

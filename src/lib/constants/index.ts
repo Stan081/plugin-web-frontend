@@ -28,6 +28,8 @@ export const GET_ORGANISER_EVENTS: string = `${API_URL}/organizers/events`
 
 export const ALL_ORGANISERS: string = `${API_URL}/organizers`
 
+export const FOLLOW_ORGANISER: string = `${API_URL}/follow`
+
 export const GET_EVENT_BY_ID = (): string => {
   const eventId = getCookie("event_id");
   return `${API_URL}/event/events/${eventId}`;
@@ -81,4 +83,14 @@ export const GET_ORG_PROFILE = (): string => {
 export const UPDATE_ORG_PROFILE = (): string => {
   const userId = getCookie("user_id");
   return `${API_URL}/organizers/${userId}`;
+};
+
+export const GET_FOLLOW_ID = (): string => {
+  const userId = getCookie("user_id");
+  return `${API_URL}/follow/${userId}`;
+};
+
+export const REMOVE_FOLLOW = (): string => {
+  const userId = getCookie("user_id");
+  return `${API_URL}/follow/${userId}`;
 };

@@ -9,7 +9,7 @@ import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
-import { notFound, useParams } from "next/navigation";
+import {  useParams } from "next/navigation";
 import React from "react";
 
 const CheckoutEvent = () => {
@@ -38,7 +38,7 @@ const CheckoutEvent = () => {
             pageName={"Checkout"}
           />
 
-          <div className="mt-6 md:my-8 flex flex-col-reverse md:flex-row justify-between gap-6 md:gap-10 w-full">
+          <div className="my-6 md:my-8 flex flex-col-reverse md:flex-row justify-between gap-6 md:gap-10 w-full">
             <CheckoutContactInfo />
             <CheckoutSummary event={checkCardId}/>
           </div>

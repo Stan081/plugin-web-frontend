@@ -1,7 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/components/ui/use-toast";
 import { useOrganiser } from "@/hooks/organiser/useOrganiser";
+import { FollowOrganiser } from "@/pages/api/mutate/follow/followOrg";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import React, { FC } from "react";
@@ -9,6 +13,34 @@ import { RiUserAddLine } from "react-icons/ri";
 
 const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
   const { data: organiser } = useOrganiser(organiserId);
+
+  const { toast } = useToast();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => FollowOrganiser(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "You have followed this organiser",
+        });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description: error?.message,
+      });
+    },
+  });
+
+  const handleFollow = () => {
+    const data = {
+      organizerId: organiserId,
+    };
+    mutate(data);
+  };
   return (
     <div className="mt-6 bg-[#FCE0DC]/40 rounded-xl p-4">
       <h6 className="text-base md:text-lg font-pally-medium text-[#2C2B2E]">
@@ -62,8 +94,14 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
           size="sm"
           className="flex items-center gap-1.5"
         >
-          <RiUserAddLine size={18} />
-          <span className="hidden md:flex">follow</span>
+          {isPending ? (
+            <Skeleton className="w-5 h-5 rounded-full" />
+          ) : (
+            <>
+              <RiUserAddLine size={18} />
+              <span className="hidden md:flex">follow</span>
+            </>
+          )}
         </Button>
       </div>
     </div>

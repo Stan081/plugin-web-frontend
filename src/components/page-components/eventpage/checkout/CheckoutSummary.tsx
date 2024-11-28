@@ -1,16 +1,32 @@
 import { Separator } from "@/components/ui/separator";
 import { toFiat } from "@/lib/amount";
+import { useEventsContext } from "@/providers/events.provider";
 import Image from "next/image";
-import React, { FC } from "react";
-
-interface Props {
-  thumbnail: string;
-  eventName: string;
-  date: Date;
-  time: string;
-}
+import React, { FC, useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { getCookie } from "@/lib/cookies";
 
 const CheckoutSummary: FC<{ event: any }> = ({ event }) => {
+  const { tickets, entryData, setEntryData } = useEventsContext();
+
+  useEffect(() => {
+    const checkoutEntryTicket = () => {
+      const cookie = Cookies.get("entryTicket");
+      if (cookie) {
+        try {
+          const entry = JSON.parse(cookie);
+          setEntryData(entry);
+        } catch (error) {
+          console.error("Error parsing cookie:", error);
+        }
+      }
+    };
+
+    checkoutEntryTicket();
+  }, []);
+
+  const groupedTicketCookie = Cookies.get("tickets");
+
   const startDate: string =
     event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
 
@@ -40,6 +56,17 @@ const CheckoutSummary: FC<{ event: any }> = ({ event }) => {
     hour12: true,
     timeZone: "UTC",
   });
+
+  const totalticketPrice = (): number => {
+    const total = tickets.reduce((sum, item) => {
+      if (item?.price) {
+        return sum + item.quantity * item.price;
+      }
+      return sum;
+    }, 0);
+    return total;
+  };
+
   return (
     <div className="rounded-lg border p-3 w-full max-w-md">
       <Image
@@ -77,30 +104,43 @@ const CheckoutSummary: FC<{ event: any }> = ({ event }) => {
           <p className="text-sm md:text-base font-pally-medium">
             Order summary
           </p>
-          <div className="flex justify-between">
-            <p className="text-[#586170] text-sm font-pally-regular">
-              1 x Barn Member
-            </p>
-            <p className="text-[#586170] text-sm font-pally-regular">
-              {toFiat(3000)}
-            </p>
-          </div>
-          <div className="flex justify-between">
-            <p className="text-[#586170] text-sm font-pally-regular">
-              2 x Barn Member
-            </p>
-            <p className="text-[#586170] text-sm font-pally-regular">
-              {toFiat(25000)}
-            </p>
-          </div>
+          {groupedTicketCookie &&
+            tickets.map((item, index) => (
+              <div key={index} className="flex justify-between">
+                <p className="text-[#586170] text-sm font-pally-regular">
+                  {item?.quantity} x {item?.name}
+                </p>
+                <p className="text-[#586170] text-sm font-pally-regular">
+                  {toFiat(
+                    item?.price === undefined ? 0 : item?.price * item?.quantity
+                  )}
+                </p>
+              </div>
+            ))}
+
+          {entryData && (
+            <div className="flex justify-between">
+              <p className="text-[#586170] text-sm font-pally-regular">
+                {entryData?.quantity} x {entryData?.name}
+              </p>
+              <p className="text-[#586170] text-sm font-pally-regular">
+                {toFiat(Number(entryData?.price && entryData?.price))}
+              </p>
+            </div>
+          )}
         </div>
 
         <Separator />
 
         <div>
           <div className="flex justify-between">
-            <p className=" text-base font-pally-regular">Total</p>
-            <p className=" text-base font-pally-regular">{toFiat(28000)}</p>
+            <p className=" text-base md:text-lg font-pally-regular">Total</p>
+            <p className=" text-base md:text-lg font-pally-medium">
+              {(groupedTicketCookie &&
+                tickets?.length !== 0 &&
+                toFiat(totalticketPrice())) ||
+                toFiat(Number(entryData?.price))}
+            </p>
           </div>
         </div>
       </div>

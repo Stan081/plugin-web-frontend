@@ -8,18 +8,20 @@ import { toFiat } from "@/lib/amount";
 import ToolTipComponent from "@/components/ToolTipComponent";
 import TicketPlacement from "./TicketPlacement";
 import Cookies from "js-cookie";
+import { useEventsContext } from "@/providers/events.provider";
+import { removeCookie } from "@/lib/cookies";
 
-export const getCookie = (key: string) => {
+const getCookie = (key: string) => {
   const cookie = Cookies.get(key);
   try {
     return cookie ? JSON.parse(decodeURIComponent(cookie)) : null;
   } catch (error) {
     console.error("Error parsing cookie:", error);
-    return null; // Return null if cookie is invalid
+    return null;
   }
 };
 
-export const setCookie = (key: string, value: any, options = {}) => {
+const setCookie = (key: string, value: any, options = {}) => {
   try {
     Cookies.set(key, encodeURIComponent(JSON.stringify(value)), options);
   } catch (error) {
@@ -30,53 +32,56 @@ export const setCookie = (key: string, value: any, options = {}) => {
 const GroupedTicket = ({ groupedTicket, id }) => {
   const [counter, setCounter] = useState(0);
 
-  const [tickets, setTickets] = useState(() => {
-    const savedTickets = getCookie("tickets");
-    return Array.isArray(savedTickets) ? savedTickets : [];
-  });
+  const {tickets, setTickets} = useEventsContext()
 
-  useEffect(() => {
-    console.log("Tickets updated:", tickets);
-    console.log("Counter updated:", counter);
-  }, [tickets, counter]);
-
+  // Update counter when tickets or ticket name changes
   useEffect(() => {
     const ticket = tickets.find((t) => t.name === groupedTicket.ticketName);
     setCounter(ticket ? ticket.quantity : 0);
-  }, [groupedTicket.ticketName, tickets]);
+  }, [tickets, groupedTicket.ticketName]);
 
+  // Update tickets array and persist to cookies
   const updateTickets = (ticketName, price, quantity) => {
-    const updatedTickets = [...tickets];
-    const ticketIndex = updatedTickets.findIndex(
-      (ticket) => ticket.name === ticketName
-    );
+    setTickets((prevTickets) => {
+      const updatedTickets = [...prevTickets];
+      const ticketIndex = updatedTickets.findIndex(
+        (ticket) => ticket.name === ticketName
+      );
 
-    if (ticketIndex > -1) {
-      if (quantity > 0) {
-        updatedTickets[ticketIndex].quantity = quantity;
-      } else {
-        updatedTickets.splice(ticketIndex, 1);
+      if (ticketIndex > -1) {
+        if (quantity > 0) {
+          updatedTickets[ticketIndex].quantity = quantity;
+        } else {
+          updatedTickets.splice(ticketIndex, 1);
+        }
+      } else if (quantity > 0) {
+        updatedTickets.push({ name: ticketName, price, quantity });
       }
-    } else if (quantity > 0) {
-      updatedTickets.push({ name: ticketName, price, quantity });
-    }
 
-    setTickets(updatedTickets);
-    setCookie("tickets", updatedTickets, { expires: 7 });
+      // Save updated tickets to cookies
+      setCookie("tickets", updatedTickets, { expires: 7 });
+      return updatedTickets;
+    });
   };
 
-  const incrementTicket = (ticketName, price) => {
-    const ticket = tickets.find((t) => t.name === ticketName);
-    const newQuantity = ticket ? ticket.quantity + 1 : 1;
-    updateTickets(ticketName, price, newQuantity);
+  // Increment ticket quantity
+  const incrementTicket = () => {
+    const newQuantity = counter + 1;
+    updateTickets(
+      groupedTicket.ticketName,
+      groupedTicket.ticketPrice,
+      newQuantity
+    );
   };
 
-  const decrementTicket = (ticketName, price) => {
-    const ticket = tickets.find((t) => t.name === ticketName);
-    if (ticket) {
-      const newQuantity = ticket.quantity - 1;
-      updateTickets(ticketName, price, newQuantity);
-    }
+  // Decrement ticket quantity
+  const decrementTicket = () => {
+    const newQuantity = counter - 1;
+    updateTickets(
+      groupedTicket.ticketName,
+      groupedTicket.ticketPrice,
+      newQuantity
+    );
   };
 
   return (
@@ -87,7 +92,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
             src={groupedTicket?.seatMap || "/images/seagreen-bg.png"}
             width={456}
             height={280}
-            alt={groupedTicket?.ticketName}
+            alt={groupedTicket?.ticketName || "tickets"}
             className="pointer-events-none w-full h-full object-cover rounded-tl-lg rounded-bl-lg"
           />
         </div>
@@ -105,12 +110,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
       <div className="p-2 space-y-4 flex flex-col justify-between items-end">
         <div className="flex items-center gap-3">
           <button
-            onClick={() =>
-              decrementTicket(
-                groupedTicket?.ticketName,
-                groupedTicket?.ticketPrice || 0
-              )
-            }
+            onClick={decrementTicket}
             className="border border-[#555A6E] text-[#555A6E] p-1 rounded-full cursor-pointer"
             disabled={counter === 0}
           >
@@ -118,12 +118,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
           </button>
           <p className="font-pally-medium text-lg">{counter}</p>
           <button
-            onClick={() =>
-              incrementTicket(
-                groupedTicket?.ticketName,
-                groupedTicket?.ticketPrice || 0
-              )
-            }
+            onClick={incrementTicket}
             className="bg-destructive text-white p-1 rounded-full cursor-pointer"
           >
             <HiPlus size={20} />

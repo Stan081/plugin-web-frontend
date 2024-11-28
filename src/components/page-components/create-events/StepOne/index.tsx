@@ -46,10 +46,10 @@ const StepOne: React.FC = () => {
     useUpdateBasicInfo();
   const { data: event, isLoading: loadingEvent } = useGetEvent();
   const [imageBanner, setImageBanner] = useState<string | null>(
-    event?.data?.eventBanner
+    event?.data?.eventBanner || null
   );
   const [imageThumbnail, setImageThumbnail] = useState<string | null>(
-    event?.data?.thumbnail
+    event?.data?.thumbnail || null
   );
   const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
@@ -60,10 +60,10 @@ const StepOne: React.FC = () => {
   const form = useForm<EventStepOne>({
     mode: "all",
     defaultValues: {
-      event_banner: eventID ? event?.data?.eventBanner : "",
-      event_thumbnail: eventID ? event?.data?.thumbnail : "",
-      event_name: eventID ? event?.data?.eventName : "",
-      event_description: eventID ? event?.data?.eventDescription : "",
+      event_banner: event?.data?.eventBanner || "",
+      event_thumbnail: event?.data?.thumbnail || "",
+      event_name: event?.data?.eventName || "",
+      event_description: event?.data?.eventDescription || "",
     },
     resolver: yupResolver(EventStepOneSchema),
   });
