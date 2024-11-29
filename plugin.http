@@ -28,7 +28,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
 
 ### Get events by organiser using userID
-GET https://pluginapi.onrender.com/api/organizers/events/6726a9b8fccd9497a51c25d9
+GET https://pluginapi.onrender.com/api/favourites/672d61c7f97a176fdf3d1517
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
 <<<<<<< HEAD
@@ -83,7 +83,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
 GET http://pluginapi.onrender.com/api/event/filter?minPrice=900&locationType=physical&eventType=one-time&maxPrice=5000
 Content-Type: application/json
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> b74e1bd (Add API for filtering events; Add hook to fetch filtered event)
 >>>>>>> a9a89d3 (Add API for filtering events; Add hook to fetch filtered event)
 =======
 >>>>>>> 532ef39 (Chore(filterEvent): Resolve filter bug)
+=======
+
+
+### Get All Events
+
+GET http://pluginapi.onrender.com/api/event/events
+Content-Type: application/json
+
+>>>>>>> 843a9b8 (Add event filter function)

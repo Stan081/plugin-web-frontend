@@ -4,7 +4,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 
 
-type FilterParams = {
+export type FilterParams = {
   minPrice?: number;
   maxPrice?: number;
   locationType?: string;

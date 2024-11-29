@@ -4,7 +4,6 @@ import Layout from "@/components/layout";
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
 import React, { useState } from "react";
-import { cardData } from "@/static-datas/cards-data";
 import EventFilterComponent from "@/components/page-components/eventpage/EventFilterComponent";
 import CardComponent from "@/components/CardComponent";
 import EventListComponent from "@/components/page-components/eventpage/EventListComponent";
@@ -18,16 +17,16 @@ const ExploreEventsPage = () => {
   const [isGridView, setIsGridView] = useState(true);
 
   const [filters, setFilters] = useState({
-    minPrice: 100,
-    maxPrice: 200,
-    locationType: "physical",
-    eventType: "one-time",
+    minPrice: null,
+    maxPrice: null,
+    locationType: "",
+    eventType: "",
   });
 
   const { data: events, isLoading, isError } = useFilteredEvents(filters);
 
-  const handleFilterChange = (newFilters: Partial<typeof filters>) => {
-    setFilters((prevFilters) => ({ ...prevFilters, ...newFilters }));
+  const handleApplyFilters = (newFilters: any) => {
+    setFilters(newFilters); // Update filters dynamically
   };
 
   const handleToggleView = () => {
@@ -84,8 +83,8 @@ const ExploreEventsPage = () => {
               </div>
             ))
           )}
-          <div className="flex gap-5 mt-10">
-            <EventFilterComponent />
+          <div className="flex gap-5 mt-6">
+            <EventFilterComponent onApplyFilters={handleApplyFilters} />
             <div className="w-full">
               {isGridView ? (
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-8 mt-3">

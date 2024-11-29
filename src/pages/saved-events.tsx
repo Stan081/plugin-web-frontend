@@ -12,6 +12,7 @@ import React from "react";
 
 const SavedEvents = () => {
   const { data: allBookmark, isLoading } = useAllBookmark();
+  
 
   return (
     <Layout title="Saved events" showHeader showFooter showSidebar>
