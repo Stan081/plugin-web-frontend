@@ -40,23 +40,20 @@ const ExploreEventsPage = () => {
 
   const isEmpty = !events?.data || events.data.length === 0;
 
-  if (isLoading) return <div>Loading...</div>;
   if (isError) {
-    console.log(events?.data);
     return <div>Error loading events</div>;
   }
   return (
     <Layout title="Explore events" showHeader showFooter>
       {/*Explore Events Layout*/}
       <div className="flex-col px-20 mt-5 mb-5">
-        <div className="flex gap-3 items-center justify-between">
-          {/*show map switch*/}
-          <div className="flex py-1.5 px-2.5 items-center gap-1.5 border rounded-full w-40 justify-between">
+        <div className="flex gap-3 items-center justify-end">
+          {/* <div className="flex py-1.5 px-2.5 items-center gap-1.5 border rounded-full w-40 justify-between">
             <p className="text-sm md:text-lg text-gray-500 font-pally-regular">
               Show Map
             </p>
             <Switch />
-          </div>
+          </div> */}
           <div
             className="flex py-1.5 px-2.5 gap-1.5 border rounded-full w-40 justify-between cursor-pointer"
             onClick={handleToggleView}
@@ -108,9 +105,19 @@ const ExploreEventsPage = () => {
                 </div>
               ) : (
                 <div className="flex flex-col gap-6 pb-8 mt-3">
-                  {cardData.map((card) => (
-                    <EventListComponent key={card.id} {...card} />
-                  ))}
+                  {isLoading ? (
+                    <CardSkeleton />
+                  ) : (
+                    <>
+                      {publishedEvents?.length !== 0 ? (
+                        publishedEvents?.map((card) => (
+                          <EventListComponent key={card._id} card={card} />
+                        ))
+                      ) : (
+                        <p>No event uploaded</p>
+                      )}
+                    </>
+                  )}
                 </div>
               )}
             </div>

@@ -107,7 +107,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
               alt="spinner"
               width={50}
               height={25}
-              className="w-7 h-7 p-0 bg-white rounded-full"
+              className="w-5 h-5 p-0 bg-white rounded-full"
               unoptimized
             />
           ) : (
