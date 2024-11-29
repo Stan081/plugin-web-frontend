@@ -20,7 +20,6 @@ export const ORGANISER_PROFILE: string = `${API_URL}/organizers`;
 
 export const GET_ALL_EVENTS: string = `${API_URL}/event/events`;
 
-<<<<<<< HEAD
 export const EVENT_FAVOURITE: string = `${API_URL}/favourites`;
 
 export const GET_ORGANISER: string = `${API_URL}/organizers/organizer`
@@ -28,9 +27,9 @@ export const GET_ORGANISER: string = `${API_URL}/organizers/organizer`
 export const GET_ORGANISER_EVENTS: string = `${API_URL}/organizers/events`
 
 export const ALL_ORGANISERS: string = `${API_URL}/organizers`
-=======
+
 export const FILTER_EVENTS: string = `${API_URL}/event/filter`
->>>>>>> b74e1bd (Add API for filtering events; Add hook to fetch filtered event)
+
 
 export const FOLLOW_ORGANISER: string = `${API_URL}/follow`
 

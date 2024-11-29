@@ -30,8 +30,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
 ### Get events by organiser using userID
 GET https://pluginapi.onrender.com/api/organizers/events/6726a9b8fccd9497a51c25d9
 Content-Type: application/json
-<<<<<<< HEAD
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
+<<<<<<< HEAD
 
 ### Follow Organiser
 
@@ -75,10 +75,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
 =======
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzA3MzgzMDksImV4cCI6MTczMzMzMDMwOX0.vBGjgGpgaFPtKicXdq-kbrxWMrDmNy4s2sYdVRFQiZo
+=======
+>>>>>>> 532ef39 (Chore(filterEvent): Resolve filter bug)
 
-### Event Filter API
+###
 
 GET http://pluginapi.onrender.com/api/event/filter?minPrice=900&locationType=physical&eventType=one-time&maxPrice=5000
 Content-Type: application/json
+<<<<<<< HEAD
 >>>>>>> b74e1bd (Add API for filtering events; Add hook to fetch filtered event)
 >>>>>>> a9a89d3 (Add API for filtering events; Add hook to fetch filtered event)
+=======
+>>>>>>> 532ef39 (Chore(filterEvent): Resolve filter bug)

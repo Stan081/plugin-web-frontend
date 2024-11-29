@@ -1,3 +1,5 @@
+"use client";
+
 import Layout from "@/components/layout";
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
@@ -35,15 +37,14 @@ const ExploreEventsPage = () => {
   const publishedEvents: any[] = events?.data?.filter((item) => {
     return item?.isPublished === true;
   });
-  
 
   const isEmpty = !events?.data || events.data.length === 0;
 
   if (isLoading) return <div>Loading...</div>;
-  if (isError){
-    console.log(events?.data)
-    return <div>Error loading events</div>
-  };
+  if (isError) {
+    console.log(events?.data);
+    return <div>Error loading events</div>;
+  }
   return (
     <Layout title="Explore events" showHeader showFooter>
       {/*Explore Events Layout*/}

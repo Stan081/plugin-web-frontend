@@ -4,7 +4,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 
 
-interface FilterParams {
+type FilterParams = {
   minPrice?: number;
   maxPrice?: number;
   locationType?: string;
@@ -17,5 +17,6 @@ export const useFilteredEvents = (filters: FilterParams) => {
     queryKey: ["filteredEvents", filters],
     queryFn: () => fetchFilteredEvents(filters),
     enabled: !!filters, // Only run query if filters are set
+    // retry: true
   });
 };
