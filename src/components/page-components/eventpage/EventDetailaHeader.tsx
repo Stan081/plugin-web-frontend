@@ -30,13 +30,15 @@ const EventDetailaHeader: React.FC<Props> = ({ title, image }) => {
         </ul>
       </div>
       <div className="h-1/4 md:h-[500px] mt-6 md:mt-10 ">
-        <Image
-          src={image}
-          alt={title}
-          width={1226}
-          height={609}
-          className=" pointer-events-none w-full h-full rounded-xl object-cover"
-        />
+        {image && (
+          <img
+            src={image}
+            alt={title}
+            width={1226}
+            height={609}
+            className=" pointer-events-none w-full h-full rounded-xl object-cover"
+          />
+        )}
       </div>
     </div>
   );

@@ -28,6 +28,9 @@ export const GET_ORGANISER_EVENTS: string = `${API_URL}/organizers/events`
 
 export const ALL_ORGANISERS: string = `${API_URL}/organizers`
 
+export const FILTER_EVENTS: string = `${API_URL}/event/filter`
+
+
 export const FOLLOW_ORGANISER: string = `${API_URL}/follow`
 
 export const GET_EVENT_BY_ID = (): string => {

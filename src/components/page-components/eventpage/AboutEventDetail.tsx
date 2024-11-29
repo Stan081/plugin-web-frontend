@@ -72,29 +72,37 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
 
       <Separator />
 
-      {event?.eventAgendas && <EventsAgenda event={event?.eventAgendas} />}
+      {event?.eventAgendas?.length > 0 && event?.eventAgendas && (
+        <EventsAgenda event={event?.eventAgendas} />
+      )}
 
-      <Separator />
+      {event?.eventAgendas?.length > 0 && <Separator />}
 
-      {event?.eventVendors && <EventsVendorPass vendor={event?.eventVendors} />}
+      {event?.eventVendors?.length > 0 && event?.eventVendors && (
+        <EventsVendorPass vendor={event?.eventVendors} />
+      )}
 
-      <Separator />
+      {event?.eventVendors?.length > 0 && <Separator />}
 
       <MeetYourOganiser organiserId={event?.userId} />
 
       <Separator />
 
-      <ShowLocation />
+      {/* <ShowLocation /> */}
 
-      <Separator />
+      {/* <Separator /> */}
 
-      {event?.eventPhotos && <EventGallery photos={event?.eventPhotos} />}
+      {event?.eventPhotos?.length > 0 && event?.eventPhotos && (
+        <EventGallery photos={event?.eventPhotos} />
+      )}
 
-      <Separator />
+      {event?.eventPhotos?.length > 0 && <Separator />}
 
-      {event?.guestList && <EventsSpeakers guests={event?.guestList} />}
+      {event?.guestList?.length > 0 && event?.guestList && (
+        <EventsSpeakers guests={event?.guestList} />
+      )}
 
-      <Separator />
+      {event?.guestList?.length > 0 && <Separator />}
 
       {event?.eventCategory && <EventsTags tags={event?.eventCategory} />}
     </div>

@@ -107,7 +107,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
               alt="spinner"
               width={50}
               height={25}
-              className="w-7 h-7 p-0 bg-white rounded-full"
+              className="w-5 h-5 p-0 bg-white rounded-full"
               unoptimized
             />
           ) : (
@@ -137,11 +137,11 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
         </p>
 
         <div className="flex items-center gap-4">
-          <p className="text-sm md:text-lg destructive font-pally-regular">
+          <p className="text-sm md:text-base destructive font-pally-regular">
             {formattedDate ?? "No set date"}
           </p>
           <div className="h-5 border border-gray-400" />
-          <p className="text-sm md:text-lg destructive font-pally-regular">
+          <p className="text-sm md:text-base destructive font-pally-regular">
             {formattedTime ?? "No set time"}
           </p>
         </div>
