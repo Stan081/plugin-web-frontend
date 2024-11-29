@@ -8,9 +8,10 @@ import EventFilterComponent from "@/components/page-components/eventpage/EventFi
 import CardComponent from "@/components/CardComponent";
 import EventListComponent from "@/components/page-components/eventpage/EventListComponent";
 import Container from "@/tw-components/container";
-import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
+import { RiFilter2Line } from "react-icons/ri";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
+import FilterEventComponent from "@/components/page-components/eventpage/FilterEventComponent";
 
 const ExploreEventsPage = () => {
   // const { data: events, isLoading } = useGetAllEvents();
@@ -46,7 +47,8 @@ const ExploreEventsPage = () => {
     <Layout title="Explore events" showHeader showFooter>
       {/*Explore Events Layout*/}
       <Container className="flex-col mt-5 mb-5">
-        <div className="flex gap-3 items-center justify-end">
+        <div className="flex gap-3 items-center justify-between">
+          <FilterEventComponent onApplyFilters={handleApplyFilters} />
           {/* <div className="flex py-1.5 px-2.5 items-center gap-1.5 border rounded-full w-40 justify-between">
             <p className="text-sm md:text-lg text-gray-500 font-pally-regular">
               Show Map
@@ -71,23 +73,11 @@ const ExploreEventsPage = () => {
           </div>
         </div>
         <div className="px-0 md:px-6">
-          {isEmpty ? (
-            <div>No events found for the selected filters.</div>
-          ) : (
-            events?.data?.map((event) => (
-              <div key={event.id} className="event-card">
-                {/* Render your event details here */}
-                <h2>{event.title}</h2>
-                <p>{event.date}</p>
-                <p>{event.location}</p>
-              </div>
-            ))
-          )}
           <div className="flex gap-5 mt-6">
             <EventFilterComponent onApplyFilters={handleApplyFilters} />
             <div className="w-full">
               {isGridView ? (
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-8 mt-3">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-8 justify-items-center mt-3">
                   {isLoading ? (
                     <CardSkeleton />
                   ) : (

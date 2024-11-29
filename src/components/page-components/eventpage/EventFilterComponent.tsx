@@ -5,11 +5,6 @@ import { FilterParams } from "@/hooks/events/useFilterEvents";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-interface FiltersProps {
-  onChange: (newFilters: Partial<FilterParams>) => void;
-  currentFilters: FilterParams;
-}
-
 const EventFilterComponent = ({
   onApplyFilters,
 }: {
