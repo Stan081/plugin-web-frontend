@@ -45,7 +45,7 @@ const ExploreEventsPage = () => {
   return (
     <Layout title="Explore events" showHeader showFooter>
       {/*Explore Events Layout*/}
-      <div className="flex-col px-20 mt-5 mb-5">
+      <Container className="flex-col mt-5 mb-5">
         <div className="flex gap-3 items-center justify-end">
           {/* <div className="flex py-1.5 px-2.5 items-center gap-1.5 border rounded-full w-40 justify-between">
             <p className="text-sm md:text-lg text-gray-500 font-pally-regular">
@@ -70,7 +70,7 @@ const ExploreEventsPage = () => {
             />
           </div>
         </div>
-        <Container className="px-0 md:px-6">
+        <div className="px-0 md:px-6">
           {isEmpty ? (
             <div>No events found for the selected filters.</div>
           ) : (
@@ -121,8 +121,8 @@ const ExploreEventsPage = () => {
               )}
             </div>
           </div>
-        </Container>
-      </div>
+        </div>
+      </Container>
     </Layout>
   );
 };

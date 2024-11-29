@@ -79,7 +79,7 @@ const EventFilterComponent = ({
   };
 
   return (
-    <div className="w-[230px] border-r pr-4">
+    <div className="w-[230px] hidden lg:block ">
       {/* Event Type Section */}
       <div className="border-b flex-col pb-4">
         <div className="flex justify-between items-center mt-3">

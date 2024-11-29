@@ -10,17 +10,17 @@ type GuestCardProps = {
 
 const GuestCard: React.FC<{ guest: any }> = ({ guest }) => {
   return (
-    <div>
-      <div className="h-40 w-40">
+    <div className="border rounded-xl">
+      <div className="block rounded-3xl">
         <Image
-          className="w-full h-full pointer-events-none object-cover rounded-lg"
+          className="w-40 h-40 pointer-events-none object-cover rounded-lg"
           src={guest?.photo}
           alt={guest?.name}
           width={130}
           height={130}
         />
       </div>
-      <div className="mt-3">
+      <div className="p-3">
         <p className="font-pally-medium text-sm text-[#2C2B2E]">
           {guest?.name}
         </p>
