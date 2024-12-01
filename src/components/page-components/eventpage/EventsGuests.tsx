@@ -10,7 +10,7 @@ type GuestCardProps = {
 
 const GuestCard: React.FC<{ guest: any }> = ({ guest }) => {
   return (
-    <div className="border rounded-xl">
+    <div className="border rounded-xl flex-shrink-0">
       <div className="block rounded-3xl">
         <Image
           className="w-40 h-40 pointer-events-none object-cover rounded-lg"
@@ -40,7 +40,7 @@ const EventsGuests: React.FC<{ guests: any }> = ({ guests }) => {
       </h2>
 
       {guests.length !== 0 ? (
-        <div className="mt-5 flex lg:flex-row gap-6 overflow-x-auto w-full pb-8">
+        <div className="mt-5 flex lg:flex-row gap-6 overflow-x-auto w-full pb-3 whitespace-nowrap">
           {guests.map((guest) => (
             <GuestCard key={guest._id} guest={guest} />
           ))}

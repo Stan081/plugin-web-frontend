@@ -10,12 +10,9 @@ import ListEventCard from "./ListEventLinks";
 import { NavigationDialog } from "./NavigationDialog";
 import MenuLinks from "./Menu";
 import { useMe } from "@/pages/api/query/me";
-import Spinner from "@/tw-components/spinner";
-import { Skeleton } from "./ui/skeleton";
 
 const Header = () => {
-  const { data: userData, isLoading } = useMe();
-  console.log(userData?.data);
+  const { data: userData } = useMe();
   return (
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md">
       <Container>

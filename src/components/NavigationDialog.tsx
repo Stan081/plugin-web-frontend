@@ -62,7 +62,7 @@ export const NavigationDialog = () => {
               </DialogClose>
             </div>
             <div className="space-y-4">
-              <Link href={"/events"}>
+              <Link href={"/expore-events"}>
                 <p className="text-lg text-[#2C2B2E] font-pally-regular">
                   Explore Events
                 </p>
