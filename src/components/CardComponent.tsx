@@ -1,10 +1,9 @@
 "use client";
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
 import React, { FC } from "react";
-import TicketIcon from "./icons/ticket";
-import { useRouter } from "next/router"; // Ensure correct import for useRouter
+import TicketIcon from "./icons/ticket";// Ensure correct import for useRouter
 import { toFiat } from "@/lib/amount";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "./ui/use-toast";
 import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
 import { useDeleteBookmark } from "@/hooks/events/bookmark-favourite/useDeleteBookmark";
@@ -12,15 +11,17 @@ import { useCheckBookmark } from "@/hooks/events/bookmark-favourite/useCheckBook
 import Image from "next/image";
 import Link from "next/link";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CardComponent: FC<{ card: any }> = ({ card }) => {
   const { data: isCheck, isLoading: isLoadingBookmark } = useCheckBookmark(
     card?._id
   );
+
   const { mutate: removeBookmark, isPending } = useDeleteBookmark(card?._id);
 
+  const client = useQueryClient();
   const { toast } = useToast();
 
-  console.log(isCheck?.data);
 
   const startDate: string =
     card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
@@ -52,9 +53,11 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
     timeZone: "UTC",
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isPending: pending } = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: (data: any) => AddFavourite(data),
-    onSuccess: (response) => {
+    onSuccess: (response, card) => {
+      client.invalidateQueries({ queryKey: ["isBookmark", card?._id] });
       if (response?.message) {
         toast({
           variant: "success",
@@ -64,6 +67,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
         // setCookie("event_id", response?.data?._id);
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       toast({
         variant: "destructive",
@@ -73,15 +77,23 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
     },
   });
 
-  const handleBookmark = () => {
-    if (!isCheck?.data?.isFavorited) {
-      const data = {
-        eventId: card?._id,
-      };
-      mutate(data);
-    } else {
-      removeBookmark(card?._id);
-    }
+  const handleAddBookmark = () => {
+    const data = {
+      eventId: card?._id,
+    };
+    mutate(data, {
+      onSuccess: () => {
+        client.invalidateQueries({ queryKey: ["isBookmark", card?._id] });
+      },
+    });
+  };
+
+  const handleDeleteBookmark = () => {
+    removeBookmark(card?._id, {
+      onSuccess: () => {
+        client.invalidateQueries({ queryKey: ["isBookmark", card?._id] });
+      },
+    });
   };
   return (
     <div className="w-full max-w-xs shrink-0 rounded-xl overflow-hidden bg-white border flex flex-col justify-between border-gray-200 ">
@@ -98,10 +110,14 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
           {card?.publishStatus}
         </div>
         <div
-          onClick={handleBookmark}
+          onClick={
+            isCheck?.data?.isFavorited
+              ? handleDeleteBookmark
+              : handleAddBookmark
+          }
           className="absolute top-2 right-2 bg-black bg-opacity-50 text-white p-2 rounded-full cursor-pointer"
         >
-          {isLoadingBookmark || isPending ? (
+          {isLoadingBookmark || isPending || pending ? (
             <Image
               src={"/gif/Animation.gif"}
               alt="spinner"
@@ -112,10 +128,10 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
             />
           ) : (
             <>
-              {!isCheck?.data?.isFavorited ? (
-                <RiHeartLine size={24} />
-              ) : (
+              {isCheck?.data?.isFavorited ? (
                 <RiHeartFill size={24} className="destructive" />
+              ) : (
+                <RiHeartLine size={24} />
               )}
             </>
           )}

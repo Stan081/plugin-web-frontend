@@ -11,7 +11,6 @@ import { exlporeEventsbreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { useParams } from "next/navigation";
-import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { getCookie, removeCookie } from "@/lib/cookies";
@@ -48,7 +47,8 @@ const ExploreEventDetailPage = () => {
 
             <EventDetailaHeader
               title={cardId.eventName}
-              image={cardId?.eventBanner}
+                image={cardId?.eventBanner}
+                id={cardId?._id}
             />
 
             <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">

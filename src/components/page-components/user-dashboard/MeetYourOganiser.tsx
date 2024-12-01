@@ -5,18 +5,27 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/components/ui/use-toast";
 import { useOrganiser } from "@/hooks/organiser/useOrganiser";
 import { FollowOrganiser } from "@/pages/api/mutate/follow/followOrg";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import React, { FC } from "react";
-import { RiUserAddLine } from "react-icons/ri";
+import { RiUserAddLine, RiUserUnfollowLine } from "react-icons/ri";
+import {
+  useCheckFollow,
+  useUnfollow,
+} from "@/pages/api/mutate/follow/followOrg";
 
 const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
   const { data: organiser } = useOrganiser(organiserId);
+  const { data: isCheck } = useCheckFollow(organiserId);
+  const { mutate: removeFollow } = useUnfollow(organiserId);
 
   const { toast } = useToast();
 
+  console.log(isCheck?.isFollowing);
+  const client = useQueryClient();
   const { mutate, isPending } = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: (data: any) => FollowOrganiser(data),
     onSuccess: (response) => {
       if (response?.message) {
@@ -26,6 +35,7 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
         });
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       toast({
         variant: "destructive",
@@ -39,7 +49,19 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
     const data = {
       organizerId: organiserId,
     };
-    mutate(data);
+    mutate(data, {
+      onSuccess: () => {
+        client.invalidateQueries({ queryKey: ["isFollowing", organiserId] });
+      },
+    });
+  };
+
+  const handleUnfollow = () => {
+    removeFollow(organiserId, {
+      onSuccess: () => {
+        client.invalidateQueries({ queryKey: ["isFollowing", organiserId] });
+      },
+    });
   };
   return (
     <div className="mt-6 bg-[#FCE0DC]/40 rounded-xl p-4">
@@ -93,13 +115,23 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
           variant="outline"
           size="sm"
           className="flex items-center gap-1.5"
+          onClick={isCheck?.isFollowing ? handleUnfollow : handleFollow}
         >
           {isPending ? (
             <Skeleton className="w-5 h-5 rounded-full" />
           ) : (
             <>
-              <RiUserAddLine size={18} />
-              <span className="hidden md:flex">follow</span>
+              {isCheck?.isFollowing ? (
+                <>
+                  <RiUserUnfollowLine size={18} />
+                  <span className="hidden md:flex">unfollow</span>
+                </>
+              ) : (
+                <>
+                  <RiUserAddLine size={18} />
+                  <span className="hidden md:flex">follow</span>
+                </>
+              )}
             </>
           )}
         </Button>

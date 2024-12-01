@@ -3,13 +3,13 @@
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 import MeetYourOganiser from "../user-dashboard/MeetYourOganiser";
-import ShowLocation from "./ShowLocation";
 import EventsTags from "./EventsTags";
 import EventsSpeakers from "./EventsGuests";
 import EventsAgenda from "./EventsAgenda";
 import EventsVendorPass from "./EventsVendorPass";
 import EventGallery from "./EventGallery";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
   const startDate: string =
     event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
