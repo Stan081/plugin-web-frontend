@@ -15,6 +15,7 @@ import { Skeleton } from "./ui/skeleton";
 
 const Header = () => {
   const { data: userData, isLoading } = useMe();
+  console.log(userData?.data);
   return (
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md">
       <Container>
@@ -43,37 +44,25 @@ const Header = () => {
               Help
             </Link>
 
-            {isLoading ? (
-              <Skeleton className="w-12 h-12 rounded-full" />
+            {!userData?.data ? (
+              <Link href={"/signup"}>
+                <Button variant="outline" className=" border-black">
+                  Get Started
+                </Button>
+              </Link>
             ) : (
-              <>
-                {!userData?.data ? (
-                  <Link href={"/signup"}>
-                    <Button variant="outline" className=" border-black">
-                      Get Started
-                    </Button>
-                  </Link>
-                ) : (
-                  <MenuLinks />
-                )}
-              </>
+              <MenuLinks />
             )}
           </div>
           <div className="md:hidden block">
-            {isLoading ? (
-              <Skeleton className="w-12 h-12 rounded-full" />
+            {!userData?.data ? (
+              <Link href={"/signup"}>
+                <Button variant="outline" className=" border-black">
+                  Get Started
+                </Button>
+              </Link>
             ) : (
-              <>
-                {!userData?.data ? (
-                  <Link href={"/signup"}>
-                    <Button variant="outline" className=" border-black">
-                      Get Started
-                    </Button>
-                  </Link>
-                ) : (
-                  <MenuLinks />
-                )}
-              </>
+              <MenuLinks />
             )}
           </div>
         </nav>

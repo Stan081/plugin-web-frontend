@@ -50,7 +50,8 @@ const LoginAuth = () => {
     onError: (error: any) => {
       toast({
         variant: "destructive",
-        title: error?.message,
+        title: error?.message || 
+        'Newtwork issue',
       });
     },
   });

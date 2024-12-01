@@ -52,9 +52,12 @@ const OTPLoginVerification = () => {
     setShouldRedirect(true);
   };
 
+  if(isPending){
+    return <SpinnerOverlay/>
+  }
+
   return (
     <div className="mt-6">
-      {isPending && <SpinnerOverlay />}
       <p className="text-sm font-pally-regular mb-2 text-[#98A2B3]">
         Verification Code
       </p>
