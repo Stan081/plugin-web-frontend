@@ -22,7 +22,7 @@ const Logo: FC<LogoProps> = ({ className, white }) => {
         <span className="sr-only">Plugin</span>
         {white ? (
           <Image
-            src="/images/logo_white.svg"
+            src="/images/logo_white.png"
             alt="Plugin Logo"
             width={128}
             height={32}
@@ -30,11 +30,11 @@ const Logo: FC<LogoProps> = ({ className, white }) => {
           />
         ) : (
           <Image
-            src="/images/plugin-logo.svg"
+            src="/images/plugin-logo.png"
             alt="Plugin Logo"
             width={128}
             height={32}
-            className="w-auto h-auto"
+            className="w-auto h-auto pointer-events-auto"
           />
         )}
       </Link>
