@@ -3,6 +3,7 @@ import EventsVendorPassSlot from "./EventsVendorPassSlot";
 import eventsVendorPassData from "@/static-datas/events-vendor-pass-data";
 
 const EventsVendorPass: React.FC<{ vendor: any }> = ({ vendor }) => {
+  console.log("Vendors:", vendor);
   return (
     <section>
       <p className="text-[#2C2B2E] text-base md:text-lg font-pally-medium">
@@ -10,13 +11,13 @@ const EventsVendorPass: React.FC<{ vendor: any }> = ({ vendor }) => {
       </p>
 
       {vendor?.length !== 0 ? (
-        <div className="mt-4 space-y-5">
+        <div className="mt-4 flex overflow-x-auto whitespace-nowrap w-full pb-4 gap-4">
           {vendor?.map((slot) => (
             <EventsVendorPassSlot
               key={slot?._id}
               title={slot?.vendorTag}
               unitPrice={slot?.price}
-              slotsLeft={slot?.slot}
+              slotsLeft={slot?.slots}
               thumbnail={slot?.thumbnail}
             />
           ))}

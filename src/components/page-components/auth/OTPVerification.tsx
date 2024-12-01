@@ -1,3 +1,4 @@
+"use client"
 import React, { useCallback, useState } from "react";
 import { OtpBox } from "@/components/OtpBox";
 import { useRouter } from "next/navigation";
@@ -24,14 +25,14 @@ const OTPVerification = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (data: VerifyCodeType) => VerifyCode(data),
     onSuccess: (response) => {
+      client.invalidateQueries({ queryKey: ["me"] });
+      router.push("/");
       toast({
         variant: "success",
         title: "Verified",
         description: `${response?.message}`,
       });
       setToken(response?.token);
-      client.invalidateQueries({ queryKey: ["me"] });
-      router.push("/");
     },
     onError: (error: any) => {
       // Handle error here

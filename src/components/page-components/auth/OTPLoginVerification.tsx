@@ -1,6 +1,6 @@
+"use client"
 import React, { useCallback, useState } from "react";
 import { OtpBox } from "@/components/OtpBox";
-import { useRouter } from "next/router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { VerifyCodeType } from "@/lib/types/AuthType";
 import { useToast } from "@/components/ui/use-toast";
@@ -9,6 +9,7 @@ import { VerifyLoginCode } from "@/pages/api/mutate/Login";
 import { getCookie } from "@/lib/cookies";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useRouter } from "next/navigation";
 
 const OTPLoginVerification = () => {
   const [otp, setOtp] = useState<string>("");
@@ -24,13 +25,13 @@ const OTPLoginVerification = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (data: VerifyCodeType) => VerifyLoginCode(data),
     onSuccess: (response) => {
+      client.invalidateQueries({ queryKey: ["me"] });
+      router.push("/");
       toast({
         variant: "success",
         title: "Verified",
         description: `${response?.message}`,
       });
-      client.invalidateQueries({ queryKey: ["me"] });
-      router.push("/");
       setToken(response?.token);
     },
     onError: (error: any) => {
