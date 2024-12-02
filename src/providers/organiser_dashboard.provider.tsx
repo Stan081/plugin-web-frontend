@@ -25,13 +25,15 @@ type OrganiserDashContextValue = {
   showPreviewEvent: boolean;
   showDeleteEvent: boolean;
   activeEvent: string;
+  isClickedCampaign:number;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   nextSetUpStep: () => void;
   setEventState: (key: string) => void;
   handlePreviewEvent: () => void;
   handleShowDeleteEvent: () => void;
   setActiveEvent: (key: string) => void;
-  handleCloseProfile: () => void
+  handleCloseProfile: () => void;
+  setIsClickedCampaign: (num: number) => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -44,7 +46,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
   //step for each campaign setup
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(3);
 
   // Organiser setting modal for profile
   const [showProfile, setShowProfile] = useState<boolean>(false);
@@ -60,6 +62,9 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
 
   // state for event organiser dashboard
   const [activeEvent, setActiveEvent] = useState<string>("attendees");
+
+  // state to store clicked campaign
+  const [isClickedCampaign, setIsClickedCampaign] = useState<number>(2);
 
   // Setup campaign state
   const [isChecked, setIsChecked] = useState({
@@ -100,12 +105,14 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
 
   const ContextValue: OrganiserDashContextValue = {
     currentStep,
+    isClickedCampaign,
     showProfile,
     isChecked,
     eventState,
     showPreviewEvent,
     showDeleteEvent,
     activeEvent,
+    setIsClickedCampaign,
     setActiveEvent,
     handlePreviewEvent,
     handleIsChecked,

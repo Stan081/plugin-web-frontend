@@ -96,6 +96,7 @@ const EventCardList: FC<EventCardListProps> = ({
       </div>
       <div>
         <Checkbox
+          className="w-5 h-5 border-black"
           checked={checkedEvent === event?._id}
           onCheckedChange={(isChecked) =>
             handleCheckboxChange(isChecked, event?._id)

@@ -15,9 +15,9 @@ type campaignPlansType = {
   price: number;
 };
 
-const campaignPlans: campaignPlansType[] = [
+export const campaignPlans: campaignPlansType[] = [
   {
-    id: 2,
+    id: 1,
     title: "Social Media Ads",
     description: "( Facebook & Instagram )",
     image: "/images/social-media@2x.png",
@@ -25,7 +25,7 @@ const campaignPlans: campaignPlansType[] = [
     price: 8000,
   },
   {
-    id: 3,
+    id: 2,
     title: "Email Campaigns",
     description: "( Ads to 5000 email list )",
     image: "/images/letter.png",
@@ -33,7 +33,7 @@ const campaignPlans: campaignPlansType[] = [
     price: 27000,
   },
   {
-    id: 4,
+    id: 3,
     title: "Sponsored Listings",
     description: "( Highlight on Homepage )",
     image: "/images/Seo-ads-google.png",
@@ -43,12 +43,11 @@ const campaignPlans: campaignPlansType[] = [
 ];
 
 const CampaignType = () => {
-  const [isClicked, setIsClicked] = useState<number>();
-  const { handleIsChecked, nextSetUpStep } = useOrganiserDashContext();
+  const { isClickedCampaign, handleIsChecked, nextSetUpStep, setIsClickedCampaign } = useOrganiserDashContext();
 
   const handleClick = (id: number) => {
     const getClicked = campaignPlans.find((plan) => plan.id === id);
-    setIsClicked(getClicked.id);
+    setIsClickedCampaign(getClicked.id);
   };
 
   const handleNext = () => {
@@ -81,7 +80,7 @@ const CampaignType = () => {
               key={plan.id}
               onClick={() => handleClick(plan.id)}
               className={`${
-                isClicked === plan.id && `border-4 border-black`
+                isClickedCampaign === plan.id && `border-4 border-black`
               } border p-3 rounded-xl cursor-pointer hover:border-[#475367] w-full max-w-md`}
             >
               <div
@@ -117,7 +116,7 @@ const CampaignType = () => {
         <div className="mt-5 flex justify-end ">
           <Button
             onClick={handleNext}
-            disabled={!isClicked}
+            disabled={!isClickedCampaign}
             variant="destructive"
           >
             Next

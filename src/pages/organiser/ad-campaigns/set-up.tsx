@@ -1,6 +1,6 @@
 import CampaignType from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/CampaignType";
 import ReviewCampaign from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/ReviewCampaign";
-import SelectCampaign from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/SelectCampaign";
+import Campaign from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/Campaign";
 import SelectEvent from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/SelectEvent";
 import SetupSteps from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/SetupSteps";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
@@ -17,7 +17,7 @@ const SetUpCampaign = () => {
       case 2:
         return <SelectEvent />;
       case 3:
-        return <SelectCampaign />;
+        return <Campaign />;
       case 4:
         return <ReviewCampaign />;
       default:
