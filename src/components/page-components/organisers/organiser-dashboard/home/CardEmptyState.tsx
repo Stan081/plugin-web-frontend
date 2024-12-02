@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import React, { FC } from "react";
 
 interface Props {
@@ -24,7 +25,11 @@ const CardEmptyState: FC<Props> = ({ text, isShow }) => {
         {text}
       </p>
 
-      {isShow && <Button variant="destructive">Create event</Button>}
+      {isShow && (
+        <Link href={'/create-event'}>
+          <Button variant="destructive">Create event</Button>
+        </Link>
+      )}
     </div>
   );
 };

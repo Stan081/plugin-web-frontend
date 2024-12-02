@@ -2,13 +2,13 @@
 ### Get all Organizers
 GET https://pluginapi.onrender.com/api/organizers
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
 
 ### Edit Organizer profile - using userId
 
 PATCH https://pluginapi.onrender.com/api/organizers/6726a999fccd9497a51c25d3
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
 
 {
   "banner": "Image Strings",
@@ -25,19 +25,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
 ### Get organizer by id using userId - for user front only
 GET https://pluginapi.onrender.com/api/organizers/organizer/6726a9b8fccd9497a51c25d9
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
 
 ### Get events by organiser using userID
 GET https://pluginapi.onrender.com/api/favourites/672d61c7f97a176fdf3d1517
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
 <<<<<<< HEAD
 
 ### Follow Organiser
 
 POST http://pluginapi.onrender.com/api/follow
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
 
 {
 	"organizerId": "6730c4a7f2ca2e13c05d2012"
@@ -48,47 +48,33 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
 
 DELETE http://pluginapi.onrender.com/api/follow/6730c4a7f2ca2e13c05d2012
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
 
 
 
 ### Route to check if user is following organizer - true/false
 GET http://pluginapi.onrender.com/api/follow/is-following/6730c4a7f2ca2e13c05d2012
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
 
 
 
 ### Get Event by Id
 
-GET http://pluginapi.onrender.com/api/event/6743228014b2df3835103b22
+GET http://pluginapi.onrender.com/api/event/674cf245bf5b4e478620ec81
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
 
 ### Get Event by Id
 
 GET http://pluginapi.onrender.com/api/event/events
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
-=======
-<<<<<<< HEAD
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzIxMDk0MTUsImV4cCI6MTczNDcwMTQxNX0.RBUjWyXGFviM9EieUILjZaVQZJo-9HmJmphHlZIDVV8
-=======
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzA3MzgzMDksImV4cCI6MTczMzMzMDMwOX0.vBGjgGpgaFPtKicXdq-kbrxWMrDmNy4s2sYdVRFQiZo
-=======
->>>>>>> 532ef39 (Chore(filterEvent): Resolve filter bug)
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
 
 ###
 
 GET http://pluginapi.onrender.com/api/event/filter?minPrice=900&locationType=physical&eventType=one-time&maxPrice=5000
 Content-Type: application/json
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> b74e1bd (Add API for filtering events; Add hook to fetch filtered event)
->>>>>>> a9a89d3 (Add API for filtering events; Add hook to fetch filtered event)
-=======
->>>>>>> 532ef39 (Chore(filterEvent): Resolve filter bug)
-=======
 
 
 ### Get All Events
@@ -96,4 +82,7 @@ Content-Type: application/json
 GET http://pluginapi.onrender.com/api/event/events
 Content-Type: application/json
 
->>>>>>> 843a9b8 (Add event filter function)
+### Get events by organiser using userID
+GET http://pluginapi.onrender.com/api/organizers/events/6726a9b8fccd9497a51c25d9
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ

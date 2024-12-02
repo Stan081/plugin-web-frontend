@@ -59,7 +59,7 @@ const SetupSteps = () => {
           </div>
           <div className={`flex flex-col justify-between `}>
             <div className="flex items-center gap-2">
-              {!isChecked.campaignPlanState ? (
+              {!isChecked.campaignContent ? (
                 <div className="border border-black rounded-full h-6 w-6" />
               ) : (
                 <div className="bg-green-600 rounded-full p-0.5">
@@ -73,7 +73,7 @@ const SetupSteps = () => {
                     : `font-pally-regular text-lg`
                 }
               >
-                Select campaign plan{" "}
+                Campaign content
               </p>
             </div>
             <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />

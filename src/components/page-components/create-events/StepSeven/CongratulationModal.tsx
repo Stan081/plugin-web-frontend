@@ -5,12 +5,14 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 const CongratulationModal: FC<{
   open: boolean;
   close: (key: boolean) => void;
 }> = ({ open, close }) => {
   const { clearStep } = useCreateEventContext();
+  const { data: event } = useGetEvent();
 
   useEffect(() => {
     clearStep();
@@ -48,15 +50,15 @@ const CongratulationModal: FC<{
                   </Link>
                 </div>
                 <div className="h-[40vh] w-1/2">
-                  <Image
-                    src={
-                      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816"
-                    }
-                    width={487}
-                    height={270}
-                    alt="koo"
-                    className="w-full h-full object-cover pointer-events-none rounded-md"
-                  />
+                  {event?.data?.thumbnail && (
+                    <Image
+                      src={event?.data?.thumbnail}
+                      width={487}
+                      height={270}
+                      alt={event?.data?.eventName}
+                      className="w-full h-full object-cover pointer-events-none rounded-md"
+                    />
+                  )}
                 </div>
               </div>
             </DialogPanel>

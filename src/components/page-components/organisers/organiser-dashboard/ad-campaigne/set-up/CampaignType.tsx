@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { toFiat } from "@/lib/amount";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -11,29 +12,33 @@ type campaignPlansType = {
   description: string;
   image: string;
   bgColor: string;
+  price: number;
 };
 
 const campaignPlans: campaignPlansType[] = [
   {
-    id: 1,
+    id: 2,
     title: "Social Media Ads",
     description: "( Facebook & Instagram )",
     image: "/images/social-media@2x.png",
     bgColor: "#ECF1F8",
+    price: 8000,
   },
   {
-    id: 2,
+    id: 3,
     title: "Email Campaigns",
     description: "( Ads to 5000 email list )",
     image: "/images/letter.png",
     bgColor: "#E7F6EC",
+    price: 27000,
   },
   {
-    id: 3,
+    id: 4,
     title: "Sponsored Listings",
     description: "( Highlight on Homepage )",
     image: "/images/Seo-ads-google.png",
     bgColor: "#FFF7AB",
+    price: 10000,
   },
 ];
 
@@ -99,6 +104,9 @@ const CampaignType = () => {
                   {plan.description}
                 </p>
               </div>
+              <p className="font-pally-medium text-base md:text-lg mt-5">
+                {toFiat(plan.price)}
+              </p>
             </li>
           ))}
         </ul>
