@@ -15,7 +15,7 @@ import Link from "next/link";
 
 const TicketCTA: React.FC<{ price: string; id: string }> = ({ price, id }) => {
   return (
-    <div className="bg-pitchNoise py-5 px-4 fixed z-20 bottom-0 w-full flex justify-between items-center">
+    <div className="bg-pitchNoise py-5 px-4 fixed z-20 bottom-0 w-full lg:hidden flex justify-between items-center">
       <p>{price}</p>
 
       <Drawer>

@@ -10,9 +10,9 @@ const EventGallery: FC<{ photos: string[] }> = ({ photos }) => {
         Photos
       </h2>
       <PhotoProvider>
-        <ul className="flex flex-wrap gap-5">
+        <ul className="grid grid-cols-2 md:grid-cols-3 gap-5">
           {photos?.map((photo, index) => (
-            <li key={index} className="h-40 w-40 md:h-48 md:w-48">
+            <li key={index} className="h-36 w-full max-w-72 md:h-48">
               <PhotoView src={photo}>
                 <Image
                   className="w-full h-full object-cover rounded-lg cursor-pointer"
