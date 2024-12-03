@@ -85,7 +85,7 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
   };
 
   return (
-    <div className="mb-6 mt-8 lg:block w-full max-w-lg hidden">
+    <div className="mb-6 mt-8 lg:block md:w-2/6 hidden">
       <div className="flex items-center gap-5">
         <h6 className="font-pally-medium text-[#515A6A] text-base md:text-lg">
           AVAILABLE TICKETS

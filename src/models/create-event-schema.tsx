@@ -299,15 +299,10 @@ export const OrganiserProfileSchema = yup.object().shape({
   organiser_photo: yup
     .mixed()
     .nullable()
-    .test("required", "Image is required", (value) => {
+    .test("optional", "Image is required", (value) => {
       return value !== null;
     }),
-  organiser_banner: yup
-    .mixed()
-    .nullable()
-    .test("required", "Image is required", (value) => {
-      return value !== null;
-    }),
+  organiser_banner: yup.mixed().nullable(),
   organiser_bio: yup.string().required("Write about yourself"),
   tagline: yup.string().optional(),
   social_media: OrganiserProfileMedia.optional(),

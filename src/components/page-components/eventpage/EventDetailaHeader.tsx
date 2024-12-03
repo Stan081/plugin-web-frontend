@@ -65,11 +65,11 @@ const EventDetailaHeader: React.FC<Props> = ({ title, image, id }) => {
   return (
     <div className="mt-5 md:mt-8">
       <div className="flex justify-between">
-        <h1 className="hidden md:flex text-xl md:text-4xl font-pally-medium">
+        <h1 className="hidden md:flex text-2xl md:text-4xl font-pally-medium">
           {title}
         </h1>
-        <h1 className="md:hidden flextext-xl md:text-4xl font-pally-medium">
-          {title.slice(0, 26).concat("...")}
+        <h1 className="md:hidden flex text-2xl md:text-4xl font-pally-medium">
+          {title}
         </h1>
         <ul className="flex gap-4 md:gap-8">
           <li className="flex items-center gap-1.5 cursor-pointer">
@@ -100,7 +100,7 @@ const EventDetailaHeader: React.FC<Props> = ({ title, image, id }) => {
           </li>
         </ul>
       </div>
-      <div className="h-1/4 md:h-[500px] mt-6 md:mt-10 ">
+      <div className="h-[200px] md:h-[500px] mt-6 md:mt-10 ">
         {image && (
           <img
             src={image}

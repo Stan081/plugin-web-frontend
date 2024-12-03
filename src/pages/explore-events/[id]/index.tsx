@@ -52,7 +52,7 @@ const ExploreEventDetailPage = () => {
             />
 
             <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">
-              <div className="w-full">
+              <div className="w-full md:w-4/6">
                 <AboutEventDetail event={cardId} />
               </div>
               <AvailableTicket event={cardId} id={cardId._id} />
@@ -60,7 +60,7 @@ const ExploreEventDetailPage = () => {
 
             <SimilarEvents />
           </Container>
-          {/* <TicketCTA price={cardId.priceRange} id={cardId.id} /> */}
+          <TicketCTA event={cardId} id={cardId.id} />
         </Section>
       )}
     </Layout>
