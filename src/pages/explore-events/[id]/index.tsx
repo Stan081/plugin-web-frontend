@@ -14,6 +14,7 @@ import { useParams } from "next/navigation";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { getCookie, removeCookie } from "@/lib/cookies";
+import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
 
 const ExploreEventDetailPage = () => {
   const { data: events, isLoading } = useGetAllEvents();
