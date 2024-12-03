@@ -13,17 +13,16 @@ import { BsTrash3 } from "react-icons/bs";
 import DeleteProfilePrompt from "./DeleteProfilePrompt";
 import ViewProfile from "./ViewProfile";
 import ProfileFormModal from "./ProfileFormModal";
-import { useRouter } from "next/router";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
 import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
 
 const ActiveProfileCard: FC<{}> = ({}) => {
   const { data: orgProfile, isLoading } = useGetOrgProfileById();
   const { showProfile, handleCloseProfile } = useOrganiserDashContext();
   const [showDeleteMode, setShowDeleteMode] = useState<boolean>(false);
 
-  const router = useRouter();
   return (
     <Fragment>
       <div className="mt-8 w-full max-w-2xl border rounded-xl p-4 md:p-6 flex justify-between items-start">
@@ -72,13 +71,13 @@ const ActiveProfileCard: FC<{}> = ({}) => {
                 <MdOutlineEdit className="mr-2 h-4 w-4" />
                 <span>Edit</span>
               </p>
-              <p
-                onClick={() => router.push("/organiser/1")}
+              <Link
+                href={`/organiser/${orgProfile?.data?.userId}`}
                 className="hover:bg-gray-200 cursor-pointer flex items-center p-1.5 rounded-md text-sm "
               >
                 <MdOutlineRemoveRedEye className="mr-2 h-4 w-4" />
                 <span>View</span>
-              </p>
+              </Link>
               <p
                 onClick={() => setShowDeleteMode(!showDeleteMode)}
                 className="hover:bg-gray-200 cursor-pointer flex items-center p-1.5 rounded-md text-sm "

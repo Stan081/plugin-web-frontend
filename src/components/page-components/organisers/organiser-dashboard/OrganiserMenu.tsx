@@ -39,7 +39,6 @@ const OrganiserMenu = () => {
   const { logout } = useUserDashContext();
   const { data: userData, isLoading } = useMe();
 
-  console.log('useData:', userData)
   return (
     <Fragment>
       {!isLoading ? (

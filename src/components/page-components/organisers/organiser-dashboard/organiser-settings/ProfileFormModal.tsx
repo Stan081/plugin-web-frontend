@@ -32,13 +32,14 @@ import { useMe } from "@/pages/api/query/me";
 import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
 import { useUpdateOrganiserProfile } from "@/hooks/organiser/useUpdateOrganiserProfile";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Props {
   open: boolean;
   close: () => void;
 }
 
-const ProfileFormModal: FC<Props> = ({open, close}) => {
+const ProfileFormModal: FC<Props> = ({ open, close }) => {
   const { data: orgProfile, isLoading } = useGetOrgProfileById();
   const { mutate: UpdateProfile, isPending: updateLoading } =
     useUpdateOrganiserProfile();
@@ -237,145 +238,158 @@ const ProfileFormModal: FC<Props> = ({open, close}) => {
                   onSubmit={form.handleSubmit(onSubmit)}
                   className="flex flex-col justify-between gap-4 w-full h-full"
                 >
-                  <FormItem className="w-full">
-                    <FormLabel>Organiser Banner</FormLabel>
-                    <FormField
-                      control={form.control}
-                      name="organiser_banner"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="imageBanner-uploader">
-                              {imageBanner ? (
-                                <div className="relative">
-                                  <div className="relative h-[20vh] bg-no-repeat bg-center bg-cover flex items-center justify-center overflow-hidden">
-                                    <img
-                                      src={imageBanner}
-                                      alt="Uploaded"
-                                      className="w-auto"
-                                    />
-                                  </div>
-                                  <div className="absolute inset-0 bg-black opacity-50"></div>
-
-                                  <div className="absolute right-5 top-0 z-10 text-center text-white p-4 flex gap-5">
-                                    <button
-                                      type="button"
-                                      onClick={handleEditClickBanner}
-                                      className="outline outline-white/50 p-1.5 rounded-md bg-white"
-                                    >
-                                      <FiEdit size={18} color="#000" />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={handleImageDeleteBanner}
-                                      className="outline outline-white/50 p-1.5 rounded-md bg-white"
-                                    >
-                                      <HiOutlineTrash size={18} color="#000" />
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div className="py-9 bg-black/10 cursor-pointer">
-                                  <label htmlFor="file-input">
-                                    <div className="flex flex-col justify-center items-center gap-2 cursor-pointer">
-                                      <IoMdImages size={28} />
-                                      <p className="font-pally-regular text-[#F58B86] underline">
-                                        Add Photo
-                                      </p>
-                                      <p className="font-pally-medium text-[#736244]">
-                                        Resolution size : 320 x 489
-                                      </p>
-                                    </div>
-                                  </label>
-                                </div>
-                              )}
-                            </div>
-                          </FormControl>
-                          <input
-                            id="file-input"
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageUploadBanner}
-                            ref={(e) => {
-                              field.ref(e);
-                              fileInputRefBanner.current = e; // Set the ref
-                            }}
-                            style={{ display: "none" }}
-                          />
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </FormItem>
-                  <FormItem className="w-full max-w-48">
-                    <FormLabel>Organiser photo</FormLabel>
-                    <FormField
-                      control={form.control}
-                      name="organiser_photo"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="imageThumbnail-uploader">
-                              {imageThumbnail ? (
-                                <div className="relative">
-                                  <div className="relative h-[20vh] bg-no-repeat bg-center bg-cover flex items-center justify-center overflow-hidden ">
-                                    <img
-                                      src={imageThumbnail}
-                                      alt="Uploaded"
-                                      className="w-auto"
-                                    />
-                                  </div>
-
-                                  <div className=" text-center text-white p-4 flex gap-5">
-                                    <button
-                                      type="button"
-                                      onClick={handleEditClickthumbnail}
-                                      className="outline outline-black/50 p-1.5 rounded-md"
-                                    >
-                                      <FiEdit size={18} color="#000" />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={handleImageDeleteThumbnail}
-                                      className="outline outline-[#b23632] py-1 px-1.5 rounded-md"
-                                    >
-                                      <HiOutlineTrash
-                                        size={18}
-                                        color="#b23632"
+                  {updateLoading ? (
+                    <Skeleton className="w-full h-40"/>
+                  ) : (
+                    <FormItem className="w-full">
+                      <FormLabel>Organiser Banner</FormLabel>
+                      <FormField
+                        control={form.control}
+                        name="organiser_banner"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <div className="imageBanner-uploader">
+                                {imageBanner ? (
+                                  <div className="relative">
+                                    <div className="relative h-[20vh] bg-no-repeat bg-center bg-cover flex items-center justify-center overflow-hidden">
+                                      <img
+                                        src={imageBanner}
+                                        alt="Uploaded"
+                                        className="w-auto"
                                       />
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <div className="py-5 bg-black/10 cursor-pointer rounded-lg">
-                                  <label htmlFor="file-input-thumbnail">
-                                    <div className="flex flex-col justify-center items-center gap-2 cursor-pointer">
-                                      <IoMdImages size={28} />
-                                      <p className="font-pally-regular text-[#F58B86] underline">
-                                        Add Photo
-                                      </p>
                                     </div>
-                                  </label>
-                                </div>
-                              )}
-                            </div>
-                          </FormControl>
-                          <input
-                            id="file-input-thumbnail"
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageUploadThumbnail}
-                            ref={(e) => {
-                              field.ref(e);
-                              fileInputRefThumbnail.current = e;
-                            }}
-                            style={{ display: "none" }}
-                          />
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </FormItem>
+                                    <div className="absolute inset-0 bg-black opacity-50"></div>
+
+                                    <div className="absolute right-5 top-0 z-10 text-center text-white p-4 flex gap-5">
+                                      <button
+                                        type="button"
+                                        onClick={handleEditClickBanner}
+                                        className="outline outline-white/50 p-1.5 rounded-md bg-white"
+                                      >
+                                        <FiEdit size={18} color="#000" />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={handleImageDeleteBanner}
+                                        className="outline outline-white/50 p-1.5 rounded-md bg-white"
+                                      >
+                                        <HiOutlineTrash
+                                          size={18}
+                                          color="#000"
+                                        />
+                                      </button>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="py-9 bg-black/10 cursor-pointer">
+                                    <label htmlFor="file-input">
+                                      <div className="flex flex-col justify-center items-center gap-2 cursor-pointer">
+                                        <IoMdImages size={28} />
+                                        <p className="font-pally-regular text-[#F58B86] underline">
+                                          Add Photo
+                                        </p>
+                                        <p className="font-pally-medium text-[#736244]">
+                                          Resolution size : 320 x 489
+                                        </p>
+                                      </div>
+                                    </label>
+                                  </div>
+                                )}
+                              </div>
+                            </FormControl>
+                            <input
+                              id="file-input"
+                              type="file"
+                              accept="image/*"
+                              onChange={handleImageUploadBanner}
+                              ref={(e) => {
+                                field.ref(e);
+                                fileInputRefBanner.current = e; // Set the ref
+                              }}
+                              style={{ display: "none" }}
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </FormItem>
+                  )}
+
+                  {updateLoading ? (
+                    <Skeleton className="w-40 h-40" />
+                  ) : (
+                    <FormItem className="w-full max-w-48">
+                      <FormLabel>Organiser photo</FormLabel>
+                      <FormField
+                        control={form.control}
+                        name="organiser_photo"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <div className="imageThumbnail-uploader">
+                                {imageThumbnail ? (
+                                  <div className="relative">
+                                    <div className="relative h-[20vh] bg-no-repeat bg-center bg-cover flex items-center justify-center overflow-hidden ">
+                                      <img
+                                        src={imageThumbnail}
+                                        alt="Uploaded"
+                                        className="w-auto"
+                                      />
+                                    </div>
+
+                                    <div className=" text-center text-white p-4 flex gap-5">
+                                      <button
+                                        type="button"
+                                        onClick={handleEditClickthumbnail}
+                                        className="outline outline-black/50 p-1.5 rounded-md"
+                                      >
+                                        <FiEdit size={18} color="#000" />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={handleImageDeleteThumbnail}
+                                        className="outline outline-[#b23632] py-1 px-1.5 rounded-md"
+                                      >
+                                        <HiOutlineTrash
+                                          size={18}
+                                          color="#b23632"
+                                        />
+                                      </button>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div className="py-5 bg-black/10 cursor-pointer rounded-lg">
+                                    <label htmlFor="file-input-thumbnail">
+                                      <div className="flex flex-col justify-center items-center gap-2 cursor-pointer">
+                                        <IoMdImages size={28} />
+                                        <p className="font-pally-regular text-[#F58B86] underline">
+                                          Add Photo
+                                        </p>
+                                      </div>
+                                    </label>
+                                  </div>
+                                )}
+                              </div>
+                            </FormControl>
+                            <input
+                              id="file-input-thumbnail"
+                              type="file"
+                              accept="image/*"
+                              onChange={handleImageUploadThumbnail}
+                              ref={(e) => {
+                                field.ref(e);
+                                fileInputRefThumbnail.current = e;
+                              }}
+                              style={{ display: "none" }}
+                            />
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </FormItem>
+                  )}
+
                   <FormItem className="w-full">
                     <FormLabel className="" htmlFor="organiser_name">
                       Organiser Name
