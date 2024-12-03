@@ -32,7 +32,7 @@ const setCookie = (key: string, value: any, options = {}) => {
 const GroupedTicket = ({ groupedTicket, id }) => {
   const [counter, setCounter] = useState(0);
 
-  const {tickets, setTickets} = useEventsContext()
+  const { tickets, setTickets } = useEventsContext();
 
   // Update counter when tickets or ticket name changes
   useEffect(() => {
@@ -87,15 +87,14 @@ const GroupedTicket = ({ groupedTicket, id }) => {
   return (
     <div className="border border-[#CFD9E8] rounded-lg flex justify-between items-start">
       <div className="flex gap-2">
-        <div className="w-16 lg:w-28 h-24">
-          <Image
-            src={groupedTicket?.seatMap || "/images/seagreen-bg.png"}
-            width={456}
-            height={280}
-            alt={groupedTicket?.ticketName || "tickets"}
-            className="pointer-events-none w-full h-full object-cover rounded-tl-lg rounded-bl-lg"
-          />
-        </div>
+        <div
+          style={{
+            backgroundColor: groupedTicket?.color
+              ? groupedTicket?.color
+              : "#646267",
+          }}
+          className="w-6 lg:w-8 h-24 rounded-tl-lg rounded-bl-lg"
+        ></div>
         <div className="p-2 flex flex-col gap-4 justify-between">
           <p className="text-[#646267] font-pally-medium">
             {groupedTicket?.ticketName}

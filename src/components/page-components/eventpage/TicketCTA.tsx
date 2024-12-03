@@ -111,6 +111,8 @@ const TicketCTA: React.FC<{ event: any; id: string }> = ({ event, id }) => {
       router.push(`/explore-events/${id}/checkout`);
     }
   };
+
+  console.log(event?.groupedTicket);
   return (
     <div className="bg-pitchNoise py-5 px-4 fixed z-20 bottom-0 w-full lg:hidden flex justify-between items-center">
       <p className="font-pally-medium text-lg">
@@ -151,13 +153,15 @@ const TicketCTA: React.FC<{ event: any; id: string }> = ({ event, id }) => {
             <div className="my-5">
               {event?.ticketCategory === "grouped" && (
                 <>
-                  {event?.groupedTicket.map((ticket) => (
-                    <GroupedTicket
-                      key={ticket._id}
-                      id={id}
-                      groupedTicket={ticket}
-                    />
-                  ))}
+                  <div className="space-y-4">
+                    {event?.groupedTicket.map((ticket) => (
+                      <GroupedTicket
+                        key={ticket._id}
+                        id={id}
+                        groupedTicket={ticket}
+                      />
+                    ))}
+                  </div>
                   <Button
                     onClick={handleGroupTicket}
                     variant="destructive"
