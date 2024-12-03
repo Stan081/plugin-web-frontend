@@ -1,14 +1,67 @@
-import Image from "next/image";
 import React from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
-import { RiHeart3Line } from "react-icons/ri";
+import { RiHeart3Line, RiHeart3Fill } from "react-icons/ri";
+import { useCheckBookmark } from "@/hooks/events/bookmark-favourite/useCheckBookmark";
+import { useDeleteBookmark } from "@/hooks/events/bookmark-favourite/useDeleteBookmark";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
 
 interface Props {
   title: string;
   image: string;
+  id: string;
 }
 
-const EventDetailaHeader: React.FC<Props> = ({ title, image }) => {
+const EventDetailaHeader: React.FC<Props> = ({ title, image, id }) => {
+  const { data: isCheck } = useCheckBookmark(id);
+  const { mutate: removeBookmark } = useDeleteBookmark(id);
+
+  const client = useQueryClient();
+  const { toast } = useToast();
+
+  const { mutate } = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    mutationFn: (data: any) => AddFavourite(data),
+    onSuccess: (response, id) => {
+      client.invalidateQueries({ queryKey: ["isBookmark", id] });
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Event has been saved",
+          // description: `${response?.message}`,
+        });
+        // setCookie("event_id", response?.data?._id);
+      }
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Event has not been added to bookmark",
+        description: error?.message,
+      });
+    },
+  });
+
+  const handleAddBookmark = () => {
+    const data = {
+      eventId: id,
+    };
+    mutate(data, {
+      onSuccess: () => {
+        client.invalidateQueries({ queryKey: ["isBookmark", id] });
+      },
+    });
+  };
+
+  const handleDeleteBookmark = () => {
+    removeBookmark(id, {
+      onSuccess: () => {
+        client.invalidateQueries({ queryKey: ["isBookmark", id] });
+      },
+    });
+  };
   return (
     <div className="mt-5 md:mt-8">
       <div className="flex justify-between">
@@ -23,9 +76,27 @@ const EventDetailaHeader: React.FC<Props> = ({ title, image }) => {
             <MdOutlineFileUpload size={20} />
             <p className="hidden md:flex">Share</p>
           </li>
-          <li className="flex items-center gap-1.5 cursor-pointer">
-            <RiHeart3Line size={20} />
-            <p className="hidden md:flex">Save</p>
+          <li
+            className="flex items-center gap-1.5 cursor-pointer"
+            onClick={
+              isCheck?.data?.isFavorited
+                ? handleDeleteBookmark
+                : handleAddBookmark
+            }
+          >
+            <>
+              {isCheck?.data?.isFavorited ? (
+                <>
+                  <RiHeart3Fill size={20} className="destructive" />
+                  <p className="hidden md:flex">Saved</p>
+                </>
+              ) : (
+                <>
+                  <RiHeart3Line size={20} />
+                  <p className="hidden md:flex">Save</p>
+                </>
+              )}
+            </>
           </li>
         </ul>
       </div>

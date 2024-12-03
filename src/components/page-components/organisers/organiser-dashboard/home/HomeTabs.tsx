@@ -9,7 +9,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Container from "@/tw-components/container";
-import { organiserData } from "@/static-datas/organiser-date";
 import HomeTabCard from "./HomeTabCard";
 import { useMe } from "@/pages/api/query/me";
 import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";

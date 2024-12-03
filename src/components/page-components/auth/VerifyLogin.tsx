@@ -23,6 +23,7 @@ const VerifyLogin = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (data: VerifyCodeType) => VerifyLoginCode(data),
     onSuccess: (response) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       response.data;
       console.log(response);
       client.invalidateQueries({ queryKey: ["me"] });
@@ -33,6 +34,7 @@ const VerifyLogin = () => {
       });
       router.push("/");
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       toast({
         variant: "destructive",

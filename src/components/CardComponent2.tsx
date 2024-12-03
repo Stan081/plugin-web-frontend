@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { FC, useState } from "react";
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CardComponent2: FC<{ card: any }> = ({ card }) => {
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const router = useRouter();

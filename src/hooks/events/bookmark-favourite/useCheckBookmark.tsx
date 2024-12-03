@@ -14,7 +14,7 @@ export const useCheckBookmark = (id: string) => {
   };
 
   return useQuery({
-    queryKey: ["isBookmark"],
+    queryKey: ["isBookmark", id],
     queryFn: () =>
       axios
         .get(EVENT_FAVOURITE + `/${id}`, options)
@@ -22,6 +22,6 @@ export const useCheckBookmark = (id: string) => {
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling
         }),
-    retry: false, 
+    retry: false,
   });
 };
