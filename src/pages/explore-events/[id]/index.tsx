@@ -5,7 +5,7 @@ import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
 import AboutEventDetail from "@/components/page-components/eventpage/AboutEventDetail";
 import AvailableTicket from "@/components/page-components/eventpage/AvailableTicket";
-import EventDetailaHeader from "@/components/page-components/eventpage/EventDetailaHeader";
+import EventDetailsHeader from "@/components/page-components/eventpage/EventDetailsHeader";
 import SimilarEvents from "@/components/page-components/eventpage/SimilarEvents";
 import { exlporeEventsbreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
@@ -46,10 +46,10 @@ const ExploreEventDetailPage = () => {
               pageName={cardId?.eventName}
             />
 
-            <EventDetailaHeader
+            <EventDetailsHeader
               title={cardId.eventName}
-                image={cardId?.eventBanner}
-                id={cardId?._id}
+              image={cardId?.eventBanner}
+              id={cardId?._id}
             />
 
             <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">
@@ -82,7 +82,7 @@ export default ExploreEventDetailPage;
 //           pageName={cardId?.title}
 //         />
 
-//         <EventDetailaHeader title={cardId.title} image="" />
+//         <EventDetailsHeader title={cardId.title} image="" />
 
 //         <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">
 //           <div className="w-full lg:w-1/2">
@@ -110,7 +110,7 @@ export default ExploreEventDetailPage;
 //           pageName={cardId?.title}
 //         />
 
-//         <EventDetailaHeader title={cardId.title} image="" />
+//         <EventDetailsHeader title={cardId.title} image="" />
 
 //         <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">
 //           <div className="w-full">

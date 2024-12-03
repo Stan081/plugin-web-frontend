@@ -24,13 +24,16 @@ const OrganiserDetailPage = () => {
   if (isLoading) {
     <SpinnerOverlay />;
   }
+
   return (
     <Layout title={`${organiser?.name}`} showHeader showFooter>
       <Section id="Organiser-detail-page" clean className="">
         <div className="h-28 md:h-[257px]">
           <Image
             src={
-              organiser?.banner
+              organiser?.banner === ""
+                ? "/images/blue-bg.png"
+                : organiser?.banner
             }
             alt={organiser?.name}
             width={1226}
@@ -40,9 +43,7 @@ const OrganiserDetailPage = () => {
         </div>
         <Container>
           <div className="flex flex-col lg:flex-row justify-between gap-7 md:gap-10 my-5 overflow-hidden">
-            <OrganiserInfo
-              organiser={organiser}
-            />
+            <OrganiserInfo organiser={organiser} />
 
             <OrganiserEvents orgId={organiser?.userId} />
           </div>

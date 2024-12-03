@@ -10,6 +10,13 @@ import { PiFlagPennantFill } from "react-icons/pi";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 import { useMe } from "@/pages/api/query/me";
+import {
+  FollowOrganiser,
+  useCheckFollow,
+  useUnfollow,
+} from "@/pages/api/mutate/follow/followOrg";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const OrganiserInfo: React.FC<{
   organiser: any;
@@ -36,12 +43,55 @@ const OrganiserInfo: React.FC<{
     }
   };
 
+  const { data: isCheck, isLoading: isLaodingFollow } = useCheckFollow(organiser?.userId);
+  const { mutate: removeFollow, isPending: PendingUnfollow } = useUnfollow(organiser?.userId);
+
+  const client = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    mutationFn: (data: any) => FollowOrganiser(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "You have followed this organiser",
+        });
+      }
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong",
+        description: error?.message,
+      });
+    },
+  });
+
+  const handleFollow = () => {
+    const data = {
+      organizerId: organiser?.userId,
+    };
+    mutate(data, {
+      onSuccess: () => {
+        client.invalidateQueries({
+          queryKey: ["isFollowing", organiser?.userId],
+        });
+      },
+    });
+  };
+
+  const handleUnfollow = () => {
+    removeFollow();
+  };
+
   return (
     <div className="absolute top-52 md:top-56 left-0 md:left-24 z-20 float-right">
       <div className="w-full md:max-w-sm border bg-white rounded-xl shadow-md shadow-[#8F706E26]/15 p-4">
         <div className="h-36 w-36 mx-auto">
           <Image
-            src={organiser?.thumbnail}
+            src={organiser?.thumbnail ?? '/images/seagreen-bg.png'}
             alt={organiser?.name}
             width={1226}
             height={609}
@@ -60,13 +110,29 @@ const OrganiserInfo: React.FC<{
             <p className="font-pally-regular text-sm text-[#667185]">
               36 Followers
             </p>
-            {userDate?.data?.role !== "organizer" && (
+            {organiser?.userId !== userDate?.data?._id && (
               <Fragment>
                 <div className="border border-[#77171624]/30 h-3" />
-                <p className="flex items-center gap-1.5 font-pally-medium text-sm destructive cursor-pointer">
-                  <RiUserAddLine size={18} />
-                  <span>follow</span>
-                </p>
+                {isPending || isLaodingFollow  || PendingUnfollow ? (
+                  <Skeleton className="w-8 h-3 rounded-full" />
+                ) : (
+                  <div
+                    onClick={
+                      isCheck?.isFollowing ? handleUnfollow : handleFollow
+                    }
+                  >
+                    {isCheck?.isFollowing ? (
+                      <p className="flex items-center gap-1.5 font-pally-medium text-sm destructive cursor-pointer">
+                        unfollow
+                      </p>
+                    ) : (
+                      <p className="flex items-center gap-1.5 font-pally-medium text-sm destructive cursor-pointer">
+                        <RiUserAddLine size={18} />
+                        <span>follow</span>
+                      </p>
+                    )}
+                  </div>
+                )}
               </Fragment>
             )}
           </div>

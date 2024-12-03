@@ -6,6 +6,7 @@ import { useDeleteBookmark } from "@/hooks/events/bookmark-favourite/useDeleteBo
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Props {
   title: string;
@@ -13,9 +14,9 @@ interface Props {
   id: string;
 }
 
-const EventDetailaHeader: React.FC<Props> = ({ title, image, id }) => {
-  const { data: isCheck } = useCheckBookmark(id);
-  const { mutate: removeBookmark } = useDeleteBookmark(id);
+const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
+  const { data: isCheck, isLoading: isLoadingBookmark } = useCheckBookmark(id);
+  const { mutate: removeBookmark, isPending } = useDeleteBookmark(id);
 
   const client = useQueryClient();
   const { toast } = useToast();
@@ -29,9 +30,7 @@ const EventDetailaHeader: React.FC<Props> = ({ title, image, id }) => {
         toast({
           variant: "success",
           title: "Event has been saved",
-          // description: `${response?.message}`,
         });
-        // setCookie("event_id", response?.data?._id);
       }
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -56,11 +55,7 @@ const EventDetailaHeader: React.FC<Props> = ({ title, image, id }) => {
   };
 
   const handleDeleteBookmark = () => {
-    removeBookmark(id, {
-      onSuccess: () => {
-        client.invalidateQueries({ queryKey: ["isBookmark", id] });
-      },
-    });
+    removeBookmark();
   };
   return (
     <div className="mt-5 md:mt-8">
@@ -87,12 +82,20 @@ const EventDetailaHeader: React.FC<Props> = ({ title, image, id }) => {
             <>
               {isCheck?.data?.isFavorited ? (
                 <>
-                  <RiHeart3Fill size={20} className="destructive" />
+                  {isLoadingBookmark || isPending ? (
+                    <Skeleton className="w-5 h-5" />
+                  ) : (
+                    <RiHeart3Fill size={20} className="destructive" />
+                  )}
                   <p className="hidden md:flex">Saved</p>
                 </>
               ) : (
                 <>
-                  <RiHeart3Line size={20} />
+                  {isLoadingBookmark || isPending ? (
+                    <Skeleton className="w-5 h-5" />
+                  ) : (
+                    <RiHeart3Line size={20} />
+                  )}
                   <p className="hidden md:flex">Save</p>
                 </>
               )}
@@ -115,4 +118,4 @@ const EventDetailaHeader: React.FC<Props> = ({ title, image, id }) => {
   );
 };
 
-export default EventDetailaHeader;
+export default EventDetailsHeader;

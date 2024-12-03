@@ -16,7 +16,7 @@ const Logo: FC<LogoProps> = ({ className, white }) => {
         href={"/"}
         className={classNames(
           baseClass,
-          className ? className : "cursor-pointer"
+          className ? className : "cursor-pointer "
         )}
       >
         <span className="sr-only">Plugin</span>

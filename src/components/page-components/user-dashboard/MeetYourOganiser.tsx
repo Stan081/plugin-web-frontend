@@ -22,8 +22,8 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
 
   const { toast } = useToast();
 
-  console.log(isCheck?.isFollowing);
   const client = useQueryClient();
+
   const { mutate, isPending } = useMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: (data: any) => FollowOrganiser(data),
@@ -57,11 +57,7 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
   };
 
   const handleUnfollow = () => {
-    removeFollow(organiserId, {
-      onSuccess: () => {
-        client.invalidateQueries({ queryKey: ["isFollowing", organiserId] });
-      },
-    });
+    removeFollow();
   };
   return (
     <div className="mt-6 bg-[#FCE0DC]/40 rounded-xl p-4">
@@ -123,7 +119,6 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
             <>
               {isCheck?.isFollowing ? (
                 <>
-                  <RiUserUnfollowLine size={18} />
                   <span className="hidden md:flex">unfollow</span>
                 </>
               ) : (

@@ -74,7 +74,9 @@ const CheckoutForm = () => {
         ticket: ticketCookie ? tickets : entryData?.quantity,
         total: tickets ? totalticketPrice() : 0,
       };
+      
       console.log(data);
+
       removeCookie("tickets")
       removeCookie("entryTicket")
     }
