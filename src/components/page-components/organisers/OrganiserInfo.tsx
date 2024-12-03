@@ -1,7 +1,7 @@
 import { ShowLess, ShowMore } from "@/components/ShowContentComponent";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { RiUserAddLine } from "react-icons/ri";
 import { FaFacebook } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
@@ -9,11 +9,13 @@ import { BsCopy } from "react-icons/bs";
 import { PiFlagPennantFill } from "react-icons/pi";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
+import { useMe } from "@/pages/api/query/me";
 
 const OrganiserInfo: React.FC<{
   organiser: any;
 }> = ({ organiser }) => {
   const [isShown, setIsShown] = useState<boolean>(false);
+  const { data: userDate } = useMe();
 
   const { toast } = useToast();
 
@@ -58,11 +60,15 @@ const OrganiserInfo: React.FC<{
             <p className="font-pally-regular text-sm text-[#667185]">
               36 Followers
             </p>
-            <div className="border border-[#77171624]/30 h-3" />
-            <p className="flex items-center gap-1.5 font-pally-medium text-sm destructive cursor-pointer">
-              <RiUserAddLine size={18} />
-              <span>follow</span>
-            </p>
+            {userDate?.data?.role !== "organizer" && (
+              <Fragment>
+                <div className="border border-[#77171624]/30 h-3" />
+                <p className="flex items-center gap-1.5 font-pally-medium text-sm destructive cursor-pointer">
+                  <RiUserAddLine size={18} />
+                  <span>follow</span>
+                </p>
+              </Fragment>
+            )}
           </div>
         </div>
 
