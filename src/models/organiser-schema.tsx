@@ -7,3 +7,4 @@ export const BankAccountSchema = yup.object().shape({
 });
 
 export type BankAccountForm = yup.InferType<typeof BankAccountSchema>;
+

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Separator } from "@/components/ui/separator";
 import React, { useState } from "react";
 import EventCardList from "./EventCardList";
@@ -9,14 +9,15 @@ import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents"
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SelectEvent = () => {
-  const { handleIsChecked, nextSetUpStep } = useOrganiserDashContext();
-  const [checkedEvent, setCheckedEvent] = useState<string | null>(null);
+  const { handleIsChecked, nextSetUpStep, setCheckedEvent, checkedEvent } =
+    useOrganiserDashContext();
   const { data: user } = useMe();
   const {
     data: organiserEvents,
     isLoading,
     isError,
   } = useGetOrganiserEvents(user?.data?._id);
+
 
   const handleCheckboxChange = (id: string, isChecked: boolean) => {
     setCheckedEvent(isChecked ? id : null);
@@ -28,7 +29,7 @@ const SelectEvent = () => {
     } else {
       handleIsChecked("selectEventState");
       nextSetUpStep();
-      console.log('eventId:', checkedEvent)
+      console.log("eventId:", checkedEvent);
     }
   };
 
@@ -67,11 +68,13 @@ const SelectEvent = () => {
           {isLoading ? (
             Array(3)
               .fill(null)
-              .map((_, index) => <Skeleton key={index} className="w-full h-16 my-2" />)
+              .map((_, index) => (
+                <Skeleton key={index} className="w-full h-16 my-2" />
+              ))
           ) : (
             <>
               {currentEvents?.length !== 0 ? (
-                currentEvents.map((item) => (
+                currentEvents?.map((item) => (
                   <EventCardList
                     key={item._id}
                     event={item}

@@ -2,8 +2,8 @@ import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provide
 import React from "react";
 
 const SponsorListing = () => {
-  const { isClickedCampaign, nextSetUpStep } = useOrganiserDashContext();
-  return <div >{isClickedCampaign}</div>;
+  const { clickedCampaignId, nextSetUpStep } = useOrganiserDashContext();
+  return <div >{clickedCampaignId}</div>;
 };
 
 export default SponsorListing;

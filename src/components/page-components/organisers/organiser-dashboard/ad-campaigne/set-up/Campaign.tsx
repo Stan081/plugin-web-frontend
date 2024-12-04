@@ -9,13 +9,13 @@ import EmailCampiagn from "./campaignForms/EmailCampiagn";
 import { Separator } from "@/components/ui/separator";
 
 const Campaign = () => {
-  const { isClickedCampaign } = useOrganiserDashContext();
+  const { clickedCampaignId } = useOrganiserDashContext();
 
   const campainForm = campaignPlans.find(
-    (item) => item.id === isClickedCampaign
+    (item) => item.id === clickedCampaignId
   );
   return (
-    <div className="w-full md:w-3/5 p-10 rounded-lg h-screen bg-white">
+    <div className="w-full md:w-3/5 p-6 md:px-10 md:pt-5 rounded-lg h-screen bg-white">
       <div className="py-5 space-y-2">
         <h2 className="font-pally-medium text-2xl">Basic Information</h2>
         <p className="text-[#475367] font-pally-regular text-sm md:text-base">
@@ -24,9 +24,9 @@ const Campaign = () => {
       </div>
       <Separator />
 
-      {isClickedCampaign === 1 && <SocialMediaAds />}
-      {isClickedCampaign === 2 && <EmailCampiagn />}
-      {isClickedCampaign === 3 && <SponsorListing />}
+      {clickedCampaignId === 1 && <SocialMediaAds />}
+      {clickedCampaignId === 2 && <EmailCampiagn />}
+      {clickedCampaignId === 3 && <SponsorListing />}
     </div>
   );
 };

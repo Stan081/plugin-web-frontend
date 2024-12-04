@@ -438,7 +438,7 @@ const StepOne: React.FC = () => {
                       disabled={isPending || isUpdatePending}
                       variant="destructive"
                     >
-                      {isPending || isUpdatePending ? <Spinner /> : "Next"}
+                      {isPending ? <Spinner /> : "Next"}
                     </Button>
                   </div>
                 </div>

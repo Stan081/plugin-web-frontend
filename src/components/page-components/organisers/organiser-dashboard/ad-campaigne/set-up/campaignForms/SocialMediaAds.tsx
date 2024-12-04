@@ -2,9 +2,9 @@ import { useOrganiserDashContext } from '@/providers/organiser_dashboard.provide
 import React from 'react'
 
 const SocialMediaAds = () => {
-    const { isClickedCampaign, nextSetUpStep } = useOrganiserDashContext();
+    const { clickedCampaignId, nextSetUpStep } = useOrganiserDashContext();
   return (
-    <div >{isClickedCampaign}</div>
+    <div >{clickedCampaignId}</div>
   )
 }
 

@@ -9,7 +9,10 @@ export const EmailCampaignSchema = yup.object().shape({
     }),
   campaign_name: yup.string().required(),
   sender_name: yup.string().required(),
-  email_subject: yup.string().required(),
+  email_subject: yup
+  .string()
+  .email("Invalid email address")
+  .required("Email address is required"),
   message: yup.string().optional(),
 });
 

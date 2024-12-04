@@ -43,11 +43,11 @@ export const campaignPlans: campaignPlansType[] = [
 ];
 
 const CampaignType = () => {
-  const { isClickedCampaign, handleIsChecked, nextSetUpStep, setIsClickedCampaign } = useOrganiserDashContext();
+  const { clickedCampaignId, handleIsChecked, nextSetUpStep, setClickedCampaignId } = useOrganiserDashContext();
 
   const handleClick = (id: number) => {
     const getClicked = campaignPlans.find((plan) => plan.id === id);
-    setIsClickedCampaign(getClicked.id);
+    setClickedCampaignId(getClicked.id);
   };
 
   const handleNext = () => {
@@ -80,7 +80,7 @@ const CampaignType = () => {
               key={plan.id}
               onClick={() => handleClick(plan.id)}
               className={`${
-                isClickedCampaign === plan.id && `border-4 border-black`
+                clickedCampaignId === plan.id && `border-4 border-black`
               } border p-3 rounded-xl cursor-pointer hover:border-[#475367] w-full max-w-md`}
             >
               <div
@@ -116,7 +116,7 @@ const CampaignType = () => {
         <div className="mt-5 flex justify-end ">
           <Button
             onClick={handleNext}
-            disabled={!isClickedCampaign}
+            disabled={!clickedCampaignId}
             variant="destructive"
           >
             Next
