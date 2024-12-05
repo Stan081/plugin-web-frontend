@@ -5,7 +5,7 @@ import { GrFormCheckmark } from "react-icons/gr";
 const SetupSteps = () => {
   const { isChecked, currentStep } = useOrganiserDashContext();
   return (
-    <div className="w-full md:w-2/5 py-10 ">
+    <div className="w-full md:w-2/5 py-10 hidden lg:block">
       <div className="w-full max-w-md space-y-9">
         <h1 className="text-4xl font-pally-medium">
           Let’s get started with promoting your event!{" "}

@@ -25,7 +25,7 @@ import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
 
 const EmailCampiagn = () => {
-  const { nextSetUpStep } = useOrganiserDashContext();
+  const { nextSetUpStep, handleIsChecked } = useOrganiserDashContext();
   const [CamImage, setCamImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -91,10 +91,11 @@ const EmailCampiagn = () => {
 
     const data = {};
     // mutate(data);
-    nextSetUpStep()
+    nextSetUpStep();
+    handleIsChecked("campaignContent");
   }, []);
   return (
-    <div className="px-5 h-[80vh] overflow-y-auto whitespace-nowrap">
+    <div className="px-3 h-[80vh] overflow-y-auto whitespace-nowrap">
       {isUploading && <SpinnerOverlay />}
       <Form {...form}>
         <form
@@ -124,9 +125,7 @@ const EmailCampiagn = () => {
             />
           </FormItem>
           <FormItem className="w-full space-y-3">
-            <FormLabel htmlFor="file-input-thumbnail">
-              Label Guide ( optional )
-            </FormLabel>
+            <FormLabel htmlFor="file-input-thumbnail">Campaign image</FormLabel>
             <FormField
               control={form.control}
               name="campaign_image"
@@ -239,10 +238,10 @@ const EmailCampiagn = () => {
               )}
             />
           </FormItem>
-          <div className="text-[#523300] flex gap-3 items-center border border[#523300]/20 bg-[#FEF6E7] p-2 rounded-lg text-sm">
-            <RiInformationFill size={16} /> This message would be sent to
-            attendees that booked this event
-          </div>
+          <p className="text-[#523300] flex gap-3 items-center border border[#523300]/20 bg-[#FEF6E7] p-2 whitespace-normal rounded-lg text-sm">
+            <RiInformationFill className="text-3xl" /> This message would be
+            sent to attendees that booked this event
+          </p>
           <FormItem className="w-full">
             <FormLabel htmlFor="message">Message</FormLabel>
             <FormField
@@ -267,7 +266,7 @@ const EmailCampiagn = () => {
 
           <div className="sticky z-50 bottom-0 bg-white">
             <Separator />
-            <div className="py-5 flex justify-end items-center">
+            <div className="pt-5 lg:py-5 flex justify-end items-center">
               <Button
                 type="submit"
                 // disabled={isPending || isUpdatePending}

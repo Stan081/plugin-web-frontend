@@ -49,7 +49,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
   //step for each campaign setup
-  const [currentStep, setCurrentStep] = useState<number>(3);
+  const [currentStep, setCurrentStep] = useState<number>(1);
 
   //state to get eventId 
   const [checkedEvent, setCheckedEvent] = useState<string | null>(null);

@@ -55,11 +55,11 @@ const CampaignType = () => {
     nextSetUpStep();
   };
   return (
-    <div className="w-full md:w-3/5 p-10 rounded-lg h-screen bg-white flex flex-col justify-between">
+    <div className="w-full lg:w-3/5 pt-10 lg:px-10 rounded-lg h-screen bg-white flex flex-col justify-between">
       <div>
-        <div className="space-y-4">
-          <h2 className="text-4xl font-pally-medium">Start a Campaign</h2>
-          <p className="text-[#475367] font-pally-regular text-lg">
+        <div className="space-y-2 lg:space-y-4">
+          <h2 className="text-2xl font-pally-medium">Start a Campaign</h2>
+          <p className="text-[#475367] font-pally-regular text-sm lg:text-lg">
             What type of campaign do you want to create
           </p>
           <Separator />
@@ -74,7 +74,7 @@ const CampaignType = () => {
           </div>
         </div>
 
-        <ul className="mt-6 flex flex-col md:flex-row justify-center gap-5">
+        <ul className="mt-6 flex flex-col lg:flex-row justify-center gap-5">
           {campaignPlans.map((plan) => (
             <li
               key={plan.id}
@@ -85,7 +85,7 @@ const CampaignType = () => {
             >
               <div
                 style={{ backgroundColor: plan.bgColor }}
-                className="border rounded-md py-8 px-10 h-32"
+                className="border rounded-md py-8 px-10 h-28 lg:h-32"
               >
                 <Image
                   src={plan.image}
@@ -103,7 +103,7 @@ const CampaignType = () => {
                   {plan.description}
                 </p>
               </div>
-              <p className="font-pally-medium text-base md:text-lg mt-5">
+              <p className="font-pally-medium text-lg mt-5">
                 {toFiat(plan.price)}
               </p>
             </li>
@@ -111,9 +111,9 @@ const CampaignType = () => {
         </ul>
       </div>
 
-      <div>
+      <div className="sticky z-50 bottom-0 bg-white my-10 lg:mb-6">
         <Separator />
-        <div className="mt-5 flex justify-end ">
+        <div className="mt-5 flex justify-end mb-8 lg:mb-0">
           <Button
             onClick={handleNext}
             disabled={!clickedCampaignId}

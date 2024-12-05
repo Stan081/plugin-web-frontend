@@ -15,7 +15,7 @@ const Campaign = () => {
     (item) => item.id === clickedCampaignId
   );
   return (
-    <div className="w-full md:w-3/5 p-6 md:px-10 md:pt-5 rounded-lg h-screen bg-white">
+    <div className="w-full lg:w-3/5 md:px-10 md:pt-5 rounded-lg h-screen bg-white">
       <div className="py-5 space-y-2">
         <h2 className="font-pally-medium text-2xl">Basic Information</h2>
         <p className="text-[#475367] font-pally-regular text-sm md:text-base">

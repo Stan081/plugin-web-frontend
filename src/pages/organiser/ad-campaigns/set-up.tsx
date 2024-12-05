@@ -25,7 +25,7 @@ const SetUpCampaign = () => {
     }
   };
   return (
-    <div className="bg-[#ebe7e4]">
+    <div className="lg:bg-[#ebe7e4]">
       <Container className="px-0">
         <div className="flex items-start">
           <SetupSteps />

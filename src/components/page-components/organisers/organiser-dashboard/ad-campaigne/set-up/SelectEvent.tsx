@@ -54,10 +54,10 @@ const SelectEvent = () => {
   }
 
   return (
-    <div className="w-full md:w-3/5 p-10 rounded-lg h-screen bg-white flex flex-col justify-between">
+    <div className="w-full lg:w-3/5 pt-6 lg:px-10 lg:pt-10 rounded-lg h-screen bg-white flex flex-col justify-between">
       <div>
-        <div className="space-y-4">
-          <h2 className="text-4xl font-pally-medium">Select event</h2>
+        <div className="space-y-2 lg:space-y-4">
+          <h2 className="text-2xl font-pally-medium">Select event</h2>
           <p className="text-[#475367] font-pally-regular text-lg">
             Choose an event to start this campaign
           </p>
@@ -92,9 +92,9 @@ const SelectEvent = () => {
         </div>
       </div>
 
-      <div className="w-full">
+      <div className="w-full my-5 lg:mb-6">
         <Separator />
-        <div className="mt-5 flex justify-end">
+        <div className="mt-5 flex justify-end ">
           <Button
             onClick={handleNext}
             disabled={checkedEvent === null}

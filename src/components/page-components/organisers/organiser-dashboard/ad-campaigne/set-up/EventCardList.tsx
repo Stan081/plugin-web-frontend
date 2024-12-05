@@ -62,7 +62,7 @@ const EventCardList: FC<EventCardListProps> = ({
             alt={event?.eventName}
             width={160}
             height={134}
-            className="rounded-lg pointer-events-none object-cover w-40 h-32"
+            className="rounded-lg pointer-events-none object-cover w-16 h-16 lg:w-40 lg:h-32"
           />
         )}
         <div className="h-full space-y-3">
@@ -73,15 +73,15 @@ const EventCardList: FC<EventCardListProps> = ({
           </p>
           <p className="font-pally-regular text-[#586170]">
             Starts{" "}
-            <span className="font-pally-medium text-[#3D89DF]">
+            <span className="font-pally-medium text-[#667185] text-sm lg:text-base">
               {formattedDate}
             </span>{" "}
             at{" "}
-            <span className="font-pally-medium text-[#3D89DF]">
+            <span className="font-pally-medium text-[#667185] text-sm lg:text-base">
               {formattedTime}
             </span>
           </p>
-          <div className="flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-2">
             <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
               Sale progress
             </p>

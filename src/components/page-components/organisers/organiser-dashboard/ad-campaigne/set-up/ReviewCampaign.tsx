@@ -75,7 +75,7 @@ const ReviewCampaign = () => {
   });
 
   return (
-    <div className="w-full md:w-3/5 pt-6 md:pt-10 md:px-10 rounded-lg h-screen bg-white flex flex-col justify-between">
+    <div className="w-full px-4 lg:px-0 lg:w-3/5 pt-6 md:pt-10 md:px-10 rounded-lg h-screen bg-white flex flex-col justify-between">
       <div>
         <div className="space-y-4">
           <h2 className="text-4xl font-pally-medium">
@@ -97,10 +97,10 @@ const ReviewCampaign = () => {
                   alt={pickedEvent?.eventName}
                   width={160}
                   height={134}
-                  className="rounded-lg pointer-events-none object-cover w-40 h-32"
+                  className="rounded-lg pointer-events-none object-cover h-16 w-16 lg:w-40 lg:h-32"
                 />
               )}
-              <div className="h-full space-y-3">
+              <div className="h-full lg:space-y-3">
                 <p className="font-pally-medium text-[#2C2B2E] text-base md:text-xl">
                   {pickedEvent?.eventName?.length > 25
                     ? pickedEvent?.eventName.slice(0, 25).concat("...")
@@ -108,15 +108,15 @@ const ReviewCampaign = () => {
                 </p>
                 <p className="font-pally-regular text-[#586170]">
                   Starts{" "}
-                  <span className="font-pally-medium text-[#3D89DF]">
+                  <span className="font-pally-medium text-[#667185] text-sm md:text-base">
                     {formattedDate}
                   </span>{" "}
                   at{" "}
-                  <span className="font-pally-medium text-[#3D89DF]">
+                  <span className="font-pally-medium text-[#667185] text-sm md:text-base">
                     {formattedTime}
                   </span>
                 </p>
-                <div className="flex items-center gap-2">
+                <div className="hidden lg:flex items-center gap-2">
                   <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
                     Sale progress
                   </p>
@@ -131,7 +131,7 @@ const ReviewCampaign = () => {
             </div>
             <div
               onClick={() => setCurrentStep(2)}
-              className="border border-[#586170] rounded-md p-1 cursor-pointer hover:border-black hover:shadow-md"
+              className="lg:border border-[#586170] rounded-md p-1 cursor-pointer hover:border-black hover:shadow-md"
             >
               <RiEditLine size={24} className="text-[#586170]" />
             </div>
@@ -144,7 +144,7 @@ const ReviewCampaign = () => {
               </p>
               <div
                 onClick={() => setCurrentStep(1)}
-                className="border border-[#586170] rounded-md p-1 cursor-pointer hover:border-black hover:shadow-md"
+                className="lg:border border-[#586170] rounded-md p-1 cursor-pointer hover:border-black hover:shadow-md"
               >
                 <RiEditLine size={24} className="text-[#586170]" />
               </div>
