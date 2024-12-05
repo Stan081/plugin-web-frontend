@@ -1,5 +1,5 @@
 "use client";
-import { EmailCampaignForm } from "@/models/campaign";
+import { EmailCampaignForm, SponsorListingForm } from "@/models/campaign";
 import React from "react";
 
 /* eslint-disable no-unused-vars */
@@ -29,6 +29,7 @@ type OrganiserDashContextValue = {
   activeEvent: string;
   clickedCampaignId: number;
   emailCampaignData: EmailCampaignForm;
+  sponsorCampaignData: SponsorListingForm;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   nextSetUpStep: () => void;
   previousSetUpStep: () => void;
@@ -41,6 +42,7 @@ type OrganiserDashContextValue = {
   setCurrentStep: (num: number) => void;
   setCheckedEvent: (key: string) => void;
   setEmailCampaignData: (key: EmailCampaignForm) => void;
+  setSponsorCampaignData: (key: SponsorListingForm) => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -53,7 +55,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
   //step for each campaign setup
-  const [currentStep, setCurrentStep] = useState<number>(4);
+  const [currentStep, setCurrentStep] = useState<number>(1);
 
   //state to get eventId
   const [checkedEvent, setCheckedEvent] = useState<string | null>(null);
@@ -74,7 +76,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   const [activeEvent, setActiveEvent] = useState<string>("attendees");
 
   // state to store clicked campaign
-  const [clickedCampaignId, setClickedCampaignId] = useState<number>(2);
+  const [clickedCampaignId, setClickedCampaignId] = useState<number>(null);
 
   // Setup campaign state
   const [isChecked, setIsChecked] = useState({
@@ -87,6 +89,10 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   // state to store email data
   const [emailCampaignData, setEmailCampaignData] =
     useState<EmailCampaignForm>(null);
+
+  // state to store sponsorListing data
+  const [sponsorCampaignData, setSponsorCampaignData] =
+    useState<SponsorListingForm>(null);
 
   // function to switch preview event
   const handlePreviewEvent = () => {
@@ -106,10 +112,10 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   // function to increment setup step
   const previousSetUpStep: () => void = () => {
     setCurrentStep((prev) => {
-      if(prev < 1){
-        return prev
+      if (prev < 1) {
+        return prev;
       }
-      return prev - 1
+      return prev - 1;
     });
   };
 
@@ -138,7 +144,9 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     showDeleteEvent,
     activeEvent,
     emailCampaignData,
+    sponsorCampaignData,
     setEmailCampaignData,
+    setSponsorCampaignData,
     setCurrentStep,
     setClickedCampaignId,
     setActiveEvent,

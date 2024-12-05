@@ -12,13 +12,19 @@ import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/components/ui/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { CreateCampaign } from "@/pages/api/mutate/campaign/CreateCampaign";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useRouter } from "next/navigation";
 
 const ReviewCampaign = () => {
   const {
     clickedCampaignId,
-    setCurrentStep,
     emailCampaignData,
     checkedEvent,
+    sponsorCampaignData,
+    setCurrentStep,
     previousSetUpStep,
   } = useOrganiserDashContext();
 
@@ -32,6 +38,10 @@ const ReviewCampaign = () => {
   } = useGetOrganiserEvents(user?.data?._id);
 
   const now = new Date();
+
+  const router = useRouter();
+
+  const { toast } = useToast();
 
   const currentEvents = organiserEvents?.data?.data.filter((item) => {
     const startDate = new Date(
@@ -78,32 +88,78 @@ const ReviewCampaign = () => {
     timeZone: "UTC",
   });
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => CreateCampaign(data),
+    onSuccess: (response) => {
+      if (response?.data?.paymentLink) {
+        const paymentLink = response.data.paymentLink;
+
+        // Validate payment link
+        try {
+          const url = new URL(paymentLink); // Ensures it's a valid URL
+          toast({
+            variant: "success",
+            title: "Payment link generated successfully",
+            description: `${response?.message}`,
+          });
+          router.push(url.toString());
+        } catch (error) {
+          toast({
+            variant: "destructive",
+            title: "Invalid Payment Link",
+            description:
+              "The returned payment link is invalid. Please try again.",
+          });
+        }
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong. Try again",
+        description: error?.message,
+      });
+    },
+  });
+
   const handlePayment = () => {
-    const data = {
-      campaignType:
-        clickedCampaignId === 1
-          ? "social-media"
-          : clickedCampaignId === 2
-          ? "email"
-          : "sponsored",
+    const emailData = {
+      campaignType: "email",
       email: {
         eventId: pickedEvent?._id,
-        name: emailCampaignData.campaign_name,
-        campaignImage: emailCampaignData.campaign_image,
-        senderName: emailCampaignData.sender_name,
-        subject: emailCampaignData.email_subject,
-        emailAmount: campaignType.price,
-        message: emailCampaignData.message,
-        replyEmail: emailCampaignData.reply_address,
-        pageLink: emailCampaignData.page_link,
+        name: emailCampaignData?.campaign_name,
+        campaignImage: emailCampaignData?.campaign_image,
+        senderName: emailCampaignData?.sender_name,
+        subject: emailCampaignData?.email_subject,
+        emailAmount: campaignType?.price,
+        message: emailCampaignData?.message,
+        replyEmail: emailCampaignData?.reply_address,
+        pageLink: emailCampaignData?.page_link,
       },
     };
 
-    console.log(data);
+    const sponsorData = {
+      campaignType: "sponsored",
+      sponsored: {
+        eventId: pickedEvent?._id,
+        postImage: sponsorCampaignData?.sponsor_image,
+        campaignType: "sponsored",
+        sponsoredAmount: campaignType?.price,
+      },
+    };
+
+    if (clickedCampaignId === 1) {
+      console.log("social media");
+    } else if (clickedCampaignId === 2) {
+      return mutate(emailData);
+    } else if (clickedCampaignId === 3) {
+      mutate(sponsorData);
+    }
   };
 
   return (
     <div className="w-full px-4 lg:w-3/5 pt-6 md:pt-10 md:px-10 rounded-lg h-screen bg-white flex flex-col justify-between">
+      {isPending && <SpinnerOverlay />}
       <div>
         <div className="space-y-4">
           <h2 className="text-4xl font-pally-medium">
@@ -203,7 +259,7 @@ const ReviewCampaign = () => {
             </p>
             <p
               onClick={handlePayment}
-              className="font-pally-regular destructive flex items-center gap-2 underline"
+              className="cursor-pointer font-pally-regular destructive flex items-center gap-2 underline"
             >
               Pay Here <HiOutlineArrowNarrowRight size={16} color="#D9302A" />
             </p>
@@ -216,12 +272,8 @@ const ReviewCampaign = () => {
           <Button onClick={previousSetUpStep} type="button" variant="outline">
             Back
           </Button>
-          <Button
-            type="submit"
-            // disabled={isPending || isUpdatePending}
-            variant="destructive"
-          >
-            {false ? <Spinner /> : "Start Campaign"}
+          <Button type="submit" disabled={isPending} variant="destructive">
+            {isPending ? <Spinner /> : "Start Campaign"}
           </Button>
         </div>
       </div>

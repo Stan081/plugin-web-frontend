@@ -19,10 +19,10 @@ const OrganiserEvents: FC<{ orgId: string }> = ({ orgId }) => {
   });
 
   const pastEvents = organiserEvents?.data?.data.filter((item) => {
-    const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+    const endDate = new Date(
+      item?.oneTimeEvent?.endDate || item?.recurringEvent?.endDate
     );
-    return item.isPublished === true && startDate < now;
+    return item.isPublished === true && endDate < now;
   });
 
   const tabLink = [

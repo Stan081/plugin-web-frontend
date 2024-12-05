@@ -9,10 +9,10 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
 
 ### Create an Email campaign - creates a payment link
-POST http://pluginapi.onrender.com/api/campaign
+POST https://pluginapi.onrender.com/api/campaign
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
-d
+
 {
   "campaignType": "email",
   "email": {

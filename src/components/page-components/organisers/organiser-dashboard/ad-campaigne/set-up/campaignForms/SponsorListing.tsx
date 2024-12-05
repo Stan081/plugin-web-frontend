@@ -22,7 +22,8 @@ import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
 
 const SponsorListing = () => {
-  const { clickedCampaignId, nextSetUpStep, handleIsChecked } = useOrganiserDashContext();
+  const { setSponsorCampaignData, nextSetUpStep, handleIsChecked } =
+    useOrganiserDashContext();
   const [CamImage, setCamImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -80,12 +81,9 @@ const SponsorListing = () => {
   };
 
   const onSubmit = useCallback((payload: SponsorListingForm) => {
-    console.log(payload);
-
-    const data = {};
-    // mutate(data);
+    setSponsorCampaignData(payload);
     nextSetUpStep();
-    handleIsChecked('campaignContent')
+    handleIsChecked("campaignContent");
   }, []);
   return (
     <div className="h-full">
@@ -170,10 +168,10 @@ const SponsorListing = () => {
             <div className="py-5 flex justify-end items-center">
               <Button
                 type="submit"
-                // disabled={isPending || isUpdatePending}
+                disabled={!CamImage}
                 variant="destructive"
               >
-                {false ? <Spinner /> : "Next"}
+                 Next
               </Button>
             </div>
           </div>
