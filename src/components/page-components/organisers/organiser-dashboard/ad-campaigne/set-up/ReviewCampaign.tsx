@@ -11,10 +11,16 @@ import { toFiat } from "@/lib/amount";
 import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ReviewCampaign = () => {
-  const { clickedCampaignId, setCurrentStep, setCheckedEvent, checkedEvent } =
-    useOrganiserDashContext();
+  const {
+    clickedCampaignId,
+    setCurrentStep,
+    emailCampaignData,
+    checkedEvent,
+    previousSetUpStep,
+  } = useOrganiserDashContext();
 
   console.log(checkedEvent);
 
@@ -34,9 +40,7 @@ const ReviewCampaign = () => {
     return item.isPublished === true && startDate > now;
   });
 
-  const pickedEvent = currentEvents?.find(
-    (item) => item?._id === "674cf245bf5b4e478620ec81"
-  );
+  const pickedEvent = currentEvents?.find((item) => item?._id === checkedEvent);
 
   const campaignType = campaignPlans?.find(
     (item) => item.id === clickedCampaignId
@@ -74,8 +78,32 @@ const ReviewCampaign = () => {
     timeZone: "UTC",
   });
 
+  const handlePayment = () => {
+    const data = {
+      campaignType:
+        clickedCampaignId === 1
+          ? "social-media"
+          : clickedCampaignId === 2
+          ? "email"
+          : "sponsored",
+      email: {
+        eventId: pickedEvent?._id,
+        name: emailCampaignData.campaign_name,
+        campaignImage: emailCampaignData.campaign_image,
+        senderName: emailCampaignData.sender_name,
+        subject: emailCampaignData.email_subject,
+        emailAmount: campaignType.price,
+        message: emailCampaignData.message,
+        replyEmail: emailCampaignData.reply_address,
+        pageLink: emailCampaignData.page_link,
+      },
+    };
+
+    console.log(data);
+  };
+
   return (
-    <div className="w-full px-4 lg:px-0 lg:w-3/5 pt-6 md:pt-10 md:px-10 rounded-lg h-screen bg-white flex flex-col justify-between">
+    <div className="w-full px-4 lg:w-3/5 pt-6 md:pt-10 md:px-10 rounded-lg h-screen bg-white flex flex-col justify-between">
       <div>
         <div className="space-y-4">
           <h2 className="text-4xl font-pally-medium">
@@ -89,53 +117,57 @@ const ReviewCampaign = () => {
         <div className="mt-6 block space-y-6">
           <p className="font-pally-medium text-xl">Event Details</p>
 
-          <div className="flex justify-between items-start">
-            <div className="flex items-center gap-4 mt-4">
-              {pickedEvent?.thumbnail && (
-                <Image
-                  src={pickedEvent?.thumbnail}
-                  alt={pickedEvent?.eventName}
-                  width={160}
-                  height={134}
-                  className="rounded-lg pointer-events-none object-cover h-16 w-16 lg:w-40 lg:h-32"
-                />
-              )}
-              <div className="h-full lg:space-y-3">
-                <p className="font-pally-medium text-[#2C2B2E] text-base md:text-xl">
-                  {pickedEvent?.eventName?.length > 25
-                    ? pickedEvent?.eventName.slice(0, 25).concat("...")
-                    : pickedEvent?.eventName}
-                </p>
-                <p className="font-pally-regular text-[#586170]">
-                  Starts{" "}
-                  <span className="font-pally-medium text-[#667185] text-sm md:text-base">
-                    {formattedDate}
-                  </span>{" "}
-                  at{" "}
-                  <span className="font-pally-medium text-[#667185] text-sm md:text-base">
-                    {formattedTime}
-                  </span>
-                </p>
-                <div className="hidden lg:flex items-center gap-2">
-                  <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
-                    Sale progress
+          {isLoading ? (
+            <Skeleton className="h-8 w-full" />
+          ) : (
+            <div className="flex justify-between items-start">
+              <div className="flex items-center gap-4 mt-4">
+                {pickedEvent?.thumbnail && (
+                  <Image
+                    src={pickedEvent?.thumbnail}
+                    alt={pickedEvent?.eventName}
+                    width={160}
+                    height={134}
+                    className="rounded-lg pointer-events-none object-cover h-16 w-16 lg:w-40 lg:h-32"
+                  />
+                )}
+                <div className="h-full lg:space-y-3">
+                  <p className="font-pally-medium text-[#2C2B2E] text-base md:text-xl">
+                    {pickedEvent?.eventName?.length > 25
+                      ? pickedEvent?.eventName.slice(0, 25).concat("...")
+                      : pickedEvent?.eventName}
                   </p>
-                  <div className="w-52">
-                    <TabProgress value={10} max={100} />
+                  <p className="font-pally-regular text-[#586170]">
+                    Starts{" "}
+                    <span className="font-pally-medium text-[#667185] text-sm md:text-base">
+                      {formattedDate}
+                    </span>{" "}
+                    at{" "}
+                    <span className="font-pally-medium text-[#667185] text-sm md:text-base">
+                      {formattedTime}
+                    </span>
+                  </p>
+                  <div className="hidden lg:flex items-center gap-2">
+                    <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
+                      Sale progress
+                    </p>
+                    <div className="w-52">
+                      <TabProgress value={10} max={100} />
+                    </div>
+                    <p className="text-[#667185] whitespace-nowrap font-pally-regular">
+                      {10}/{100}
+                    </p>
                   </div>
-                  <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-                    {10}/{100}
-                  </p>
                 </div>
               </div>
+              <div
+                onClick={() => setCurrentStep(2)}
+                className="lg:border border-[#586170] rounded-md p-1 cursor-pointer hover:border-black hover:shadow-md"
+              >
+                <RiEditLine size={24} className="text-[#586170]" />
+              </div>
             </div>
-            <div
-              onClick={() => setCurrentStep(2)}
-              className="lg:border border-[#586170] rounded-md p-1 cursor-pointer hover:border-black hover:shadow-md"
-            >
-              <RiEditLine size={24} className="text-[#586170]" />
-            </div>
-          </div>
+          )}
 
           <div className="border rounded-lg p-2 md:p-4 mt-5 block">
             <div className="flex justify-between items-center">
@@ -169,7 +201,10 @@ const ReviewCampaign = () => {
             <p className="font-pally-regular text-[#667185]">
               Payment for selected plan is required to continue
             </p>
-            <p className="font-pally-regular destructive flex items-center gap-2 underline">
+            <p
+              onClick={handlePayment}
+              className="font-pally-regular destructive flex items-center gap-2 underline"
+            >
               Pay Here <HiOutlineArrowNarrowRight size={16} color="#D9302A" />
             </p>
           </div>
@@ -178,7 +213,7 @@ const ReviewCampaign = () => {
       <div className="sticky z-50 bottom-0 bg-white">
         <Separator />
         <div className="py-5 flex justify-between items-center">
-          <Button type="button" variant="outline">
+          <Button onClick={previousSetUpStep} type="button" variant="outline">
             Back
           </Button>
           <Button

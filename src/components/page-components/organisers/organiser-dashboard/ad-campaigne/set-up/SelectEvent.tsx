@@ -9,15 +9,19 @@ import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents"
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SelectEvent = () => {
-  const { handleIsChecked, nextSetUpStep, setCheckedEvent, checkedEvent } =
-    useOrganiserDashContext();
+  const {
+    handleIsChecked,
+    nextSetUpStep,
+    setCheckedEvent,
+    checkedEvent,
+    previousSetUpStep,
+  } = useOrganiserDashContext();
   const { data: user } = useMe();
   const {
     data: organiserEvents,
     isLoading,
     isError,
   } = useGetOrganiserEvents(user?.data?._id);
-
 
   const handleCheckboxChange = (id: string, isChecked: boolean) => {
     setCheckedEvent(isChecked ? id : null);
@@ -94,7 +98,10 @@ const SelectEvent = () => {
 
       <div className="w-full my-5 lg:mb-6">
         <Separator />
-        <div className="mt-5 flex justify-end ">
+        <div className="mt-5 flex justify-between items-center ">
+          <Button onClick={previousSetUpStep} type="button" variant="outline">
+            Back
+          </Button>
           <Button
             onClick={handleNext}
             disabled={checkedEvent === null}

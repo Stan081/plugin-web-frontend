@@ -1,4 +1,5 @@
 "use client";
+import { EmailCampaignForm } from "@/models/campaign";
 import React from "react";
 
 /* eslint-disable no-unused-vars */
@@ -19,7 +20,7 @@ type IsCheckedState = {
 
 type OrganiserDashContextValue = {
   isChecked: IsCheckedState;
-  checkedEvent: string | null
+  checkedEvent: string | null;
   showProfile: boolean;
   currentStep: number;
   eventState: string;
@@ -27,8 +28,10 @@ type OrganiserDashContextValue = {
   showDeleteEvent: boolean;
   activeEvent: string;
   clickedCampaignId: number;
+  emailCampaignData: EmailCampaignForm;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   nextSetUpStep: () => void;
+  previousSetUpStep: () => void;
   setEventState: (key: string) => void;
   handlePreviewEvent: () => void;
   handleShowDeleteEvent: () => void;
@@ -37,6 +40,7 @@ type OrganiserDashContextValue = {
   setClickedCampaignId: (num: number) => void;
   setCurrentStep: (num: number) => void;
   setCheckedEvent: (key: string) => void;
+  setEmailCampaignData: (key: EmailCampaignForm) => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -49,9 +53,9 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
   //step for each campaign setup
-  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [currentStep, setCurrentStep] = useState<number>(4);
 
-  //state to get eventId 
+  //state to get eventId
   const [checkedEvent, setCheckedEvent] = useState<string | null>(null);
 
   // Organiser setting modal for profile
@@ -70,7 +74,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   const [activeEvent, setActiveEvent] = useState<string>("attendees");
 
   // state to store clicked campaign
-  const [clickedCampaignId, setClickedCampaignId] = useState<number>(3);
+  const [clickedCampaignId, setClickedCampaignId] = useState<number>(2);
 
   // Setup campaign state
   const [isChecked, setIsChecked] = useState({
@@ -79,6 +83,10 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     campaignContent: false,
     StartCampaignState: false,
   });
+
+  // state to store email data
+  const [emailCampaignData, setEmailCampaignData] =
+    useState<EmailCampaignForm>(null);
 
   // function to switch preview event
   const handlePreviewEvent = () => {
@@ -93,6 +101,16 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   // function to increment setup step
   const nextSetUpStep: () => void = () => {
     setCurrentStep((prev) => prev + 1);
+  };
+
+  // function to increment setup step
+  const previousSetUpStep: () => void = () => {
+    setCurrentStep((prev) => {
+      if(prev < 1){
+        return prev
+      }
+      return prev - 1
+    });
   };
 
   // handle function to checked
@@ -119,16 +137,19 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     showPreviewEvent,
     showDeleteEvent,
     activeEvent,
+    emailCampaignData,
+    setEmailCampaignData,
     setCurrentStep,
     setClickedCampaignId,
     setActiveEvent,
     handlePreviewEvent,
     handleIsChecked,
     nextSetUpStep,
+    previousSetUpStep,
     setEventState,
     handleCloseProfile,
     handleShowDeleteEvent,
-    setCheckedEvent
+    setCheckedEvent,
   };
   return (
     <OrganiserDashContext.Provider value={ContextValue}>

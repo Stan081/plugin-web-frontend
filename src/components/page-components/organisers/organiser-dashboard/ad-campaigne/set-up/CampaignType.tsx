@@ -3,6 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { toFiat } from "@/lib/amount";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { HiMiniSquare3Stack3D } from "react-icons/hi2";
 
@@ -43,7 +44,15 @@ export const campaignPlans: campaignPlansType[] = [
 ];
 
 const CampaignType = () => {
-  const { clickedCampaignId, handleIsChecked, nextSetUpStep, setClickedCampaignId } = useOrganiserDashContext();
+  const {
+    clickedCampaignId,
+    handleIsChecked,
+    nextSetUpStep,
+    setClickedCampaignId,
+    previousSetUpStep,
+  } = useOrganiserDashContext();
+
+  const router = useRouter()
 
   const handleClick = (id: number) => {
     const getClicked = campaignPlans.find((plan) => plan.id === id);
@@ -113,7 +122,10 @@ const CampaignType = () => {
 
       <div className="sticky z-50 bottom-0 bg-white my-10 lg:mb-6">
         <Separator />
-        <div className="mt-5 flex justify-end mb-8 lg:mb-0">
+        <div className="mt-5 flex justify-between items-center mb-8 lg:mb-0">
+          <Button onClick={() => router.push('/organiser/ad-campaigns')} type="button" variant="outline">
+            Back
+          </Button>
           <Button
             onClick={handleNext}
             disabled={!clickedCampaignId}

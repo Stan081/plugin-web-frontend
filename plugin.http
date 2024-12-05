@@ -1,82 +1,3 @@
-
-### Get all Organizers
-GET https://pluginapi.onrender.com/api/organizers
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
-
-### Edit Organizer profile - using userId
-
-PATCH https://pluginapi.onrender.com/api/organizers/6726a999fccd9497a51c25d3
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
-
-{
-  "banner": "Image Strings",
-  "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5q2pFvd1NnpP8vVM-jnEw32x7Nvl5Y7J5Pg&s",
-  "name": "Oganizer Name",
-  "tagline": "Tagline",
-  "bio": "Tagline",
-  "socials": {
-			"facebook": "https://facebook.com",
-			"instagram": "https://instagram.com"
-		}
-}
-
-### Get organizer by id using userId - for user front only
-GET https://pluginapi.onrender.com/api/organizers/organizer/6726a9b8fccd9497a51c25d9
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
-
-### Get events by organiser using userID
-GET https://pluginapi.onrender.com/api/favourites/672d61c7f97a176fdf3d1517
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
-<<<<<<< HEAD
-
-### Follow Organiser
-
-POST http://pluginapi.onrender.com/api/follow
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
-
-{
-	"organizerId": "6730c4a7f2ca2e13c05d2012"
-}
-
-
-### UnFollow Organiser
-
-DELETE http://pluginapi.onrender.com/api/follow/6730c4a7f2ca2e13c05d2012
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
-
-
-
-### Route to check if user is following organizer - true/false
-GET http://pluginapi.onrender.com/api/follow/is-following/6730c4a7f2ca2e13c05d2012
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
-
-
-
-### Get Event by Id
-
-GET http://pluginapi.onrender.com/api/event/674cf245bf5b4e478620ec81
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
-
-### Get Event by Id
-
-GET http://pluginapi.onrender.com/api/event/events
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
-
-###
-
-GET http://pluginapi.onrender.com/api/event/filter?minPrice=900&locationType=physical&eventType=one-time&maxPrice=5000
-Content-Type: application/json
-
-
 ### Get All Events
 
 GET http://pluginapi.onrender.com/api/event/events
@@ -86,3 +7,24 @@ Content-Type: application/json
 GET http://pluginapi.onrender.com/api/organizers/events/6726a9b8fccd9497a51c25d9
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
+
+### Create an Email campaign - creates a payment link
+POST http://pluginapi.onrender.com/api/campaign
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
+d
+{
+  "campaignType": "email",
+  "email": {
+		"eventId": "6726a7bb39779f2ff4b9af7e",
+		"name": "Test",
+		"campaignImage": "link",
+		"senderName": "Name",
+		"subject": "Subject",
+		"emailAmount": 50000,
+		"message": "Message",
+		"replyEmail": "o.davecodes@gmail.com",
+		"pageLink": "optional"
+}
+}
+

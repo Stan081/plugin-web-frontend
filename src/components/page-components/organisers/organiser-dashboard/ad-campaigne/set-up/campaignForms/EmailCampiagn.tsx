@@ -25,7 +25,12 @@ import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
 
 const EmailCampiagn = () => {
-  const { nextSetUpStep, handleIsChecked } = useOrganiserDashContext();
+  const {
+    nextSetUpStep,
+    handleIsChecked,
+    setEmailCampaignData,
+    previousSetUpStep,
+  } = useOrganiserDashContext();
   const [CamImage, setCamImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -38,6 +43,8 @@ const EmailCampiagn = () => {
       sender_name: "",
       email_subject: "",
       message: "",
+      reply_address: "",
+      page_link: "",
     },
     resolver: yupResolver(EmailCampaignSchema),
   });
@@ -87,20 +94,17 @@ const EmailCampiagn = () => {
   };
 
   const onSubmit = useCallback((payload: EmailCampaignForm) => {
-    console.log(payload);
-
-    const data = {};
-    // mutate(data);
+    setEmailCampaignData(payload);
     nextSetUpStep();
     handleIsChecked("campaignContent");
   }, []);
   return (
-    <div className="px-3 h-[80vh] overflow-y-auto whitespace-nowrap">
+    <div className=" px-3 h-[80vh] overflow-y-auto whitespace-nowrap">
       {isUploading && <SpinnerOverlay />}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="mt-5 flex flex-col justify-between gap-5 w-full h-full "
+          className=" relative mt-5 flex flex-col justify-between gap-5 w-full h-full "
         >
           <FormItem className="w-full ">
             <FormLabel htmlFor="campaign-name">Campaign Name</FormLabel>
@@ -239,8 +243,8 @@ const EmailCampiagn = () => {
             />
           </FormItem>
           <p className="text-[#523300] flex gap-3 items-center border border[#523300]/20 bg-[#FEF6E7] p-2 whitespace-normal rounded-lg text-sm">
-            <RiInformationFill className="text-3xl" /> This message would be
-            sent to attendees that booked this event
+            <RiInformationFill className="text-xl lg:text-2xl" /> This message
+            would be sent to attendees that booked this event
           </p>
           <FormItem className="w-full">
             <FormLabel htmlFor="message">Message</FormLabel>
@@ -263,10 +267,65 @@ const EmailCampiagn = () => {
               )}
             />
           </FormItem>
+          <FormItem className="w-full ">
+            <FormLabel htmlFor="reply_address">
+              Reply address ( optional )
+            </FormLabel>
+            <FormField
+              control={form.control}
+              name="reply_address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter a reply email address"
+                      type="email"
+                      id="reply_address"
+                      className="w-full bg-white text-black font-pally-regular"
+                      {...field}
+                      maxLength={200}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </FormItem>
+          <FormItem className="w-full ">
+            <FormLabel htmlFor="page_link">
+              Add page Link ( optional )
+            </FormLabel>
+            <FormField
+              control={form.control}
+              name="page_link"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="Attach event’s page link here"
+                      type="text"
+                      id="page_link"
+                      className="w-full bg-white text-black font-pally-regular"
+                      {...field}
+                      maxLength={200}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </FormItem>
 
           <div className="sticky z-50 bottom-0 bg-white">
             <Separator />
-            <div className="pt-5 lg:py-5 flex justify-end items-center">
+            <div className="py-5 flex justify-between items-center">
+              <Button
+                onClick={previousSetUpStep}
+                type="button"
+                variant="outline"
+              >
+                Back
+              </Button>
               <Button
                 type="submit"
                 // disabled={isPending || isUpdatePending}
