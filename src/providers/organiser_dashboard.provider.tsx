@@ -14,7 +14,10 @@ import {
 type IsCheckedState = {
   campaignTypeState: boolean;
   selectEventState: boolean;
+  chooseAudience: boolean
   campaignContent: boolean;
+  durationBudget: boolean;
+  adContent: boolean;
   StartCampaignState: boolean;
 };
 
@@ -82,7 +85,10 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   const [isChecked, setIsChecked] = useState({
     campaignTypeState: false,
     selectEventState: false,
+    chooseAudience: false,
+    durationBudget: false,
     campaignContent: false,
+    adContent: false,
     StartCampaignState: false,
   });
 

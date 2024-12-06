@@ -3,7 +3,8 @@ import React from "react";
 import { GrFormCheckmark } from "react-icons/gr";
 
 const SetupSteps = () => {
-  const { isChecked, currentStep } = useOrganiserDashContext();
+  const { isChecked, currentStep, clickedCampaignId } =
+    useOrganiserDashContext();
   return (
     <div className="w-full md:w-2/5 py-10 hidden lg:block">
       <div className="w-full max-w-md space-y-9">
@@ -36,48 +37,118 @@ const SetupSteps = () => {
             </div>
             <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />
           </div>
-          <div className={`flex flex-col justify-between `}>
-            <div className="flex items-center gap-2">
-              {!isChecked.selectEventState ? (
-                <div className="border border-black rounded-full h-6 w-6" />
-              ) : (
-                <div className="bg-green-600 rounded-full p-0.5">
-                  <GrFormCheckmark color="#fff" size={18} />
+          {clickedCampaignId === 1 ? (
+            <>
+              <div className={`flex flex-col justify-between `}>
+                <div className="flex items-center gap-2">
+                  {!isChecked.chooseAudience ? (
+                    <div className="border border-black rounded-full h-6 w-6" />
+                  ) : (
+                    <div className="bg-green-600 rounded-full p-0.5">
+                      <GrFormCheckmark color="#fff" size={18} />
+                    </div>
+                  )}
+                  <p
+                    className={
+                      currentStep === 1.1
+                        ? `font-pally-medium text-lg`
+                        : `font-pally-regular text-lg`
+                    }
+                  >
+                    Choose Audience
+                  </p>
                 </div>
-              )}
-              <p
-                className={
-                  currentStep === 2
-                    ? `font-pally-medium text-lg`
-                    : `font-pally-regular text-lg`
-                }
-              >
-                Select Event
-              </p>
-            </div>
-            <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />
-          </div>
-          <div className={`flex flex-col justify-between `}>
-            <div className="flex items-center gap-2">
-              {!isChecked.campaignContent ? (
-                <div className="border border-black rounded-full h-6 w-6" />
-              ) : (
-                <div className="bg-green-600 rounded-full p-0.5">
-                  <GrFormCheckmark color="#fff" size={18} />
+                <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />
+              </div>
+              <div className={`flex flex-col justify-between `}>
+                <div className="flex items-center gap-2">
+                  {!isChecked.durationBudget ? (
+                    <div className="border border-black rounded-full h-6 w-6" />
+                  ) : (
+                    <div className="bg-green-600 rounded-full p-0.5">
+                      <GrFormCheckmark color="#fff" size={18} />
+                    </div>
+                  )}
+                  <p
+                    className={
+                      currentStep === 1.2
+                        ? `font-pally-medium text-lg`
+                        : `font-pally-regular text-lg`
+                    }
+                  >
+                    Duration and Budget
+                  </p>
                 </div>
-              )}
-              <p
-                className={
-                  currentStep === 3
-                    ? `font-pally-medium text-lg`
-                    : `font-pally-regular text-lg`
-                }
-              >
-                Campaign content
-              </p>
-            </div>
-            <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />
-          </div>
+                <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />
+              </div>
+              <div className={`flex flex-col justify-between `}>
+                <div className="flex items-center gap-2">
+                  {!isChecked.adContent ? (
+                    <div className="border border-black rounded-full h-6 w-6" />
+                  ) : (
+                    <div className="bg-green-600 rounded-full p-0.5">
+                      <GrFormCheckmark color="#fff" size={18} />
+                    </div>
+                  )}
+                  <p
+                    className={
+                      currentStep === 1.3
+                        ? `font-pally-medium text-lg`
+                        : `font-pally-regular text-lg`
+                    }
+                  >
+                    Ad content
+                  </p>
+                </div>
+                <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={`flex flex-col justify-between `}>
+                <div className="flex items-center gap-2">
+                  {!isChecked.selectEventState ? (
+                    <div className="border border-black rounded-full h-6 w-6" />
+                  ) : (
+                    <div className="bg-green-600 rounded-full p-0.5">
+                      <GrFormCheckmark color="#fff" size={18} />
+                    </div>
+                  )}
+                  <p
+                    className={
+                      currentStep === 2
+                        ? `font-pally-medium text-lg`
+                        : `font-pally-regular text-lg`
+                    }
+                  >
+                    Select Event
+                  </p>
+                </div>
+                <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />
+              </div>
+              <div className={`flex flex-col justify-between `}>
+                <div className="flex items-center gap-2">
+                  {!isChecked.campaignContent ? (
+                    <div className="border border-black rounded-full h-6 w-6" />
+                  ) : (
+                    <div className="bg-green-600 rounded-full p-0.5">
+                      <GrFormCheckmark color="#fff" size={18} />
+                    </div>
+                  )}
+                  <p
+                    className={
+                      currentStep === 3
+                        ? `font-pally-medium text-lg`
+                        : `font-pally-regular text-lg`
+                    }
+                  >
+                    Campaign content
+                  </p>
+                </div>
+                <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />
+              </div>
+            </>
+          )}
           <div className={`flex flex-col justify-between `}>
             <div className="flex items-center gap-2">
               {!isChecked.StartCampaignState ? (

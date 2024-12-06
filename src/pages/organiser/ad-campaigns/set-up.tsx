@@ -6,6 +6,9 @@ import SetupSteps from "@/components/page-components/organisers/organiser-dashbo
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import Container from "@/tw-components/container";
 import React, { useState } from "react";
+import TargetAudience from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/TargetAudience";
+import DurationBudget from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/DurationBudget";
+import AdContent from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/AdContent";
 
 const SetUpCampaign = () => {
   const { currentStep } = useOrganiserDashContext();
@@ -14,6 +17,12 @@ const SetUpCampaign = () => {
     switch (currentStep) {
       case 1:
         return <CampaignType />;
+      case 1.1:
+        return <TargetAudience />;
+      case 1.2:
+        return <DurationBudget />;
+      case 1.2:
+        return <AdContent />;
       case 2:
         return <SelectEvent />;
       case 3:

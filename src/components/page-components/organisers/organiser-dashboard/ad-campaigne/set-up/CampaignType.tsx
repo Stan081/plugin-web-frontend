@@ -49,10 +49,11 @@ const CampaignType = () => {
     handleIsChecked,
     nextSetUpStep,
     setClickedCampaignId,
+    setCurrentStep,
     previousSetUpStep,
   } = useOrganiserDashContext();
 
-  const router = useRouter()
+  const router = useRouter();
 
   const handleClick = (id: number) => {
     const getClicked = campaignPlans.find((plan) => plan.id === id);
@@ -61,7 +62,11 @@ const CampaignType = () => {
 
   const handleNext = () => {
     handleIsChecked("campaignTypeState");
-    nextSetUpStep();
+    if (clickedCampaignId === 1) {
+      return setCurrentStep(1.1);
+    } else {
+      return nextSetUpStep();
+    }
   };
   return (
     <div className="w-full lg:w-3/5 pt-10 lg:px-10 rounded-lg h-screen bg-white flex flex-col justify-between">
@@ -123,7 +128,11 @@ const CampaignType = () => {
       <div className="sticky z-50 bottom-0 bg-white my-10 lg:mb-6">
         <Separator />
         <div className="mt-5 flex justify-between items-center mb-8 lg:mb-0">
-          <Button onClick={() => router.push('/organiser/ad-campaigns')} type="button" variant="outline">
+          <Button
+            onClick={() => router.push("/organiser/ad-campaigns")}
+            type="button"
+            variant="outline"
+          >
             Back
           </Button>
           <Button
