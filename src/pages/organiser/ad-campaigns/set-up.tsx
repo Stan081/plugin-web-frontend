@@ -1,4 +1,6 @@
-import CampaignType from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/CampaignType";
+import CampaignType, {
+  campaignPlans,
+} from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/CampaignType";
 import ReviewCampaign from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/ReviewCampaign";
 import Campaign from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/Campaign";
 import SelectEvent from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/SelectEvent";
@@ -11,7 +13,11 @@ import DurationBudget from "@/components/page-components/organisers/organiser-da
 import AdContent from "@/components/page-components/organisers/organiser-dashboard/ad-campaigne/set-up/AdContent";
 
 const SetUpCampaign = () => {
-  const { currentStep } = useOrganiserDashContext();
+  const { currentStep, clickedCampaignId } = useOrganiserDashContext();
+
+  const initailPrice = campaignPlans.find(
+    (item) => item.id === clickedCampaignId
+  );
 
   const renderStepContent = () => {
     switch (currentStep) {
@@ -20,8 +26,8 @@ const SetUpCampaign = () => {
       case 1.1:
         return <TargetAudience />;
       case 1.2:
-        return <DurationBudget />;
-      case 1.2:
+        return <DurationBudget minPrice={initailPrice?.price} />;
+      case 1.3:
         return <AdContent />;
       case 2:
         return <SelectEvent />;
@@ -34,9 +40,9 @@ const SetUpCampaign = () => {
     }
   };
   return (
-    <div className="lg:bg-[#ebe7e4]">
+    <div className="lg:bg-[#ebe7e4] lg:h-screen h-full">
       <Container className="px-0">
-        <div className="flex items-start">
+        <div className="flex items-start h-full">
           <SetupSteps />
           {renderStepContent()}
         </div>

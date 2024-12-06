@@ -44,7 +44,11 @@ export const TargetAudienceSchema = yup.object().shape({
 export const BudgetDurationSchema = yup.object().shape({
   start_date: yup.date().required("Add start campaign date"),
   end_date: yup.date().required("Add end campaign date"),
-  duration: yup.number().required("ads duration is required"),
+  duration: yup
+    .number()
+    .truncate()
+    .positive("Must be a positive number")
+    .required("ads duration is required"),
   budget: yup.number().required("budget is required"),
 });
 
@@ -57,7 +61,10 @@ export const AdContentSchema = yup.object().shape({
     }),
   ad_title: yup.string().required("Ads title is required"),
   message: yup.string().required("message is required"),
-  button_link: yup.string().optional(),
+  button_link: yup
+    .string()
+    .url("Your URL must start with http:// or https://")
+    .optional(),
 });
 
 export type AdContentForm = yup.InferType<typeof AdContentSchema>;
