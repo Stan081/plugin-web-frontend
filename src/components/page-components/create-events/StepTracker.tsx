@@ -116,7 +116,7 @@ const StepTracker = () => {
               {currentStep > 4 ||
               event?.data?.oneTimeEvent?.startDate ||
               event?.data?.recurringEvent?.startDate ||
-              event?.data?.locationType !== "" ? (
+              event?.data?.locationType ? (
                 <div className="bg-green-600 rounded-full p-0.5">
                   <GrFormCheckmark color="#fff" size={18} />
                 </div>
@@ -144,7 +144,7 @@ const StepTracker = () => {
             <div className="flex items-center gap-2">
               {currentStep > 6 ||
               event?.data?.ticketCategory ||
-              event?.data?.groupedTicket.length !== 0 ||
+              event?.data?.groupedTicket.length ||
               event?.data?.entryTicket ? (
                 <div className="bg-green-600 rounded-full p-0.5">
                   <GrFormCheckmark color="#fff" size={18} />

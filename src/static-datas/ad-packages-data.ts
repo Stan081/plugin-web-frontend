@@ -1,38 +1,39 @@
 const adPackagesData = [
   {
     isAd: false,
+    id: 1,
     title: "All Pricing Plans",
     description: "Compare",
     bgColor: "bg-[#281E17]",
     data: ["Platform", "Impression/Reach", "Duration"],
-    addOns: "+ N5,000 for 500 more impressions"
+    addOns: "+ N5,000 for 500 more impressions",
   },
   {
     isAd: true,
+    id: 2,
     title: "Social Media Ads",
-    pricing: "N 8,000",
-    link: "/sma",
+    pricing: 8000,
     bgColor: "bg-[#C7DFFE]",
     data: ["Facebook, Instagram", "200 - 500", "1 day"],
-    addOns: "+ N1,000 for 500 more impressions"
+    addOns: "+ N1,000 for 500 more impressions",
   },
   {
     isAd: true,
+    id: 3,
     title: "Email Campaigns",
-    pricing: "N 27,000",
-    link: "/bag",
+    pricing: 27000,
     bgColor: "bg-[#FCE0EB]",
-    data: ["Email marketing", "1,000", "1 day"],
-    addOns: "+ N2,000 for 500 more impressions"
+    data: ["Email marketing", "1,000", "------"],
+    addOns: "+ N2,000 for 500 more impressions",
   },
   {
     isAd: true,
+    id: 4,
     title: "Sponsored Listings",
-    pricing: "N 10,000",
-    link: "/lop",
+    pricing: 10000,
     bgColor: "bg-[#ECD7F8]",
     data: ["Sponsored listing in plugin website", "Unlimited", "1 day"],
-    addOns: "+ N3,000 for 500 more impressions"
+    addOns: "+ N3,000 for 500 more impressions",
   },
 ];
 

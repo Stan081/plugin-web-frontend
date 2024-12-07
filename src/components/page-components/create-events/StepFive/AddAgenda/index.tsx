@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Separator } from "@/components/ui/separator";
 import React, { useState } from "react";
 import AgendaEmptyState from "./AgendaEmptyState";
@@ -19,6 +19,8 @@ export enum AddAgendaState {
 const AddAgenda = () => {
   const { data: allAgenda, isLoading } = useGetEventAgenda();
   const { mutate: deleteAgenda, isPending } = useDeleteAgenda();
+
+  console.log('agenda:',allAgenda);
 
   const [formState, setFormState] = useState<AddAgendaState>(
     AddAgendaState.CREATE_AGENDA

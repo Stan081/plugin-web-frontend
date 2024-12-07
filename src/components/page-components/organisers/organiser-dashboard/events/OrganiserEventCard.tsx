@@ -106,7 +106,7 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
           </p>
           <Popover>
             <PopoverTrigger>
-              <div className="bg-white p-2 rounded-full mr-6">
+              <div className="bg-white p-2 border rounded-full mr-6">
                 <HiOutlineDotsVertical />
               </div>
             </PopoverTrigger>
