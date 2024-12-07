@@ -86,7 +86,7 @@ const SponsorListing = () => {
     handleIsChecked("campaignContent");
   }, []);
   return (
-    <div className="h-full">
+    <div className="h-full lg:h-[85vh]">
       {isUploading && <SpinnerOverlay />}
       <Form {...form}>
         <form
