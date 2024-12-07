@@ -23,14 +23,14 @@ const SetUpCampaign = () => {
     switch (currentStep) {
       case 1:
         return <CampaignType />;
-      case 1.1:
-        return <TargetAudience />;
-      case 1.2:
-        return <DurationBudget minPrice={initailPrice?.price} />;
-      case 1.3:
-        return <AdContent />;
       case 2:
         return <SelectEvent />;
+      case 2.1:
+        return <TargetAudience />;
+      case 2.2:
+        return <DurationBudget minPrice={initailPrice?.price} />;
+      case 2.3:
+        return <AdContent />;
       case 3:
         return <Campaign />;
       case 4:

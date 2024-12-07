@@ -23,7 +23,8 @@ import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
 
 const AdContent = () => {
-  const { handleIsChecked, setCurrentStep } = useOrganiserDashContext();
+  const { handleIsChecked, setCurrentStep, setMediaCampaignData } =
+    useOrganiserDashContext();
   const [CamImage, setCamImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -84,8 +85,12 @@ const AdContent = () => {
 
   const onSubmit = useCallback((payload: AdContentForm) => {
     console.log(payload);
-    setCurrentStep(4);
+    setMediaCampaignData((prevData) => ({
+      ...prevData,
+      adContent: payload,
+    }));
     handleIsChecked("adContent");
+    setCurrentStep(4);
   }, []);
 
   return (

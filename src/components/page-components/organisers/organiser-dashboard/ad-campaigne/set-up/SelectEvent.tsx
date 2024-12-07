@@ -13,7 +13,9 @@ const SelectEvent = () => {
     handleIsChecked,
     nextSetUpStep,
     setCheckedEvent,
+    clickedCampaignId,
     checkedEvent,
+    setCurrentStep,
     previousSetUpStep,
   } = useOrganiserDashContext();
   const { data: user } = useMe();
@@ -32,8 +34,11 @@ const SelectEvent = () => {
       alert("Please select an event before proceeding.");
     } else {
       handleIsChecked("selectEventState");
-      nextSetUpStep();
-      console.log("eventId:", checkedEvent);
+      if (clickedCampaignId === 1) {
+        return setCurrentStep(2.1);
+      } else {
+        return nextSetUpStep();
+      }
     }
   };
 

@@ -21,7 +21,8 @@ import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provide
 
 const DurationBudget: FC<{ minPrice: number }> = ({ minPrice }) => {
   const [value, setValue] = useState(minPrice);
-  const { handleIsChecked, setCurrentStep } = useOrganiserDashContext();
+  const { handleIsChecked, setCurrentStep, setMediaCampaignData } =
+    useOrganiserDashContext();
 
   const form = useForm<BudgetDurationForm>({
     mode: "all",
@@ -44,7 +45,11 @@ const DurationBudget: FC<{ minPrice: number }> = ({ minPrice }) => {
 
   const onSubmit = useCallback((payload: BudgetDurationForm) => {
     console.log(payload);
-    setCurrentStep(1.3);
+    setMediaCampaignData((prevData) => ({
+      ...prevData,
+      budgetData: payload,
+    }));
+    setCurrentStep(2.3);
     handleIsChecked("durationBudget");
   }, []);
   return (
@@ -93,7 +98,6 @@ const DurationBudget: FC<{ minPrice: number }> = ({ minPrice }) => {
                               id="duration"
                               className="w-full bg-white text-black font-pally-regular"
                               {...field}
-                              defaultValue={1}
                             />
                           </FormControl>
                           <p className="font-pally-regular text-base">days</p>

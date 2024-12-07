@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Separator } from "@/components/ui/separator";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -27,7 +27,8 @@ import { RiCloseFill } from "react-icons/ri";
 
 const TargetAudience = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const { handleIsChecked, setCurrentStep } = useOrganiserDashContext();
+  const { handleIsChecked, setCurrentStep, setMediaCampaignData } =
+    useOrganiserDashContext();
 
   const form = useForm<TargetAudienceForm>({
     mode: "all",
@@ -62,7 +63,11 @@ const TargetAudience = () => {
 
   const onSubmit = useCallback((payload: TargetAudienceForm) => {
     console.log(payload);
-    setCurrentStep(1.2);
+    setMediaCampaignData((prevData) => ({
+      ...prevData,
+      audienceData: payload,
+    }));
+    setCurrentStep(2.2);
     handleIsChecked("chooseAudience");
   }, []);
   return (

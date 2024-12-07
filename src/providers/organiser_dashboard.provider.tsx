@@ -14,7 +14,7 @@ import {
 type IsCheckedState = {
   campaignTypeState: boolean;
   selectEventState: boolean;
-  chooseAudience: boolean
+  chooseAudience: boolean;
   campaignContent: boolean;
   durationBudget: boolean;
   adContent: boolean;
@@ -33,6 +33,7 @@ type OrganiserDashContextValue = {
   clickedCampaignId: number;
   emailCampaignData: EmailCampaignForm;
   sponsorCampaignData: SponsorListingForm;
+  MediaCampaignData: any;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   nextSetUpStep: () => void;
   previousSetUpStep: () => void;
@@ -46,6 +47,7 @@ type OrganiserDashContextValue = {
   setCheckedEvent: (key: string) => void;
   setEmailCampaignData: (key: EmailCampaignForm) => void;
   setSponsorCampaignData: (key: SponsorListingForm) => void;
+  setMediaCampaignData: (key: any) => void
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -58,7 +60,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
   //step for each campaign setup
-  const [currentStep, setCurrentStep] = useState<number>(1.3);
+  const [currentStep, setCurrentStep] = useState<number>(1);
 
   //state to get eventId
   const [checkedEvent, setCheckedEvent] = useState<string | null>(null);
@@ -99,6 +101,13 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   // state to store sponsorListing data
   const [sponsorCampaignData, setSponsorCampaignData] =
     useState<SponsorListingForm>(null);
+
+  // state to store ads content data
+  const [MediaCampaignData, setMediaCampaignData] = useState<any>({
+    audienceData: null,
+    budgetData: null,
+    adContent: null,
+  });
 
   // function to switch preview event
   const handlePreviewEvent = () => {
@@ -151,6 +160,8 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     activeEvent,
     emailCampaignData,
     sponsorCampaignData,
+    MediaCampaignData,
+    setMediaCampaignData,
     setEmailCampaignData,
     setSponsorCampaignData,
     setCurrentStep,

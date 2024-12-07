@@ -37,6 +37,27 @@ const SetupSteps = () => {
             </div>
             <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />
           </div>
+          <div className={`flex flex-col justify-between `}>
+            <div className="flex items-center gap-2">
+              {!isChecked.selectEventState ? (
+                <div className="border border-black rounded-full h-6 w-6" />
+              ) : (
+                <div className="bg-green-600 rounded-full p-0.5">
+                  <GrFormCheckmark color="#fff" size={18} />
+                </div>
+              )}
+              <p
+                className={
+                  currentStep === 2
+                    ? `font-pally-medium text-lg`
+                    : `font-pally-regular text-lg`
+                }
+              >
+                Select Event
+              </p>
+            </div>
+            <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />
+          </div>
           {clickedCampaignId === 1 ? (
             <>
               <div className={`flex flex-col justify-between `}>
@@ -50,7 +71,7 @@ const SetupSteps = () => {
                   )}
                   <p
                     className={
-                      currentStep === 1.1
+                      currentStep === 2.1
                         ? `font-pally-medium text-lg`
                         : `font-pally-regular text-lg`
                     }
@@ -71,7 +92,7 @@ const SetupSteps = () => {
                   )}
                   <p
                     className={
-                      currentStep === 1.2
+                      currentStep === 2.2
                         ? `font-pally-medium text-lg`
                         : `font-pally-regular text-lg`
                     }
@@ -92,7 +113,7 @@ const SetupSteps = () => {
                   )}
                   <p
                     className={
-                      currentStep === 1.3
+                      currentStep === 2.3
                         ? `font-pally-medium text-lg`
                         : `font-pally-regular text-lg`
                     }
@@ -105,27 +126,6 @@ const SetupSteps = () => {
             </>
           ) : (
             <>
-              <div className={`flex flex-col justify-between `}>
-                <div className="flex items-center gap-2">
-                  {!isChecked.selectEventState ? (
-                    <div className="border border-black rounded-full h-6 w-6" />
-                  ) : (
-                    <div className="bg-green-600 rounded-full p-0.5">
-                      <GrFormCheckmark color="#fff" size={18} />
-                    </div>
-                  )}
-                  <p
-                    className={
-                      currentStep === 2
-                        ? `font-pally-medium text-lg`
-                        : `font-pally-regular text-lg`
-                    }
-                  >
-                    Select Event
-                  </p>
-                </div>
-                <div className="border-r-2 ml-3 h-[2rem] border-[#AFB5BE] rotate-180" />
-              </div>
               <div className={`flex flex-col justify-between `}>
                 <div className="flex items-center gap-2">
                   {!isChecked.campaignContent ? (

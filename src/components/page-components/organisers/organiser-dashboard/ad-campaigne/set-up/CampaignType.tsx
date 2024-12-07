@@ -49,8 +49,6 @@ const CampaignType = () => {
     handleIsChecked,
     nextSetUpStep,
     setClickedCampaignId,
-    setCurrentStep,
-    previousSetUpStep,
   } = useOrganiserDashContext();
 
   const router = useRouter();
@@ -62,11 +60,8 @@ const CampaignType = () => {
 
   const handleNext = () => {
     handleIsChecked("campaignTypeState");
-    if (clickedCampaignId === 1) {
-      return setCurrentStep(1.1);
-    } else {
-      return nextSetUpStep();
-    }
+    nextSetUpStep();
+ 
   };
   return (
     <div className="w-full lg:w-3/5 pt-10 lg:px-10 rounded-lg h-screen bg-white flex flex-col justify-between">

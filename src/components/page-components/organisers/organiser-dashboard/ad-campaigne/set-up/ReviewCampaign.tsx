@@ -25,10 +25,9 @@ const ReviewCampaign = () => {
     checkedEvent,
     sponsorCampaignData,
     setCurrentStep,
-    previousSetUpStep,
+    MediaCampaignData,
   } = useOrganiserDashContext();
 
-  console.log(checkedEvent);
 
   const { data: user } = useMe();
   const {
@@ -123,6 +122,7 @@ const ReviewCampaign = () => {
   });
 
   const handlePayment = () => {
+    console.log(MediaCampaignData);
     const emailData = {
       campaignType: "email",
       email: {
@@ -268,10 +268,7 @@ const ReviewCampaign = () => {
       </div>
       <div className="sticky z-50 bottom-0 bg-white">
         <Separator />
-        <div className="py-5 flex justify-between items-center">
-          <Button onClick={previousSetUpStep} type="button" variant="outline">
-            Back
-          </Button>
+        <div className="py-5 flex justify-end items-center">
           <Button type="submit" disabled={isPending} variant="destructive">
             {isPending ? <Spinner /> : "Start Campaign"}
           </Button>
