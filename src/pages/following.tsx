@@ -1,15 +1,29 @@
+"use client";
 import GoBack from "@/components/GoBack";
 import Layout from "@/components/layout";
 import FollowersComponent from "@/components/page-components/user-dashboard/followers";
 import SearchComponent from "@/components/page-components/user-dashboard/SearchComponent";
 import { Separator } from "@/components/ui/separator";
+import { getToken } from "@/lib/token";
 import { followersData, followersDataProps } from "@/static-datas/followers";
 import { Section } from "@/tw-components/Section";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const FollowingPage = () => {
   const [getFollowers, setGetFollowers] =
     useState<followersDataProps[]>(followersData);
+
+  const token = getToken();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (token) {
+      return;
+    } else {
+      router.push("/login");
+    }
+  }, [router]);
 
   const handleUnfollow = (id: string) => {
     const filteredFollower = getFollowers.filter((fol) => fol.id !== id);

@@ -21,30 +21,30 @@ const OrganiserEventTab = () => {
     handleShowDeleteEvent,
   } = useOrganiserDashContext();
 
-  const { data: user } = useMe();
+  const { data: User } = useMe();
   const {
     data: organiserEvents,
     isLoading,
     isError,
-  } = useGetOrganiserEvents(user?.data?._id);
+  } = useGetOrganiserEvents(User?.data?._id);
 
   const now = new Date();
 
-  const upcomingEvents = organiserEvents?.data?.data.filter((item) => {
+  const upcomingEvents = organiserEvents?.data?.data?.filter((item) => {
     const startDate = new Date(
       item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
     );
     return item.isPublished === true && startDate > now;
   });
 
-  const pastEvents = organiserEvents?.data?.data.filter((item) => {
-    const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+  const pastEvents = organiserEvents?.data?.data?.filter((item) => {
+    const endDate = new Date(
+      item?.oneTimeEvent?.endDate || item?.recurringEvent?.endDate
     );
-    return item.isPublished === true && startDate < now;
+    return item.isPublished === true && endDate < now;
   });
 
-  const draftEvent = organiserEvents?.data?.data?.filter((item) => {
+  const draftEvents = organiserEvents?.data?.data?.filter((item) => {
     return item.isPublished === false
   })
 
@@ -67,7 +67,7 @@ const OrganiserEventTab = () => {
             {eventState === "upcoming" && (
               <div className="flex flex-wrap gap-6">
                 {upcomingEvents?.length !== 0 ? (
-                  upcomingEvents.map((item: any) => (
+                  upcomingEvents?.map((item: any) => (
                     <OrganiserEventCard key={item._id} event={item} />
                   ))
                 ) : (
@@ -81,7 +81,7 @@ const OrganiserEventTab = () => {
             {eventState === "past_event" && (
               <div className="flex flex-wrap gap-6">
                 {pastEvents?.length !== 0 ? (
-                  pastEvents.map((item: any) => (
+                  pastEvents?.map((item: any) => (
                     <OrganiserEventCard key={item._id} event={item} />
                   ))
                 ) : (
@@ -91,8 +91,8 @@ const OrganiserEventTab = () => {
             )}
             {eventState === "draft" && (
               <div className="flex flex-wrap gap-6">
-                {draftEvent?.length !== 0 ? (
-                  draftEvent.map((item: any) => (
+                {draftEvents?.length !== 0 ? (
+                  draftEvents?.map((item: any) => (
                     <OrganiserEventCard key={item._id} event={item} />
                   ))
                 ) : (
