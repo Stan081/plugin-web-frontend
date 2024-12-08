@@ -56,7 +56,7 @@ const VendorForm: FC<VendorFormProps> = ({ handleReturnToList }) => {
   );
   // State to store the selected categories as an array of strings
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [slot, setSlot] = useState<number>(0);
+  const [slot, setSlot] = useState<number>(1);
   const [isUploading, setIsUploading] = useState<boolean>(false);
 
   const form = useForm<VendorsForm>({

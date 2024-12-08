@@ -11,7 +11,7 @@ interface LogoProps extends ComponentPropsWithRef<"div"> {
 const Logo: FC<LogoProps> = ({ className, white }) => {
   const baseClass = "flex h-16 shrink-0 items-center";
   return (
-    <>
+    <div className="w-[120px]">
       <Link
         href={"/"}
         className={classNames(
@@ -26,7 +26,7 @@ const Logo: FC<LogoProps> = ({ className, white }) => {
             alt="Plugin Logo"
             width={128}
             height={32}
-            className="w-full h-10 lg:h-11 pointer-events-none"
+            className="w-[120px] h-10 lg:h-11 pointer-events-none"
           />
         ) : (
           <Image
@@ -34,11 +34,11 @@ const Logo: FC<LogoProps> = ({ className, white }) => {
             alt="Plugin Logo"
             width={128}
             height={32}
-            className="w-full h-10 lg:h-11 pointer-events-auto"
+            className="w-[130px] h-10 lg:h-11 pointer-events-auto"
           />
         )}
       </Link>
-    </>
+    </div>
   );
 };
 

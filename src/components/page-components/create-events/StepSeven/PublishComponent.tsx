@@ -29,8 +29,7 @@ const PublishComponent: FC = () => {
   const { data: userData } = useMe();
   const { previousStep: previous } = useCreateEventContext();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { currentStep, setShowProfileForm, showProfileForm } =
-    useCreateEventContext();
+  const [showProfile, setShowProfile] = useState<boolean>(false);
   const [selectedVisibility, setSelectedVisibility] =
     useState<string>("public");
   const [checkSchedule, setCheckSchedule] = useState<string>("now");
@@ -84,14 +83,13 @@ const PublishComponent: FC = () => {
 
   const onSubmit = (payload: PublishForm) => {
     if (!userData?.data?.isOrganizer) {
-      return setShowProfileForm(!showProfileForm);
+      return setShowProfile(!showProfile);
     }
     if (payload?.publishWhen === true) {
       const data = {
         isPublished: payload.publishWhen,
         publishStatus: payload?.event_visibility,
       };
-      console.log(data, "True");
       mutate(data);
     } else {
       const data = {
@@ -115,10 +113,10 @@ const PublishComponent: FC = () => {
         />
       )}
 
-      {showProfileForm && (
+      {showProfile && (
         <ProfileFormModal
-          open={showProfileForm}
-          close={() => setShowProfileForm(!showProfileForm)}
+          open={showProfile}
+          close={() => setShowProfile(!showProfile)}
         />
       )}
       <Form {...form}>

@@ -44,6 +44,7 @@ type CreateEventContextValue = {
   handleIsCheckedGroup: (key: keyof IsCheckedGroupState) => void;
   setIsHost: (id: boolean) => void;
   setSelectedTicket: (key: string) => void;
+  setCurrentStep: (key: number) => void;
 };
 
 const CreateEventDashContext = createContext<CreateEventContextValue | null>(
@@ -130,7 +131,6 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     setTimeout(() => {
       removeCookie("currentStep");
       removeCookie("event_id");
-      setCurrentStep(1);
       router.push(`/organiser`);
     }, 10000);
   };
@@ -144,9 +144,9 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     if (getCookie("event_id")) {
       removeCookie("event_id");
     }
-    setTimeout(() => {
-      setCurrentStep(1);
-    }, 2000);
+    // setTimeout(() => {
+    //   setCurrentStep(1);
+    // }, 2000);
   };
 
   const ContextValue: CreateEventContextValue = {
@@ -158,6 +158,7 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     inviteeState,
     allAgenda,
     showProfileForm,
+    setCurrentStep,
     saveToDraft,
     setShowProfileForm,
     nextStep,
