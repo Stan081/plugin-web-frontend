@@ -1,5 +1,7 @@
 import { getCookie } from "../cookies";
 
+// export const BASE_URL: string = "http://localhost:8000";
+
 export const BASE_URL: string = "https://pluginapi.onrender.com";
 
 export const API_URL: string = `${BASE_URL}/api`;
@@ -22,18 +24,19 @@ export const GET_ALL_EVENTS: string = `${API_URL}/event/events`;
 
 export const EVENT_FAVOURITE: string = `${API_URL}/favourites`;
 
-export const GET_ORGANISER: string = `${API_URL}/organizers/organizer`
+export const GET_ORGANISER: string = `${API_URL}/organizers/organizer`;
 
-export const GET_ORGANISER_EVENTS: string = `${API_URL}/organizers/events`
+export const GET_ORGANISER_EVENTS: string = `${API_URL}/organizers/events`;
 
-export const ALL_ORGANISERS: string = `${API_URL}/organizers`
+export const ALL_ORGANISERS: string = `${API_URL}/organizers`;
 
-export const FILTER_EVENTS: string = `${API_URL}/event/filter`
+export const FILTER_EVENTS: string = `${API_URL}/event/filter`;
+
+export const TICKETS: string = `${API_URL}/tickets`;
 
 export const CAMPAIGN: string = `${API_URL}/campaign`
 
-
-export const FOLLOW_ORGANISER: string = `${API_URL}/follow`
+export const FOLLOW_ORGANISER: string = `${API_URL}/follow`;
 
 export const GET_EVENT_BY_ID = (): string => {
   const eventId = getCookie("event_id");
