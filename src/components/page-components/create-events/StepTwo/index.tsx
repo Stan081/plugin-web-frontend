@@ -62,7 +62,6 @@ const StepTwo: React.FC = () => {
       eventCategory: [...selectedNames],
     };
     mutate(data);
-    console.log(data);
   };
 
   return (

@@ -69,7 +69,7 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
       end_date: null,
       start_time: "",
       end_time: "",
-      ticket_perks: "",
+      ticket_perks: "Refer to event flyer for more details",
       label_image: "",
       label_color: "",
     },

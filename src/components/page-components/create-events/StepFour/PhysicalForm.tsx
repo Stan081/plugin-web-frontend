@@ -1,5 +1,6 @@
 "use client";
-import React, { useCallback } from "react";
+
+import React, { useCallback, useEffect, useRef } from "react";
 import {
   Form,
   FormControl,
@@ -8,13 +9,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import {
@@ -29,7 +23,6 @@ import { EventPhysicalLocation } from "@/pages/api/mutate/create-events/eventLoc
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
 import { useCreateEventContext } from "@/providers/create_event.provider";
-import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 
 interface PhysicalFormProps {
   locationType: string;
@@ -41,6 +34,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     previousStep: previous,
     saveToDraft,
   } = useCreateEventContext();
+
   const form = useForm<PhysicalLocation>({
     mode: "all",
     defaultValues: {
@@ -76,20 +70,55 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     },
   });
 
-  const onSubmit = useCallback((payload: PhysicalLocation) => {
-    const data = {
-      locationType,
-      physicalLocation: {
-        address: payload?.address,
-        city: payload?.city,
-        state: payload?.state,
-        country: payload?.country,
-        zipcode: String(payload?.zipcode),
-      },
-    };
-    // console.log(data)
-    mutate(data);
-  }, []);
+  const addressInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.google) {
+      const autocomplete = new google.maps.places.Autocomplete(
+        addressInputRef.current!,
+        {
+          fields: ["formatted_address", "geometry", "address_components"],
+        }
+      );
+
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+
+        if (place.address_components) {
+          const components = place.address_components;
+
+          // Helper function to extract specific component
+          const getAddressComponent = (type: string) =>
+            components.find((component) => component.types.includes(type))
+              ?.long_name || "";
+
+          // Update form values based on extracted data
+          form.setValue("address", place.formatted_address || "");
+          form.setValue("city", getAddressComponent("locality"));
+          form.setValue("state", getAddressComponent("administrative_area_level_1"));
+          form.setValue("country", getAddressComponent("country"));
+          form.setValue("zipcode", parseInt(getAddressComponent("postal_code")) || 0);
+        }
+      });
+    }
+  }, [form]);
+
+  const onSubmit = useCallback(
+    (payload: PhysicalLocation) => {
+      const data = {
+        locationType,
+        physicalLocation: {
+          address: payload?.address,
+          city: payload?.city,
+          state: payload?.state,
+          country: payload?.country,
+          zipcode: String(payload?.zipcode),
+        },
+      };
+      mutate(data);
+    },
+    [locationType, mutate]
+  );
 
   return (
     <div>
@@ -101,6 +130,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
         >
           <div className="mt-8 pb-10 h-[45vh] whitespace-normal overflow-y-auto">
             <div className="grid grid-cols-2 gap-5 h-auto w-auto">
+              {/* Address Field with Google Places */}
               <FormItem className="col-span-2">
                 <FormLabel className="text-white" htmlFor="physical_location">
                   Address
@@ -108,57 +138,43 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
                 <FormField
                   control={form.control}
                   name="address"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Search for location or address"
-                            type="text"
-                            id="physical_location"
-                            className="bg-white text-black font-pally-regular"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          ref={addressInputRef}
+                          placeholder="Search for location or address"
+                          type="text"
+                          id="physical_location"
+                          className="bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </FormItem>
+
+              {/* Other Form Fields */}
               <FormItem>
                 <FormLabel className="text-white">City</FormLabel>
                 <FormField
                   control={form.control}
                   name="city"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormControl>
-                          <Select
-                            onValueChange={(value) => field.onChange(value)}
-                            defaultValue={String(field.value)}
-                          >
-                            <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
-                              <SelectValue placeholder="select city" />
-                            </SelectTrigger>
-                            <SelectContent className="w-full border z-0 bg-primary-foreground rounded-sm bg-white">
-                              {["city"].map((city, index) => {
-                                return (
-                                  <SelectItem key={index} value={city}>
-                                    <div className="flex items-center gap-2">
-                                      {city}
-                                    </div>
-                                  </SelectItem>
-                                );
-                              })}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="City"
+                          type="text"
+                          className="bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </FormItem>
               <FormItem>
@@ -166,34 +182,19 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
                 <FormField
                   control={form.control}
                   name="state"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormControl>
-                          <Select
-                            onValueChange={(value) => field.onChange(value)}
-                            defaultValue={String(field.value)}
-                          >
-                            <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
-                              <SelectValue placeholder="select state" />
-                            </SelectTrigger>
-                            <SelectContent className="w-full border z-0 bg-primary-foreground rounded-sm bg-white">
-                              {["state"].map((state, index) => {
-                                return (
-                                  <SelectItem key={index} value={state}>
-                                    <div className="flex items-center gap-2">
-                                      {state}
-                                    </div>
-                                  </SelectItem>
-                                );
-                              })}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="State"
+                          type="text"
+                          className="bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </FormItem>
               <FormItem>
@@ -201,34 +202,19 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
                 <FormField
                   control={form.control}
                   name="country"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormControl>
-                          <Select
-                            onValueChange={(value) => field.onChange(value)}
-                            defaultValue={String(field.value)}
-                          >
-                            <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
-                              <SelectValue placeholder="select country" />
-                            </SelectTrigger>
-                            <SelectContent className="w-full border z-0 bg-primary-foreground rounded-sm bg-white">
-                              {["country"].map((country, index) => {
-                                return (
-                                  <SelectItem key={index} value={country}>
-                                    <div className="flex items-center gap-2">
-                                      {country}
-                                    </div>
-                                  </SelectItem>
-                                );
-                              })}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Country"
+                          type="text"
+                          className="bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </FormItem>
               <FormItem>
@@ -238,22 +224,20 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
                 <FormField
                   control={form.control}
                   name="zipcode"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter zipcode"
-                            type="number"
-                            id="zipcode"
-                            className="bg-white text-black font-pally-regular"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter zipcode"
+                          type="number"
+                          id="zipcode"
+                          className="bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </FormItem>
             </div>

@@ -20,8 +20,6 @@ const AddAgenda = () => {
   const { data: allAgenda, isLoading } = useGetEventAgenda();
   const { mutate: deleteAgenda, isPending } = useDeleteAgenda();
 
-  console.log('agenda:',allAgenda);
-
   const [formState, setFormState] = useState<AddAgendaState>(
     AddAgendaState.CREATE_AGENDA
   );

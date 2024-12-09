@@ -164,11 +164,6 @@ const StepOne: React.FC = () => {
     mutationFn: (data: any) => EventBasicInfo(data),
     onSuccess: (response) => {
       if (response?.message) {
-        toast({
-          variant: "success",
-          title: "File has been uploaded",
-          description: `${response?.message}`,
-        });
         next();
         client.invalidateQueries({ queryKey: ["eventById"] });
         setCookie("event_id", response?.data?._id);

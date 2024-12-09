@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useCallback, useState } from "react";
 import { OtpBox } from "@/components/OtpBox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -10,6 +10,9 @@ import { getCookie } from "@/lib/cookies";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import Spinner from "@/tw-components/spinner";
 
 const OTPLoginVerification = () => {
   const [otp, setOtp] = useState<string>("");
@@ -26,6 +29,7 @@ const OTPLoginVerification = () => {
     mutationFn: (data: VerifyCodeType) => VerifyLoginCode(data),
     onSuccess: (response) => {
       client.invalidateQueries({ queryKey: ["me"] });
+      setShouldRedirect(true);
       router.push("/");
       toast({
         variant: "success",
@@ -45,25 +49,32 @@ const OTPLoginVerification = () => {
 
   const handleOtpComplete = (otp: string) => {
     setOtp(otp);
+  };
+
+  const handleSubmit = () => {
     const data = {
       email,
       code: otp,
     };
     mutate(data);
-    setShouldRedirect(true);
   };
-
-  if(isPending){
-    return <SpinnerOverlay/>
-  }
 
   return (
     <div className="mt-6">
       <p className="text-sm font-pally-regular mb-2 text-[#98A2B3]">
         Verification Code
       </p>
-      <OtpBox numDigits={5} onComplete={handleOtpComplete} />
-      <div className="border w-full mt-5 border-[#98A2B333]/20" />
+      <div className="mt-3 flex flex-col justify-center gap-8">
+        <OtpBox numDigits={5} onComplete={handleOtpComplete} />
+        <Button
+          onClick={handleSubmit}
+          variant="destructive"
+          disabled={isPending}
+          className="w-full max-w-sm"
+        >
+          {isPending ? <Spinner /> : "Verify"}
+        </Button>
+      </div>
       <div className="flex mt-10 text-sm md:text-base text-[#98A2B3]">
         <p>Didn’t get the code?</p>
         {/* <p>Resend in 4:59</p> */}
