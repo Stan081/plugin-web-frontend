@@ -161,6 +161,7 @@ const StepOne: React.FC = () => {
   };
 
   const { mutate, isPending } = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     mutationFn: (data: any) => EventBasicInfo(data),
     onSuccess: (response) => {
       if (response?.message) {
@@ -169,6 +170,7 @@ const StepOne: React.FC = () => {
         setCookie("event_id", response?.data?._id);
       }
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       toast({
         variant: "destructive",

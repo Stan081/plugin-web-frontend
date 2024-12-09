@@ -6,18 +6,23 @@ import SearchComponent from "@/components/page-components/user-dashboard/SearchC
 import TicketComponent from "@/components/TicketComponent";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { cardData } from "@/static-datas/cards-data";
 import { Section } from "@/tw-components/Section";
 import React, { useState } from "react";
+import { useGetTicketEvents } from "../api/mutate/tickets";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const TicketPage = () => {
   const [isActive, setIsActive] = useState<string>("my-tickets");
+  const { data: data, isLoading } = useGetTicketEvents();
+
+  console.log(data);
   return (
     <Layout title="Your tickets" showHeader showFooter showSidebar>
       <Section
         id="user-account-settings"
         className="md:px-10 overflow-y-auto w-full lg:max-w-7xl"
       >
+        {isLoading && <SpinnerOverlay />}
         <div className="mt-4 flex gap-3">
           <GoBack />
           <h2 className="font-pally-medium text-2xl mb-4">Tickets</h2>
@@ -46,8 +51,10 @@ const TicketPage = () => {
           <SearchComponent placeholder="Search for ticket's name" />
         </div>
 
-        {isActive === "my-tickets" && <TicketComponent tickets={cardData} />}
-        {isActive === "past-tickets" && <TicketComponent tickets={cardData} />}
+        {isActive === "my-tickets" && <TicketComponent tickets={data?.data} />}
+        {isActive === "past-tickets" && (
+          <TicketComponent tickets={data?.data} />
+        )}
       </Section>
     </Layout>
   );
