@@ -5,7 +5,6 @@ import CheckoutContactInfo from "@/components/page-components/eventpage/checkout
 import CheckoutSummary from "@/components/page-components/eventpage/checkout/CheckoutSummary";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import { checkoutBreadcrumbArr } from "@/static-datas/breadcrumb-data";
-import { cardData } from "@/static-datas/cards-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
@@ -17,8 +16,6 @@ const CheckoutEvent = () => {
   const param = useParams<{ id: string }>();
   const checkCardId = events?.data.find((card) => card?._id === param?.id);
 
-  console.log(checkCardId);
-  //   Temporary routing
   if (!checkCardId) {
     return <p>Page not found</p>;
   }

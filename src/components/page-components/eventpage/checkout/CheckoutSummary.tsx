@@ -124,7 +124,11 @@ const CheckoutSummary: FC<{ event: any }> = ({ event }) => {
                 {entryData?.quantity} x {entryData?.name}
               </p>
               <p className="text-[#586170] text-sm font-pally-regular">
-                {toFiat(Number(entryData?.price && entryData?.price))}
+                {toFiat(
+                  Number(
+                    entryData?.price && entryData?.price * entryData?.quantity
+                  )
+                )}
               </p>
             </div>
           )}
@@ -139,7 +143,7 @@ const CheckoutSummary: FC<{ event: any }> = ({ event }) => {
               {(groupedTicketCookie &&
                 tickets?.length !== 0 &&
                 toFiat(totalticketPrice())) ||
-                toFiat(Number(entryData?.price))}
+                toFiat(Number(entryData?.price * entryData?.quantity))}
             </p>
           </div>
         </div>

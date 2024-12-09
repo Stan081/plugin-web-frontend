@@ -61,7 +61,7 @@ const ExploreEventDetailPage = () => {
 
             <SimilarEvents />
           </Container>
-          <TicketCTA event={cardId} id={cardId.id} />
+          <TicketCTA event={cardId} id={cardId._id} />
         </Section>
       )}
     </Layout>
