@@ -1,5 +1,4 @@
 import CardComponent from "@/components/CardComponent";
-import { cardData } from "@/static-datas/cards-data";
 import React from "react";
 
 const SimilarEvents = () => {
