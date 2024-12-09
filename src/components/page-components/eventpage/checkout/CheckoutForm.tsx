@@ -24,6 +24,7 @@ const CheckoutForm = () => {
   const { data: user } = useMe();
   const { tickets, entryData } = useEventsContext();
 
+  console.log(tickets, "tixkl");
   const form = useForm<CheckoutForms>({
     mode: "all",
     defaultValues: {
@@ -40,7 +41,7 @@ const CheckoutForm = () => {
   //   toast
   const { toast } = useToast();
 
-  const ticketCookie = getCookie("tickets")
+  const ticketCookie = getCookie("tickets");
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
@@ -74,11 +75,11 @@ const CheckoutForm = () => {
         ticket: ticketCookie ? tickets : entryData?.quantity,
         total: tickets ? totalticketPrice() : 0,
       };
-      
+
       console.log(data);
 
-      removeCookie("tickets")
-      removeCookie("entryTicket")
+      removeCookie("tickets");
+      removeCookie("entryTicket");
     }
   }, []);
   return (

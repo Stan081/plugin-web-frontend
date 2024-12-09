@@ -9,7 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import React, { FC } from "react";
-import { RiUserAddLine, RiUserUnfollowLine } from "react-icons/ri";
+import { RiUserAddLine } from "react-icons/ri";
 import {
   useCheckFollow,
   useUnfollow,

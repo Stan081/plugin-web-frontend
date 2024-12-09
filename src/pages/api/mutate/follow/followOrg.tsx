@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 type FollowResponse = {
   status: number;
   message: string;
-  data?: any;
+  data?: unknown;
 };
 
 export const FollowOrganiser = async (data: {

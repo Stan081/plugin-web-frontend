@@ -13,16 +13,20 @@ const AuthVisual = () => {
         <div className="relative w-full mt-12">
           <div className="w-72 h-72 absolute top-0 rounded-lg">
             <Image
-              src={"/images/people-watching-in-the-stage.jpg"}
+              src={
+                "https://ik.imagekit.io/shiga/plugin/party-fans-raised-their-hands.jpg?updatedAt=1733669989397"
+              }
               alt="Auth"
               width={270}
               height={275}
-              className="pointer-events-none w-full h-full object-cover rounded-lg"
+              className="pointer-events-none w-full object-cover rounded-lg"
             />
           </div>
           <li className="w-72 h-72 absolute top-10 right-0 rounded-lg">
             <Image
-              src={"/images/party-fans-raised-their-hands.jpg"}
+              src={
+                "https://ik.imagekit.io/shiga/plugin/laughing-people-in-party.jpg?updatedAt=1733669960536"
+              }
               alt="Auth"
               width={270}
               height={275}
