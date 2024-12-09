@@ -1,6 +1,7 @@
 "use client";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { GrFormCheckmark } from "react-icons/gr";
@@ -8,7 +9,7 @@ import { RiArrowLeftSLine } from "react-icons/ri";
 
 const StepTracker = () => {
   const { currentStep } = useCreateEventContext();
-  const { data: event } = useGetEvent();
+  const { data: event, isLoading } = useGetEvent();
   const router = useRouter();
 
   const startDate: string =
@@ -43,6 +44,7 @@ const StepTracker = () => {
   });
   return (
     <div>
+      {isLoading && <SpinnerOverlay />}
       <div className="lg:hidden flex gap-5">
         <div className="bg-gray-600 h-16 w-16 flex justify-center items-center rounded-lg">
           {event?.data?.thumbnail ? (

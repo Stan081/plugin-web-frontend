@@ -34,7 +34,7 @@ const Logo: FC<LogoProps> = ({ className, white }) => {
             alt="Plugin Logo"
             width={128}
             height={32}
-            className="w-[130px] h-10 lg:h-11 pointer-events-auto"
+            className="w-[110px] h-10 lg:h-11 pointer-events-auto"
           />
         )}
       </Link>
