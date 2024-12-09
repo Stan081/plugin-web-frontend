@@ -7,7 +7,6 @@ import TicketComponent from "@/components/TicketComponent";
 import { Separator } from "@/components/ui/separator";
 import { useAllBookmark } from "@/hooks/events/bookmark-favourite/useAllBookmarkFavourite";
 import { getToken } from "@/lib/token";
-import { cardData } from "@/static-datas/cards-data";
 import { Section } from "@/tw-components/Section";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 import { useRouter } from "next/navigation";
@@ -65,7 +64,7 @@ const SavedEvents = () => {
           )}
         </div>
         <div className="block md:hidden">
-          <TicketComponent tickets={cardData} />
+          {/* <TicketComponent tickets={cardData} /> */}
         </div>
       </Section>
     </Layout>
