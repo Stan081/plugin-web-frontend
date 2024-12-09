@@ -24,7 +24,6 @@ const CheckoutForm = () => {
   const { data: user } = useMe();
   const { tickets, entryData } = useEventsContext();
 
-  console.log(tickets, "tixkl");
   const form = useForm<CheckoutForms>({
     mode: "all",
     defaultValues: {
@@ -42,6 +41,7 @@ const CheckoutForm = () => {
   const { toast } = useToast();
 
   const ticketCookie = getCookie("tickets");
+  const entryTicketCookie = getCookie("entryTicket");
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
@@ -57,12 +57,10 @@ const CheckoutForm = () => {
       }
       return sum;
     }, 0);
-    console.log(total);
     return total;
   };
 
   const onSubmit = useCallback(async (payload: CheckoutForms) => {
-    console.log(payload);
     if (!payload) {
       toast({
         variant: "destructive",
@@ -73,7 +71,7 @@ const CheckoutForm = () => {
       const data = {
         user: payload,
         ticket: ticketCookie ? tickets : entryData?.quantity,
-        total: tickets ? totalticketPrice() : 0,
+        total: entryData?.quantity * entryData?.price || totalticketPrice(),
       };
 
       console.log(data);
