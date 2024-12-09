@@ -1,3 +1,4 @@
+"use client"
 import CardComponent from "@/components/CardComponent";
 import GoBack from "@/components/GoBack";
 import Layout from "@/components/layout";
@@ -5,15 +6,26 @@ import SearchComponent from "@/components/page-components/user-dashboard/SearchC
 import TicketComponent from "@/components/TicketComponent";
 import { Separator } from "@/components/ui/separator";
 import { useAllBookmark } from "@/hooks/events/bookmark-favourite/useAllBookmarkFavourite";
+import { getToken } from "@/lib/token";
 import { cardData } from "@/static-datas/cards-data";
 import { Section } from "@/tw-components/Section";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const SavedEvents = () => {
   const { data: allBookmark, isLoading } = useAllBookmark();
-  
 
+  const token = getToken();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (token) {
+      return;
+    } else {
+      router.push("/login");
+    }
+  }, [router]);
   return (
     <Layout title="Saved events" showHeader showFooter showSidebar>
       <Section

@@ -10,7 +10,7 @@ import StepTracker from "../StepTracker";
 const StepSeven: FC = () => {
   const { data: userData, isLoading } = useMe();
   return (
-    <div className="flex flex-col lg:flex-row items-start justify-between gap-4 md:gap-12 h-screen">
+    <div className="flex flex-col lg:flex-row items-start justify-between gap-4 md:gap-12 h-full lg:h-screen">
       <Fragment>
         {isLoading ? (
           <SpinnerOverlay />

@@ -1,8 +1,8 @@
 import { getCookie } from "../cookies";
 
-export const BASE_URL: string = "http://localhost:8000";
+// export const BASE_URL: string = "http://localhost:8000";
 
-// export const BASE_URL: string = "https://pluginapi.onrender.com";
+export const BASE_URL: string = "https://pluginapi.onrender.com";
 
 export const API_URL: string = `${BASE_URL}/api`;
 
@@ -33,6 +33,8 @@ export const ALL_ORGANISERS: string = `${API_URL}/organizers`;
 export const FILTER_EVENTS: string = `${API_URL}/event/filter`;
 
 export const TICKETS: string = `${API_URL}/tickets`;
+
+export const CAMPAIGN: string = `${API_URL}/campaign`
 
 export const FOLLOW_ORGANISER: string = `${API_URL}/follow`;
 

@@ -8,6 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { toFiat } from "@/lib/amount";
 
 type Details =
   | {
@@ -16,14 +17,12 @@ type Details =
       description: string;
       bgColor: string;
       data: string[];
-      pricing?: string;
-      link?: string;
+      pricing?: number;
     }
   | {
       isAd: boolean;
       title: string;
-      pricing: string;
-      link: string;
+      pricing: number;
       bgColor: string;
       data: string[];
       description?: string;
@@ -43,7 +42,7 @@ function AdBanner({ details }: { details: Details }) {
           {details.title}
         </p>
         <p className="font-pally-bold text-3xl text-[#221D22]">
-          {details.pricing}
+          {toFiat(details.pricing)}
         </p>
       </div>
 
@@ -58,9 +57,7 @@ function AdBanner({ details }: { details: Details }) {
 
 function PricingBanner() {
   return (
-    <div
-      className={`bg-[#281E17] p-5 size-full flex flex-col justify-center `}
-    >
+    <div className={`bg-[#281E17] p-5 size-full flex flex-col justify-center `}>
       <p className="font-pally-bold text-2xl text-white">All Pricing Plans</p>
       <p className="font-pally-regular leading-5 text-base text-[#BDB2BD]">
         Compare all pricing offers suitable for your Individual, team and
@@ -150,30 +147,30 @@ const AdPackages = () => {
                         />
                       </div>
                       <p className="">
-                        {ad.title} - {ad.pricing}
+                        {ad.title} - {toFiat(ad.pricing)}
                       </p>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className=" font-pally-regular text-base md:text-lg">
-                    <p className="font-pally-regular text-[#667185] text-xl leading-6">
+                    <p className="font-pally-regular text-[#667185] text-base leading-6">
                       This plan includes all the following perks below:{" "}
                     </p>
                     <ul className="list-inside list-disc ml-2 space-y-1 mt-2">
                       {ad.data[0].split(",").map((platform) => (
                         <li
                           key={platform}
-                          className="font-pally-regular text-[#667185] text-xl leading-6"
+                          className="font-pally-regular text-[#667185] text-sm md:text-base leading-6"
                         >
                           {platform}{" "}
                         </li>
                       ))}
-                      <li className="font-pally-regular text-[#667185] text-xl leading-6">
+                      <li className="font-pally-regular text-[#667185] text-sm md:text-base leading-6">
                         {ad.data[1]} impressions
                       </li>
-                      <li className="font-pally-regular text-[#667185] text-xl leading-6">
+                      <li className="font-pally-regular text-[#667185] text-sm md:text-base leading-6">
                         {ad.data[2]} runtime duration
                       </li>
-                      <li className="font-pally-regular text-[#667185] text-xl leading-6">
+                      <li className="font-pally-regular text-[#667185] text-sm md:text-base leading-6">
                         {ad.addOns}
                       </li>
                     </ul>

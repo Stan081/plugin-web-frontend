@@ -75,7 +75,7 @@ const HomeTabs = () => {
             </button>
           </li>
         ))}
-        <Select onValueChange={(value) => setIsActive(value)}>
+        {/* <Select onValueChange={(value) => setIsActive(value)}>
           <SelectTrigger className="w-[180px] border-none rounded-full font-pally-regular text text-[#586170] shadow-none">
             <SelectValue placeholder="Select Date" className="" />
           </SelectTrigger>
@@ -87,7 +87,7 @@ const HomeTabs = () => {
               <SelectItem value="60">Last month</SelectItem>
             </SelectGroup>
           </SelectContent>
-        </Select>
+        </Select> */}
       </ul>
 
       <div

@@ -1,6 +1,7 @@
 "use client";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { GrFormCheckmark } from "react-icons/gr";
@@ -8,7 +9,7 @@ import { RiArrowLeftSLine } from "react-icons/ri";
 
 const StepTracker = () => {
   const { currentStep } = useCreateEventContext();
-  const { data: event } = useGetEvent();
+  const { data: event, isLoading } = useGetEvent();
   const router = useRouter();
 
   const startDate: string =
@@ -43,6 +44,7 @@ const StepTracker = () => {
   });
   return (
     <div>
+      {isLoading && <SpinnerOverlay />}
       <div className="lg:hidden flex gap-5">
         <div className="bg-gray-600 h-16 w-16 flex justify-center items-center rounded-lg">
           {event?.data?.thumbnail ? (
@@ -116,7 +118,7 @@ const StepTracker = () => {
               {currentStep > 4 ||
               event?.data?.oneTimeEvent?.startDate ||
               event?.data?.recurringEvent?.startDate ||
-              event?.data?.locationType !== "" ? (
+              event?.data?.locationType ? (
                 <div className="bg-green-600 rounded-full p-0.5">
                   <GrFormCheckmark color="#fff" size={18} />
                 </div>
@@ -144,7 +146,7 @@ const StepTracker = () => {
             <div className="flex items-center gap-2">
               {currentStep > 6 ||
               event?.data?.ticketCategory ||
-              event?.data?.groupedTicket.length !== 0 ||
+              event?.data?.groupedTicket.length ||
               event?.data?.entryTicket ? (
                 <div className="bg-green-600 rounded-full p-0.5">
                   <GrFormCheckmark color="#fff" size={18} />

@@ -165,11 +165,6 @@ const StepOne: React.FC = () => {
     mutationFn: (data: any) => EventBasicInfo(data),
     onSuccess: (response) => {
       if (response?.message) {
-        toast({
-          variant: "success",
-          title: "File has been uploaded",
-          description: `${response?.message}`,
-        });
         next();
         client.invalidateQueries({ queryKey: ["eventById"] });
         setCookie("event_id", response?.data?._id);
@@ -440,7 +435,7 @@ const StepOne: React.FC = () => {
                       disabled={isPending || isUpdatePending}
                       variant="destructive"
                     >
-                      {isPending || isUpdatePending ? <Spinner /> : "Next"}
+                      {isPending ? <Spinner /> : "Next"}
                     </Button>
                   </div>
                 </div>

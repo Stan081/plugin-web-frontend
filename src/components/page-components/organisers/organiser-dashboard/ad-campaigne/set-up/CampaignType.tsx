@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { toFiat } from "@/lib/amount";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { HiMiniSquare3Stack3D } from "react-icons/hi2";
 
@@ -11,15 +13,17 @@ type campaignPlansType = {
   description: string;
   image: string;
   bgColor: string;
+  price: number;
 };
 
-const campaignPlans: campaignPlansType[] = [
+export const campaignPlans: campaignPlansType[] = [
   {
     id: 1,
     title: "Social Media Ads",
     description: "( Facebook & Instagram )",
     image: "/images/social-media@2x.png",
     bgColor: "#ECF1F8",
+    price: 8000,
   },
   {
     id: 2,
@@ -27,6 +31,7 @@ const campaignPlans: campaignPlansType[] = [
     description: "( Ads to 5000 email list )",
     image: "/images/letter.png",
     bgColor: "#E7F6EC",
+    price: 27000,
   },
   {
     id: 3,
@@ -34,28 +39,36 @@ const campaignPlans: campaignPlansType[] = [
     description: "( Highlight on Homepage )",
     image: "/images/Seo-ads-google.png",
     bgColor: "#FFF7AB",
+    price: 10000,
   },
 ];
 
 const CampaignType = () => {
-  const [isClicked, setIsClicked] = useState<number>();
-  const { handleIsChecked, nextSetUpStep } = useOrganiserDashContext();
+  const {
+    clickedCampaignId,
+    handleIsChecked,
+    nextSetUpStep,
+    setClickedCampaignId,
+  } = useOrganiserDashContext();
+
+  const router = useRouter();
 
   const handleClick = (id: number) => {
     const getClicked = campaignPlans.find((plan) => plan.id === id);
-    setIsClicked(getClicked.id);
+    setClickedCampaignId(getClicked.id);
   };
 
   const handleNext = () => {
     handleIsChecked("campaignTypeState");
     nextSetUpStep();
+ 
   };
   return (
-    <div className="w-full md:w-3/5 p-10 rounded-lg h-screen bg-white flex flex-col justify-between">
+    <div className="w-full lg:w-3/5 pt-10 lg:px-10 rounded-lg h-screen bg-white flex flex-col justify-between">
       <div>
-        <div className="space-y-4">
-          <h2 className="text-4xl font-pally-medium">Start a Campaign</h2>
-          <p className="text-[#475367] font-pally-regular text-lg">
+        <div className="space-y-2 lg:space-y-4">
+          <h2 className="text-2xl font-pally-medium">Start a Campaign</h2>
+          <p className="text-[#475367] font-pally-regular text-sm lg:text-lg">
             What type of campaign do you want to create
           </p>
           <Separator />
@@ -70,18 +83,18 @@ const CampaignType = () => {
           </div>
         </div>
 
-        <ul className="mt-6 flex flex-col md:flex-row justify-center gap-5">
+        <ul className="mt-6 flex flex-col lg:flex-row justify-center gap-5">
           {campaignPlans.map((plan) => (
             <li
               key={plan.id}
               onClick={() => handleClick(plan.id)}
               className={`${
-                isClicked === plan.id && `border-4 border-black`
+                clickedCampaignId === plan.id && `border-4 border-black`
               } border p-3 rounded-xl cursor-pointer hover:border-[#475367] w-full max-w-md`}
             >
               <div
                 style={{ backgroundColor: plan.bgColor }}
-                className="border rounded-md py-8 px-10 h-32"
+                className="border rounded-md py-8 px-10 h-28 lg:h-32"
               >
                 <Image
                   src={plan.image}
@@ -99,17 +112,27 @@ const CampaignType = () => {
                   {plan.description}
                 </p>
               </div>
+              <p className="font-pally-medium text-lg mt-5">
+                {toFiat(plan.price)}
+              </p>
             </li>
           ))}
         </ul>
       </div>
 
-      <div>
+      <div className="sticky z-50 bottom-0 bg-white my-10 lg:mb-6">
         <Separator />
-        <div className="mt-5 flex justify-end ">
+        <div className="mt-5 flex justify-between items-center mb-8 lg:mb-0">
+          <Button
+            onClick={() => router.push("/organiser/ad-campaigns")}
+            type="button"
+            variant="outline"
+          >
+            Back
+          </Button>
           <Button
             onClick={handleNext}
-            disabled={!isClicked}
+            disabled={!clickedCampaignId}
             variant="destructive"
           >
             Next

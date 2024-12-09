@@ -49,7 +49,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
       end_date: null,
       start_time: "",
       end_time: "",
-      ticket_perks: "",
+      ticket_perks: "Refer to event flyer for more details",
     },
     resolver: yupResolver(PaidTicketFormSchema),
   });
@@ -293,7 +293,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
             </div>
             <FormItem>
               <FormLabel className="text-white" htmlFor="ticket_perks">
-                Ticket Peaks
+                Ticket Peaks (Optional)
               </FormLabel>
               <FormField
                 control={form.control}

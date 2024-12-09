@@ -17,6 +17,7 @@ import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provide
 import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
+import EditProfileFormModal from "./EditProfileFormModal";
 
 const ActiveProfileCard: FC<{}> = ({}) => {
   const { data: orgProfile, isLoading } = useGetOrgProfileById();
@@ -91,7 +92,7 @@ const ActiveProfileCard: FC<{}> = ({}) => {
       </div>
       {showDeleteMode && <DeleteProfilePrompt />}
       {showProfile && (
-        <ProfileFormModal open={showProfile} close={handleCloseProfile} />
+        <EditProfileFormModal open={showProfile} close={handleCloseProfile} />
       )}
     </Fragment>
   );
