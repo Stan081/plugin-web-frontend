@@ -8,6 +8,7 @@ import EventsSpeakers from "./EventsGuests";
 import EventsAgenda from "./EventsAgenda";
 import EventsVendorPass from "./EventsVendorPass";
 import EventGallery from "./EventGallery";
+import SeatMap from "./SeatMap";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
@@ -78,6 +79,14 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
       )}
 
       {event?.eventAgendas?.length > 0 && <Separator />}
+
+      {event?.ticketCategory === "grouped" &&
+        event?.groupedTicket?.length !== 0 && (
+          <SeatMap groupedTicket={event?.groupedTicket} />
+        )}
+
+      {event?.ticketCategory === "grouped" &&
+        event?.groupedTicket?.length !== 0 && <Separator />}
 
       {event?.eventVendors?.length > 0 && event?.eventVendors && (
         <EventsVendorPass vendor={event?.eventVendors} />

@@ -1,15 +1,7 @@
 import { getCookie } from "../cookies";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-// export const BASE_URL: string = "http://localhost:8000";
->>>>>>> bbd5103 (Update)
-=======
-export const BASE_URL: string = "http://localhost:8000";
->>>>>>> 5efa1b7 (Update)
 
-// export const BASE_URL: string = "https://pluginapi.onrender.com";
+export const BASE_URL: string = "https://pluginapi.onrender.com";
 
 export const API_URL: string = `${BASE_URL}/api`;
 
