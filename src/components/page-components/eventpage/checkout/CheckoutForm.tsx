@@ -13,16 +13,60 @@ import { CheckoutForms, CheckoutFormSchema } from "@/models/auth";
 import Spinner from "@/tw-components/spinner";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMe } from "@/pages/api/query/me";
 import { PhoneNumberInput } from "@/components/PhoneNumberInput";
 import { useEventsContext } from "@/providers/events.provider";
 import { getCookie, removeCookie } from "@/lib/cookies";
+import { CheckoutProps } from "./CheckoutContactInfo";
+import { useMutation } from "@tanstack/react-query";
+import { Checkout } from "@/pages/api/mutate/tickets/checkout-api";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useGetCountry } from "@/pages/api/query/country";
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ eventId }: CheckoutProps) => {
   const { data: user } = useMe();
   const { tickets, entryData } = useEventsContext();
+  const { data: country } = useGetCountry();
+
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => Checkout(data),
+    onSuccess: (response) => {
+      if (response?.data?.paymentLink) {
+        const paymentLink = response.data.paymentLink;
+
+        // Validate payment link
+        try {
+          const url = new URL(paymentLink); // Ensures it's a valid URL
+          toast({
+            variant: "success",
+            title: "Payment link generated successfully",
+            description: `${response?.message}`,
+          });
+          router.push(url.toString());
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (error) {
+          toast({
+            variant: "destructive",
+            title: "Invalid Payment Link",
+            description:
+              "The returned payment link is invalid. Please try again.",
+          });
+        }
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Something went wrong. Try again",
+        description: error?.message,
+      });
+    },
+  });
 
   const form = useForm<CheckoutForms>({
     mode: "all",
@@ -37,9 +81,6 @@ const CheckoutForm = () => {
     resolver: yupResolver(CheckoutFormSchema),
   });
 
-  //   toast
-  const { toast } = useToast();
-
   const ticketCookie = getCookie("tickets");
   const entryTicketCookie = getCookie("entryTicket");
 
@@ -50,15 +91,17 @@ const CheckoutForm = () => {
     [form.formState.errors]
   );
 
-  const totalticketPrice = (): number => {
-    const total = tickets.reduce((sum, item) => {
-      if (item?.price) {
-        return sum + item.quantity * item.price;
-      }
-      return sum;
-    }, 0);
-    return total;
-  };
+
+//   const totalticketPrice = (): number => {
+//     const total = tickets.reduce((sum, item) => {
+//       if (item?.price) {
+//         return sum + item.quantity * item.price;
+//       }
+//       return sum;
+//     }, 0);
+//     return total;
+//   };
+
 
   const onSubmit = useCallback(async (payload: CheckoutForms) => {
     if (!payload) {
@@ -69,19 +112,24 @@ const CheckoutForm = () => {
     }
     if (tickets || entryData) {
       const data = {
-        user: payload,
-        ticket: ticketCookie ? tickets : entryData?.quantity,
-        total: entryData?.quantity * entryData?.price || totalticketPrice(),
+        eventId: eventId,
+        firstname: payload?.first_name,
+        lastname: payload?.last_name,
+        email: payload?.email,
+        phone: payload?.phone_number,
+        country: country?.country_name ? country?.country_name : "Nigeria",
+        tickets: ticketCookie ? tickets : entryData,
       };
 
-      console.log(data);
+      mutate(data);
 
-      removeCookie("tickets");
-      removeCookie("entryTicket");
+      // removeCookie("tickets");
+      // removeCookie("entryTicket");
     }
   }, []);
   return (
     <div>
+      {isPending && <SpinnerOverlay />}
       <Form {...form}>
         <form
           onClick={form.handleSubmit(onSubmit)}

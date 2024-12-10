@@ -3,7 +3,10 @@ import React from "react";
 import CheckoutForm from "./CheckoutForm";
 import { getToken } from "@/lib/token";
 
-const CheckoutContactInfo = () => {
+export type CheckoutProps = {
+  eventId?: string;
+};
+const CheckoutContactInfo = ({ eventId }: CheckoutProps) => {
   const token = getToken();
   return (
     <div className="w-full max-w-2xl">
@@ -22,7 +25,7 @@ const CheckoutContactInfo = () => {
           </Link>
         </div>
       )}
-      <CheckoutForm />
+      <CheckoutForm eventId={eventId} />
     </div>
   );
 };

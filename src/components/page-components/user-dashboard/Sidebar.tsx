@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import MobileSidebar from "./MobileSidebar";
 import { RiHeart3Line, RiLogoutBoxRLine } from "react-icons/ri";
-import { LuUserPlus2 } from "react-icons/lu";
+import { LuUserPlus } from "react-icons/lu";
 import { RiAccountCircleLine } from "react-icons/ri";
 import { BsTicketPerforated } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
@@ -32,7 +32,7 @@ const menuLinks = [
   },
   {
     label: "Following",
-    icon: LuUserPlus2,
+    icon: LuUserPlus,
     href: "/following",
   },
   {
