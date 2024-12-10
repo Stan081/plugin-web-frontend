@@ -1,5 +1,9 @@
 import { getCookie } from "../cookies";
 
+<<<<<<< HEAD
+=======
+// export const BASE_URL: string = "http://localhost:8000";
+>>>>>>> bbd5103 (Update)
 
 export const BASE_URL: string = "https://pluginapi.onrender.com";
 

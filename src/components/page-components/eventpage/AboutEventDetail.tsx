@@ -11,6 +11,7 @@ import EventGallery from "./EventGallery";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
+  console.log("event:", event);
   const startDate: string =
     event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
 
