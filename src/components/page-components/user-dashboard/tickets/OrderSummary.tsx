@@ -57,9 +57,11 @@ const OrderSummary = ({ data, createdAt, user }: Props) => {
         </Button>
       </div>
       <ReceiptModal
+        total={totalPrice}
         data={data}
         createdAt={formatDate(createdAt)}
         open={isOpen}
+        email={user?.email}
         close={() => setIsOpen(!isOpen)}
       />
     </div>

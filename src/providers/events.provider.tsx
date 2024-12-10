@@ -17,7 +17,7 @@ type TicketProps = {
   price: number;
 };
 
-type EntryData ={
+type EntryData = {
   name: string;
   price: number;
   quantity: number;

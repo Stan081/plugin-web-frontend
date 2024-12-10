@@ -23,6 +23,8 @@ interface ReceiptModalProps {
   close: () => void;
   createdAt: string;
   data?: TicketProps[];
+  total?: number;
+  email?: string;
 }
 
 type TicketAccumulator = {
@@ -37,6 +39,8 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
   close,
   createdAt,
   data,
+  total,
+  email,
 }) => {
   // Count occurrences of each ticket name and store price in a typed accumulator
   const ticketCount = data?.reduce<TicketAccumulator>((acc, ticket) => {
@@ -65,7 +69,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
   //   )
   // );
 
-  console.log(ticketCount);
   return (
     <div>
       <Dialog
@@ -102,9 +105,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                     <p className="font-pally-regular text-[#515A6A]">
                       Your ticket has been sent to{" "}
                     </p>
-                    <p className="font-pally-medium text-xl">
-                      OluchiMiracle@gmail.com
-                    </p>
+                    <p className="font-pally-medium text-xl">{email}</p>
                   </div>
                 </div>
                 <Separator />
@@ -152,29 +153,26 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                     <BsTicketPerforated size={18} color="#667185" />
                     <span className="font-pally-medium">Tickets</span>
                   </p>
+                  {ticketCount &&
+                    Object.entries(ticketCount).map(
+                      ([name, { count, price }], index) => (
+                        <div className="flex justify-between" key={index}>
+                          <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
+                            {count} x {name}
+                          </p>
+                          <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
+                            {toFiat(price * count)}
+                          </p>
+                        </div>
+                      )
+                    )}
 
-                  {/* <div className=" flex justify-between">
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-                      1 x Barn Member
-                    </p>
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-                      {toFiat(3000)}
-                    </p>
-                  </div> */}
-                  <div className=" flex justify-between">
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-                      1 x Barn Chief
-                    </p>
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-                      {toFiat(3000)}
-                    </p>
-                  </div>
                   <div className=" flex justify-between">
                     <p className="text-sm md:text-base font-pally-medium">
                       Total
                     </p>
                     <p className="text-sm md:text-base font-pally-medium">
-                      {toFiat(200000)}
+                      {toFiat(total)}
                     </p>
                   </div>
                 </div>
