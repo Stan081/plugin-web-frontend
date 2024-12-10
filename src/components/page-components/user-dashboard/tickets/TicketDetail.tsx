@@ -4,6 +4,7 @@ import { toFiat } from "@/lib/amount";
 import Image from "next/image";
 import React from "react";
 import MeetYourOganiser from "../MeetYourOganiser";
+import { formatDate } from "@/components/TicketComponent";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const TicketDetail: React.FC<{ event: any; tickets: any }> = ({
@@ -13,22 +14,11 @@ const TicketDetail: React.FC<{ event: any; tickets: any }> = ({
   const startDate: string =
     event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
 
-  const date = new Date(startDate);
-  const options: Intl.DateTimeFormatOptions = {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-  };
+  const totalPrice = tickets?.reduce(
+    (sum, ticket) => sum + ticket?.ticketData?.price,
+    0
+  );
 
-  const formattedDate = date.toLocaleDateString("en-GB", options);
-
-    const totalPrice = tickets?.reduce(
-      (sum, ticket) => sum + ticket?.ticketData?.price,
-      0
-    );
-
-
-  
   return (
     <div>
       <div className="rounded-lg border p-3 w-full max-w-96 h-72">
@@ -48,7 +38,7 @@ const TicketDetail: React.FC<{ event: any; tickets: any }> = ({
             : "Online"}
         </p>
         <p className="destructive text-sm font-pally-regular">
-          {formattedDate}
+          {formatDate(startDate)}
         </p>
         <div className="flex items-center gap-1 mt-3">
           <TicketIcon />{" "}
