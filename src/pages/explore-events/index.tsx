@@ -38,7 +38,6 @@ const ExploreEventsPage = () => {
     return item?.isPublished === true;
   });
 
-  const isEmpty = !events?.data || events.data.length === 0;
 
   if (isError) {
     return <div>Error loading events</div>;
