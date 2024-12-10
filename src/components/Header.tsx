@@ -20,14 +20,14 @@ const Header = () => {
           <div className="space-x-6 md:space-x-0 flex md:gap-6 items-center">
             <NavigationDialog />
             <Logo />
-            <div className="hidden md:block w-full">
+            <div className="hidden lg:block w-full">
               <HeaderSearchBar />
             </div>
           </div>
           <div className="hidden lg:flex items-center gap-6">
             <Link
               href={"/explore-events"}
-              className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline whitespace-nowrap"
+              className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline whitespace-nowrap cursor-pointer"
             >
               Explore Events
             </Link>
@@ -36,7 +36,7 @@ const Header = () => {
 
             <Link
               href={"/faq"}
-              className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline"
+              className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline cursor-pointer"
             >
               Help
             </Link>
@@ -51,7 +51,7 @@ const Header = () => {
               <MenuLinks />
             )}
           </div>
-          <div className="md:hidden block">
+          <div className="lg:hidden block">
             {!userData?.data ? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
@@ -63,7 +63,7 @@ const Header = () => {
             )}
           </div>
         </nav>
-        <div className="md:hidden block w-full pb-2 md:pb-0">
+        <div className="lg:hidden block w-full pb-2 md:pb-0">
           <HeaderSearchBar />
         </div>
       </Container>
