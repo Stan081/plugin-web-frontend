@@ -10,6 +10,7 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useRouter } from "next/navigation";
 import React, { Fragment, useEffect } from "react";
 import { useMe } from "../api/query/me";
+import { removeCookie } from "@/lib/cookies";
 
 const OrganiserPage = () => {
   const { setCurrentStep } = useCreateEventContext();
@@ -22,6 +23,7 @@ const OrganiserPage = () => {
     if (token) {
       if (userData?.data?.isOrganizer) {
         setCurrentStep(1);
+        removeCookie('event_id')
       }
       return;
     } else {
