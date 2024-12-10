@@ -44,7 +44,6 @@ const StepTracker = () => {
   });
   return (
     <div>
-      {isLoading && <SpinnerOverlay />}
       <div className="lg:hidden flex gap-5">
         <div className="bg-gray-600 h-16 w-16 flex justify-center items-center rounded-lg">
           {event?.data?.thumbnail ? (

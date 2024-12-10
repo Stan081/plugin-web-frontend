@@ -28,7 +28,7 @@ const AccountPage = () => {
           className="mt-5 flex flex-col justify-center accountItems-center gap-8 w-full"
           defaultValue={accountItems[0].key}
         >
-          <TabsList className="flex overflow-x-auto gap-8 w-full">
+          <TabsList className="flex overflow-x-auto gap-8 w-full pb-3 lg:pb-0">
             {accountItems.map(({ key, title }, index) => {
               return (
                 <TabsTrigger asChild key={index} value={key}>

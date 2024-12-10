@@ -112,9 +112,9 @@ const TailoredEvent: React.FC = () => {
             Our user-friendly software selects event listings based on your
             location or top priorities, making your search much more fun.
           </p>
-          <div className="mx-auto">
+          <Link href={'/explore-events'} className="mx-auto">
             <Button variant="outline">Explore events</Button>
-          </div>
+          </Link>
         </div>
       </Container>
     );
