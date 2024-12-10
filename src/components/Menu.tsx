@@ -4,7 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { RiArrowDownSLine } from "react-icons/ri";
 import TicketIcon from "./icons/ticket";
 import { RiHeart3Line } from "react-icons/ri";
-import { LuUserPlus2 } from "react-icons/lu";
+import { RiUserFollowLine } from "react-icons/ri";
 import { RiAccountCircleLine } from "react-icons/ri";
 import { MdHelpOutline } from "react-icons/md";
 import Link from "next/link";
@@ -28,7 +28,7 @@ const items = [
   },
   {
     label: "Following",
-    icon: LuUserPlus2,
+    icon: RiUserFollowLine,
     href: "/following",
   },
   {
