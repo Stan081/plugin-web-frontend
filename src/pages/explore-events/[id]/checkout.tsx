@@ -16,7 +16,6 @@ const CheckoutEvent = () => {
   const param = useParams<{ id: string }>();
   const checkCardId = events?.data.find((card) => card?._id === param?.id);
 
-  //   Temporary routing
   if (!checkCardId) {
     return <p>Page not found</p>;
   }

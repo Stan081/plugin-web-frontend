@@ -119,7 +119,7 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
             <>
               {isCheck?.isFollowing ? (
                 <>
-                  <span className="hidden md:flex">unfollow</span>
+                  <span className="md:hidden flex">unfollow</span>
                 </>
               ) : (
                 <>

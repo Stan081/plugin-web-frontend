@@ -82,6 +82,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
   });
 
   const ticketCookie = getCookie("tickets");
+  const entryTicketCookie = getCookie("entryTicket");
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
@@ -90,16 +91,17 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
     [form.formState.errors]
   );
 
-  // const totalticketPrice = (): number => {
-  //   const total = tickets.reduce((sum, item) => {
-  //     if (item?.price) {
-  //       return sum + item.quantity * item.price;
-  //     }
-  //     return sum;
-  //   }, 0);
 
-  //   return total;
-  // };
+//   const totalticketPrice = (): number => {
+//     const total = tickets.reduce((sum, item) => {
+//       if (item?.price) {
+//         return sum + item.quantity * item.price;
+//       }
+//       return sum;
+//     }, 0);
+//     return total;
+//   };
+
 
   const onSubmit = useCallback(async (payload: CheckoutForms) => {
     if (!payload) {
