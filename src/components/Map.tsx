@@ -22,7 +22,7 @@ interface MapComponentProps {
 const MapComponent: React.FC<MapComponentProps> = ({ lat, lng, address }) => {
   // Load the Google Maps API
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyAcp_C3w1_jDg2YZVv86mJ23cq_oPvQj1I",
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
 
   // Track the center of the map
