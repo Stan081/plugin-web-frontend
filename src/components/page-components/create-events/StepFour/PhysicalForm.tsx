@@ -141,7 +141,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
         city: formattedAddress?.city,
         state: formattedAddress?.state,
         country: formattedAddress?.country,
-        zipcode: String(formattedAddress?.postalCode),
+        zipcode: String(formattedAddress?.postalCode) ?? 0,
       },
     };
     mutate(data);
