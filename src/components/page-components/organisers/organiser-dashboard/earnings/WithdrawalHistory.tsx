@@ -62,10 +62,10 @@ const WithdrawalHistory = () => {
   return (
     <div className="p-6 bg-white rounded-lg shadow-sm w-full">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-pally-medium text-gray-800">
+        <h2 className="text-xl lg:text-2xl font-pally-medium text-gray-800">
           Withdrawal History
         </h2>
-        <div className="flex space-x-4">
+        <div className="flex flex-col lg:flex-row space-x-4 gap-3">
           <Select defaultValue="jan-aug-2024">
             <SelectTrigger className="w-[200px]">
               <LuCalendarRange className="mr-2 h-4 w-4" />
@@ -126,7 +126,7 @@ const WithdrawalHistory = () => {
           ))}
         </TableBody>
       </Table>
-      <div className="flex justify-between items-center mt-6">
+      <div className="flex justify-between items-center whitespace-nowrap w-full overflow-x-auto pb-4 mt-6">
         <p className="text-sm text-gray-600">Page 1 of 30</p>
         <div className="flex space-x-2">
           <Button variant="outline" size="icon">

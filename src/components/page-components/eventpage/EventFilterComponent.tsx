@@ -19,8 +19,8 @@ const EventFilterComponent = ({
   const [isAllCategory, setIsAllCategory] = useState<boolean>(true);
 
   const [filters, setFilters] = useState({
-    minPrice: null,
-    maxPrice: null,
+    minPrice: 0,
+    maxPrice: 0,
     locationType: "",
     eventType: "",
   });
@@ -52,7 +52,7 @@ const EventFilterComponent = ({
   ) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [type]: prevFilters[type] === value ? "" : value, // Toggle between selected and unselected
+      [type]: prevFilters[type] === value ? "" : value,
     }));
   };
 
@@ -64,7 +64,7 @@ const EventFilterComponent = ({
     const { value } = e.target;
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [type]: value ? parseInt(value, 10) : 0, // Parse value as number
+      [type]: value ? parseInt(value, 10) : 0,
     }));
   };
 

@@ -76,7 +76,7 @@ const ExploreEventsPage = () => {
             <EventFilterComponent onApplyFilters={handleApplyFilters} />
             <div className="w-full">
               {isGridView ? (
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-8 justify-items-center mt-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8 justify-items-center mt-3">
                   {isLoading ? (
                     <CardSkeleton />
                   ) : (

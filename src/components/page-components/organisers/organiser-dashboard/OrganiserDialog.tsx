@@ -63,7 +63,7 @@ export const OrganiserDialog = () => {
             <RiMenu4Fill size={18} color="#000" />
           </div>
         </DialogTrigger>
-        <DialogContent className="p-4 flex-none h-screen bg-white">
+        <DialogContent className="p-4 flex-none h-full bg-white">
           <div className="">
             <div className="flex justify-between items-center">
               <Logo />
