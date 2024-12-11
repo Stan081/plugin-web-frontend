@@ -31,12 +31,9 @@ export const ALL_ORGANISERS: string = `${API_URL}/organizers`;
 
 export const FILTER_EVENTS: string = `${API_URL}/event/filter`;
 
-<<<<<<< HEAD
 export const CAMPAIGN: string = `${API_URL}/campaign`
 
-=======
 export const TICKETS: string = `${API_URL}/tickets`;
->>>>>>> 65a5be7 (Tickets integration)
 
 export const FOLLOW_ORGANISER: string = `${API_URL}/follow`;
 
