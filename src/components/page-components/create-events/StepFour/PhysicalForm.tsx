@@ -38,7 +38,13 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
-  const [formattedAddress, setFormattedAddress] = useState("");
+  const [formattedAddress, setFormattedAddress] = useState({
+    address: "",
+    city: "",
+    state: "",
+    country: "",
+    postalCode: "",
+  });
   const [error, setError] = useState("");
 
   const form = useForm<PhysicalLocation>({
@@ -74,7 +80,6 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
       if (data.status === "OK") {
         const location = data.results[0].geometry.location;
         setCoordinates({ lat: location.lat, lng: location.lng });
-        setFormattedAddress(data?.results[0].formatted_address);
         extractAddressDetails(data.results[0]);
         setError("");
       } else {
@@ -104,7 +109,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
       postalCode: getComponent("postal_code").long_name || "",
     };
 
-    console.log(addressDetails);
+    setFormattedAddress(addressDetails);
 
     return addressDetails;
   }
@@ -169,22 +174,19 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     }
   }, [form]);
 
-  const onSubmit = useCallback(
-    (payload: PhysicalLocation) => {
-      const data = {
-        locationType,
-        physicalLocation: {
-          address: payload?.address,
-          city: payload?.city,
-          state: payload?.state,
-          country: payload?.country,
-          zipcode: String(payload?.zipcode),
-        },
-      };
-      mutate(data);
-    },
-    [locationType, mutate]
-  );
+  const onSubmit = () => {
+    // const data = {
+    //   locationType,
+    //   physicalLocation: {
+    //     address: payload?.address,
+    //     city: payload?.city,
+    //     state: payload?.state,
+    //     country: payload?.country,
+    //     zipcode: String(payload?.zipcode),
+    //   },
+    // };
+    // mutate(data);
+  };
 
   const handleVerifyAddress = (e) => {
     e.preventDefault();
@@ -192,158 +194,13 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
   };
 
   return (
-    <div>
-      <h4 className="font-pally-medium md:text-lg">Location Address</h4>
-      {/* <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col justify-between gap-4 w-full h-full"
-        >
-          <div className="mt-8 pb-10 h-[45vh] whitespace-normal overflow-y-auto">
-            <div className="grid grid-cols-2 gap-5 h-auto w-auto">
-              <FormItem className="col-span-2">
-                <FormLabel className="text-white" htmlFor="physical_location">
-                  Address
-                </FormLabel>
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          ref={addressInputRef}
-                          placeholder="Search for location or address"
-                          type="text"
-                          id="physical_location"
-                          className="bg-white text-black font-pally-regular"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </FormItem>
+    <div className="overflow-y-auto h-full">
+      <h4 className="font-pally-medium md:text-lg ">Location Address</h4>
 
-              <FormItem>
-                <FormLabel className="text-white">City</FormLabel>
-                <FormField
-                  control={form.control}
-                  name="city"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder="City"
-                          type="text"
-                          className="bg-white text-black font-pally-regular"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </FormItem>
-              <FormItem>
-                <FormLabel className="text-white">State</FormLabel>
-                <FormField
-                  control={form.control}
-                  name="state"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder="State"
-                          type="text"
-                          className="bg-white text-black font-pally-regular"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </FormItem>
-              <FormItem>
-                <FormLabel className="text-white">Country</FormLabel>
-                <FormField
-                  control={form.control}
-                  name="country"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder="Country"
-                          type="text"
-                          className="bg-white text-black font-pally-regular"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </FormItem>
-              <FormItem>
-                <FormLabel className="text-white" htmlFor="zipcode">
-                  Zipcode
-                </FormLabel>
-                <FormField
-                  control={form.control}
-                  name="zipcode"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter zipcode"
-                          type="number"
-                          id="zipcode"
-                          className="bg-white text-black font-pally-regular"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </FormItem>
-            </div>
-          </div>
-          <div className="sticky z-50 bottom-0 bg-[#281E17]">
-            <Separator />
-            <div className="py-5 flex justify-between items-center">
-              <Button
-                onClick={saveToDraft}
-                variant="outline"
-                className="text-white border-white hover:bg-[#6c5442]"
-              >
-                Save Progress
-              </Button>
-
-              <div className="flex items-center gap-8">
-                <Button
-                  onClick={previous}
-                  className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
-                >
-                  Back
-                </Button>
-
-                <Button
-                  type="submit"
-                  disabled={isPending}
-                  variant="destructive"
-                >
-                  {isPending ? <Spinner /> : "Next"}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </Form> */}
-
-      <form onSubmit={handleVerifyAddress} className="my-5 flex items-center gap-6">
+      <form
+        onSubmit={handleVerifyAddress}
+        className="mb-5 flex items-center gap-6"
+      >
         <div className="w-full">
           <Label htmlFor="address">Address</Label>
           <Input
@@ -352,13 +209,77 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             placeholder="Enter address"
-            className="mt-1  p-2 border bg-white text-bl rounded w-full focus:outline-none"
+            className="mt-1  p-2 border bg-white text-black rounded w-full focus:outline-none"
           />
         </div>
-        <Button variant="destructive" type="submit" className="block mt-7">
-          Verify address
-        </Button>
+        <div className="block mt-7">
+          <Button variant="destructive" type="submit">
+            Verify address
+          </Button>
+        </div>
       </form>
+
+      <div className="mb-7 grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="space-y-2 col-span-2">
+          <div className="h-10 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
+            {formattedAddress?.address}
+          </div>
+        </div>
+        <div className="space-y-2 col-span-2">
+          <p className="text-white font-pally-regular text-sm">City</p>
+          <div className="h-10 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
+            {formattedAddress?.city}
+          </div>
+        </div>
+        <div className="space-y-2 col-span-2">
+          <p className="text-white font-pally-regular text-sm">State</p>
+          <div className="h-10 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
+            {formattedAddress?.state}
+          </div>
+        </div>
+        <div className="space-y-2 col-span-2">
+          <p className="text-white font-pally-regular text-sm">Country</p>
+          <div className="h-10 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
+            {formattedAddress?.country}
+          </div>
+        </div>
+        <div className="space-y-2 col-span-2">
+          <p className="text-white font-pally-regular text-sm">Zip code</p>
+          <div className="h-10 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
+            {formattedAddress?.postalCode}
+          </div>
+        </div>
+      </div>
+
+      <div className="sticky z-50 bottom-0 bg-[#281E17]">
+        <Separator />
+        <div className="py-5 flex justify-between items-center">
+          <Button
+            onClick={saveToDraft}
+            variant="outline"
+            className="text-white border-white hover:bg-[#6c5442]"
+          >
+            Save Progress
+          </Button>
+
+          <div className="flex items-center gap-8">
+            <Button
+              onClick={previous}
+              className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
+            >
+              Back
+            </Button>
+
+            <Button
+              onClick={onSubmit}
+              disabled={isPending || !address.length}
+              variant="destructive"
+            >
+              {isPending ? <Spinner /> : "Next"}
+            </Button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
