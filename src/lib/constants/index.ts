@@ -33,7 +33,6 @@ export const FILTER_EVENTS: string = `${API_URL}/event/filter`;
 
 export const TICKETS: string = `${API_URL}/tickets`;
 
-export const TICKETS: string = `${API_URL}/tickets`;
 export const CAMPAIGN: string = `${API_URL}/campaign`
 
 
