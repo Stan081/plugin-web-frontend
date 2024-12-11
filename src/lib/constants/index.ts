@@ -31,9 +31,11 @@ export const ALL_ORGANISERS: string = `${API_URL}/organizers`;
 
 export const FILTER_EVENTS: string = `${API_URL}/event/filter`;
 
-export const CAMPAIGN: string = `${API_URL}/campaign`
+export const TICKETS: string = `${API_URL}/tickets`;
 
 export const TICKETS: string = `${API_URL}/tickets`;
+export const CAMPAIGN: string = `${API_URL}/campaign`
+
 
 export const FOLLOW_ORGANISER: string = `${API_URL}/follow`;
 

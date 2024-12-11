@@ -91,18 +91,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
     [form.formState.errors]
   );
 
-<<<<<<< HEAD
-  // const totalticketPrice = (): number => {
-  //   const total = tickets.reduce((sum, item) => {
-  //     if (item?.price) {
-  //       return sum + item.quantity * item.price;
-  //     }
-  //     return sum;
-  //   }, 0);
 
-  //   return total;
-  // };
-=======
   const totalticketPrice = (): number => {
     const total = tickets.reduce((sum, item) => {
       if (item?.price) {
@@ -112,7 +101,17 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
     }, 0);
     return total;
   };
->>>>>>> 503749f (Update checkout flow)
+
+//   const totalticketPrice = (): number => {
+//     const total = tickets.reduce((sum, item) => {
+//       if (item?.price) {
+//         return sum + item.quantity * item.price;
+//       }
+//       return sum;
+//     }, 0);
+//     return total;
+//   };
+
 
   const onSubmit = useCallback(async (payload: CheckoutForms) => {
     if (!payload) {
@@ -123,7 +122,6 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
     }
     if (tickets || entryData) {
       const data = {
-<<<<<<< HEAD
         eventId: eventId,
         firstname: payload?.first_name,
         lastname: payload?.last_name,
@@ -131,11 +129,9 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
         phone: payload?.phone_number,
         country: country?.country_name ? country?.country_name : "Nigeria",
         tickets: ticketCookie ? tickets : entryData,
-=======
         user: payload,
         ticket: ticketCookie ? tickets : entryData?.quantity,
         total: entryData?.quantity * entryData?.price || totalticketPrice(),
->>>>>>> 503749f (Update checkout flow)
       };
 
       mutate(data);
