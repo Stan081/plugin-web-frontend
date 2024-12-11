@@ -43,9 +43,11 @@ const WithdrawalSummary = () => {
       </div>
       <p className="text-gray-500 mb-8">A summary of withdrawal</p>
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-5">
         {!data[0].value ? (
-          <div className="h-40 w-40 rounded-full border-4 flex justify-center items-center p-8 font-pally-medium text-gray-300">Empty chart</div>
+          <div className="w-20 h-20 lg:h-40 lg:w-40 rounded-full border-4 flex justify-center items-center p-8 font-pally-medium text-gray-300">
+            Empty chart
+          </div>
         ) : (
           <ResponsiveContainer width="40%" height={250}>
             <PieChart>
@@ -66,15 +68,19 @@ const WithdrawalSummary = () => {
             </PieChart>
           </ResponsiveContainer>
         )}
-        <div className="space-y-4">
+        <div className=" block">
           {data.map((item, index) => (
             <div key={index} className="flex items-center space-x-2">
               <div
                 className={`w-4 h-4 rounded-full`}
                 style={{ backgroundColor: item.color }}
               ></div>
-              <span className="text-gray-500 uppercase">{item.name}: </span>
-              <span className="font-pally-medium">{toFiat(item.value)}</span>
+              <span className="text-gray-500 uppercase text-sm lg:text-base">
+                {item.name}:{" "}
+              </span>
+              <span className="font-pally-medium text-sm lg:text-base">
+                {toFiat(item.value)}
+              </span>
             </div>
           ))}
           <div className="mt-8 text-2xl font-pally-regular text-center">
