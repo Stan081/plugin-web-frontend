@@ -53,7 +53,7 @@ export default function CreateEvent() {
     }
   };
   return (
-    <Section className="bg-[#f0ded1] lg:h-screen w-svw bg-cover bg-no-repeat">
+    <Section className="bg-[#f0ded1] lg:h-screen bg-no-repeat">
       {userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer && (
         <OrganiserHeader />
       )}

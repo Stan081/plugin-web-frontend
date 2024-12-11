@@ -94,7 +94,7 @@ const OurCustomers = () => {
                     <div className="lg:px-48 flex flex-col-reverse lg:flex-row">
                       <div className="w-full lg:h-[560px] lg:w-2/3 bg-[#221A14] px-5 py-6 lg:p-16 rounded-br-2xl lg:rounded-br-none lg:rounded-tl-2xl rounded-bl-2xl">
                         <div className=" space-y-7 lg:space-y-20">
-                          <h4 className=" md:h-56 text-white font-pally-medium text-lg lg:text-3xl">
+                          <h4 className=" md:h-56 text-white/80 font-pally-regular text-lg lg:text-xl">
                             “{customer.quote}”
                           </h4>
                           <div className="flex flex-col items-center md:items-start md:justify-start">

@@ -29,7 +29,7 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
 
   const router = useRouter();
 
-  const client = useQueryClient()
+  const client = useQueryClient();
 
   const startDate: string =
     event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
@@ -80,7 +80,7 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
 
   const handleEditEvent = () => {
     setCookie("event_id", event?._id);
-    client.invalidateQueries({queryKey: ['eventById']})
+    client.invalidateQueries({ queryKey: ["eventById"] });
     setStall(true);
     setTimeout(() => {
       setStall(false);
@@ -174,14 +174,16 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
           {formattedTime ?? "No set time"}
         </p>
 
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-4">
           <p className="text-sm md:text-base text-[#667185] flex items-center gap-2">
             <SlLocationPin />
             {event?.locationType === "physical"
               ? event?.physicalLocation?.address
+                ? event?.physicalLocation?.address?.slice(0, 26).concat("...")
+                : event?.physicalLocation?.address
               : "Online"}
           </p>
-          <div className="w-3 rotate-90  border-b-2 border-[#667185]" />
+          <div className="w-3 rotate-90 hidden lg:block border-b-2 border-[#667185]" />
           <p className="text-sm md:text-base text-[#667185] flex items-center gap-2">
             <TfiWorld />{" "}
             {event?.isPublished && event?.publishStatus === "public"
