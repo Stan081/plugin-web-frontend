@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Form,
   FormControl,
@@ -23,6 +23,7 @@ import { EventPhysicalLocation } from "@/pages/api/mutate/create-events/eventLoc
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { Label } from "@/components/ui/label";
 
 interface PhysicalFormProps {
   locationType: string;
@@ -34,6 +35,11 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     previousStep: previous,
     saveToDraft,
   } = useCreateEventContext();
+
+  const [address, setAddress] = useState("");
+  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
+  const [formattedAddress, setFormattedAddress] = useState("");
+  const [error, setError] = useState("");
 
   const form = useForm<PhysicalLocation>({
     mode: "all",
@@ -48,6 +54,60 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
   });
 
   const { toast } = useToast();
+
+  const fetchCoordinates = async () => {
+    try {
+      if (!address) {
+        setError("Please enter a valid address");
+        return;
+      }
+
+      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+          address
+        )}&key=${apiKey}`
+      );
+
+      const data = await response.json();
+
+      if (data.status === "OK") {
+        const location = data.results[0].geometry.location;
+        setCoordinates({ lat: location.lat, lng: location.lng });
+        setFormattedAddress(data?.results[0].formatted_address);
+        extractAddressDetails(data.results[0]);
+        setError("");
+      } else {
+        setError(`Geocoding failed: ${data.status}`);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("An error occurred while fetching coordinates");
+    }
+  };
+
+  function extractAddressDetails(result) {
+    if (!result || !result.address_components) {
+      return null;
+    }
+
+    const components = result.address_components;
+
+    const getComponent = (type) =>
+      components.find((component) => component.types.includes(type)) || {};
+
+    const addressDetails = {
+      address: result.formatted_address || "",
+      city: getComponent("locality").long_name || "",
+      state: getComponent("administrative_area_level_1").long_name || "",
+      country: getComponent("country").long_name || "",
+      postalCode: getComponent("postal_code").long_name || "",
+    };
+
+    console.log(addressDetails);
+
+    return addressDetails;
+  }
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => EventPhysicalLocation(data),
@@ -95,9 +155,15 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
           // Update form values based on extracted data
           form.setValue("address", place.formatted_address || "");
           form.setValue("city", getAddressComponent("locality"));
-          form.setValue("state", getAddressComponent("administrative_area_level_1"));
+          form.setValue(
+            "state",
+            getAddressComponent("administrative_area_level_1")
+          );
           form.setValue("country", getAddressComponent("country"));
-          form.setValue("zipcode", parseInt(getAddressComponent("postal_code")) || 0);
+          form.setValue(
+            "zipcode",
+            parseInt(getAddressComponent("postal_code")) || 0
+          );
         }
       });
     }
@@ -120,17 +186,21 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     [locationType, mutate]
   );
 
+  const handleVerifyAddress = (e) => {
+    e.preventDefault();
+    fetchCoordinates();
+  };
+
   return (
     <div>
       <h4 className="font-pally-medium md:text-lg">Location Address</h4>
-      <Form {...form}>
+      {/* <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
           <div className="mt-8 pb-10 h-[45vh] whitespace-normal overflow-y-auto">
             <div className="grid grid-cols-2 gap-5 h-auto w-auto">
-              {/* Address Field with Google Places */}
               <FormItem className="col-span-2">
                 <FormLabel className="text-white" htmlFor="physical_location">
                   Address
@@ -156,7 +226,6 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
                 />
               </FormItem>
 
-              {/* Other Form Fields */}
               <FormItem>
                 <FormLabel className="text-white">City</FormLabel>
                 <FormField
@@ -272,7 +341,24 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
             </div>
           </div>
         </form>
-      </Form>
+      </Form> */}
+
+      <form onSubmit={handleVerifyAddress} className="my-5 flex items-center gap-6">
+        <div className="w-full">
+          <Label htmlFor="address">Address</Label>
+          <Input
+            id="address"
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="Enter address"
+            className="mt-1  p-2 border bg-white text-bl rounded w-full focus:outline-none"
+          />
+        </div>
+        <Button variant="destructive" type="submit" className="block mt-7">
+          Verify address
+        </Button>
+      </form>
     </div>
   );
 };
