@@ -33,7 +33,7 @@ const StepFour: React.FC = () => {
 
   return (
     <div
-      className="flex flex-col lg:flex-row items-start gap-4 md:gap-12
+      className="flex w-full flex-col lg:flex-row items-start gap-4 md:gap-12
     "
     >
       <div className="w-full lg:w-2/5  px-4 lg:px-0">

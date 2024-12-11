@@ -24,6 +24,7 @@ import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { Label } from "@/components/ui/label";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 interface PhysicalFormProps {
   locationType: string;
@@ -36,28 +37,21 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     saveToDraft,
   } = useCreateEventContext();
 
+  const { data: event, isLoading: loading } = useGetEvent();
+
+  console.log(event?.data);
+
   const [address, setAddress] = useState("");
-  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
+  // const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [formattedAddress, setFormattedAddress] = useState({
-    address: "",
-    city: "",
-    state: "",
-    country: "",
-    postalCode: "",
+    address: event?.data?.physicalLocation?.address || "",
+    city: event?.data?.physicalLocation?.city || "",
+    state: event?.data?.physicalLocation?.state || "",
+    country: event?.data?.physicalLocation?.country || "",
+    postalCode: event?.data?.physicalLocation?.zipcode || "",
   });
   const [error, setError] = useState("");
-
-  const form = useForm<PhysicalLocation>({
-    mode: "all",
-    defaultValues: {
-      address: "",
-      city: "",
-      state: "",
-      country: "",
-      zipcode: 0,
-    },
-    resolver: yupResolver(PhysicalLocationSchema),
-  });
 
   const { toast } = useToast();
 
@@ -67,6 +61,8 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
         setError("Please enter a valid address");
         return;
       }
+
+      setIsLoaded(true);
 
       const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
       const response = await fetch(
@@ -79,13 +75,15 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
       if (data.status === "OK") {
         const location = data.results[0].geometry.location;
-        setCoordinates({ lat: location.lat, lng: location.lng });
+        // setCoordinates({ lat: location.lat, lng: location.lng });
         extractAddressDetails(data.results[0]);
         setError("");
+        setIsLoaded(false);
       } else {
         setError(`Geocoding failed: ${data.status}`);
       }
     } catch (err) {
+      setIsLoaded(false);
       console.error(err);
       setError("An error occurred while fetching coordinates");
     }
@@ -135,57 +133,18 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     },
   });
 
-  const addressInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.google) {
-      const autocomplete = new google.maps.places.Autocomplete(
-        addressInputRef.current!,
-        {
-          fields: ["formatted_address", "geometry", "address_components"],
-        }
-      );
-
-      autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-
-        if (place.address_components) {
-          const components = place.address_components;
-
-          // Helper function to extract specific component
-          const getAddressComponent = (type: string) =>
-            components.find((component) => component.types.includes(type))
-              ?.long_name || "";
-
-          // Update form values based on extracted data
-          form.setValue("address", place.formatted_address || "");
-          form.setValue("city", getAddressComponent("locality"));
-          form.setValue(
-            "state",
-            getAddressComponent("administrative_area_level_1")
-          );
-          form.setValue("country", getAddressComponent("country"));
-          form.setValue(
-            "zipcode",
-            parseInt(getAddressComponent("postal_code")) || 0
-          );
-        }
-      });
-    }
-  }, [form]);
-
   const onSubmit = () => {
-    // const data = {
-    //   locationType,
-    //   physicalLocation: {
-    //     address: payload?.address,
-    //     city: payload?.city,
-    //     state: payload?.state,
-    //     country: payload?.country,
-    //     zipcode: String(payload?.zipcode),
-    //   },
-    // };
-    // mutate(data);
+    const data = {
+      locationType,
+      physicalLocation: {
+        address: formattedAddress?.address,
+        city: formattedAddress?.city,
+        state: formattedAddress?.state,
+        country: formattedAddress?.country,
+        zipcode: String(formattedAddress?.postalCode),
+      },
+    };
+    mutate(data);
   };
 
   const handleVerifyAddress = (e) => {
@@ -199,7 +158,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
       <form
         onSubmit={handleVerifyAddress}
-        className="mb-5 flex items-center gap-6"
+        className="my-4 flex items-center gap-3 lg:gap-6"
       >
         <div className="w-full">
           <Label htmlFor="address">Address</Label>
@@ -211,17 +170,23 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
             placeholder="Enter address"
             className="mt-1  p-2 border bg-white text-black rounded w-full focus:outline-none"
           />
+          <p className="font-pally-regular text-sm text-red-400">{error}</p>
         </div>
         <div className="block mt-7">
-          <Button variant="destructive" type="submit">
-            Verify address
+          <Button
+            variant="destructive"
+            size="sm"
+            type="submit"
+            className="h-10 flex items-center justify-center"
+          >
+            {isLoaded ? <Spinner /> : "Verify address"}
           </Button>
         </div>
       </form>
 
       <div className="mb-7 grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="space-y-2 col-span-2">
-          <div className="h-10 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
+        <div className="space-y-2 col-span-2 mt-2">
+          <div className="h-15 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
             {formattedAddress?.address}
           </div>
         </div>
@@ -272,7 +237,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
             <Button
               onClick={onSubmit}
-              disabled={isPending || !address.length}
+              disabled={isPending || !formattedAddress.address.length}
               variant="destructive"
             >
               {isPending ? <Spinner /> : "Next"}
