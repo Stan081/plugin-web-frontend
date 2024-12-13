@@ -10,19 +10,18 @@ import { Section } from "@/tw-components/Section";
 import React, { useState } from "react";
 import { useGetTicketEvents } from "../api/mutate/tickets";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const TicketPage = () => {
   const [isActive, setIsActive] = useState<string>("my-tickets");
-  const { data: data, isLoading } = useGetTicketEvents();
+  const { data: ticketData, isLoading } = useGetTicketEvents();
 
-  console.log(data);
   return (
     <Layout title="Your tickets" showHeader showFooter showSidebar>
       <Section
         id="user-account-settings"
         className="md:px-10 overflow-y-auto w-full lg:max-w-7xl"
       >
-        {isLoading && <SpinnerOverlay />}
         <div className="mt-4 flex gap-3">
           <GoBack />
           <h2 className="font-pally-medium text-2xl mb-4">Tickets</h2>
@@ -51,9 +50,17 @@ const TicketPage = () => {
           <SearchComponent placeholder="Search for ticket's name" />
         </div>
 
-        {isActive === "my-tickets" && <TicketComponent tickets={data?.data} />}
-        {isActive === "past-tickets" && (
-          <TicketComponent tickets={data?.data} />
+        {isLoading ? (
+          <Skeleton className="h-10 w-full"/>
+        ) : (
+          <>
+            {isActive === "my-tickets" && (
+              <TicketComponent tickets={ticketData?.data} />
+            )}
+            {isActive === "past-tickets" && (
+              <TicketComponent tickets={ticketData?.data} />
+            )}
+          </>
         )}
       </Section>
     </Layout>

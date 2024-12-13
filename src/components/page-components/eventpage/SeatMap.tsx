@@ -14,9 +14,9 @@ const SeatMap: FC<{ groupedTicket: any[] }> = ({ groupedTicket }) => {
         {groupedTicket?.map((tab) => (
           <li key={tab?._id} role="presentation">
             <button
-              className={`border py-1 px-2 md:py-2 md:px-3 rounded-3xl ${
+              className={`border flex gap-2 items-center py-1 px-2 md:py-2 md:px-3 rounded-3xl ${
                 isActive === tab?._id
-                  ? "border-2 border-[#D9302A] text-[#D9302A]"
+                  ? "border-2 border-black text-black"
                   : "border-[#586170] text-[#586170]"
               }`}
               role="tab"
@@ -30,6 +30,12 @@ const SeatMap: FC<{ groupedTicket: any[] }> = ({ groupedTicket }) => {
                 }
               }}
             >
+              {tab?.color && (
+                <span
+                  style={{ backgroundColor: tab?.color }}
+                  className="w-4 h-4 rounded-full"
+                />
+              )}
               {tab?.ticketName}
             </button>
           </li>

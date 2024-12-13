@@ -87,7 +87,7 @@ const OrganiserInfo: React.FC<{
   };
 
   return (
-    <div className="absolute top-52 md:top-56 left-0 md:left-24 z-20 float-right">
+    <div className="lg:absolute top-52 md:top-56 left-0 md:left-24 z-20 float-right">
       <div className="w-full md:max-w-sm border bg-white rounded-xl shadow-md shadow-[#8F706E26]/15 p-4">
         <div className="h-36 w-36 mx-auto">
           <Image
