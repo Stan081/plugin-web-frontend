@@ -1,6 +1,6 @@
 "use client";
 import React, { FC } from "react";
-import { Dialog, DialogPanel } from "@headlessui/react";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useCreateEventContext } from "@/providers/create_event.provider";
@@ -32,7 +32,7 @@ const CongratulationModal: FC<{
               className="w-full max-w-4xl rounded-xl bg-[#FDE5E3] p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
             >
               <div className="flex gap-4 flex-col-reverse lg:flex-row lg:items-center justify-between">
-                <div className="md:px-5 w-full lg:w-1/2">
+                <DialogTitle className="md:px-5 w-full lg:w-1/2">
                   <p className="text-black text-center font-pally-medium lg:font-pally-bold text-2xl lg:text-4xl ">
                     Congratulations
                   </p>
@@ -50,7 +50,7 @@ const CongratulationModal: FC<{
                   >
                     <Button variant="destructive">Manange Event</Button>
                   </div>
-                </div>
+                </DialogTitle>
                 <div className="h-40 lg:h-[40vh] w-full lg:w-1/2">
                   {event?.data?.thumbnail && (
                     <Image

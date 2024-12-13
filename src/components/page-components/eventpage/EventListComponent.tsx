@@ -1,9 +1,8 @@
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import TicketIcon from "../../icons/ticket";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CardProps } from "@/static-datas/cards-data";
 import { useCheckBookmark } from "@/hooks/events/bookmark-favourite/useCheckBookmark";
 import { useDeleteBookmark } from "@/hooks/events/bookmark-favourite/useDeleteBookmark";
 import { useToast } from "@/components/ui/use-toast";
@@ -11,10 +10,9 @@ import { useMutation } from "@tanstack/react-query";
 import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
 import Link from "next/link";
 import { toFiat } from "@/lib/amount";
+import { getToken } from "@/lib/token";
 
 const EventListComponent: FC<{ card: any }> = ({ card }) => {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
-
   const { data: isCheck, isLoading: isLoadingBookmark } = useCheckBookmark(
     card?._id
   );
@@ -22,7 +20,9 @@ const EventListComponent: FC<{ card: any }> = ({ card }) => {
 
   const { toast } = useToast();
 
-  console.log(isCheck?.data);
+  const token = getToken();
+
+  const router = useRouter();
 
   const startDate: string =
     card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
@@ -61,9 +61,7 @@ const EventListComponent: FC<{ card: any }> = ({ card }) => {
         toast({
           variant: "success",
           title: "Event has been saved",
-          // description: `${response?.message}`,
         });
-        // setCookie("event_id", response?.data?._id);
       }
     },
     onError: (error: any) => {
@@ -76,13 +74,17 @@ const EventListComponent: FC<{ card: any }> = ({ card }) => {
   });
 
   const handleBookmark = () => {
-    if (!isCheck?.data?.isFavorited) {
-      const data = {
-        eventId: card?._id,
-      };
-      mutate(data);
+    if (!token) {
+      return router.push("/login");
     } else {
-      removeBookmark(card?._id);
+      if (!isCheck?.data?.isFavorited) {
+        const data = {
+          eventId: card?._id,
+        };
+        mutate(data);
+      } else {
+        removeBookmark(card?._id);
+      }
     }
   };
 
@@ -90,9 +92,9 @@ const EventListComponent: FC<{ card: any }> = ({ card }) => {
     <div>
       <div className="flex items-start mb-3 border-b gap-2.5 pb-7 w-full justify-between">
         <div className="flex gap-3">
-          <div className="relative w-36 lg:w-48 rounded-2xl border overflow-hidden">
+          <div className="relative w-28 lg:w-48 rounded-2xl border overflow-hidden">
             <img
-              className="w-full md:h-36 object-cover"
+              className="w-full h-full md:h-36 object-cover"
               src={card?.thumbnail ?? "/images/blue-bg.png"}
               alt={card?.eventName || "Event image"}
               width={300}
@@ -104,7 +106,7 @@ const EventListComponent: FC<{ card: any }> = ({ card }) => {
           </div>
           <Link
             href={`/explore-events/${card?._id}`}
-            className="p-4 cursor-pointer transition delay-75 ease-in-out"
+            className="cursor-pointer transition delay-75 ease-in-out"
           >
             <h2 className="text-lg md:text-xl font-bold font-pally-medium">
               {card?.eventName?.length > 25
@@ -113,14 +115,16 @@ const EventListComponent: FC<{ card: any }> = ({ card }) => {
             </h2>
             <p className="text-sm md:text-lg text-gray-500 font-pally-regular">
               {card?.locationType === "physical"
-                ? card?.physicalLocation?.address
+                ? card?.physicalLocation?.address?.length > 40
+                  ? card?.physicalLocation?.address?.slice(0, 40).concat("...")
+                  : card?.physicalLocation?.address
                 : "Online"}
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:gap-4">
               <p className="text-sm md:text-lg destructive font-pally-regular">
                 {formattedDate ?? "No set date"}
               </p>
-              <div className="h-5 border border-gray-400" />
+              <div className="h-5 border hidden lg:block border-gray-400" />
               <p className="text-sm md:text-lg destructive font-pally-regular">
                 {formattedTime ?? "No set time"}
               </p>
@@ -139,7 +143,7 @@ const EventListComponent: FC<{ card: any }> = ({ card }) => {
         </div>
         <div
           onClick={handleBookmark}
-          className=" bg-black bg-opacity-50 text-white p-2 rounded-full cursor-pointer"
+          className="text-black p-2 rounded-full cursor-pointer"
         >
           {isLoadingBookmark || isPending ? (
             <Image

@@ -1,7 +1,7 @@
 "use client";
 import { RiHeartLine, RiHeartFill } from "react-icons/ri";
 import React, { FC } from "react";
-import TicketIcon from "./icons/ticket";// Ensure correct import for useRouter
+import TicketIcon from "./icons/ticket"; // Ensure correct import for useRouter
 import { toFiat } from "@/lib/amount";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "./ui/use-toast";
@@ -10,6 +10,8 @@ import { useDeleteBookmark } from "@/hooks/events/bookmark-favourite/useDeleteBo
 import { useCheckBookmark } from "@/hooks/events/bookmark-favourite/useCheckBookmark";
 import Image from "next/image";
 import Link from "next/link";
+import { getToken } from "@/lib/token";
+import { useRouter } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const CardComponent: FC<{ card: any }> = ({ card }) => {
@@ -20,8 +22,9 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
   const { mutate: removeBookmark, isPending } = useDeleteBookmark(card?._id);
 
   const client = useQueryClient();
+  const token = getToken();
+  const router = useRouter();
   const { toast } = useToast();
-
 
   const startDate: string =
     card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
@@ -62,9 +65,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
         toast({
           variant: "success",
           title: "Event has been saved",
-          // description: `${response?.message}`,
         });
-        // setCookie("event_id", response?.data?._id);
       }
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -81,19 +82,27 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
     const data = {
       eventId: card?._id,
     };
-    mutate(data, {
-      onSuccess: () => {
-        client.invalidateQueries({ queryKey: ["isBookmark", card?._id] });
-      },
-    });
+    if (token) {
+      mutate(data, {
+        onSuccess: () => {
+          client.invalidateQueries({ queryKey: ["isBookmark", card?._id] });
+        },
+      });
+    } else {
+      return router.push("/login");
+    }
   };
 
   const handleDeleteBookmark = () => {
-    removeBookmark(card?._id, {
-      onSuccess: () => {
-        client.invalidateQueries({ queryKey: ["isBookmark", card?._id] });
-      },
-    });
+    if (!token) {
+      return router.push("/login");
+    } else {
+      removeBookmark(card?._id, {
+        onSuccess: () => {
+          client.invalidateQueries({ queryKey: ["isBookmark", card?._id] });
+        },
+      });
+    }
   };
   return (
     <div className="w-full max-w-xs shrink-0 rounded-xl overflow-hidden bg-white border flex flex-col justify-between border-gray-200 ">
@@ -148,7 +157,9 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
         </h2>
         <p className="text-sm md:text-lg text-gray-500 font-pally-regular">
           {card?.locationType === "physical"
-            ? card?.physicalLocation?.address
+            ? card?.physicalLocation?.address?.length > 40
+              ? card?.physicalLocation?.address?.slice(0, 40).concat("...")
+              : card?.physicalLocation?.address
             : "Online"}
         </p>
 

@@ -178,7 +178,7 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
           <p className="text-sm md:text-base text-[#667185] flex items-center gap-2">
             <SlLocationPin />
             {event?.locationType === "physical"
-              ? event?.physicalLocation?.address
+              ? event?.physicalLocation?.address?.length > 40
                 ? event?.physicalLocation?.address?.slice(0, 26).concat("...")
                 : event?.physicalLocation?.address
               : "Online"}
