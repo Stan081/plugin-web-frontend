@@ -20,9 +20,9 @@ const Header = () => {
           <div className="space-x-6 md:space-x-0 flex md:gap-6 items-center">
             <NavigationDialog />
             <Logo />
-            <div className="hidden lg:block w-full">
+            {/* <div className="hidden lg:block w-full">
               <HeaderSearchBar />
-            </div>
+            </div> */}
           </div>
           <div className="hidden lg:flex items-center gap-6">
             <Link

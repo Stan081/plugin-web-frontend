@@ -131,7 +131,6 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     setTimeout(() => {
       removeCookie("currentStep");
       removeCookie("event_id");
-      router.push(`/organiser`);
     }, 10000);
   };
 

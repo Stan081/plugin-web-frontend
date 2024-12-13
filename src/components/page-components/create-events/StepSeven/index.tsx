@@ -18,7 +18,7 @@ const StepSeven: FC = () => {
           <Fragment>
             {userData?.data?.role === "organizer" &&
             userData?.data?.isOrganizer ? (
-              <div className="w-full lg:w-2/5 px-4 lg:px-0">
+              <div className="w-full lg:w-2/5 lg:px-0">
                 <StepTracker />
               </div>
             ) : (

@@ -42,7 +42,7 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
           </h2>
           <p className="text-sm md:text-md text-slate-200 font-pally-regular">
             {card?.locationType === "physical"
-              ? card?.physicalLocation?.address
+              ? card?.physicalLocation?.address?.slice(0, 26).concat("...")
               : "Online"}
           </p>
         </div>

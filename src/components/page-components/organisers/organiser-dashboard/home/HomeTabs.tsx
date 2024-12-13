@@ -42,7 +42,10 @@ const HomeTabs = () => {
     const startDate = new Date(
       item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
     );
-    return item.isPublished === true && startDate === now;
+    const endDate = new Date(
+      item?.oneTimeEvent?.endDate || item?.recurringEvent?.endDate
+    );
+    return item.isPublished === true && now >= startDate && now <= endDate;
   });
 
   if (isError) {

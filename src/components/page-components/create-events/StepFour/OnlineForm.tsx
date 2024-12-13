@@ -169,10 +169,10 @@ const OnlineForm: React.FC<OnlineFormProps> = ({ locationType }) => {
                 variant="outline"
                 className="text-white border-white hover:bg-[#6c5442]"
               >
-                Save Progress
+                Save progress
               </Button>
 
-              <div className="flex items-center gap-8">
+              <div className="flex items-center gap-5 lg:gap-8">
                 <Button
                   onClick={previous}
                   className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"

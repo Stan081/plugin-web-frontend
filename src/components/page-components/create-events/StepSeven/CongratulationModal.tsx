@@ -1,11 +1,11 @@
 "use client";
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { useRouter } from "next/navigation";
 
 const CongratulationModal: FC<{
   open: boolean;
@@ -14,9 +14,8 @@ const CongratulationModal: FC<{
   const { clearStep } = useCreateEventContext();
   const { data: event } = useGetEvent();
 
-  useEffect(() => {
-    clearStep();
-  }, [clearStep]);
+  const router = useRouter();
+
   return (
     <div>
       <Dialog
@@ -32,9 +31,9 @@ const CongratulationModal: FC<{
               transition
               className="w-full max-w-4xl rounded-xl bg-[#FDE5E3] p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
             >
-              <div className="flex flex-col-reverse lg:flex-row items-center justify-between">
-                <div className="md:px-5 w-1/2">
-                  <p className="text-black text-center font-pally-bold text-4xl ">
+              <div className="flex gap-4 flex-col-reverse lg:flex-row lg:items-center justify-between">
+                <div className="md:px-5 w-full lg:w-1/2">
+                  <p className="text-black text-center font-pally-medium lg:font-pally-bold text-2xl lg:text-4xl ">
                     Congratulations
                   </p>
                   <p className="text-[#586170] text-center font-pally-regular ">
@@ -42,14 +41,17 @@ const CongratulationModal: FC<{
                     book tickets for your events
                   </p>
 
-                  <Link
-                    href={`/organiser`}
+                  <div
+                    onClick={() => {
+                      router.push(`/organiser`);
+                      clearStep();
+                    }}
                     className="flex justify-center mt-5"
                   >
                     <Button variant="destructive">Manange Event</Button>
-                  </Link>
+                  </div>
                 </div>
-                <div className="h-[40vh] w-1/2">
+                <div className="h-40 lg:h-[40vh] w-full lg:w-1/2">
                   {event?.data?.thumbnail && (
                     <Image
                       src={event?.data?.thumbnail}

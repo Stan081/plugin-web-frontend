@@ -33,7 +33,7 @@ const EntryTicket = () => {
             <button
               key={type.id}
               onClick={() => setEntryTicket(type.id)}
-              className={`py-1.5 px-3 rounded-full border ${
+              className={`py-1 lg:py-2 px-2 lg:px-3 text-sm lg:text-base rounded-full border ${
                 entryTicket === type.id ? "bg-white text-black" : "border-white"
               }`}
             >

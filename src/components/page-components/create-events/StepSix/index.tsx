@@ -17,21 +17,21 @@ const StepSix: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const { selectTicket, setSelectedTicket } = useCreateEventContext();
 
-  const {data:event} = useGetEvent()
+  const { data: event } = useGetEvent();
 
   useEffect(() => {
-    if(event?.data?.ticketCategory){
-      setSelectedTicket(event?.data?.ticketCategory)
+    if (event?.data?.ticketCategory) {
+      setSelectedTicket(event?.data?.ticketCategory);
     }
-  }, [event?.data, selectTicket])
+  }, [event?.data, setSelectedTicket]);
 
   const handleShowModal = () => {
     setShowModal(!showModal);
   };
 
   return (
-    <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 h-full lg:h-screen">
-      <div className="w-full lg:w-2/5 px-4 lg:px-0 ">
+    <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-12 h-screen">
+      <div className="w-full lg:w-2/5 lg:px-0 ">
         <Intro
           contents={contents}
           title={"Set up your ticketing options for attendees."}
@@ -42,8 +42,8 @@ const StepSix: FC = () => {
           formTitle="Setting up Tickets"
           currPosition={[100, 100, 50]}
         >
-          <div className="flex flex-col justify-between gap-4 w-full lg:h-[70vh] px-3 overflow-y-auto">
-            {!selectTicket && (
+          <div className="flex flex-col justify-between gap-4 w-full h-full lg:h-[70vh] overflow-y-auto">
+            {showModal && (
               <SelectTicketModal isOpen={showModal} close={handleShowModal} />
             )}
 

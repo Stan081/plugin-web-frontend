@@ -18,7 +18,11 @@ const pageContents = ["Think about the primary audience for your event."];
 
 const StepTwo: React.FC = () => {
   const { data: eventId, isLoading } = useGetEvent();
-  const { nextStep: next, previousStep: previous, saveToDraft } = useCreateEventContext();
+  const {
+    nextStep: next,
+    previousStep: previous,
+    saveToDraft,
+  } = useCreateEventContext();
   const [selectedNames, setSelectedNames] = useState<string[]>(
     eventId?.data?.eventCategory || []
   );
@@ -67,7 +71,7 @@ const StepTwo: React.FC = () => {
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12">
       {isLoading && <SpinnerOverlay />}
-      <div className="w-full lg:w-2/5 px-4 lg:px-0">
+      <div className="w-full lg:w-2/5 lg:px-0">
         <Intro
           contents={pageContents}
           title="What kind of events do you organize?"
@@ -80,12 +84,12 @@ const StepTwo: React.FC = () => {
               <h3 className="font-pally-medium md:text-lg">
                 Choose the category that best describes your event
               </h3>
-              <div className="flex flex-wrap gap-4 mt-5 text-white">
+              <div className="flex flex-wrap justify-center lg:justify-start gap-4 mt-5 text-white">
                 {categoriesData.map((category, index) => (
                   <button
                     key={index}
                     onClick={() => handleClick(category)}
-                    className={`py-2 px-4 rounded-full border ${
+                    className={`py-1 lg:py-2 px-1.5 lg:px-4 text-sm lg:text-base rounded-full border ${
                       selectedNames.includes(category)
                         ? "bg-white text-black"
                         : "border-white"
@@ -104,10 +108,10 @@ const StepTwo: React.FC = () => {
                   variant="outline"
                   className="text-white border-white hover:bg-[#6c5442]"
                 >
-                  Save Progress
+                  Save progress
                 </Button>
 
-                <div className="flex items-center gap-8">
+                <div className="flex items-center gap-5 lg:gap-8">
                   <Button
                     onClick={previous}
                     className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"

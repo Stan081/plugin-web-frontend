@@ -1,7 +1,7 @@
 "use client";
 import { FreeTicket, FreeTicketFormSchema } from "@/models/create-event-schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { FC, useCallback} from "react";
+import React, { FC, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -21,14 +21,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { EventEntryFree } from "@/pages/api/mutate/create-events/EventEntryFree";
 import Spinner from "@/tw-components/spinner";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 interface FreeTicketFormProps {
   entryTicket: string;
 }
 
-const FreeTicketForm: FC<FreeTicketFormProps> = ({
-  entryTicket,
-}) => {
+const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
   const {
     selectTicket,
     nextStep: next,
@@ -36,20 +35,43 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({
     saveToDraft,
   } = useCreateEventContext();
 
+  const { data: eventId } = useGetEvent();
+
   const { toast } = useToast();
 
   const form = useForm<FreeTicket>({
     mode: "all",
     defaultValues: {
-      ticket_type: selectTicket,
-      ticket_name: "",
-      ticket_quantity: null,
+      ticket_type: eventId?.data?.ticketCategory ?? selectTicket,
+      ticket_name:
+        eventId?.data?.entryTicket?.entryTicketType === "free"
+          ? eventId?.data?.entryTicket?.ticketName
+          : "",
+      ticket_quantity:
+        eventId?.data?.entryTicket?.entryTicketType === "free"
+          ? eventId?.data?.entryTicket?.ticketQuantity
+          : null,
       reservation: "",
-      start_date: null,
-      end_date: null,
-      start_time: "",
-      end_time: "",
-      ticket_perks: "Refer to event flyer for more details",
+      start_date:
+        eventId?.data?.entryTicket?.entryTicketType === "free"
+          ? new Date(eventId?.data?.entryTicket?.startDate)
+          : null,
+      end_date:
+        eventId?.data?.entryTicket?.entryTicketType === "free"
+          ? new Date(eventId?.data?.entryTicket?.endDate)
+          : null,
+      start_time:
+        eventId?.data?.entryTicket?.entryTicketType === "free"
+          ? eventId?.data?.entryTicket?.startTime
+          : "",
+      end_time:
+        eventId?.data?.entryTicket?.entryTicketType === "free"
+          ? eventId?.data?.entryTicket?.endTime
+          : "",
+      ticket_perks:
+        eventId?.data?.entryTicket?.entryTicketType === "free"
+          ? eventId?.data?.entryTicket?.ticketPeaks
+          : "Refer to event flyer for more details",
     },
     resolver: yupResolver(FreeTicketFormSchema),
   });

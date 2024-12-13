@@ -31,8 +31,6 @@ const GroupTicket: FC = () => {
     GroupTicketState.VIEW_LIST
   );
 
-  console.log(allGroupEvent?.data)
-
   const [selectedTicket, setSelectedTicket] = useState<any | undefined>(null);
 
   const handleEditForm = (id: number) => {
@@ -40,7 +38,7 @@ const GroupTicket: FC = () => {
 
     if (getEditGroup) {
       setSelectedTicket(getEditGroup);
-      handleClick(getEditGroup?.groupedTicketType)
+      handleClick(getEditGroup?.groupedTicketType);
     }
     setFormState(GroupTicketState.EDIT_TICKET);
   };
@@ -59,18 +57,16 @@ const GroupTicket: FC = () => {
     return <p className="text-white mx-5 text-center mt-5">loading...</p>;
 
   return (
-    <div className=" flex flex-col justify-between gap-4 w-full lg:h-[82vh]">
+    <div className=" flex flex-col justify-between gap-4 w-full h-full lg:h-[82vh]">
       {isPending && <SpinnerOverlay />}
       {formState === GroupTicketState.CREATE_TICKET ? (
         <GroupSeat handleReturnToList={handleReturnToList} />
-      ) : formState === GroupTicketState.EDIT_TICKET  &&
-        seatType === "paid" ? (
+      ) : formState === GroupTicketState.EDIT_TICKET && seatType === "paid" ? (
         <EditPaidSeatDetail
           handleReturnToList={handleReturnToList}
           selectedTicket={selectedTicket}
         />
-      ) : formState === GroupTicketState.EDIT_TICKET &&
-        seatType === "free" ? (
+      ) : formState === GroupTicketState.EDIT_TICKET && seatType === "free" ? (
         <EditFreeSeatDetail
           handleReturnToList={handleReturnToList}
           selectedTicket={selectedTicket}

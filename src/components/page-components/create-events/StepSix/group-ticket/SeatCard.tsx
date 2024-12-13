@@ -20,7 +20,7 @@ const SeatCard: FC<SeatCardProps> = ({
   handleDelete,
 }) => {
   return (
-    <div className="bg-[#fae4e2] rounded-lg p-5">
+    <div className="bg-[#fae4e2] rounded-lg p-3 lg:p-5">
       <div className="flex justify-between">
         <div className="flex items-center gap-4">
           {color && (
@@ -42,17 +42,14 @@ const SeatCard: FC<SeatCardProps> = ({
         )}
       </div>
       <div className="mt-5 flex justify-between items-center">
-        <ul className="flex gap-4">
-          <li className="p-1.5 rounded-3xl border border-black text-black">
+        <div className="flex gap-4">
+          <p className="py-0.5 px-1 lg:p-1.5 flex justify-center items-center rounded-xl lg:rounded-3xl border text-xs border-black text-black">
             {ticketCategory}
-          </li>
-          <li className="p-1.5 rounded-3xl border border-black text-black">
+          </p>
+          <p className="py-0.5 px-1 lg:p-1.5 flex justify-center items-center rounded-xl lg:rounded-3xl border text-xs border-black text-black">
             {ticketQuantity} Quantity
-          </li>
-          {/* <li className="p-1.5 rounded-md border border-black text-black">
-            {selectedTicketseatType} ticket
-          </li> */}
-        </ul>
+          </p>
+        </div>
         <div className="flex justify-end gap-4">
           <div onClick={() => handleEditForm(_id)} className="cursor-pointer">
             <p className="font-pally-regular text-sm underline destructive">

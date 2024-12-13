@@ -57,7 +57,7 @@ const StepFour: React.FC = () => {
                 <button
                   key={location.id}
                   onClick={() => handleClick(location.id)}
-                  className={`py-2 px-4 rounded-full border ${
+                  className={`py-1 lg:py-2 px-1.5 lg:px-4 text-sm lg:text-base rounded-full border ${
                     locationType === location.id
                       ? "bg-white text-black"
                       : "border-white"

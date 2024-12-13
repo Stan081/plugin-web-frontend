@@ -35,7 +35,7 @@ const HomeTabCard: FC<{ card: any }> = ({ card }) => {
     timeZone: "UTC",
   });
   return (
-    <div className="border rounded-xl p-3 md:p-6 flex items-center justify-between">
+    <div className="border rounded-xl p-3 md:p-6 gap-4 flex items-center justify-between">
       <div className="flex items-center gap-4">
         <div className="h-28 md:h-32 w-28 md:w-32">
           <Image
@@ -63,7 +63,7 @@ const HomeTabCard: FC<{ card: any }> = ({ card }) => {
               {formattedTime ?? "No set time"}
             </span>
           </p>
-          <div className="flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-2">
             <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
               Ticket Sale
             </p>
@@ -76,9 +76,12 @@ const HomeTabCard: FC<{ card: any }> = ({ card }) => {
           </div>
         </div>
       </div>
-      <Link href={`/organiser/events/${card?._id}`} className="border border-gray-100 cursor-pointer rounded-lg p-5 space-y-2 flex flex-col items-center">
+      <Link
+        href={`/organiser/events/${card?._id}`}
+        className="lg:border border-gray-100 cursor-pointer rounded-lg p-3 lg:p-5 space-y-2 flex flex-col items-center"
+      >
         <BsGraphUpArrow size={28} color="#D9302A" />
-        <p className="text-[#D9302A] font-pally-medium text-lg underline">
+        <p className="text-[#D9302A] hidden lg:flex font-pally-medium text-lg underline">
           View Stat
         </p>
       </Link>

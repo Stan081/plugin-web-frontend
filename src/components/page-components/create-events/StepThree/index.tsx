@@ -32,7 +32,7 @@ const StepThree: React.FC= () => {
 
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 md:h-screen">
-      <div className="w-full lg:w-2/5 px-4 lg:px-0">
+      <div className="w-full lg:w-2/5 lg:px-0">
         <Intro
           contents={pageContents}
           title="Specify when your event will take place."
@@ -50,7 +50,7 @@ const StepThree: React.FC= () => {
                 <button
                   key={type.id}
                   onClick={() => handleClick(type.id)}
-                  className={`py-2 px-4 rounded-full border ${
+                  className={`py-1 lg:py-2 px-1.5 lg:px-4 text-sm lg:text-base rounded-full border ${
                     eventType === type.id
                       ? "bg-white text-black"
                       : "border-white"

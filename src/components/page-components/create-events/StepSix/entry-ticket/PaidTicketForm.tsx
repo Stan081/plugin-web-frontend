@@ -20,14 +20,13 @@ import { useMutation } from "@tanstack/react-query";
 import { EventEntryPaidTicket } from "@/pages/api/mutate/create-events/EventEntryTicket";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 interface PaidTicketFormProps {
   entryTicket: string;
 }
 
-const PaidTicketForm: FC<PaidTicketFormProps> = ({
-  entryTicket,
-}) => {
+const PaidTicketForm: FC<PaidTicketFormProps> = ({ entryTicket }) => {
   const {
     selectTicket,
     nextStep: next,
@@ -35,21 +34,47 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
     saveToDraft,
   } = useCreateEventContext();
 
+  const { data: eventId } = useGetEvent();
+
 
   const { toast } = useToast();
 
   const form = useForm<PaidTicket>({
     mode: "all",
     defaultValues: {
-      ticket_type: selectTicket,
-      ticket_name: "",
-      ticket_quantity: null,
-      ticket_price: null,
-      start_date: null,
-      end_date: null,
-      start_time: "",
-      end_time: "",
-      ticket_perks: "Refer to event flyer for more details",
+      ticket_type: eventId?.data?.ticketCategory ?? selectTicket,
+      ticket_name:
+        eventId?.data?.entryTicket?.entryTicketType === "paid"
+          ? eventId?.data?.entryTicket?.ticketName
+          : "",
+      ticket_quantity:
+        eventId?.data?.entryTicket?.entryTicketType === "paid"
+          ? eventId?.data?.entryTicket?.ticketQuantity
+          : null,
+      ticket_price:
+        eventId?.data?.entryTicket?.entryTicketType === "paid"
+          ? eventId?.data?.entryTicket?.ticketPrice
+          : null,
+      start_date:
+        eventId?.data?.entryTicket?.entryTicketType === "paid"
+          ? new Date(eventId?.data?.entryTicket?.startDate)
+          : null,
+      end_date:
+        eventId?.data?.entryTicket?.entryTicketType === "paid"
+          ? new Date(eventId?.data?.entryTicket?.endDate)
+          : null,
+      start_time:
+        eventId?.data?.entryTicket?.entryTicketType === "paid"
+          ? eventId?.data?.entryTicket?.startTime
+          : "",
+      end_time:
+        eventId?.data?.entryTicket?.entryTicketType === "paid"
+          ? eventId?.data?.entryTicket?.endTime
+          : "",
+      ticket_perks:
+        eventId?.data?.entryTicket?.entryTicketType === "paid"
+          ? eventId?.data?.entryTicket?.ticketPeaks
+          : "Refer to event flyer for more details",
     },
     resolver: yupResolver(PaidTicketFormSchema),
   });
@@ -93,13 +118,13 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({
     mutate(data);
   }, []);
   return (
-    <div className="w-full h-full ">
+    <div className="w-full">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col justify-between gap-4 w-full h-full"
+          className="flex flex-col justify-between gap-4 w-full"
         >
-          <div className="flex flex-col justify-between gap-4 h-auto w-full">
+          <div className="flex flex-col justify-between gap-4 w-full">
             <FormItem className="w-full ">
               <FormLabel className="text-white" htmlFor="ticket-name">
                 Ticket Name

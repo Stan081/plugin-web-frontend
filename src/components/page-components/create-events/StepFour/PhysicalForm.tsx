@@ -1,20 +1,7 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
-import {
-  PhysicalLocation,
-  PhysicalLocationSchema,
-} from "@/models/create-event-schema";
+import React, { useState } from "react";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -37,9 +24,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     saveToDraft,
   } = useCreateEventContext();
 
-  const { data: event, isLoading: loading } = useGetEvent();
-
-  console.log(event?.data);
+  const { data: event } = useGetEvent();
 
   const [address, setAddress] = useState("");
   // const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
@@ -185,11 +170,13 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
       </form>
 
       <div className="mb-7 grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <div className="space-y-2 col-span-2 mt-2">
-          <div className="h-15 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
-            {formattedAddress?.address}
+        {formattedAddress?.address && (
+          <div className="space-y-2 col-span-2 mt-2">
+            <div className="h-15 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
+              {formattedAddress?.address}
+            </div>
           </div>
-        </div>
+        )}
         <div className="space-y-2 col-span-2">
           <p className="text-white font-pally-regular text-sm">City</p>
           <div className="h-10 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
@@ -224,10 +211,10 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
             variant="outline"
             className="text-white border-white hover:bg-[#6c5442]"
           >
-            Save Progress
+            Save progress
           </Button>
 
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-5 lg:gap-8">
             <Button
               onClick={previous}
               className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
