@@ -8,7 +8,6 @@ import EventFilterComponent from "@/components/page-components/eventpage/EventFi
 import CardComponent from "@/components/CardComponent";
 import EventListComponent from "@/components/page-components/eventpage/EventListComponent";
 import Container from "@/tw-components/container";
-import { RiFilter2Line } from "react-icons/ri";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
 import FilterEventComponent from "@/components/page-components/eventpage/FilterEventComponent";
