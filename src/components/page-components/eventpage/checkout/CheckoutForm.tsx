@@ -98,8 +98,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
     [form.formState.errors]
   );
 
-
-  const onSubmit = useCallback(async (payload: CheckoutForms) => {
+  const onSubmit = useCallback((payload: CheckoutForms) => {
     if (!payload) {
       toast({
         variant: "destructive",
@@ -120,6 +119,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
       mutate(data);
     }
   }, []);
+
   return (
     <div>
       {isPending && <SpinnerOverlay />}
