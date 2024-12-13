@@ -33,7 +33,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: any) => Checkout(data),
     onSuccess: (response) => {
       if (response?.data?.paymentLink) {
@@ -68,6 +68,13 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
     },
   });
 
+  useEffect(() => {
+    if (isSuccess) {
+      removeCookie("tickets");
+      removeCookie("entryTicket");
+    }
+  }, [isSuccess]);
+
   const form = useForm<CheckoutForms>({
     mode: "all",
     defaultValues: {
@@ -92,27 +99,6 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
   );
 
 
-  const totalticketPrice = (): number => {
-    const total = tickets.reduce((sum, item) => {
-      if (item?.price) {
-        return sum + item.quantity * item.price;
-      }
-      return sum;
-    }, 0);
-    return total;
-  };
-
-//   const totalticketPrice = (): number => {
-//     const total = tickets.reduce((sum, item) => {
-//       if (item?.price) {
-//         return sum + item.quantity * item.price;
-//       }
-//       return sum;
-//     }, 0);
-//     return total;
-//   };
-
-
   const onSubmit = useCallback(async (payload: CheckoutForms) => {
     if (!payload) {
       toast({
@@ -128,16 +114,10 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
         email: payload?.email,
         phone: payload?.phone_number,
         country: country?.country_name ? country?.country_name : "Nigeria",
-        tickets: ticketCookie ? tickets : entryData,
-        user: payload,
-        ticket: ticketCookie ? tickets : entryData?.quantity,
-        total: entryData?.quantity * entryData?.price || totalticketPrice(),
+        tickets: ticketCookie ? tickets : [entryData],
       };
 
       mutate(data);
-
-      // removeCookie("tickets");
-      // removeCookie("entryTicket");
     }
   }, []);
   return (
