@@ -8,13 +8,19 @@ const PaymentSuccessful = () => {
     <Fragment>
       <Layout title="Payment successful" showHeader showFooter>
         <Container>
-          <div className="flex justify-center items-center my-6 lg:my-10 border p-6 w-full max-w-md rounded-lg mx-auto">
+          <div className="lg:h-[40vh] flex flex-col justify-center items-center my-6 lg:my-10 border p-6 w-full max-w-md rounded-lg mx-auto">
             <Image
-              src={"/public/gif/confetti.webm"}
+              src={"/gif/confetti.gif"}
               width={200}
               height={40}
               alt="confetti"
             />
+
+            <p className="font-pally-medium text-2xl pb-3">Payment successful</p>
+            <p className="font-pally-regular mx-4 text-center lg:text-xl text-gray-600">
+              Your tikcket purchase is successful, check your email for more
+              information on the transaction
+            </p>
           </div>
         </Container>
       </Layout>
