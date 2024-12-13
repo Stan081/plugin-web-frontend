@@ -1,7 +1,6 @@
 "use client";
 import { setCookie } from "@/lib/cookies";
 import { deleteToken, getToken } from "@/lib/token";
-import { SignupFieldType } from "@/lib/types/AuthType";
 import { useMe } from "@/pages/api/query/me";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";

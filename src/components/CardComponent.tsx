@@ -157,8 +157,8 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
         </h2>
         <p className="text-sm md:text-lg text-gray-500 font-pally-regular">
           {card?.locationType === "physical"
-            ? card?.physicalLocation?.address?.length > 40
-              ? card?.physicalLocation?.address?.slice(0, 40).concat("...")
+            ? card?.physicalLocation?.address?.length > 35
+              ? card?.physicalLocation?.address?.slice(0, 35).concat("...")
               : card?.physicalLocation?.address
             : "Online"}
         </p>

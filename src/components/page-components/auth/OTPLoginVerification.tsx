@@ -6,7 +6,7 @@ import { VerifyCodeType } from "@/lib/types/AuthType";
 import { useToast } from "@/components/ui/use-toast";
 import { setToken } from "@/lib/token";
 import { VerifyLoginCode } from "@/pages/api/mutate/Login";
-import { getCookie } from "@/lib/cookies";
+import { getCookie, removeCookie } from "@/lib/cookies";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useRouter } from "next/navigation";
@@ -37,6 +37,7 @@ const OTPLoginVerification = () => {
         description: `${response?.message}`,
       });
       setToken(response?.token);
+      removeCookie('email')
     },
     onError: (error: any) => {
       toast({

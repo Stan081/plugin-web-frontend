@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -89,7 +90,10 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
   });
 
   const ticketCookie = getCookie("tickets");
-  const entryTicketCookie = getCookie("entryTicket");
+  const entryTicketCookieRaw = getCookie("entryTicket");
+  const entryTicketCookie = entryTicketCookieRaw
+    ? JSON.parse(entryTicketCookieRaw as string)
+    : null;
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
@@ -98,27 +102,32 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
     [form.formState.errors]
   );
 
-  const onSubmit = useCallback((payload: CheckoutForms) => {
-    if (!payload) {
-      toast({
-        variant: "destructive",
-        title: "Please fill in the field",
-      });
-    }
-    if (tickets || entryData) {
-      const data = {
-        eventId: eventId,
-        firstname: payload?.first_name,
-        lastname: payload?.last_name,
-        email: payload?.email,
-        phone: payload?.phone_number,
-        country: country?.country_name ? country?.country_name : "Nigeria",
-        tickets: ticketCookie ? tickets : [entryData],
-      };
+  const onSubmit = useCallback(
+    (payload: CheckoutForms) => {
+      if (!payload) {
+        toast({
+          variant: "destructive",
+          title: "Please fill in the field",
+        });
+      }
+      if (tickets || entryData) {
+        const data = {
+          eventId: eventId,
+          firstname: payload?.first_name,
+          lastname: payload?.last_name,
+          email: payload?.email,
+          phone: payload?.phone_number,
+          country: country?.country_name ? country?.country_name : "Nigeria",
+          tickets: ticketCookie ? tickets : [entryTicketCookie],
+        };
 
-      mutate(data);
-    }
-  }, []);
+        mutate(data);
+        // console.log(data)
+        // console.log(entryTicketCookie);
+      }
+    },
+    [mutate]
+  );
 
   return (
     <div>

@@ -13,8 +13,6 @@ import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 const TailoredEvent: React.FC = () => {
   const { data: events, isLoading } = useGetAllEvents();
 
-  console.log(events?.data)
-
   const now = new Date();
 
   const upcomingPublishedData = events?.data.filter((item) => {

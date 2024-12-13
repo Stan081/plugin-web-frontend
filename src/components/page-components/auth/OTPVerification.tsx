@@ -8,7 +8,7 @@ import { VerifyCodeType } from "@/lib/types/AuthType";
 import { useToast } from "@/components/ui/use-toast";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import { setToken } from "@/lib/token";
-import { getCookie } from "@/lib/cookies";
+import { getCookie, removeCookie } from "@/lib/cookies";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
@@ -36,6 +36,7 @@ const OTPVerification = () => {
         description: `${response?.message}`,
       });
       setToken(response?.token);
+      removeCookie('email')
     },
     onError: (error: any) => {
       // Handle error here
