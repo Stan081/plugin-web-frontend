@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { GrFormCheckmark } from "react-icons/gr";
 import { RiArrowLeftSLine } from "react-icons/ri";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 
 const StepTracker = () => {
   const { currentStep } = useCreateEventContext();
@@ -44,7 +45,13 @@ const StepTracker = () => {
   });
   return (
     <div>
-      <div className="lg:hidden flex gap-5">
+      <div className="lg:hidden flex items-start gap-5">
+        <div
+          onClick={() => router.back()}
+          className="border border-black rounded-full"
+        >
+          <MdKeyboardArrowLeft size={22} />
+        </div>
         <div className="bg-gray-600 h-16 w-16 flex justify-center items-center rounded-lg">
           {event?.data?.thumbnail ? (
             <img
