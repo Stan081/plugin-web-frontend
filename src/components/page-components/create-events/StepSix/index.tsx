@@ -42,7 +42,7 @@ const StepSix: FC = () => {
           formTitle="Setting up Tickets"
           currPosition={[100, 100, 50]}
         >
-          <div className="flex flex-col justify-between gap-4 w-full h-full lg:h-[70vh] overflow-y-auto">
+          <div className="flex flex-col justify-between gap-4 w-full h-full lg:h-[70vh] overflow-y-auto px-4 pt-4">
             {showModal && (
               <SelectTicketModal isOpen={showModal} close={handleShowModal} />
             )}
