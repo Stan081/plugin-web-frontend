@@ -15,6 +15,7 @@ import { useMe } from "../api/query/me";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import ProfileFormModal from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 import { Section } from "@/tw-components/Section";
+import { getCookie } from "@/lib/cookies";
 
 export default function CreateEvent() {
   const { data: userDate } = useMe();
@@ -25,11 +26,10 @@ export default function CreateEvent() {
   const router = useRouter();
 
   useEffect(() => {
-    if (token) {
-      return;
-    } else {
-      router.push("/login");
+    if (!token) {
+      return router.push("/login");
     }
+    return;
   }, [router]);
 
   const renderStepContent = () => {

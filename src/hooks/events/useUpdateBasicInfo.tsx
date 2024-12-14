@@ -11,11 +11,6 @@ export const useUpdateBasicInfo = () => {
     mutationFn: (data: any) => UpdateBasicInfo(data),
     onSuccess: (response) => {
       if (response?.data) {
-        toast({
-          variant: "success",
-          title: "Basic info has been updated",
-          description: `${response?.message}`,
-        });
         client.invalidateQueries({ queryKey: ["eventById"] });
         next();
       }

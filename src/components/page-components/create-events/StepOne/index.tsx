@@ -1,5 +1,11 @@
 "use client";
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import { Button } from "@/components/ui/button";
@@ -44,29 +50,44 @@ const StepOne: React.FC = () => {
   const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
   const { mutate: mutateUpdate, isPending: isUpdatePending } =
     useUpdateBasicInfo();
-  const { data: event, isLoading: loadingEvent } = useGetEvent();
-  const [imageBanner, setImageBanner] = useState<string | null>(
-    event?.data?.eventBanner || null
-  );
-  const [imageThumbnail, setImageThumbnail] = useState<string | null>(
-    event?.data?.thumbnail || null
-  );
-  const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
-  const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
-  const [isUploading, setIsUploading] = useState<boolean>(false);
-
-  const eventID = getCookie("event_id");
-
-  const form = useForm<EventStepOne>({
-    mode: "all",
-    defaultValues: {
-      event_banner: event?.data?.eventBanner || "",
-      event_thumbnail: event?.data?.thumbnail || "",
-      event_name: event?.data?.eventName || "",
-      event_description: event?.data?.eventDescription || "",
-    },
-    resolver: yupResolver(EventStepOneSchema),
-  });
+    const { data: event, isLoading: loadingEvent } = useGetEvent();
+    const [imageBanner, setImageBanner] = useState<string | null>(null);
+    const [imageThumbnail, setImageThumbnail] = useState<string | null>(null);
+    const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
+    const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
+    const [isUploading, setIsUploading] = useState<boolean>(false);
+    
+    const eventID = getCookie("event_id");
+    
+    const form = useForm<EventStepOne>({
+      mode: "all",
+      defaultValues: {
+        event_banner: "",
+        event_thumbnail: "",
+        event_name: "",
+        event_description: "",
+      },
+      resolver: yupResolver(EventStepOneSchema),
+    });
+    
+    // Track whether the form has been initialized with data
+    const [isFormInitialized, setIsFormInitialized] = useState(false);
+    
+    // Use the `reset` method only when the `event` data changes
+    useEffect(() => {
+      if (event?.data && !isFormInitialized) {
+        form.reset({
+          event_banner: event.data.eventBanner ?? "",
+          event_thumbnail: event.data.thumbnail ?? "",
+          event_name: event.data.eventName ?? "",
+          event_description: event.data.eventDescription ?? "",
+        });
+        setImageBanner(event.data.eventBanner || null);
+        setImageThumbnail(event.data.thumbnail || null);
+        setIsFormInitialized(true);
+      }
+    }, [event, form, isFormInitialized]);
+    
 
   const { toast } = useToast();
 
@@ -202,7 +223,7 @@ const StepOne: React.FC = () => {
         mutate(data);
       }
     },
-    [mutateRole, userData]
+    [mutateRole, mutateUpdate, mutate, userData]
   );
   // if (isUpdatePending) return <SpinnerOverlay />;
 
@@ -214,7 +235,7 @@ const StepOne: React.FC = () => {
       <div className="w-full lg:w-2/5 px-4 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
-      {/* {isUploading && <SpinnerOverlay />} */}
+      {isUploading && <SpinnerOverlay />}
       <div className="w-full h-full lg:w-3/5">
         <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <div>
@@ -435,7 +456,7 @@ const StepOne: React.FC = () => {
                       disabled={isPending || isUpdatePending}
                       variant="destructive"
                     >
-                      {isPending ? <Spinner /> : "Next"}
+                      {isPending || isUpdatePending ? <Spinner /> : "Next"}
                     </Button>
                   </div>
                 </div>
