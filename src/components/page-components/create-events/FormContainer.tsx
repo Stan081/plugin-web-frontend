@@ -27,9 +27,7 @@ const FormContainer: React.FC<Props> = ({
           <Progress key={index} value={curr} />
         ))}
       </div>
-      <div className="mt-8 px-4 md:px-6">
-        {children}
-      </div>
+      <>{children}</>
     </div>
   );
 };
