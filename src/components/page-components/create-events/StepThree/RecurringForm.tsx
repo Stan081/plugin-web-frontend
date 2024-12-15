@@ -36,7 +36,6 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
-
 interface RecurringFormComponentProps {
   eventType: string;
 }
@@ -77,7 +76,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
     saveToDraft,
   } = useCreateEventContext();
   const { data: event, isLoading: loading } = useGetEvent();
-  const [alert, setAlert] = useState<boolean>(true);
+  const [hint, setHint] = useState<boolean>(true);
   const [recurringSchedule, setRecurringSchedule] = useState<string>("1");
 
   const form = useForm<RecurringForm>({
@@ -122,6 +121,10 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
   });
 
   const onSubmit = useCallback((payload: RecurringForm) => {
+    if (payload?.start_date > payload?.end_date) {
+      alert("Start date cannot be after the end date");
+      return;
+    }
     const getSchedule = schedules.find((item) => item.id === recurringSchedule);
     const data = {
       eventType,
@@ -156,7 +159,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
         ))}
       </div>
 
-      {alert && (
+      {hint && (
         <div className="my-5 flex justify-between items-center bg-[#FFF1F0] rounded-lg p-1.5">
           <div className="flex items-center gap-3">
             <FiWatch color="#D9302A" size={18} />
@@ -164,7 +167,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
               Start-time and End-time will be recorded and displayed in minutes{" "}
             </p>
           </div>
-          <div className="cursor-pointer" onClick={() => setAlert(false)}>
+          <div className="cursor-pointer" onClick={() => setHint(false)}>
             <MdOutlineClose size={20} color="#000" />
           </div>
         </div>

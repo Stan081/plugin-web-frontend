@@ -229,15 +229,15 @@ const StepOne: React.FC = () => {
       eventDescription,
     };
 
-    // if (userData?.data?.role === "user") {
-    //   mutateRole({ role: "organizer" });
-    // }
+    if (userData?.data?.role === "user") {
+      mutateRole({ role: "organizer" });
+    }
 
-    // if (eventID) {
-    //   mutateUpdate(data);
-    // } else {
-    //   mutate(data);
-    // }
+    if (eventID) {
+      mutateUpdate(data);
+    } else {
+      mutate(data);
+    }
   };
 
   return (
