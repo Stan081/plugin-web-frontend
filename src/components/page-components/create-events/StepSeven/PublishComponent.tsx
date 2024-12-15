@@ -28,7 +28,7 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 const PublishComponent: FC = () => {
   const { data: userData } = useMe();
   const { previousStep: previous } = useCreateEventContext();
-  const [showModal, setShowModal] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const [selectedVisibility, setSelectedVisibility] =
     useState<string>("public");

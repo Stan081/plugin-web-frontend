@@ -47,7 +47,7 @@ const StepFour: React.FC = () => {
           formTitle="Basic Information"
           currPosition={[100, 60, 0]}
         >
-          <div className="flex flex-wrap justify-start items-end gap-5">
+          <div className="flex flex-wrap justify-start items-end gap-5 p-4">
             <h3 className="font-pally-medium md:text-xl">
               What’s your location type:
             </h3>
@@ -69,7 +69,7 @@ const StepFour: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-6">
+          <div className="mt-6 px-4">
             {locationType === "physical" ? (
               <PhysicalForm locationType={locationType} />
             ) : (

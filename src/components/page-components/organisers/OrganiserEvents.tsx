@@ -31,13 +31,13 @@ const OrganiserEvents: FC<{ orgId: string }> = ({ orgId }) => {
   ];
   return (
     <div className="flex flex-col lg:flex-row justify-between items-start w-full mx-auto gap-8 ">
-      <div className="w-[380px] ml-40 h-[580px]" />
+      <div className="w-[480px] ml-40" />
       <div className="w-full max-w-5xl mt-3 lg:mt-4">
         <ul className="flex justify-start items-start md:items-center gap-4 md:align-baseline">
           {tabLink.map((tab) => (
             <li key={tab.key} role="presentation">
               <button
-                className={`border p-2 md:py-2 md:px-3 rounded-3xl ${
+                className={`border py-1 px-2 md:py-2 md:px-3 rounded-3xl ${
                   isActive === tab.key
                     ? "border-2 border-[#D9302A] text-[#D9302A]"
                     : "border-[#586170] text-[#586170]"
@@ -62,7 +62,7 @@ const OrganiserEvents: FC<{ orgId: string }> = ({ orgId }) => {
           id={`panel-${isActive}`}
           role="tabpanel"
           aria-labelledby={`tab-${isActive}`}
-          className="mt-6 md:pb-20 pb-6 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6  h-[80vh] md:h-full mx-auto"
+          className="mt-6 md:pb-20 pb-6 overflow-y-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto"
         >
           {isLoading ? (
             <CardSkeleton />

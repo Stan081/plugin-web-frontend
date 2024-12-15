@@ -9,17 +9,6 @@ import ToolTipComponent from "@/components/ToolTipComponent";
 import TicketPlacement from "./TicketPlacement";
 import Cookies from "js-cookie";
 import { useEventsContext } from "@/providers/events.provider";
-import { removeCookie } from "@/lib/cookies";
-
-const getCookie = (key: string) => {
-  const cookie = Cookies.get(key);
-  try {
-    return cookie ? JSON.parse(decodeURIComponent(cookie)) : null;
-  } catch (error) {
-    console.error("Error parsing cookie:", error);
-    return null;
-  }
-};
 
 const setCookie = (key: string, value: any, options = {}) => {
   try {
@@ -127,7 +116,13 @@ const GroupedTicket = ({ groupedTicket, id }) => {
           button={
             <p className="font-pally-regular text-sm destructive">Learn more</p>
           }
-          content={<TicketPlacement text={groupedTicket?.ticketPeaks} />}
+          content={
+            <TicketPlacement
+              color={groupedTicket?.color}
+              seatmap={groupedTicket?.seatMap}
+              text={groupedTicket?.ticketPeaks}
+            />
+          }
         />
       </div>
     </div>

@@ -79,7 +79,7 @@ const StepTwo: React.FC = () => {
       </div>
       <div className="w-full h-full lg:w-3/5 mb-5">
         <FormContainer formTitle="Basic Information" currPosition={[80, 0, 0]}>
-          <div className="flex flex-col justify-between gap-4 w-full h-full">
+          <div className="flex flex-col justify-between gap-4 w-full h-full p-4">
             <div className="h-[60vh] whitespace-normal overflow-y-auto">
               <h3 className="font-pally-medium md:text-lg">
                 Choose the category that best describes your event

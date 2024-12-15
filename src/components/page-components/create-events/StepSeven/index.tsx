@@ -31,7 +31,7 @@ const StepSeven: FC = () => {
       </Fragment>
       <div className="w-full lg:w-3/5 lg:px-0">
         <FormContainer formTitle="Publish Event" currPosition={[100, 100, 100]}>
-          <div className="overflow-hidden">
+          <div className="overflow-hidden p-4">
             <PublishComponent />
           </div>
         </FormContainer>

@@ -104,7 +104,10 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({ entryTicket }) => {
   });
 
   const onSubmit = useCallback((payload: DonationForm) => {
-    console.log(payload);
+    if (payload?.start_date > payload?.end_date) {
+      alert("Start date cannot be after the end date");
+      return;
+    }
     const data = {
       entryTicket: {
         entryTicketType: entryTicket,

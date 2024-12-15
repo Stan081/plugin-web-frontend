@@ -176,7 +176,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                     </p>
                   </div>
                 </div>
-                <p className="mt-5 text-sm font-pally-regular text-center text-[#475367]">
+                <p className="mt-5 text-sm font-pally-regular text-center text-[#ee4d35]">
                   Report an issue with this ticket
                 </p>
               </div>

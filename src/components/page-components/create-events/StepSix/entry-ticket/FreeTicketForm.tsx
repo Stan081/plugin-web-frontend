@@ -98,6 +98,10 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
   });
 
   const onSubmit = useCallback((payload: FreeTicket) => {
+    if (payload?.start_date > payload?.end_date) {
+      alert("Start date cannot be after the end date");
+      return;
+    }
     const data = {
       entryTicket: {
         entryTicketType: entryTicket,

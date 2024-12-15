@@ -41,7 +41,9 @@ const StepFive: React.FC = () => {
   } = useCreateEventContext();
   const [hydrated, setHydrated] = useState<boolean>(false);
 
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(
+    eventById?.data?.refundPolicyAgreed ?? false
+  );
 
   const [changePageContent, setChangePageContent] = useState<PageContentsType>({
     id: "item-1",
@@ -109,6 +111,7 @@ const StepFive: React.FC = () => {
 
       <div className="w-full lg:w-3/5 bg-[#f0ded1]">
         <FormContainer formTitle="Event Details" currPosition={[100, 100, 0]}>
+          <div className="p-4">
             <Accordion
               type="single"
               collapsible
@@ -265,6 +268,7 @@ const StepFive: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div>
         </FormContainer>
       </div>
     </div>

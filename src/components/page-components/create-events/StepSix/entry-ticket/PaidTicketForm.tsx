@@ -101,6 +101,10 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ entryTicket }) => {
   });
 
   const onSubmit = useCallback(async (payload: PaidTicket) => {
+    if (payload?.start_date > payload?.end_date) {
+      alert("Start date cannot be after the end date");
+      return;
+    }
     const data = {
       ticketCategory: payload.ticket_type,
       entryTicket: {
