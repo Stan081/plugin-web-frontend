@@ -105,7 +105,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
     }
   };
   return (
-    <div className="w-full max-w-xs shrink-0 rounded-xl overflow-hidden bg-white border flex flex-col justify-between border-gray-200 ">
+    <div className="w-full max-w-[280px] shrink-0 rounded-xl overflow-hidden bg-white border flex flex-col justify-between border-gray-200 ">
       <div className="relative">
         <img
           className="w-full h-48 object-cover"
@@ -155,15 +155,15 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
             ? card?.eventName.slice(0, 25).concat("...")
             : card?.eventName}
         </h2>
-        <p className="text-sm md:text-lg text-gray-500 font-pally-regular">
+        <p className="text-sm lg:text-base mt-1 text-gray-500 font-pally-regular">
           {card?.locationType === "physical"
-            ? card?.physicalLocation?.address?.length > 35
-              ? card?.physicalLocation?.address?.slice(0, 35).concat("...")
+            ? card?.physicalLocation?.address?.length > 32
+              ? card?.physicalLocation?.address?.slice(0, 32).concat("...")
               : card?.physicalLocation?.address
             : "Online"}
         </p>
 
-        <div className="flex items-center gap-4">
+        <div className="mt-1 flex items-center gap-4">
           <p className="text-sm md:text-base destructive font-pally-regular">
             {formattedDate ?? "No set date"}
           </p>
@@ -178,7 +178,9 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
             {card?.entryTicket?.ticketPrice ? (
               toFiat(card?.entryTicket?.ticketPrice)
             ) : (
-              <span className=" text-sm">Click to explore price</span>
+              <span className=" text-sm lg:text-base">
+                Click to explore price
+              </span>
             )}
           </p>
         </div>

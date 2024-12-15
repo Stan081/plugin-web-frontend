@@ -9,7 +9,7 @@ const TicketPlacement: FC<{
   seatmap?: string;
 }> = ({ text, color, seatmap }) => {
   return (
-    <div className="bg-[#362c24] p-3 rounded-lg w-56 space-y-3">
+    <div className="bg-[#362c24] p-3 rounded-lg w-72 space-y-3">
       {color && (
         <h4 className="font-pally-medium text-white flex items-center gap-2">
           Ticket Placement{" "}
@@ -29,7 +29,7 @@ const TicketPlacement: FC<{
         />
       )}
       <div className="space-y-4">
-        <p className="text-sm lg:text-base text-[#D0D5DD] font-pally-medium whitespace-nowrap underline">
+        <p className="text-sm lg:text-base text-white font-pally-medium whitespace-nowrap underline">
           Ticket Peaks
         </p>
 
