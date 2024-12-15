@@ -61,6 +61,12 @@ const StepOne: React.FC = () => {
   const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [error, setError] = useState<any>({
+    nameError: "",
+    descriptionError: "",
+    bannerError: "",
+    thumbnailError: "",
+  });
 
   const { toast } = useToast();
 
@@ -188,6 +194,33 @@ const StepOne: React.FC = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError((prevError) => {
+      const newError = {
+        nameError: eventName === "" ? "Enter event name" : "",
+        descriptionError:
+          eventDescription === "" ? "Enter event description" : "",
+        bannerError: imageBanner === "" ? "Enter event name" : "",
+        thumbnailError: imageThumbnail === "" ? "Enter event name" : "",
+      };
+
+      return { ...prevError, ...newError };
+    });
+
+    // Optionally check if there are no errors after updating
+    if (
+      eventName !== "" &&
+      eventDescription !== "" &&
+      imageBanner !== "" &&
+      imageThumbnail !== ""
+    ) {
+      setError({
+        nameError: "",
+        descriptionError: "",
+        bannerError: "",
+        thumbnailError: "",
+      });
+    }
+
     const data = {
       userId: userData?.data?._id,
       eventBanner: imageBanner,
@@ -196,15 +229,15 @@ const StepOne: React.FC = () => {
       eventDescription,
     };
 
-    if (userData?.data?.role === "user") {
-      mutateRole({ role: "organizer" });
-    }
+    // if (userData?.data?.role === "user") {
+    //   mutateRole({ role: "organizer" });
+    // }
 
-    if (eventID) {
-      mutateUpdate(data);
-    } else {
-      mutate(data);
-    }
+    // if (eventID) {
+    //   mutateUpdate(data);
+    // } else {
+    //   mutate(data);
+    // }
   };
 
   return (
@@ -282,7 +315,9 @@ const StepOne: React.FC = () => {
                     onChange={handleImageUploadBanner}
                     style={{ display: "none" }}
                   />
-                  <p>error</p>
+                  <p className="text-sm font-pally-regular text-[#e84141]">
+                    {error.bannerError}
+                  </p>
                 </div>
               </div>
 
@@ -346,7 +381,9 @@ const StepOne: React.FC = () => {
                       onChange={handleImageUploadThumbnail}
                       style={{ display: "none" }}
                     />
-                    <p>error</p>
+                    <p className="text-sm font-pally-regular text-[#e84141]">
+                      {error.thumbnailError}
+                    </p>
                   </div>
                 </div>
                 <div className="w-full space-y-4">
@@ -365,7 +402,9 @@ const StepOne: React.FC = () => {
                         className="w-full bg-white text-black font-pally-regular"
                       />
 
-                      <p>error</p>
+                      <p className="text-sm font-pally-regular text-[#e84141]">
+                        {error.nameError}
+                      </p>
                     </div>
                   </div>
                   <div className="w-full">
@@ -382,7 +421,9 @@ const StepOne: React.FC = () => {
                         className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
                       />
 
-                      <p>Error</p>
+                      <p className="text-sm font-pally-regular text-[#e84141]">
+                        {error.descriptionError}
+                      </p>
                     </div>
                   </div>
                 </div>
