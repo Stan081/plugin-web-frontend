@@ -6,13 +6,7 @@ import {
 } from "@/models/create-event-schema";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import {
   Form,
   FormControl,
@@ -177,6 +171,10 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
   });
 
   const onSubmit = useCallback((payload: FreeSeatSection) => {
+    if (payload?.start_date > payload?.end_date) {
+      alert("Start date cannot be after the end date");
+      return;
+    }
     const data = {
       groupedTicketType: payload.seat_type,
       ticketName: payload.ticket_name,

@@ -179,6 +179,10 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
   });
 
   const onSubmit = useCallback((payload: PaidSeatSection) => {
+    if (payload?.start_date > payload?.end_date) {
+      alert("Start date cannot be after the end date");
+      return;
+    }
     const data = {
       groupedTicketType: payload.seat_type,
       ticketName: payload.ticket_name,
