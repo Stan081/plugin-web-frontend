@@ -91,14 +91,14 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
           </figure>
         </button>
         {/* The hover card */}
-        <div className="rounded-2xl appear z-10 hidden backdrop-blur-[2px] px-5 py-1 font-pally-regular text-white justify-center items-start w-full h-full top-0 group-hover:flex flex-col group-hover:absolute bg-black bg-opacity-50 space-y-3">
+        <div
+          onClick={() => handleCardClick(card?._id)}
+          className="rounded-2xl appear z-10 hidden backdrop-blur-[2px] px-5 py-1 font-pally-regular text-white justify-center items-start w-full h-full top-0 group-hover:flex flex-col group-hover:absolute bg-black bg-opacity-50 space-y-3"
+        >
           <p className="inline-flex bg-destructive text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
             {card?.publishStatus}
           </p>
-          <h2
-            onClick={() => handleCardClick(card?._id)}
-            className="text-lg md:text-2xl font-pally-medium"
-          >
+          <h2 className="text-lg md:text-2xl font-pally-medium">
             {card?.eventName?.length > 25
               ? card?.eventName.slice(0, 25).concat("...")
               : card?.eventName}
