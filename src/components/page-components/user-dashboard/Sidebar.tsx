@@ -51,7 +51,7 @@ const Sidebar: FC<Props> = ({ open, toggle }) => {
     return (
       <div
         className={clsx(
-          " lg:flex w-full h-full md:h-[80vh] md:w-96 lg:w-64 lg:flex-col border-r bg-white",
+          " lg:flex w-full h-full md:h-[80vh] lg:w-[320px] lg:flex-col border-r bg-white",
 
           {
             hidden: hidden,
