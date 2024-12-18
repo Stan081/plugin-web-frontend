@@ -45,7 +45,7 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
       <div className="space-y-1 my-6">
         <p className="text-[#2C2B2E] text-base md:text-lg font-pally-regular">
           {event?.locationType === "physical"
-            ? event?.physicalLocation?.address
+            ? `${event?.physicalLocation?.address}, ${event?.physicalLocation?.city}, ${event?.physicalLocation?.state}, ${event?.physicalLocation?.country}.`
             : "Virtual"}
         </p>
 
