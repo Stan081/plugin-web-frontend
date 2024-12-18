@@ -95,7 +95,7 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
                             defaultValue={String(field.value)}
                           >
                             <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
-                              <SelectValue placeholder="select timezone" />
+                              <SelectValue placeholder="select bank" />
                             </SelectTrigger>
                             <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
                               {["opay", "palmpay"].map((bank, index) => {
