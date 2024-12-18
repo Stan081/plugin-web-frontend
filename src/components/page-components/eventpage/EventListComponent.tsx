@@ -100,7 +100,7 @@ const EventListComponent: FC<{ card: any }> = ({ card }) => {
               width={300}
               height={200}
             />
-            <div className="absolute bottom-2 left-2 bg-destructive text-white text-xs font-semibold px-2 py-1 rounded-3xl font-pally-medium">
+            <div className="absolute bottom-2 left-2 bg-destructive text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
               {card?.publishStatus}
             </div>
           </div>
