@@ -68,7 +68,7 @@ function PricingBanner() {
 }
 
 const AdPackages = () => {
-  const [isOpen, setIsOpen] = useState("");
+  const [isOpen, setIsOpen] = useState<string>("");
 
   function openAccordion(title: string) {
     if (isOpen === title) {
