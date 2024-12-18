@@ -100,7 +100,7 @@ const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open }) => {
                 <Button
                   variant="destructive"
                   type="submit"
-                  className="block mt-5"
+                  className="block"
                 >
                   Continue to withdrawal
                 </Button>

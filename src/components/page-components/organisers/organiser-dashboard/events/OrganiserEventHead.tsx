@@ -31,7 +31,10 @@ const OrganiserEventHead = () => {
               </p>
             </div>
 
-            <Link href={"/create-event"} className="lg:hidden flex">
+            <Link
+              href={"/create-event"}
+              className="lg:hidden flex pr-3 lg:pr-0"
+            >
               <Button
                 variant="destructive"
                 className=" flex items-center gap-3"
