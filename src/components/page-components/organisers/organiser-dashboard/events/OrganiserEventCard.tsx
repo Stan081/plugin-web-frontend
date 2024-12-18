@@ -20,10 +20,11 @@ import { useRouter } from "next/navigation";
 import { setCookie } from "@/lib/cookies";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
+import { BASE_URL } from "@/lib/constants";
 
 const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
-  const { handlePreviewEvent, handleShowDeleteEvent } =
-    useOrganiserDashContext();
+  const { handleShowDeleteEvent } = useOrganiserDashContext();
   const { toast } = useToast();
   const [stall, setStall] = useState<boolean>(false);
 
@@ -118,27 +119,26 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
                 <FiEdit2 size={18} color="#667185" />
                 Edit
               </div>
-              {event?.isPublished && (
+              {/* {event?.isPublished && (
                 <div className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm">
                   <HiOutlineSpeakerphone size={18} color="#667185" />
                   Promote event
                 </div>
-              )}
+              )} */}
               {event?.isPublished && (
-                <div
-                  onClick={handlePreviewEvent}
+                <Link
+                  href={`/explore-events/${event?._id}`}
+                  // onClick={handlePreviewEvent}
                   className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
                 >
                   <MdOutlineRemoveRedEye size={18} color="#667185" />
                   Preview
-                </div>
+                </Link>
               )}
               {event?.isPublished && (
                 <div
                   onClick={() =>
-                    handleCopyLink(
-                      `http://localhost:3000/organiser/events/${event?._id}`
-                    )
+                    handleCopyLink(`${BASE_URL}/organiser/events/${event?._id}`)
                   }
                   className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
                 >
@@ -169,19 +169,10 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
               event?.eventName.slice(1)
             : event?.eventName}
         </h2>
-        <p className="text-sm md:text-base text-[#667185]">
-          {formattedDate ? formattedDate : "No set date"} @{" "}
-          {formattedTime ?? "No set time"}
-        </p>
-
         <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-          <p className="text-sm md:text-base text-[#667185] flex items-center gap-2">
-            <SlLocationPin />
-            {event?.locationType === "physical"
-              ? event?.physicalLocation?.address?.length > 40
-                ? event?.physicalLocation?.address?.slice(0, 26).concat("...")
-                : event?.physicalLocation?.address
-              : "Online"}
+          <p className="text-sm md:text-base text-[#667185]">
+            {formattedDate ? formattedDate : "No set date"} @{" "}
+            {formattedTime ?? "No set time"}
           </p>
           <div className="w-3 rotate-90 hidden lg:block border-b-2 border-[#667185]" />
           <p className="text-sm md:text-base text-[#667185] flex items-center gap-2">
@@ -193,6 +184,15 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
               : "Draft mode"}{" "}
           </p>
         </div>
+
+        <p className="text-sm md:text-base text-[#667185] flex items-center gap-2">
+          <SlLocationPin />
+          {event?.locationType === "physical"
+            ? event?.physicalLocation?.address?.length > 40
+              ? event?.physicalLocation?.address?.slice(0, 26).concat("...")
+              : event?.physicalLocation?.address
+            : "Online"}
+        </p>
 
         <div className="flex items-center gap-2">
           <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">

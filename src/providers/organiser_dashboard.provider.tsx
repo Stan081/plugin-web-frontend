@@ -27,7 +27,6 @@ type OrganiserDashContextValue = {
   showProfile: boolean;
   currentStep: number;
   eventState: string;
-  showPreviewEvent: boolean;
   showDeleteEvent: boolean;
   activeEvent: string;
   clickedCampaignId: number;
@@ -38,7 +37,6 @@ type OrganiserDashContextValue = {
   nextSetUpStep: () => void;
   previousSetUpStep: () => void;
   setEventState: (key: string) => void;
-  handlePreviewEvent: () => void;
   handleShowDeleteEvent: () => void;
   setActiveEvent: (key: string) => void;
   handleCloseProfile: () => void;
@@ -70,9 +68,6 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
 
   // switch organiser event tab
   const [eventState, setEventState] = useState<string>("upcoming");
-
-  // show preview event state
-  const [showPreviewEvent, setShowPreviewEvent] = useState<boolean>(false);
 
   // show preview event state
   const [showDeleteEvent, setShowDeleteEvent] = useState<boolean>(false);
@@ -109,10 +104,6 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     adContent: null,
   });
 
-  // function to switch preview event
-  const handlePreviewEvent = () => {
-    setShowPreviewEvent(!showPreviewEvent);
-  };
 
   // function to switch preview event
   const handleShowDeleteEvent = () => {
@@ -155,7 +146,6 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     checkedEvent,
     isChecked,
     eventState,
-    showPreviewEvent,
     showDeleteEvent,
     activeEvent,
     emailCampaignData,
@@ -167,7 +157,6 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     setCurrentStep,
     setClickedCampaignId,
     setActiveEvent,
-    handlePreviewEvent,
     handleIsChecked,
     nextSetUpStep,
     previousSetUpStep,

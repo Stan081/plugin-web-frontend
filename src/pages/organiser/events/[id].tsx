@@ -3,11 +3,9 @@ import EventDetailDashboard from "@/components/page-components/organisers/organi
 import EventDetailSidebar from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/EventDetailSidebar";
 import EventDetailTickets from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/EventDetailTickets";
 import EventDetailManagement from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/menage-attendees/EventDetailManagement";
-import PreviewEvent from "@/components/page-components/organisers/organiser-dashboard/events/PreviewEvent";
 import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
 import { useMe } from "@/pages/api/query/me";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
-import { organiserEvents } from "@/static-datas/organiser-date";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
@@ -24,9 +22,7 @@ const OrganiserEventDetail = () => {
   } = useGetOrganiserEvents(user?.data?._id);
   const {
     activeEvent,
-    showPreviewEvent,
     showDeleteEvent,
-    handlePreviewEvent,
     handleShowDeleteEvent,
   } = useOrganiserDashContext();
   const router = useRouter();
@@ -68,9 +64,6 @@ const OrganiserEventDetail = () => {
           </div>
         </div>
 
-        {showPreviewEvent && (
-          <PreviewEvent open={showPreviewEvent} close={handlePreviewEvent} />
-        )}
 
         {showDeleteEvent && (
           <DelectEvent open={showDeleteEvent} close={handleShowDeleteEvent} />
