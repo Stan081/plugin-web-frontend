@@ -14,7 +14,7 @@ import { useMe } from "@/pages/api/query/me";
 const Header = () => {
   const { data: userData } = useMe();
   return (
-    <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md">
+    <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md shadow-md">
       <Container>
         <nav className="flex justify-between items-center gap-5">
           <div className="space-x-6 md:space-x-0 flex md:gap-6 items-center">
