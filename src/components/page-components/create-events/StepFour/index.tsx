@@ -36,7 +36,7 @@ const StepFour: React.FC = () => {
       className="flex w-full flex-col lg:flex-row items-start gap-4 md:gap-12
     "
     >
-      <div className="w-full lg:w-2/5  px-4 lg:px-0">
+      <div className="w-full lg:w-2/5 lg:px-0">
         <Intro
           contents={pageContents}
           title="Where will your event take place?"

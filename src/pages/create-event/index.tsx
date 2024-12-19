@@ -54,16 +54,13 @@ export default function CreateEvent() {
   };
   return (
     <Section className="bg-[#f0ded1] lg:h-screen bg-no-repeat">
-      {userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer && (
-        <OrganiserHeader />
-      )}
       {showProfileForm && (
         <ProfileFormModal
           open={showProfileForm}
           close={() => setShowProfileForm(!showProfileForm)}
         />
       )}
-      <Container className="px-0 py-3 lg:pt-6">
+      <Container className="px-0 py-5 lg:pt-6">
         <div className="scrollbar-hide ">{renderStepContent()}</div>
       </Container>
     </Section>

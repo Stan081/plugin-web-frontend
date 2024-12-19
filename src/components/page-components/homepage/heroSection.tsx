@@ -13,27 +13,27 @@ import { motion } from "framer-motion";
 
 // Temporary mock data
 const heroSlides = [
-  {
-    backgroundImage:
-      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816",
-    logo: "/images/cream-bg.png",
-    title: "AFRONATION “24",
-    description: "The biggest Afrobeat party in the world is here again.",
-  },
-  {
-    backgroundImage:
-      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image2.jpeg?updatedAt=1722389363583",
-    logo: "/images/pitch-bg.png",
-    title: "Another Event",
-    description: "Description for another event.",
-  },
-  {
-    backgroundImage:
-      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image3.jpeg?updatedAt=1722389364580",
-    logo: "/images/cream-bg.png",
-    title: "Yet Another Event",
-    description: "Description for yet another event.",
-  },
+  // {
+  //   backgroundImage:
+  //     "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816",
+  //   logo: "/images/cream-bg.png",
+  //   title: "AFRONATION “24",
+  //   description: "The biggest Afrobeat party in the world is here again.",
+  // },
+  // {
+  //   backgroundImage:
+  //     "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image2.jpeg?updatedAt=1722389363583",
+  //   logo: "/images/pitch-bg.png",
+  //   title: "Another Event",
+  //   description: "Description for another event.",
+  // },
+  // {
+  //   backgroundImage:
+  //     "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image3.jpeg?updatedAt=1722389364580",
+  //   logo: "/images/cream-bg.png",
+  //   title: "Yet Another Event",
+  //   description: "Description for yet another event.",
+  // },
 ];
 
 const HeroSection = () => {
@@ -67,107 +67,153 @@ const HeroSection = () => {
     setActiveIndex(newIndex);
   };
   return (
-    <Section id="hero section" className="p-0 md:p-0">
-      <div className="relative">
-        <Carousel>
+    <Section
+      id="hero section"
+      clean
+      className="relative isolate overflow-hidden"
+    >
+      {heroSlides.length === 0 ? (
+        <div className=" bg-no-repeat bg-cover w-full h-[65vh]">
           <div
-            className="overflow-hidden"
-            onMouseEnter={resetTimeout}
-            onMouseLeave={() => {
-              timeoutRef.current = setTimeout(
-                () =>
-                  setActiveIndex((prevIndex) =>
-                    prevIndex === heroSlides.length - 1 ? 0 : prevIndex + 1
-                  ),
-                3000
-              );
-            }}
+            className="absolute left-1/2 right-0 top-0 -z-10 -ml-24 transform-gpu overflow-hidden blur-3xl lg:ml-24 xl:ml-48"
+            aria-hidden="true"
           >
-            <CarouselContent
-              style={{ transform: `translateX(${-activeIndex * 100}%)` }}
+            <div className="aspect-[136/400] w-[30.0625rem] bg-gradient-to-tr from-[#ffffff] to-[#382407] opacity-20" />
+          </div>
+          <div
+            className="absolute left-0 right-1/2 top-0 -z-10 transform-gpu overflow-hidden blur-3xl"
+            aria-hidden="true"
+          >
+            <div className="aspect-[301/96] w-[30.0625rem] bg-gradient-to-bl from-[#ffffff] to-[#D9302A] opacity-20" />
+          </div>
+          <Container className="flex justify-between items-center gap-9 lg:gap-20 py-8 lg:py-20">
+            <div className="w-full lg:w-1/2">
+              <h1 className="font-pally-medium text-3xl lg:text-6xl text-gray-600">
+                Plugin Ent
+              </h1>
+              <p className="mt-2 lg:mt-6 text-base lg:text-lg font-pally-regular text-gray-500">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae
+                dolores minima assumenda atque accusantium, fugit natus?
+                Consequuntur, sequi optio voluptatem perferendis incidunt.
+              </p>
+            </div>
+            <div className="w-full lg:w-1/2 ">
+              <Image
+                src={"/images/party-fans-raised-their-hands.jpg"}
+                width={400}
+                height={300}
+                alt="plugin Ent"
+                className="pointer-events-none w-full h-full rounded-xl"
+              />
+            </div>
+          </Container>
+        </div>
+      ) : (
+        <div className="relative">
+          <Carousel>
+            <div
+              className="overflow-hidden"
+              onMouseEnter={resetTimeout}
+              onMouseLeave={() => {
+                timeoutRef.current = setTimeout(
+                  () =>
+                    setActiveIndex((prevIndex) =>
+                      prevIndex === heroSlides.length - 1 ? 0 : prevIndex + 1
+                    ),
+                  3000
+                );
+              }}
             >
-              {heroSlides.map((slide, index) => (
-                <CarouselItem
-                  key={index}
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                >
-                  <div
-                    className="relative h-[80vh] xs:max-md:h-[60vh] bg-no-repeat bg-center bg-cover flex items-center justify-start"
-                    style={{ backgroundImage: `url(${slide.backgroundImage})` }}
+              <CarouselContent
+                style={{ transform: `translateX(${-activeIndex * 100}%)` }}
+              >
+                {heroSlides.map((slide, index) => (
+                  <CarouselItem
+                    key={index}
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
                   >
-                    {hoveredIndex === index && (
-                      <div className="absolute inset-0 bg-black opacity-50"></div>
-                    )}
-                    <Container>
-                      <div className="relative z-10 text-center text-white p-4 flex flex-col items-start space-y-2 md:space-y-4">
-                        {hoveredIndex === index ? (
-                          <motion.div
-                            animate={{ y: 0 }}
-                            initial={{ y: -50 }}
-                            transition={{ duration: 0.9, type: "spring" }}
-                          >
-                            <Image
-                              src={slide.logo}
-                              width={224}
-                              height={224}
-                              alt={`${slide.title} logo`}
-                              className="w-24 h-24 md:w-56 md:h-56 mb-4"
-                            />
+                    <div
+                      className="relative h-[80vh] xs:max-md:h-[60vh] bg-no-repeat bg-center bg-cover flex items-center justify-start"
+                      style={{
+                        backgroundImage: `url(${slide.backgroundImage})`,
+                      }}
+                    >
+                      {hoveredIndex === index && (
+                        <div className="absolute inset-0 bg-black opacity-50"></div>
+                      )}
+                      <Container>
+                        <div className="relative z-10 text-center text-white p-4 flex flex-col items-start space-y-2 md:space-y-4">
+                          {hoveredIndex === index ? (
                             <motion.div
                               animate={{ y: 0 }}
-                              initial={{ y: 150 }}
-                              transition={{ duration: 1.0, type: "spring" }}
-                              className="text-left space-y-2"
+                              initial={{ y: -50 }}
+                              transition={{ duration: 0.9, type: "spring" }}
                             >
-                              <h1 className="text-3xl md:text-5xl font-pally-bold">
-                                {slide.title}
-                              </h1>
-                              <p className="text-lg mb-6 font-pally-regular text-start">
-                                {slide.description}
-                              </p>
-                              <button className="bg-red-500 text-white px-6 py-3 rounded-md font-pally-regular">
-                                Get Tickets Now
-                              </button>
+                              <Image
+                                src={slide.logo}
+                                width={224}
+                                height={224}
+                                alt={`${slide.title} logo`}
+                                className="w-24 h-24 md:w-56 md:h-56 mb-4"
+                              />
+                              <motion.div
+                                animate={{ y: 0 }}
+                                initial={{ y: 150 }}
+                                transition={{ duration: 1.0, type: "spring" }}
+                                className="text-left space-y-2"
+                              >
+                                <h1 className="text-3xl md:text-5xl font-pally-bold">
+                                  {slide.title}
+                                </h1>
+                                <p className="text-lg mb-6 font-pally-regular text-start">
+                                  {slide.description}
+                                </p>
+                                <button className="bg-red-500 text-white px-6 py-3 rounded-md font-pally-regular">
+                                  Get Tickets Now
+                                </button>
+                              </motion.div>
                             </motion.div>
-                          </motion.div>
-                        ) : (
-                          <div className="w-24 h-24 md:w-56 md:h-56 mb-4 rounded-lg" />
-                        )}
-                      </div>
-                    </Container>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
+                          ) : (
+                            <div className="w-24 h-24 md:w-56 md:h-56 mb-4 rounded-lg" />
+                          )}
+                        </div>
+                      </Container>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
 
-            <div
-              onMouseLeave={() => setHoveredIndex(null)}
-              className="absolute bottom-3 right-4 md:top-3/4 md:right-40 flex items-center gap-3"
-            >
-              <button
-                onClick={() =>
-                  handleSlideChange(
-                    activeIndex === 0 ? heroSlides.length - 1 : activeIndex - 1
-                  )
-                }
-                className="cursor-pointer border rounded-full p-1 flex justify-center items-center w-9 h-9 border-white hover:bg-gray-600"
+              <div
+                onMouseLeave={() => setHoveredIndex(null)}
+                className="absolute bottom-3 right-4 md:top-3/4 md:right-40 flex items-center gap-3"
               >
-                <RiArrowLeftSLine size={30} color="#fff" />
-              </button>
+                <button
+                  onClick={() =>
+                    handleSlideChange(
+                      activeIndex === 0
+                        ? heroSlides.length - 1
+                        : activeIndex - 1
+                    )
+                  }
+                  className="cursor-pointer border rounded-full p-1 flex justify-center items-center w-9 h-9 border-white hover:bg-gray-600"
+                >
+                  <RiArrowLeftSLine size={30} color="#fff" />
+                </button>
 
-              <button
-                onClick={() =>
-                  handleSlideChange((activeIndex + 1) % heroSlides.length)
-                }
-                className="cursor-pointer border rounded-full p-1 flex justify-center items-center w-9 h-9 border-white hover:bg-gray-600"
-              >
-                <RiArrowRightSLine size={30} color="#fff" />
-              </button>
+                <button
+                  onClick={() =>
+                    handleSlideChange((activeIndex + 1) % heroSlides.length)
+                  }
+                  className="cursor-pointer border rounded-full p-1 flex justify-center items-center w-9 h-9 border-white hover:bg-gray-600"
+                >
+                  <RiArrowRightSLine size={30} color="#fff" />
+                </button>
+              </div>
             </div>
-          </div>
-        </Carousel>
-      </div>
+          </Carousel>
+        </div>
+      )}
     </Section>
   );
 };

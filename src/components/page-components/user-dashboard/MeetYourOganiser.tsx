@@ -18,7 +18,7 @@ import {
 const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
   const { data: organiser } = useOrganiser(organiserId);
   const { data: isCheck } = useCheckFollow(organiserId);
-  const { mutate: removeFollow } = useUnfollow(organiserId);
+  const { mutate: removeFollow, isPending: isPendingUnfollow } = useUnfollow(organiserId);
 
   const { toast } = useToast();
 
@@ -113,7 +113,7 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
           className="flex items-center gap-1.5"
           onClick={isCheck?.isFollowing ? handleUnfollow : handleFollow}
         >
-          {isPending ? (
+          {isPending || isPendingUnfollow ? (
             <Skeleton className="w-5 h-5 rounded-full" />
           ) : (
             <>

@@ -16,6 +16,8 @@ const OurPackages = () => {
       </div>
 
       <OrganiserPlans />
+
+      
     </Container>
   );
 };

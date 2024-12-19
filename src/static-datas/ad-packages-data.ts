@@ -1,7 +1,7 @@
 const adPackagesData = [
   {
     isAd: false,
-    id: 1,
+    id: 0,
     title: "All Pricing Plans",
     description: "Compare",
     bgColor: "bg-[#281E17]",
@@ -10,7 +10,7 @@ const adPackagesData = [
   },
   {
     isAd: true,
-    id: 2,
+    id: 1,
     title: "Social Media Ads",
     pricing: 8000,
     bgColor: "bg-[#C7DFFE]",
@@ -19,7 +19,7 @@ const adPackagesData = [
   },
   {
     isAd: true,
-    id: 3,
+    id: 2,
     title: "Email Campaigns",
     pricing: 27000,
     bgColor: "bg-[#FCE0EB]",
@@ -28,7 +28,7 @@ const adPackagesData = [
   },
   {
     isAd: true,
-    id: 4,
+    id: 3,
     title: "Sponsored Listings",
     pricing: 10000,
     bgColor: "bg-[#ECD7F8]",

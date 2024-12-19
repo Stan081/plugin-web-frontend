@@ -30,6 +30,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
   // const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [formattedAddress, setFormattedAddress] = useState({
+    plusCode: "",
     address: event?.data?.physicalLocation?.address || "",
     city: event?.data?.physicalLocation?.city || "",
     state: event?.data?.physicalLocation?.state || "",
@@ -85,7 +86,8 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
       components.find((component) => component.types.includes(type)) || {};
 
     const addressDetails = {
-      address: result.formatted_address || "",
+      plusCode: getComponent("plus_code").long_name || "",
+      address: getComponent("route").long_name || "",
       city: getComponent("locality").long_name || "",
       state: getComponent("administrative_area_level_1").long_name || "",
       country: getComponent("country").long_name || "",
@@ -122,7 +124,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     const data = {
       locationType,
       physicalLocation: {
-        address: formattedAddress?.address,
+        address: `${formattedAddress?.plusCode}, ${formattedAddress?.address}`,
         city: formattedAddress?.city,
         state: formattedAddress?.state,
         country: formattedAddress?.country,
@@ -173,7 +175,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
         {formattedAddress?.address && (
           <div className="space-y-2 col-span-2 mt-2">
             <div className="h-15 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
-              {formattedAddress?.address}
+              {formattedAddress?.address}, {formattedAddress?.plusCode}
             </div>
           </div>
         )}

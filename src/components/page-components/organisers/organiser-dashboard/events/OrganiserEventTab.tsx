@@ -4,7 +4,6 @@ import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provide
 import React, { Fragment } from "react";
 import OrganiserEventCard from "./OrganiserEventCard";
 import Container from "@/tw-components/container";
-import PreviewEvent from "./PreviewEvent";
 import DelectEvent from "./DelectEvent";
 import { organiserEvents } from "@/static-datas/organiser-date";
 import { useMe } from "@/pages/api/query/me";
@@ -15,9 +14,7 @@ import CardEmptyState from "../home/CardEmptyState";
 const OrganiserEventTab = () => {
   const {
     eventState,
-    showPreviewEvent,
     showDeleteEvent,
-    handlePreviewEvent,
     handleShowDeleteEvent,
   } = useOrganiserDashContext();
 
@@ -101,10 +98,6 @@ const OrganiserEventTab = () => {
               </div>
             )}
           </Fragment>
-        )}
-
-        {showPreviewEvent && (
-          <PreviewEvent open={showPreviewEvent} close={handlePreviewEvent} />
         )}
 
         {showDeleteEvent && (

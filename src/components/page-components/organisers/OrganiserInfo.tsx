@@ -43,8 +43,12 @@ const OrganiserInfo: React.FC<{
     }
   };
 
-  const { data: isCheck, isLoading: isLaodingFollow } = useCheckFollow(organiser?.userId);
-  const { mutate: removeFollow, isPending: PendingUnfollow } = useUnfollow(organiser?.userId);
+  const { data: isCheck, isLoading: isLaodingFollow } = useCheckFollow(
+    organiser?.userId
+  );
+  const { mutate: removeFollow, isPending: PendingUnfollow } = useUnfollow(
+    organiser?.userId
+  );
 
   const client = useQueryClient();
 
@@ -87,11 +91,11 @@ const OrganiserInfo: React.FC<{
   };
 
   return (
-    <div className="lg:absolute top-52 md:top-56 left-0 md:left-24 z-20 float-right">
-      <div className="w-full md:max-w-sm border bg-white rounded-xl shadow-md shadow-[#8F706E26]/15 p-4">
+    <div className="lg:absolute top-52 md:top-48 left-0 md:left-40 z-20 float-right">
+      <div className="w-full lg:max-w-sm border bg-white rounded-xl shadow-md shadow-[#8F706E26]/15 p-4">
         <div className="h-36 w-36 mx-auto">
           <Image
-            src={organiser?.thumbnail ?? '/images/seagreen-bg.png'}
+            src={organiser?.thumbnail ?? "/images/seagreen-bg.png"}
             alt={organiser?.name}
             width={1226}
             height={609}
@@ -113,7 +117,7 @@ const OrganiserInfo: React.FC<{
             {organiser?.userId !== userDate?.data?._id && (
               <Fragment>
                 <div className="border border-[#77171624]/30 h-3" />
-                {isPending || isLaodingFollow  || PendingUnfollow ? (
+                {isPending || isLaodingFollow || PendingUnfollow ? (
                   <Skeleton className="w-8 h-3 rounded-full" />
                 ) : (
                   <div
@@ -140,9 +144,9 @@ const OrganiserInfo: React.FC<{
 
         <Separator />
 
-        <div className="space-y-2 my-4">
+        <div className="space-y-2 my-4 lg:h-40 overflow-y-auto">
           <h4 className="font-pally-medium">About us</h4>
-          <p className="font-pally-regular text-[#667185] md:text-base">
+          <p className="font-pally-regular text-sm text-[#667185]">
             {isShown && organiser?.bio?.length > 150
               ? organiser?.bio?.slice(0, 150).concat("...")
               : organiser?.bio}
@@ -150,7 +154,7 @@ const OrganiserInfo: React.FC<{
           {organiser?.bio?.length > 150 && (
             <p
               onClick={() => setIsShown(!isShown)}
-              className="font-pally-medium cursor-pointer"
+              className="font-pally-medium text-sm cursor-pointer"
             >
               {!isShown ? <ShowLess /> : <ShowMore />}
             </p>
