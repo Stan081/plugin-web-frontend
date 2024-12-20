@@ -47,22 +47,14 @@ const schedules: { id: string; name: string }[] = [
   },
   {
     id: "2",
-    name: "Monday-Friday",
-  },
-  {
-    id: "3",
-    name: "Weekends",
-  },
-  {
-    id: "4",
     name: "Weekly",
   },
   {
-    id: "5",
+    id: "3",
     name: "Monthly",
   },
   {
-    id: "6",
+    id: "4",
     name: "Yearly",
   },
 ];
