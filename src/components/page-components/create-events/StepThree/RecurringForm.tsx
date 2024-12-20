@@ -40,22 +40,26 @@ interface RecurringFormComponentProps {
   eventType: string;
 }
 
-const schedules: { id: string; name: string }[] = [
+const schedules: { id: string; name: string; slug: string }[] = [
   {
     id: "1",
     name: "Daily",
+    slug: 'daily'
   },
   {
     id: "2",
     name: "Weekly",
+    slug: 'weekly'
   },
   {
     id: "3",
     name: "Monthly",
+    slug: 'monthly'
   },
   {
     id: "4",
     name: "Yearly",
+    slug: 'yearly'
   },
 ];
 
@@ -121,7 +125,7 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
     const data = {
       eventType,
       recurringEvent: {
-        scheduleReference: getSchedule?.name,
+        scheduleReference: getSchedule?.slug,
         startDate: payload?.start_date,
         startTime: payload?.end_time,
         timeZone: payload?.timezone,
