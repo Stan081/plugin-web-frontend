@@ -13,27 +13,27 @@ import { motion } from "framer-motion";
 
 // Temporary mock data
 const heroSlides = [
-  // {
-  //   backgroundImage:
-  //     "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816",
-  //   logo: "/images/cream-bg.png",
-  //   title: "AFRONATION “24",
-  //   description: "The biggest Afrobeat party in the world is here again.",
-  // },
-  // {
-  //   backgroundImage:
-  //     "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image2.jpeg?updatedAt=1722389363583",
-  //   logo: "/images/pitch-bg.png",
-  //   title: "Another Event",
-  //   description: "Description for another event.",
-  // },
-  // {
-  //   backgroundImage:
-  //     "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image3.jpeg?updatedAt=1722389364580",
-  //   logo: "/images/cream-bg.png",
-  //   title: "Yet Another Event",
-  //   description: "Description for yet another event.",
-  // },
+  {
+    backgroundImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816",
+    logo: "/images/cream-bg.png",
+    title: "AFRONATION “24",
+    description: "The biggest Afrobeat party in the world is here again.",
+  },
+  {
+    backgroundImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image2.jpeg?updatedAt=1722389363583",
+    logo: "/images/pitch-bg.png",
+    title: "Another Event",
+    description: "Description for another event.",
+  },
+  {
+    backgroundImage:
+      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image3.jpeg?updatedAt=1722389364580",
+    logo: "/images/cream-bg.png",
+    title: "Yet Another Event",
+    description: "Description for yet another event.",
+  },
 ];
 
 const HeroSection = () => {
