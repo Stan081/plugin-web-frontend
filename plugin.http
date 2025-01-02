@@ -1,30 +1,46 @@
-### Get All Events
-
-GET http://pluginapi.onrender.com/api/event/events
+### Fetch all banks 
+GET https://pluginapi.onrender.com/api/account/banks
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg
 
-### Get events by organiser using userID
-GET http://pluginapi.onrender.com/api/organizers/events/6726a9b8fccd9497a51c25d9
+### Validate bank account
+POST https://pluginapi.onrender.com/api/account/validate-bank-account
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
-
-### Create an Email campaign - creates a payment link
-POST https://pluginapi.onrender.com/api/campaign
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzMwNTI5NTEsImV4cCI6MTczNTY0NDk1MX0.CMjXZyeqCvE0ORBa0B_r2z5cOmD49Xu4vllgyg9Y2uQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg
 
 {
-  "campaignType": "email",
-  "email": {
-		"eventId": "6726a7bb39779f2ff4b9af7e",
-		"name": "Test",
-		"campaignImage": "link",
-		"senderName": "Name",
-		"subject": "Subject",
-		"emailAmount": 50000,
-		"message": "Message",
-		"replyEmail": "o.davecodes@gmail.com",
-		"pageLink": "optional"
-}
+  "accountNumber": "1100096566",
+  "bankCode": "50211"
 }
 
+### Add an account
+POST https://pluginapi.onrender.com/api/account/add
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg
+
+{
+  "bankName": "First Bank",
+  "accountNumber": "3108786401",
+  "accountHolderName": "Oladele David Temitope"
+}
+
+### Check if a user has added account - returns true or false
+GET https://pluginapi.onrender.com/api/account/674e3d777c8324c2ec2a89ba
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg
+
+### Edit an account
+PUT https://pluginapi.onrender.com/api/account/edit/674e3d777c8324c2ec2a89ba
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg
+
+{
+  "bankName": "Stanbic Bank",
+  "accountNumber": "0022482870",
+  "accountHolderName": "Oladele David Temitope"
+}
+
+### Delete an account
+DELETE https://pluginapi.onrender.com/api/account/674e3d777c8324c2ec2a89ba
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg

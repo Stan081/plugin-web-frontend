@@ -1,11 +1,14 @@
 import { GET_ORG_PROFILE } from "@/lib/constants";
+import { getToken } from "@/lib/token";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 export const useGetOrgProfileById = () => {
+  const token  = getToken()
   const options = {
     headers: {
       Accept: "application/json",
+      Authorization: `Bearer ${token}`,
     },
   };
 

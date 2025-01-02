@@ -1,6 +1,5 @@
 import { getCookie } from "../cookies";
 
-
 export const BASE_URL: string = "https://pluginapi.onrender.com";
 
 export const API_URL: string = `${BASE_URL}/api`;
@@ -33,10 +32,13 @@ export const FILTER_EVENTS: string = `${API_URL}/event/filter`;
 
 export const TICKETS: string = `${API_URL}/tickets`;
 
-export const CAMPAIGN: string = `${API_URL}/campaign`
-
+export const CAMPAIGN: string = `${API_URL}/campaign`;
 
 export const FOLLOW_ORGANISER: string = `${API_URL}/follow`;
+
+export const FETCH_ALL_BANK_ACCOUNTS: string = `${API_URL}/account/banks`;
+
+export const VERIFY_BANK_ACCOUNTS: string = `${API_URL}/account/validate-bank-account`;
 
 export const GET_EVENT_BY_ID = (): string => {
   const eventId = getCookie("event_id");

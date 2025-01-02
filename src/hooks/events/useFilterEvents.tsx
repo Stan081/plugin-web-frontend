@@ -16,7 +16,7 @@ export const useFilteredEvents = (filters: FilterParams) => {
   return useQuery({
     queryKey: ["filteredEvents", filters],
     queryFn: () => fetchFilteredEvents(filters),
-    enabled: !!filters, // Only run query if filters are set
+    enabled: !!filters,
     // retry: true
   });
 };
