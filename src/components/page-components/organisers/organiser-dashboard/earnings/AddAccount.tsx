@@ -23,7 +23,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useFetchAllBankAccounts } from "@/hooks/organiser/organiser-earnings/useFetchBankAccount";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { VerifyAccount } from "@/pages/api/mutate/organiser/earnings/verifyAccount";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
@@ -48,6 +48,7 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
   });
 
   const { toast } = useToast();
+  const client = useQueryClient();
 
   const { mutate: VerifyBankAccount, isPending: PendingVerifyAccount } =
     useMutation({
@@ -79,6 +80,9 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
           title: "Your account has been added",
           description: `${response?.message}`,
         });
+        client.invalidateQueries({ queryKey: ["CheckAccountStatus"] });
+        client.invalidateQueries({ queryKey: ["fetchBankAccount"] });
+        close();
       }
     },
     onError: (error: any) => {
@@ -91,7 +95,6 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
 
   const onSubmit = useCallback(
     (payload: BankAccountForm) => {
-      console.log(payload);
 
       const getBankName = accountDatas?.data?.find(
         (item) => item?.code === payload?.bank_code
@@ -104,7 +107,9 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
         };
 
         VerifyBankAccount(verifyData);
-      } else if (accountName.length > 0) {
+      }
+
+      if (accountName.length > 0) {
         const addAccountData = {
           bankName: getBankName?.name,
           accountNumber: payload?.account_number,
@@ -114,7 +119,7 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
         AddAccount(addAccountData);
       }
     },
-    [VerifyBankAccount, AddAccount, accountDatas?.data]
+    [VerifyBankAccount, AddAccount, accountDatas?.data, accountName]
   );
   return (
     <Dialog

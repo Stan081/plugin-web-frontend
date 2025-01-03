@@ -8,13 +8,19 @@ import { RiCloseFill } from "react-icons/ri";
 import { useCheckAddedAccount } from "@/hooks/organiser/organiser-earnings/useCheckAddedAccount";
 import { useGetBankAccount } from "@/hooks/organiser/organiser-earnings/useGetBankAccount";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useDeleteBankAccount } from "@/hooks/organiser/organiser-earnings/useDeleteBankAccount";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import WithdrawalReceipt from "./WithdrawalReceipt";
 
 const PayoutInformation = () => {
   const [showAccount, setShowAccount] = useState<boolean>(false);
   const { data: checkBankStatus } = useCheckAddedAccount();
   const { data: bankAccount, isLoading } = useGetBankAccount();
+  const { mutate: deleteBankAccount, isPending: pendingDelete } =
+    useDeleteBankAccount();
   return (
     <Fragment>
+      {pendingDelete && <SpinnerOverlay />}
       <div className="border border-[#EAEDF0] rounded-xl px-6 pt-6 space-y-6">
         <div className="space-y-1">
           <p className="text-[#101928] font-pally-medium text-lg md:text-xl">
@@ -33,7 +39,7 @@ const PayoutInformation = () => {
                 width={123}
                 height={118}
                 alt="bank vector"
-                className="pointer-events-none"
+                className="pointer-events-none hidden lg:flex"
               />
               <div className="space-y-1">
                 {isLoading ? (
@@ -61,11 +67,17 @@ const PayoutInformation = () => {
               </div>
             </div>
             <div className="flex items-center gap-6 bg-white p-2 rounded-lg w-full">
-              <p className="font-pally-regular cursor-pointer text-gray-500 flex items-center gap-2">
+              <p
+                onClick={() => setShowAccount(!showAccount)}
+                className="font-pally-regular cursor-pointer text-gray-500 flex items-center gap-2"
+              >
                 <FiEdit3 />
                 Edit
               </p>
-              <p className="font-pally-regular cursor-pointer destructive flex items-center gap-1">
+              <p
+                onClick={() => deleteBankAccount()}
+                className="font-pally-regular cursor-pointer destructive flex items-center gap-1"
+              >
                 <RiCloseFill />
                 Remove
               </p>
@@ -96,7 +108,11 @@ const PayoutInformation = () => {
         )}
       </div>
       {showAccount && (
-        <AddAccount
+        // <AddAccount
+        //   open={showAccount}
+        //   close={() => setShowAccount(!showAccount)}
+        // />
+        <WithdrawalReceipt
           open={showAccount}
           close={() => setShowAccount(!showAccount)}
         />
