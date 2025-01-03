@@ -25,7 +25,7 @@ const WithdrawalSummary = () => {
         <h1 className="text-[#101928] font-pally-medium text-lg md:text-xl">
           Withdrawal Summary
         </h1>
-        <div className="relative">
+        {/* <div className="relative">
           <select
             value={timeFrame}
             onChange={(e) => setTimeFrame(e.target.value)}
@@ -39,7 +39,8 @@ const WithdrawalSummary = () => {
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
             size={20}
           />
-        </div>
+        </div> */}
+        <div/>
       </div>
       <p className="text-gray-500 mb-8">A summary of withdrawal</p>
 

@@ -64,7 +64,7 @@ const AvailableBalance = () => {
         <p className="font-pally-medium text-4xl">{toFiat(0)}</p>
 
         <div className="flex justify-between items-center">
-          <Select>
+          {/* <Select>
             <SelectTrigger className="w-[180px] border-none rounded-full font-pally-regular text text-[#586170] shadow-none">
               <SelectValue placeholder="Select Date" />
             </SelectTrigger>
@@ -75,7 +75,8 @@ const AvailableBalance = () => {
                 <SelectItem value="60">Last month</SelectItem>
               </SelectGroup>
             </SelectContent>
-          </Select>
+          </Select> */}
+          <div/>
 
           <Button onClick={closeModal} variant="destructive">
             Withdraw

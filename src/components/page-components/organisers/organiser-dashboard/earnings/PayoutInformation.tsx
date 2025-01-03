@@ -108,14 +108,14 @@ const PayoutInformation = () => {
         )}
       </div>
       {showAccount && (
-        // <AddAccount
-        //   open={showAccount}
-        //   close={() => setShowAccount(!showAccount)}
-        // />
-        <WithdrawalReceipt
+        <AddAccount
           open={showAccount}
           close={() => setShowAccount(!showAccount)}
         />
+        // <WithdrawalReceipt
+        //   open={showAccount}
+        //   close={() => setShowAccount(!showAccount)}
+        // />
       )}
     </Fragment>
   );
