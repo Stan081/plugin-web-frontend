@@ -5,9 +5,14 @@ import { PiPlus } from "react-icons/pi";
 import AddAccount from "./AddAccount";
 import { FiEdit3 } from "react-icons/fi";
 import { RiCloseFill } from "react-icons/ri";
+import { useCheckAddedAccount } from "@/hooks/organiser/organiser-earnings/useCheckAddedAccount";
+import { useGetBankAccount } from "@/hooks/organiser/organiser-earnings/useGetBankAccount";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const PayoutInformation = () => {
   const [showAccount, setShowAccount] = useState<boolean>(false);
+  const { data: checkBankStatus } = useCheckAddedAccount();
+  const { data: bankAccount, isLoading } = useGetBankAccount();
   return (
     <Fragment>
       <div className="border border-[#EAEDF0] rounded-xl px-6 pt-6 space-y-6">
@@ -20,9 +25,9 @@ const PayoutInformation = () => {
           </p>
         </div>
 
-        {true ? (
+        {checkBankStatus?.data?.hasAccount ? (
           <div className="bg-[#F7F8F9] flex flex-col gap-4 items-center justify-center rounded-tl-xl rounded-tr-xl py-5 px-4">
-            <div className="bg-white w-full flex items-center gap-4">
+            <div className="bg-white rounded-lg w-full flex items-center gap-4">
               <Image
                 src={"/images/bank-vector.svg"}
                 width={123}
@@ -30,14 +35,29 @@ const PayoutInformation = () => {
                 alt="bank vector"
                 className="pointer-events-none"
               />
-              <div>
-                <p className="font-pally-medium text-base lg:text-lg">
-                  123456789
-                </p>
-                <p className="font-pally-medium text-base lg:text-lg">
-                  ffffffff
-                </p>
-                <p className="font-pally-regular text-base lg:text-lg">ccdd</p>
+              <div className="space-y-1">
+                {isLoading ? (
+                  <Skeleton className="h-6 w-36" />
+                ) : (
+                  <p className="font-pally-medium text-base lg:text-lg">
+                    {bankAccount?.data?.accountHolderName}
+                  </p>
+                )}
+                {isLoading ? (
+                  <Skeleton className="h-6 w-36" />
+                ) : (
+                  <p className="font-pally-medium text-base lg:text-lg">
+                    {bankAccount?.data?.accountNumber}
+                  </p>
+                )}
+
+                {isLoading ? (
+                  <Skeleton className="h-6 w-36" />
+                ) : (
+                  <p className="font-pally-regular text-base lg:text-lg">
+                    {bankAccount?.data?.bankName}
+                  </p>
+                )}
               </div>
             </div>
             <div className="flex items-center gap-6 bg-white p-2 rounded-lg w-full">
