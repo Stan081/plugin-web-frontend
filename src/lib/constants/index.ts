@@ -40,6 +40,8 @@ export const FETCH_ALL_BANK_ACCOUNTS: string = `${API_URL}/account/banks`;
 
 export const VERIFY_BANK_ACCOUNTS: string = `${API_URL}/account/validate-bank-account`;
 
+export const ADD_BANK_ACCOUNTS: string = `${API_URL}/account/add`;
+
 export const GET_EVENT_BY_ID = (): string => {
   const eventId = getCookie("event_id");
   return `${API_URL}/event/events/${eventId}`;

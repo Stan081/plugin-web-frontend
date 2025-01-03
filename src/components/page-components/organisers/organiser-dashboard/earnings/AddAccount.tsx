@@ -27,6 +27,7 @@ import { useMutation } from "@tanstack/react-query";
 import { VerifyAccount } from "@/pages/api/mutate/organiser/earnings/verifyAccount";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
+import { AddBankAccount } from "@/pages/api/mutate/organiser/earnings/addBankAccount";
 
 interface AddAccountProps {
   open: boolean;
@@ -40,7 +41,7 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
   const form = useForm<BankAccountForm>({
     mode: "all",
     defaultValues: {
-      bank_name: "",
+      bank_code: "",
       account_number: "",
     },
     resolver: yupResolver(BankAccountSchema),
@@ -48,7 +49,7 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
 
   const { toast } = useToast();
 
-  const { mutate: verifyAccount, isPending: PendingVerifyAccount } =
+  const { mutate: VerifyBankAccount, isPending: PendingVerifyAccount } =
     useMutation({
       mutationFn: (data: any) => VerifyAccount(data),
       onSuccess: (response) => {
@@ -69,17 +70,51 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
       },
     });
 
+  const { mutate: AddAccount, isPending: PendingAddAccount } = useMutation({
+    mutationFn: (data: any) => AddBankAccount(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Your account has been added",
+          description: `${response?.message}`,
+        });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: error?.message,
+      });
+    },
+  });
+
   const onSubmit = useCallback(
     (payload: BankAccountForm) => {
       console.log(payload);
 
-      const data = {
-        accountNumber: payload?.account_number,
-        bankCode: payload?.bank_name,
-      };
-      verifyAccount(data);
+      const getBankName = accountDatas?.data?.find(
+        (item) => item?.code === payload?.bank_code
+      );
+
+      if (accountName === "") {
+        const verifyData = {
+          accountNumber: payload?.account_number,
+          bankCode: payload?.bank_code,
+        };
+
+        VerifyBankAccount(verifyData);
+      } else if (accountName.length > 0) {
+        const addAccountData = {
+          bankName: getBankName?.name,
+          accountNumber: payload?.account_number,
+          accountHolderName: accountName,
+        };
+
+        AddAccount(addAccountData);
+      }
     },
-    [verifyAccount]
+    [VerifyBankAccount, AddAccount, accountDatas?.data]
   );
   return (
     <Dialog
@@ -121,12 +156,12 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
                   <Skeleton className="h-10 w-full" />
                 ) : (
                   <FormItem className="w-full">
-                    <FormLabel className="" htmlFor="bank_name">
+                    <FormLabel className="" htmlFor="bank_code">
                       Bank Name
                     </FormLabel>
                     <FormField
                       control={form.control}
-                      name="bank_name"
+                      name="bank_code"
                       render={({ field }) => (
                         <FormControl>
                           <Select
@@ -186,11 +221,11 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
                 )}
 
                 <Button
-                  disabled={PendingVerifyAccount}
+                  disabled={PendingVerifyAccount || PendingAddAccount}
                   variant="destructive"
                   type="submit"
                 >
-                  {PendingVerifyAccount ? (
+                  {PendingVerifyAccount || PendingAddAccount ? (
                     <Spinner />
                   ) : !accountName ? (
                     "Verify Account"

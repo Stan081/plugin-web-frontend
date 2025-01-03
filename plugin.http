@@ -25,7 +25,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
 }
 
 ### Check if a user has added account - returns true or false
-GET https://pluginapi.onrender.com/api/account/674e3d777c8324c2ec2a89ba
+GET https://pluginapi.onrender.com/api/account/6726a9b8fccd9497a51c25d9
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg
 
