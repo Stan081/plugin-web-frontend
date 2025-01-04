@@ -95,7 +95,6 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
 
   const onSubmit = useCallback(
     (payload: BankAccountForm) => {
-
       const getBankName = accountDatas?.data?.find(
         (item) => item?.code === payload?.bank_code
       );
@@ -157,13 +156,13 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="mt-6 flex flex-col justify-between gap-4 w-full h-full"
               >
-                {isLoading ? (
-                  <Skeleton className="h-10 w-full" />
-                ) : (
-                  <FormItem className="w-full">
-                    <FormLabel className="" htmlFor="bank_code">
-                      Bank Name
-                    </FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="" htmlFor="bank_code">
+                    Bank Name
+                  </FormLabel>
+                  {isLoading ? (
+                    <Skeleton className="h-10 w-full" />
+                  ) : (
                     <FormField
                       control={form.control}
                       name="bank_code"
@@ -191,8 +190,8 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
                         </FormControl>
                       )}
                     />
-                  </FormItem>
-                )}
+                  )}
+                </FormItem>
                 <FormItem className="w-full">
                   <FormLabel className="" htmlFor="account_number">
                     Account Number
