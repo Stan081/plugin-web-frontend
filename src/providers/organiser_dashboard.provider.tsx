@@ -33,6 +33,7 @@ type OrganiserDashContextValue = {
   emailCampaignData: EmailCampaignForm;
   sponsorCampaignData: SponsorListingForm;
   MediaCampaignData: any;
+  eventId: string;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   nextSetUpStep: () => void;
   previousSetUpStep: () => void;
@@ -45,7 +46,8 @@ type OrganiserDashContextValue = {
   setCheckedEvent: (key: string) => void;
   setEmailCampaignData: (key: EmailCampaignForm) => void;
   setSponsorCampaignData: (key: SponsorListingForm) => void;
-  setMediaCampaignData: (key: any) => void
+  setMediaCampaignData: (key: any) => void;
+  setEventId: (key: string) => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -78,6 +80,9 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   // state to store clicked campaign
   const [clickedCampaignId, setClickedCampaignId] = useState<number>(null);
 
+  // state to store event ID
+  const [eventId, setEventId] = useState<string | null>(null);
+
   // Setup campaign state
   const [isChecked, setIsChecked] = useState({
     campaignTypeState: false,
@@ -103,7 +108,6 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     budgetData: null,
     adContent: null,
   });
-
 
   // function to switch preview event
   const handleShowDeleteEvent = () => {
@@ -151,6 +155,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     emailCampaignData,
     sponsorCampaignData,
     MediaCampaignData,
+    eventId,
     setMediaCampaignData,
     setEmailCampaignData,
     setSponsorCampaignData,
@@ -164,6 +169,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     handleCloseProfile,
     handleShowDeleteEvent,
     setCheckedEvent,
+    setEventId,
   };
   return (
     <OrganiserDashContext.Provider value={ContextValue}>
