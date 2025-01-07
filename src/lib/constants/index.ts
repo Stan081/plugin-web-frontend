@@ -44,6 +44,10 @@ export const VERIFY_BANK_ACCOUNTS: string = `${API_URL}/account/validate-bank-ac
 
 export const ADD_BANK_ACCOUNTS: string = `${API_URL}/account/add`;
 
+export const WITHDRAWAL: string = `${API_URL}/withdrawal`;
+
+export const WITHDRAWAL_VERIFY: string = `${API_URL}/withdrawal/verify`;
+
 export const WITHDRAWALSTATS: string = `${API_URL}/withdrawal/statistics`;
 
 export const GET_EVENT_BY_ID = (): string => {

@@ -3,19 +3,59 @@ import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import React, { FC, useCallback, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import { StepsProps } from "../AvailableBalance";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/components/ui/use-toast";
+import { WithdrawalOTP } from "@/pages/api/mutate/organiser/earnings/withdrawalOTP";
+import { Button } from "@/components/ui/button";
+import Spinner from "@/tw-components/spinner";
+import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 
 interface WithdrawalOTPProps extends StepsProps {
   close: () => void;
   open: boolean;
 }
 
-const WithdrawalOTP: FC<WithdrawalOTPProps> = ({ close, open, next }) => {
+const WithdrawalOTPComponent: FC<WithdrawalOTPProps> = ({
+  close,
+  open,
+  next,
+}) => {
   const [otp, setOtp] = useState<string>("");
+  const {setWithdrawalReceiptState} = useOrganiserDashContext()
+
+  const { toast } = useToast();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => WithdrawalOTP(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        setWithdrawalReceiptState(response?.data)
+        toast({
+          variant: "success",
+          title: "OTP verified",
+          description: `${response?.message}`,
+        });
+        next();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: error?.message,
+      });
+    },
+  });
 
   const handleOtpComplete = useCallback((otp: string) => {
     setOtp(otp);
-    next();
   }, []);
+
+  const handleSubmit = () => {
+    const data = {
+      'otp': otp
+    }
+    mutate(data);
+  };
   return (
     <Dialog
       open={open}
@@ -43,20 +83,35 @@ const WithdrawalOTP: FC<WithdrawalOTPProps> = ({ close, open, next }) => {
                 </p>
               </div>
 
-              <div onClick={close} className="p-1.5 rounded-full bg-gray-200 cursor-pointer">
+              <div
+                onClick={close}
+                className="p-1.5 rounded-full bg-gray-200 cursor-pointer"
+              >
                 <RiCloseLine size={20} />
               </div>
             </DialogTitle>
-            <div className="mt-6">
+            <div className="mt-6 space-y-5">
               <p className="text-sm font-pally-regular mb-2 text-[#98A2B3]">
                 Verification Code
               </p>
               <OtpBox numDigits={5} onComplete={handleOtpComplete} />
-              <div className="border w-full mt-5 border-[#98A2B333]/20" />
-              <div className="flex mt-10 text-sm md:text-base text-[#98A2B3]">
-                <p>Didn’t get the code?</p>
-                {/* <p>Resend in 4:59</p> */}
+              <div>
+                <Button
+                  onClick={handleSubmit}
+                  variant="destructive"
+                  disabled={isPending || !otp}
+                  className="w-full max-w-sm"
+                >
+                  {isPending ? <Spinner /> : "Verify"}
+                </Button>
               </div>
+              {/* <div>
+                <div className="border w-full mt-5 border-[#98A2B333]/20" />
+                <div className="flex mt-10 text-sm md:text-base text-[#98A2B3]">
+                  <p>Didn’t get the code?</p>
+                  <p>Resend in 4:59</p>
+                </div>
+              </div> */}
             </div>
           </DialogPanel>
         </div>
@@ -65,4 +120,4 @@ const WithdrawalOTP: FC<WithdrawalOTPProps> = ({ close, open, next }) => {
   );
 };
 
-export default WithdrawalOTP;
+export default WithdrawalOTPComponent;

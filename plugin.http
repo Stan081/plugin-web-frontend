@@ -14,7 +14,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg
 
 {
-  "otp": 24254
+  "otp": 93860
 }
 
 ### get withdrawal history with pagination

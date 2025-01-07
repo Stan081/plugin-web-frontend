@@ -10,18 +10,23 @@ interface WithdrawalData {
   color: string;
 }
 
-
-
 const WithdrawalSummary = () => {
   // const [timeFrame, setTimeFrame] = useState("This Month");
   const { data: withdrawalStatistic } = useGetWithdrawalStats();
 
   const data: WithdrawalData[] = [
-    { name: "Completed", value: 0, color: "#4ade80" },
-    { name: "Pending", value: 0, color: "#f87171" },
+    {
+      name: "Completed",
+      value: withdrawalStatistic?.data?.completedSum,
+      color: "#4ade80",
+    },
+    {
+      name: "Pending",
+      value: withdrawalStatistic?.data?.pendingSum,
+      color: "#f87171",
+    },
   ];
 
-  
   return (
     <div className="border-[#EAEDF0] rounded-xl border p-6 ">
       <div className="flex justify-between items-center mb-1">
@@ -48,7 +53,7 @@ const WithdrawalSummary = () => {
       <p className="text-gray-500 mb-8">A summary of withdrawal</p>
 
       <div className="flex items-center justify-between gap-5">
-        {!data[0].value ? (
+        {withdrawalStatistic?.data?.totalSum <= 1 ? (
           <div className="w-20 h-20 lg:h-40 lg:w-40 rounded-full border-4 flex justify-center items-center p-8 font-pally-medium text-gray-300">
             Empty chart
           </div>
@@ -89,7 +94,12 @@ const WithdrawalSummary = () => {
           ))}
           <div className="mt-8 text-2xl font-pally-regular text-center">
             Total:{" "}
-            <span className="font-pally-medium">{toFiat(withdrawalStatistic?.data?.totalSum)}</span>
+            <span className="font-pally-medium">
+              {toFiat(
+                withdrawalStatistic?.data?.completedSum +
+                  withdrawalStatistic?.data?.pendingSum
+              )}
+            </span>
           </div>
         </div>
       </div>

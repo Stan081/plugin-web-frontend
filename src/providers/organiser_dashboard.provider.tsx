@@ -34,6 +34,7 @@ type OrganiserDashContextValue = {
   sponsorCampaignData: SponsorListingForm;
   MediaCampaignData: any;
   eventId: string;
+  withdrawalReceiptState: any;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   nextSetUpStep: () => void;
   previousSetUpStep: () => void;
@@ -48,6 +49,7 @@ type OrganiserDashContextValue = {
   setSponsorCampaignData: (key: SponsorListingForm) => void;
   setMediaCampaignData: (key: any) => void;
   setEventId: (key: string) => void;
+  setWithdrawalReceiptState: (key: any) => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -109,6 +111,10 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     adContent: null,
   });
 
+  // state to store withdrawal receipt
+
+  const [withdrawalReceiptState, setWithdrawalReceiptState] = useState<any>();
+
   // function to switch preview event
   const handleShowDeleteEvent = () => {
     setShowDeleteEvent(!showDeleteEvent);
@@ -156,6 +162,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     sponsorCampaignData,
     MediaCampaignData,
     eventId,
+    withdrawalReceiptState,
     setMediaCampaignData,
     setEmailCampaignData,
     setSponsorCampaignData,
@@ -170,6 +177,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     handleShowDeleteEvent,
     setCheckedEvent,
     setEventId,
+    setWithdrawalReceiptState,
   };
   return (
     <OrganiserDashContext.Provider value={ContextValue}>
