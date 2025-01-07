@@ -5,6 +5,8 @@ import { RiCloseLine } from "react-icons/ri";
 import { RxInfoCircled } from "react-icons/rx";
 import { BsBank2 } from "react-icons/bs";
 import Link from "next/link";
+import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
+import { toFiat } from "@/lib/amount";
 
 interface WithdrawalReceiptProps {
   close: () => void;
@@ -12,6 +14,26 @@ interface WithdrawalReceiptProps {
 }
 
 const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({ close, open }) => {
+  const { withdrawalReceiptState: receipt } = useOrganiserDashContext();
+
+  const formattedDate = new Date(receipt?.createdAt).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  );
+
+  const formattedTime = new Date(receipt?.createdAt).toLocaleTimeString(
+    "en-US",
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
+
+  console.log(`${formattedDate} at ${formattedTime}`);
   return (
     <Dialog
       open={open}
@@ -36,7 +58,10 @@ const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({ close, open }) => {
                 </p>
               </div>
 
-              <div onClick={close} className="p-1.5 rounded-full bg-gray-200 cursor-pointer">
+              <div
+                onClick={close}
+                className="p-1.5 rounded-full bg-gray-200 cursor-pointer"
+              >
                 <RiCloseLine size={20} />
               </div>
             </DialogTitle>
@@ -44,7 +69,7 @@ const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({ close, open }) => {
               <Separator />
               <div className="mt-4 border p-2 border-[#FBE2B7] bg-[#FEF6E7] rounded-lg flex items-center gap-3">
                 <RxInfoCircled size={20} color="#DD900D" />
-                <p className="font-pally-regular text-[#586170]">
+                <p className="font-pally-regular text-[#586170] text-sm">
                   Withdrawal is processed and approved within 24hrs
                 </p>
               </div>
@@ -54,41 +79,41 @@ const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({ close, open }) => {
                   <BsBank2 className="" size={30} />
                   <div>
                     <h4 className="font-pally-medium text-base md:text-lg">
-                      Olivia Magaret
+                      {receipt?.accountHolderName}
                     </h4>
                     <p className="text-sm text-[#515A6A] font-pally-regular">
-                      Acc number - 1234567890
+                      Acc number - {receipt?.accountNumber}
                     </p>
                   </div>
                 </div>
                 <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                  Processing
+                  {receipt?.status}
                 </span>
               </div>
 
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between">
                   <span className="text-[#586170] font-pally-regular text-base">
-                    Reference Number
+                    Reference Number:
                   </span>
-                  <span className="font-pally-medium text-lg">
-                    TRX890123456
+                  <span className="font-pally-medium text-base">
+                    TRX{receipt?._id.slice(0,10).concat('...')}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#586170] font-pally-regular text-base">
                     Amount
                   </span>
-                  <span className="font-pally-medium text-lg">
-                    ₦1,089,649.04
+                  <span className="font-pally-medium text-base">
+                    {toFiat(receipt?.amount)}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#586170] font-pally-regular text-base">
                     Date
                   </span>
-                  <span className="font-pally-medium text-lg">
-                    01 September, 2022, 4:00 pm
+                  <span className="font-pally-medium text-base">
+                    {formattedDate}, {formattedTime}
                   </span>
                 </div>
               </div>
