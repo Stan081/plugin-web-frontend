@@ -58,24 +58,48 @@ const WithdrawalSummary = () => {
             Empty chart
           </div>
         ) : (
-          <ResponsiveContainer width="40%" height={250}>
-            <PieChart>
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={100}
-                fill="#8884d8"
-                paddingAngle={5}
-                dataKey="value"
-              >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
+          <div className="w-full h-full">
+            <div className="flex lg:hidden">
+              <ResponsiveContainer width="100%" height={200}>
+                <PieChart>
+                  <Pie
+                    data={data}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={50}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    paddingAngle={2}
+                    dataKey="value"
+                  >
+                    {data.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="hidden lg:flex">
+              <ResponsiveContainer width="80%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={data}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {data.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
         )}
         <div className=" block">
           {data.map((item, index) => (
@@ -92,7 +116,7 @@ const WithdrawalSummary = () => {
               </span>
             </div>
           ))}
-          <div className="mt-8 text-2xl font-pally-regular text-center">
+          <div className="mt-8 text-base lg:text-2xl font-pally-regular text-center">
             Total:{" "}
             <span className="font-pally-medium">
               {toFiat(

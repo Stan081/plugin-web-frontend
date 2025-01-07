@@ -8,9 +8,30 @@ import { toFiat } from "@/lib/amount";
 interface WithdrawalReceiptProps {
   open: boolean;
   close: () => void;
+  receipt: any;
 }
 
-const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({ close, open }) => {
+const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({
+  close,
+  open,
+  receipt,
+}) => {
+  const formattedDate = new Date(receipt?.createdAt).toLocaleDateString(
+    "en-US",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  );
+
+  const formattedTime = new Date(receipt?.createdAt).toLocaleTimeString(
+    "en-US",
+    {
+      hour: "2-digit",
+      minute: "2-digit",
+    }
+  );
   return (
     <Dialog
       open={open}
@@ -49,42 +70,42 @@ const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({ close, open }) => {
                   <BsBank2 size={30} />
                   <div>
                     <p className="font-pally-medium text-sm lg:text-base">
-                      Olivia Ada
+                      {receipt?.accountHolderName}
                     </p>
                     <p className="font-pally-regular text-sm lg:text-base">
-                      Acc number: 23456789098
+                      Acc number: {receipt?.accountNumber}
                     </p>
                   </div>
                 </div>
-                <p className="text-green-600 bg-green-100 border border-green-600 text-sm py-0.5 px-1.5 text-center rounded-3xl">
-                  Completed
-                </p>
+                <span
+                  className={`px-2 py-1 rounded-full text-xs font-pally-semibold ${
+                    receipt?.status === "completed"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-yellow-100 text-yellow-800"
+                  }`}
+                >
+                  {receipt?.status}
+                </span>
               </div>
               <Separator />
 
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <p className="font-pally-regular text-sm lg:text-base">
+                  <p className="font-pally-regular text-sm">
                     Reference Number:
                   </p>
-                  <p className="font-medium text-sm lg:text-base">
-                    TX3498765678909876
+                  <p className="font-pally-medium text-sm">TRX{receipt?._id}</p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="font-pally-regular text-sm">Amount:</p>
+                  <p className="font-pally-medium text-sm">
+                    {toFiat(receipt?.amount)}
                   </p>
                 </div>
                 <div className="flex justify-between items-center">
-                  <p className="font-pally-regular text-sm lg:text-base">
-                    Amount:
-                  </p>
-                  <p className="font-medium text-sm lg:text-base">
-                    {toFiat(234000)}
-                  </p>
-                </div>
-                <div className="flex justify-between items-center">
-                  <p className="font-pally-regular text-sm lg:text-base">
-                    Date:
-                  </p>
-                  <p className="font-medium text-sm lg:text-base">
-                    1 september, 20222, 4:00pm
+                  <p className="font-pally-regular text-sm">Date:</p>
+                  <p className="font-pally-medium text-sm">
+                    {formattedDate}, {formattedTime}
                   </p>
                 </div>
               </div>

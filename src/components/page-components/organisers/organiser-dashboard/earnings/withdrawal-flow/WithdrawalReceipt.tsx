@@ -33,7 +33,6 @@ const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({ close, open }) => {
     }
   );
 
-  console.log(`${formattedDate} at ${formattedTime}`);
   return (
     <Dialog
       open={open}
