@@ -44,6 +44,8 @@ export const VERIFY_BANK_ACCOUNTS: string = `${API_URL}/account/validate-bank-ac
 
 export const ADD_BANK_ACCOUNTS: string = `${API_URL}/account/add`;
 
+export const WITHDRAWALSTATS: string = `${API_URL}/withdrawal/statistics`;
+
 export const GET_EVENT_BY_ID = (): string => {
   const eventId = getCookie("event_id");
   return `${API_URL}/event/events/${eventId}`;
@@ -111,5 +113,10 @@ export const REMOVE_FOLLOW = (): string => {
 
 export const CHECK_BANK_STATUS = (): string => {
   const userId = getCookie("user_id");
-  return `${API_URL}/ACCOUNT/${userId}`;
+  return `${API_URL}/account/${userId}`;
+};
+
+export const EDIT_BANK_ACCOUNT = (): string => {
+  const userId = getCookie("user_id");
+  return `${API_URL}/account/edit/${userId}`;
 };

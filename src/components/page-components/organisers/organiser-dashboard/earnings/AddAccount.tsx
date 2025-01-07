@@ -28,6 +28,8 @@ import { VerifyAccount } from "@/pages/api/mutate/organiser/earnings/verifyAccou
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
 import { AddBankAccount } from "@/pages/api/mutate/organiser/earnings/addBankAccount";
+import { EditBankAccount } from "@/hooks/organiser/organiser-earnings/useEditAccount";
+import { useCheckAddedAccount } from "@/hooks/organiser/organiser-earnings/useCheckAddedAccount";
 
 interface AddAccountProps {
   open: boolean;
@@ -37,6 +39,7 @@ interface AddAccountProps {
 const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
   const { data: accountDatas, isLoading } = useFetchAllBankAccounts();
   const [accountName, setAccountName] = useState<string>("");
+  const { data: checkBankStatus } = useCheckAddedAccount();
 
   const form = useForm<BankAccountForm>({
     mode: "all",
@@ -93,6 +96,28 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
     },
   });
 
+  const { mutate: mutateEdit, isPending: pendingEdit } = useMutation({
+    mutationFn: (data: any) => EditBankAccount(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Your account has been updated",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["CheckAccountStatus"] });
+        client.invalidateQueries({ queryKey: ["fetchBankAccount"] });
+        close();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: error?.message,
+      });
+    },
+  });
+
   const onSubmit = useCallback(
     (payload: BankAccountForm) => {
       const getBankName = accountDatas?.data?.find(
@@ -108,7 +133,7 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
         VerifyBankAccount(verifyData);
       }
 
-      if (accountName.length > 0) {
+      if (accountName.length > 0 && !checkBankStatus?.data?.hasAccount) {
         const addAccountData = {
           bankName: getBankName?.name,
           accountNumber: payload?.account_number,
@@ -117,8 +142,18 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
 
         AddAccount(addAccountData);
       }
+
+      if (accountName.length > 0 && checkBankStatus?.data?.hasAccount) {
+        const editAccountData = {
+          bankName: getBankName?.name,
+          accountNumber: payload?.account_number,
+          accountHolderName: accountName,
+        };
+
+        mutateEdit(editAccountData);
+      }
     },
-    [VerifyBankAccount, AddAccount, accountDatas?.data, accountName]
+    [VerifyBankAccount, AddAccount, mutateEdit, accountDatas?.data, accountName]
   );
   return (
     <Dialog
@@ -225,14 +260,18 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
                 )}
 
                 <Button
-                  disabled={PendingVerifyAccount || PendingAddAccount}
+                  disabled={
+                    PendingVerifyAccount || PendingAddAccount || pendingEdit
+                  }
                   variant="destructive"
                   type="submit"
                 >
-                  {PendingVerifyAccount || PendingAddAccount ? (
+                  {PendingVerifyAccount || PendingAddAccount || pendingEdit ? (
                     <Spinner />
                   ) : !accountName ? (
                     "Verify Account"
+                  ) : checkBankStatus?.data?.hasAccount ? (
+                    "Update bank account"
                   ) : (
                     "Add bank account"
                   )}

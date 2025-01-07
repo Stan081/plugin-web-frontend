@@ -12,16 +12,19 @@ import { Fragment, useState } from "react";
 import WithdrawalInput from "./withdrawal-flow/WithdrawalInput";
 import WithdrawalOTP from "./withdrawal-flow/WithdrawalOTP";
 import WithdrawalReceipt from "./withdrawal-flow/WithdrawalReceipt";
+import { useGetWithdrawalStats } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalStats";
 
 export type StepsProps = {
-  next?: () => void,
-  previous?: () => void
-}
+  next?: () => void;
+  previous?: () => void;
+};
 
 const AvailableBalance = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [currentStep, setCurrentStep] = useState<number>(1);
+
+  const { data: withdrawalStatistic } = useGetWithdrawalStats();
 
   const nextStep = () => {
     setCurrentStep((prev) => prev + 1);
@@ -35,16 +38,18 @@ const AvailableBalance = () => {
     switch (currentStep) {
       case 1:
         return (
-          <WithdrawalInput close={closeModal} next={nextStep} open={showModal} />
+          <WithdrawalInput
+            close={closeModal}
+            next={nextStep}
+            open={showModal}
+          />
         );
       case 2:
         return (
           <WithdrawalOTP close={closeModal} next={nextStep} open={showModal} />
         );
       case 3:
-        return (
-          <WithdrawalReceipt close={closeModal} open={showModal} />
-        );
+        return <WithdrawalReceipt close={closeModal} open={showModal} />;
       default:
         return;
     }
@@ -61,7 +66,9 @@ const AvailableBalance = () => {
           <div className="rounded-full h-5 w-5 bg-[#FF5752]" />
         </div>
 
-        <p className="font-pally-medium text-4xl">{toFiat(0)}</p>
+        <p className="font-pally-medium text-4xl">
+          {toFiat(withdrawalStatistic?.data?.availableBal)}
+        </p>
 
         <div className="flex justify-between items-center">
           {/* <Select>
@@ -76,7 +83,7 @@ const AvailableBalance = () => {
               </SelectGroup>
             </SelectContent>
           </Select> */}
-          <div/>
+          <div />
 
           <Button onClick={closeModal} variant="destructive">
             Withdraw

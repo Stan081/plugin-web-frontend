@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { toFiat } from "@/lib/amount";
+import { useGetWithdrawalStats } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalStats";
 
 interface WithdrawalData {
   name: string;
@@ -9,16 +10,18 @@ interface WithdrawalData {
   color: string;
 }
 
-const initialData: WithdrawalData[] = [
-  { name: "Completed", value: 0, color: "#4ade80" },
-  { name: "Pending", value: 0, color: "#f87171" },
-];
+
 
 const WithdrawalSummary = () => {
-  const [timeFrame, setTimeFrame] = useState("This Month");
-  const [data, setData] = useState(initialData);
+  // const [timeFrame, setTimeFrame] = useState("This Month");
+  const { data: withdrawalStatistic } = useGetWithdrawalStats();
 
-  const totalAmount = data.reduce((sum, item) => sum + item.value, 0);
+  const data: WithdrawalData[] = [
+    { name: "Completed", value: 0, color: "#4ade80" },
+    { name: "Pending", value: 0, color: "#f87171" },
+  ];
+
+  
   return (
     <div className="border-[#EAEDF0] rounded-xl border p-6 ">
       <div className="flex justify-between items-center mb-1">
@@ -40,7 +43,7 @@ const WithdrawalSummary = () => {
             size={20}
           />
         </div> */}
-        <div/>
+        <div />
       </div>
       <p className="text-gray-500 mb-8">A summary of withdrawal</p>
 
@@ -86,7 +89,7 @@ const WithdrawalSummary = () => {
           ))}
           <div className="mt-8 text-2xl font-pally-regular text-center">
             Total:{" "}
-            <span className="font-pally-medium">{toFiat(totalAmount)}</span>
+            <span className="font-pally-medium">{toFiat(withdrawalStatistic?.data?.totalSum)}</span>
           </div>
         </div>
       </div>

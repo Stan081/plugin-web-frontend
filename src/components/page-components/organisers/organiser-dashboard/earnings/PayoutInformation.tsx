@@ -18,6 +18,10 @@ const PayoutInformation = () => {
   const { data: bankAccount, isLoading } = useGetBankAccount();
   const { mutate: deleteBankAccount, isPending: pendingDelete } =
     useDeleteBankAccount();
+
+  const handleEdit = () => {
+    setShowAccount(!showAccount);
+  };
   return (
     <Fragment>
       {pendingDelete && <SpinnerOverlay />}
@@ -68,7 +72,7 @@ const PayoutInformation = () => {
             </div>
             <div className="flex items-center gap-6 bg-white p-2 rounded-lg w-full">
               <p
-                onClick={() => setShowAccount(!showAccount)}
+                onClick={handleEdit}
                 className="font-pally-regular cursor-pointer text-gray-500 flex items-center gap-2"
               >
                 <FiEdit3 />

@@ -7,6 +7,8 @@ import React, { FC, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import { RxInfoCircled } from "react-icons/rx";
 import { StepsProps } from "../AvailableBalance";
+import { useGetWithdrawalStats } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalStats";
+import { useToast } from "@/components/ui/use-toast";
 
 interface WithdrawalInputProps extends StepsProps {
   close: () => void;
@@ -14,22 +16,32 @@ interface WithdrawalInputProps extends StepsProps {
 }
 
 const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open }) => {
-  const [withdrawalAmount, setWithdrawalAmount] = useState<string>("");
-  const currentBalance = 4000000;
+  const [withdrawalAmount, setWithdrawalAmount] = useState<number>(0);
 
+  const { data: withdrawalStatistic } = useGetWithdrawalStats();
+  
+  const { toast } = useToast();
+  
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, "").slice(0, 6);
-    setWithdrawalAmount(toFiat(Number(value)).replace("₦", "").trim());
+    const value = e.target.value.replace(/\D/g, "").slice(0, 6); // Allow only digits
+    setWithdrawalAmount(Number(value)); // Directly set as a number
   };
-
+  
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+  
+    if (withdrawalAmount >= (withdrawalStatistic?.data?.availableBal || 0)) {
+      return toast({
+        title: "Kindly withdraw below available balance",
+        variant: "destructive",
+      });
+    }
+  
     const payload = {
-      currentBalance: currentBalance,
-      withdrawalAmount: Number(withdrawalAmount),
+      amount: withdrawalAmount, // Already a number
     };
     console.log("Withdrawal payload:", payload);
-    next();
+    // next();
     // Here you would typically send this payload to your API
   };
 
@@ -77,7 +89,7 @@ const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open }) => {
                     Current balance
                   </p>
                   <p className="font-pally-bold text-xl ">
-                    {toFiat(40000)}
+                    {toFiat(withdrawalStatistic?.data?.availableBal)}
                   </p>
                 </div>
 
@@ -97,11 +109,7 @@ const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open }) => {
                   </p>
                 </div>
 
-                <Button
-                  variant="destructive"
-                  type="submit"
-                  className="block"
-                >
+                <Button variant="destructive" type="submit">
                   Continue to withdrawal
                 </Button>
               </form>
