@@ -70,7 +70,7 @@ const OTPLoginVerification = () => {
         <Button
           onClick={handleSubmit}
           variant="destructive"
-          disabled={isPending}
+          disabled={isPending || !otp}
           className="w-full max-w-sm"
         >
           {isPending ? <Spinner /> : "Verify"}

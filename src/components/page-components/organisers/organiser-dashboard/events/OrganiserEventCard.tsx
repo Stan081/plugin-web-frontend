@@ -24,7 +24,7 @@ import Link from "next/link";
 import { BASE_URL } from "@/lib/constants";
 
 const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
-  const { handleShowDeleteEvent } = useOrganiserDashContext();
+  const { handleShowDeleteEvent, setEventId } = useOrganiserDashContext();
   const { toast } = useToast();
   const [stall, setStall] = useState<boolean>(false);
 
@@ -90,7 +90,7 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
   };
 
   return (
-    <div className="w-full max-w-md shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200 p-4  hover:bg-gray-100 transition delay-75 ease-in-out">
+    <div className="w-full max-w-sm shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200 p-2.5 lg:p-4  hover:bg-gray-100 transition delay-75 ease-in-out">
       {stall && <SpinnerOverlay />}
       <div className="relative">
         <Image
@@ -128,7 +128,6 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
               {event?.isPublished && (
                 <Link
                   href={`/explore-events/${event?._id}`}
-                  // onClick={handlePreviewEvent}
                   className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
                 >
                   <MdOutlineRemoveRedEye size={18} color="#667185" />
@@ -147,7 +146,10 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
                 </div>
               )}
               <div
-                onClick={handleShowDeleteEvent}
+                onClick={() => {
+                  handleShowDeleteEvent();
+                  setEventId(event?._id);
+                }}
                 className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
               >
                 <HiOutlineTrash size={18} color="#667185" />
@@ -170,12 +172,12 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
             : event?.eventName}
         </h2>
         <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-          <p className="text-sm md:text-base text-[#667185]">
+          <p className="text-sm text-[#667185]">
             {formattedDate ? formattedDate : "No set date"} @{" "}
             {formattedTime ?? "No set time"}
           </p>
           <div className="w-3 rotate-90 hidden lg:block border-b-2 border-[#667185]" />
-          <p className="text-sm md:text-base text-[#667185] flex items-center gap-2">
+          <p className="text-sm text-[#667185] flex items-center gap-2">
             <TfiWorld />{" "}
             {event?.isPublished && event?.publishStatus === "public"
               ? "Public view"

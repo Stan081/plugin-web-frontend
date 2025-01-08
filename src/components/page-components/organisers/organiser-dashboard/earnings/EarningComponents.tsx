@@ -1,5 +1,4 @@
-
-"use client"
+"use client";
 import Container from "@/tw-components/container";
 import React from "react";
 import { BsExclamationCircle } from "react-icons/bs";
@@ -8,8 +7,10 @@ import WithdrawalSummary from "./WithdrawalSummary";
 import WithdrawalHistory from "./WithdrawalHistory";
 import { toFiat } from "@/lib/amount";
 import AvailableBalance from "./AvailableBalance";
+import { useGetWithdrawalStats } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalStats";
 
 const TotalEarning = () => {
+  const { data: withdrawalStatistic } = useGetWithdrawalStats();
   return (
     <div className="border border-[#EAEDF0] rounded-xl p-6 flex flex-col justify-between gap-6">
       <div className="flex justify-between">
@@ -20,7 +21,9 @@ const TotalEarning = () => {
         <div className="rounded-full h-5 w-5 bg-[#40B869]" />
       </div>
 
-      <p className="font-pally-medium text-4xl">{toFiat(0)}</p>
+      <p className="font-pally-medium text-4xl">
+        {toFiat(withdrawalStatistic?.data?.totalSum)}
+      </p>
 
       <p className="font-pally-medium text-[#667185] flex items-center gap-3">
         <span>

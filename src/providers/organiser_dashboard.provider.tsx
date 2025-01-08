@@ -33,6 +33,8 @@ type OrganiserDashContextValue = {
   emailCampaignData: EmailCampaignForm;
   sponsorCampaignData: SponsorListingForm;
   MediaCampaignData: any;
+  eventId: string;
+  withdrawalReceiptState: any;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   nextSetUpStep: () => void;
   previousSetUpStep: () => void;
@@ -45,7 +47,9 @@ type OrganiserDashContextValue = {
   setCheckedEvent: (key: string) => void;
   setEmailCampaignData: (key: EmailCampaignForm) => void;
   setSponsorCampaignData: (key: SponsorListingForm) => void;
-  setMediaCampaignData: (key: any) => void
+  setMediaCampaignData: (key: any) => void;
+  setEventId: (key: string) => void;
+  setWithdrawalReceiptState: (key: any) => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -78,6 +82,9 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   // state to store clicked campaign
   const [clickedCampaignId, setClickedCampaignId] = useState<number>(null);
 
+  // state to store event ID
+  const [eventId, setEventId] = useState<string | null>(null);
+
   // Setup campaign state
   const [isChecked, setIsChecked] = useState({
     campaignTypeState: false,
@@ -104,6 +111,9 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     adContent: null,
   });
 
+  // state to store withdrawal receipt
+
+  const [withdrawalReceiptState, setWithdrawalReceiptState] = useState<any>();
 
   // function to switch preview event
   const handleShowDeleteEvent = () => {
@@ -151,6 +161,8 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     emailCampaignData,
     sponsorCampaignData,
     MediaCampaignData,
+    eventId,
+    withdrawalReceiptState,
     setMediaCampaignData,
     setEmailCampaignData,
     setSponsorCampaignData,
@@ -164,6 +176,8 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     handleCloseProfile,
     handleShowDeleteEvent,
     setCheckedEvent,
+    setEventId,
+    setWithdrawalReceiptState,
   };
   return (
     <OrganiserDashContext.Provider value={ContextValue}>

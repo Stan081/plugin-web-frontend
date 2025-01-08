@@ -25,6 +25,8 @@ const FilterEventComponent = ({
     maxPrice: null,
     locationType: "",
     eventType: "",
+    startDate: null,
+    endDate: null,
   });
 
   // Handle checkbox change for locationType and eventType
@@ -53,6 +55,17 @@ const FilterEventComponent = ({
   // Handle filter submission
   const applyFilters = () => {
     onApplyFilters(filters);
+  };
+
+  const handleDateInput = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: "startDate" | "endDate"
+  ) => {
+    const { value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [type]: value,
+    }));
   };
 
   return (
@@ -167,6 +180,46 @@ const FilterEventComponent = ({
                 }
               />
               <p className="text-sm font-pally-regular">Virtual</p>
+            </div>
+          </div>
+        </div>
+        <div className="pb-6 border_b w-full">
+          <div className="flex flex-col mt-3 justify-between">
+            <p className="text-sm md:text-lg font-light font-pally-medium">
+              Event Date
+            </p>
+
+            <div className="flex gap-3 mt-5">
+              <div className="flex flex-col gap-2 w-full">
+                <label
+                  htmlFor="startDate"
+                  className="text-sm font-pally-regular whitespace-nowrap"
+                >
+                  Start date:
+                </label>
+                <Input
+                  id="startDate"
+                  type="date"
+                  value={filters.startDate}
+                  onChange={(e) => handleDateInput(e, "startDate")}
+                  className="w-full"
+                />
+              </div>
+              <div className="flex flex-col gap-2 w-full">
+                <label
+                  htmlFor="endDate"
+                  className="text-sm font-pally-regular whitespace-nowrap"
+                >
+                  End date:
+                </label>
+                <Input
+                  id="endDate"
+                  type="date"
+                  value={filters.endDate}
+                  onChange={(e) => handleDateInput(e, "endDate")}
+                  className="w-full"
+                />
+              </div>
             </div>
           </div>
         </div>
