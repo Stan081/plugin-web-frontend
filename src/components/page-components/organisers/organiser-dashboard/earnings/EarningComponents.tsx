@@ -22,7 +22,7 @@ const TotalEarning = () => {
       </div>
 
       <p className="font-pally-medium text-4xl">
-        {toFiat(withdrawalStatistic?.data?.totalSum)}
+        {toFiat(withdrawalStatistic?.data?.completedSum)}
       </p>
 
       <p className="font-pally-medium text-[#667185] flex items-center gap-3">

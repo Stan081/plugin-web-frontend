@@ -9,12 +9,14 @@ import Link from "next/link";
 import { useMe } from "@/pages/api/query/me";
 import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
 import AddAccount from "../earnings/AddAccount";
+import { useCheckAddedAccount } from "@/hooks/organiser/organiser-earnings/useCheckAddedAccount";
 
 const CompleteSetUp = () => {
   const [isCompleted, setIsComplete] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const { data: user } = useMe();
   const { data: organiserEvents } = useGetOrganiserEvents(user?.data?._id);
+  const { data: checkBankStatus } = useCheckAddedAccount();
 
   const setUp = [
     {
@@ -42,7 +44,7 @@ const CompleteSetUp = () => {
       title: "Add pay-out account",
       description:
         "Add an account where we can send all your funds to when you make a withdrawal",
-      completed: false,
+      completed: checkBankStatus?.data?.hasAccount,
       path: "action",
       button: "Add Payout Details",
     },
