@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 
 const ExploreEventsPage = () => {
   const [isGridView, setIsGridView] = useState(true);
+  const [pageNum, setPageNum] = useState<number>(1);
 
   const [filters, setFilters] = useState({
     minPrice: null,
@@ -22,6 +23,7 @@ const ExploreEventsPage = () => {
     eventType: "",
     startDate: null,
     endDate: null,
+    page: pageNum,
   });
 
   const { data: events, isLoading, isError } = useFilteredEvents(filters);
@@ -38,7 +40,7 @@ const ExploreEventsPage = () => {
     return item?.isPublished === true;
   });
 
-  console.log(events?.data);
+  console.log(events);
 
   const handleRefresh = () => {
     setFilters({
@@ -48,7 +50,20 @@ const ExploreEventsPage = () => {
       eventType: "",
       startDate: null,
       endDate: null,
+      page: 1,
     });
+  };
+
+  const handlePrev = () => {
+    setPageNum((prevNum) => {
+      if (prevNum <= 1) {
+        return prevNum;
+      }
+      return prevNum - 1;
+    });
+  };
+  const handleNext = () => {
+    setPageNum((prevNum) => prevNum + 1);
   };
 
   if (isError) {
@@ -136,6 +151,40 @@ const ExploreEventsPage = () => {
               )}
             </div>
           </div>
+          {events?.data.length > 0 && (
+            <div className="flex justify-between items-center whitespace-nowrap w-full overflow-x-auto pb-4 mt-6">
+              <p className="text-sm text-gray-600">
+                Page {events?.pagination?.currentPage} of{" "}
+                {events?.pagination?.pageSize}
+              </p>
+              <div className="flex space-x-2">
+                <Button onClick={handlePrev} variant="outline" size="icon">
+                  {"<"}
+                </Button>
+                {[1, 2, 3, 4].map((page, index) => (
+                  <Button
+                    key={index}
+                    variant={
+                      page === events?.pagination?.currentPage
+                        ? "default"
+                        : "outline"
+                    }
+                    size="icon"
+                    className={
+                      page === events?.pagination?.currentPage
+                        ? "bg-destructive text-white"
+                        : ""
+                    }
+                  >
+                    {page}
+                  </Button>
+                ))}
+                <Button onClick={handleNext} variant="outline" size="icon">
+                  {">"}
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
       </Container>
     </Layout>

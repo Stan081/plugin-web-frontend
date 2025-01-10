@@ -4,13 +4,28 @@ import OrganiserHeader from "@/components/page-components/organisers/organiser-d
 import { removeCookie } from "@/lib/cookies";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import React, { Fragment, useEffect } from "react";
+import { getToken } from "@/lib/token";
+import { useRouter } from "next/navigation";
+import { useMe } from "@/pages/api/query/me";
 
 const OrganiserEvent = () => {
-  const { currentStep, setCurrentStep } = useCreateEventContext();
+  const { setCurrentStep } = useCreateEventContext();
+  const { data: userData } = useMe();
+
+  const token = getToken();
+  const router = useRouter();
+
   useEffect(() => {
-    removeCookie("event_id");
-    setCurrentStep(1);
-  }, [setCurrentStep]);
+    if (token) {
+      if (userData?.data?.isOrganizer) {
+        removeCookie("event_id");
+        setCurrentStep(1);
+      }
+      return;
+    } else {
+      router.push("/login");
+    }
+  }, [router]);
   return (
     <Fragment>
       <OrganiserHeader />
@@ -21,4 +36,3 @@ const OrganiserEvent = () => {
 };
 
 export default OrganiserEvent;
-
