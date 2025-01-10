@@ -17,7 +17,7 @@ const Faq = () => {
             Answers to most Asked Questions
           </h2>
           <p className="font-pally-regular text-base md:text-lg text-center w-full md:w-11/12 mx-auto">
-            Get quick answers to all your questions and concerns about Gupa.
+            Get quick answers to all your questions and concerns about Plugin.
             Whether as a member, host or just a visitor, we will have an answer
             waiting for you.
           </p>
