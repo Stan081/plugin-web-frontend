@@ -2,7 +2,6 @@
 
 import Layout from "@/components/layout";
 import Image from "next/image";
-import { Switch } from "@/components/ui/switch";
 import React, { useState } from "react";
 import EventFilterComponent from "@/components/page-components/eventpage/EventFilterComponent";
 import CardComponent from "@/components/CardComponent";
@@ -11,9 +10,9 @@ import Container from "@/tw-components/container";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
 import FilterEventComponent from "@/components/page-components/eventpage/FilterEventComponent";
+import { Button } from "@/components/ui/button";
 
 const ExploreEventsPage = () => {
-  // const { data: events, isLoading } = useGetAllEvents();
   const [isGridView, setIsGridView] = useState(true);
 
   const [filters, setFilters] = useState({
@@ -21,6 +20,8 @@ const ExploreEventsPage = () => {
     maxPrice: null,
     locationType: "",
     eventType: "",
+    startDate: null,
+    endDate: null,
   });
 
   const { data: events, isLoading, isError } = useFilteredEvents(filters);
@@ -37,6 +38,18 @@ const ExploreEventsPage = () => {
     return item?.isPublished === true;
   });
 
+  console.log(events?.data);
+
+  const handleRefresh = () => {
+    setFilters({
+      minPrice: null,
+      maxPrice: null,
+      locationType: "",
+      eventType: "",
+      startDate: null,
+      endDate: null,
+    });
+  };
 
   if (isError) {
     return <div>Error loading events</div>;
@@ -75,7 +88,7 @@ const ExploreEventsPage = () => {
             <EventFilterComponent onApplyFilters={handleApplyFilters} />
             <div className="w-full">
               {isGridView ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8 justify-items-center mt-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8 justify-items-center mt-3 w-full">
                   {isLoading ? (
                     <CardSkeleton />
                   ) : (
@@ -85,7 +98,14 @@ const ExploreEventsPage = () => {
                           <CardComponent key={card._id} card={card} />
                         ))
                       ) : (
-                        <p>No event uploaded</p>
+                        <div className="w-full flex flex-col items-center justify-center gap-3">
+                          <p className="font-pally-regular">
+                            No event uploaded
+                          </p>
+                          <Button onClick={handleRefresh} variant="destructive">
+                            Refresh
+                          </Button>
+                        </div>
                       )}
                     </>
                   )}
@@ -101,7 +121,14 @@ const ExploreEventsPage = () => {
                           <EventListComponent key={card._id} card={card} />
                         ))
                       ) : (
-                        <p>No event uploaded</p>
+                        <div className="flex flex-col items-center gap-3">
+                          <p className="font-pally-regular">
+                            No event uploaded
+                          </p>
+                          <Button onClick={handleRefresh} variant="destructive">
+                            Refresh
+                          </Button>
+                        </div>
                       )}
                     </>
                   )}

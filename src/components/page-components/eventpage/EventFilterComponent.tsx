@@ -13,15 +13,13 @@ const EventFilterComponent = ({
 }) => {
   // State variables for each dropdown
   const [isEventTypeOpen, setIsEventTypeOpen] = useState<boolean>(true);
-  const [isSortByOpen, setIsSortByOpen] = useState<boolean>(true);
   const [isSelectDate, setIsSelectDate] = useState<boolean>(true);
   const [isPriceRange, setIsPriceRange] = useState<boolean>(true);
   const [isEventLocation, setIsEventLocation] = useState<boolean>(true);
-  const [isAllCategory, setIsAllCategory] = useState<boolean>(true);
 
   const [filters, setFilters] = useState({
-    minPrice: 0,
-    maxPrice: 0,
+    minPrice: null,
+    maxPrice: null,
     locationType: "",
     eventType: "",
     startDate: null,
@@ -32,9 +30,6 @@ const EventFilterComponent = ({
     setIsEventTypeOpen((prevState) => !prevState);
   };
 
-  const handleSortByToggle = () => {
-    setIsSortByOpen((prevState) => !prevState);
-  };
 
   const handleSelectDateToggle = () => {
     setIsSelectDate((prevState) => !prevState);
