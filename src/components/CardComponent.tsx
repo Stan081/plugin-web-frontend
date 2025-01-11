@@ -105,7 +105,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
     }
   };
   return (
-    <div className="w-full max-w-[300px] shrink-0 rounded-xl overflow-hidden bg-white border flex flex-col justify-between border-gray-200 ">
+    <div className="w-full max-w-[330px] shrink-0 rounded-xl overflow-hidden bg-white border flex flex-col justify-between border-gray-200 ">
       <div className="relative">
         <img
           className="w-full h-48 object-cover"

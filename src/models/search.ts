@@ -3,7 +3,7 @@ import * as yup from "yup";
 // Schema for search field
 export const SearchFieldSchema = yup.object().shape({
   event_name: yup.string(),
-  event_location: yup.string(),
+  // event_location: yup.string(),
 });
 
 // Schema for search saved events

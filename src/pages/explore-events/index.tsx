@@ -2,7 +2,7 @@
 
 import Layout from "@/components/layout";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EventFilterComponent from "@/components/page-components/eventpage/EventFilterComponent";
 import CardComponent from "@/components/CardComponent";
 import EventListComponent from "@/components/page-components/eventpage/EventListComponent";
@@ -11,8 +11,10 @@ import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
 import FilterEventComponent from "@/components/page-components/eventpage/FilterEventComponent";
 import { Button } from "@/components/ui/button";
+import { useSearchParams } from "next/navigation";
 
 const ExploreEventsPage = () => {
+  const searchParams = useSearchParams();
   const [isGridView, setIsGridView] = useState(true);
   const [pageNum, setPageNum] = useState<number>(1);
 
@@ -23,10 +25,36 @@ const ExploreEventsPage = () => {
     eventType: "",
     startDate: null,
     endDate: null,
-    page: pageNum,
+    page: 1,
+    eventName: "",
   });
 
   const { data: events, isLoading, isError } = useFilteredEvents(filters);
+
+  useEffect(() => {
+    // Extract query parameters
+    const eventName = searchParams.get("eventName");
+    // const minPrice = searchParams.get("minPrice");
+    // const maxPrice = searchParams.get("maxPrice");
+    // const locationType = searchParams.get("locationType");
+    // const eventType = searchParams.get("eventType");
+    // const startDate = searchParams.get("startDate");
+    // const endDate = searchParams.get("endDate");
+    const page = searchParams.get("page");
+
+    // Update state with query params
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      eventName: eventName || "",
+      // minPrice: minPrice ? parseFloat(minPrice) : null,
+      // maxPrice: maxPrice ? parseFloat(maxPrice) : null,
+      // locationType: locationType || "",
+      // eventType: eventType || "",
+      // startDate: startDate ? new Date(startDate) : null,
+      // endDate: endDate ? new Date(endDate) : null,
+      page: page ? parseInt(page, 10) : 1,
+    }));
+  }, [searchParams]);
 
   const handleApplyFilters = (newFilters: any) => {
     setFilters(newFilters); // Update filters dynamically
@@ -35,12 +63,6 @@ const ExploreEventsPage = () => {
   const handleToggleView = () => {
     setIsGridView((prevView) => !prevView);
   };
-
-  const publishedEvents: any[] = events?.data?.filter((item) => {
-    return item?.isPublished === true;
-  });
-
-  console.log(events);
 
   const handleRefresh = () => {
     setFilters({
@@ -51,19 +73,22 @@ const ExploreEventsPage = () => {
       startDate: null,
       endDate: null,
       page: 1,
+      eventName: "",
     });
   };
 
-  const handlePrev = () => {
-    setPageNum((prevNum) => {
-      if (prevNum <= 1) {
-        return prevNum;
-      }
-      return prevNum - 1;
-    });
+  const incrementPage = () => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      page: prevFilters.page + 1,
+    }));
   };
-  const handleNext = () => {
-    setPageNum((prevNum) => prevNum + 1);
+
+  const decrementPage = () => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      page: Math.max(prevFilters.page - 1, 1),
+    }));
   };
 
   if (isError) {
@@ -74,13 +99,17 @@ const ExploreEventsPage = () => {
       {/*Explore Events Layout*/}
       <Container className="flex-col mt-5 mb-5">
         <div className="flex gap-3 items-center justify-between">
-          <FilterEventComponent onApplyFilters={handleApplyFilters} />
-          {/* <div className="flex py-1.5 px-2.5 items-center gap-1.5 border rounded-full w-40 justify-between">
-            <p className="text-sm md:text-lg text-gray-500 font-pally-regular">
-              Show Map
-            </p>
-            <Switch />
-          </div> */}
+          <div className="lg:hidden block">
+            <FilterEventComponent onApplyFilters={handleApplyFilters} />
+          </div>
+
+          <p className="text-sm md:text-lg hidden lg:block font-pally-regular">
+            Search for:{"  "}
+            <span className="text-gray-500 underline">
+              {searchParams.get("eventName")}
+            </span>
+          </p>
+
           <div
             className="flex py-1.5 px-2.5 gap-1.5 border rounded-full w-40 justify-between cursor-pointer"
             onClick={handleToggleView}
@@ -98,88 +127,84 @@ const ExploreEventsPage = () => {
             />
           </div>
         </div>
-        <div className="px-0 md:px-6">
+        <div className="px-0 md:px-6 h-full flex flex-col justify-end">
           <div className="flex gap-5 mt-6">
             <EventFilterComponent onApplyFilters={handleApplyFilters} />
-            <div className="w-full">
-              {isGridView ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8 justify-items-center mt-3 w-full">
-                  {isLoading ? (
-                    <CardSkeleton />
-                  ) : (
-                    <>
-                      {publishedEvents?.length !== 0 ? (
-                        publishedEvents?.map((card) => (
-                          <CardComponent key={card._id} card={card} />
-                        ))
-                      ) : (
-                        <div className="w-full flex flex-col items-center justify-center gap-3">
-                          <p className="font-pally-regular">
-                            No event uploaded
-                          </p>
-                          <Button onClick={handleRefresh} variant="destructive">
-                            Refresh
-                          </Button>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
-              ) : (
-                <div className="flex flex-col gap-6 pb-8 mt-3">
-                  {isLoading ? (
-                    <CardSkeleton />
-                  ) : (
-                    <>
-                      {publishedEvents?.length !== 0 ? (
-                        publishedEvents?.map((card) => (
-                          <EventListComponent key={card._id} card={card} />
-                        ))
-                      ) : (
-                        <div className="flex flex-col items-center gap-3">
-                          <p className="font-pally-regular">
-                            No event uploaded
-                          </p>
-                          <Button onClick={handleRefresh} variant="destructive">
-                            Refresh
-                          </Button>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
-              )}
+            <div className="w-full h-full flex flex-col justify-between">
+              <div className="h-full">
+                {isGridView ? (
+                  <div className="grid h-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8 justify-items-center mt-3 w-full">
+                    {isLoading ? (
+                      <CardSkeleton />
+                    ) : (
+                      <>
+                        {events?.data?.length !== 0 ? (
+                          events?.data?.map((card) => (
+                            <CardComponent key={card._id} card={card} />
+                          ))
+                        ) : (
+                          <div className="w-full flex flex-col items-center justify-center gap-3">
+                            <p className="font-pally-regular">
+                              No event uploaded
+                            </p>
+                            <Button
+                              onClick={handleRefresh}
+                              variant="destructive"
+                            >
+                              Refresh
+                            </Button>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex h-full flex-col gap-6 pb-8 mt-3">
+                    {isLoading ? (
+                      <CardSkeleton />
+                    ) : (
+                      <>
+                        {events?.data?.length !== 0 ? (
+                          events?.data?.map((card) => (
+                            <EventListComponent key={card._id} card={card} />
+                          ))
+                        ) : (
+                          <div className="flex flex-col items-center gap-3">
+                            <p className="font-pally-regular">
+                              No event uploaded
+                            </p>
+                            <Button
+                              onClick={handleRefresh}
+                              variant="destructive"
+                            >
+                              Refresh
+                            </Button>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           {events?.data.length > 0 && (
-            <div className="flex justify-between items-center whitespace-nowrap w-full overflow-x-auto pb-4 mt-6">
+            <div className="flex justify-end gap-10 items-center whitespace-nowrap w-full overflow-x-auto pb-4 mt-6">
               <p className="text-sm text-gray-600">
                 Page {events?.pagination?.currentPage} of{" "}
                 {events?.pagination?.pageSize}
               </p>
               <div className="flex space-x-2">
-                <Button onClick={handlePrev} variant="outline" size="icon">
+                <Button
+                  disabled={filters.page <= 1}
+                  onClick={decrementPage}
+                  variant="outline"
+                  size="icon"
+                >
                   {"<"}
                 </Button>
-                {[1, 2, 3, 4].map((page, index) => (
-                  <Button
-                    key={index}
-                    variant={
-                      page === events?.pagination?.currentPage
-                        ? "default"
-                        : "outline"
-                    }
-                    size="icon"
-                    className={
-                      page === events?.pagination?.currentPage
-                        ? "bg-destructive text-white"
-                        : ""
-                    }
-                  >
-                    {page}
-                  </Button>
-                ))}
-                <Button onClick={handleNext} variant="outline" size="icon">
+
+                <Button onClick={incrementPage} variant="outline" size="icon">
                   {">"}
                 </Button>
               </div>
