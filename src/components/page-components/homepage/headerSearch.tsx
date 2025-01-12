@@ -34,7 +34,7 @@ const HeaderSearch = () => {
       client.invalidateQueries({ queryKey: ["filteredEvents"] });
     } else {
       await router.push(
-        `/explore-events?event_name=${encodeURIComponent(event_name)}`
+        `/explore-events?eventName=${encodeURIComponent(event_name)}`
       );
 
       client.invalidateQueries({ queryKey: ["filteredEvents"] });

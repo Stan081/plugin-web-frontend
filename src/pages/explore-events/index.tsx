@@ -16,7 +16,6 @@ import { useSearchParams } from "next/navigation";
 const ExploreEventsPage = () => {
   const searchParams = useSearchParams();
   const [isGridView, setIsGridView] = useState(true);
-  const [pageNum, setPageNum] = useState<number>(1);
 
   const [filters, setFilters] = useState({
     minPrice: null,
@@ -32,26 +31,12 @@ const ExploreEventsPage = () => {
   const { data: events, isLoading, isError } = useFilteredEvents(filters);
 
   useEffect(() => {
-    // Extract query parameters
     const eventName = searchParams.get("eventName");
-    // const minPrice = searchParams.get("minPrice");
-    // const maxPrice = searchParams.get("maxPrice");
-    // const locationType = searchParams.get("locationType");
-    // const eventType = searchParams.get("eventType");
-    // const startDate = searchParams.get("startDate");
-    // const endDate = searchParams.get("endDate");
     const page = searchParams.get("page");
 
-    // Update state with query params
     setFilters((prevFilters) => ({
       ...prevFilters,
       eventName: eventName || "",
-      // minPrice: minPrice ? parseFloat(minPrice) : null,
-      // maxPrice: maxPrice ? parseFloat(maxPrice) : null,
-      // locationType: locationType || "",
-      // eventType: eventType || "",
-      // startDate: startDate ? new Date(startDate) : null,
-      // endDate: endDate ? new Date(endDate) : null,
       page: page ? parseInt(page, 10) : 1,
     }));
   }, [searchParams]);
@@ -103,12 +88,16 @@ const ExploreEventsPage = () => {
             <FilterEventComponent onApplyFilters={handleApplyFilters} />
           </div>
 
-          <p className="text-sm md:text-lg hidden lg:block font-pally-regular">
-            Search for:{"  "}
-            <span className="text-gray-500 underline">
-              {searchParams.get("eventName")}
-            </span>
-          </p>
+          {searchParams.get("eventName") ? (
+            <p className="text-sm md:text-lg hidden lg:block font-pally-regular">
+              Search for:{"  "}
+              <span className="text-gray-500 font-pally-medium text-lg  underline">
+                {searchParams.get("eventName")}
+              </span>
+            </p>
+          ) : (
+            <div />
+          )}
 
           <div
             className="flex py-1.5 px-2.5 gap-1.5 border rounded-full w-40 justify-between cursor-pointer"
@@ -192,7 +181,7 @@ const ExploreEventsPage = () => {
             <div className="flex justify-end gap-10 items-center whitespace-nowrap w-full overflow-x-auto pb-4 mt-6">
               <p className="text-sm text-gray-600">
                 Page {events?.pagination?.currentPage} of{" "}
-                {events?.pagination?.pageSize}
+                1
               </p>
               <div className="flex space-x-2">
                 <Button
