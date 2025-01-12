@@ -1,6 +1,6 @@
 export const faqs = [
     {
-       question: 'What is Plugin check?',
+       question: 'What is Plugin?',
        answer: '1. Plugin provides integrated marketing tools including email campaigns, social media sharing, and SEO optimization to help you promote your event effectively.'
     }, 
     {
