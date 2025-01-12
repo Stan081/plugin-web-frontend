@@ -65,9 +65,7 @@ const WithdrawalHistory = () => {
     });
   };
   const handleNext = () => {
-    if (withistory?.meta?.totalPages >= 1) {
-      setPageNum((prevNum) => prevNum + 1);
-    }
+    setPageNum((prevNum) => prevNum + 1);
   };
   return (
     <div className="p-6 bg-white rounded-lg shadow-sm w-full">

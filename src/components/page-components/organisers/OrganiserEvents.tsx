@@ -75,7 +75,7 @@ const OrganiserEvents: FC<{ orgId: string }> = ({ orgId }) => {
                       <CardComponent key={card._id} card={card} />
                     ))
                   ) : (
-                    <p className="font-pally-regular text-gray-600">
+                    <p className="h-96 font-pally-regular text-gray-600">
                       No Upcoming event
                     </p>
                   )}
@@ -88,7 +88,7 @@ const OrganiserEvents: FC<{ orgId: string }> = ({ orgId }) => {
                       <CardComponent key={card._id} card={card} />
                     ))
                   ) : (
-                    <p className="font-pally-regular text-gray-600">
+                    <p className="h-96 font-pally-regular text-gray-600">
                       No past event
                     </p>
                   )}

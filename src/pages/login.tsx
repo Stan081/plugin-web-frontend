@@ -3,10 +3,19 @@ import Layout from "@/components/layout";
 import Logo from "@/components/Logo";
 import AuthVisual from "@/components/page-components/auth/AuthVisual";
 import LoginAuth from "@/components/page-components/auth/LoginAuth";
+import { getToken } from "@/lib/token";
 import Container from "@/tw-components/container";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const Login = () => {
+  const token = getToken()
+  const router = useRouter()
+
+  useEffect(() => {
+    if(!token) return
+    if(token) router.replace('/')
+  }, [])
   return (
     <Layout title="Login">
       <div className="h-screen flex">

@@ -29,7 +29,7 @@ const OTPVerification = () => {
     onSuccess: (response) => {
       client.invalidateQueries({ queryKey: ["me"] });
       setShouldRedirect(true);
-      router.push("/");
+      router.replace("/");
       toast({
         variant: "success",
         title: "Verified",
