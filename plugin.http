@@ -29,5 +29,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
 
 ### Event Filter API
 
-GET https://pluginapi.onrender.com/api/event/filter
+GET https://pluginapi.onrender.com/api/event/filter?eventName=Second
 Content-Type: application/json

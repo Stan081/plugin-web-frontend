@@ -71,7 +71,7 @@ const FilterEventComponent = ({
   return (
     <Drawer>
       <DrawerTrigger>
-        <div className="lg:hidden flex items-center gap-3 py-1.5 px-2.5 border rounded-full ">
+        <div className="lg:hidden flex items-center gap-3 py-1.5 px-2.5 border rounded-full">
           <p className="text-sm text-gray-500 font-pally-regular">
             filter events
           </p>

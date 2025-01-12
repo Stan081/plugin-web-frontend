@@ -19,6 +19,8 @@ const PopularEvent = () => {
 
   const now = new Date();
 
+  console.log(events)
+
   const physicalPublishedType = events?.data.filter((item) => {
     const startDate = new Date(
       item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate

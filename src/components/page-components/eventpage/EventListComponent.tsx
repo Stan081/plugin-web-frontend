@@ -92,15 +92,15 @@ const EventListComponent: FC<{ card: any }> = ({ card }) => {
     <div>
       <div className="flex items-start mb-3 border-b gap-2.5 pb-7 w-full justify-between">
         <div className="flex gap-3">
-          <div className="relative w-28 lg:w-48 rounded-2xl border overflow-hidden">
+          <div className="relative rounded-2xl border overflow-hidden">
             <img
-              className="w-full h-full md:h-36 object-cover"
+              className="w-32 lg:w-48 h-full md:h-36 object-cover"
               src={card?.thumbnail ?? "/images/blue-bg.png"}
               alt={card?.eventName || "Event image"}
               width={300}
               height={200}
             />
-            <div className="absolute bottom-2 left-2 bg-destructive text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
+            <div className="absolute bottom-2 left-2 bg-destructive text-white text-xs font-pally-regular px-2 py-0.5 rounded-3xl">
               {card?.publishStatus}
             </div>
           </div>
