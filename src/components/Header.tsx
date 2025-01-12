@@ -17,7 +17,7 @@ const Header = () => {
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md shadow-md">
       <Container>
         <nav className="flex justify-between items-center gap-5">
-          <div className="md:space-x-0 flex md:gap-6 items-center">
+          <div className="md:space-x-0 flex gap-4 md:gap-6 items-center">
             <NavigationDialog />
             <Logo />
             <div className="hidden lg:block w-60">
