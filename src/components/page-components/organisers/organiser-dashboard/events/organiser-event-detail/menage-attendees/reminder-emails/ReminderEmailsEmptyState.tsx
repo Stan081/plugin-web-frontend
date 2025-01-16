@@ -6,7 +6,7 @@ const ReminderEmailsEmptyState = () => {
   return (
     <div className="flex justify-center mt-[10vh]">
       <div className="flex flex-col items-center justify-center gap-5">
-        <figure className="relative size-40">
+        <figure className="relative size-20">
           <Image
             fill={true}
             src={letter}
