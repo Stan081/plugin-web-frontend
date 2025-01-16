@@ -20,13 +20,6 @@ import {
 import { useGetWithdrawalHistory } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalHistory";
 import WithdrawalReceipt from "./WithdrawalReceipt";
 
-interface Transaction {
-  referenceNumber: string;
-  amount: string;
-  status: "Processing" | "Completed";
-  date: string;
-}
-
 const WithdrawalHistory = () => {
   const [pageNum, setPageNum] = useState<number>(1);
 
