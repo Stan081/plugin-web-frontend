@@ -15,7 +15,7 @@ const EventDetailTickets = () => {
         <p className="font-pally-medium text-base text-[#332269]">
           SALES SUMMARY
         </p>
-        <div className="mt-3 w-[34%] p-4 border border-[#1019280D] rounded-lg flex items-center gap-5">
+        <div className="mt-3 w-full max-w-md p-4 border border-[#1019280D] rounded-lg flex items-center gap-5">
           <figure className="relative size-8">
             <Image
               fill={true}

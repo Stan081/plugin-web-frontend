@@ -28,7 +28,7 @@ const CheckInSummaryTicketTypeStat = () => {
     },
   ];
   return (
-    <div className="border border-[#1019280D] rounded-lg w-1/2 p-5">
+    <div className="border border-[#1019280D] rounded-lg w-full lg:w-1/2 p-5">
       <p className="font-pally-medium text-base text-[#667185]">
         Check-ins by Ticket Type
       </p>
