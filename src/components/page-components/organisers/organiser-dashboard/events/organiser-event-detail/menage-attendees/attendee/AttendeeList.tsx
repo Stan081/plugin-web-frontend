@@ -12,11 +12,11 @@ const AttendeeList = () => {
   return (
     <Section className="space-y-10">
       {/* Attendee List Header */}
-      <div className="flex justify-between">
-        <div className="w-1/2">
+      <div className="flex flex-col lg:flex-row gap-3 justify-between">
+        <div className="w-full lg:w-1/2">
           <AttendeeListEventSearch />
         </div>
-        <div className="flex items-center gap-[5%]">
+        <div className="flex items-center justify-center lg:justify-start gap-[5%]">
           <AttendeeListCTAButton
             icon={<FiFilter size="16" color="#101928" />}
             text="Filter"

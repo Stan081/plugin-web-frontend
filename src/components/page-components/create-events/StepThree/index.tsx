@@ -45,7 +45,7 @@ const StepThree: React.FC= () => {
               Will this be a one-time event or a recurring one ?
             </h3>
 
-            <div className="flex flex-wrap gap-4 mt-5 text-white px-4">
+            {/* <div className="flex flex-wrap gap-4 mt-5 text-white px-4">
               {eventTypes.map((type) => (
                 <button
                   key={type.id}
@@ -59,7 +59,7 @@ const StepThree: React.FC= () => {
                   {type.name}
                 </button>
               ))}
-            </div>
+            </div> */}
           </Fragment>
 
           <div className="mt-6 px-4">
@@ -67,11 +67,11 @@ const StepThree: React.FC= () => {
               Choose the category that best describes your event
             </p>
 
-            {eventType === "one-time" ? (
+            {/* {eventType === "one-time" ? ( */}
               <OneTimeFormComponent eventType={eventType} />
-            ) : (
-              <RecurringForm eventType={eventType} />
-            )}
+            {/* // ) : ( */}
+              {/* // <RecurringForm eventType={eventType} /> */}
+            {/* // )} */}
           </div>
         </FormContainer>
       </div>

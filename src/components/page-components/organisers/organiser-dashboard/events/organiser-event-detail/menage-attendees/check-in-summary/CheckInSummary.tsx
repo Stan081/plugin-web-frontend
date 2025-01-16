@@ -7,7 +7,7 @@ const CheckInSummary = () => {
   return (
     <div className="space-y-5">
       <CheckInSummaryTicketSalesStat />
-      <div className="flex gap-5">
+      <div className="flex flex-col lg:flex-row justify-center gap-5 w-full">
         <CheckInSummaryTicketTypeStat />
         <CheckInSummaryTicketDistributionStat />
       </div>

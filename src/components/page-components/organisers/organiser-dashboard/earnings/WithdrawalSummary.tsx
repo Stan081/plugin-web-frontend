@@ -1,6 +1,6 @@
+"use client"
 import React, { useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { RiArrowDownSLine } from "react-icons/ri";
 import { toFiat } from "@/lib/amount";
 import { useGetWithdrawalStats } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalStats";
 

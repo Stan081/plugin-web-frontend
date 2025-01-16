@@ -23,7 +23,7 @@ import { BsQuestionCircle } from "react-icons/bs";
 import Image from "next/image";
 import { TabProgress } from "../../home/TabProgress";
 
-const eventDetailTabLink = [
+export const eventDetailTabLink = [
   {
     title: "Dashboard",
     key: "dashboard",
@@ -50,13 +50,13 @@ const eventDetailTabLink = [
     icon: HiOutlineSpeakerphone,
   },
   {
-    title: "Check-in Agent",
-    key: "check_agent",
+    title: "Ticket Agents",
+    key: "ticket_agent",
     icon: MdOutlineHeadsetMic,
   },
   {
-    title: "Support Center",
-    key: "support",
+    title: "Resolve Issues",
+    key: "resolve_issues",
     icon: BsQuestionCircle,
   },
 ];
@@ -117,7 +117,7 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
     }
   };
   return (
-    <div className="w-full md:max-w-md shadow-md border rounded-xl">
+    <div className="shadow-md border rounded-xl">
       <div className="flex justify-between items-center w-full p-4">
         <p className="bg-[#2F80ED] text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
           {event?.isPublished ? " Published" : "pending"}

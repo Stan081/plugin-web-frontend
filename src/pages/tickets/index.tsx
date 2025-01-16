@@ -62,6 +62,12 @@ const TicketPage = () => {
             )}
           </>
         )}
+
+        {ticketData?.data?.length === 0 && (
+          <p className="font-pally-regular destructive w-full h-full flex justify-center">
+            No ticket receipt
+          </p>
+        )}
       </Section>
     </Layout>
   );

@@ -58,7 +58,9 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
                   <TableCell>
                     <OrganiserTableTicketLabel text={tableRow.ticketName} />
                   </TableCell>
-                  <TableCell>{tableRow.checkinQty}</TableCell>
+                  <TableCell>
+                    <p className="whitespace-nowrap ">{tableRow.checkinQty}</p>
+                  </TableCell>
                   <TableCell>
                     <AttendeeListTableStatusLabel
                       status={tableRow.status as StatusLabelType}

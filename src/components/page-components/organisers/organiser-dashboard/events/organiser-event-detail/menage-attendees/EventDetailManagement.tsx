@@ -15,11 +15,11 @@ const EventDetailManagement = () => {
     <div>
       <h2 className="font-pally-medium text-xl">Manage attendees</h2>
 
-      <ul className="mt-6 flex justify-start items-center gap-4 align-baseline">
+      <ul className="mt-6 flex justify-start overflow-x-auto whitespace-nowrap pb-2 items-center gap-4 align-baseline">
         {tabLink.map((tab) => (
           <li key={tab.key} role="presentation">
             <button
-              className={`font-pally-regular py-2 px-3 ${
+              className={`font-pally-regular text-sm whitespace-nowrap py-2 px-3 ${
                 activeTab === tab.key
                   ? "border border-[#D9302A] text-[#D9302A] bg-[#f3cac9] rounded-xl"
                   : " text-[#586170]"
@@ -47,11 +47,9 @@ const EventDetailManagement = () => {
         aria-labelledby={`tab-${activeTab}`}
         className="mt-6 md:mt-10"
       >
-        
         {activeTab === "attendee" && <AttendeeList />}
         {activeTab === "summary" && <CheckInSummary />}
         {activeTab === "reminder_emails" && <ReminderEmails />}
-
       </div>
     </div>
   );
