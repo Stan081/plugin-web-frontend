@@ -32,7 +32,7 @@ const StepThree: React.FC= () => {
 
   return (
     <div className="flex flex-col lg:flex-row items-start gap-4 md:gap-12 md:h-screen">
-      <div className="w-full lg:w-2/5 px-4 lg:px-0">
+      <div className="w-full lg:w-2/5 lg:px-0">
         <Intro
           contents={pageContents}
           title="Specify when your event will take place."
@@ -41,16 +41,16 @@ const StepThree: React.FC= () => {
       <div className="w-full lg:w-3/5 bg-[#f0ded1]">
         <FormContainer formTitle="Basic Information" currPosition={[100, 20, 0]}>
           <Fragment>
-            <h3 className="font-pally-medium md:text-lg">
+            <h3 className="font-pally-medium md:text-lg pt-4 px-4">
               Will this be a one-time event or a recurring one ?
             </h3>
 
-            <div className="flex flex-wrap gap-4 mt-5 text-white">
+            <div className="flex flex-wrap gap-4 mt-5 text-white px-4">
               {eventTypes.map((type) => (
                 <button
                   key={type.id}
                   onClick={() => handleClick(type.id)}
-                  className={`py-2 px-4 rounded-full border ${
+                  className={`py-1 lg:py-2 px-1.5 lg:px-4 text-sm lg:text-base rounded-full border ${
                     eventType === type.id
                       ? "bg-white text-black"
                       : "border-white"
@@ -62,7 +62,7 @@ const StepThree: React.FC= () => {
             </div>
           </Fragment>
 
-          <div className="mt-6">
+          <div className="mt-6 px-4">
             <p className="font-pally-medium md:text-lg">
               Choose the category that best describes your event
             </p>

@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Container from "@/tw-components/container";
 import Logo from "./Logo";
 import Link from "next/link";
@@ -7,27 +8,26 @@ import { Button } from "@/components/ui/button";
 import HeaderSearchBar from "./page-components/homepage/headerSearch";
 import ListEventCard from "./ListEventLinks";
 import { NavigationDialog } from "./NavigationDialog";
-import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import MenuLinks from "./Menu";
 import { useMe } from "@/pages/api/query/me";
 
 const Header = () => {
-  const { user } = useUserDashContext();
+  const { data: userData } = useMe();
   return (
-    <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md">
-      <Container className="container px-4 md:px-0">
+    <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md shadow-md">
+      <Container>
         <nav className="flex justify-between items-center gap-5">
-          <div className="space-x-6 md:space-x-0 flex md:gap-6 items-center">
+          <div className="md:space-x-0 flex gap-4 md:gap-6 items-center">
             <NavigationDialog />
             <Logo />
-            <div className="hidden md:block w-full">
+            <div className="hidden lg:block w-60">
               <HeaderSearchBar />
             </div>
           </div>
           <div className="hidden lg:flex items-center gap-6">
             <Link
               href={"/explore-events"}
-              className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline whitespace-nowrap"
+              className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline whitespace-nowrap cursor-pointer"
             >
               Explore Events
             </Link>
@@ -36,12 +36,12 @@ const Header = () => {
 
             <Link
               href={"/faq"}
-              className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline"
+              className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline cursor-pointer"
             >
               Help
             </Link>
 
-            {!user? (
+            {!userData?.data ? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
                   Get Started
@@ -51,8 +51,8 @@ const Header = () => {
               <MenuLinks />
             )}
           </div>
-          <div className="md:hidden block">
-            {!user? (
+          <div className="lg:hidden block">
+            {!userData?.data ? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
                   Get Started
@@ -63,7 +63,7 @@ const Header = () => {
             )}
           </div>
         </nav>
-        <div className="md:hidden block w-full pb-2 md:pb-0">
+        <div className="lg:hidden block w-full pb-2 md:pb-0">
           <HeaderSearchBar />
         </div>
       </Container>

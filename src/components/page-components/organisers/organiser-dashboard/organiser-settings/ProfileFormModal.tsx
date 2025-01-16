@@ -1,3 +1,4 @@
+"use client";
 import React, { FC, useCallback, useRef, useState } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { RiCloseLine } from "react-icons/ri";
@@ -30,14 +31,14 @@ import { CreateOrganiserProfile } from "@/pages/api/mutate/organiser/organiserPr
 import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
 
-interface ProfileFormModalProps {
+interface Props {
   open: boolean;
   close: () => void;
 }
 
-const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
-  const [imageBanner, setImageBanner] = useState<string | null>(null);
-  const [imageThumbnail, setImageThumbnail] = useState<string | null>(null);
+const ProfileFormModal: FC<Props> = ({ open, close }) => {
+  const [imageBanner, setImageBanner] = useState<string>("");
+  const [imageThumbnail, setImageThumbnail] = useState<string>("");
   const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -47,8 +48,8 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
     mode: "all",
     defaultValues: {
       organiser_name: "",
-      organiser_photo: null,
-      organiser_banner: null,
+      organiser_photo: "",
+      organiser_banner: "",
       organiser_bio: "",
       tagline: "",
       social_media: {
@@ -157,11 +158,11 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
       if (response?.message) {
         toast({
           variant: "success",
-          title: "File has been uploaded",
+          title: "Organiser profile has been created",
           description: `${response?.message}`,
         });
-        client.invalidateQueries({ queryKey: ["me"] });
-        close()
+        client.invalidateQueries({ queryKey: ["organiserProfile"] });
+        close();
       }
     },
     onError: (error: any) => {
@@ -172,22 +173,25 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
     },
   });
 
-  const onSubmit = useCallback((payload: OrganiserProfileForm) => {
-    const data = {
-      userId: me?.data?._id,
-      banner: payload?.organiser_banner,
-      thumbnail: payload?.organiser_photo,
-      name: payload?.organiser_name,
-      tagline: payload?.tagline,
-      bio: payload?.organiser_bio,
-      socials: {
-        facebook: payload?.social_media?.facebook ?? "",
-        instagram: payload?.social_media?.instagram,
-      },
-    };
-    mutate(data);
-    console.log(data);
-  }, []);
+  const onSubmit = useCallback(
+    (payload: OrganiserProfileForm) => {
+      const data = {
+        userId: me?.data?._id,
+        banner: payload?.organiser_banner,
+        thumbnail: payload?.organiser_photo,
+        name: payload?.organiser_name,
+        tagline: payload?.tagline,
+        bio: payload?.organiser_bio,
+        socials: {
+          facebook: payload?.social_media?.facebook ?? "",
+          instagram: payload?.social_media?.instagram,
+        },
+      };
+
+      mutate(data);
+    },
+    [mutate]
+  );
   return (
     <Dialog
       open={open}
@@ -225,7 +229,7 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
                   className="flex flex-col justify-between gap-4 w-full h-full"
                 >
                   <FormItem className="w-full">
-                    <FormLabel>Organiser Banner</FormLabel>
+                    <FormLabel>Organiser Banner (Optional)</FormLabel>
                     <FormField
                       control={form.control}
                       name="organiser_banner"
@@ -294,10 +298,9 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
                       )}
                     />
                   </FormItem>
+
                   <FormItem className="w-full max-w-48">
-                    <FormLabel>
-                      Organiser photo
-                    </FormLabel>
+                    <FormLabel>Organiser photo</FormLabel>
                     <FormField
                       control={form.control}
                       name="organiser_photo"
@@ -343,7 +346,6 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
                                       <p className="font-pally-regular text-[#F58B86] underline">
                                         Add Photo
                                       </p>
-                                      
                                     </div>
                                   </label>
                                 </div>
@@ -366,6 +368,7 @@ const ProfileFormModal: FC<ProfileFormModalProps> = ({ open, close }) => {
                       )}
                     />
                   </FormItem>
+
                   <FormItem className="w-full">
                     <FormLabel className="" htmlFor="organiser_name">
                       Organiser Name

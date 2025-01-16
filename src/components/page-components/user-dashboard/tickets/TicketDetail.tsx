@@ -1,18 +1,29 @@
 import TicketIcon from "@/components/icons/ticket";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { toFiat } from "@/lib/amount";
-import { CardProps } from "@/static-datas/cards-data";
 import Image from "next/image";
 import React from "react";
 import MeetYourOganiser from "../MeetYourOganiser";
+import { formatDate } from "@/components/TicketComponent";
 
-const TicketDetail: React.FC<CardProps> = ({ id,title, location, date }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const TicketDetail: React.FC<{ event: any; tickets: any }> = ({
+  event,
+  tickets,
+}) => {
+  const startDate: string =
+    event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
+
+  const totalPrice = tickets?.reduce(
+    (sum, ticket) => sum + ticket?.ticketData?.price,
+    0
+  );
+
   return (
     <div>
       <div className="rounded-lg border p-3 w-full max-w-96 h-72">
         <Image
-          src={`/images/seagreen-bg.png`}
+          src={event?.thumbnail}
           width={456}
           height={280}
           alt={`ticket name`}
@@ -22,13 +33,17 @@ const TicketDetail: React.FC<CardProps> = ({ id,title, location, date }) => {
 
       <div className="space-y-2 my-6">
         <p className="text-[#586170] text-sm md:text-base font-pally-regular">
-          {location}
+          {event?.location === "physical"
+            ? event?.physicalLocation?.address
+            : "Online"}
         </p>
-        <p className="destructive text-sm font-pally-regular">{date}</p>
+        <p className="destructive text-sm font-pally-regular">
+          {formatDate(startDate)}
+        </p>
         <div className="flex items-center gap-1 mt-3">
           <TicketIcon />{" "}
           <p className="text-base text-black font-pally-medium">
-            {toFiat(7000)}
+            {toFiat(totalPrice)}
           </p>
         </div>
       </div>
@@ -36,7 +51,7 @@ const TicketDetail: React.FC<CardProps> = ({ id,title, location, date }) => {
       <Separator />
 
       {/* Oganiser */}
-      <MeetYourOganiser />
+      <MeetYourOganiser organiserId={event?.userId} />
     </div>
   );
 };

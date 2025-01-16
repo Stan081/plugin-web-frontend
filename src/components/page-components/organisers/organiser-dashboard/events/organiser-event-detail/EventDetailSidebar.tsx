@@ -6,8 +6,6 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
-import { OrganiserEventCardProps } from "@/static-datas/organiser-date";
-import { useRouter } from "next/router";
 import React, { FC } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import {
@@ -63,21 +61,42 @@ const eventDetailTabLink = [
   },
 ];
 
-const EventDetailSidebar: FC<OrganiserEventCardProps> = ({
-  id,
-  eventImage,
-  eventName,
-  ticketSale,
-  totalTicket,
-}) => {
+const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
   const {
-    handlePreviewEvent,
     handleShowDeleteEvent,
     setActiveEvent,
     activeEvent,
   } = useOrganiserDashContext();
 
-  const router = useRouter();
+  const startDate: string =
+    event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
+
+  const startTime: string =
+    event?.oneTimeEvent?.startTime || event?.recurringEvent?.startTime;
+
+  const date = new Date(startDate);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric", // Add year to the options
+  };
+
+  const formattedDate = date.toLocaleDateString("en-GB", options);
+
+  const [hour, minute] = startTime ? startTime.split(":") : ["00", "00"];
+  const formattedTime = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    Number(hour),
+    Number(minute)
+  ).toLocaleTimeString("en-GB", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+    timeZone: "UTC",
+  });
 
   const { toast } = useToast();
 
@@ -101,7 +120,7 @@ const EventDetailSidebar: FC<OrganiserEventCardProps> = ({
     <div className="w-full md:max-w-md shadow-md border rounded-xl">
       <div className="flex justify-between items-center w-full p-4">
         <p className="bg-[#2F80ED] text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
-          Published
+          {event?.isPublished ? " Published" : "pending"}
         </p>
         <Popover>
           <PopoverTrigger>
@@ -119,7 +138,7 @@ const EventDetailSidebar: FC<OrganiserEventCardProps> = ({
               Promote event
             </div>
             <div
-              onClick={handlePreviewEvent}
+              // onClick={handlePreviewEvent}
               className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
             >
               <MdOutlineRemoveRedEye size={18} color="#667185" />
@@ -127,7 +146,9 @@ const EventDetailSidebar: FC<OrganiserEventCardProps> = ({
             </div>
             <div
               onClick={() =>
-                handleCopyLink(`http://localhost:3000/organiser/events/${id}`)
+                handleCopyLink(
+                  `http://localhost:3000/organiser/events/${event?._id}`
+                )
               }
               className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
             >
@@ -145,11 +166,11 @@ const EventDetailSidebar: FC<OrganiserEventCardProps> = ({
         </Popover>
       </div>
 
-      {eventImage && (
+      {event?.thumbnail && (
         <Image
           className="w-full h-48 md:h-56 object-cover border-t-2 border-[#EFEDED] border-b-2"
-          src={eventImage}
-          alt={eventName}
+          src={event?.thumbnail}
+          alt={event?.eventName}
           width={300}
           height={200}
         />
@@ -157,12 +178,12 @@ const EventDetailSidebar: FC<OrganiserEventCardProps> = ({
 
       <div className="mt-4 block space-y-1 px-4">
         <h2 className="text-lg md:text-2xl font-pally-medium">
-          {eventName?.length > 30
-            ? eventName.slice(0, 30).concat("...")
-            : eventName}
+          {event?.eventName?.length > 30
+            ? event?.eventName.slice(0, 30).concat("...")
+            : event?.eventName}
         </h2>
         <p className="text-sm md:text-base text-[#667185]">
-          Saturday , September 7th, 2023 @ 7:30pm GMT
+          {formattedDate} @ {formattedTime}
         </p>
       </div>
 
@@ -172,10 +193,10 @@ const EventDetailSidebar: FC<OrganiserEventCardProps> = ({
         </p>
         <div className="flex items-center gap-6">
           <div className="w-full">
-            <TabProgress value={ticketSale} max={totalTicket} />
+            <TabProgress value={10} max={100} />
           </div>
           <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-            {ticketSale}/{totalTicket}
+            {10}/{100}
           </p>
         </div>
       </div>
@@ -191,7 +212,7 @@ const EventDetailSidebar: FC<OrganiserEventCardProps> = ({
                 activeEvent === item.key && `bg-[#FFF1F0] text-[#D9302A]`
               }`}
             >
-              <Icon size={18}/>
+              <Icon size={18} />
               {item.title}
             </li>
           );

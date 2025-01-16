@@ -27,6 +27,7 @@ export const CheckoutFormSchema = yup.object().shape({
     .string()
     .email("Invalid email address")
     .required("Email address is required"),
+  phone_number: yup.string().required("Phone number is required"),
   isUpdated: yup.boolean(),
   isEmail: yup.boolean(),
 });

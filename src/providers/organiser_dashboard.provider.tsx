@@ -1,4 +1,5 @@
 "use client";
+import { EmailCampaignForm, SponsorListingForm } from "@/models/campaign";
 import React from "react";
 
 /* eslint-disable no-unused-vars */
@@ -13,23 +14,42 @@ import {
 type IsCheckedState = {
   campaignTypeState: boolean;
   selectEventState: boolean;
-  campaignPlanState: boolean;
+  chooseAudience: boolean;
+  campaignContent: boolean;
+  durationBudget: boolean;
+  adContent: boolean;
   StartCampaignState: boolean;
 };
 
 type OrganiserDashContextValue = {
   isChecked: IsCheckedState;
+  checkedEvent: string | null;
+  showProfile: boolean;
   currentStep: number;
   eventState: string;
-  showPreviewEvent: boolean;
   showDeleteEvent: boolean;
   activeEvent: string;
+  clickedCampaignId: number;
+  emailCampaignData: EmailCampaignForm;
+  sponsorCampaignData: SponsorListingForm;
+  MediaCampaignData: any;
+  eventId: string;
+  withdrawalReceiptState: any;
   handleIsChecked: (key: keyof IsCheckedState) => void;
   nextSetUpStep: () => void;
+  previousSetUpStep: () => void;
   setEventState: (key: string) => void;
-  handlePreviewEvent: () => void;
   handleShowDeleteEvent: () => void;
   setActiveEvent: (key: string) => void;
+  handleCloseProfile: () => void;
+  setClickedCampaignId: (num: number) => void;
+  setCurrentStep: (num: number) => void;
+  setCheckedEvent: (key: string) => void;
+  setEmailCampaignData: (key: EmailCampaignForm) => void;
+  setSponsorCampaignData: (key: SponsorListingForm) => void;
+  setMediaCampaignData: (key: any) => void;
+  setEventId: (key: string) => void;
+  setWithdrawalReceiptState: (key: any) => void;
 };
 
 const OrganiserDashContext = createContext<OrganiserDashContextValue | null>(
@@ -44,11 +64,14 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   //step for each campaign setup
   const [currentStep, setCurrentStep] = useState<number>(1);
 
+  //state to get eventId
+  const [checkedEvent, setCheckedEvent] = useState<string | null>(null);
+
+  // Organiser setting modal for profile
+  const [showProfile, setShowProfile] = useState<boolean>(false);
+
   // switch organiser event tab
   const [eventState, setEventState] = useState<string>("upcoming");
-
-  // show preview event state
-  const [showPreviewEvent, setShowPreviewEvent] = useState<boolean>(false);
 
   // show preview event state
   const [showDeleteEvent, setShowDeleteEvent] = useState<boolean>(false);
@@ -56,18 +79,41 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   // state for event organiser dashboard
   const [activeEvent, setActiveEvent] = useState<string>("attendees");
 
+  // state to store clicked campaign
+  const [clickedCampaignId, setClickedCampaignId] = useState<number>(null);
+
+  // state to store event ID
+  const [eventId, setEventId] = useState<string | null>(null);
+
   // Setup campaign state
   const [isChecked, setIsChecked] = useState({
     campaignTypeState: false,
     selectEventState: false,
-    campaignPlanState: false,
+    chooseAudience: false,
+    durationBudget: false,
+    campaignContent: false,
+    adContent: false,
     StartCampaignState: false,
   });
 
-  // function to switch preview event
-  const handlePreviewEvent = () => {
-    setShowPreviewEvent(!showPreviewEvent);
-  };
+  // state to store email data
+  const [emailCampaignData, setEmailCampaignData] =
+    useState<EmailCampaignForm>(null);
+
+  // state to store sponsorListing data
+  const [sponsorCampaignData, setSponsorCampaignData] =
+    useState<SponsorListingForm>(null);
+
+  // state to store ads content data
+  const [MediaCampaignData, setMediaCampaignData] = useState<any>({
+    audienceData: null,
+    budgetData: null,
+    adContent: null,
+  });
+
+  // state to store withdrawal receipt
+
+  const [withdrawalReceiptState, setWithdrawalReceiptState] = useState<any>();
 
   // function to switch preview event
   const handleShowDeleteEvent = () => {
@@ -79,6 +125,16 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     setCurrentStep((prev) => prev + 1);
   };
 
+  // function to increment setup step
+  const previousSetUpStep: () => void = () => {
+    setCurrentStep((prev) => {
+      if (prev < 1) {
+        return prev;
+      }
+      return prev - 1;
+    });
+  };
+
   // handle function to checked
   const handleIsChecked = (key: keyof typeof isChecked) => {
     setIsChecked((prevState) => ({
@@ -87,19 +143,41 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
     }));
   };
 
+  // handle close organiser profile modal
+
+  const handleCloseProfile = () => {
+    setShowProfile(!showProfile);
+  };
+
   const ContextValue: OrganiserDashContextValue = {
     currentStep,
+    clickedCampaignId,
+    showProfile,
+    checkedEvent,
     isChecked,
     eventState,
-    showPreviewEvent,
     showDeleteEvent,
     activeEvent,
+    emailCampaignData,
+    sponsorCampaignData,
+    MediaCampaignData,
+    eventId,
+    withdrawalReceiptState,
+    setMediaCampaignData,
+    setEmailCampaignData,
+    setSponsorCampaignData,
+    setCurrentStep,
+    setClickedCampaignId,
     setActiveEvent,
-    handlePreviewEvent,
     handleIsChecked,
     nextSetUpStep,
+    previousSetUpStep,
     setEventState,
+    handleCloseProfile,
     handleShowDeleteEvent,
+    setCheckedEvent,
+    setEventId,
+    setWithdrawalReceiptState,
   };
   return (
     <OrganiserDashContext.Provider value={ContextValue}>

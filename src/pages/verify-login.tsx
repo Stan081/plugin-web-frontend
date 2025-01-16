@@ -3,15 +3,24 @@ import Layout from "@/components/layout";
 import Logo from "@/components/Logo";
 import OTPLoginVerification from "@/components/page-components/auth/OTPLoginVerification";
 import VerificationVisual from "@/components/page-components/auth/VerificationVisual";
+import { getToken } from "@/lib/token";
 import Container from "@/tw-components/container";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const LoginVerification = () => {
+  const token = getToken()
+  const router = useRouter()
+
+  useEffect(() => {
+    if(!token) return
+    if(token) router.replace('/')
+  }, [])
   return (
     <Layout title="Verification">
       <div className="h-screen flex">
         <VerificationVisual />
-        <div className="bg-[#281E17] w-full lg:w-1/2 md:px-16 pt-20">
+        <div className="bg-[#281E17] w-full lg:w-1/2 md:px-16 pt-6 lg:pt-20">
           <Container>
             <Logo white />
 

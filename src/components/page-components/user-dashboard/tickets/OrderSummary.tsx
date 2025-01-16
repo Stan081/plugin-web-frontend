@@ -3,9 +3,21 @@ import { Separator } from "@/components/ui/separator";
 import { toFiat } from "@/lib/amount";
 import React, { useState } from "react";
 import ReceiptModal from "../ReceiptModal";
+import { formatDate } from "@/components/TicketComponent";
+import { TicketType, UserType } from "./TicketSummary";
 
-const OrderSummary = () => {
+interface Props {
+  data?: TicketType[];
+  createdAt: string;
+  user: UserType;
+}
+const OrderSummary = ({ data, createdAt, user }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const totalPrice = data?.reduce(
+    (sum, ticket) => sum + ticket?.ticketData?.price,
+    0
+  );
 
   return (
     <div className="mt-4 bg-[#F9F7F7] px-4 py-5 rounded-lg space-y-4">
@@ -16,20 +28,21 @@ const OrderSummary = () => {
         </p>
         <div className="w-1 h-1 bg-gray-500 rounded-full" />
         <p className=" font-pally-regular text-[#515A6A] text-sm md:text-base">
-          Orderd by Lauren Madison (laurenmadison1@mail.com)
+          Ordered by {user?.name?.firstname} {user?.name?.lastname} (
+          {user?.email})
         </p>
       </div>
       <p className=" font-pally-regular text-[#515A6A] text-sm md:text-base">
-        Oct 15, 2022 at 4:20PM (WAT)
+        {formatDate(createdAt)}
       </p>
       <div className="flex items-center gap-2">
         {" "}
         <p className="font-pally-regular text-[#515A6A] text-sm md:text-base">
-          3 tickets
+          {data?.length} tickets
         </p>
         <div className="w-1 h-1 bg-gray-500 rounded-full" />
         <p className=" font-pally-medium text-base md:text-lg ">
-          {toFiat(20300)}
+          {toFiat(totalPrice)}
         </p>
       </div>
 
@@ -43,7 +56,14 @@ const OrderSummary = () => {
           View receipt
         </Button>
       </div>
-      <ReceiptModal open={isOpen} close={() => setIsOpen(!isOpen)} />
+      <ReceiptModal
+        total={totalPrice}
+        data={data}
+        createdAt={formatDate(createdAt)}
+        open={isOpen}
+        email={user?.email}
+        close={() => setIsOpen(!isOpen)}
+      />
     </div>
   );
 };

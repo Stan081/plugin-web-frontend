@@ -1,7 +1,6 @@
 "use client";
 import { setCookie } from "@/lib/cookies";
 import { deleteToken, getToken } from "@/lib/token";
-import { SignupFieldType } from "@/lib/types/AuthType";
 import { useMe } from "@/pages/api/query/me";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -16,9 +15,7 @@ import {
 } from "react";
 
 type UserDashContextValue = {
-  user: SignupFieldType;
   shouldRedirect: boolean;
-  setUser: (key: SignupFieldType) => void;
   logout: () => void;
   setShouldRedirect: (key: boolean) => void;
 };
@@ -30,7 +27,6 @@ UserDashContext.displayName = "UserDashContext";
 export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
   const { data: userData } = useMe();
   const [shouldRedirect, setShouldRedirect] = useState<boolean>(false);
-  const [user, setUser] = useState<SignupFieldType>();
   const router = useRouter();
 
   const token = getToken();
@@ -46,24 +42,20 @@ export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [shouldRedirect, token, router]);
 
   useEffect(() => {
-    if (userData) {
-      setUser(userData?.data);
+    if (userData?.data) {
       setCookie("user_id", userData?.data?._id);
     }
   }, [userData]);
 
   const logout = () => {
     deleteToken();
-    setUser(undefined);
     setShouldRedirect(false);
     router.push("/login");
   };
 
   const ContextValue: UserDashContextValue = {
-    user,
     shouldRedirect,
     setShouldRedirect,
-    setUser,
     logout,
   };
 

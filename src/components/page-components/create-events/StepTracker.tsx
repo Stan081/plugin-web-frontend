@@ -1,14 +1,16 @@
 "use client";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { GrFormCheckmark } from "react-icons/gr";
 import { RiArrowLeftSLine } from "react-icons/ri";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 
 const StepTracker = () => {
   const { currentStep } = useCreateEventContext();
-  const { data: event } = useGetEvent();
+  const { data: event, isLoading } = useGetEvent();
   const router = useRouter();
 
   const startDate: string =
@@ -43,9 +45,15 @@ const StepTracker = () => {
   });
   return (
     <div>
-      <div className="lg:hidden flex gap-5">
+      <div className="lg:hidden flex items-start gap-5">
+        <div
+          onClick={() => router.back()}
+          className="border border-black rounded-full"
+        >
+          <MdKeyboardArrowLeft size={22} />
+        </div>
         <div className="bg-gray-600 h-16 w-16 flex justify-center items-center rounded-lg">
-          {currentStep > 1 ? (
+          {event?.data?.thumbnail ? (
             <img
               src={event?.data?.thumbnail}
               width={320}
@@ -61,7 +69,7 @@ const StepTracker = () => {
         </div>
         <div className="space-y-3">
           <p className="font-pally-medium text-[#616873] text-base">
-            {currentStep > 1 && event?.data?.eventName
+            {currentStep > 1 || event?.data?.eventName
               ? event?.data?.eventName
               : " 'Untitled' "}
           </p>
@@ -88,7 +96,7 @@ const StepTracker = () => {
           Back to event
         </p>
 
-        {currentStep > 1 ? (
+        {event?.data?.thumbnail ? (
           <img
             src={event?.data?.thumbnail}
             width={320}
@@ -105,7 +113,7 @@ const StepTracker = () => {
         )}
 
         <p className="font-pally-medium text-[#616873] text-2xl">
-          {currentStep > 1 && event?.data?.eventName
+          {currentStep > 1 || event?.data?.eventName
             ? event?.data?.eventName
             : " 'Untitled' "}
         </p>
@@ -113,7 +121,10 @@ const StepTracker = () => {
         <div className="block mt-5">
           <div className={`flex flex-col justify-between `}>
             <div className="flex items-center gap-2">
-              {currentStep > 4 ? (
+              {currentStep > 4 ||
+              event?.data?.oneTimeEvent?.startDate ||
+              event?.data?.recurringEvent?.startDate ||
+              event?.data?.locationType ? (
                 <div className="bg-green-600 rounded-full p-0.5">
                   <GrFormCheckmark color="#fff" size={18} />
                 </div>
@@ -139,7 +150,10 @@ const StepTracker = () => {
           </div>
           <div className={`flex flex-col justify-between `}>
             <div className="flex items-center gap-2">
-              {currentStep > 6 ? (
+              {currentStep > 6 ||
+              event?.data?.ticketCategory ||
+              event?.data?.groupedTicket.length ||
+              event?.data?.entryTicket ? (
                 <div className="bg-green-600 rounded-full p-0.5">
                   <GrFormCheckmark color="#fff" size={18} />
                 </div>

@@ -9,9 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       screens: {
-        "xs": "300px"
+xs: "300px"
       },
       backgroundImage: {
+        'custom-gradient': 'linear-gradient(182.95deg, #FFF6F1 5.6%, #FDE5E3 92.46%)',
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",

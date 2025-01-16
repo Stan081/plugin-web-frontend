@@ -75,17 +75,20 @@ export type SeatSectionListsType = {
 };
 
 export const categoriesData: string[] = [
-  "Music",
-  "Business",
-  "Food & Drinks",
-  "Community",
-  "Arts",
-  "Entertainment",
-  "Health",
-  "Science & Tech",
-  "Non-Profit",
-  "Hangout",
-  "Family & Education",
+  "Music concerts",
+  "Festivals",
+  "Conference/edu ",
+  "Science & tech ",
+  "Community ",
+  "Social / hangouts",
+  "Charity ",
+  "Arts & Exhibition",
+  "Food & drinks ",
+  "Fashion show",
+  "Wellness retreats",
+  "Gaming ",
+  "Sports ",
+  "Fairs",
 ];
 
 export const pageContents: PageContentsType[] = [

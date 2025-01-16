@@ -20,6 +20,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { EventEntryDonationTicket } from "@/pages/api/mutate/create-events/EventEntryDonationTicket";
 import { useMutation } from "@tanstack/react-query";
 import Spinner from "@/tw-components/spinner";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 interface DonationTicketFormProps {
   entryTicket: string;
@@ -33,19 +34,48 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({ entryTicket }) => {
     saveToDraft,
   } = useCreateEventContext();
 
+  const { data: eventId } = useGetEvent();
+
   const form = useForm<DonationForm>({
     mode: "all",
     defaultValues: {
-      ticket_type: selectTicket,
-      ticket_name: "",
-      ticket_quantity: null,
-      min_price: null,
-      max_price: null,
-      start_date: null,
-      end_date: null,
-      start_time: "",
-      end_time: "",
-      ticket_perks: "",
+      ticket_type: eventId?.data?.ticketCategory ?? selectTicket,
+      ticket_name:
+        eventId?.data?.entryTicket?.entryTicketType === "donation"
+          ? eventId?.data?.entryTicket?.ticketName
+          : "",
+      ticket_quantity:
+        eventId?.data?.entryTicket?.entryTicketType === "donation"
+          ? eventId?.data?.entryTicket?.ticketQuantity
+          : null,
+      min_price:
+        eventId?.data?.entryTicket?.entryTicketType === "donation"
+          ? eventId?.data?.entryTicket?.minPrice
+          : null,
+      max_price:
+        eventId?.data?.entryTicket?.entryTicketType === "donation"
+          ? eventId?.data?.entryTicket?.maxPrice
+          : null,
+      start_date:
+        eventId?.data?.entryTicket?.entryTicketType === "donation"
+          ? new Date(eventId?.data?.entryTicket?.startDate)
+          : null,
+      end_date:
+        eventId?.data?.entryTicket?.entryTicketType === "donation"
+          ? new Date(eventId?.data?.entryTicket?.endDate)
+          : null,
+      start_time:
+        eventId?.data?.entryTicket?.entryTicketType === "donation"
+          ? eventId?.data?.entryTicket?.startTime
+          : "",
+      end_time:
+        eventId?.data?.entryTicket?.entryTicketType === "donation"
+          ? eventId?.data?.entryTicket?.endTime
+          : "",
+      ticket_perks:
+        eventId?.data?.entryTicket?.entryTicketType === "donation"
+          ? eventId?.data?.entryTicket?.ticketPeaks
+          : "Refer to event flyer for more details",
     },
     resolver: yupResolver(DonationFormSchema),
   });
@@ -74,7 +104,10 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({ entryTicket }) => {
   });
 
   const onSubmit = useCallback((payload: DonationForm) => {
-    console.log(payload);
+    if (payload?.start_date > payload?.end_date) {
+      alert("Start date cannot be after the end date");
+      return;
+    }
     const data = {
       entryTicket: {
         entryTicketType: entryTicket,
@@ -316,7 +349,7 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({ entryTicket }) => {
             </div>
             <FormItem>
               <FormLabel className="text-white" htmlFor="ticket_perks">
-                Ticket Peaks
+                Ticket Peaks (Optional)
               </FormLabel>
               <FormField
                 control={form.control}

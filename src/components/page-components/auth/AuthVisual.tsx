@@ -13,7 +13,9 @@ const AuthVisual = () => {
         <div className="relative w-full mt-12">
           <div className="w-72 h-72 absolute top-0 rounded-lg">
             <Image
-              src={"/images/people-watching-in-the-stage.jpg"}
+              src={
+                "https://images.unsplash.com/photo-1664076710651-1c971052f929?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzl8fGV2ZW50c3xlbnwwfHwwfHx8MA%3D%3D"
+              }
               alt="Auth"
               width={270}
               height={275}
@@ -22,7 +24,20 @@ const AuthVisual = () => {
           </div>
           <li className="w-72 h-72 absolute top-10 right-0 rounded-lg">
             <Image
-              src={"/images/party-fans-raised-their-hands.jpg"}
+              src={
+                "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHRlY2glMjBmZXN0aXZhbHxlbnwwfHwwfHx8MA%3D%3D"
+              }
+              alt="Auth"
+              width={270}
+              height={275}
+              className="pointer-events-none w-full h-full object-cover rounded-lg"
+            />
+          </li>
+          <li className="w-72 h-72 absolute top-40 z-10 right-1/3 rounded-lg">
+            <Image
+              src={
+                "https://images.unsplash.com/photo-1511916417-9779dc923704?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzZ8fGNvbmNlcnR8ZW58MHx8MHx8fDA%3D"
+              }
               alt="Auth"
               width={270}
               height={275}

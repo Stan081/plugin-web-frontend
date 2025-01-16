@@ -1,0 +1,132 @@
+"use client";
+
+import Image from "next/image";
+import React, { useState, useEffect } from "react";
+import { HiOutlineMinus } from "react-icons/hi2";
+import { HiPlus } from "react-icons/hi";
+import { toFiat } from "@/lib/amount";
+import ToolTipComponent from "@/components/ToolTipComponent";
+import TicketPlacement from "./TicketPlacement";
+import Cookies from "js-cookie";
+import { useEventsContext } from "@/providers/events.provider";
+
+const setCookie = (key: string, value: any, options = {}) => {
+  try {
+    Cookies.set(key, encodeURIComponent(JSON.stringify(value)), options);
+  } catch (error) {
+    console.error("Error setting cookie:", error);
+  }
+};
+
+const GroupedTicket = ({ groupedTicket, id }) => {
+  const [counter, setCounter] = useState(0);
+
+  const { tickets, setTickets } = useEventsContext();
+
+  // Update counter when tickets or ticket name changes
+  useEffect(() => {
+    const ticket = tickets.find((t) => t.name === groupedTicket.ticketName);
+    setCounter(ticket ? ticket.quantity : 0);
+  }, [tickets, groupedTicket.ticketName]);
+
+  // Update tickets array and persist to cookies
+  const updateTickets = (ticketName, price, quantity) => {
+    setTickets((prevTickets) => {
+      const updatedTickets = [...prevTickets];
+      const ticketIndex = updatedTickets.findIndex(
+        (ticket) => ticket.name === ticketName
+      );
+
+      if (ticketIndex > -1) {
+        if (quantity > 0) {
+          updatedTickets[ticketIndex].quantity = quantity;
+        } else {
+          updatedTickets.splice(ticketIndex, 1);
+        }
+      } else if (quantity > 0) {
+        updatedTickets.push({ name: ticketName, price, quantity });
+      }
+
+      // Save updated tickets to cookies
+      setCookie("tickets", updatedTickets, { expires: 7 });
+      return updatedTickets;
+    });
+  };
+
+  // Increment ticket quantity
+  const incrementTicket = () => {
+    const newQuantity = counter + 1;
+    updateTickets(
+      groupedTicket.ticketName,
+      groupedTicket.ticketPrice,
+      newQuantity
+    );
+  };
+
+  // Decrement ticket quantity
+  const decrementTicket = () => {
+    const newQuantity = counter - 1;
+    updateTickets(
+      groupedTicket.ticketName,
+      groupedTicket.ticketPrice,
+      newQuantity
+    );
+  };
+
+  return (
+    <div className="border border-[#CFD9E8] rounded-lg flex justify-between items-start">
+      <div className="flex gap-2">
+        <div
+          style={{
+            backgroundColor: groupedTicket?.color
+              ? groupedTicket?.color
+              : "#646267",
+          }}
+          className="w-6 lg:w-8 h-24 rounded-tl-lg rounded-bl-lg"
+        ></div>
+        <div className="p-2 flex flex-col gap-4 justify-between">
+          <p className="text-[#646267] font-pally-medium">
+            {groupedTicket?.ticketName}
+          </p>
+          <p className="text-[#2C2B2E] font-pally-bold text-2xl">
+            {groupedTicket?.groupedTicketType === "paid"
+              ? toFiat(groupedTicket?.ticketPrice)
+              : toFiat(0)}
+          </p>
+        </div>
+      </div>
+      <div className="p-2 space-y-4 flex flex-col justify-between items-end">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={decrementTicket}
+            className="border border-[#555A6E] text-[#555A6E] p-1 rounded-full cursor-pointer"
+            disabled={counter === 0}
+          >
+            <HiOutlineMinus size={20} />
+          </button>
+          <p className="font-pally-medium text-lg">{counter}</p>
+          <button
+            onClick={incrementTicket}
+            className="bg-destructive text-white p-1 rounded-full cursor-pointer"
+          >
+            <HiPlus size={20} />
+          </button>
+        </div>
+        <ToolTipComponent
+          button={
+            <p className="font-pally-regular text-sm destructive">Learn more</p>
+          }
+          content={
+            <TicketPlacement
+              color={groupedTicket?.color}
+              seatmap={groupedTicket?.seatMap}
+              text={groupedTicket?.ticketPeaks}
+            />
+          }
+        />
+      </div>
+    </div>
+  );
+};
+
+export default GroupedTicket;

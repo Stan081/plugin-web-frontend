@@ -10,7 +10,7 @@ import StepTracker from "../StepTracker";
 const StepSeven: FC = () => {
   const { data: userData, isLoading } = useMe();
   return (
-    <div className="flex flex-col lg:flex-row items-start justify-between gap-4 md:gap-12 h-screen">
+    <div className="flex flex-col lg:flex-row items-start justify-between gap-4 md:gap-12 h-full lg:h-screen">
       <Fragment>
         {isLoading ? (
           <SpinnerOverlay />
@@ -18,7 +18,7 @@ const StepSeven: FC = () => {
           <Fragment>
             {userData?.data?.role === "organizer" &&
             userData?.data?.isOrganizer ? (
-              <div className="w-full lg:w-2/5 px-4 lg:px-0">
+              <div className="w-full lg:w-2/5 lg:px-0">
                 <StepTracker />
               </div>
             ) : (
@@ -31,7 +31,7 @@ const StepSeven: FC = () => {
       </Fragment>
       <div className="w-full lg:w-3/5 lg:px-0">
         <FormContainer formTitle="Publish Event" currPosition={[100, 100, 100]}>
-          <div className="overflow-hidden">
+          <div className="overflow-hidden p-4">
             <PublishComponent />
           </div>
         </FormContainer>

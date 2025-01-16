@@ -3,31 +3,44 @@ import EventDetailDashboard from "@/components/page-components/organisers/organi
 import EventDetailSidebar from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/EventDetailSidebar";
 import EventDetailTickets from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/ticket-history/EventDetailTickets";
 import EventDetailManagement from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/menage-attendees/EventDetailManagement";
-import PreviewEvent from "@/components/page-components/organisers/organiser-dashboard/events/PreviewEvent";
+import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useMe } from "@/pages/api/query/me";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
-import { organiserEvents } from "@/static-datas/organiser-date";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { RiArrowLeftSLine } from "react-icons/ri";
 
 const OrganiserEventDetail = () => {
+  const { data: user } = useMe();
+  const {
+    data: organiserEvents,
+    isLoading,
+    isError,
+  } = useGetOrganiserEvents(user?.data?._id);
   const {
     activeEvent,
-    showPreviewEvent,
     showDeleteEvent,
-    handlePreviewEvent,
     handleShowDeleteEvent,
   } = useOrganiserDashContext();
   const router = useRouter();
   const params = useParams();
-  const getEventDetail = organiserEvents.find(
-    (card) => String(card?.id) === params?.id
+  const getEventDetail = organiserEvents?.data?.data.find(
+    (card) => String(card?._id) === params?.id
   );
   //   Temporary routing
   if (!getEventDetail) {
     return <h4>Not Found!!</h4>;
+  }
+
+  if (isError) {
+    return <p>An error occurred when fetching events</p>;
+  }
+
+  if (isLoading) {
+    return <SpinnerOverlay />;
   }
   return (
     <Section id="organser-event-detail">
@@ -43,17 +56,14 @@ const OrganiserEventDetail = () => {
         </p>
 
         <div className="mt-4 flex gap-7">
-          <EventDetailSidebar {...getEventDetail} />
+          <EventDetailSidebar event={getEventDetail} />
           <div className="w-full">
-            {activeEvent === 'dashboard' && <EventDetailDashboard/>}
-            {activeEvent === 'attendees' && <EventDetailManagement/>}
-            {activeEvent === 'tickets' && <EventDetailTickets/>}
+            {activeEvent === "dashboard" && <EventDetailDashboard />}
+            {activeEvent === "attendees" && <EventDetailManagement />}
+            {activeEvent === "tickets" && <EventDetailTickets />}
           </div>
         </div>
 
-        {showPreviewEvent && (
-          <PreviewEvent open={showPreviewEvent} close={handlePreviewEvent} />
-        )}
 
         {showDeleteEvent && (
           <DelectEvent open={showDeleteEvent} close={handleShowDeleteEvent} />

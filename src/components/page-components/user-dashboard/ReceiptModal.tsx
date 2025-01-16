@@ -7,13 +7,68 @@ import { Separator } from "@/components/ui/separator";
 import { TbReceipt } from "react-icons/tb";
 import { BsDownload, BsTicketPerforated } from "react-icons/bs";
 import { toFiat } from "@/lib/amount";
+type TicketDataProps = {
+  price?: number;
+  name?: string;
+};
 
+export type TicketProps = {
+  _id: string;
+  eventId: string;
+  ticketData: TicketDataProps;
+  createdAt: string;
+};
 interface ReceiptModalProps {
   open: boolean;
   close: () => void;
+  createdAt: string;
+  data?: TicketProps[];
+  total?: number;
+  email?: string;
 }
 
-const ReceiptModal: React.FC<ReceiptModalProps> = ({ open, close }) => {
+type TicketAccumulator = {
+  [ticketName: string]: {
+    count: number;
+    price: number;
+  };
+};
+
+const ReceiptModal: React.FC<ReceiptModalProps> = ({
+  open,
+  close,
+  createdAt,
+  data,
+  total,
+  email,
+}) => {
+  // Count occurrences of each ticket name and store price in a typed accumulator
+  const ticketCount = data?.reduce<TicketAccumulator>((acc, ticket) => {
+    const ticketName = ticket.ticketData.name;
+    const ticketPrice = ticket.ticketData.price;
+
+    if (!acc[ticketName]) {
+      acc[ticketName] = { count: 0, price: ticketPrice };
+    }
+
+    acc[ticketName].count += 1;
+    return acc;
+  }, {});
+
+  // Format the result in JSX
+  // const formattedTickets = Object?.entries(ticketCount).map(
+  //   ([name, { count, price }]) => (
+  //     <div className="flex justify-between" key={name}>
+  //       <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
+  //         {count} x {name}
+  //       </p>
+  //       <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
+  //         {toFiat(price)}
+  //       </p>
+  //     </div>
+  //   )
+  // );
+
   return (
     <div>
       <Dialog
@@ -50,9 +105,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({ open, close }) => {
                     <p className="font-pally-regular text-[#515A6A]">
                       Your ticket has been sent to{" "}
                     </p>
-                    <p className="font-pally-medium text-xl">
-                      OluchiMiracle@gmail.com
-                    </p>
+                    <p className="font-pally-medium text-xl">{email}</p>
                   </div>
                 </div>
                 <Separator />
@@ -82,7 +135,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({ open, close }) => {
                       Date issued
                     </p>
                     <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-                      Wed, September 27, 10:30pm
+                      {createdAt}
                     </p>
                   </div>
                   <div className=" flex justify-between">
@@ -90,7 +143,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({ open, close }) => {
                       Quantity
                     </p>
                     <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-                      3 tickets
+                      {data?.length} tickets
                     </p>
                   </div>
                 </div>
@@ -100,33 +153,30 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({ open, close }) => {
                     <BsTicketPerforated size={18} color="#667185" />
                     <span className="font-pally-medium">Tickets</span>
                   </p>
+                  {ticketCount &&
+                    Object.entries(ticketCount).map(
+                      ([name, { count, price }], index) => (
+                        <div className="flex justify-between" key={index}>
+                          <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
+                            {count} x {name}
+                          </p>
+                          <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
+                            {toFiat(price * count)}
+                          </p>
+                        </div>
+                      )
+                    )}
 
-                  <div className=" flex justify-between">
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-                      1 x Barn Member
-                    </p>
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-                      {toFiat(3000)}
-                    </p>
-                  </div>
-                  <div className=" flex justify-between">
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-                      1 x Barn Chief
-                    </p>
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-                      {toFiat(3000)}
-                    </p>
-                  </div>
                   <div className=" flex justify-between">
                     <p className="text-sm md:text-base font-pally-medium">
                       Total
                     </p>
                     <p className="text-sm md:text-base font-pally-medium">
-                      {toFiat(200000)}
+                      {toFiat(total)}
                     </p>
                   </div>
                 </div>
-                <p className="mt-5 text-sm font-pally-regular text-center text-[#475367]">
+                <p className="mt-5 text-sm font-pally-regular text-center text-[#ee4d35]">
                   Report an issue with this ticket
                 </p>
               </div>

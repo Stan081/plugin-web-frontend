@@ -17,7 +17,7 @@ const Faq = () => {
             Answers to most Asked Questions
           </h2>
           <p className="font-pally-regular text-base md:text-lg text-center w-full md:w-11/12 mx-auto">
-            Get quick answers to all your questions and concerns about Gupa.
+            Get quick answers to all your questions and concerns about Plugin.
             Whether as a member, host or just a visitor, we will have an answer
             waiting for you.
           </p>
@@ -30,9 +30,9 @@ const Faq = () => {
                 <AccordionItem
                   value={faq.question as string}
                   className={`${
-                    index === 0
-                      ? `border-t border-r border-l rounded-tr-3xl rounded-tl-3xl`
-                      : `border-r border-l`
+                    index !== (faqs.length - 1)
+                      ? `relative border-b border-b-transparent -mb-10 pb-10 border-t border-r border-l rounded-t-3xl`
+                      : `border-t border-r border-l rounded-t-3xl`
                   }  pt-3 px-4`}
                 >
                   <AccordionTrigger className=" font-pally-medium text-base md:text-lg">{faq.question}</AccordionTrigger>

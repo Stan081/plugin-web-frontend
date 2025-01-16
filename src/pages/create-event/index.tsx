@@ -14,6 +14,8 @@ import OrganiserHeader from "@/components/page-components/organisers/organiser-d
 import { useMe } from "../api/query/me";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import ProfileFormModal from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
+import { Section } from "@/tw-components/Section";
+import { getCookie } from "@/lib/cookies";
 
 export default function CreateEvent() {
   const { data: userDate } = useMe();
@@ -24,11 +26,10 @@ export default function CreateEvent() {
   const router = useRouter();
 
   useEffect(() => {
-    if (token) {
-      return;
-    } else {
-      router.push("/login");
+    if (!token) {
+      return router.push("/login");
     }
+    return;
   }, [router]);
 
   const renderStepContent = () => {
@@ -52,19 +53,16 @@ export default function CreateEvent() {
     }
   };
   return (
-    <div className="bg-[#f0ded1] lg:h-screen w-svw bg-cover bg-no-repeat">
-      {userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer && (
-        <OrganiserHeader />
-      )}
+    <Section className="bg-[#f0ded1] lg:h-screen bg-no-repeat">
       {showProfileForm && (
         <ProfileFormModal
           open={showProfileForm}
           close={() => setShowProfileForm(!showProfileForm)}
         />
       )}
-      <Container className="px-0 py-3 lg:pt-6">
+      <Container className="px-0 py-5 lg:pt-6">
         <div className="scrollbar-hide ">{renderStepContent()}</div>
       </Container>
-    </div>
+    </Section>
   );
 }

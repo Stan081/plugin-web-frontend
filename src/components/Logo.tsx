@@ -11,34 +11,34 @@ interface LogoProps extends ComponentPropsWithRef<"div"> {
 const Logo: FC<LogoProps> = ({ className, white }) => {
   const baseClass = "flex h-16 shrink-0 items-center";
   return (
-    <>
+    <div className="w-[120px]">
       <Link
         href={"/"}
         className={classNames(
           baseClass,
-          className ? className : "cursor-pointer"
+          className ? className : "cursor-pointer "
         )}
       >
         <span className="sr-only">Plugin</span>
         {white ? (
           <Image
-            src="/images/logo_white.svg"
+            src="/images/logo_white.png"
             alt="Plugin Logo"
             width={128}
             height={32}
-            className="w-auto h-auto"
+            className="w-[110px] h-10 lg:h-11 pointer-events-none"
           />
         ) : (
           <Image
-            src="/images/plugin-logo.svg"
+            src="/images/plugin-logo.png"
             alt="Plugin Logo"
             width={128}
             height={32}
-            className="w-auto h-auto"
+            className="w-[110px] h-10 lg:h-11 pointer-events-auto"
           />
         )}
       </Link>
-    </>
+    </div>
   );
 };
 

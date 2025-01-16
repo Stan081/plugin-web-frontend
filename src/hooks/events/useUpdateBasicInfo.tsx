@@ -10,12 +10,7 @@ export const useUpdateBasicInfo = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => UpdateBasicInfo(data),
     onSuccess: (response) => {
-      if (response?.message) {
-        toast({
-          variant: "success",
-          title: "Basic info has been updated",
-          description: `${response?.message}`,
-        });
+      if (response?.data) {
         client.invalidateQueries({ queryKey: ["eventById"] });
         next();
       }

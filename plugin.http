@@ -1,32 +1,33 @@
-### Add an Event to favourite
-POST https://pluginapi.onrender.com/api/favourites
+
+### initiate withdrawal
+POST https://pluginapi.onrender.com/api/withdrawal
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg
 
 {
-  "eventId": "6730b1560cdd60d3807d5dfb"
+  "amount": 500
 }
 
-### Get all favorited events by a user
-
-GET https://pluginapi.onrender.com/api/favourites
+### initiate withdrawal
+POST https://pluginapi.onrender.com/api/withdrawal/verify
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg
 
-### Check if an event is favourited using the event Id
+{
+  "otp": 93860
+}
 
-GET https://pluginapi.onrender.com/api/favourites/6728fed2f8ae16584053abbf
+### get withdrawal history with pagination
+GET https://pluginapi.onrender.com/api/withdrawal/history?page=1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg
 
-### Remove an Event from favourite
-
-DELETE https://pluginapi.onrender.com/api/favourites/6728bc5a8b0259bda9812557
+### get withdrawal statistics
+GET https://pluginapi.onrender.com/api/withdrawal/statistics
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzU4Mjg4NTQsImV4cCI6MTczODQyMDg1NH0.tcUbqY7ImJqNSwxT5tI3AzXftYzq6iwOuZZrsAZPqdg
 
-###
+### Event Filter API
 
-GET http://pluginapi.onrender.com/api/event/67289a162199b35c54798a8d
+GET https://pluginapi.onrender.com/api/event/filter?eventName=Second
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzEwODE0MTEsImV4cCI6MTczMzY3MzQxMX0.LOhSE5YKw842--QdrqfPgceN1QYSQ1t0Umrd-SxmJrU

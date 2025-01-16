@@ -50,7 +50,8 @@ const LoginAuth = () => {
     onError: (error: any) => {
       toast({
         variant: "destructive",
-        title: error?.message,
+        title: error?.message || 
+        'Newtwork issue',
       });
     },
   });
@@ -98,7 +99,7 @@ const LoginAuth = () => {
             disabled={isPending}
             variant="destructive"
             type="submit"
-            className="mt-8"
+            className="mt-3"
           >
             {isPending ? <Spinner /> : "Login"}
           </Button>

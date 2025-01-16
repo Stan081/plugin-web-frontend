@@ -32,14 +32,14 @@ export const NavigationDialog = () => {
       description: "Discover the benefits of Plugin",
       icon: <Grid2 />,
       bgColor: "bg-[#E4C9FF]",
-      link: "/#",
+      link: "/features",
     },
     {
       name: "Pricing",
       description: "Explore the planning price",
       icon: <Money2 />,
       bgColor: "bg-[#C9F8FF]",
-      link: "/#",
+      link: "/pricing",
     },
   ];
   return (
@@ -62,7 +62,7 @@ export const NavigationDialog = () => {
               </DialogClose>
             </div>
             <div className="space-y-4">
-              <Link href={"/events"}>
+              <Link href={"/explore-events"}>
                 <p className="text-lg text-[#2C2B2E] font-pally-regular">
                   Explore Events
                 </p>

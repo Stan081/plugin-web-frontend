@@ -44,14 +44,14 @@ const Side1 = () => {
     timeZone: "UTC",
   });
   return (
-    <div className="w-full lg:w-2/5 px-4 lg:px-0">
+    <div className="w-full lg:w-2/5 lg:px-0">
       {isLoading && <SpinnerOverlay />}
       <Logo />
       <div className="flex flex-col justify-between md:space-y-5 mt-6 ">
         <h1 className="text-[#020912] font-pally-regular text-xl md:text-3xl w-full md:max-w-xl md:leading-tight">
           Almost there, you're ready to publish your first event
         </h1>
-        <div className="mt-5 lg:mt-0 flex flex-row lg:flex-col items-start gap-5">
+        <div className="mt-5 lg:mt-0 flex flex-row lg:flex-col items-center lg:items-start gap-5">
           <div className="md:border-4 lg:mt-4 border-[#FBD4D1] rounded-md w-24 h-24 lg:w-3/5 lg:h-56">
             <Image
               src={eventData?.data?.thumbnail ?? "/images/blue-bg.png"}
@@ -88,14 +88,16 @@ const Side1 = () => {
           <li className="flex gap-3 items-center">
             <SlLocationPin color="#D9302A" size={20} />
             <p className="font-pally-regular text-[#344054]">
-              Silverbird cinemas gallery, Udoudoma Avenue, U Akwa Ibom
+              {eventData?.data?.locationType === "physical"
+                ? eventData?.data?.physicalLocation?.address
+                : "Online"}
             </p>
           </li>
         </ul>
 
         <p
           onClick={() => setShowMore(!showMore)}
-          className="mt-4 md:hidden text-sm font-pally-medium text-[#475367] flex items-center gap-2"
+          className="mt-4 lg:hidden text-sm font-pally-medium text-[#475367] flex items-center gap-2"
         >
           {showMore ? "Show less" : "Show more"}{" "}
           <span>
@@ -108,7 +110,7 @@ const Side1 = () => {
         </p>
 
         {showMore && (
-          <ul className="space-y-2">
+          <ul className="space-y-2 block lg:hidden">
             <li className="flex gap-3 items-center">
               <IoCalendarOutline color="#D9302A" size={20} />
               <p className="font-pally-regular text-[#344054]">
@@ -124,7 +126,9 @@ const Side1 = () => {
             <li className="flex gap-3 items-center">
               <SlLocationPin color="#D9302A" size={20} />
               <p className="font-pally-regular text-[#344054]">
-                Silverbird cinemas gallery, Udoudoma Avenue, U Akwa Ibom
+                {eventData?.data?.locationType === "physical"
+                  ? eventData?.data?.physicalLocation?.address
+                  : "Online"}
               </p>
             </li>
           </ul>

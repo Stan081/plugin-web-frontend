@@ -1,9 +1,13 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { RiCloseLine } from "react-icons/ri";
 import { HiOutlineTrash } from "react-icons/hi";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useDeleteEvent } from "@/hooks/events/useDeleteEvent";
+import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from "@/tw-components/spinner";
 
 interface DeleteEventProps {
   open: boolean;
@@ -18,6 +22,22 @@ const conditions: string[] = [
 ];
 
 const DelectEvent: FC<DeleteEventProps> = ({ open, close }) => {
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const { eventId } = useOrganiserDashContext();
+  const { mutate, isPending } = useDeleteEvent(close);
+
+  const { toast } = useToast();
+
+  // function to delete event by id
+  const handleDeleteEvent = () => {
+    if (!isChecked) {
+      return toast({
+        title: "Please aceept terms of event deletion",
+        variant: 'destructive'
+      });
+    }
+    mutate({ eventId });
+  };
   return (
     <Dialog
       open={open}
@@ -34,9 +54,9 @@ const DelectEvent: FC<DeleteEventProps> = ({ open, close }) => {
           >
             <DialogTitle
               as="h3"
-              className="text-base/7 font-medium items-center flex justify-between p-4 rounded-xl"
+              className="text-base/7 font-medium items-start lg:items-center flex justify-between lg:p-6 p-4 gap-5 rounded-xl"
             >
-              <p className="text-2xl font-pally-medium text-center">
+              <p className="text-2xl font-pally-medium lg:text-center">
                 Are you sure you want to delete this event?
               </p>
               <div
@@ -65,8 +85,8 @@ const DelectEvent: FC<DeleteEventProps> = ({ open, close }) => {
                 <input
                   type="checkbox"
                   id="terms"
-                  // checked={isChecked.refundPolicy}
-                  // onChange={() => handleIsChecked("refundPolicy")}
+                  checked={isChecked}
+                  onChange={() => setIsChecked(!isChecked)}
                   className="h-4 w-4 shrink-0 border rounded bg-[#D9302A] text-white"
                 />
                 <label
@@ -81,10 +101,17 @@ const DelectEvent: FC<DeleteEventProps> = ({ open, close }) => {
               </div>
 
               <div className="flex justify-end items-center gap-5 mt-8">
-                <p className="destructive  hover:underline cursor-pointer rounded font-pally-regular flex gap-2 items-center">
-                  <HiOutlineTrash size={18} /> Delete Event
+                <p
+                  aria-disabled={isPending}
+                  onClick={handleDeleteEvent}
+                  className="destructive  hover:underline cursor-pointer rounded font-pally-regular flex gap-2 items-center"
+                >
+                  <HiOutlineTrash size={18} />{" "}
+                  {isPending ? <Spinner /> : "Delete Event"}
                 </p>
-                <Button onClick={close} variant="outline">Keep event</Button>
+                <Button disabled={isPending} onClick={close} variant="outline">
+                  Keep event
+                </Button>
               </div>
             </div>
           </DialogPanel>

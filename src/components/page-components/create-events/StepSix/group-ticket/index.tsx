@@ -22,12 +22,13 @@ const GroupTicket: FC = () => {
     nextStep: next,
     previousStep: previous,
     saveToDraft,
+    handleClick,
   } = useCreateEventContext();
   const { data: allGroupEvent, isLoading } = useGetGroupEvent();
   const { mutate: deleteGroupTicket, isPending } = useDeleteEventGroup();
   const { selectTicket: selectedState } = useCreateEventContext();
   const [formState, setFormState] = useState<GroupTicketState>(
-    GroupTicketState.CREATE_TICKET
+    GroupTicketState.VIEW_LIST
   );
 
   const [selectedTicket, setSelectedTicket] = useState<any | undefined>(null);
@@ -37,6 +38,7 @@ const GroupTicket: FC = () => {
 
     if (getEditGroup) {
       setSelectedTicket(getEditGroup);
+      handleClick(getEditGroup?.groupedTicketType);
     }
     setFormState(GroupTicketState.EDIT_TICKET);
   };
@@ -55,34 +57,30 @@ const GroupTicket: FC = () => {
     return <p className="text-white mx-5 text-center mt-5">loading...</p>;
 
   return (
-    <div className=" flex flex-col justify-between gap-4 w-full lg:h-[82vh]">
+    <div className=" flex flex-col justify-between gap-4 w-full h-full lg:h-[82vh]">
       {isPending && <SpinnerOverlay />}
       {formState === GroupTicketState.CREATE_TICKET ? (
         <GroupSeat handleReturnToList={handleReturnToList} />
-      ) : formState === GroupTicketState.EDIT_TICKET &&
-        selectedTicket &&
-        seatType === "paid" ? (
+      ) : formState === GroupTicketState.EDIT_TICKET && seatType === "paid" ? (
         <EditPaidSeatDetail
           handleReturnToList={handleReturnToList}
           selectedTicket={selectedTicket}
         />
-      ) : formState === GroupTicketState.EDIT_TICKET &&
-        selectedTicket &&
-        seatType === "free" ? (
+      ) : formState === GroupTicketState.EDIT_TICKET && seatType === "free" ? (
         <EditFreeSeatDetail
           handleReturnToList={handleReturnToList}
           selectedTicket={selectedTicket}
         />
       ) : (
         formState === GroupTicketState.VIEW_LIST &&
-        selectedState === "group" && (
+        selectedState === "grouped" && (
           <div className="my-3 flex flex-col gap-3 w-full">
             <div className="space-y-4">
               {allGroupEvent?.data.length !== 0 &&
                 allGroupEvent?.data.map((list) => (
                   <SeatCard
-                    key={list.id}
-                    _id={list.id}
+                    key={list._id}
+                    _id={list._id}
                     {...list}
                     handleEditForm={handleEditForm}
                     handleDelete={handleDelete}

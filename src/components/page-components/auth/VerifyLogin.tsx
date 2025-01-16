@@ -8,10 +8,11 @@ import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import { setToken } from "@/lib/token";
 import { VerifyLoginCode } from "@/pages/api/mutate/Login";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useMe } from "@/pages/api/query/me";
 
 const VerifyLogin = () => {
   const [otp, setOtp] = useState<string>("");
-  const { user: User } = useUserDashContext();
+  const { data: userData } = useMe();
 
   const router = useRouter();
 
@@ -22,6 +23,7 @@ const VerifyLogin = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (data: VerifyCodeType) => VerifyLoginCode(data),
     onSuccess: (response) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       response.data;
       console.log(response);
       client.invalidateQueries({ queryKey: ["me"] });
@@ -32,6 +34,7 @@ const VerifyLogin = () => {
       });
       router.push("/");
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       toast({
         variant: "destructive",
@@ -45,7 +48,7 @@ const VerifyLogin = () => {
     (otp: string) => {
       setOtp(otp);
       const data = {
-        email: User?.email,
+        email: userData?.data?.email,
         code: otp,
       };
       mutate(data);

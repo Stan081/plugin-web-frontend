@@ -41,7 +41,9 @@ const StepFive: React.FC = () => {
   } = useCreateEventContext();
   const [hydrated, setHydrated] = useState<boolean>(false);
 
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(
+    eventById?.data?.refundPolicyAgreed ?? false
+  );
 
   const [changePageContent, setChangePageContent] = useState<PageContentsType>({
     id: "item-1",
@@ -109,11 +111,11 @@ const StepFive: React.FC = () => {
 
       <div className="w-full lg:w-3/5 bg-[#f0ded1]">
         <FormContainer formTitle="Event Details" currPosition={[100, 100, 0]}>
-          <div className="flex flex-col justify-between gap-4 w-full">
+          <div className="p-4">
             <Accordion
               type="single"
               collapsible
-              className="w-full space-y-5 lg:h-[60vh] overflow-y-auto"
+              className="w-full h-full space-y-5 lg:h-[60vh] overflow-y-auto"
             >
               <AccordionItem
                 onClick={() => handlePageContentChange("item-1")}
@@ -242,12 +244,13 @@ const StepFive: React.FC = () => {
                 <Button
                   onClick={saveToDraft}
                   variant="outline"
+                  size="sm"
                   className="text-white border-white hover:bg-[#6c5442]"
                 >
-                  Save Progress
+                  Save progress
                 </Button>
 
-                <div className="flex items-center gap-8">
+                <div className="flex items-center gap-5 lg:gap-8">
                   <Button
                     onClick={previous}
                     className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"

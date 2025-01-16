@@ -1,3 +1,4 @@
+"use client"
 import CardComponent from "@/components/CardComponent";
 import GoBack from "@/components/GoBack";
 import Layout from "@/components/layout";
@@ -5,14 +6,25 @@ import SearchComponent from "@/components/page-components/user-dashboard/SearchC
 import TicketComponent from "@/components/TicketComponent";
 import { Separator } from "@/components/ui/separator";
 import { useAllBookmark } from "@/hooks/events/bookmark-favourite/useAllBookmarkFavourite";
-import { cardData } from "@/static-datas/cards-data";
+import { getToken } from "@/lib/token";
 import { Section } from "@/tw-components/Section";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const SavedEvents = () => {
   const { data: allBookmark, isLoading } = useAllBookmark();
 
+  const token = getToken();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (token) {
+      return;
+    } else {
+      router.push("/login");
+    }
+  }, [router]);
   return (
     <Layout title="Saved events" showHeader showFooter showSidebar>
       <Section
@@ -32,7 +44,7 @@ const SavedEvents = () => {
           <SearchComponent placeholder="Search for saved events by name" />
         </div>
 
-        <div className="hidden w-full md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-9 py-6">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-9 py-6 justify-items-center">
           {isLoading ? (
             <CardSkeleton />
           ) : (
@@ -52,7 +64,7 @@ const SavedEvents = () => {
           )}
         </div>
         <div className="block md:hidden">
-          <TicketComponent tickets={cardData} />
+          {/* <TicketComponent tickets={cardData} /> */}
         </div>
       </Section>
     </Layout>

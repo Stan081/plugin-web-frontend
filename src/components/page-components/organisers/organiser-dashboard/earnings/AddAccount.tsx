@@ -1,5 +1,4 @@
-
-import React, { FC, useCallback, useMemo } from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { RiCloseLine } from "react-icons/ri";
 import { BankAccountForm, BankAccountSchema } from "@/models/organiser-schema";
@@ -22,6 +21,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { useFetchAllBankAccounts } from "@/hooks/organiser/organiser-earnings/useFetchBankAccount";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { VerifyAccount } from "@/pages/api/mutate/organiser/earnings/verifyAccount";
+import { useToast } from "@/components/ui/use-toast";
+import Spinner from "@/tw-components/spinner";
+import { AddBankAccount } from "@/pages/api/mutate/organiser/earnings/addBankAccount";
+import { EditBankAccount } from "@/hooks/organiser/organiser-earnings/useEditAccount";
+import { useCheckAddedAccount } from "@/hooks/organiser/organiser-earnings/useCheckAddedAccount";
 
 interface AddAccountProps {
   open: boolean;
@@ -29,21 +37,124 @@ interface AddAccountProps {
 }
 
 const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
+  const { data: accountDatas, isLoading } = useFetchAllBankAccounts();
+  const [accountName, setAccountName] = useState<string>("");
+  const { data: checkBankStatus } = useCheckAddedAccount();
+
   const form = useForm<BankAccountForm>({
     mode: "all",
     defaultValues: {
-      bank_name: "",
-      account_number: null,
-      account_name: "",
+      bank_code: "",
+      account_number: "",
     },
     resolver: yupResolver(BankAccountSchema),
   });
 
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
+  const { toast } = useToast();
+  const client = useQueryClient();
 
-  const onSubmit = useCallback(async (payload: BankAccountForm) => {
-    console.log(payload);
-  }, []);
+  const { mutate: VerifyBankAccount, isPending: PendingVerifyAccount } =
+    useMutation({
+      mutationFn: (data: any) => VerifyAccount(data),
+      onSuccess: (response) => {
+        if (response?.message) {
+          toast({
+            variant: "success",
+            title: "Account verified",
+            description: `${response?.message}`,
+          });
+          setAccountName(response?.data?.accountName);
+        }
+      },
+      onError: (error: any) => {
+        toast({
+          variant: "destructive",
+          title: error?.message,
+        });
+      },
+    });
+
+  const { mutate: AddAccount, isPending: PendingAddAccount } = useMutation({
+    mutationFn: (data: any) => AddBankAccount(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Your account has been added",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["CheckAccountStatus"] });
+        client.invalidateQueries({ queryKey: ["fetchBankAccount"] });
+        close();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: error?.message,
+      });
+    },
+  });
+
+  const { mutate: mutateEdit, isPending: pendingEdit } = useMutation({
+    mutationFn: (data: any) => EditBankAccount(data),
+    onSuccess: (response) => {
+      if (response?.message) {
+        toast({
+          variant: "success",
+          title: "Your account has been updated",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["CheckAccountStatus"] });
+        client.invalidateQueries({ queryKey: ["fetchBankAccount"] });
+        close();
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: error?.message,
+      });
+    },
+  });
+
+  const onSubmit = useCallback(
+    (payload: BankAccountForm) => {
+      const getBankName = accountDatas?.data?.find(
+        (item) => item?.code === payload?.bank_code
+      );
+
+      if (accountName === "") {
+        const verifyData = {
+          accountNumber: payload?.account_number,
+          bankCode: payload?.bank_code,
+        };
+
+        VerifyBankAccount(verifyData);
+      }
+
+      if (accountName.length > 0 && !checkBankStatus?.data?.hasAccount) {
+        const addAccountData = {
+          bankName: getBankName?.name,
+          accountNumber: payload?.account_number,
+          accountHolderName: accountName,
+        };
+
+        AddAccount(addAccountData);
+      }
+
+      if (accountName.length > 0 && checkBankStatus?.data?.hasAccount) {
+        const editAccountData = {
+          bankName: getBankName?.name,
+          accountNumber: payload?.account_number,
+          accountHolderName: accountName,
+        };
+
+        mutateEdit(editAccountData);
+      }
+    },
+    [VerifyBankAccount, AddAccount, mutateEdit, accountDatas?.data, accountName]
+  );
   return (
     <Dialog
       open={open}
@@ -56,38 +167,40 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
         <div className="flex min-h-full items-center justify-center p-4">
           <DialogPanel
             transition
-            className="w-full max-w-md rounded-xl bg-white p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
+            className="w-full max-w-md rounded-xl bg-white p-6 backdrop-blur-2xl data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0"
           >
             <DialogTitle
               as="h3"
               className="text-base/7 font-medium flex justify-between items-start"
             >
               <div className="">
-                <p className=" font-pally-medium text-2xl">
-                  Add Payout Information
-                </p>
-                <p className=" font-pally-regular text-sm md:text-base text-[#586170]">
+                <p className=" font-pally-medium text-xl lg:text-2xl">
                   Add Payout Information
                 </p>
               </div>
 
-              <div onClick={close} className="p-1.5 rounded-full bg-gray-200">
+              <div
+                onClick={close}
+                className="p-1.5 cursor-pointer rounded-full bg-gray-200"
+              >
                 <RiCloseLine size={20} />
               </div>
             </DialogTitle>
-            <div>
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="mt-6 flex flex-col justify-between gap-4 w-full h-full"
-                >
-                  <FormItem className="w-full">
-                    <FormLabel className="" htmlFor="bank_name">
-                      Bank Name
-                    </FormLabel>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="mt-6 flex flex-col justify-between gap-4 w-full h-full"
+              >
+                <FormItem className="w-full">
+                  <FormLabel className="" htmlFor="bank_code">
+                    Bank Name
+                  </FormLabel>
+                  {isLoading ? (
+                    <Skeleton className="h-10 w-full" />
+                  ) : (
                     <FormField
                       control={form.control}
-                      name="bank_name"
+                      name="bank_code"
                       render={({ field }) => (
                         <FormControl>
                           <Select
@@ -95,14 +208,14 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
                             defaultValue={String(field.value)}
                           >
                             <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
-                              <SelectValue placeholder="select timezone" />
+                              <SelectValue placeholder="select bank" />
                             </SelectTrigger>
-                            <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
-                              {["opay", "palmpay"].map((bank, index) => {
+                            <SelectContent className=" border z-40 bg-primary-foreground rounded-sm bg-white max-w-sm w-full">
+                              {accountDatas?.data?.map((bank, index) => {
                                 return (
-                                  <SelectItem key={index} value={bank}>
+                                  <SelectItem key={index} value={bank?.code}>
                                     <div className="flex items-center gap-2">
-                                      {bank}
+                                      {bank?.name}
                                     </div>
                                   </SelectItem>
                                 );
@@ -112,38 +225,59 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
                         </FormControl>
                       )}
                     />
-                  </FormItem>
-                  <FormItem className="w-full">
-                    <FormLabel className="" htmlFor="account_number">
-                      Account Number
-                    </FormLabel>
-                    <FormField
-                      control={form.control}
-                      name="account_number"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input
-                              placeholder="Enter account number"
-                              type="number"
-                              id="account_number"
-                              disabled={isLoading}
-                              className="w-full bg-white text-black font-pally-regular"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </FormItem>
+                  )}
+                </FormItem>
+                <FormItem className="w-full">
+                  <FormLabel className="" htmlFor="account_number">
+                    Account Number
+                  </FormLabel>
+                  <FormField
+                    control={form.control}
+                    name="account_number"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter account number"
+                            type="number"
+                            id="account_number"
+                            className="w-full bg-white text-black font-pally-regular"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </FormItem>
 
-                  <Button disabled={!form.getFieldState} variant="destructive" type="submit">
-                    Add Bank Account
-                  </Button>
-                </form>
-              </Form>
-            </div>
+                {accountName.length !== 0 && (
+                  <div className="border rounded-lg bg-green-100 p-2">
+                    <p className="font-pally-regular text-green-800 text-base">
+                      {accountName}
+                    </p>
+                  </div>
+                )}
+
+                <Button
+                  disabled={
+                    PendingVerifyAccount || PendingAddAccount || pendingEdit
+                  }
+                  variant="destructive"
+                  type="submit"
+                >
+                  {PendingVerifyAccount || PendingAddAccount || pendingEdit ? (
+                    <Spinner />
+                  ) : !accountName ? (
+                    "Verify Account"
+                  ) : checkBankStatus?.data?.hasAccount ? (
+                    "Update bank account"
+                  ) : (
+                    "Add bank account"
+                  )}
+                </Button>
+              </form>
+            </Form>
           </DialogPanel>
         </div>
       </div>

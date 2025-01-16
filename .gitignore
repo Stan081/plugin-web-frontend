@@ -16,6 +16,7 @@
 # production
 /build
 /.env
+/.github
 
 # misc
 .DS_Store

@@ -1,125 +1,181 @@
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { toFiat } from "@/lib/amount";
+import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
+import adPackagesData from "@/static-datas/ad-packages-data";
 import Container from "@/tw-components/container";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-export interface PlanFeature{
-  id: number;
-  name: string;
-  platforms: string | string[];
-  price: number;
-  impression: string | number;
-  targeting: string | number;
-  duration: string;
-  addOns: string;
+export interface PlanFeature {
+  id?: number;
+  isAd: boolean;
+  title: string;
+  description?: string;
   bgColor: string;
+  data: string[];
+  pricing?: number;
 }
 
-const features: PlanFeature[] = [
-  {
-    id: 1,
-    name: "Basic Plan",
-    price: 7000,
-    platforms: "Facebook, Instagram",
-    impression: "1,000",
-    targeting: "Basic (age, location, interests)",
-    duration: "7 days",
-    addOns: "+₦5,00 for 500 more impressions",
-    bgColor: "#C7DFFE",
-  },
-  {
-    id: 2,
-    name: "Pro Plan",
-    price: 27000,
-    platforms: "Facebook, Instagram, Twitter",
-    impression: "5,000",
-    targeting: "Advanced (demographics, behavior",
-    duration: "14 days",
-    addOns: "+₦20,000 for 7 extra days",
-    bgColor: "#FCE0EB",
-  },
-  {
-    id: 3,
-    name: "Premium Plan",
-    price: 70000,
-    platforms: "All Social Media, Google Ads, Email",
-    impression: "15,000",
-    targeting: "Comprehensive (custom audiences)",
-    duration: "30 days",
-    addOns: "+₦30,000 for high-priority placements",
-    bgColor: "#ECD7F8",
-  },
-];
+function AdBanner({ details }: { details: PlanFeature }) {
+  const {
+    clickedCampaignId,
+    handleIsChecked,
+    nextSetUpStep,
+    setClickedCampaignId,
+  } = useOrganiserDashContext();
+
+  const router = useRouter();
+
+  const handleClick = (id: number) => {
+    setClickedCampaignId(id);
+    handleIsChecked("campaignTypeState");
+    nextSetUpStep();
+    router.push("/organiser/ad-campaigns/set-up");
+  };
+  return (
+    <div
+      className={`p-5 ${
+        details.title === "Social Media Ads" && "bg-[#C7DFFE]"
+      } ${details.title === "Email Campaigns" && "bg-[#FCE0EB]"} ${
+        details.title === "Sponsored Listings" && "bg-[#ECD7F8]"
+      }  bg-none size-full flex flex-col justify-between`}
+    >
+      <div className="space-y-1">
+        <p className="font-pally-medium text-2xl text-[#344054]">
+          {details.title}
+        </p>
+        <p className="font-pally-bold text-3xl text-[#221D22]">
+          {toFiat(details.pricing)}
+        </p>
+      </div>
+
+      <Button
+        onClick={() => handleClick(details.id)}
+        variant="outline"
+        className=" border-[#D9302A] text-[#D9302A]"
+      >
+        Choose Plan
+      </Button>
+    </div>
+  );
+}
+
+function PricingBanner() {
+  return (
+    <div className={`bg-[#281E17] p-5 size-full flex flex-col justify-center `}>
+      <p className="font-pally-bold text-2xl text-white">All Pricing Plans</p>
+      <p className="font-pally-regular leading-5 text-base text-[#BDB2BD]">
+        Compare all pricing offers suitable for your Individual, team and
+        enterprise needs
+      </p>
+    </div>
+  );
+}
 
 const OrganiserPlans = () => {
+  const [isOpen, setIsOpen] = useState<string>("");
+
+  function openAccordion(title: string) {
+    if (isOpen === title) {
+      setIsOpen("");
+    } else {
+      setIsOpen(title);
+    }
+  }
   return (
     <Container>
-      <div className="w-full max-w-7xl mx-auto p-4 ">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
-          <div className="rounded-xl border">
-            <div className="bg-[#281E17] h-40 p-5 space-y-6 rounded-xl">
-              <p className="font-pally-medium text-lg text-white">
-                All Pricing Plans
-              </p>
-              <p className="font-pally-regular text-sm md:text-base text-[#BDB2BD]">
-                Compare all pricing offers suitable for your Individual, team
-                and enterprise needs
-              </p>
-            </div>
-            <ul className="rounded-xl space-y-5 last:border-b-0">
-              <li className="border-b py-4 text-center text-[#1D2739] font-pally-medium text-lg">
-                Platforms
-              </li>
-              <li className="border-b py-4 text-center text-[#1D2739] font-pally-medium text-lg">
-                Impressions
-              </li>
-              <li className="border-b py-4 text-center text-[#1D2739] font-pally-medium text-lg">
-                Targeting
-              </li>
-              <li className="border-b py-4 text-center text-[#1D2739] font-pally-medium text-lg">
-                Duration
-              </li>
-              <li className="border-b last:border-none  py-4 text-center text-[#1D2739] font-pally-medium text-lg">
-                Add-ons
-              </li>
-            </ul>
-          </div>
-
-          {features.map((item, index) => (
-            <div key={index} className="rounded-xl border">
+      <div className="mb-10 xs:max-md:hidden mt-10 w-[90%] max-w-[1000px] mx-auto flex">
+        {adPackagesData.map((ad) => {
+          return (
+            <div key={ad.title} className="group w-1/4 box-border">
               <div
-                style={{ backgroundColor: item.bgColor }}
-                className=" p-5 space-y-6 rounded-xl h-40"
+                className={`group-first:rounded-l-xl group-last:rounded-r-xl group-first:border-l group-last:border-r w-full h-full max-h-[200px] overflow-hidden border-y border-[rgba(72,61,74,0.1)]`}
               >
-                <div >
-                  <p className="font-pally-medium text-base md:text-lg text-[#344054]">
-                    Basic Plan
-                  </p>
-                  <p className="font-pally-bold text-lg md:text-2xl ">
-                    {toFiat(item.price)}
-                  </p>
-                </div>
-                <Button variant="secondary" className="block mb-2">Choose Plan</Button>
+                {ad.isAd ? <AdBanner details={ad} /> : <PricingBanner />}
               </div>
-              <ul className="rounded-xl space-y-5 last:border-b-0">
-                <li className="border-b h-16 py-4 text-center text-[#1D2739] font-pally-regular text-base">
-                  {item.platforms}
-                </li>
-                <li className="border-b h-16 py-4 text-center text-[#1D2739] font-pally-regular text-base">
-                  {item.impression}
-                </li>
-                <li className="border-b h-16 py-4 text-center text-[#1D2739] font-pally-regular text-base text-wrap">
-                  {item.targeting}
-                </li>
-                <li className="border-b h-16 py-4 text-center text-[#1D2739] font-pally-regular text-base">
-                  {item.duration}
-                </li>
-                <li className="border-b h-16 last:border-none  py-4 text-center text-[#1D2739] font-pally-regular text-base">
-                  {item.addOns}
-                </li>
-              </ul>
+              <div
+                className={`group-first:rounded-l-xl group-first:border-r-transparent group-last:rounded-r-xl group-last:border-r-[#483D4A]     mt-5 border border-r-transparent border-[#483D4A]`}
+              >
+                {ad.data.map((item) => {
+                  return (
+                    <p
+                      key={item}
+                      className="h-14 text-center flex items-center justify-center text-sm md:text-base font-pally-medium text-[#1D2739] even:border-y border-[#483D4A]"
+                    >
+                      {item}
+                    </p>
+                  );
+                })}
+              </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
+      </div>
+      <div className="hidden xs:max-md:block mx-auto">
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full md:w-3/5 mx-auto"
+        >
+          <ul className="space-y-4">
+            {adPackagesData.slice(1).map((ad) => (
+              <li key={ad.title}>
+                <AccordionItem
+                  value={ad.title as string}
+                  className={`py-3 px-4 border-4 border- ${
+                    isOpen === ad.title && " bg-[#F4F6F9]"
+                  } rounded-2xl`}
+                  onClick={() => openAccordion(ad.title)}
+                >
+                  <AccordionTrigger className=" font-pally-medium text-xl  text-[#344054] ">
+                    <div className="flex items-end gap-2">
+                      <div className="">
+                        <input
+                          checked={isOpen === ad.title}
+                          type="checkbox"
+                          className="size-4 accent-[#344054] rounded-lg"
+                        />
+                      </div>
+                      <p className="">
+                        {ad.title} - {toFiat(ad.pricing)}
+                      </p>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className=" font-pally-regular text-base md:text-lg">
+                    <p className="font-pally-regular text-[#667185] text-base leading-6">
+                      This plan includes all the following perks below:{" "}
+                    </p>
+                    <ul className="list-inside list-disc ml-2 space-y-1 mt-2">
+                      {ad.data[0].split(",").map((platform) => (
+                        <li
+                          key={platform}
+                          className="font-pally-regular text-[#667185] text-sm md:text-base leading-6"
+                        >
+                          {platform}{" "}
+                        </li>
+                      ))}
+                      <li className="font-pally-regular text-[#667185] text-sm md:text-base leading-6">
+                        {ad.data[1]} impressions
+                      </li>
+                      <li className="font-pally-regular text-[#667185] text-sm md:text-base leading-6">
+                        {ad.data[2]} runtime duration
+                      </li>
+                      <li className="font-pally-regular text-[#667185] text-sm md:text-base leading-6">
+                        {ad.addOns}
+                      </li>
+                    </ul>
+                  </AccordionContent>
+                </AccordionItem>
+              </li>
+            ))}
+          </ul>
+        </Accordion>
       </div>
     </Container>
   );

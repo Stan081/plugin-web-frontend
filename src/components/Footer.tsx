@@ -12,7 +12,9 @@ const Footer = () => {
         <Container className="py-8 lg:py-14">
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="w-full md:2/5">
-              <Logo />
+              <div className="mb-4 w-28 h-10 lg:h-11">
+                <Logo />
+              </div>
               <ul className="text-[#687384] font-pally-regular text-base md:text-lg">
                 <li>Maitama, 900271, Abuja - Nigeria</li>
                 <li>+234 (0)809 666 4872</li>

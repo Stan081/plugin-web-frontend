@@ -29,14 +29,14 @@ const ListEvent = () => {
       description: "Discover the benefits of Plugin",
       icon: <Grid2 />,
       bgColor: "bg-[#E4C9FF]",
-      link: "/#",
+      link: "/features",
     },
     {
       name: "Pricing",
       description: "Explore the planning price",
       icon: <Money2 />,
       bgColor: "bg-[#C9F8FF]",
-      link: "/#",
+      link: "/pricing",
     },
   ];
   return (

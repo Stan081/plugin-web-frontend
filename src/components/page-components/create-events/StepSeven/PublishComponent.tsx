@@ -29,7 +29,7 @@ const PublishComponent: FC = () => {
   const { data: userData } = useMe();
   const { previousStep: previous } = useCreateEventContext();
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [showProfileForm, setShowProfileForm] = useState<boolean>(false);
+  const [showProfile, setShowProfile] = useState<boolean>(false);
   const [selectedVisibility, setSelectedVisibility] =
     useState<string>("public");
   const [checkSchedule, setCheckSchedule] = useState<string>("now");
@@ -53,6 +53,8 @@ const PublishComponent: FC = () => {
 
   const { toast } = useToast();
 
+  const client = useQueryClient();
+
   const publishWhen = form.watch("publishWhen");
 
   const { mutate, isPending } = useMutation({
@@ -66,6 +68,7 @@ const PublishComponent: FC = () => {
             : "Event has been schedule",
           description: `${response?.message}`,
         });
+        client.invalidateQueries({ queryKey: ["organiserEvents"] });
         setShowModal(!showModal);
       }
     },
@@ -80,14 +83,13 @@ const PublishComponent: FC = () => {
 
   const onSubmit = (payload: PublishForm) => {
     if (!userData?.data?.isOrganizer) {
-      return setShowProfileForm(!showProfileForm);
+      return setShowProfile(!showProfile);
     }
     if (payload?.publishWhen === true) {
       const data = {
         isPublished: payload.publishWhen,
         publishStatus: payload?.event_visibility,
       };
-      console.log(data, "True");
       mutate(data);
     } else {
       const data = {
@@ -104,17 +106,15 @@ const PublishComponent: FC = () => {
 
   return (
     <div>
-      {showModal && (
         <CongratulationModal
           open={showModal}
           close={() => setShowModal(!showModal)}
         />
-      )}
 
-      {showProfileForm && (
+      {showProfile && (
         <ProfileFormModal
-          open={showProfileForm}
-          close={() => setShowProfileForm(!showProfileForm)}
+          open={showProfile}
+          close={() => setShowProfile(!showProfile)}
         />
       )}
       <Form {...form}>

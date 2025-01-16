@@ -33,10 +33,10 @@ const StepFour: React.FC = () => {
 
   return (
     <div
-      className="flex flex-col lg:flex-row items-start gap-4 md:gap-12
+      className="flex w-full flex-col lg:flex-row items-start gap-4 md:gap-12
     "
     >
-      <div className="w-full lg:w-2/5  px-4 lg:px-0">
+      <div className="w-full lg:w-2/5 lg:px-0">
         <Intro
           contents={pageContents}
           title="Where will your event take place?"
@@ -47,7 +47,7 @@ const StepFour: React.FC = () => {
           formTitle="Basic Information"
           currPosition={[100, 60, 0]}
         >
-          <div className="flex flex-wrap justify-start items-end gap-5">
+          <div className="flex flex-wrap justify-start items-end gap-5 p-4">
             <h3 className="font-pally-medium md:text-xl">
               What’s your location type:
             </h3>
@@ -57,7 +57,7 @@ const StepFour: React.FC = () => {
                 <button
                   key={location.id}
                   onClick={() => handleClick(location.id)}
-                  className={`py-2 px-4 rounded-full border ${
+                  className={`py-1 lg:py-2 px-1.5 lg:px-4 text-sm lg:text-base rounded-full border ${
                     locationType === location.id
                       ? "bg-white text-black"
                       : "border-white"
@@ -69,7 +69,7 @@ const StepFour: React.FC = () => {
             </div>
           </div>
 
-          <div className="mt-6">
+          <div className="mt-6 px-4">
             {locationType === "physical" ? (
               <PhysicalForm locationType={locationType} />
             ) : (

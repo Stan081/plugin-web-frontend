@@ -69,7 +69,7 @@ const TailoredEvent: React.FC = () => {
       color: "bg-[#E4EBFF] border-[#4D77FF]",
       position: "top-28 right-80",
       mobilePosition: "bottom-0 right-20",
-      rotate: [44, -20, 44],
+      rotate: [34, -10, 24],
     },
     {
       id: 7,
@@ -112,9 +112,9 @@ const TailoredEvent: React.FC = () => {
             Our user-friendly software selects event listings based on your
             location or top priorities, making your search much more fun.
           </p>
-          <div className="mx-auto">
+          <Link href={'/explore-events'} className="mx-auto">
             <Button variant="outline">Explore events</Button>
-          </div>
+          </Link>
         </div>
       </Container>
     );
@@ -180,7 +180,7 @@ const TailoredEvent: React.FC = () => {
         {/* Upcoming events component */}
         <Container className="mt-20 md:mt-40 overflow-auto px-4 md:px-0">
           <h2 className="text-3xl font-pally-medium mb-6">Upcoming Events</h2>
-          <div className="flex lg:flex-row gap-6 overflow-x-auto scroll-smooth whitespace-nowrap w-full pb-8">
+          <div className="flex lg:flex-row gap-4 lg:gap-6 overflow-x-auto scroll-smooth whitespace-nowrap w-full pb-8">
             {isLoading ? (
               <CardSkeleton/>
             ) : (

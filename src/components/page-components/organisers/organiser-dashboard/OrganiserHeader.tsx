@@ -5,14 +5,12 @@ import Container from "@/tw-components/container";
 import Logo from "../../../Logo";
 import Link from "next/link";
 import { HiOutlineSwitchHorizontal } from "react-icons/hi";
-import { NavigationDialog } from "../../../NavigationDialog";
 import classNames from "classnames";
 import { useRouter } from "next/router";
-import { useMe } from "@/pages/api/query/me";
-import Spinner from "@/tw-components/spinner";
+import OrganiserMenu from "./OrganiserMenu";
+import { OrganiserDialog } from "./OrganiserDialog";
 
 const OrganiserHeader = () => {
-  const { data: user, isLoading } = useMe();
   const router = useRouter();
 
   const getHeaderLinkState = useCallback(
@@ -55,11 +53,11 @@ const OrganiserHeader = () => {
   );
 
   return (
-    <header className="border-b w-full bg-white">
-      <Container className="container px-4 md:px-0">
-        <nav className="flex justify-between items-center gap-5">
+    <header className="border-b bg-white">
+      <Container className="w-full">
+        <nav className="flex justify-between items-center w-full gap-5">
           <div className="space-x-6 md:space-x-0 flex md:gap-6 items-center">
-            <NavigationDialog />
+            <OrganiserDialog/>
             <Logo />
           </div>
           <div className="hidden lg:flex items-center gap-6">
@@ -71,22 +69,16 @@ const OrganiserHeader = () => {
           </div>
 
           <div className="flex gap-4 items-center">
-            <Link href={`/accounts`} className="flex gap-2 items-center cursor-pointer hover:underline">
+            <Link
+              href={`/`}
+              className="hidden lg:flex gap-2 items-center cursor-pointer hover:underline"
+            >
               <HiOutlineSwitchHorizontal size={18} className="text-gray-600" />
               <p className="font-pally-medium text-gray-600">
                 Switch to attendee
               </p>
             </Link>
-            {isLoading ? (
-              <Spinner />
-            ) : (
-              <div className="flex justify-start items-center">
-                <p className="rounded-full w-10 h-10 p-2 border text-center border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
-                  {`${user?.data?.name?.firstname.slice(0, 1)}` +
-                    `${user?.data?.name?.lastname.slice(0, 1)}`}
-                </p>
-              </div>
-            )}
+            <OrganiserMenu />
           </div>
         </nav>
       </Container>

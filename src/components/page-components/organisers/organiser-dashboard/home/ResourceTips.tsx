@@ -13,7 +13,7 @@ const resources = [
     title: " Creating Tickets",
     description:
       "This guide will show you how to create and edit ticket types for your event",
-    path: "/#",
+    path: "/organiser",
   },
   {
     image:
@@ -22,7 +22,7 @@ const resources = [
     title: " Scanning and Check In",
     description:
       "This course guides you how to use the Plugin scanner to scan tickets and check-in attendees for your event.",
-    path: "/#",
+    path: "/organiser",
   },
   {
     image:
@@ -31,7 +31,7 @@ const resources = [
     title: "Getting Paid via Plugin",
     description:
       "This guide will walk you through how to add a payout method to your event if you're selling tickets using Plugin's Payment Processing.",
-    path: "/#",
+    path: "/organiser",
   },
 ];
 

@@ -6,14 +6,7 @@ import {
 } from "@/models/create-event-schema";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { FC, useCallback, useEffect, useRef, useState } from "react";
 import {
   Form,
   FormControl,
@@ -44,7 +37,6 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { IoMdImages } from "react-icons/io";
 import Spinner from "@/tw-components/spinner";
 import { Button } from "@/components/ui/button";
-import { IoReturnDownBackOutline } from "react-icons/io5";
 
 interface FreeGroupSeatsFormProps extends GroupSeatProps {}
 
@@ -69,7 +61,7 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
       end_date: null,
       start_time: "",
       end_time: "",
-      ticket_perks: "",
+      ticket_perks: "Refer to event flyer for more details",
       label_image: "",
       label_color: "",
     },
@@ -179,6 +171,10 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
   });
 
   const onSubmit = useCallback((payload: FreeSeatSection) => {
+    if (payload?.start_date > payload?.end_date) {
+      alert("Start date cannot be after the end date");
+      return;
+    }
     const data = {
       groupedTicketType: payload.seat_type,
       ticketName: payload.ticket_name,
@@ -244,7 +240,7 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
                           defaultValue={String(field.value)}
                         >
                           <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
-                            <SelectValue placeholder="Select venue" />
+                            <SelectValue placeholder="Select" />
                           </SelectTrigger>
                           <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
                             {["Non-seated", "Seated"].map((state, index) => {
@@ -560,9 +556,9 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
           <div className="flex justify-end gap-4 mb-4">
             <div
               onClick={handleReturnToList}
-              className="p-2 rounded flex justify-center items-center bg-[#463B34] w-12 cursor-pointer"
+              className="p-2 rounded flex justify-center items-center bg-[#463B34] cursor-pointer"
             >
-              <IoReturnDownBackOutline size={20} color="#F9B6B1" />
+              <p className="text-white font-pally-regular">Cancel</p>
             </div>
             <Button variant="destructive" type="submit">
               {isPending ? <Spinner /> : `Save Session`}

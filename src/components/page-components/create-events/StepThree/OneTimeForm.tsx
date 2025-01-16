@@ -46,7 +46,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
     saveToDraft,
   } = useCreateEventContext();
   const { data: event, isLoading: loading } = useGetEvent();
-  const [alert, setAlert] = useState<boolean>(true);
+  const [hint, sethint] = useState<boolean>(true);
 
   const form = useForm<OneTimeForm>({
     mode: "all",
@@ -56,8 +56,8 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
         : undefined,
       start_time: event?.data?.oneTimeEvent?.startTime ?? "",
       end_date: event?.data?.oneTimeEvent?.endDate
-      ? new Date(event.data.oneTimeEvent.endDate)
-      : undefined,
+        ? new Date(event.data.oneTimeEvent.endDate)
+        : undefined,
       end_time: event?.data?.oneTimeEvent?.endTime ?? "",
       timezone: event?.data?.oneTimeEvent?.timeZone ?? "",
     },
@@ -91,6 +91,11 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
   });
 
   const onSubmit = useCallback((payload: OneTimeForm) => {
+    if (payload?.start_date > payload?.end_date) {
+      alert("Start date cannot be after the end date");
+      return;
+    }
+
     const data = {
       eventType,
       oneTimeEvent: {
@@ -101,6 +106,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
         endDate: payload?.end_date,
       },
     };
+
     mutate(data);
   }, []);
 
@@ -108,7 +114,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
     <div>
       {loading && <SpinnerOverlay />}
 
-      {alert && (
+      {hint && (
         <div className="my-5 flex justify-between items-center bg-[#FFF1F0] rounded-lg p-1.5">
           <div className="flex items-center gap-3">
             <FiWatch color="#D9302A" size={18} />
@@ -116,7 +122,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
               Start-time and End-time will be recorded and displayed in minutes{" "}
             </p>
           </div>
-          <div className="cursor-pointer" onClick={() => setAlert(false)}>
+          <div className="cursor-pointer" onClick={() => sethint(false)}>
             <MdOutlineClose size={20} color="#000" />
           </div>
         </div>
@@ -306,10 +312,10 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                 variant="outline"
                 className="text-white border-white hover:bg-[#6c5442]"
               >
-                Save Progress
+                Save progress
               </Button>
 
-              <div className="flex items-center gap-8">
+              <div className="flex items-center gap-5 lg:gap-8">
                 <Button
                   onClick={previous}
                   className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"

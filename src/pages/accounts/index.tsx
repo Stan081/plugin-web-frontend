@@ -1,11 +1,19 @@
 import GoBack from "@/components/GoBack";
 import Layout from "@/components/layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getToken } from "@/lib/token";
 import { accountItems } from "@/static-datas/account-data";
 import { Section } from "@/tw-components/Section";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const AccountPage = () => {
+  const token = getToken();
+  const router = useRouter();
+  useEffect(() => {
+    if (token) return;
+    router.push("/login");
+  }, [router, token]);
   return (
     <Layout title="Account settings" showHeader showFooter showSidebar>
       <Section
@@ -20,7 +28,7 @@ const AccountPage = () => {
           className="mt-5 flex flex-col justify-center accountItems-center gap-8 w-full"
           defaultValue={accountItems[0].key}
         >
-          <TabsList className="flex overflow-x-auto gap-8 w-full">
+          <TabsList className="flex overflow-x-auto gap-8 w-full pb-3 lg:pb-0">
             {accountItems.map(({ key, title }, index) => {
               return (
                 <TabsTrigger asChild key={index} value={key}>
