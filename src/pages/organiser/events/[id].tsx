@@ -12,6 +12,10 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { RiArrowLeftSLine } from "react-icons/ri";
+import EventDiscount from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-discount";
+import EventPromotions from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-promotion";
+import EventTicketAgents from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-ticket-agents";
+import EventResolveIssues from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-resolve-issues";
 
 const OrganiserEventDetail = () => {
   const { data: user } = useMe();
@@ -61,6 +65,10 @@ const OrganiserEventDetail = () => {
             {activeEvent === "dashboard" && <EventDetailDashboard />}
             {activeEvent === "attendees" && <EventDetailManagement />}
             {activeEvent === "tickets" && <EventDetailTickets />}
+            {activeEvent === "discount" && <EventDiscount />}
+            {activeEvent === "promotions" && <EventPromotions />}
+            {activeEvent === "ticket_agent" && <EventTicketAgents />}
+            {activeEvent === "resolve_issues" && <EventResolveIssues />}
           </div>
         </div>
 
