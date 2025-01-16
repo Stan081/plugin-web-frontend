@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { RiInformationLine } from "react-icons/ri";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { GoCopy } from "react-icons/go";
@@ -10,10 +10,17 @@ import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 // import SaleTable from "./EventDashboard";
 import EventTicketsStats from "./EventTicketsStats";
+import OrganiserTable from "../../../OrganiserTable";
+import organiserDashboardSalesData from "@/static-datas/organiser-dashboard-sales-data";
+
+const tabLink = [
+  { title: "Recent Sales", key: "recent_sales" },
+  { title: "Sales by ticket type", key: "sales_by_ticket_type" },
+];
 
 const EventDetailDashboard = () => {
   const { toast } = useToast();
-
+  const [activeTab, setActiveTab] = useState<string>("recent_sales");
   const handleCopyLink = async (saveLink: string) => {
     try {
       // Copy the link to the clipboard
@@ -24,6 +31,7 @@ const EventDetailDashboard = () => {
         title: "Link copied to clipboard!",
       });
     } catch (err) {
+      console.log(err);
       toast({
         variant: "destructive",
         title: "Failed to copy link.",
@@ -40,7 +48,7 @@ const EventDetailDashboard = () => {
         </p>
       </div>
 
-      <EventTicketsStats/>
+      <EventTicketsStats />
 
       <ul className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
         <li className="border-2 border-[#C7E2FC] rounded-xl bg-[#F2F8FE] flex items-start gap-6 p-5">
@@ -80,7 +88,10 @@ const EventDetailDashboard = () => {
                     ? sharedLink.slice(0, 30).concat("...")
                     : sharedLink}
                 </p>
-                <div onClick={() => handleCopyLink(sharedLink)} className="cursor-pointer">
+                <div
+                  onClick={() => handleCopyLink(sharedLink)}
+                  className="cursor-pointer"
+                >
                   <GoCopy size={20} color="#D9302A" />
                 </div>
               </div>
@@ -104,7 +115,40 @@ const EventDetailDashboard = () => {
         </li>
       </ul>
 
-      {/* <SaleTable/> */}
+      {/* Organiser Sales Table */}
+      <div className="space-y-5 mt-10">
+        {/* Tabs */}
+        <ul className="mt-6 flex justify-start items-center gap-4 align-baseline">
+          {tabLink.map((tab) => (
+            <li key={tab.key} role="presentation">
+              <button
+                className={`font-pally-regular py-2 px-3 ${
+                  activeTab === tab.key
+                    ? "border border-[#D9302A] text-[#D9302A] bg-[#f3cac9] rounded-xl"
+                    : " text-[#586170]"
+                }`}
+                role="tab"
+                aria-selected={activeTab === tab.key}
+                aria-controls={`panel-${tab.key}`}
+                id={`tab-${tab.key}`}
+                onClick={() => setActiveTab(tab.key)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setActiveTab(tab.key);
+                  }
+                }}
+              >
+                {tab.title}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <OrganiserTable
+          tableHead={["Ticket ID", "Ticket name", "Price", "Date"]}
+          tableBody={organiserDashboardSalesData}
+          type="organiserDashboardSales"
+        />
+      </div>
     </div>
   );
 };

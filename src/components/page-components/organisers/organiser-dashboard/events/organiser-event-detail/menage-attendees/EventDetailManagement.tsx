@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import AttendeeList from "./attendee/AttendeeList";
+import CheckInSummary from "./check-in-summary/CheckInSummary";
+import ReminderEmails from "./reminder-emails/ReminderEmails";
 
 const tabLink = [
   { title: "Attendee list", key: "attendee" },
@@ -45,7 +47,11 @@ const EventDetailManagement = () => {
         aria-labelledby={`tab-${activeTab}`}
         className="mt-6 md:mt-10"
       >
+        
         {activeTab === "attendee" && <AttendeeList />}
+        {activeTab === "summary" && <CheckInSummary />}
+        {activeTab === "reminder_emails" && <ReminderEmails />}
+
       </div>
     </div>
   );
