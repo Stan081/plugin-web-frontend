@@ -14,20 +14,16 @@ const AttendeeList = () => {
       {/* Attendee List Header */}
       <div className="flex justify-between">
         <div className="w-1/2">
-          <AttendeeListEventSearch />
-        </div>
-        <div className="flex items-center gap-[5%]">
           <AttendeeListCTAButton
             icon={<FiFilter size="16" color="#101928" />}
             text="Filter"
           />
+          <AttendeeListEventSearch />
+        </div>
+        <div className="hidden lg:flex items-center gap-[5%]">
           <AttendeeListCTAButton
-            icon={<CiFileOn size="16" color="#101928" />}
-            text="PDF"
-          />
-          <AttendeeListCTAButton
-            icon={<GrGrid size="13" color="#101928" />}
-            text="CSV"
+            icon={<FiFilter size="16" color="#101928" />}
+            text="Filter"
           />
         </div>
       </div>

@@ -15,13 +15,6 @@ const TailoredEvent: React.FC = () => {
 
   const now = new Date();
 
-  const upcomingPublishedData = events?.data.filter((item) => {
-    const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
-    );
-    return item.isPublished === true && startDate > now;
-  });
-
   const UIitems = [
     {
       id: 1,
@@ -185,8 +178,8 @@ const TailoredEvent: React.FC = () => {
               <CardSkeleton/>
             ) : (
               <>
-                {upcomingPublishedData?.length > 0 ? (
-                  upcomingPublishedData.map((card) => (
+                {events?.data?.length > 0 ? (
+                  events?.data?.slice(0,12).map((card) => (
                     <CardComponent key={card._id} card={card} />
                   ))
                 ) : (

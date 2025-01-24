@@ -19,30 +19,14 @@ const PopularEvent = () => {
 
   const now = new Date();
 
-  console.log(events)
+  console.log(events);
 
   const physicalPublishedType = events?.data.filter((item) => {
-    const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
-    );
-
-    return (
-      item.isPublished === true &&
-      item?.locationType === "physical" &&
-      startDate > now
-    );
+    return item?.locationType === "physical";
   });
 
   const onlinePublishedType = events?.data.filter((item) => {
-    const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
-    );
-
-    return (
-      item.isPublished === true &&
-      item?.locationType === "online" &&
-      startDate > now
-    );
+    return item?.locationType === "online";
   });
 
   return (
@@ -102,10 +86,15 @@ const PopularEvent = () => {
                   <CardSkeleton />
                 ) : (
                   <>
-                    {onlinePublishedType?.length > 0 &&
+                    {onlinePublishedType?.length > 0 ? (
                       onlinePublishedType.map((card) => (
                         <CardComponent2 key={card.id} card={card} />
-                      ))}
+                      ))
+                    ) : (
+                      <p className="font-pally-regular text-center">
+                        No online event yet
+                      </p>
+                    )}
                   </>
                 )}
               </>
