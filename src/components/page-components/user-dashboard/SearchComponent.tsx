@@ -36,7 +36,7 @@ const SearchComponent: React.FC<Props> = ({ placeholder }) => {
   const onSubmit = useCallback(async (payload: SavedEvents) => {
     
     console.log(payload);
-    router.push("/");
+    // router.push("/");
   }, []);
   return (
     <Form {...form}>

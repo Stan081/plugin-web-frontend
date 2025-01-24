@@ -11,7 +11,7 @@ interface LogoProps extends ComponentPropsWithRef<"div"> {
 const Logo: FC<LogoProps> = ({ className, white }) => {
   const baseClass = "flex h-16 shrink-0 items-center";
   return (
-    <div className="w-[120px]">
+    <div className="w-[100px] lg:w-[120px]">
       <Link
         href={"/"}
         className={classNames(

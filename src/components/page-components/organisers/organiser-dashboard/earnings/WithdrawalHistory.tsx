@@ -20,13 +20,6 @@ import {
 import { useGetWithdrawalHistory } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalHistory";
 import WithdrawalReceipt from "./WithdrawalReceipt";
 
-interface Transaction {
-  referenceNumber: string;
-  amount: string;
-  status: "Processing" | "Completed";
-  date: string;
-}
-
 const WithdrawalHistory = () => {
   const [pageNum, setPageNum] = useState<number>(1);
 
@@ -57,16 +50,12 @@ const WithdrawalHistory = () => {
   };
 
   const handlePrev = () => {
-    setPageNum((prevNum) => {
-      if (prevNum < 1) {
-        return prevNum;
-      }
-      return prevNum - 1;
-    });
+    setPageNum((prevNum) => Math.max(prevNum - 1, 1))
   };
   const handleNext = () => {
     setPageNum((prevNum) => prevNum + 1);
   };
+
   return (
     <div className="p-6 bg-white rounded-lg shadow-sm w-full">
       <div className="flex justify-between items-center mb-6">
@@ -153,25 +142,10 @@ const WithdrawalHistory = () => {
             {withistory?.meta?.totalPages}
           </p>
           <div className="flex space-x-2">
-            <Button onClick={handlePrev} variant="outline" size="icon">
+            <Button disabled={pageNum <= 1} onClick={handlePrev} variant="outline" size="icon">
               {"<"}
             </Button>
-            {[1, 2, 3, 4].map((page) => (
-              <Button
-                key={page}
-                variant={
-                  page === withistory?.meta?.currentPage ? "default" : "outline"
-                }
-                size="icon"
-                className={
-                  page === withistory?.meta?.currentPage
-                    ? "bg-blue-600 text-white"
-                    : ""
-                }
-              >
-                {page}
-              </Button>
-            ))}
+            
             <Button onClick={handleNext} variant="outline" size="icon">
               {">"}
             </Button>
