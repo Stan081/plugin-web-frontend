@@ -3,8 +3,6 @@ import React from "react";
 import AttendeeListEventSearch from "./AttendeeListEventSearch";
 import AttendeeListCTAButton from "./AttendeeListCTAButton";
 import { FiFilter } from "react-icons/fi";
-import { CiFileOn } from "react-icons/ci";
-import { GrGrid } from "react-icons/gr";
 import OrganiserTable from "../../../../OrganiserTable";
 import attendeeListTableData from "@/static-datas/attendee-list-table-data";
 
