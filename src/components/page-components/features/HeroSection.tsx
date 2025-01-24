@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
   return (
-    <Section className="relative h-[calc(100vh-4rem)] xs:max-md:flex xs:max-md:h-auto xs:max-md:flex-col-reverse w-full bg-[#211913] ">
+    <Section className="relative overflow-hidden lg:h-[calc(100vh-4rem)] xs:max-md:flex xs:max-md:h-auto xs:max-md:flex-col-reverse w-full bg-[#211913] ">
       {/* responsiple for the absolute slant card image */}
       <figure className="relative size-full xs:max-md:w-full xs:max-md:h-[40vh] ">
         <Image

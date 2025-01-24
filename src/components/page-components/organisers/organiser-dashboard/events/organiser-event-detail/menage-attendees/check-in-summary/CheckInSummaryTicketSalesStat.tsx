@@ -25,15 +25,15 @@ const CheckInSummaryTicketSalesStat = () => {
   ];
 
   return (
-    <Section className="flex justify-between gap-5">
+    <Section className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {/* Tickets Sold */}
       {statDetails.map((stat) => {
         return (
           <div
             key={stat.label}
-            className="w-[34%] p-4 border border-[#1019280D] rounded-lg flex items-center gap-5"
+            className="w-full min-w-40 p-4 border border-[#1019280D] rounded-lg flex items-start lg:items-center gap-5"
           >
-            <figure className="relative size-12">
+            <figure className="relative size-9 lg:size-12">
               <Image
                 fill={true}
                 src={stat.icon}
@@ -42,7 +42,7 @@ const CheckInSummaryTicketSalesStat = () => {
               />
             </figure>
             <div>
-              <p className="font-pally-medium text-3xl text-[#101928]">
+              <p className="font-pally-medium text-xl lg:text-3xl text-[#101928]">
                 {stat.count}
               </p>
               <p className="font-pally-medium text-sm text-[#667185]">
