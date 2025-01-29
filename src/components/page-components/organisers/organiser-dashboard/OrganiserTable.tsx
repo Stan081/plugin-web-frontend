@@ -14,15 +14,14 @@ import AttendeeListTableStatusLabel from "./events/organiser-event-detail/menage
 type StatusLabelType = "pending" | "checked-in";
 type AttendeeListTableBodyType = {
   email: string;
-  ticketName: string;
-  checkinQty: string;
+  ticketData: string;
   status: string;
   date: string;
   more: string;
 };
 type OrganiserDashboardSalesTableBodyType = {
   ticketID: string;
-  ticketName: string;
+  ticketData: string;
   price: string;
   date: string;
 };
@@ -35,6 +34,14 @@ type TablePropsType = {
 };
 
 const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
+
+  const formattedDate = (date: any) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
   return (
     <Section>
       <Table className="">
@@ -48,18 +55,15 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
 
         <TableBody>
           {type === "attendeListTable" &&
-            (tableBody as AttendeeListTableBodyType[]).map((tableRow) => {
+            (tableBody as AttendeeListTableBodyType[])?.map((tableRow) => {
               return (
                 <TableRow
-                  key={tableRow.email}
+                  key={tableRow?.date}
                   className="text-[#2C2B2E] font-pally-regular text-base"
                 >
-                  <TableCell>{tableRow.email}</TableCell>
+                  <TableCell>{tableRow?.email}</TableCell>
                   <TableCell>
-                    <OrganiserTableTicketLabel text={tableRow.ticketName} />
-                  </TableCell>
-                  <TableCell>
-                    <p className="whitespace-nowrap ">{tableRow.checkinQty}</p>
+                    <OrganiserTableTicketLabel text={tableRow.ticketData} />
                   </TableCell>
                   <TableCell>
                     <AttendeeListTableStatusLabel
@@ -82,10 +86,10 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
                   >
                     <TableCell>{tableRow.ticketID}</TableCell>
                     <TableCell>
-                      <OrganiserTableTicketLabel text={tableRow.ticketName} />
+                      <OrganiserTableTicketLabel text={tableRow?.ticketData} />
                     </TableCell>
-                    <TableCell>{tableRow.price}</TableCell>
-                    <TableCell>{tableRow.date}</TableCell>
+                    <TableCell>{tableRow?.price}</TableCell>
+                    <TableCell>{formattedDate(tableRow?.date)}</TableCell>
                   </TableRow>
                 );
               }

@@ -28,8 +28,10 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { useEventsContext } from "@/providers/events.provider";
 
 const OrganiserEventDetail = () => {
+  const {setPublishedEventId} = useEventsContext()
   const [isShown, setIsShown] = useState<boolean>(false);
   const { data: user } = useMe();
   const {
@@ -48,6 +50,7 @@ const OrganiserEventDetail = () => {
   const getEventDetail = organiserEvents?.data?.data.find(
     (card) => String(card?._id) === params?.id
   );
+  setPublishedEventId(getEventDetail?._id)
   //   Temporary routing
   if (!getEventDetail) {
     return <h4>Not Found!!</h4>;

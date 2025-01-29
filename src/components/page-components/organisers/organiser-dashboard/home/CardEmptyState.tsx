@@ -18,7 +18,7 @@ const CardEmptyState: FC<Props> = ({ text, isShow }) => {
         width={200}
         height={200}
         alt="calemder"
-        className="w-28 h-28 object-cover pointer-events-none"
+        className="w-24 h-24 object-cover pointer-events-none"
       />
 
       <p className="font-pally-regular text-sm md:text-lg text-[#828994]">

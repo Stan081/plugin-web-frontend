@@ -15,7 +15,7 @@ const EventDetailManagement = () => {
     <div>
       <h2 className="font-pally-medium text-xl">Manage attendees</h2>
 
-      <ul className="mt-6 flex justify-start overflow-x-auto whitespace-nowrap pb-2 items-center gap-4 align-baseline">
+      <ul className="mt-3 flex justify-start overflow-x-auto whitespace-nowrap pb-2 items-center gap-4 align-baseline">
         {tabLink.map((tab) => (
           <li key={tab.key} role="presentation">
             <button
@@ -45,7 +45,7 @@ const EventDetailManagement = () => {
         id={`panel-${activeTab}`}
         role="tabpanel"
         aria-labelledby={`tab-${activeTab}`}
-        className="mt-6 md:mt-10"
+        className="mt-4 md:mt-5"
       >
         {activeTab === "attendee" && <AttendeeList />}
         {activeTab === "summary" && <CheckInSummary />}

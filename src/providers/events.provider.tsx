@@ -21,15 +21,17 @@ type EntryData = {
   name: string;
   price: number;
   quantity: number;
-}
+};
 
 type EventsContextValue = {
   counter: number;
   setCounter: (key: any) => void;
   entryData: EntryData;
   tickets: TicketProps[];
+  publishedEventId: string;
   setTickets: (key: any) => void;
-  setEntryData: (key: EntryData) => void
+  setEntryData: (key: EntryData) => void;
+  setPublishedEventId: (key:string) => void;
 };
 
 const EventsDashContext = createContext<EventsContextValue | null>(null);
@@ -49,6 +51,9 @@ const getCookie = (key: string) => {
 export const EventsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [counter, setCounter] = useState<number>(0);
 
+  // state to hold event Id
+  const [publishedEventId, setPublishedEventId] = useState<string | null>();
+
   const [tickets, setTickets] = useState(() => {
     const savedTickets = getCookie("tickets");
     return Array.isArray(savedTickets) ? savedTickets : [];
@@ -60,9 +65,11 @@ export const EventsProvider: FC<PropsWithChildren> = ({ children }) => {
     counter,
     tickets,
     entryData,
+    publishedEventId,
     setCounter,
     setTickets,
-    setEntryData
+    setEntryData,
+    setPublishedEventId,
   };
   return (
     <EventsDashContext.Provider value={ContextValue}>
