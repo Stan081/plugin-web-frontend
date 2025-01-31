@@ -1,6 +1,6 @@
 import { getCookie } from "../cookies";
 
-export const BASE_URL: string = "https://pluginapi.onrender.com";
+export const BASE_URL: string = process.env.BASE_URL;
 
 export const API_URL: string = `${BASE_URL}/api`;
 

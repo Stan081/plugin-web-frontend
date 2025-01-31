@@ -143,11 +143,11 @@ const EventDetailDashboard = () => {
             </li>
           ))}
         </ul>
-        <OrganiserTable
+        {/* <OrganiserTable
           tableHead={["Ticket ID", "Ticket name", "Price", "Date"]}
           tableBody={organiserDashboardSalesData}
           type="organiserDashboardSales"
-        />
+        /> */}
       </div>
     </div>
   );
