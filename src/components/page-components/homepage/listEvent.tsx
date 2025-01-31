@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Container from "@/tw-components/container";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 const ListEvents = () => {
@@ -14,9 +15,11 @@ const ListEvents = () => {
         or top priorities, making your search much more fun.
       </p>
       <div className="mt-6 flex justify-between items-start">
-        <Button variant="destructive" className="w-[200px] md:w-auto">
-          List an event
-        </Button>
+        <Link href={"/create-event"}>
+          <Button variant="destructive" className="w-[200px] md:w-auto">
+            List an event
+          </Button>
+        </Link>
         <div>
           <Image
             src={"/images/listing-event-illustration.svg"}

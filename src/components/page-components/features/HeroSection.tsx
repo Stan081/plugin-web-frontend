@@ -2,6 +2,7 @@ import React from "react";
 import { Section } from "@/tw-components/Section";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const HeroSection = () => {
   return (
@@ -26,9 +27,15 @@ const HeroSection = () => {
           Web-app
         </p>
         <div className="w-40 xs:max-md:w-28">
-          <Button variant="destructive" size="lg" className="mt-5 w-full py-3">
-            Get Started
-          </Button>
+          <Link href={"/create-event"}>
+            <Button
+              variant="destructive"
+              size="lg"
+              className="mt-5 w-full py-3"
+            >
+              Get Started
+            </Button>
+          </Link>
         </div>
       </div>
     </Section>
