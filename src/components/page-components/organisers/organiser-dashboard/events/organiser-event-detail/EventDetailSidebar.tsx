@@ -30,12 +30,12 @@ export const eventDetailTabLink = [
     icon: HiOutlineViewGrid,
   },
   {
-    title: "Manage attendees",
+    title: "Manage tickets",
     key: "attendees",
     icon: HiOutlineUserGroup,
   },
   {
-    title: "Ticket History",
+    title: "Booking history",
     key: "tickets",
     icon: LuTicket,
   },

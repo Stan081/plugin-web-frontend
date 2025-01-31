@@ -77,7 +77,7 @@ export const OrganiserDashboardProvider: FC<PropsWithChildren> = ({
   const [showDeleteEvent, setShowDeleteEvent] = useState<boolean>(false);
 
   // state for event organiser dashboard
-  const [activeEvent, setActiveEvent] = useState<string>("attendees");
+  const [activeEvent, setActiveEvent] = useState<string>("dashboard");
 
   // state to store clicked campaign
   const [clickedCampaignId, setClickedCampaignId] = useState<number>(null);

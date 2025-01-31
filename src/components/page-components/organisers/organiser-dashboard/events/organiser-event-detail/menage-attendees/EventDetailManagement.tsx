@@ -13,7 +13,7 @@ const EventDetailManagement = () => {
   const [activeTab, setActiveTab] = useState<string>("attendee");
   return (
     <div>
-      <h2 className="font-pally-medium text-xl">Manage attendees</h2>
+      <h2 className="font-pally-medium text-xl">Manage tickets</h2>
 
       <ul className="mt-3 flex justify-start overflow-x-auto whitespace-nowrap pb-2 items-center gap-4 align-baseline">
         {tabLink.map((tab) => (
