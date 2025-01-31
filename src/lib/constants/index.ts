@@ -1,5 +1,8 @@
 import { getCookie } from "../cookies";
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 export const BASE_URL: string = process.env.URL;
 
 export const API_URL: string = `${BASE_URL}/api`;
