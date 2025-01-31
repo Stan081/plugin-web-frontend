@@ -1,8 +1,8 @@
 import { getCookie } from "../cookies";
 
-export const URL: string = process.env.BASE_URL;
+export const BASE_URL: string = process.env.URL;
 
-export const API_URL: string = `${URL}/api`;
+export const API_URL: string = `${BASE_URL}/api`;
 
 export const SIGNUP_URL: string = `${API_URL}/auth/sign-up-one`;
 
