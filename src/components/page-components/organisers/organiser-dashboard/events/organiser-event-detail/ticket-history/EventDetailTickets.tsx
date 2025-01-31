@@ -37,11 +37,11 @@ const EventDetailTickets = () => {
 
       <div>
         <TicketHistoryEmptyState />
-        <OrganiserTable
+        {/* <OrganiserTable
           tableHead={["Ticket ID", "Ticket name", "Price", "Date"]}
           tableBody={organiserDashboardSalesData}
           type="organiserDashboardSales"
-        />
+        /> */}
       </div>
     </div>
   );
