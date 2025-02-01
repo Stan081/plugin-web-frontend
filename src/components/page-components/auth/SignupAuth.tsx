@@ -65,7 +65,6 @@ const SignupAuth = () => {
 
   const onSubmit = useCallback(
     (payload: SignupFields) => {
-      console.log(payload);
 
       setCookie('email', payload.email)
 

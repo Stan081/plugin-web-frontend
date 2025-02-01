@@ -8,10 +8,8 @@ import { setToken } from "@/lib/token";
 import { VerifyLoginCode } from "@/pages/api/mutate/Login";
 import { getCookie, removeCookie } from "@/lib/cookies";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
-import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import Spinner from "@/tw-components/spinner";
 
 const OTPLoginVerification = () => {
@@ -31,12 +29,12 @@ const OTPLoginVerification = () => {
       client.invalidateQueries({ queryKey: ["me"] });
       setShouldRedirect(true);
       router.replace("/");
+      setToken(response?.token);
       toast({
         variant: "success",
         title: "Verified",
         description: `${response?.message}`,
       });
-      setToken(response?.token);
       removeCookie('email')
     },
     onError: (error: any) => {
