@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build:dev": "env-cmd -f .env next build",
+    "build:prod": "env-cmd -f .env next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -46,6 +47,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "embla-carousel-react": "^8.1.7",
+    "env-cmd": "^10.1.0",
     "extract-colors": "^4.1.0",
     "framer-motion": "^11.3.19",
     "google-map-react": "^2.2.1",

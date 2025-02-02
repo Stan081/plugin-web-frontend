@@ -14,7 +14,7 @@ RUN yarn install --frozen-lockfile
 COPY . .
 
 # Build the Next app
-RUN yarn build
+RUN yarn build:prod
 
 # Serve the production build
 CMD ["yarn", "start"]
