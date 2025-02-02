@@ -29,6 +29,7 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import Link from "next/link";
 import { BASE_URL } from "@/lib/constants";
 import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const eventDetailTabLink = [
   {
@@ -145,7 +146,10 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
   };
 
   const totalSold = sales?.data?.reduce((acc, item) => acc + item?.sold, 0);
-  const totalAvailable = sales?.data?.reduce((acc, item) => acc + item?.total, 0);
+  const totalAvailable = sales?.data?.reduce(
+    (acc, item) => acc + item?.total,
+    0
+  );
 
   // Calculate percentage
   const soldPercentage = (totalSold / totalAvailable) * 100;
@@ -230,14 +234,18 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
         <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
           Sale progress
         </p>
-        <div className="flex items-center gap-6">
-          <div className="w-full">
-            <TabProgress value={soldPercentage} max={100} />
+        {isLoading ? (
+          <Skeleton className="h-4 w-full"/>
+        ) : (
+          <div className="flex items-center gap-6">
+            <div className="w-full">
+              <TabProgress value={soldPercentage} max={100} />
+            </div>
+            <p className="text-[#667185] whitespace-nowrap font-pally-regular">
+              {soldPercentage}/{100}
+            </p>
           </div>
-          <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-            {soldPercentage}/{100}
-          </p>
-        </div>
+        )}
       </div>
 
       <ul className="mt-4 block space-y-1.5 m-3">

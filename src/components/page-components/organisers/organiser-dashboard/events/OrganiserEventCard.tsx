@@ -22,11 +22,14 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { BASE_URL } from "@/lib/constants";
+import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
 
 const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
   const { handleShowDeleteEvent, setEventId } = useOrganiserDashContext();
   const { toast } = useToast();
   const [stall, setStall] = useState<boolean>(false);
+
+    const { data: sales } = useGetSalesRecord(event?._id);
 
   const router = useRouter();
 
@@ -88,6 +91,15 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
       router.push("/create-event");
     }, 3000);
   };
+
+  const totalSold = sales?.data?.reduce((acc, item) => acc + item?.sold, 0);
+  const totalAvailable = sales?.data?.reduce(
+    (acc, item) => acc + item?.total,
+    0
+  );
+
+  // Calculate percentage
+  const soldPercentage = (totalSold / totalAvailable) * 100;
 
   return (
     <div className="w-full max-w-sm shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200 p-2.5 lg:p-4  hover:bg-gray-100 transition delay-75 ease-in-out">
@@ -201,10 +213,10 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
             Total sold
           </p>
           <div className=" w-52">
-            <TabProgress value={10} max={100} />
+            <TabProgress value={soldPercentage} max={100} />
           </div>
           <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-            {10}/{100}
+            {soldPercentage}/{100}
           </p>
         </div>
       </div>
