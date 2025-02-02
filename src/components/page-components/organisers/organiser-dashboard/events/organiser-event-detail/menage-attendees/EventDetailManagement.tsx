@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import AttendeeList from "./attendee/AttendeeList";
 import CheckInSummary from "./check-in-summary/CheckInSummary";
 import ReminderEmails from "./reminder-emails/ReminderEmails";
+import EventTickets from "./event-tickets";
 
 const tabLink = [
+  { title: "Tickets", key: "tickets" },
   { title: "Attendee list", key: "attendee" },
   { title: "Check-in summary", key: "summary" },
   { title: "Reminder Emails", key: "reminder_emails" },
 ];
 
 const EventDetailManagement = () => {
-  const [activeTab, setActiveTab] = useState<string>("attendee");
+  const [activeTab, setActiveTab] = useState<string>("tickets");
   return (
     <div>
       <h2 className="font-pally-medium text-xl">Manage tickets</h2>
@@ -47,6 +49,7 @@ const EventDetailManagement = () => {
         aria-labelledby={`tab-${activeTab}`}
         className="mt-4 md:mt-5"
       >
+        {activeTab === "tickets" && <EventTickets />}
         {activeTab === "attendee" && <AttendeeList />}
         {activeTab === "summary" && <CheckInSummary />}
         {activeTab === "reminder_emails" && <ReminderEmails />}

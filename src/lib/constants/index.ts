@@ -61,6 +61,8 @@ export const WITHDRAWAL_HISTORY: string = `${API_URL}/withdrawal/history`;
 
 export const ATTENDEE_LIST: string = `${API_URL}/organizers/events/attendees`;
 
+export const SALES_RECORD: string = `${API_URL}/organizers/events/sales-records`
+
 export const GET_EVENT_BY_ID = (): string => {
   const eventId = getCookie("event_id");
   return `${API_URL}/event/events/${eventId}`;
