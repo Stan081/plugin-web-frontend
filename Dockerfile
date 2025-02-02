@@ -13,7 +13,7 @@ RUN yarn install --frozen-lockfile
 # Copy the app's source code to the container
 COPY . .
 
-ENV NEXT_PUBLIC_BASE_URL='http://localhost:8000'
+ENV NEXT_PUBLIC_BASE_URL='https://test-api.pluginent.com'
 ENV NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="AIzaSyAcp_C3w1_jDg2YZVv86mJ23cq_oPvQj1I"
 # Build the Next app
 RUN yarn build:prod
