@@ -31,3 +31,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4Z
 
 GET https://plugin-api-prod-246343005561.us-central1.run.app/api/event/filter?eventName=Second
 Content-Type: application/json
+
+###
+
+POST  https://test-api.pluginent.com/api/auth/login-step-two
+Content-Type: application/json
+
+{
+  "email": "ehmaessien@gmail.com",
+  "code": "02837",
+}

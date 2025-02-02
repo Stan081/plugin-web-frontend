@@ -26,7 +26,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
   const { data: event } = useGetEvent();
 
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState<string>("");
   // const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [formattedAddress, setFormattedAddress] = useState({
@@ -37,7 +37,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     country: event?.data?.physicalLocation?.country || "",
     postalCode: event?.data?.physicalLocation?.zipcode || "",
   });
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>("");
 
   const { toast } = useToast();
 

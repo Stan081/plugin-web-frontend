@@ -58,7 +58,6 @@ const LoginAuth = () => {
 
   const onSubmit = (payload: LoginFields) => {
     setCookie("email", payload.email);
-    console.log(payload);
     const data = {
       email: payload.email,
     };
