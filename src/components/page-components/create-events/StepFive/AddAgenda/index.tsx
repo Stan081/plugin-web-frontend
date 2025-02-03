@@ -21,7 +21,7 @@ const AddAgenda = () => {
   const { mutate: deleteAgenda, isPending } = useDeleteAgenda();
 
   const [formState, setFormState] = useState<AddAgendaState>(
-    AddAgendaState.CREATE_AGENDA
+    allAgenda?.data?.length !== 0 ? AddAgendaState.VIEW_LIST : AddAgendaState.CREATE_AGENDA
   );
 
   const [selectedAgenda, setSelectedAgenda] = useState<any | undefined>(

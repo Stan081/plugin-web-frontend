@@ -158,7 +158,29 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
           className="flex flex-col justify-between gap-4 w-full h-full"
         >
           <div className="flex flex-col lg:flex-row justify-center items-center lg:items-start gap-8 my-7">
-            <FormItem className="w-48 space-y-3">
+            <div className="lg:hidden flex justify-start items-baseline gap-4">
+              <p className="font-pally-regular text-base md:text-lg">
+                Do you have a Host?
+              </p>
+              <div className="flex flex-wrap gap-4 text-white">
+                {isHostTypes.map(
+                  (type: { id: boolean; name: string }, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setIsHost(!isHost)}
+                      className={`py-0.5 lg:py-2 px-3 lg:px-4 rounded-full border ${
+                        isHost === type.id
+                          ? "bg-white text-black"
+                          : "border-white"
+                      }`}
+                    >
+                      {type.name}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
+            <FormItem className="w-56 space-y-3">
               <FormField
                 control={form.control}
                 name="host_thumbnail"
@@ -231,7 +253,7 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
               </FormLabel>
             </FormItem>
             <div className="w-full">
-              <div className="flex justify-start items-baseline gap-4">
+              <div className="hidden lg:flex justify-start items-baseline gap-4">
                 <p className="font-pally-regular text-base md:text-lg">
                   Do you have a Host?
                 </p>
@@ -241,7 +263,7 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
                       <button
                         key={index}
                         onClick={() => setIsHost(!isHost)}
-                        className={`py-2 px-4 rounded-full border ${
+                        className={`py-0.5 lg:py-2 px-3 lg:px-4 rounded-full border ${
                           isHost === type.id
                             ? "bg-white text-black"
                             : "border-white"
@@ -328,7 +350,7 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
                   />
                 </FormItem>
                 <div className="flex gap-6">
-                  <FormItem>
+                  <FormItem className="w-full lg:w-auto">
                     <FormLabel className="text-white" htmlFor="start_time">
                       Start Time
                     </FormLabel>
@@ -353,7 +375,7 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
                       }}
                     />
                   </FormItem>
-                  <FormItem>
+                  <FormItem className="w-full lg:w-auto">
                     <FormLabel className="text-white" htmlFor="start_time">
                       End Time
                     </FormLabel>
@@ -384,7 +406,11 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
           </div>
 
           <div className="flex justify-end gap-4 mb-4">
-            <Button variant="outline" onClick={handleReturnToList} className="border bg-white">
+            <Button
+              variant="outline"
+              onClick={handleReturnToList}
+              className="border bg-white"
+            >
               Cancel
             </Button>
             <Button type="submit" disabled={isPending} variant="destructive">
