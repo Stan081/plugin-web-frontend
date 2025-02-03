@@ -42,7 +42,7 @@ const StepFive: React.FC = () => {
   const [hydrated, setHydrated] = useState<boolean>(false);
 
   const [isChecked, setIsChecked] = useState<boolean>(
-    eventById?.data?.refundPolicyAgreed ?? false
+    eventById?.data?.refundPolicyAgreed || false
   );
 
   const [changePageContent, setChangePageContent] = useState<PageContentsType>({
