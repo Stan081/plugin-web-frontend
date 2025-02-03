@@ -75,7 +75,6 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
     setActiveEvent,
     setEventId,
     activeEvent,
-    eventId,
   } = useOrganiserDashContext();
 
   const { data: sales, isLoading } = useGetSalesRecord(event?._id);
