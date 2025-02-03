@@ -34,7 +34,6 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzg1MzQ3NDksImV4cCI6MTc0MTEyNjc0OX0.uC7NKOhi50XVnu1W59iec6fZLOFvqXw7PDWgqM9M6xY
 
 
-
 ### Event Filter API
 
 GET https://test-api.pluginent.com/api/organizers/events/sales-records/673dfd297b0bb80e17ab45c6
