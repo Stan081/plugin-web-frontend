@@ -58,6 +58,11 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
               "The returned payment link is invalid. Please try again.",
           });
         }
+      }else {
+        if (response?.data?.statusCode === 200){
+          router.replace('/payment-successful')
+        }
+        
       }
     },
     onError: (error: any) => {

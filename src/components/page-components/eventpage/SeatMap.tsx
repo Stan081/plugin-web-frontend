@@ -1,8 +1,18 @@
 import Image from "next/image";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 
 const SeatMap: FC<{ groupedTicket: any[] }> = ({ groupedTicket }) => {
-  const [isActive, setIsActive] = useState<string>(groupedTicket?.[0]?._id);
+  const activeGroup = useMemo(() => {
+    const filt = groupedTicket?.filter((item) => item?.seatMap);
+    return filt;
+  }, [groupedTicket]);
+  const [isActive, setIsActive] = useState<string>(activeGroup?.[0]?._id);
+
+  useEffect(() => {
+    if (activeGroup.length > 0) {
+      setIsActive(activeGroup[0]._id);
+    }
+  }, [activeGroup]);
 
   const map = groupedTicket?.find((item) => {
     return item?._id === isActive;
@@ -11,35 +21,37 @@ const SeatMap: FC<{ groupedTicket: any[] }> = ({ groupedTicket }) => {
   return (
     <div>
       <ul className="flex justify-start items-center gap-4 align-baseline">
-        {groupedTicket?.map((tab) => (
-          <li key={tab?._id} role="presentation">
-            <button
-              className={`border flex gap-2 items-center py-1 px-2 md:py-2 md:px-3 rounded-3xl ${
-                isActive === tab?._id
-                  ? "border-2 border-black text-black"
-                  : "border-[#586170] text-[#586170]"
-              }`}
-              role="tab"
-              aria-selected={isActive === tab?._id}
-              aria-controls={`panel-${tab?.ticketName}`}
-              id={`tab-${tab?.ticketName}`}
-              onClick={() => setIsActive(tab?._id)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  setIsActive(tab?._id);
-                }
-              }}
-            >
-              {tab?.color && (
-                <span
-                  style={{ backgroundColor: tab?.color }}
-                  className="w-4 h-4 rounded-full"
-                />
-              )}
-              {tab?.ticketName}
-            </button>
-          </li>
-        ))}
+        {groupedTicket
+          ?.filter((tab) => tab?.seatMap)
+          ?.map((tab) => (
+            <li key={tab?._id} role="presentation">
+              <button
+                className={`border flex gap-2 items-center py-1 px-2 md:py-2 md:px-3 rounded-3xl ${
+                  isActive === tab?._id
+                    ? "border-2 border-black text-black"
+                    : "border-[#586170] text-[#586170]"
+                }`}
+                role="tab"
+                aria-selected={isActive === tab?._id}
+                aria-controls={`panel-${tab?.ticketName}`}
+                id={`tab-${tab?.ticketName}`}
+                onClick={() => setIsActive(tab?._id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setIsActive(tab?._id);
+                  }
+                }}
+              >
+                {tab?.color && (
+                  <span
+                    style={{ backgroundColor: tab?.color }}
+                    className="w-4 h-4 rounded-full"
+                  />
+                )}
+                {tab?.ticketName}
+              </button>
+            </li>
+          ))}
       </ul>
 
       <div
