@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/popover";
 import { useToast } from "@/components/ui/use-toast";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import {
   HiOutlineSpeakerphone,
@@ -22,6 +22,14 @@ import { MdOutlineHeadsetMic } from "react-icons/md";
 import { BsQuestionCircle } from "react-icons/bs";
 import Image from "next/image";
 import { TabProgress } from "../../home/TabProgress";
+import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
+import { setCookie } from "@/lib/cookies";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import Link from "next/link";
+import { BASE_URL } from "@/lib/constants";
+import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const eventDetailTabLink = [
   {
@@ -39,34 +47,43 @@ export const eventDetailTabLink = [
     key: "tickets",
     icon: LuTicket,
   },
-  {
-    title: "Discount Codes",
-    key: "discount",
-    icon: RiDiscountPercentLine,
-  },
-  {
-    title: "Promotions",
-    key: "promotions",
-    icon: HiOutlineSpeakerphone,
-  },
-  {
-    title: "Ticket Agents",
-    key: "ticket_agent",
-    icon: MdOutlineHeadsetMic,
-  },
-  {
-    title: "Resolve Issues",
-    key: "resolve_issues",
-    icon: BsQuestionCircle,
-  },
+  // {
+  //   title: "Discount Codes",
+  //   key: "discount",
+  //   icon: RiDiscountPercentLine,
+  // },
+  // {
+  //   title: "Promotions",
+  //   key: "promotions",
+  //   icon: HiOutlineSpeakerphone,
+  // },
+  // {
+  //   title: "Ticket Agents",
+  //   key: "ticket_agent",
+  //   icon: MdOutlineHeadsetMic,
+  // },
+  // {
+  //   title: "Resolve Issues",
+  //   key: "resolve_issues",
+  //   icon: BsQuestionCircle,
+  // },
 ];
 
 const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
   const {
     handleShowDeleteEvent,
     setActiveEvent,
+    setEventId,
     activeEvent,
   } = useOrganiserDashContext();
+
+  const { data: sales, isLoading } = useGetSalesRecord(event?._id);
+
+  const [stall, setStall] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  const client = useQueryClient();
 
   const startDate: string =
     event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
@@ -116,8 +133,29 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
       });
     }
   };
+
+  const handleEditEvent = () => {
+    setCookie("event_id", event?._id);
+    client.invalidateQueries({ queryKey: ["eventById"] });
+    setStall(true);
+    setTimeout(() => {
+      setStall(false);
+      router.push("/create-event");
+    }, 3000);
+  };
+
+  const totalSold = sales?.data?.reduce((acc, item) => acc + item?.sold, 0);
+  const totalAvailable = sales?.data?.reduce(
+    (acc, item) => acc + item?.total,
+    0
+  );
+
+  // Calculate percentage
+  const soldPercentage = (totalSold / totalAvailable) * 100;
+
   return (
     <div className="shadow-md border rounded-xl">
+      {stall && <SpinnerOverlay />}
       <div className="flex justify-between items-center w-full p-4">
         <p className="bg-[#2F80ED] text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
           {event?.isPublished ? " Published" : "pending"}
@@ -129,26 +167,27 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
             </div>
           </PopoverTrigger>
           <PopoverContent className="w-48 bg-white rounded-xl p-3">
-            <div className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm">
+            <div
+              onClick={handleEditEvent}
+              className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
+            >
               <FiEdit2 size={18} color="#667185" />
               Edit
             </div>
-            <div className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm">
+            {/* <div className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm">
               <HiOutlineSpeakerphone size={18} color="#667185" />
               Promote event
-            </div>
-            <div
-              // onClick={handlePreviewEvent}
+            </div> */}
+            <Link
+              href={`/explore-events/${event?._id}`}
               className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
             >
               <MdOutlineRemoveRedEye size={18} color="#667185" />
               Preview
-            </div>
+            </Link>
             <div
               onClick={() =>
-                handleCopyLink(
-                  `http://localhost:3000/organiser/events/${event?._id}`
-                )
+                handleCopyLink(`${BASE_URL}/organiser/events/${event?._id}`)
               }
               className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
             >
@@ -156,7 +195,10 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
               Copy link
             </div>
             <div
-              onClick={handleShowDeleteEvent}
+              onClick={() => {
+                handleShowDeleteEvent();
+                setEventId(event?._id);
+              }}
               className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
             >
               <HiOutlineTrash size={18} color="#667185" />
@@ -191,14 +233,18 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
         <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
           Sale progress
         </p>
-        <div className="flex items-center gap-6">
-          <div className="w-full">
-            <TabProgress value={10} max={100} />
+        {isLoading ? (
+          <Skeleton className="h-4 w-full"/>
+        ) : (
+          <div className="flex items-center gap-6">
+            <div className="w-full">
+              <TabProgress value={soldPercentage} max={100} />
+            </div>
+            <p className="text-[#667185] whitespace-nowrap font-pally-regular">
+              {soldPercentage}/{100}
+            </p>
           </div>
-          <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-            {10}/{100}
-          </p>
-        </div>
+        )}
       </div>
 
       <ul className="mt-4 block space-y-1.5 m-3">

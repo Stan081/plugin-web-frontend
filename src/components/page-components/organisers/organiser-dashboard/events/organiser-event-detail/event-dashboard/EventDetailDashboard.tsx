@@ -12,6 +12,9 @@ import { FaXTwitter } from "react-icons/fa6";
 import EventTicketsStats from "./EventTicketsStats";
 import OrganiserTable from "../../../OrganiserTable";
 import organiserDashboardSalesData from "@/static-datas/organiser-dashboard-sales-data";
+import { useEventsContext } from "@/providers/events.provider";
+import { BASE_URL } from "@/lib/constants";
+import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
 
 const tabLink = [
   { title: "Recent Sales", key: "recent_sales" },
@@ -19,8 +22,8 @@ const tabLink = [
 ];
 
 const EventDetailDashboard = () => {
-  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<string>("recent_sales");
+  const { toast } = useToast();
   const handleCopyLink = async (saveLink: string) => {
     try {
       // Copy the link to the clipboard
@@ -38,7 +41,8 @@ const EventDetailDashboard = () => {
       });
     }
   };
-  const sharedLink: string = "http://localhost:3000/organiser/events/2";
+  const sharedLink: string = `${BASE_URL}/organiser/events/2`;
+
   return (
     <div>
       <div className="flex justify-between">

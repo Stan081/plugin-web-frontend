@@ -17,7 +17,7 @@ const AttendeeList = () => {
   return (
     <Section className="space-y-5">
       {/* Attendee List Header */}
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <div className="w-full lg:w-1/2 flex justify-between">
           <div className="lg:hidden flex">
             <AttendeeListCTAButton
@@ -33,7 +33,7 @@ const AttendeeList = () => {
             text="Filter"
           />
         </div>
-      </div>
+      </div> */}
 
       {/* Attendee List Table */}
       <div>

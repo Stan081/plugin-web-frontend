@@ -23,8 +23,8 @@ const AgendaSlot: FC<AgendaSlotProps> = ({
       {alert && (
         <div className="my-5 flex justify-between items-center bg-[#fae4e2] rounded-lg p-1.5">
           <div className="flex items-center gap-3">
-            <FiWatch color="#D9302A" size={18} />
-            <p className="text-[#101928] font-pally-regular text-sm">
+            <FiWatch color="#D9302A" size={22} />
+            <p className="text-[#101928] font-pally-regular text-xs lg:text-sm">
               Start-time and End-time will be recorded and displayed in minutes{" "}
             </p>
           </div>

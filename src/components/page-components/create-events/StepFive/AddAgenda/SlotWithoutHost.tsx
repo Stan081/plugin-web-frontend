@@ -102,7 +102,7 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({ handleReturnToList }) => {
                     <button
                       key={index}
                       onClick={() => setIsHost(!isHost)}
-                      className={`py-2 px-4 rounded-full border ${
+                      className={`py-0.5 lg:py-2 px-3 lg:px-4 rounded-full border ${
                         isHost === type.id
                           ? "bg-white text-black"
                           : "border-white"
@@ -161,8 +161,8 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({ handleReturnToList }) => {
                   )}
                 />
               </FormItem>
-              <div className="flex gap-6">
-                <FormItem>
+              <div className="flex gap-6 w-full">
+                <FormItem className="w-full lg:w-auto">
                   <FormLabel className="text-white" htmlFor="start_time">
                     Start Time
                   </FormLabel>
@@ -177,7 +177,7 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({ handleReturnToList }) => {
                               placeholder="0:00"
                               type="time"
                               id="start_time"
-                              className="bg-white text-black font-pally-regular"
+                              className="bg-white text-black font-pally-regular w-full"
                               {...field}
                             />
                           </FormControl>
@@ -187,8 +187,8 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({ handleReturnToList }) => {
                     }}
                   />
                 </FormItem>
-                <FormItem>
-                  <FormLabel className="text-white" htmlFor="start_time">
+                <FormItem className="w-full lg:w-auto">
+                  <FormLabel className="text-white" htmlFor="start_end">
                     End Time
                   </FormLabel>
                   <FormField
@@ -202,7 +202,7 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({ handleReturnToList }) => {
                               placeholder="0:00"
                               type="time"
                               id="start_time"
-                              className="bg-white text-black font-pally-regular"
+                              className="bg-white w-full text-black font-pally-regular"
                               {...field}
                             />
                           </FormControl>
@@ -215,7 +215,7 @@ const SlotWithoutHost: FC<SlotWithoutHostProps> = ({ handleReturnToList }) => {
               </div>
             </div>
           </div>
-          <div className="flex justify-end gap-4 mb-4">
+          <div className="flex justify-end gap-4 my-4">
             <Button
               variant="outline"
               onClick={handleReturnToList}
