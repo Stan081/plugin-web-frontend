@@ -11,15 +11,15 @@ import { exlporeEventsbreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { useParams } from "next/navigation";
-import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { getCookie, removeCookie } from "@/lib/cookies";
 import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
+import { useGetEventById } from "@/hooks/events/useGetEventById";
 
 const ExploreEventDetailPage = () => {
-  const { data: events, isLoading } = useGetAllEvents();
   const param = useParams<{ id: string }>();
-  const cardId = events?.data.find((card) => card?._id === param?.id);
+  const { data: events, isLoading } = useGetEventById(param?.id);
+  const cardId = events?.data;
 
   useEffect(() => {
     if (getCookie("tickets") || getCookie("entryTicket"))
