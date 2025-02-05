@@ -15,6 +15,7 @@ import organiserDashboardSalesData from "@/static-datas/organiser-dashboard-sale
 import { useEventsContext } from "@/providers/events.provider";
 import { BASE_URL } from "@/lib/constants";
 import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
+import { useFilteredAttendeeList } from "@/hooks/events/useFilterAttendeeList";
 
 const tabLink = [
   { title: "Recent Sales", key: "recent_sales" },
@@ -24,6 +25,8 @@ const tabLink = [
 const EventDetailDashboard = () => {
   const [activeTab, setActiveTab] = useState<string>("recent_sales");
   const { toast } = useToast();
+    const { publishedEventId } = useEventsContext();
+    const { data: attendeeListData } = useFilteredAttendeeList(publishedEventId);
   const handleCopyLink = async (saveLink: string) => {
     try {
       // Copy the link to the clipboard
@@ -147,11 +150,11 @@ const EventDetailDashboard = () => {
             </li>
           ))}
         </ul>
-        {/* <OrganiserTable
-          tableHead={["Ticket ID", "Ticket name", "Price", "Date"]}
-          tableBody={organiserDashboardSalesData}
+        <OrganiserTable
+          tableHead={["Ticket name", "Price", "Date"]}
+          tableBody={attendeeListData?.data}
           type="organiserDashboardSales"
-        /> */}
+        />
       </div>
     </div>
   );

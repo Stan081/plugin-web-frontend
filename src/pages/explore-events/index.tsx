@@ -49,6 +49,8 @@ const ExploreEventsPage = () => {
     setIsGridView((prevView) => !prevView);
   };
 
+  console.log(events)
+
   const handleRefresh = () => {
     setFilters({
       minPrice: null,

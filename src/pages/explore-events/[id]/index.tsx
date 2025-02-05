@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
 import AboutEventDetail from "@/components/page-components/eventpage/AboutEventDetail";
@@ -15,9 +15,14 @@ import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { getCookie, removeCookie } from "@/lib/cookies";
 import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
+import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
 
 const ExploreEventDetailPage = () => {
-  const { data: events, isLoading } = useGetAllEvents();
+  // const { data: events, isLoading } = useGetAllEvents();
+  const [filters] = useState({
+    eventName: "",
+  });
+  const { data: events, isLoading, isError } = useFilteredEvents(filters);
   const param = useParams<{ id: string }>();
   const cardId = events?.data.find((card) => card?._id === param?.id);
 
@@ -31,9 +36,6 @@ const ExploreEventDetailPage = () => {
     return <SpinnerOverlay />;
   }
 
-  if (!cardId) {
-    return <p>Event not found</p>;
-  }
   return (
     <Layout title={cardId?.eventName} showHeader showFooter>
       {isLoading ? (
@@ -69,6 +71,3 @@ const ExploreEventDetailPage = () => {
 };
 
 export default ExploreEventDetailPage;
-
-
-

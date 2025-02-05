@@ -77,7 +77,7 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
             })}
 
           {type === "organiserDashboardSales" &&
-            (tableBody as OrganiserDashboardSalesTableBodyType[]).map(
+            (tableBody as OrganiserDashboardSalesTableBodyType[])?.map(
               (tableRow) => {
                 return (
                   <TableRow

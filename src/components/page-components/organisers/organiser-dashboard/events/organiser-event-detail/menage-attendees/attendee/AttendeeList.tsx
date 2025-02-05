@@ -55,7 +55,7 @@ const AttendeeList = () => {
               />
 
               <p className="font-pally-regular text-sm md:text-lg text-[#828994]">
-                No transaction yet
+                No Attendee yet
               </p>
             </div>
           </>

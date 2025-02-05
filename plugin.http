@@ -1,41 +1,8 @@
 
-### initiate withdrawal
-POST https://pluginapi.onrender.com/api/withdrawal
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzg1MzQ3NDksImV4cCI6MTc0MTEyNjc0OX0.uC7NKOhi50XVnu1W59iec6fZLOFvqXw7PDWgqM9M6xY
-
-{
-  "amount": 500
-}
-
-### initiate withdrawal
-POST https://pluginapi.onrender.com/api/withdrawal/verify
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzg1MzQ3NDksImV4cCI6MTc0MTEyNjc0OX0.uC7NKOhi50XVnu1W59iec6fZLOFvqXw7PDWgqM9M6xY
-
-{
-  "otp": 93860
-}
-
-### get withdrawal history with pagination
-GET https://pluginapi.onrender.com/api/withdrawal/history?page=1
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzg1MzQ3NDksImV4cCI6MTc0MTEyNjc0OX0.uC7NKOhi50XVnu1W59iec6fZLOFvqXw7PDWgqM9M6xY
-
-### get withdrawal statistics
-GET https://pluginapi.onrender.com/api/withdrawal/statistics
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzg1MzQ3NDksImV4cCI6MTc0MTEyNjc0OX0.uC7NKOhi50XVnu1W59iec6fZLOFvqXw7PDWgqM9M6xY
-
-### Event Filter API
-
-GET https://plugin-api-prod-246343005561.us-central1.run.app/api/event/filter?eventName=Second
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzg1MzQ3NDksImV4cCI6MTc0MTEyNjc0OX0.uC7NKOhi50XVnu1W59iec6fZLOFvqXw7PDWgqM9M6xY
 
 
 ### Event Filter API
 
-GET https://test-api.pluginent.com/api/organizers/events/sales-records/673dfd297b0bb80e17ab45c6
+GET https://test-api.pluginent.com/api/organizers/events/attendees/6743228014b2df3835103b22
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzg1MzQ3NDksImV4cCI6MTc0MTEyNjc0OX0.uC7NKOhi50XVnu1W59iec6fZLOFvqXw7PDWgqM9M6xY
