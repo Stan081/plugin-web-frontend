@@ -13,7 +13,6 @@ import { useParams } from "next/navigation";
 import React, { useState } from "react";
 
 const CheckoutEvent = () => {
-  // const { data: events, isLoading } = useGetAllEvents();
   const [filters] = useState({
     eventName: "",
   });
@@ -21,8 +20,14 @@ const CheckoutEvent = () => {
   const param = useParams<{ id: string }>();
   const checkCardId = events?.data.find((card) => card?._id === param?.id);
 
-  if (!checkCardId) {
-    return <p>Page not found</p>;
+  if (!checkCardId || isError) {
+    return (
+      <Layout title="Page not found" showFooter showHeader>
+        <p className="font-medium text-lg text-center my-5">
+          {isError ? "An error occured" : "Page not found"}
+        </p>
+      </Layout>
+    );
   }
 
   if (isLoading) return <SpinnerOverlay />;

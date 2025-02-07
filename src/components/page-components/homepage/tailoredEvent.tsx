@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Container from "@/tw-components/container";
@@ -9,11 +9,13 @@ import CardComponent from "@/components/CardComponent";
 import Link from "next/link";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
+import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
 
 const TailoredEvent: React.FC = () => {
-  const { data: events, isLoading } = useGetAllEvents();
-
-  const now = new Date();
+  const [filters] = useState({
+    eventName: "",
+  });
+  const { data: events, isLoading, isError } = useFilteredEvents(filters);
 
   const UIitems = [
     {
@@ -105,17 +107,13 @@ const TailoredEvent: React.FC = () => {
             Our user-friendly software selects event listings based on your
             location or top priorities, making your search much more fun.
           </p>
-          <Link href={'/explore-events'} className="mx-auto">
+          <Link href={"/explore-events"} className="mx-auto">
             <Button variant="outline">Explore events</Button>
           </Link>
         </div>
       </Container>
     );
   };
-
-  if (isLoading) {
-    <p>loading...</p>;
-  }
 
   return (
     <Section id="our-tailored-events" className="isolate p-0">
@@ -171,24 +169,28 @@ const TailoredEvent: React.FC = () => {
         <EventMobile />
 
         {/* Upcoming events component */}
-        <Container className="mt-20 md:mt-40 overflow-auto px-4 md:px-0">
-          <h2 className="text-3xl font-pally-medium mb-6">Upcoming Events</h2>
-          <div className="flex lg:flex-row gap-4 lg:gap-6 overflow-x-auto scroll-smooth whitespace-nowrap w-full pb-8">
-            {isLoading ? (
-              <CardSkeleton/>
-            ) : (
-              <>
-                {events?.data?.length > 0 ? (
-                  events?.data?.slice(0,12).map((card) => (
-                    <CardComponent key={card._id} card={card} />
-                  ))
-                ) : (
-                  <p>No published data</p>
-                )}
-              </>
-            )}
-          </div>
-        </Container>
+        {events?.data?.length !== 0 && (
+          <Container className="mt-20 md:mt-40 overflow-auto px-4 md:px-0">
+            <h2 className="text-3xl font-pally-medium mb-6">Upcoming Events</h2>
+            <div className="flex lg:flex-row gap-4 lg:gap-6 overflow-x-auto scroll-smooth whitespace-nowrap w-full pb-8">
+              {isLoading ? (
+                <CardSkeleton />
+              ) : (
+                <>
+                  {events?.data?.length > 0 ? (
+                    events?.data
+                      ?.slice(0, 12)
+                      .map((card) => (
+                        <CardComponent key={card._id} card={card} />
+                      ))
+                  ) : (
+                    <p>No published data</p>
+                  )}
+                </>
+              )}
+            </div>
+          </Container>
+        )}
       </div>
     </Section>
   );

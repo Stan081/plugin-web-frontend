@@ -18,7 +18,6 @@ import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
 import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
 
 const ExploreEventDetailPage = () => {
-  // const { data: events, isLoading } = useGetAllEvents();
   const [filters] = useState({
     eventName: "",
   });
@@ -34,6 +33,10 @@ const ExploreEventDetailPage = () => {
 
   if (isLoading) {
     return <SpinnerOverlay />;
+  }
+
+  if(isError) {
+    return <p>An error occured</p>
   }
 
   return (

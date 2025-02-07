@@ -1,6 +1,7 @@
 "use client";
 
 import CardComponent2 from "@/components/CardComponent2";
+import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
 import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
@@ -14,12 +15,10 @@ const tabLink = [
 
 const PopularEvent = () => {
   const [isActive, setIsActive] = useState<string>("physical");
-
-  const { data: events, isLoading } = useGetAllEvents();
-
-  const now = new Date();
-
-  console.log(events);
+  const [filters] = useState({
+    eventName: "",
+  });
+  const { data: events, isLoading, isError } = useFilteredEvents(filters);
 
   const physicalPublishedType = events?.data.filter((item) => {
     return item?.locationType === "physical";
