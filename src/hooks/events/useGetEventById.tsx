@@ -2,7 +2,7 @@ import { GET_EVENT_BY_ID } from "@/lib/constants";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const useGetEventById = () => {
+export const useGetEventById = (eventId : string) => {
 
   const options = {
     headers: {
@@ -14,7 +14,7 @@ export const useGetEventById = () => {
     queryKey: ["eventID"],
     queryFn: () =>
       axios
-        .get(GET_EVENT_BY_ID(), options)
+        .get(`${GET_EVENT_BY_ID}/${eventId}`, options)
         .then((res) => res?.data)
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling

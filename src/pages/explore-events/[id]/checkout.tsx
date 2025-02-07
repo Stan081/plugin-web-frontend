@@ -3,8 +3,7 @@ import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
 import CheckoutContactInfo from "@/components/page-components/eventpage/checkout/CheckoutContactInfo";
 import CheckoutSummary from "@/components/page-components/eventpage/checkout/CheckoutSummary";
-import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
-import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
+import { useGetEventById } from "@/hooks/events/useGetEventById";
 import { checkoutBreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
@@ -13,12 +12,9 @@ import { useParams } from "next/navigation";
 import React, { useState } from "react";
 
 const CheckoutEvent = () => {
-  const [filters] = useState({
-    eventName: "",
-  });
-  const { data: events, isLoading, isError } = useFilteredEvents(filters);
   const param = useParams<{ id: string }>();
-  const checkCardId = events?.data.find((card) => card?._id === param?.id);
+  const { data: events, isLoading, isError } = useGetEventById(param?.id);
+  const checkCardId = events?.data;
 
   if (!checkCardId || isError) {
     return (

@@ -11,19 +11,16 @@ import { exlporeEventsbreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { useParams } from "next/navigation";
-import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { getCookie, removeCookie } from "@/lib/cookies";
-import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
+import TicketCTA from "@/components/page-components/eventpage/TicketCTA"
 import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
+import { useGetEventById } from "@/hooks/events/useGetEventById";
 
 const ExploreEventDetailPage = () => {
-  const [filters] = useState({
-    eventName: "",
-  });
-  const { data: events, isLoading, isError } = useFilteredEvents(filters);
   const param = useParams<{ id: string }>();
-  const cardId = events?.data.find((card) => card?._id === param?.id);
+  const { data: events, isLoading, isError } = useGetEventById(param?.id);
+  const cardId = events?.data;
 
   useEffect(() => {
     if (getCookie("tickets") || getCookie("entryTicket"))
