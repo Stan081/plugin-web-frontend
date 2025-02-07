@@ -3,7 +3,7 @@ import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
 import CheckoutContactInfo from "@/components/page-components/eventpage/checkout/CheckoutContactInfo";
 import CheckoutSummary from "@/components/page-components/eventpage/checkout/CheckoutSummary";
-import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
+import { useGetEventById } from "@/hooks/events/useGetEventById";
 import { checkoutBreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
@@ -12,9 +12,9 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 const CheckoutEvent = () => {
-  const { data: events, isLoading } = useGetAllEvents();
   const param = useParams<{ id: string }>();
-  const checkCardId = events?.data.find((card) => card?._id === param?.id);
+  const { data: events, isLoading } = useGetEventById(param?.id);
+  const checkCardId = events?.data;
 
   if (!checkCardId) {
     return <p>Page not found</p>;
