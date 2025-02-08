@@ -11,14 +11,14 @@ const OrganiserEvents: FC<{ orgId: string }> = ({ orgId }) => {
 
   const now = new Date();
 
-  const upcomingEvents = organiserEvents?.data?.data.filter((item) => {
+  const upcomingEvents = organiserEvents?.filter((item) => {
     const startDate = new Date(
       item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
     );
     return item.isPublished === true && startDate > now;
   });
 
-  const pastEvents = organiserEvents?.data?.data.filter((item) => {
+  const pastEvents = organiserEvents?.filter((item) => {
     const endDate = new Date(
       item?.oneTimeEvent?.endDate || item?.recurringEvent?.endDate
     );
