@@ -49,7 +49,7 @@ export default function AddressSearch() {
       components.find((component) => component.types.includes(type)) || {};
 
     const addressDetails = {
-      address: result.formatted_address || address,
+      address: result.formatted_address ?? address,
       city: getComponent("locality").long_name || "",
       state: getComponent("administrative_area_level_1").long_name || "",
       country: getComponent("country").long_name || "",
