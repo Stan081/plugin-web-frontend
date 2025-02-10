@@ -39,10 +39,10 @@ const PublishComponent: FC = () => {
     defaultValues: {
       event_visibility: selectedVisibility,
       publishWhen: checkSchedule === "now" ? true : false,
-      schedulePublish: {
-        start_date: new Date(),
-        start_time: "",
-      },
+      // schedulePublish: {
+      //   start_date: new Date(),
+      //   start_time: "",
+      // },
     },
     resolver: yupResolver(PublishFormSchema),
   });
@@ -55,7 +55,7 @@ const PublishComponent: FC = () => {
 
   const client = useQueryClient();
 
-  const publishWhen = form.watch("publishWhen");
+  // const publishWhen = form.watch("publishWhen");
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => EventPublish(data),
@@ -63,13 +63,15 @@ const PublishComponent: FC = () => {
       if (response?.message) {
         toast({
           variant: "success",
-          title: publishWhen
-            ? "Event has been published"
-            : "Event has been schedule",
+          // title: publishWhen
+          //   ? "Event has been published"
+          //   : "Event has been schedule",
           description: `${response?.message}`,
         });
         client.invalidateQueries({ queryKey: ["organiserEvents"] });
-        setShowModal(!showModal);
+        setTimeout(() => {
+          setShowModal(!showModal);
+        }, 4000)
       }
     },
     onError: (error: any) => {
@@ -85,31 +87,39 @@ const PublishComponent: FC = () => {
     if (!userData?.data?.isOrganizer) {
       return setShowProfile(!showProfile);
     }
-    if (payload?.publishWhen === true) {
-      const data = {
-        isPublished: payload.publishWhen,
-        publishStatus: payload?.event_visibility,
-      };
-      mutate(data);
-    } else {
-      const data = {
-        isPublished: payload.publishWhen,
-        publishStatus: payload?.event_visibility,
-        eventSchedule: {
-          startDate: payload?.schedulePublish.start_date,
-          startTime: payload?.schedulePublish.start_time,
-        },
-      };
-      mutate(data);
-    }
+
+    const data = {
+      isPublished: payload.publishWhen,
+      publishStatus: payload?.event_visibility,
+    };
+
+    // mutate(data);
+
+    // if (payload?.publishWhen === true) {
+    //   const data = {
+    //     isPublished: payload.publishWhen,
+    //     publishStatus: payload?.event_visibility,
+    //   };
+    //   mutate(data);
+    // } else {
+    //   const data = {
+    //     isPublished: payload.publishWhen,
+    //     publishStatus: payload?.event_visibility,
+    //     eventSchedule: {
+    //       startDate: payload?.schedulePublish.start_date,
+    //       startTime: payload?.schedulePublish.start_time,
+    //     },
+    //   };
+    //   mutate(data);
+    // }
   };
 
   return (
     <div>
-        <CongratulationModal
-          open={showModal}
-          close={() => setShowModal(!showModal)}
-        />
+      <CongratulationModal
+        open={showModal}
+        close={() => setShowModal(!showModal)}
+      />
 
       {showProfile && (
         <ProfileFormModal
@@ -175,7 +185,7 @@ const PublishComponent: FC = () => {
               />
             </FormItem>
 
-            <FormItem>
+            {/* <FormItem>
               <FormField
                 control={form.control}
                 name="publishWhen"
@@ -215,9 +225,9 @@ const PublishComponent: FC = () => {
                   </FormItem>
                 )}
               />
-            </FormItem>
+            </FormItem> */}
 
-            {!publishWhen && (
+            {/* {!publishWhen && (
               <div className="flex items-start gap-4">
                 <FormItem className="w-full">
                   <FormLabel className="text-white" htmlFor="start_date">
@@ -276,7 +286,7 @@ const PublishComponent: FC = () => {
                   />
                 </FormItem>
               </div>
-            )}
+            )} */}
           </div>
 
           <div className="sdsticky bottom-0 bg-[#281E17]">

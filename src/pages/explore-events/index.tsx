@@ -49,7 +49,7 @@ const ExploreEventsPage = () => {
     setIsGridView((prevView) => !prevView);
   };
 
-  console.log(events)
+  console.log(events);
 
   const handleRefresh = () => {
     setFilters({
@@ -183,7 +183,7 @@ const ExploreEventsPage = () => {
             <div className="flex justify-end gap-10 items-center whitespace-nowrap w-full overflow-x-auto pb-4 mt-6">
               <p className="text-sm text-gray-600">
                 Page {events?.pagination?.currentPage} of{" "}
-                1
+                {events?.pagination?.totalPages}
               </p>
               <div className="flex space-x-2">
                 <Button
@@ -195,7 +195,15 @@ const ExploreEventsPage = () => {
                   {"<"}
                 </Button>
 
-                <Button onClick={incrementPage} variant="outline" size="icon">
+                <Button
+                  disabled={
+                    events?.pagination?.currentPage ===
+                    events?.pagination?.totalPages
+                  }
+                  onClick={incrementPage}
+                  variant="outline"
+                  size="icon"
+                >
                   {">"}
                 </Button>
               </div>

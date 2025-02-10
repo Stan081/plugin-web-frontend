@@ -89,7 +89,7 @@ const Side1 = () => {
             <SlLocationPin color="#D9302A" size={20} />
             <p className="font-pally-regular text-[#344054]">
               {eventData?.data?.locationType === "physical"
-                ? eventData?.data?.physicalLocation?.address
+                ? eventData?.data?.physicalLocation?.city
                 : "Online"}
             </p>
           </li>
@@ -127,7 +127,7 @@ const Side1 = () => {
               <SlLocationPin color="#D9302A" size={20} />
               <p className="font-pally-regular text-[#344054]">
                 {eventData?.data?.locationType === "physical"
-                  ? eventData?.data?.physicalLocation?.address
+                  ? eventData?.data?.physicalLocation?.city
                   : "Online"}
               </p>
             </li>

@@ -310,6 +310,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
               <Button
                 onClick={saveToDraft}
                 variant="outline"
+                type="button"
                 className="text-white border-white hover:bg-[#6c5442]"
               >
                 Save progress
@@ -317,6 +318,7 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
 
               <div className="flex items-center gap-5 lg:gap-8">
                 <Button
+                  type="button"
                   onClick={previous}
                   className="cursor-pointer hover:outline hover:outline-white/50 p-2 rounded-lg"
                 >

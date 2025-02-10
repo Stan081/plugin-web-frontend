@@ -196,7 +196,7 @@ const ProfileFormModal: FC<Props> = ({ open, close }) => {
     <Dialog
       open={open}
       as="div"
-      className="relative z-10 focus:outline-none"
+      className="relative z-50 focus:outline-none"
       onClose={close}
     >
       {isUploading && <SpinnerOverlay />}

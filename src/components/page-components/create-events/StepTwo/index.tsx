@@ -100,7 +100,7 @@ const StepTwo: React.FC = () => {
                 ))}
               </div>
             </div>
-            <div className="sticky z-50 bottom-0 bg-[#281E17]">
+            <div className="sticky z-30 bottom-0 bg-[#281E17]">
               <Separator />
               <div className="py-5 flex justify-between items-center">
                 <Button

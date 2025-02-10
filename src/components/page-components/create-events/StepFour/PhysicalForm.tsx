@@ -27,7 +27,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
   const { data: event } = useGetEvent();
 
   const [address, setAddress] = useState<string>("");
-  // const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
+  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [formattedAddress, setFormattedAddress] = useState({
     plusCode: "",
@@ -50,7 +50,8 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
       setIsLoaded(true);
 
-      const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      // const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+      const apiKey = "AIzaSyAcp_C3w1_jDg2YZVv86mJ23cq_oPvQj1I";
       const response = await fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
           address
@@ -61,7 +62,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
       if (data.status === "OK") {
         const location = data.results[0].geometry.location;
-        // setCoordinates({ lat: location.lat, lng: location.lng });
+        setCoordinates({ lat: location.lat, lng: location.lng });
         extractAddressDetails(data.results[0]);
         setError("");
         setIsLoaded(false);
@@ -129,6 +130,8 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
         state: formattedAddress?.state,
         country: formattedAddress?.country,
         zipcode: String(formattedAddress?.postalCode) ?? 0,
+        longitude: coordinates?.lng,
+        latitude: coordinates?.lat,
       },
     };
     mutate(data);
@@ -145,7 +148,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
       <form
         onSubmit={handleVerifyAddress}
-        className="my-4 flex items-center gap-3 lg:gap-6"
+        className="my-4 flex items-start gap-3 lg:gap-6"
       >
         <div className="w-full">
           <Label htmlFor="address">Address</Label>
@@ -172,13 +175,14 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
       </form>
 
       <div className="mb-7 grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {formattedAddress?.address && (
-          <div className="space-y-2 col-span-2 mt-2">
-            <div className="h-15 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
-              {formattedAddress?.address}, {formattedAddress?.plusCode}
+        {formattedAddress?.address ||
+          (address && (
+            <div className="space-y-2 col-span-2 mt-2">
+              <div className="h-15 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
+                {formattedAddress?.address || address}
+              </div>
             </div>
-          </div>
-        )}
+          ))}
         <div className="space-y-2 col-span-2">
           <p className="text-white font-pally-regular text-sm">City</p>
           <div className="h-10 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
@@ -226,7 +230,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
             <Button
               onClick={onSubmit}
-              disabled={isPending || !formattedAddress.address.length}
+              disabled={isPending || !formattedAddress?.city}
               variant="destructive"
             >
               {isPending ? <Spinner /> : "Next"}

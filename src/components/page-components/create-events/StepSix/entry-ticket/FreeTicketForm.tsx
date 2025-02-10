@@ -102,6 +102,13 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
       alert("Start date cannot be after the end date");
       return;
     }
+
+    if(payload.reservation === ''){
+      toast({
+        variant: "destructive",
+        title: "Choose reservation"
+      })
+    }
     const data = {
       entryTicket: {
         entryTicketType: entryTicket,
@@ -338,7 +345,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
                       <Textarea
                         placeholder="Max  char - 200 Words"
                         id="ticket_perks"
-                        className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
+                        className="w-full p-2 bg-white text-black font-pally-regular h-32 md:h-56"
                         {...field}
                       />
                     </FormControl>
@@ -349,7 +356,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
             </div>
           </div>
 
-          <div className="sdsticky bottom-0 bg-[#281E17]">
+          <div className="sticky bottom-0 bg-[#281E17]">
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button
