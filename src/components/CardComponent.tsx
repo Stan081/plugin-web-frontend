@@ -27,10 +27,10 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
   const { toast } = useToast();
 
   const startDate: string =
-    card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
+    card?.startDate || card?.recurringEvent?.startDate;
 
   const startTime: string =
-    card?.oneTimeEvent?.startTime || card?.recurringEvent?.startTime;
+    card?.startTime || card?.recurringEvent?.startTime;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
