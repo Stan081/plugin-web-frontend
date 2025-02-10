@@ -31,16 +31,16 @@ const HomeTabs = () => {
 
   const now = new Date();
 
-  const upcomingEvents = organiserEvents?.data?.data.filter((item) => {
+  const upcomingEvents = organiserEvents?.data?.filter((item) => {
     const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+      item?.startDate
     );
     return item.isPublished === true && startDate > now;
   });
 
-  const currentEvents = organiserEvents?.data?.data.filter((item) => {
+  const currentEvents = organiserEvents?.data?.filter((item) => {
     const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+      item?.startDate
     );
     const endDate = new Date(
       item?.oneTimeEvent?.endDate || item?.recurringEvent?.endDate

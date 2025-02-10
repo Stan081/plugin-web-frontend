@@ -47,7 +47,7 @@ const OrganiserEventDetail = () => {
   } = useOrganiserDashContext();
   const router = useRouter();
   const params = useParams();
-  const getEventDetail = organiserEvents?.data?.data.find(
+  const getEventDetail = organiserEvents?.data?.find(
     (card) => String(card?._id) === params?.id
   );
   setPublishedEventId(getEventDetail?._id)

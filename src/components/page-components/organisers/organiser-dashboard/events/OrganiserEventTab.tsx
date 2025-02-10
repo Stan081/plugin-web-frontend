@@ -27,22 +27,28 @@ const OrganiserEventTab = () => {
 
   const now = new Date();
 
-  const upcomingEvents = organiserEvents?.data?.data?.filter((item) => {
+  const upcomingEvents = organiserEvents?.data?.filter((item) => {
+    console.log(item);
     const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+      item?.startDate
     );
-    return item.isPublished === true && startDate > now;
+    if(item.isPublished === true && startDate > now){
+      return item;
+    }
   });
 
-  const pastEvents = organiserEvents?.data?.data?.filter((item) => {
-    const endDate = new Date(
-      item?.oneTimeEvent?.endDate || item?.recurringEvent?.endDate
-    );
-    return item.isPublished === true && endDate < now;
+  const pastEvents = organiserEvents?.data?.filter((item) => {
+    const endDate = new Date(item?.endDate);
+    if( item.isPublished === false && endDate < now){
+      return item
+    }
+
   });
 
-  const draftEvents = organiserEvents?.data?.data?.filter((item) => {
-    return item.isPublished === false
+  const draftEvents = organiserEvents?.data?.filter((item) => {
+    if(item.isPublished === false){
+      return item
+    }
   })
 
   if (isError) {

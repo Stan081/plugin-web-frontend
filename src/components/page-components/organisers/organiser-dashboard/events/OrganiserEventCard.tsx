@@ -36,10 +36,10 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
   const client = useQueryClient();
 
   const startDate: string =
-    event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
+    event?.startDate;
 
   const startTime: string =
-    event?.oneTimeEvent?.startTime || event?.recurringEvent?.startTime;
+    event?.startTime;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {

@@ -25,7 +25,7 @@ const CompleteSetUp = () => {
       title: " Publish an event",
       description:
         "Create and publish events for attendees all around the world",
-      completed: organiserEvents?.data?.data[0]?.isPublished,
+      completed: organiserEvents?.data[0]?.isPublished,
       path: "/#",
       button: "Create Event",
     },
