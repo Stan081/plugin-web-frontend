@@ -33,7 +33,6 @@ const HomeTabs = () => {
   const now = new Date();
 
   const upcomingEvents = organiserEvents?.data?.filter((item) => {
-    console.log(item);
     const startDate = new Date(
       item?.startDate || item?.startDate
     );
@@ -53,9 +52,6 @@ const HomeTabs = () => {
   if (isError) {
     return <p>An error occurred when fetching events</p>;
   }
-
-  console.log(upcomingEvents); // empty arr
-  console.log("Organiser Event:", organiserEvents?.data); // allData?.data
 
   return (
     <Container>

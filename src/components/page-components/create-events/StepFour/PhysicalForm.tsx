@@ -125,7 +125,9 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     const data = {
       locationType,
       physicalLocation: {
-        address: formattedAddress?.address ? `${formattedAddress?.plusCode}, ${formattedAddress?.address}` : address.slice(0, 1).toLocaleUpperCase() + address.slice(1),
+        address: formattedAddress?.address
+          ? formattedAddress?.address
+          : address.slice(0, 1).toLocaleUpperCase() + address.slice(1),
         city: formattedAddress?.city,
         state: formattedAddress?.state,
         country: formattedAddress?.country,
@@ -177,10 +179,11 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
       <div className="mb-7 grid grid-cols-1 lg:grid-cols-2 gap-4">
         {formattedAddress?.address ||
           (address && (
-            <div className="space-y-2 col-span-2 mt-2">
-              <div className="h-15 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
-                {formattedAddress?.address || address.slice(0, 1).toLocaleUpperCase() + address.slice(1)}
-              </div>
+            <div className="space-y-2 col-span-2 mt-2bg-white ">
+              <p className="h-15 w-full text-black p-2 flex items-center text-sm font-pally-regular rounded">
+                {formattedAddress?.address ||
+                  address.slice(0, 1).toLocaleUpperCase() + address.slice(1)}
+              </p>
             </div>
           ))}
         <div className="space-y-2 col-span-2">

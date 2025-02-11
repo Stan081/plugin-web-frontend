@@ -26,11 +26,13 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const startDate: string =
-    card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
+  const startDate: string = card?.startDate
+    ? card?.startDate
+    : card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
 
-  const startTime: string =
-    card?.oneTimeEvent?.startTime || card?.recurringEvent?.startTime;
+  const startTime: string = card?.startTime
+    ? card?.startTime
+    : card?.oneTimeEvent?.startTime || card?.recurringEvent?.startTime;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
