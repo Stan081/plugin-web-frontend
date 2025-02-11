@@ -3,8 +3,12 @@ import React, { FC } from "react";
 import { BsGraphUpArrow } from "react-icons/bs";
 import { TabProgress } from "./TabProgress";
 import Link from "next/link";
+import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
 
 const HomeTabCard: FC<{ card: any }> = ({ card }) => {
+
+  const { data: sales } = useGetSalesRecord(card?._id);
+
   const startDate: string =
     card?.startDate || card?.startDate;
 
@@ -34,6 +38,15 @@ const HomeTabCard: FC<{ card: any }> = ({ card }) => {
     hour12: true,
     timeZone: "UTC",
   });
+
+  const totalSold = sales?.data?.reduce((acc, item) => acc + item?.sold, 0);
+  const totalAvailable = sales?.data?.reduce(
+    (acc, item) => acc + item?.total,
+    0
+  );
+
+  // Calculate percentage
+  const soldPercentage = (totalSold / totalAvailable) * 100;
   return (
     <div className="border rounded-xl p-3 md:p-6 gap-4 flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -68,10 +81,10 @@ const HomeTabCard: FC<{ card: any }> = ({ card }) => {
               Ticket Sale
             </p>
             <div className=" w-52">
-              <TabProgress value={2} max={60} />
+              <TabProgress value={soldPercentage} max={100} />
             </div>
             <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-              2/40
+            {soldPercentage}/{100}
             </p>
           </div>
         </div>
