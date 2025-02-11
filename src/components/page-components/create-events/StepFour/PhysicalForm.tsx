@@ -179,7 +179,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
           (address && (
             <div className="space-y-2 col-span-2 mt-2">
               <div className="h-15 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
-                {formattedAddress?.address || address}
+                {formattedAddress?.address || address.slice(0, 1).toLocaleUpperCase() + address.slice(1)}
               </div>
             </div>
           ))}

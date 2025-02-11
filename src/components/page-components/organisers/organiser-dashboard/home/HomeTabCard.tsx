@@ -6,10 +6,10 @@ import Link from "next/link";
 
 const HomeTabCard: FC<{ card: any }> = ({ card }) => {
   const startDate: string =
-    card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
+    card?.startDate || card?.startDate;
 
   const startTime: string =
-    card?.oneTimeEvent?.startTime || card?.recurringEvent?.startTime;
+    card?.startTime || card?.startTime;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {

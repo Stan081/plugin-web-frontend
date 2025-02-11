@@ -27,21 +27,21 @@ const OrganiserEventTab = () => {
 
   const now = new Date();
 
-  const upcomingEvents = organiserEvents?.data?.data?.filter((item) => {
+  const upcomingEvents = organiserEvents?.data?.filter((item) => {
     const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+      item?.startDate || item?.startDate
     );
     return item.isPublished === true && startDate > now;
   });
 
-  const pastEvents = organiserEvents?.data?.data?.filter((item) => {
+  const pastEvents = organiserEvents?.data?.filter((item) => {
     const endDate = new Date(
-      item?.oneTimeEvent?.endDate || item?.recurringEvent?.endDate
+      item?.endDate || item?.endDate
     );
     return item.isPublished === true && endDate < now;
   });
 
-  const draftEvents = organiserEvents?.data?.data?.filter((item) => {
+  const draftEvents = organiserEvents?.data?.filter((item) => {
     return item.isPublished === false
   })
 

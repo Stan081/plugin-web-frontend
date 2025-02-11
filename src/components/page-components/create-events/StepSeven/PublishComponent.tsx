@@ -24,6 +24,8 @@ import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
 import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import Image from "next/image";
 
 const PublishComponent: FC = () => {
   const { data: userData } = useMe();
@@ -69,9 +71,7 @@ const PublishComponent: FC = () => {
           description: `${response?.message}`,
         });
         client.invalidateQueries({ queryKey: ["organiserEvents"] });
-        setTimeout(() => {
-          setShowModal(!showModal);
-        }, 4000)
+        setShowModal(!showModal);
       }
     },
     onError: (error: any) => {
@@ -93,7 +93,7 @@ const PublishComponent: FC = () => {
       publishStatus: payload?.event_visibility,
     };
 
-    // mutate(data);
+    mutate(data);
 
     // if (payload?.publishWhen === true) {
     //   const data = {
