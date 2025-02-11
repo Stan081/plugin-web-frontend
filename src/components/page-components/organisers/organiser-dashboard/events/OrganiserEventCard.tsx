@@ -35,9 +35,11 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
 
   const client = useQueryClient();
 
-  const startDate: string = event?.startDate || event?.startDate;
+  const startDate: string =
+    event?.startDate;
 
-  const startTime: string = event?.startTime || event?.startTime;
+  const startTime: string =
+    event?.startTime;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {

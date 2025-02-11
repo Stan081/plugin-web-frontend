@@ -10,11 +10,10 @@ const HomeTabCard: FC<{ card: any }> = ({ card }) => {
   const { data: sales } = useGetSalesRecord(card?._id);
 
   const startDate: string =
-    card?.startDate || card?.startDate;
+    card?.startDate 
 
   const startTime: string =
-    card?.startTime || card?.startTime;
-
+    card?.startTime
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",

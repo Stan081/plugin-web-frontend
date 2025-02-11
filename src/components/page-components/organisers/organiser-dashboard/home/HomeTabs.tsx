@@ -34,14 +34,14 @@ const HomeTabs = () => {
 
   const upcomingEvents = organiserEvents?.data?.filter((item) => {
     const startDate = new Date(
-      item?.startDate || item?.startDate
+      item?.startDate
     );
     return item.isPublished === true && startDate > now;
   });
 
   const currentEvents = organiserEvents?.data?.filter((item) => {
     const startDate = new Date(
-      item?.startDate || item?.startDate
+      item?.startDate
     );
     const endDate = new Date(
       item?.endDate || item?.endDate
