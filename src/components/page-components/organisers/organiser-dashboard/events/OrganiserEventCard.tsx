@@ -29,17 +29,15 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
   const { toast } = useToast();
   const [stall, setStall] = useState<boolean>(false);
 
-    const { data: sales } = useGetSalesRecord(event?._id);
+  const { data: sales } = useGetSalesRecord(event?._id);
 
   const router = useRouter();
 
   const client = useQueryClient();
 
-  const startDate: string =
-    event?.startDate || event?.startDate;
+  const startDate: string = event?.startDate || event?.startDate;
 
-  const startTime: string =
-    event?.startTime || event?.startTime;
+  const startTime: string = event?.startTime || event?.startTime;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
@@ -202,23 +200,25 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
         <p className="text-sm md:text-base text-[#667185] flex items-center gap-2">
           <SlLocationPin />
           {event?.locationType === "physical"
-            ? event?.physicalLocation?.address?.length > 40
-              ? event?.physicalLocation?.address?.slice(0, 26).concat("...")
-              : event?.physicalLocation?.address
+            ? event?.address?.length > 40
+              ? event?.address?.slice(0, 26).concat("...")
+              : event?.address
             : "Online"}
         </p>
 
-        <div className="flex items-center gap-2">
-          <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
-            Total sold
-          </p>
-          <div className=" w-52">
-            <TabProgress value={soldPercentage} max={100} />
+        {event?.isPublished && (
+          <div className="flex items-center gap-2">
+            <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
+              Total sold
+            </p>
+            <div className=" w-52">
+              <TabProgress value={soldPercentage} max={100} />
+            </div>
+            <p className="text-[#667185] whitespace-nowrap font-pally-regular">
+              {soldPercentage}/{100}
+            </p>
           </div>
-          <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-            {soldPercentage}/{100}
-          </p>
-        </div>
+        )}
       </div>
     </div>
   );

@@ -125,7 +125,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     const data = {
       locationType,
       physicalLocation: {
-        address: `${formattedAddress?.plusCode}, ${formattedAddress?.address}`,
+        address: formattedAddress?.address ? `${formattedAddress?.plusCode}, ${formattedAddress?.address}` : address.slice(0, 1).toLocaleUpperCase() + address.slice(1),
         city: formattedAddress?.city,
         state: formattedAddress?.state,
         country: formattedAddress?.country,
