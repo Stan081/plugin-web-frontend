@@ -24,12 +24,11 @@ import { CheckoutProps } from "./CheckoutContactInfo";
 import { useMutation } from "@tanstack/react-query";
 import { Checkout } from "@/pages/api/mutate/tickets/checkout-api";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
-import { useGetCountry } from "@/pages/api/query/country";
+import { parsePhoneNumber } from "react-phone-number-input";
 
 const CheckoutForm = ({ eventId }: CheckoutProps) => {
   const { data: user } = useMe();
   const { tickets, entryData } = useEventsContext();
-  const { data: country } = useGetCountry();
 
   const router = useRouter();
   const { toast } = useToast();
@@ -58,11 +57,10 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
               "The returned payment link is invalid. Please try again.",
           });
         }
-      }else {
-        if (response?.data?.statusCode === 200){
-          router.replace('/payment-successful')
+      } else {
+        if (response?.data?.statusCode === 200) {
+          router.replace("/payment-successful");
         }
-        
       }
     },
     onError: (error: any) => {
@@ -122,13 +120,11 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
           lastname: payload?.last_name,
           email: payload?.email,
           phone: payload?.phone_number,
-          country: country?.country_name ? country?.country_name : "Nigeria",
+          country: parsePhoneNumber(payload?.phone_number).country,
           tickets: ticketCookie ? tickets : [entryTicketCookie],
         };
 
         mutate(data);
-        // console.log(data)
-        // console.log(entryTicketCookie);
       }
     },
     [mutate]
@@ -139,17 +135,12 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
       {isPending && <SpinnerOverlay />}
       <Form {...form}>
         <form
-          onClick={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-4 mt-5"
         >
           <div className="flex gap-4">
             <FormItem className="w-full">
-              <FormLabel
-                className="text-[#515A6A]
-              "
-              >
-                First name
-              </FormLabel>
+              <FormLabel className="text-[#515A6A]">First name</FormLabel>
               <FormField
                 control={form.control}
                 name="first_name"
@@ -225,8 +216,10 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
                       {...field}
                       placeholder="Phone Number"
                       defaultCountry="NG"
+                      disabled={isPending}
                       id="phone_number"
                       type="text"
+                      aria-disabled={isPending}
                       style={{ outline: "none", border: "none" }}
                     />
                   </FormControl>

@@ -37,7 +37,7 @@ const SignupAuth = () => {
   });
 
   // State to hold selected country
-  const [selectedCountry, setSelectedCountry] = useState("");
+  // const [selectedCountry, setSelectedCountry] = useState("");
 
   //  initialise router
   const router = useRouter();
@@ -79,7 +79,7 @@ const SignupAuth = () => {
         email: payload.email,
         contact: {
           phone: payload.phone_number,
-          country: selectedCountry,
+          country: parsePhoneNumber(payload.phone_number).country,
         },
         role: "user",
         platform: "web",
@@ -88,17 +88,17 @@ const SignupAuth = () => {
       console.log("Submitted data:", data); // Debug log
       mutate(data);
     },
-    [mutate, selectedCountry]
+    [mutate]
   );
 
-  const handlePhoneNumberChange = (value) => {
-    console.log("Country data:", value);
-    const phoneNumber = parsePhoneNumber(value)
-    console.log(phoneNumber.country)
-      setSelectedCountry(phoneNumber.country);
+  // const handlePhoneNumberChange = (value) => {
+  //   console.log("Country data:", value);
+  //   const phoneNumber = parsePhoneNumber(value)
+  //   console.log(phoneNumber.country)
+  //     setSelectedCountry(phoneNumber.country);
     
-    form.setValue("phone_number", value);
-  };
+  //   form.setValue("phone_number", value);
+  // };
 
   return (
     <div>
@@ -192,7 +192,6 @@ const SignupAuth = () => {
                       id="phone_number"
                       type="text"
                       aria-disabled={isPending}
-                      onChange={handlePhoneNumberChange}
                       style={{ outline: "none", border: "none" }}
                     />
                   </FormControl>
