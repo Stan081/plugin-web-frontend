@@ -58,7 +58,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
           });
         }
       } else {
-        if (response?.data?.statusCode === 200) {
+        if (response?.status === 200) {
           router.replace("/payment-successful");
         }
       }
