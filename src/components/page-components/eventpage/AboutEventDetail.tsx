@@ -80,7 +80,7 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
       {event?.eventAgendas?.length > 0 && <Separator />}
 
       {event?.ticketCategory === "grouped" &&
-        event?.groupedTicket?.length !== 0 && (
+        event?.groupedTicket?.seatMap?.length !== 0 && (
           <SeatMap groupedTicket={event?.groupedTicket} />
         )}
 
