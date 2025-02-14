@@ -42,7 +42,7 @@ const ExploreEventDetailPage = () => {
         <SpinnerOverlay />
       ) : (
         <Section id="event-detail-page" className="relative">
-          <Container className="relative">
+          <Container className="relative mb-5">
             <BreadcrumbComponent
               breadcrumbArr={exlporeEventsbreadcrumbArr}
               pageName={cardId?.eventName}
@@ -61,7 +61,7 @@ const ExploreEventDetailPage = () => {
               <AvailableTicket event={cardId} id={cardId?._id} />
             </div>
 
-            <SimilarEvents />
+            {/* <SimilarEvents /> */}
           </Container>
           <TicketCTA event={cardId} id={cardId?._id} />
         </Section>

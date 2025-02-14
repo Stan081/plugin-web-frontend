@@ -4,6 +4,7 @@ import Layout from "@/components/layout";
 import CheckoutContactInfo from "@/components/page-components/eventpage/checkout/CheckoutContactInfo";
 import CheckoutSummary from "@/components/page-components/eventpage/checkout/CheckoutSummary";
 import { useGetEventById } from "@/hooks/events/useGetEventById";
+import useRedirectOnReload from "@/hooks/useRedirectOnReload";
 import { checkoutBreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
@@ -12,6 +13,7 @@ import { useParams } from "next/navigation";
 import React, { useState } from "react";
 
 const CheckoutEvent = () => {
+  useRedirectOnReload();
   const param = useParams<{ id: string }>();
   const { data: events, isLoading, isError } = useGetEventById(param?.id);
   const checkCardId = events?.data;

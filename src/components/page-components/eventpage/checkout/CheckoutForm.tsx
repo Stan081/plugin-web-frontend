@@ -275,7 +275,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
           </p>
 
           <Button
-            disabled={isLoading || hasErrors}
+            disabled={isLoading}
             variant="destructive"
             type="submit"
             className="mt-4"

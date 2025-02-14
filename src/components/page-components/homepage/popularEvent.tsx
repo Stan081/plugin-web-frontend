@@ -62,7 +62,7 @@ const PopularEvent = () => {
             id={`panel-${isActive}`}
             role="tabpanel"
             aria-labelledby={`tab-${isActive}`}
-            className="mt-6 md:mt-10 flex lg:flex-row gap-5 overflow-x-auto w-full pb-8"
+            className="mt-6 md:mt-10 flex lg:flex-row gap-5 overflow-x-auto w-full pb-8 scroll-smooth whitespace-nowrap"
           >
             {isActive === "physical" && (
               <>
