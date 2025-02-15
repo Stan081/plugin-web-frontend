@@ -8,8 +8,8 @@ const PaymentSuccessful = () => {
   return (
     <Layout title="Payment successful" showHeader showFooter>
       <Container>
-        <div className="flex items- justify-between">
-          <div className="w-40 lg:w-1/2 h-[10vh] lg:h-[60vh] relative ">
+        <div className="flex flex-col lg:flex-row justify-between">
+          <div className="hidden lg:block w-40 lg:w-1/2 h-[10vh] lg:h-[60vh] relative ">
             <Image
               src={"/images/blue-bg.png"}
               fill
@@ -44,7 +44,7 @@ const PaymentSuccessful = () => {
                   width={200}
                   height={40}
                   alt="QR code"
-                  className="w-20 h-20 object-cover"
+                  className="w-20 h-20 object-cover rounded-md"
                 />
 
                 <div className="space-y-1.5">
