@@ -11,7 +11,7 @@ import EventGallery from "./EventGallery";
 import SeatMap from "./SeatMap";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
+const AboutEventDetail: React.FC<{ event: any, isPassed: boolean }> = ({ event , isPassed}) => {
   const startDate: string =
     event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
 
@@ -87,11 +87,11 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
       {event?.ticketCategory === "grouped" &&
         event?.groupedTicket?.length !== 0 && <Separator />}
 
-      {event?.eventVendors?.length > 0 && event?.eventVendors && (
+      {event?.eventVendors?.length > 0 && event?.eventVendors && isPassed && (
         <EventsVendorPass vendor={event?.eventVendors} />
       )}
 
-      {event?.eventVendors?.length > 0 && <Separator />}
+      {event?.eventVendors?.length > 0 && isPassed && <Separator />}
 
       <MeetYourOganiser organiserId={event?.userId} />
 

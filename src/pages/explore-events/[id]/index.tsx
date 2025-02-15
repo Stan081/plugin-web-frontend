@@ -36,8 +36,6 @@ const ExploreEventDetailPage = () => {
     return <p>An error occured</p>;
   }
 
-  console.log(cardId?.oneTimeEvent?.endDate);
-
   const now = new Date();
   const endDate = cardId?.oneTimeEvent?.endDate
     ? new Date(cardId.oneTimeEvent.endDate)
@@ -65,7 +63,7 @@ const ExploreEventDetailPage = () => {
 
             <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">
               <div className="w-full md:w-4/6">
-                <AboutEventDetail event={cardId} />
+                <AboutEventDetail event={cardId} isPassed={isPassed} />
               </div>
               {isPassed && <AvailableTicket event={cardId} id={cardId?._id} />}
             </div>
