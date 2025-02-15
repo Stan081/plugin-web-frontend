@@ -10,7 +10,7 @@ import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 
 const CheckoutEvent = () => {
   useRedirectOnReload();
@@ -21,9 +21,7 @@ const CheckoutEvent = () => {
   if (!checkCardId || isError) {
     return (
       <Layout title="Page not found" showFooter showHeader>
-        <p className="font-medium text-lg text-center my-5">
-          {isError ? "An error occured" : "Page not found"}
-        </p>
+        <SpinnerOverlay />
       </Layout>
     );
   }

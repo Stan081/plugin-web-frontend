@@ -13,7 +13,7 @@ import { Section } from "@/tw-components/Section";
 import { useParams } from "next/navigation";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { getCookie, removeCookie } from "@/lib/cookies";
-import TicketCTA from "@/components/page-components/eventpage/TicketCTA"
+import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
 import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
 import { useGetEventById } from "@/hooks/events/useGetEventById";
 
@@ -32,9 +32,18 @@ const ExploreEventDetailPage = () => {
     return <SpinnerOverlay />;
   }
 
-  if(isError) {
-    return <p>An error occured</p>
+  if (isError) {
+    return <p>An error occured</p>;
   }
+
+  console.log(cardId?.oneTimeEvent?.endDate);
+
+  const now = new Date();
+  const endDate = cardId?.oneTimeEvent?.endDate
+    ? new Date(cardId.oneTimeEvent.endDate)
+    : null;
+
+  const isPassed = endDate ? now < endDate : false;
 
   return (
     <Layout title={cardId?.eventName} showHeader showFooter>
@@ -58,12 +67,12 @@ const ExploreEventDetailPage = () => {
               <div className="w-full md:w-4/6">
                 <AboutEventDetail event={cardId} />
               </div>
-              <AvailableTicket event={cardId} id={cardId?._id} />
+              {isPassed && <AvailableTicket event={cardId} id={cardId?._id} />}
             </div>
 
             {/* <SimilarEvents /> */}
           </Container>
-          <TicketCTA event={cardId} id={cardId?._id} />
+          {isPassed && <TicketCTA event={cardId} id={cardId?._id} />}
         </Section>
       )}
     </Layout>

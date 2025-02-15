@@ -18,7 +18,7 @@ const OrganiserDetailPage = () => {
   );
 
   if (!organiser) {
-    return <h4>Not Found!!</h4>;
+    return <SpinnerOverlay />;
   }
 
   if (isLoading) {
