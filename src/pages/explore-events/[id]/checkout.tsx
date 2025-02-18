@@ -19,11 +19,7 @@ const CheckoutEvent = () => {
   const checkCardId = events?.data;
 
   if (!checkCardId || isError) {
-    return (
-      <Layout title="Page not found" showFooter showHeader>
-        <SpinnerOverlay />
-      </Layout>
-    );
+    return <SpinnerOverlay />;
   }
 
   if (isLoading) return <SpinnerOverlay />;
