@@ -49,8 +49,6 @@ const ExploreEventsPage = () => {
     setIsGridView((prevView) => !prevView);
   };
 
-  console.log(events);
-
   const handleRefresh = () => {
     setFilters({
       minPrice: null,
@@ -187,7 +185,7 @@ const ExploreEventsPage = () => {
               </p>
               <div className="flex space-x-2">
                 <Button
-                  disabled={filters.page <= 1}
+                  disabled={events?.pagination?.currentPage <= 1}
                   onClick={decrementPage}
                   variant="outline"
                   size="icon"

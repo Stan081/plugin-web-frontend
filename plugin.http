@@ -1,6 +1,6 @@
 
 
-GET https://test-api.pluginent.com/api/tickets/67b4470a7c4d23200868d99e
+GET https://test-api.pluginent.com/api/tickets/booking/67b4470a7c4d23200868d99e
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjZhOWI4ZmNjZDk0OTdhNTFjMjVkOSIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3MzgzMTkyNDAsImV4cCI6MTc0MDkxMTI0MH0.94yeVtAXOte5tBKJac38zAvM4w8JDmYiLEF2l72lExk
+
 

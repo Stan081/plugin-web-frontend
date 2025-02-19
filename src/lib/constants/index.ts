@@ -65,6 +65,8 @@ export const SALES_RECORD: string = `${API_URL}/organizers/events/sales-records`
 
 export const GET_EVENT_BY_ID: string = `${API_URL}/event/events`
 
+export const GET_SUCCESSFUL_TICKETS: string = `${API_URL}/tickets/booking`;
+
 // export const GET_EVENT_BY_ID = (): string => {
 //   const eventId = getCookie("event_id");
 //   return `${API_URL}/event/events/${eventId}`;
