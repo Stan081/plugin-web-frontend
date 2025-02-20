@@ -2,11 +2,11 @@ import { getCookie } from "../cookies";
 import dotenv from 'dotenv';
 
 
-// export const BASE_URL: string = "https://test-api.pluginent.com";
+export const BASE_URL: string = "https://test-api.pluginent.com";
 
 dotenv.config();
 
-export const BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL;
+// export const BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL;
 
 
 export const API_URL: string = `${BASE_URL}/api`;
@@ -64,6 +64,8 @@ export const ATTENDEE_LIST: string = `${API_URL}/organizers/events/attendees`;
 export const SALES_RECORD: string = `${API_URL}/organizers/events/sales-records`;
 
 export const GET_EVENT_BY_ID: string = `${API_URL}/event/events`
+
+export const GET_SUCCESSFUL_TICKETS: string = `${API_URL}/tickets/booking`;
 
 // export const GET_EVENT_BY_ID = (): string => {
 //   const eventId = getCookie("event_id");

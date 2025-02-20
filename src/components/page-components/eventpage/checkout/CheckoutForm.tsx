@@ -28,7 +28,7 @@ import { parsePhoneNumber } from "react-phone-number-input";
 
 const CheckoutForm = ({ eventId }: CheckoutProps) => {
   const { data: user } = useMe();
-  const { tickets, entryData } = useEventsContext();
+  const { tickets, entryData, setFreeEventPayload } = useEventsContext();
 
   const router = useRouter();
   const { toast } = useToast();
@@ -36,6 +36,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
   const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: (data: any) => Checkout(data),
     onSuccess: (response) => {
+      // console.log(response?.data);
       if (response?.data?.paymentLink) {
         const paymentLink = response.data.paymentLink;
 
@@ -57,10 +58,9 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
               "The returned payment link is invalid. Please try again.",
           });
         }
-      } else {
-        if (response?.status === 200) {
-          router.replace("/payment-successful");
-        }
+      } else if (response?.status === 200) {
+        setFreeEventPayload(response?.data);
+        router.replace("/payment-success");
       }
     },
     onError: (error: any) => {

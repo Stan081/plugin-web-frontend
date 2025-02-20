@@ -9,7 +9,15 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
   id,
   event,
 }) => {
-  const { tickets } = useEventsContext();
+  const { tickets, setCounter, setTickets } = useEventsContext();
+
+  useEffect(() => {
+    setCounter(0)
+    setTickets([])
+  }, []);
+
+  const router = useRouter();
+
   const getEntryTicketCountdown = () => {
     const now = new Date();
 
@@ -50,7 +58,6 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
 
     return null;
   };
-  const router = useRouter();
 
   const checkIfEndDateReached = () => {
     if (event?.entryTicket?.endDate) {
@@ -79,7 +86,6 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
 
   const handleGroupTicket = () => {
     if (tickets.length > 0) {
-      console.log(tickets);
       router.push(`/explore-events/${id}/checkout`);
     }
   };

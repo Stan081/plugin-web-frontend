@@ -1,4 +1,6 @@
 
 
-GET https://test-api.pluginent.com/api/organizers/events/67a93759f940cc2e89d563fa
+GET https://test-api.pluginent.com/api/tickets/booking/67b4470a7c4d23200868d99e
 Content-Type: application/json
+
+
