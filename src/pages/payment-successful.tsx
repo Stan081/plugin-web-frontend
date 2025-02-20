@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React from "react";
 
+// Payment successful page after paystack payment
 const PaymentSuccessful = () => {
   const searchParams = useSearchParams();
   const bookingId = searchParams.get("bookingId");

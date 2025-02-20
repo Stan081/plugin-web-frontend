@@ -25,10 +25,12 @@ type EntryData = {
 
 type EventsContextValue = {
   counter: number;
-  setCounter: (key: any) => void;
   entryData: EntryData;
+  freeEventPayload: any;
   tickets: TicketProps[];
   publishedEventId: string;
+  setCounter: (key: any) => void;
+  setFreeEventPayload: (key: any) => void;
   setTickets: (key: any) => void;
   setEntryData: (key: EntryData) => void;
   setPublishedEventId: (key:string) => void;
@@ -54,6 +56,9 @@ export const EventsProvider: FC<PropsWithChildren> = ({ children }) => {
   // state to hold event Id
   const [publishedEventId, setPublishedEventId] = useState<string | null>();
 
+  // State to hold payload for free events
+  const [freeEventPayload, setFreeEventPayload] = useState<any | null>();
+
   const [tickets, setTickets] = useState(() => {
     const savedTickets = getCookie("tickets");
     return Array.isArray(savedTickets) ? savedTickets : [];
@@ -66,6 +71,8 @@ export const EventsProvider: FC<PropsWithChildren> = ({ children }) => {
     tickets,
     entryData,
     publishedEventId,
+    freeEventPayload,
+    setFreeEventPayload,
     setCounter,
     setTickets,
     setEntryData,
