@@ -4,7 +4,10 @@ import { useGetSuccessfulTicket } from "@/hooks/useGetSuccesfulTicket";
 import Container from "@/tw-components/container";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import React from "react";
+import Link from "next/link";
+import jsPDF from "jspdf";
+import { HiDownload } from "react-icons/hi";
+import { Button } from "@/components/ui/button";
 
 // Payment successful page after paystack payment
 const PaymentSuccessful = () => {
@@ -40,11 +43,38 @@ const PaymentSuccessful = () => {
     hour12: true,
     timeZone: "UTC",
   });
+
+   const handleDownloadPDF = () => {
+      const pdf = new jsPDF();
+      pdf.setFontSize(16);
+      pdf.text("Booking Receipt", 20, 20);
+  
+      pdf.setFontSize(12);
+      pdf.text(`Event: ${bookings?.data?.eventName || "N/A"}`, 20, 40);
+      pdf.text(`Location: ${bookings?.data?.eventLocation || "N/A"}`, 20, 50);
+      pdf.text(
+        `Date: ${new Date(bookings?.data?.eventDate).toLocaleDateString()}`,
+        20,
+        60
+      );
+      pdf.text(`Email: ${bookings?.data?.userEmail || "N/A"}`, 20, 70);
+  
+      pdf.text("Tickets:", 20, 90);
+      bookings?.data?.ticketData?.forEach((ticket, index) => {
+        pdf.text(
+          `${index + 1}. ${ticket.name} - $${ticket.price}`,
+          20,
+          100 + index * 10
+        );
+      });
+  
+      pdf.save(`Booking_Receipt_${bookings?.data?.eventName}.pdf`);
+    };
   return (
     <Layout title="Payment successful" showHeader showFooter>
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-center">
-          <div className="hidden lg:block w-40 lg:w-1/2 h-[10vh] lg:h-[60vh] relative">
+          <div className="hidden lg:block w-40 lg:w-2/5 h-[10vh] lg:h-[40vh] relative">
             <Image
               src={bookings?.data?.eventBanner}
               layout="fill"
@@ -98,6 +128,17 @@ const PaymentSuccessful = () => {
                 </li>
               ))}
             </ul>
+
+            <div className="flex justify-between gap-10 items-center mt-10">
+              <div onClick={handleDownloadPDF} className="cursor-pointer">
+                <HiDownload size={22} className="text-gray-500" />
+              </div>
+              <Link href="/tickets">
+                <Button variant="destructive" >
+                  See tickets
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </Container>
