@@ -31,6 +31,7 @@ import { CreateOrganiserProfile } from "@/pages/api/mutate/organiser/organiserPr
 import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
 import Image from "next/image";
+import { useEditProfileRole } from "@/hooks/useEditProfileRole";
 
 interface Props {
   open: boolean;
@@ -45,6 +46,7 @@ const ProfileFormModal: FC<Props> = ({ open, close }) => {
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const { data: me } = useMe();
+  const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
 
   const form = useForm<OrganiserProfileForm>({
     mode: "all",
@@ -194,6 +196,10 @@ const ProfileFormModal: FC<Props> = ({ open, close }) => {
           instagram: payload?.social_media?.instagram,
         },
       };
+
+      if(!me?.data?.isOrganizer){
+         mutateRole({isOrganizer: true});
+      }
 
       mutate(data);
     },

@@ -21,7 +21,7 @@ const OrganiserEarnings = () => {
         setCurrentStep(1);
         removeCookie('event_id')
       }
-      return;
+      else {router.replace("/")};
     } else {
       router.push("/login");
     }

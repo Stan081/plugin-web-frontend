@@ -1,7 +1,6 @@
 "use client";
 import React, {
   FormEvent,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -10,9 +9,6 @@ import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import { Button } from "@/components/ui/button";
 import { IoMdImages } from "react-icons/io";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { EventStepOne, EventStepOneSchema } from "@/models/create-event-schema";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { HiOutlineTrash } from "react-icons/hi2";
@@ -22,7 +18,7 @@ import { uploadImage } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EventBasicInfo } from "@/pages/api/mutate/create-events/eventBasicInfo";
 import { useToast } from "@/components/ui/use-toast";
-import { getCookie, removeCookie, setCookie } from "@/lib/cookies";
+import { getCookie, setCookie } from "@/lib/cookies";
 import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMe } from "@/pages/api/query/me";
@@ -31,8 +27,6 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useUpdateBasicInfo } from "@/hooks/events/useUpdateBasicInfo";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { Label } from "@/components/ui/label";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -69,8 +63,6 @@ const StepOne: React.FC = () => {
   });
 
   const { toast } = useToast();
-
-  const router = useRouter();
 
   useEffect(() => {
     if (event?.data) {

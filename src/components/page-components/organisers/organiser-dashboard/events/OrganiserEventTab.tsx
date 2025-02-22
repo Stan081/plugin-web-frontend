@@ -5,7 +5,6 @@ import React, { Fragment } from "react";
 import OrganiserEventCard from "./OrganiserEventCard";
 import Container from "@/tw-components/container";
 import DelectEvent from "./DelectEvent";
-import { organiserEvents } from "@/static-datas/organiser-date";
 import { useMe } from "@/pages/api/query/me";
 import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
@@ -28,7 +27,6 @@ const OrganiserEventTab = () => {
   const now = new Date();
 
   const upcomingEvents = organiserEvents?.data?.filter((item) => {
-    console.log(item);
     const startDate = new Date(
       item?.startDate
     );

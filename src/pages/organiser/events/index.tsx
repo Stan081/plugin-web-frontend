@@ -21,7 +21,7 @@ const OrganiserEvent = () => {
         removeCookie("event_id");
         setCurrentStep(1);
       }
-      return;
+      else {router.replace("/")};
     } else {
       router.push("/login");
     }
