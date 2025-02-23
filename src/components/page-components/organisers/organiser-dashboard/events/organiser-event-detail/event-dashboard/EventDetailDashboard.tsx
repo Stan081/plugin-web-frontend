@@ -46,6 +46,8 @@ const EventDetailDashboard = () => {
   };
   const sharedLink: string = `${BASE_URL}/organiser/events/2`;
 
+  console.log(publishedEventId)
+
   return (
     <div>
       <div className="flex justify-between">

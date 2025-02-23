@@ -50,7 +50,7 @@ export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
   const logout = () => {
     deleteToken();
     setShouldRedirect(false);
-    router.push("/login");
+    router.replace("/login");
   };
 
   const ContextValue: UserDashContextValue = {

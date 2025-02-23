@@ -7,14 +7,26 @@ import TicketComponent from "@/components/TicketComponent";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Section } from "@/tw-components/Section";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetTicketEvents } from "../api/mutate/tickets";
-import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getToken } from "@/lib/token";
+import { useRouter } from "next/router";
 
 const TicketPage = () => {
   const [isActive, setIsActive] = useState<string>("my-tickets");
   const { data: ticketData, isLoading } = useGetTicketEvents();
+
+  const token = getToken();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (token) {
+      return;
+    } else {
+      router.replace("/login");
+    }
+  }, [router]);
 
   return (
     <Layout title="Your tickets" showHeader showFooter showSidebar>
@@ -51,7 +63,7 @@ const TicketPage = () => {
         </div>
 
         {isLoading ? (
-          <Skeleton className="h-10 w-full"/>
+          <Skeleton className="h-10 w-full" />
         ) : (
           <>
             {isActive === "my-tickets" && (

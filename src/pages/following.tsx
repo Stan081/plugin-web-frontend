@@ -15,15 +15,15 @@ const FollowingPage = () => {
     useState<followersDataProps[]>(followersData);
 
   const token = getToken();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (token) {
-      return;
-    } else {
-      router.push("/login");
-    }
-  }, [router]);
+    const router = useRouter();
+  
+    useEffect(() => {
+      if (token) {
+        return;
+      } else {
+        router.replace("/login");
+      }
+    }, [router]);
 
   const handleUnfollow = (id: string) => {
     const filteredFollower = getFollowers.filter((fol) => fol.id !== id);

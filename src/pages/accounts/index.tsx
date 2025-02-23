@@ -10,10 +10,14 @@ import React, { useEffect } from "react";
 const AccountPage = () => {
   const token = getToken();
   const router = useRouter();
+
   useEffect(() => {
-    if (token) return;
-    router.push("/login");
-  }, [router, token]);
+    if (token) {
+      return;
+    } else {
+      router.replace("/login");
+    }
+  }, [router]);
   return (
     <Layout title="Account settings" showHeader showFooter showSidebar>
       <Section
