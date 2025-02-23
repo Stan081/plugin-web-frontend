@@ -10,18 +10,19 @@ import { Section } from "@/tw-components/Section";
 import React from "react";
 import OrganiserTableTicketLabel from "./OrganiserTableTicketLabel";
 import AttendeeListTableStatusLabel from "./events/organiser-event-detail/menage-attendees/attendee/AttendeeListTableStatusLabel";
+import { toFiat } from "@/lib/amount";
 
-type StatusLabelType = "pending" | "checked-in";
+type StatusLabelType = "pending" | "confirmed";
 type AttendeeListTableBodyType = {
   email: string;
-  ticketData: string;
+  ticketName: string;
   status: string;
   date: string;
-  more: string;
+  price: number;
 };
 type OrganiserDashboardSalesTableBodyType = {
   ticketID: string;
-  ticketData: string;
+  ticketName: string;
   price: string;
   date: string;
 };
@@ -34,7 +35,6 @@ type TablePropsType = {
 };
 
 const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
-
   const formattedDate = (date: any) => {
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
@@ -63,15 +63,16 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
                 >
                   <TableCell>{tableRow?.email}</TableCell>
                   <TableCell>
-                    <OrganiserTableTicketLabel text={tableRow.ticketData} />
+                    <OrganiserTableTicketLabel text={tableRow.ticketName} />
                   </TableCell>
+                  <TableCell>{toFiat(tableRow.price)}</TableCell>
                   <TableCell>
                     <AttendeeListTableStatusLabel
                       status={tableRow.status as StatusLabelType}
                     />
                   </TableCell>
                   <TableCell>{tableRow.date}</TableCell>
-                  <TableCell>{tableRow.more}</TableCell>
+                  {/* <TableCell>{tableRow.more}</TableCell> */}
                 </TableRow>
               );
             })}
@@ -86,7 +87,7 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
                   >
                     <TableCell>{tableRow.ticketID}</TableCell>
                     <TableCell>
-                      <OrganiserTableTicketLabel text={tableRow?.ticketData} />
+                      <OrganiserTableTicketLabel text={tableRow?.ticketName} />
                     </TableCell>
                     <TableCell>{tableRow?.price}</TableCell>
                     <TableCell>{formattedDate(tableRow?.date)}</TableCell>

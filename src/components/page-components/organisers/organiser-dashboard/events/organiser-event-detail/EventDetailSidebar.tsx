@@ -17,9 +17,6 @@ import {
 import { MdOutlineRemoveRedEye, MdLink } from "react-icons/md";
 import { HiOutlineTrash } from "react-icons/hi";
 import { LuTicket } from "react-icons/lu";
-import { RiDiscountPercentLine } from "react-icons/ri";
-import { MdOutlineHeadsetMic } from "react-icons/md";
-import { BsQuestionCircle } from "react-icons/bs";
 import Image from "next/image";
 import { TabProgress } from "../../home/TabProgress";
 import { useRouter } from "next/navigation";
@@ -86,10 +83,10 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
   const client = useQueryClient();
 
   const startDate: string =
-    event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
+    event?.startDate || event?.startDate;
 
   const startTime: string =
-    event?.oneTimeEvent?.startTime || event?.recurringEvent?.startTime;
+    event?.startTime || event?.startTime;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
@@ -231,7 +228,7 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
 
       <div className="mt-4 flex flex-col gap-1 border mx-4 rounded-md p-3">
         <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
-          Sale progress
+          Sale progress (%)
         </p>
         {isLoading ? (
           <Skeleton className="h-4 w-full"/>

@@ -211,7 +211,7 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
         {event?.isPublished && (
           <div className="flex items-center gap-2">
             <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
-              Total sold
+              Total sold (%){" "}
             </p>
             <div className=" w-52">
               <TabProgress value={soldPercentage} max={100} />

@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { RiHeart3Line, RiHeart3Fill } from "react-icons/ri";
@@ -7,6 +8,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getToken } from "@/lib/token";
+import { useRouter } from "next/navigation";
 
 interface Props {
   title: string;
@@ -20,6 +23,8 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
 
   const client = useQueryClient();
   const { toast } = useToast();
+  const token = getToken();
+  const router = useRouter();
 
   const { mutate } = useMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,15 +52,24 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
     const data = {
       eventId: id,
     };
-    mutate(data, {
-      onSuccess: () => {
-        client.invalidateQueries({ queryKey: ["isBookmark", id] });
-      },
-    });
+    if (token) {
+      mutate(data, {
+        onSuccess: () => {
+          client.invalidateQueries({ queryKey: ["isBookmark", id] });
+        },
+      });
+    } else {
+      return router.push("/login");
+    }
   };
 
   const handleDeleteBookmark = () => {
-    removeBookmark();
+    if (!token) {
+      return router.push("/login");
+    } else {
+      removeBookmark();
+      return
+    }
   };
   return (
     <div className="mt-5 md:mt-8">
