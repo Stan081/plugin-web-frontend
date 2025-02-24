@@ -13,7 +13,7 @@ import EventTicketsStats from "./EventTicketsStats";
 import OrganiserTable from "../../../OrganiserTable";
 import organiserDashboardSalesData from "@/static-datas/organiser-dashboard-sales-data";
 import { useEventsContext } from "@/providers/events.provider";
-import { BASE_URL } from "@/lib/constants";
+import { BASE_URL, WEB_URL } from "@/lib/constants";
 import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
 import { useFilteredAttendeeList } from "@/hooks/events/useFilterAttendeeList";
 
@@ -25,8 +25,8 @@ const tabLink = [
 const EventDetailDashboard = () => {
   const [activeTab, setActiveTab] = useState<string>("recent_sales");
   const { toast } = useToast();
-    const { publishedEventId } = useEventsContext();
-    const { data: attendeeListData } = useFilteredAttendeeList(publishedEventId);
+  const { publishedEventId } = useEventsContext();
+  const { data: attendeeListData } = useFilteredAttendeeList(publishedEventId);
   const handleCopyLink = async (saveLink: string) => {
     try {
       // Copy the link to the clipboard
@@ -44,9 +44,7 @@ const EventDetailDashboard = () => {
       });
     }
   };
-  const sharedLink: string = `${BASE_URL}/organiser/events/2`;
-
-  console.log(publishedEventId)
+  const sharedLink: string = `${WEB_URL}/explore-events/${publishedEventId}`;
 
   return (
     <div>
@@ -152,11 +150,35 @@ const EventDetailDashboard = () => {
             </li>
           ))}
         </ul>
-        <OrganiserTable
-          tableHead={["Ticket name", "Price", "Date"]}
-          tableBody={attendeeListData?.data}
-          type="organiserDashboardSales"
-        />
+        {attendeeListData?.data.length != 0 ? (
+          <OrganiserTable
+            tableHead={[
+              "Email address",
+              "Ticket name",
+              "Price",
+              "Status",
+              "Date",
+            ]}
+            tableBody={attendeeListData?.data?.slice(0, 5)}
+            type="attendeListTable"
+          />
+        ) : (
+          <>
+            <div className="bg-gray-100 rounded-lg py-5 md:py-9 w-full flex flex-col items-center justify-center gap-5">
+              <Image
+                src={"/images/calendar.svg"}
+                width={200}
+                height={200}
+                alt="calemder"
+                className="w-20 h-20 object-cover pointer-events-none"
+              />
+
+              <p className="font-pally-regular text-sm md:text-lg text-[#828994]">
+                No Attendee yet
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

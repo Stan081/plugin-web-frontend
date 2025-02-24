@@ -99,7 +99,7 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
   );
 
   // Calculate percentage
-  const soldPercentage = (totalSold / totalAvailable) * 100;
+  const soldPercentage = Math.ceil((totalSold * 100) / totalAvailable);
 
   return (
     <div className="w-full max-w-sm shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200 p-2.5 lg:p-4  hover:bg-gray-100 transition delay-75 ease-in-out">

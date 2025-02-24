@@ -148,7 +148,7 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
   );
 
   // Calculate percentage
-  const soldPercentage = (totalSold / totalAvailable) * 100;
+  const soldPercentage = Math.ceil((totalSold * 100) / totalAvailable);
 
   return (
     <div className="shadow-md border rounded-xl">

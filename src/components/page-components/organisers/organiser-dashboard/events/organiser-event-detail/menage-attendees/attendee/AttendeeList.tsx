@@ -15,6 +15,8 @@ const AttendeeList = () => {
 
   const filterConfirmTicket = attendeeListData?.data?.filter((item) => item?.status === "confirmed");
 
+  console.log(publishedEventId)
+
   return (
     <Section className="space-y-5">
       {/* Attendee List Header */}
@@ -38,7 +40,7 @@ const AttendeeList = () => {
 
       {/* Attendee List Table */}
       <div>
-        {filterConfirmTicket.length != 0 ? (
+        {filterConfirmTicket?.length != 0 ? (
           <OrganiserTable
             tableHead={["Email address", "Ticket name", "Price", "Status", "Date", ]}
             tableBody={filterConfirmTicket}
