@@ -20,16 +20,15 @@ const OrganiserPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (token) {
-      if (userData?.data?.isOrganizer) {
-        setCurrentStep(1);
-        removeCookie('event_id')
-      }
-      else {router.replace("/")};
-    } else {
-      router.push("/login");
-    }
-  }, [router]);
+     if (!token || !userData) return;
+ 
+     if (userData?.data?.isOrganizer) {
+       removeCookie("event_id");
+       setCurrentStep(1);
+     } else {
+       router.push("/login");
+     }
+   }, [router, token, userData, setCurrentStep]);
   return (
     <Fragment>
       <OrganiserHeader />
