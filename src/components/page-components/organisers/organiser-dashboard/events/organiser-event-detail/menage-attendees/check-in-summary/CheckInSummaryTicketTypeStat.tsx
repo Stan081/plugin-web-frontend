@@ -12,27 +12,24 @@ interface StatProps {
 }
 
 const CheckInSummaryTicketTypeStat = () => {
-    const { publishedEventId } = useEventsContext();
-  
-    const { data: summary } = useGetEventSummary(publishedEventId);
+  const { publishedEventId } = useEventsContext();
 
-  const data: StatProps[] = [
-    {
-      name: "Regular",
-      value: 12,
-      color: "#7660BE",
-    },
-    {
-      name: "VIP",
-      value: 20,
-      color: "#FFD2A6",
-    },
-    {
-      name: "VVIP",
-      value: 10,
-      color: "#000000",
-    },
-  ];
+  const { data: summary } = useGetEventSummary(publishedEventId);
+
+  function generateHexColor(): string {
+    return `#${Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, "0")}`;
+  }
+
+  const data: StatProps[] = summary?.data?.checkinByTicketType?.map((item) => ({
+    ...item,
+    name: item.ticket,
+    value: item.percentage,
+    color: generateHexColor(),
+  }));
+
+  console.log(data);
   return (
     <div className="border border-[#1019280D] rounded-lg w-full lg:w-1/2 p-5">
       <p className="font-pally-medium text-base text-[#667185]">
@@ -40,7 +37,7 @@ const CheckInSummaryTicketTypeStat = () => {
       </p>
 
       <div className="mt-6 flex flex-col items-center justify-center gap-5">
-        {data.length === 0 ? (
+        {data?.length === 0 ? (
           <div className="w-20 h-20 lg:h-40 lg:w-40 rounded-full border-4 flex justify-center items-center p-8 font-pally-medium text-gray-300">
             Empty chart
           </div>
@@ -57,9 +54,9 @@ const CheckInSummaryTicketTypeStat = () => {
                     outerRadius={80}
                     fill="#8884d8"
                     paddingAngle={2}
-                    dataKey="value"
+                    dataKey="percentage"
                   >
-                    {data.map((entry, index) => (
+                    {data?.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
@@ -77,9 +74,9 @@ const CheckInSummaryTicketTypeStat = () => {
                     outerRadius={100}
                     fill="#8884d8"
                     paddingAngle={5}
-                    dataKey="value"
+                    dataKey="percentage"
                   >
-                    {data.map((entry, index) => (
+                    {data?.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
@@ -89,7 +86,7 @@ const CheckInSummaryTicketTypeStat = () => {
           </div>
         )}
         <div className=" block">
-          {data.map((item, index) => (
+          {data?.map((item, index) => (
             <div key={index} className="flex items-center space-x-2">
               <div
                 className={`w-4 h-4 rounded-full`}
@@ -99,7 +96,7 @@ const CheckInSummaryTicketTypeStat = () => {
                 {item.name}:{" "}
               </span>
               <span className="font-pally-medium text-sm lg:text-base">
-                {item.value}
+                {item.value}%
               </span>
             </div>
           ))}

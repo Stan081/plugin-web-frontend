@@ -12,7 +12,7 @@ const EventDetailTickets = () => {
   const { data: bookingHistory } = useGetEventBookingHistory(publishedEventId);
   return (
     <div>
-      <h2 className="font-pally-medium text-xl">Ticket Sales</h2>
+      <h2 className="font-pally-medium text-xl">Booking History</h2>
 
       <div className="mt-6 mb-3">
         <p className="font-pally-medium text-base text-[#332269]">
