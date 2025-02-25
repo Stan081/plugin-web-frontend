@@ -11,10 +11,8 @@ import { FaXTwitter } from "react-icons/fa6";
 // import SaleTable from "./EventDashboard";
 import EventTicketsStats from "./EventTicketsStats";
 import OrganiserTable from "../../../OrganiserTable";
-import organiserDashboardSalesData from "@/static-datas/organiser-dashboard-sales-data";
 import { useEventsContext } from "@/providers/events.provider";
-import { BASE_URL, WEB_URL } from "@/lib/constants";
-import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
+import { WEB_URL } from "@/lib/constants";
 import { useFilteredAttendeeList } from "@/hooks/events/useFilterAttendeeList";
 
 const tabLink = [

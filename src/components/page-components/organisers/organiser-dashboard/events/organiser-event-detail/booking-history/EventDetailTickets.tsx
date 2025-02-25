@@ -1,5 +1,4 @@
 import React from "react";
-import organiserDashboardSalesData from "@/static-datas/organiser-dashboard-sales-data";
 
 import Image from "next/image";
 import TicketHistoryEmptyState from "./TicketHistoryEmptyState";
