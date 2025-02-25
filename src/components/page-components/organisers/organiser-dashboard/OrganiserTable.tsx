@@ -21,9 +21,10 @@ type AttendeeListTableBodyType = {
   price: number;
 };
 type OrganiserDashboardSalesTableBodyType = {
-  ticketID: string;
-  ticketName: string;
-  price: string;
+  bookingId: string;
+  userEmail: string;
+  paymentStatus: string;
+  paystackReference: string;
   date: string;
 };
 type TablePropsType = {
@@ -82,14 +83,16 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
               (tableRow) => {
                 return (
                   <TableRow
-                    key={tableRow.ticketID}
+                    key={tableRow.bookingId}
                     className="text-[#2C2B2E] font-pally-regular text-base"
                   >
-                    <TableCell>{tableRow.ticketID}</TableCell>
+                    <TableCell>{tableRow?.userEmail}</TableCell>
                     <TableCell>
-                      <OrganiserTableTicketLabel text={tableRow?.ticketName} />
+                      <AttendeeListTableStatusLabel
+                        status={tableRow?.paymentStatus as StatusLabelType}
+                      />
                     </TableCell>
-                    <TableCell>{tableRow?.price}</TableCell>
+                    <TableCell>{tableRow?.paystackReference}</TableCell>
                     <TableCell>{formattedDate(tableRow?.date)}</TableCell>
                   </TableRow>
                 );
