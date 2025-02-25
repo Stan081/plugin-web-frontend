@@ -8,7 +8,7 @@ const tabLink = [
   { title: "Tickets", key: "tickets" },
   { title: "Attendee list", key: "attendee" },
   { title: "Check-in summary", key: "summary" },
-  { title: "Reminder Emails", key: "reminder_emails" },
+  // { title: "Reminder Emails", key: "reminder_emails" },
 ];
 
 const EventDetailManagement = () => {
@@ -52,7 +52,7 @@ const EventDetailManagement = () => {
         {activeTab === "tickets" && <EventTickets />}
         {activeTab === "attendee" && <AttendeeList />}
         {activeTab === "summary" && <CheckInSummary />}
-        {activeTab === "reminder_emails" && <ReminderEmails />}
+        {/* {activeTab === "reminder_emails" && <ReminderEmails />} */}
       </div>
     </div>
   );

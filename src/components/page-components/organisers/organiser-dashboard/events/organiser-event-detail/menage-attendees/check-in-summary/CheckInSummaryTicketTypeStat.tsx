@@ -1,5 +1,7 @@
 "use client";
 
+import { useGetEventSummary } from "@/hooks/organiser/useGetEventSummary";
+import { useEventsContext } from "@/providers/events.provider";
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
@@ -10,6 +12,10 @@ interface StatProps {
 }
 
 const CheckInSummaryTicketTypeStat = () => {
+    const { publishedEventId } = useEventsContext();
+  
+    const { data: summary } = useGetEventSummary(publishedEventId);
+
   const data: StatProps[] = [
     {
       name: "Regular",

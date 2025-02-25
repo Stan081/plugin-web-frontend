@@ -44,9 +44,9 @@ const SelectEvent = () => {
 
   const now = new Date();
 
-  const currentEvents = organiserEvents?.data?.data.filter((item) => {
+  const currentEvents = organiserEvents?.data?.filter((item) => {
     const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+      item?.startDate || item?.startDate
     );
     return item.isPublished === true && startDate > now;
   });
@@ -61,6 +61,8 @@ const SelectEvent = () => {
       </div>
     );
   }
+
+  console.log(currentEvents)
 
   return (
     <div className="w-full lg:w-3/5 pt-6 lg:px-10 lg:pt-10 rounded-lg h-screen bg-white flex flex-col justify-between">

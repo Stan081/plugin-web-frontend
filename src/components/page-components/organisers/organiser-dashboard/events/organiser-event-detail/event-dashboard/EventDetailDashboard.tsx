@@ -75,7 +75,7 @@ const EventDetailDashboard = () => {
             </div>
 
             <Link
-              href={"/#"}
+              href={"/organiser/ad-campaigns"}
               className="destructive flex items-center gap-2 font-pally-medium text-sm md:text-base"
             >
               Start campaign

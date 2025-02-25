@@ -4,23 +4,28 @@ import ticket from "../../../../../../../../../public/images/ticket.png";
 import badge from "../../../../../../../../../public/images/badge.png";
 import trend from "../../../../../../../../../public/images/trend.png";
 import Image from "next/image";
+import { useEventsContext } from "@/providers/events.provider";
+import { useGetEventSummary } from "@/hooks/organiser/useGetEventSummary";
 
 const CheckInSummaryTicketSalesStat = () => {
+  const { publishedEventId } = useEventsContext();
+
+  const { data: summary, isLoading } = useGetEventSummary(publishedEventId);
   const statDetails = [
     {
       icon: ticket,
       label: "Tickets sold",
-      count: "345",
+      count: summary?.data?.ticketDistribution?.sold,
     },
     {
       icon: badge,
       label: "Total Check-ins",
-      count: "45",
+      count: summary?.data?.checkedInUsers,
     },
     {
       icon: trend,
       label: " Check-in rate",
-      count: "45%",
+      count: `${summary?.data?.checkInRate}%`,
     },
   ];
 

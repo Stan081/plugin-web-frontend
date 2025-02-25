@@ -53,7 +53,7 @@ const OrganiserEventDetail = () => {
   setPublishedEventId(getEventDetail?._id)
   //   Temporary routing
   if (!getEventDetail) {
-    return <h4>Not Found!!</h4>;
+    return <SpinnerOverlay />;
   }
 
   if (isError) {
