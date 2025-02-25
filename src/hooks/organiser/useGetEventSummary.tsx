@@ -13,7 +13,7 @@ export const useGetEventSummary = (eventId: string) => {
   };
 
   return useQuery({
-    queryKey: ["organiserProfile"],
+    queryKey: ["organiserEventSummary"],
     queryFn: () =>
       axios
         .get(GET_EVENT_SUMMARY + `/${eventId}`, options)

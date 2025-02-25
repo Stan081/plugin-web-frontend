@@ -47,7 +47,7 @@ const EventDetailManagement = () => {
         id={`panel-${activeTab}`}
         role="tabpanel"
         aria-labelledby={`tab-${activeTab}`}
-        className="mt-4 md:mt-5"
+        className="mt-3"
       >
         {activeTab === "tickets" && <EventTickets />}
         {activeTab === "attendee" && <AttendeeList />}

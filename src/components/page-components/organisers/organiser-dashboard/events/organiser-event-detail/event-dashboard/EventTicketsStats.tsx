@@ -47,7 +47,7 @@ const EventTicketsStats = () => {
           <Skeleton className="h-6 w-16" />
         ) : (
           <p className="font-pally-medium text-[#281E17] text-base md:text-xl">
-            {summary?.data?.netSales}
+            {toFiat(summary?.data?.netSales)}
           </p>
         )}
         <p className="font-pally-regular text-[#515A6A] text-base md:text-lg">
