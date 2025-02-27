@@ -11,7 +11,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWY2NTYxMDYzZTMyMTYwNzE1ZDUyOCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzk4NjU2NjgsImV4cCI6MTc0MjQ1NzY2OH0.7nRsSX8VA8pzdD3330c7Ordjhv0oeSpjc1PwGvELK-8
 ###
 
-GET https://test-api.pluginent.com/api/organizers/events/sales-records/67bb9f07da548ef0995e9ab3
+GET https://test-api.pluginent.com/api/users/following
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWY2NTYxMDYzZTMyMTYwNzE1ZDUyOCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3Mzk4NjU2NjgsImV4cCI6MTc0MjQ1NzY2OH0.7nRsSX8VA8pzdD3330c7Ordjhv0oeSpjc1PwGvELK-8
 
