@@ -24,6 +24,8 @@ const OrganiserInfo: React.FC<{
   const [isShown, setIsShown] = useState<boolean>(false);
   const { data: userDate } = useMe();
 
+  console.log(organiser)
+
   const { toast } = useToast();
 
   const handleCopyLink = async (saveLink: string) => {
@@ -82,6 +84,9 @@ const OrganiserInfo: React.FC<{
         client.invalidateQueries({
           queryKey: ["isFollowing", organiser?.userId],
         });
+        client.invalidateQueries({
+          queryKey: ["organiser",],
+        });
       },
     });
   };
@@ -112,7 +117,7 @@ const OrganiserInfo: React.FC<{
 
           <div className="flex items-center justify-center mt-2 gap-4">
             <p className="font-pally-regular text-sm text-[#667185]">
-              36 Followers
+              {organiser?.followers} Followers
             </p>
             {organiser?.userId !== userDate?.data?._id && (
               <Fragment>

@@ -18,13 +18,14 @@ import {
 const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
   const { data: organiser } = useOrganiser(organiserId);
   const { data: isCheck } = useCheckFollow(organiserId);
-  const { mutate: removeFollow, isPending: isPendingUnfollow } = useUnfollow(organiserId);
+  const { mutate: removeFollow, isPending: isPendingUnfollow } =
+    useUnfollow(organiserId);
 
   const { toast } = useToast();
 
   const client = useQueryClient();
 
-  console.log(organiser)
+  console.log(organiser);
 
   const { mutate, isPending } = useMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,6 +55,7 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
     mutate(data, {
       onSuccess: () => {
         client.invalidateQueries({ queryKey: ["isFollowing", organiserId] });
+        client.invalidateQueries({ queryKey: ["organiser"] });
       },
     });
   };
@@ -103,9 +105,11 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
                 Instagram
               </Link>
             </div>
-            <p className="font-pally-regular text-sm md:text-base text-[#0F973D]">
-              369 people are following this host
-            </p>
+            {organiser?.data?.followers > 0 && (
+              <p className="font-pally-regular text-sm md:text-base text-[#0F973D]">
+                {organiser?.data?.followers} people are following this host
+              </p>
+            )}
           </div>
         </div>
 
