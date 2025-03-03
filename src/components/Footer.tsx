@@ -16,9 +16,7 @@ const Footer = () => {
                 <Logo />
               </div>
               <ul className="text-[#687384] font-pally-regular text-base md:text-lg">
-                <li>Maitama, 900271, Abuja - Nigeria</li>
-                <li>+234 (0)809 666 4872</li>
-                <li>hello@eventdey.com</li>
+                <li>contact@pluginent.com</li>
               </ul>
             </div>
             <div className=" w-full md:w-3/5 flex flex-col lg:flex-row gap-8">
@@ -38,7 +36,7 @@ const Footer = () => {
                     ))}
                   </ul>
                 </div>
-                <div className="space-y-4">
+                {/* <div className="space-y-4">
                   <h4 className="text-black font-pally-medium text-base md:text-lg">
                     {Object.keys(footerData.f2)[1]}
                   </h4>
@@ -52,10 +50,10 @@ const Footer = () => {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </div> */}
                 <div className="space-y-4">
                   <h4 className="text-black font-pally-medium text-base md:text-lg">
-                    {Object.keys(footerData.f2)[2]}
+                    {Object.keys(footerData.f2)[1]}
                   </h4>
                   <ul className=" font-pally-regular text-[#667185] space-y-4">
                     {footerData.f2.Social.map((list, index) => (
@@ -71,7 +69,7 @@ const Footer = () => {
               </div>
               <div className="w-full md:w-72 space-y-4">
                 <h4 className=" font-pally-medium tex-black text-base md:text-lg">
-                  Dowload App on
+                  Coming soon on
                 </h4>
                 <ul className="flex flex-row md:flex-col items-center gap-5">
                   {footerData.f3.map((list, index) => (

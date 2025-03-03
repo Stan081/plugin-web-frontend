@@ -12,11 +12,11 @@ import MenuLinks from "./Menu";
 import { getToken } from "@/lib/token";
 
 const Header = () => {
-  const token = getToken()
+  const token = getToken();
   return (
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md shadow-md">
-      <Container>
-        <nav className="flex justify-between items-center gap-5">
+      <nav>
+        <Container className="flex justify-between items-center gap-5">
           <div className="md:space-x-0 flex gap-4 md:gap-6 items-center">
             <NavigationDialog />
             <Logo />
@@ -34,21 +34,16 @@ const Header = () => {
 
             <ListEventCard />
 
-            <Link
-              href={"/faq"}
-              className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline cursor-pointer"
-            >
-              Help
-            </Link>
-
-            {!token? (
+            {!token ? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
                   Get Started
                 </Button>
               </Link>
             ) : (
-              <MenuLinks />
+              <>
+                <MenuLinks />
+              </>
             )}
           </div>
           <div className="lg:hidden block">
@@ -59,14 +54,16 @@ const Header = () => {
                 </Button>
               </Link>
             ) : (
-              <MenuLinks />
+              <>
+                <MenuLinks />
+              </>
             )}
           </div>
-        </nav>
-        <div className="lg:hidden block w-full pb-2 md:pb-0">
+        </Container>
+        <div className="lg:hidden block w-full pb-2 md:pb-0 px-4">
           <HeaderSearchBar />
         </div>
-      </Container>
+      </nav>
     </header>
   );
 };

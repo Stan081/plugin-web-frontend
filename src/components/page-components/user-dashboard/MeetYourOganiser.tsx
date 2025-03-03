@@ -25,7 +25,6 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
 
   const client = useQueryClient();
 
-  console.log(organiser);
 
   const { mutate, isPending } = useMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

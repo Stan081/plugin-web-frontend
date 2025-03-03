@@ -9,33 +9,23 @@ const f1 = [
     },
     {
       text: "FAQ",
-      href: "/help",
+      href: "/faq",
     },
   ];
 
  const f2 = {
     links: [
       {
-        href: "/#",
+        href: "/explore-events",
         text: "Explore Events",
       },
       {
-        href: "/#",
+        href: "/create-event",
         text: "List Events",
       },
       {
-        href: "/help",
+        href: "/faq",
         text: "Help",
-      },
-    ],
-    Company: [
-      {
-        href: "/about-us",
-        text: "About",
-      },
-      {
-        href: "/#",
-        text: "Blog",
       },
     ],
     Social: [

@@ -39,7 +39,7 @@ const items = [
   {
     label: "Get help",
     icon: MdHelpOutline,
-    href: "/#",
+    href: "/faq",
   },
 ];
 

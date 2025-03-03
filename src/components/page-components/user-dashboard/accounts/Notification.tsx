@@ -22,7 +22,7 @@ const Notification = () => {
               <p className="font-pally-medium underline cursor-pointer">
                 Enable
               </p>
-              <Switch />
+              <Switch disabled />
             </div>
           </li>
           <Separator />
@@ -38,7 +38,7 @@ const Notification = () => {
               <p className="font-pally-medium underline cursor-pointer">
                 Enable
               </p>
-              <Switch />
+              <Switch disabled/>
             </div>
           </li>
         </ul>
@@ -60,7 +60,7 @@ const Notification = () => {
               <p className="font-pally-medium underline cursor-pointer">
                 Enable
               </p>
-              <Switch />
+              <Switch disabled/>
             </div>
           </li>
           <Separator />
@@ -78,7 +78,7 @@ const Notification = () => {
               <p className="font-pally-medium underline cursor-pointer">
                 Enable
               </p>
-              <Switch />
+              <Switch disabled/>
             </div>
           </li>
           <Separator />
@@ -96,7 +96,7 @@ const Notification = () => {
               <p className="font-pally-medium underline cursor-pointer">
                 Enable
               </p>
-              <Switch />
+              <Switch disabled/>
             </div>
           </li>
         </ul>

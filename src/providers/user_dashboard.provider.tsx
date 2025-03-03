@@ -32,11 +32,13 @@ export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
   const token = getToken();
 
   useEffect(() => {
-      if (token && shouldRedirect) {
+    if (shouldRedirect) {
+      if (token) {
         return;
       } else {
         router.push("/login");
       }
+    }
   }, [shouldRedirect, token, router]);
 
   useEffect(() => {
@@ -47,7 +49,7 @@ export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const logout = () => {
     deleteToken();
-    removeCookie('user_id')
+    removeCookie("user_id");
     setShouldRedirect(false);
     router.replace("/login");
   };

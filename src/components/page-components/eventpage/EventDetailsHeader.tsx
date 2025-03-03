@@ -71,6 +71,26 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
       return
     }
   };
+
+  const handleCopyLink = async (saveLink: string) => {
+    try {
+      // Copy the link to the clipboard
+      await navigator.clipboard.writeText(saveLink);
+
+      toast({
+        variant: "success",
+        title: "Link copied to clipboard!",
+      });
+    } catch (err) {
+      console.log(err);
+      toast({
+        variant: "destructive",
+        title: "Failed to copy link.",
+      });
+    }
+  };
+
+  // const saveLink = `${}`
   return (
     <div className="mt-5 md:mt-8">
       <div className="flex justify-between">
@@ -81,7 +101,9 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
           {title}
         </h1>
         <ul className="flex gap-4 md:gap-8">
-          <li className="flex items-center gap-1.5 cursor-pointer">
+          <li 
+          // onClick={() => handleCopyLink()} 
+          className="flex items-center gap-1.5 cursor-pointer">
             <MdOutlineFileUpload size={20} />
             <p className="hidden md:flex">Share</p>
           </li>
