@@ -9,7 +9,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import { setToken } from "@/lib/token";
 import { getCookie, removeCookie } from "@/lib/cookies";
-import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
 

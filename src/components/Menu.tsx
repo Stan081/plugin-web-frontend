@@ -47,7 +47,7 @@ const MenuLinks = () => {
   const { logout } = useUserDashContext();
   const { data: userDate, isLoading } = useMe();
   return (
-    <Fragment>
+    <div>
       {!isLoading ? (
         <Popover>
           <PopoverTrigger>
@@ -100,7 +100,7 @@ const MenuLinks = () => {
       ) : (
         <Skeleton className="w-12 h-12 rounded-full" />
       )}
-    </Fragment>
+    </div>
   );
 };
 
