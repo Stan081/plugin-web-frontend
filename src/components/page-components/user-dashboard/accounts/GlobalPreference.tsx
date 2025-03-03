@@ -10,7 +10,7 @@ const GlobalPreference = () => {
             <h3 className="font-pally-medium text-lg">Preferred Language</h3>
             <p className="text-[#586170] font-pally-regular">English</p>
           </div>
-          <p className="font-pally-medium underline cursor-pointer">Change</p>
+          <p className="font-pally-medium underline text-gray-400 cursor-not-allowed">Change</p>
         </li>
         <Separator />
         <li className="flex items-start justify-between">
@@ -18,7 +18,7 @@ const GlobalPreference = () => {
             <h3 className="font-pally-medium text-lg">Preferred Currency</h3>
             <p className="text-[#586170] font-pally-regular">Naira(₦)</p>
           </div>
-          <p className="font-pally-medium underline cursor-pointer">Change</p>
+          <p className="font-pally-medium underline text-gray-400 cursor-not-allowed">Change</p>
         </li>
         <Separator />
         <li className="flex items-start justify-between">
@@ -28,7 +28,7 @@ const GlobalPreference = () => {
               ( GMT +01:00 ) Nigeria
             </p>
           </div>
-          <p className="font-pally-medium underline cursor-pointer">Change</p>
+          <p className="font-pally-medium underline text-gray-400 cursor-not-allowed">Change</p>
         </li>
         <Separator />
       </ul>

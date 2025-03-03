@@ -7,14 +7,6 @@ import { footerData } from "@/static-datas/footer-data";
 import { useToast } from "./ui/use-toast";
 
 const Footer = () => {
-  const {toast} = useToast()
-  const comingSoon = () => {
-    toast({
-      variant: "default",
-      title: "Coming Soon!!!",
-      description: 'App not availiable yet!'
-    })
-  }
   return (
     <footer>
       <div className="bg-pitchNoise bg-100 backdrop-blur-md ">
@@ -80,14 +72,13 @@ const Footer = () => {
               </div>
               <div className="w-full md:w-72 space-y-4">
                 <h4 className=" font-pally-medium tex-black text-base md:text-lg">
-                  Dowload App on
+                  Coming soon on
                 </h4>
                 <ul className="flex flex-row md:flex-col items-center gap-5">
                   {footerData.f3.map((list, index) => (
                     <li
                       key={index}
-                      className="bg-black w-full p-2 rounded-lg flex items-center justify-center gap-4 cursor-pointer"
-                      onClick={comingSoon}
+                      className="bg-black w-full p-2 rounded-lg flex items-center justify-center gap-4"
                     >
                       <div>
                         <Image
