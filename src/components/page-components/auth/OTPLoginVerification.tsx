@@ -28,14 +28,22 @@ const OTPLoginVerification = () => {
     onSuccess: (response) => {
       client.invalidateQueries({ queryKey: ["me"] });
       setShouldRedirect(true);
-      router.replace("/");
       setToken(response?.token);
+      removeCookie("email");
+      const redirectTo = localStorage.getItem("redirectAfterLogin");
+      if (redirectTo) {
+        // router.push(redirectTo);
+        console.log('to event')
+      } else {
+        // router.replace("/");
+        console.log('to home')
+      }
+      localStorage.removeItem("redirectAfterLogin");
       toast({
         variant: "success",
         title: "Verified",
         description: `${response?.message}`,
       });
-      removeCookie('email')
     },
     onError: (error: any) => {
       toast({

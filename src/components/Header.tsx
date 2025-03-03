@@ -9,10 +9,10 @@ import HeaderSearchBar from "./page-components/homepage/headerSearch";
 import ListEventCard from "./ListEventLinks";
 import { NavigationDialog } from "./NavigationDialog";
 import MenuLinks from "./Menu";
-import { useMe } from "@/pages/api/query/me";
+import { getToken } from "@/lib/token";
 
 const Header = () => {
-  const { data: userData } = useMe();
+  const token = getToken()
   return (
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md shadow-md">
       <Container>
@@ -41,7 +41,7 @@ const Header = () => {
               Help
             </Link>
 
-            {!userData?.data ? (
+            {!token? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
                   Get Started
@@ -52,7 +52,7 @@ const Header = () => {
             )}
           </div>
           <div className="lg:hidden block">
-            {!userData?.data ? (
+            {!token ? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
                   Get Started
