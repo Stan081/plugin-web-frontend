@@ -11,15 +11,21 @@ import Grid2 from "./icons/grid-2";
 import Money2 from "./icons/money-2";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { useMe } from "@/pages/api/query/me";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect";
+import { useRouter } from "next/navigation";
 
 export const NavigationDialog = () => {
   const [toggleList, setToggleList] = useState<boolean>(false);
+  const { handleProtectedNavigation } = useAuthRedirect();
   const { data: userDate } = useMe();
+  const router = useRouter();
+
   const eventlists = [
     ...(userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer
       ? []
       : [
           {
+            slug: "create_events",
             name: "Create events",
             description: "List your event",
             icon: <ListAdd />,
@@ -28,6 +34,7 @@ export const NavigationDialog = () => {
           },
         ]),
     {
+      slug: "features",
       name: "Features",
       description: "Discover the benefits of Plugin",
       icon: <Grid2 />,
@@ -35,6 +42,7 @@ export const NavigationDialog = () => {
       link: "/features",
     },
     {
+      slug: "pricing",
       name: "Pricing",
       description: "Explore the planning price",
       icon: <Money2 />,
@@ -42,6 +50,15 @@ export const NavigationDialog = () => {
       link: "/pricing",
     },
   ];
+
+  const handleRedirect = (slug: string, link: string) => {
+    if (slug === "create_events") {
+      handleProtectedNavigation(link);
+    } else {
+      router.push(link);
+    }
+  };
+
   return (
     <Fragment>
       <Dialog>
@@ -80,6 +97,7 @@ export const NavigationDialog = () => {
                   {eventlists.map((list, index) => (
                     <li
                       key={index}
+                      onClick={() => handleRedirect(list?.slug, list.link)}
                       className="hover:bg-gray-100 py-2.5 px-4 rounded-lg transition delay-75 ease-in-out"
                     >
                       <Link
@@ -105,9 +123,11 @@ export const NavigationDialog = () => {
                 </ul>
               )}
             </div>
-            <Button variant="outline" className="w-full">
-              Get help
-            </Button>
+            <Link href={'/faq'}>
+              <Button variant="outline" className="w-full">
+                Get help
+              </Button>
+            </Link>
           </div>
         </DialogContent>
       </Dialog>
