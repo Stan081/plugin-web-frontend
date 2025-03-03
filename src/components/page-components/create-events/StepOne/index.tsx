@@ -78,7 +78,6 @@ const StepOne: React.FC = () => {
   const client = useQueryClient();
   const eventID = getCookie("event_id");
 
-  console.log(event?.data);
 
   // Handle image upload for banner
   const handleImageUploadBanner = async (

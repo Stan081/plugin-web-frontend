@@ -32,13 +32,11 @@ export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
   const token = getToken();
 
   useEffect(() => {
-    if (shouldRedirect) {
-      if (token) {
-        router.push("/");
+      if (token && shouldRedirect) {
+        return;
       } else {
         router.push("/login");
       }
-    }
   }, [shouldRedirect, token, router]);
 
   useEffect(() => {

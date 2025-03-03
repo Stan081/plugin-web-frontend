@@ -16,6 +16,7 @@ import Spinner from "@/tw-components/spinner";
 const OTPVerification = () => {
   const [otp, setOtp] = useState<string>("");
   const { setShouldRedirect } = useUserDashContext();
+
   const router = useRouter();
 
   const email = getCookie("email");
@@ -28,15 +29,28 @@ const OTPVerification = () => {
     mutationFn: (data: VerifyCodeType) => VerifyCode(data),
     onSuccess: (response) => {
       client.invalidateQueries({ queryKey: ["me"] });
-      setShouldRedirect(true);
-      router.replace("/");
       toast({
         variant: "success",
         title: "Verified",
         description: `${response?.message}`,
       });
+
+      // Set token first
       setToken(response?.token);
-      removeCookie('email')
+      setShouldRedirect(true);
+      removeCookie("email");
+
+      // Get and remove redirect cookie before pushing
+      const redirectTo = getCookie("redirectAfterLogin");
+      console.log("Redirecting to:", redirectTo);
+
+      if (redirectTo) {
+        removeCookie("redirectAfterLogin");
+        router.push(redirectTo as string);
+        return;
+      } else {
+        router.replace("/");
+      }
     },
     onError: (error: any) => {
       // Handle error here
@@ -58,6 +72,7 @@ const OTPVerification = () => {
       code: otp,
     };
     mutate(data);
+
   };
 
   return (

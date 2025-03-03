@@ -23,11 +23,9 @@ export default function CreateEvent() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!token) {
-      return router.push("/login");
-    }
-    return;
-  }, [router]);
+    if(token) return
+    if(!token) router.replace('/login')
+  }, [])
 
   const renderStepContent = () => {
     switch (currentStep) {

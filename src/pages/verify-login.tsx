@@ -12,10 +12,10 @@ const LoginVerification = () => {
   const token = getToken()
   const router = useRouter()
 
-  // useEffect(() => {
-  //   if(!token) return
-  //   if(token) router.replace('/')
-  // }, [])
+  useEffect(() => {
+    if(!token) return;
+    if(token) router.replace('/');
+  }, [])
   return (
     <Layout title="Verification">
       <div className="h-screen flex">

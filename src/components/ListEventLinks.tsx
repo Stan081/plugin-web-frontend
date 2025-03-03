@@ -11,18 +11,19 @@ import Link from "next/link";
 import { useMe } from "@/pages/api/query/me";
 import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 import { useRouter } from "next/navigation";
+import { getCookie } from "@/lib/cookies";
 
 const ListEvent = () => {
   const { handleProtectedNavigation } = useAuthRedirect();
   const { data: userDate } = useMe();
-  const router = useRouter()
+  const router = useRouter();
 
   const eventlists = [
-    ...((false)
+    ...(false
       ? []
       : [
           {
-            slug: 'create_events',
+            slug: "create_event",
             name: "Create events",
             description: "List your event",
             icon: <ListAdd />,
@@ -31,7 +32,7 @@ const ListEvent = () => {
           },
         ]),
     {
-      slug: 'features',
+      slug: "features",
       name: "Features",
       description: "Discover the benefits of Plugin",
       icon: <Grid2 />,
@@ -39,7 +40,7 @@ const ListEvent = () => {
       link: "/features",
     },
     {
-      slug: 'pricing',
+      slug: "pricing",
       name: "Pricing",
       description: "Explore the planning price",
       icon: <Money2 />,
@@ -49,12 +50,12 @@ const ListEvent = () => {
   ];
 
   const handleRedirect = (slug: string, link: string) => {
-    if(slug === 'create_events'){
-      handleProtectedNavigation(link)
-    }else {
+    if (slug === "create_event") {
+      handleProtectedNavigation(link);
+    } else {
       router.push(link)
     }
-  }
+  };
   return (
     <Popover>
       <PopoverTrigger>
