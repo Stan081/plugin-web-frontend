@@ -3,7 +3,7 @@ import { getToken } from "@/lib/token";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const useGetUserFollowers = (bookingId: string) => {
+export const useGetUserFollowers = () => {
     const token = getToken();
   const options = {
     headers: {
