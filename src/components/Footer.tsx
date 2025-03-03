@@ -4,7 +4,6 @@ import React from "react";
 import Logo from "./Logo";
 import Image from "next/image";
 import { footerData } from "@/static-datas/footer-data";
-import { useToast } from "./ui/use-toast";
 
 const Footer = () => {
   return (
@@ -17,9 +16,7 @@ const Footer = () => {
                 <Logo />
               </div>
               <ul className="text-[#687384] font-pally-regular text-base md:text-lg">
-                <li>Maitama, 900271, Abuja - Nigeria</li>
-                <li>+234 (0)809 666 4872</li>
-                <li>hello@eventdey.com</li>
+                <li>contact@pluginent.com</li>
               </ul>
             </div>
             <div className=" w-full md:w-3/5 flex flex-col lg:flex-row gap-8">

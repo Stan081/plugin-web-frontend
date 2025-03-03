@@ -34,13 +34,6 @@ const Header = () => {
 
             <ListEventCard />
 
-            <Link
-              href={"/faq"}
-              className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline cursor-pointer"
-            >
-              Help
-            </Link>
-
             {!token ? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
