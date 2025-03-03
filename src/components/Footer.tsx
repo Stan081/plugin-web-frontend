@@ -4,8 +4,17 @@ import React from "react";
 import Logo from "./Logo";
 import Image from "next/image";
 import { footerData } from "@/static-datas/footer-data";
+import { useToast } from "./ui/use-toast";
 
 const Footer = () => {
+  const {toast} = useToast()
+  const comingSoon = () => {
+    toast({
+      variant: "default",
+      title: "Coming Soon!!!",
+      description: 'App not availiable yet!'
+    })
+  }
   return (
     <footer>
       <div className="bg-pitchNoise bg-100 backdrop-blur-md ">
@@ -38,7 +47,7 @@ const Footer = () => {
                     ))}
                   </ul>
                 </div>
-                <div className="space-y-4">
+                {/* <div className="space-y-4">
                   <h4 className="text-black font-pally-medium text-base md:text-lg">
                     {Object.keys(footerData.f2)[1]}
                   </h4>
@@ -52,10 +61,10 @@ const Footer = () => {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </div> */}
                 <div className="space-y-4">
                   <h4 className="text-black font-pally-medium text-base md:text-lg">
-                    {Object.keys(footerData.f2)[2]}
+                    {Object.keys(footerData.f2)[1]}
                   </h4>
                   <ul className=" font-pally-regular text-[#667185] space-y-4">
                     {footerData.f2.Social.map((list, index) => (
@@ -77,7 +86,8 @@ const Footer = () => {
                   {footerData.f3.map((list, index) => (
                     <li
                       key={index}
-                      className="bg-black w-full p-2 rounded-lg flex items-center justify-center gap-4"
+                      className="bg-black w-full p-2 rounded-lg flex items-center justify-center gap-4 cursor-pointer"
+                      onClick={comingSoon}
                     >
                       <div>
                         <Image
