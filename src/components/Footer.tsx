@@ -15,9 +15,9 @@ const Footer = () => {
               <div className="mb-4 w-28 h-10 lg:h-11">
                 <Logo />
               </div>
-              <ul className="text-[#687384] font-pally-regular text-base md:text-lg">
-                <li>contact@pluginent.com</li>
-              </ul>
+              <div className="text-[#687384] font-pally-regular text-base md:text-lg">
+                <Link href={'mailto:contact@pluginent.com'}>contact@pluginent.com</Link>
+              </div>
             </div>
             <div className=" w-full md:w-3/5 flex flex-col lg:flex-row gap-8">
               <div className="flex gap-10 lg:gap-20 w-full">

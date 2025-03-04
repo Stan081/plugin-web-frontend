@@ -14,6 +14,7 @@ import {
   useCheckFollow,
   useUnfollow,
 } from "@/pages/api/mutate/follow/followOrg";
+import { getToken } from "@/lib/token";
 
 const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
   const { data: organiser } = useOrganiser(organiserId);
@@ -23,8 +24,9 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
 
   const { toast } = useToast();
 
-  const client = useQueryClient();
+  const token = getToken();
 
+  const client = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,16 +53,34 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
     const data = {
       organizerId: organiserId,
     };
-    mutate(data, {
-      onSuccess: () => {
-        client.invalidateQueries({ queryKey: ["isFollowing", organiserId] });
-        client.invalidateQueries({ queryKey: ["organiser"] });
-      },
-    });
+    if (!token) {
+      toast({
+        variant: "destructive",
+        title: "Login Error",
+        description: "Please login to follow organiser",
+      });
+    } else {
+      mutate(data, {
+        onSuccess: () => {
+          client.invalidateQueries({ queryKey: ["isFollowing", organiserId] });
+          client.invalidateQueries({ queryKey: ["organiser"] });
+        },
+      });
+    }
   };
 
   const handleUnfollow = () => {
-    removeFollow();
+    if (!token) {
+      toast({
+        variant: "destructive",
+        title: "Login Error",
+        description: "Please login to unfollow organiser",
+      });
+    } else {
+      removeFollow();
+      client.invalidateQueries({ queryKey: ["isFollowing", organiserId] });
+      client.invalidateQueries({ queryKey: ["organiser"] });
+    }
   };
   return (
     <div className="mt-6 bg-[#FCE0DC]/40 rounded-xl p-4">
