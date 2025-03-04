@@ -39,7 +39,7 @@ const items = [
   {
     label: "Get help",
     icon: MdHelpOutline,
-    href: "/faq",
+    href: "email",
   },
 ];
 
@@ -65,7 +65,11 @@ const MenuLinks = () => {
                 const Icon = item.icon;
                 return (
                   <Link
-                    href={`${item.href}`}
+                    href={
+                      item.href === "email"
+                        ? `mailto:support@pluginent.com`
+                        : `${item.href}`
+                    }
                     key={index}
                     className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md"
                   >
