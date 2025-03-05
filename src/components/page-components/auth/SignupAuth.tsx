@@ -22,7 +22,6 @@ import { signUpStepOne } from "@/pages/api/mutate/SignUp";
 import { SignupFieldType } from "@/lib/types/AuthType";
 import { useToast } from "@/components/ui/use-toast";
 import { setCookie } from "@/lib/cookies";
-import { parsePhoneNumber } from 'react-phone-number-input';
 
 const SignupAuth = () => {
   const form = useForm<SignupFields>({
@@ -65,7 +64,11 @@ const SignupAuth = () => {
       });
     },
   });
+  const [country, setCountry] = useState<string>("NG");
 
+  const handleCountryChange = (country: string) => {
+    setCountry(country);
+  };
   const onSubmit = useCallback(
     (payload: SignupFields) => {
 
@@ -79,7 +82,7 @@ const SignupAuth = () => {
         email: payload.email,
         contact: {
           phone: payload.phone_number,
-          country: parsePhoneNumber(payload.phone_number).country,
+          country: country,
         },
         role: "user",
         platform: "web",
@@ -88,7 +91,7 @@ const SignupAuth = () => {
       console.log("Submitted data:", data); // Debug log
       mutate(data);
     },
-    [mutate]
+    [mutate, country]
   );
 
   // const handlePhoneNumberChange = (value) => {
@@ -193,6 +196,7 @@ const SignupAuth = () => {
                       type="text"
                       aria-disabled={isPending}
                       style={{ outline: "none", border: "none" }}
+                      onCountryChange={handleCountryChange}
                     />
                   </FormControl>
                   <FormMessage />

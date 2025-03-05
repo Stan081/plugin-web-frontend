@@ -24,7 +24,6 @@ import { CheckoutProps } from "./CheckoutContactInfo";
 import { useMutation } from "@tanstack/react-query";
 import { Checkout } from "@/pages/api/mutate/tickets/checkout-api";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
-import { parsePhoneNumber } from "react-phone-number-input";
 
 const CheckoutForm = ({ eventId }: CheckoutProps) => {
   const { data: user } = useMe();
