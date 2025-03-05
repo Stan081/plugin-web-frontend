@@ -104,6 +104,13 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
     () => Object.keys(form.formState.errors).length > 0,
     [form.formState.errors]
   );
+  const [country, setCountry] = useState<string>("NG");
+
+  const handleCountryChange = (country: string) => {
+    console.log(country)
+    setCountry(country);
+  };
+
 
   const onSubmit = useCallback(
     (payload: CheckoutForms) => {
@@ -120,14 +127,14 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
           lastname: payload?.last_name,
           email: payload?.email,
           phone: payload?.phone_number,
-          country: parsePhoneNumber(payload?.phone_number).country,
+          country: country,
           tickets: ticketCookie ? tickets : [entryTicketCookie],
         };
 
         mutate(data);
       }
     },
-    [mutate]
+    [mutate, country]
   );
 
   return (
@@ -221,6 +228,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
                       type="text"
                       aria-disabled={isPending}
                       style={{ outline: "none", border: "none" }}
+                      onCountryChange={handleCountryChange}
                     />
                   </FormControl>
                   <FormMessage />
