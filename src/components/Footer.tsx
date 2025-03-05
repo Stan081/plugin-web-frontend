@@ -16,7 +16,9 @@ const Footer = () => {
                 <Logo />
               </div>
               <div className="text-[#687384] font-pally-regular text-base md:text-lg">
-                <Link href={'mailto:contact@pluginent.com'}>contact@pluginent.com</Link>
+                <Link href={"mailto:contact@pluginent.com"}>
+                  contact@pluginent.com
+                </Link>
               </div>
             </div>
             <div className=" w-full md:w-3/5 flex flex-col lg:flex-row gap-8">
@@ -36,7 +38,7 @@ const Footer = () => {
                     ))}
                   </ul>
                 </div>
-                {/* <div className="space-y-4">
+                <div className="space-y-4">
                   <h4 className="text-black font-pally-medium text-base md:text-lg">
                     {Object.keys(footerData.f2)[1]}
                   </h4>
@@ -50,10 +52,10 @@ const Footer = () => {
                       </li>
                     ))}
                   </ul>
-                </div> */}
+                </div>
                 <div className="space-y-4">
                   <h4 className="text-black font-pally-medium text-base md:text-lg">
-                    {Object.keys(footerData.f2)[1]}
+                    {Object.keys(footerData.f2)[2]}
                   </h4>
                   <ul className=" font-pally-regular text-[#667185] space-y-4">
                     {footerData.f2.Social.map((list, index) => (
@@ -87,9 +89,6 @@ const Footer = () => {
                         />
                       </div>
                       <div className="">
-                        <p className=" font-pally-regular text-[#D0D5DD] text-xs">
-                          {list.shortText}
-                        </p>
                         <p className=" font-pally-bold text-white">
                           {list.title}
                         </p>

@@ -28,6 +28,12 @@ const f1 = [
         text: "Help",
       },
     ],
+    Company: [
+      {
+        href: '/about-us',
+        text: 'About us'
+      }
+    ],
     Social: [
       {
         href: "/#",
