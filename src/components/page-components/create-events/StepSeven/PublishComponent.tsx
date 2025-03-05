@@ -164,16 +164,16 @@ const PublishComponent: FC = () => {
                             Shared on Eventdey and search engines
                           </p>
                         </FormItem>
-                        <FormItem className="space-y-1">
+                        <FormItem className="space-y-1 ">
                           <div className="flex items-center space-x-3">
                             <FormControl>
-                              <RadioGroupItem value="private" />
+                              <RadioGroupItem disabled value="private" />
                             </FormControl>
-                            <FormLabel className="font-pally-regular text-base">
+                            <FormLabel className="font-pally-regular text-white/50 text-base">
                               Private
                             </FormLabel>
                           </div>
-                          <p className="text-white font-pally-regular text-sm">
+                          <p className="text-white/50 font-pally-regular text-sm">
                             Only available to a selected audience
                           </p>
                         </FormItem>

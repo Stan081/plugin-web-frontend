@@ -98,11 +98,6 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
     : null;
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
-
-  const hasErrors = useMemo(
-    () => Object.keys(form.formState.errors).length > 0,
-    [form.formState.errors]
-  );
   const [country, setCountry] = useState<string>("NG");
 
   const handleCountryChange = (country: string) => {

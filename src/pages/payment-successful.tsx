@@ -8,13 +8,17 @@ import Link from "next/link";
 import jsPDF from "jspdf";
 import { HiDownload } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+
 
 // Payment successful page after paystack payment
 const PaymentSuccessful = () => {
   const searchParams = useSearchParams();
   const bookingId = searchParams.get("bookingId");
 
-  const { data: bookings } = useGetSuccessfulTicket(bookingId as string);
+  const { data: bookings, isLoading } = useGetSuccessfulTicket(
+    bookingId as string
+  );
 
   const startDate: string = bookings?.data?.eventDate;
 
@@ -44,45 +48,58 @@ const PaymentSuccessful = () => {
     timeZone: "UTC",
   });
 
-   const handleDownloadPDF = () => {
-      const pdf = new jsPDF();
-      pdf.setFontSize(16);
-      pdf.text("Booking Receipt", 20, 20);
+  const handleDownloadPDF = () => {
+    const pdf = new jsPDF();
   
-      pdf.setFontSize(12);
-      pdf.text(`Event: ${bookings?.data?.eventName || "N/A"}`, 20, 40);
-      pdf.text(`Location: ${bookings?.data?.eventLocation || "N/A"}`, 20, 50);
-      pdf.text(
-        `Date: ${new Date(bookings?.data?.eventDate).toLocaleDateString()}`,
-        20,
-        60
-      );
-      pdf.text(`Email: ${bookings?.data?.userEmail || "N/A"}`, 20, 70);
+    // Title
+    pdf.setFontSize(16);
+    pdf.text("Booking Receipt", 20, 20);
   
-      pdf.text("Tickets:", 20, 90);
-      bookings?.data?.ticketData?.forEach((ticket, index) => {
-        pdf.text(
-          `${index + 1}. ${ticket.name} - $${ticket.price}`,
-          20,
-          100 + index * 10
-        );
-      });
+    pdf.setFontSize(12);
+    pdf.text(`Event: ${bookings?.data?.eventName || "N/A"}`, 20, 40);
+    pdf.text(`Location: ${bookings?.data?.eventLocation || "N/A"}`, 20, 50);
+    pdf.text(`Date: ${new Date(bookings?.data?.eventDate).toLocaleDateString()}`, 20, 60);
+    pdf.text(`Email: ${bookings?.data?.userEmail || "N/A"}`, 20, 70);
   
-      pdf.save(`Booking_Receipt_${bookings?.data?.eventName}.pdf`);
-    };
+    // Add Table for Tickets
+    const tickets = bookings?.data?.ticketData?.map((ticket, index) => [
+      index + 1,
+      ticket.name,
+      `$${ticket.price}`,
+    ]) || [];
+  
+    // autoTable(pdf, {
+    //   startY: 90,
+    //   head: [["#", "Ticket Name", "Price"]],
+    //   body: tickets,
+    // });
+  
+    // // Add QR Code if available
+    // const qrCode = bookings?.data?.qrCode; // Assuming it's a Base64 image
+    // if (qrCode) {
+    //   pdf.text("Scan QR Code:", 20, pdf.lastAutoTable.finalY + 20);
+    //   pdf.addImage(qrCode, "PNG", 20, pdf.lastAutoTable.finalY + 30, 50, 50); // Position: (x, y, width, height)
+    // }
+  
+    pdf.save(`Booking_Receipt_${bookings?.data?.eventName}.pdf`);
+  };
   return (
     <Layout title="Payment successful" showHeader showFooter>
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-center">
-          <div className="hidden lg:block w-40 lg:w-2/5 h-[10vh] lg:h-[40vh] relative">
-            <Image
-              src={bookings?.data?.eventBanner}
-              layout="fill"
-              fill
-              alt={bookings?.data?.eventName}
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
+          {isLoading ? (
+            <Skeleton className="w-40 lg:w-2/5 h-[10vh] lg:h-[40vh]" />
+          ) : (
+            <div className="hidden lg:block w-40 lg:w-2/5 h-[10vh] lg:h-[40vh] relative">
+              <Image
+                src={bookings?.data?.eventBanner}
+                layout="fill"
+                fill
+                alt={bookings?.data?.eventName}
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </div>
+          )}
           <div className="flex flex-col justify-center items-center my-6 p-6 w-full lg:w-1/2 mx-auto">
             <Image
               src={"/gif/confetti.gif"}
@@ -103,40 +120,42 @@ const PaymentSuccessful = () => {
 
             <p className="text-sm text-[#667185] my-6">Or downlaod it below</p>
 
-            <ul className="space-y-4 ">
-              {bookings?.data?.ticketData?.map((ticket) => (
-                <li className="border p-4 rounded-xl flex gap-4">
-                  <Image
-                    src={ticket.qrCode}
-                    width={200}
-                    height={40}
-                    alt={ticket.name}
-                    className="w-20 h-20 object-cover rounded-md"
-                  />
+            {isLoading ? (
+              <Skeleton className="h-12 w-38" />
+            ) : (
+              <ul className="space-y-4 ">
+                {bookings?.data?.ticketData?.map((ticket) => (
+                  <li className="border p-4 rounded-xl flex gap-4">
+                    <Image
+                      src={ticket.qrCode}
+                      width={200}
+                      height={40}
+                      alt={ticket.name}
+                      className="w-20 h-20 object-cover rounded-md"
+                    />
 
-                  <div className="space-y-1.5">
-                    <p className="font-pally-medium text-base lg:text-xl">
-                      {bookings?.data?.eventName}
-                    </p>
-                    <p className="font-pally-regular text-[#586170] text-sm ">
-                      {bookings?.data?.eventLocation}
-                    </p>
-                    <p className="font-pally-regular text-sm text-red-600">
-                      {formattedDate} {formattedTime}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                    <div className="space-y-1.5">
+                      <p className="font-pally-medium text-base lg:text-xl">
+                        {bookings?.data?.eventName}
+                      </p>
+                      <p className="font-pally-regular text-[#586170] text-sm ">
+                        {bookings?.data?.eventLocation}
+                      </p>
+                      <p className="font-pally-regular text-sm text-red-600">
+                        {formattedDate} {formattedTime}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
 
             <div className="flex justify-between gap-10 items-center mt-10">
               <div onClick={handleDownloadPDF} className="cursor-pointer">
                 <HiDownload size={22} className="text-gray-500" />
               </div>
               <Link href="/tickets">
-                <Button variant="destructive" >
-                  See tickets
-                </Button>
+                <Button variant="destructive">See tickets</Button>
               </Link>
             </div>
           </div>

@@ -1,10 +1,5 @@
 "use client";
-import React, {
-  FormEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import { Button } from "@/components/ui/button";
@@ -77,7 +72,6 @@ const StepOne: React.FC = () => {
 
   const client = useQueryClient();
   const eventID = getCookie("event_id");
-
 
   // Handle image upload for banner
   const handleImageUploadBanner = async (
@@ -177,8 +171,8 @@ const StepOne: React.FC = () => {
     onError: (error: any) => {
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: error?.message,
+        title: "Fill in the fields",
+        description: "Please upload and fill in the input field",
       });
     },
   });
@@ -220,14 +214,26 @@ const StepOne: React.FC = () => {
       eventDescription,
     };
 
-    if (userData?.data?.role === "user") {
-      mutateRole({ role: "organizer" });
-    }
-
-    if (eventID) {
-      mutateUpdate(data);
+    if (
+      !data.eventBanner &&
+      !data.eventDescription &&
+      !data.eventName &&
+      !data.thumbnail
+    ) {
+      toast({
+        variant: "destructive",
+        title: "All fields are required",
+      });
     } else {
-      mutate(data);
+      if (userData?.data?.role === "user") {
+        mutateRole({ role: "organizer" });
+      }
+
+      if (eventID) {
+        mutateUpdate(data);
+      } else {
+        mutate(data);
+      }
     }
   };
 

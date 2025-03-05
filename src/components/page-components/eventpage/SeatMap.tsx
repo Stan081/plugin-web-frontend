@@ -20,11 +20,15 @@ const SeatMap: FC<{ groupedTicket: any[] }> = ({ groupedTicket }) => {
 
   return (
     <div>
-      <ul className="flex justify-start items-center gap-4 align-baseline">
+      <ul className="flex justify-start items-center gap-4 align-baseline overflow-x-auto pb-3">
         {groupedTicket
           ?.filter((tab) => tab?.seatMap)
           ?.map((tab) => (
-            <li key={tab?._id} role="presentation">
+            <li
+              key={tab?._id}
+              role="presentation"
+              className="whitespace-nowrap "
+            >
               <button
                 className={`border flex gap-2 items-center py-1 px-2 md:py-2 md:px-3 rounded-3xl ${
                   isActive === tab?._id

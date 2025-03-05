@@ -1,30 +1,24 @@
-import { eventGuests } from "@/static-datas/event-speakers";
+"use client"
 import Image from "next/image";
-import React, { Fragment } from "react";
-
-type GuestCardProps = {
-  image: string;
-  name: string;
-  role: string;
-};
+import React from "react";
 
 const GuestCard: React.FC<{ guest: any }> = ({ guest }) => {
   return (
     <div className="border rounded-xl flex-shrink-0">
       <div className="block rounded-3xl">
         <Image
-          className="w-40 h-40 pointer-events-none object-cover rounded-lg"
+          className="w-44 h-44 pointer-events-none object-cover rounded-lg"
           src={guest?.photo}
           alt={guest?.name}
           width={130}
           height={130}
         />
       </div>
-      <div className="p-3">
-        <p className="font-pally-medium text-sm text-[#2C2B2E]">
+      <div className="p-3 overflow-auto">
+        <p className="font-pally-medium w-full max-w-36 text-sm text-[#2C2B2E] whitespace-normal">
           {guest?.name}
         </p>
-        <p className="font-pally-regular text-sm text-[#2C2B2E]">
+        <p className="font-pally-regular w-full max-w-36 text-sm text-[#2C2B2E] whitespace-normal">
           {guest?.role}
         </p>
       </div>

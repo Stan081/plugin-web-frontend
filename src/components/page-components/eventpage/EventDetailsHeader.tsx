@@ -10,6 +10,7 @@ import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getToken } from "@/lib/token";
 import { useRouter } from "next/navigation";
+import { WEB_URL } from "@/lib/constants";
 
 interface Props {
   title: string;
@@ -68,13 +69,13 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
       return router.push("/login");
     } else {
       removeBookmark();
+      client.invalidateQueries({ queryKey: ["isBookmark"] });
       return
     }
   };
 
   const handleCopyLink = async (saveLink: string) => {
     try {
-      // Copy the link to the clipboard
       await navigator.clipboard.writeText(saveLink);
 
       toast({
@@ -90,7 +91,7 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
     }
   };
 
-  // const saveLink = `${}`
+  const saveLink = `${WEB_URL}/explore-events/${id}`
   return (
     <div className="mt-5 md:mt-8">
       <div className="flex justify-between">
@@ -102,7 +103,7 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
         </h1>
         <ul className="flex gap-4 md:gap-8">
           <li 
-          // onClick={() => handleCopyLink()} 
+          onClick={() => handleCopyLink(saveLink)} 
           className="flex items-center gap-1.5 cursor-pointer">
             <MdOutlineFileUpload size={20} />
             <p className="hidden md:flex">Share</p>
