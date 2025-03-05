@@ -123,7 +123,7 @@ export const NavigationDialog = () => {
                 </ul>
               )}
             </div>
-            <Link href={'/faq'}>
+            <Link href={'mailto:support@pluginent.com'}>
               <Button variant="outline" className="w-full">
                 Get help
               </Button>

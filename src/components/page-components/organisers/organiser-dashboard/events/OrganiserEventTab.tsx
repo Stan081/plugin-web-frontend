@@ -37,7 +37,7 @@ const OrganiserEventTab = () => {
 
   const pastEvents = organiserEvents?.data?.filter((item) => {
     const endDate = new Date(item?.endDate);
-    if( item.isPublished === false && endDate < now){
+    if( item.isPublished === true && endDate < now){
       return item
     }
 

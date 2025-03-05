@@ -29,6 +29,9 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     setCounter(ticket ? ticket.quantity : 0);
   }, [tickets, groupedTicket.ticketName]);
 
+  const getRemainingTicket =
+    groupedTicket?.ticketQuantity - groupedTicket?.ticketsSold;
+
   // Update tickets array and persist to cookies
   const updateTickets = (ticketName, price, quantity) => {
     setTickets((prevTickets) => {
@@ -73,6 +76,8 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     );
   };
 
+  console.log(groupedTicket);
+
   return (
     <div className="border border-[#CFD9E8] rounded-lg flex justify-between items-start">
       <div className="flex gap-2">
@@ -88,11 +93,18 @@ const GroupedTicket = ({ groupedTicket, id }) => {
           <p className="text-[#646267] font-pally-medium">
             {groupedTicket?.ticketName}
           </p>
-          <p className="text-[#2C2B2E] font-pally-bold text-2xl">
-            {groupedTicket?.groupedTicketType === "paid"
-              ? toFiat(groupedTicket?.ticketPrice)
-              : toFiat(0)}
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-[#2C2B2E] font-pally-medium text-2xl">
+              {groupedTicket?.groupedTicketType === "paid"
+                ? toFiat(groupedTicket?.ticketPrice)
+                : toFiat(0)}
+            </p>
+            {groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold && (
+              <p className="bg-red-500 text-white py-0.5 px-1 rounded-3xl text-xs">
+                Sold out
+              </p>
+            )}
+          </div>
         </div>
       </div>
       <div className="p-2 space-y-4 flex flex-col justify-between items-end">
@@ -107,7 +119,17 @@ const GroupedTicket = ({ groupedTicket, id }) => {
           <p className="font-pally-medium text-lg">{counter}</p>
           <button
             onClick={incrementTicket}
-            className="bg-destructive text-white p-1 rounded-full cursor-pointer"
+            type="button"
+            disabled={
+              groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
+              counter >= getRemainingTicket
+            }
+            className={`${
+              groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
+              counter >= getRemainingTicket
+                ? `bg-gray-300 cursor-not-allowed`
+                : `bg-destructive`
+            } text-white rounded-full p-1`}
           >
             <HiPlus size={20} />
           </button>

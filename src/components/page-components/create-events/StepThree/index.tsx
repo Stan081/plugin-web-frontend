@@ -61,7 +61,7 @@ const StepThree: React.FC= () => {
 
           <div className="mt-6 px-4">
             <p className="font-pally-medium md:text-lg">
-              Choose the category that best describes your event
+              Choose when to start and end your event
             </p>
 
             {/* {eventType === "one-time" ? ( */}

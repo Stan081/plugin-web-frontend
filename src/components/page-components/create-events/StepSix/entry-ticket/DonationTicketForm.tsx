@@ -158,7 +158,7 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({ entryTicket }) => {
             </FormItem>
 
             <FormItem className="w-full ">
-              <FormLabel className="text-white" htmlFor="ticket-name">
+              <FormLabel className="text-white" htmlFor="ticket-quantity">
                 Ticket Quantity
               </FormLabel>
               <FormField
@@ -168,9 +168,9 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({ entryTicket }) => {
                   <FormItem>
                     <FormControl>
                       <Input
-                        placeholder="Enter ticket name"
+                        placeholder="Enter ticket quantity"
                         type="number"
-                        id="ticket-name"
+                        id="ticket-quantity"
                         className="w-full bg-white text-black font-pally-regular"
                         {...field}
                       />

@@ -14,6 +14,7 @@ type Props = {
   ticketPrice?: number;
   entryTicketType: string;
   ticketPeaks: string;
+  ticketsSold: number;
 };
 
 interface EntryProps {
@@ -34,18 +35,21 @@ const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
 
   const router = useRouter();
 
+  const getRemainingTicket =
+    entryTicket?.ticketQuantity - entryTicket?.ticketsSold;
+
   //   Get max count
   const maximumCount = entryTicket?.ticketQuantity;
 
   // Increment
   const handleIncrement = useCallback(() => {
     setCounter((prev: number) => {
-      if (prev === maximumCount) {
-        return maximumCount;
+      if (prev === getRemainingTicket) {
+        return getRemainingTicket;
       }
       return prev + 1;
     });
-  }, [maximumCount]);
+  }, [getRemainingTicket]);
 
   //   Decrement
   const handleDecrement = useCallback(() => {
@@ -80,11 +84,18 @@ const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
                 entryTicket?.ticketName.slice(1)
               : entryTicket?.ticketName}
           </p>
-          <p className="text-[#2C2B2E] font-pally-bold text-2xl">
-            {entryTicket?.entryTicketType === "paid"
-              ? toFiat(entryTicket?.ticketPrice)
-              : toFiat(0)}
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-[#2C2B2E] font-pally-bold text-2xl">
+              {entryTicket?.entryTicketType === "paid"
+                ? toFiat(entryTicket?.ticketPrice)
+                : toFiat(0)}
+            </p>
+            {entryTicket?.ticketQuantity === entryTicket?.ticketsSold && (
+              <p className="bg-red-500 text-white py-0.5 px-1 rounded-3xl text-xs">
+                Sold out
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="p-2 space-y-4 flex flex-col justify-between items-end">
@@ -104,9 +115,15 @@ const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
             <button
               onClick={handleIncrement}
               type="button"
-              disabled={maximumCount === counter}
+              disabled={
+                maximumCount === counter ||
+                entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
+                counter >= getRemainingTicket
+              }
               className={`${
-                maximumCount === counter
+                maximumCount === counter ||
+                entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
+                counter >= getRemainingTicket
                   ? `bg-gray-300 cursor-not-allowed`
                   : `bg-destructive`
               } text-white rounded-full p-1`}
