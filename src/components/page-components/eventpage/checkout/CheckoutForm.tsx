@@ -100,11 +100,6 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
 
   const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
 
-  const hasErrors = useMemo(
-    () => Object.keys(form.formState.errors).length > 0,
-    [form.formState.errors]
-  );
-
   const onSubmit = useCallback(
     (payload: CheckoutForms) => {
       if (!payload) {

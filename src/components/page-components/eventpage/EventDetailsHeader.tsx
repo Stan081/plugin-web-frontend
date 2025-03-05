@@ -69,6 +69,7 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
       return router.push("/login");
     } else {
       removeBookmark();
+      client.invalidateQueries({ queryKey: ["isBookmark"] });
       return
     }
   };
