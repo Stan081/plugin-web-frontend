@@ -30,12 +30,7 @@ import { IoCloseOutline } from "react-icons/io5";
 
 const EventTicketAgents = () => {
   const [selectedCategories, setSelectedCategories] = useState<string>("");
-  const { data: User } = useMe();
-  const {
-    data: organiserEvents,
-    isLoading,
-    isError,
-  } = useGetOrganiserEvents(User?.data?._id);
+
 
   const form = useForm<CheckinAgentForm>({
     mode: "all",
@@ -49,8 +44,6 @@ const EventTicketAgents = () => {
   const handleCategoryChange = (category: string) => {
     setSelectedCategories(category);
   };
-
-  console.log(organiserEvents?.data);
 
   const onSubmit = (payload: CheckinAgentForm) => {
     console.log(payload);
