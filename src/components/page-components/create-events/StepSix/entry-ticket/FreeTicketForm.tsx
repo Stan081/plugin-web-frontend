@@ -51,7 +51,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
         eventId?.data?.entryTicket?.entryTicketType === "free"
           ? eventId?.data?.entryTicket?.ticketQuantity
           : null,
-      reservation: "",
+      reservation: "no",
       start_date:
         eventId?.data?.entryTicket?.entryTicketType === "free"
           ? new Date(eventId?.data?.entryTicket?.startDate)
@@ -300,7 +300,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
                 </FormItem>
               </div>
 
-              <FormItem>
+              {/* <FormItem>
                 <FormField
                   control={form.control}
                   name="reservation"
@@ -331,7 +331,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
                     </FormItem>
                   )}
                 />
-              </FormItem>
+              </FormItem> */}
 
               <FormItem>
                 <FormLabel className="text-white" htmlFor="ticket_perks">

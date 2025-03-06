@@ -188,7 +188,6 @@ const VendorForm: FC<VendorFormProps> = ({ handleReturnToList }) => {
   });
 
   const onSubmit = useCallback(async (payload: VendorsForm) => {
-    console.log(payload);
     const data = {
       thumbnail: payload.pass_thumbnail ?? "",
       slots: payload.available_slot,

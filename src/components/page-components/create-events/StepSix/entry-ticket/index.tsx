@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PaidTicketForm from "./PaidTicketForm";
 import FreeTicketForm from "./FreeTicketForm";
 import DonationTicketForm from "./DonationTicketForm";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 const entryTicketTypes: { id: string; name: string }[] = [
   {
@@ -19,7 +20,10 @@ const entryTicketTypes: { id: string; name: string }[] = [
 ];
 
 const EntryTicket = () => {
-  const [entryTicket, setEntryTicket] = useState<string>("paid");
+  const { data: eventId } = useGetEvent();
+  const [entryTicket, setEntryTicket] = useState<string>(
+    eventId?.data?.entryTicket?.entryTicketType || "paid"
+  );
 
   return (
     <div className=" w-full">
@@ -47,9 +51,9 @@ const EntryTicket = () => {
         {entryTicket === "paid" ? (
           <PaidTicketForm entryTicket={entryTicket} />
         ) : entryTicket === "free" ? (
-          <FreeTicketForm  entryTicket={entryTicket} />
+          <FreeTicketForm entryTicket={entryTicket} />
         ) : (
-          <DonationTicketForm  entryTicket={entryTicket} />
+          <DonationTicketForm entryTicket={entryTicket} />
         )}
       </div>
     </div>

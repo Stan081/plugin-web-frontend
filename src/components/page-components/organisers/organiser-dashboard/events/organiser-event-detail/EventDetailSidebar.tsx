@@ -14,7 +14,7 @@ import {
   HiOutlineDotsVertical,
   HiOutlineUserGroup,
 } from "react-icons/hi";
-import { MdOutlineRemoveRedEye, MdLink } from "react-icons/md";
+import { MdOutlineRemoveRedEye, MdLink, MdOutlineHeadsetMic } from "react-icons/md";
 import { HiOutlineTrash } from "react-icons/hi";
 import { LuTicket } from "react-icons/lu";
 import Image from "next/image";
@@ -27,6 +27,7 @@ import Link from "next/link";
 import { BASE_URL } from "@/lib/constants";
 import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
 import { Skeleton } from "@/components/ui/skeleton";
+import { BsQuestionCircle } from "react-icons/bs";
 
 export const eventDetailTabLink = [
   {
@@ -54,16 +55,16 @@ export const eventDetailTabLink = [
   //   key: "promotions",
   //   icon: HiOutlineSpeakerphone,
   // },
-  // {
-  //   title: "Ticket Agents",
-  //   key: "ticket_agent",
-  //   icon: MdOutlineHeadsetMic,
-  // },
-  // {
-  //   title: "Resolve Issues",
-  //   key: "resolve_issues",
-  //   icon: BsQuestionCircle,
-  // },
+  {
+    title: "Check Agents",
+    key: "ticket_agent",
+    icon: MdOutlineHeadsetMic,
+  },
+  {
+    title: "Support Center",
+    key: "resolve_issues",
+    icon: BsQuestionCircle,
+  },
 ];
 
 const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
