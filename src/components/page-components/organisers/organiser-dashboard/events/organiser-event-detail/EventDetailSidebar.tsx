@@ -27,6 +27,7 @@ import Link from "next/link";
 import { BASE_URL } from "@/lib/constants";
 import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
 import { Skeleton } from "@/components/ui/skeleton";
+import { BsQuestionCircle } from "react-icons/bs";
 
 export const eventDetailTabLink = [
   {
@@ -59,11 +60,11 @@ export const eventDetailTabLink = [
   //   key: "ticket_agent",
   //   icon: MdOutlineHeadsetMic,
   // },
-  // {
-  //   title: "Resolve Issues",
-  //   key: "resolve_issues",
-  //   icon: BsQuestionCircle,
-  // },
+  {
+    title: "Support Center",
+    key: "resolve_issues",
+    icon: BsQuestionCircle,
+  },
 ];
 
 const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {

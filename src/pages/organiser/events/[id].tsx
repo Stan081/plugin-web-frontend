@@ -17,7 +17,7 @@ import { RiArrowLeftSLine, RiCloseLine } from "react-icons/ri";
 import EventDiscount from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-discount";
 import EventPromotions from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-promotion";
 import EventTicketAgents from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-ticket-agents";
-import EventResolveIssues from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-resolve-issues";
+import EventResolveIssues from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-support-center";
 
 import {
   Drawer,
