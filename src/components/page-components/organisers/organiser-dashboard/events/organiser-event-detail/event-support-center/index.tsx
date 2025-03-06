@@ -70,7 +70,7 @@ const EventSupportCenter = () => {
             </AccordionItem>
           ))}
         </Accordion>
-        <div className="w-full max-w-72 rounded-lg border ">
+        <div className="w-full min-w-12 lg:max-w-72 rounded-lg border ">
           <div className="px-20 py-6 bg-[#EDEDED]">
             <Image
               src={
@@ -83,7 +83,7 @@ const EventSupportCenter = () => {
             />
           </div>
 
-          <div className="p-4 space-y-2.5">
+          <div className="p-4 space-y-4">
             <p className="font-pally-medium text-xl mt-4">
               Need Help? Reach out to support agent
             </p>
@@ -92,7 +92,7 @@ const EventSupportCenter = () => {
               Submit a support request to get assistance from our admin agents
             </p>
 
-            <Link href={'mailto:support@pluginent.com'}>
+            <Link href={'mailto:support@pluginent.com'} className="mt-3 block">
               <Button variant="destructive" size="sm" className="w-full">
                 Talk to an agent
               </Button>
