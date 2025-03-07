@@ -90,11 +90,12 @@ const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
                 ? toFiat(entryTicket?.ticketPrice)
                 : toFiat(0)}
             </p>
-            {entryTicket?.ticketQuantity === entryTicket?.ticketsSold && (
-              <p className="bg-red-500 text-white py-0.5 px-1 rounded-3xl text-xs">
-                Sold out
-              </p>
-            )}
+            {entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
+              (entryTicket?.ticketsSold >= entryTicket?.ticketQuantity && (
+                <p className="bg-red-500 text-white py-0.5 px-1 rounded-3xl text-xs">
+                  Sold out
+                </p>
+              ))}
           </div>
         </div>
 

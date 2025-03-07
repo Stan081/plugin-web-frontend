@@ -49,7 +49,7 @@ const ExploreEventsPage = () => {
     setIsGridView((prevView) => !prevView);
   };
 
-  console.log(events?.data?.length)
+  // console.log(events?.data?.length)
 
   const handleRefresh = () => {
     setFilters({
@@ -197,8 +197,8 @@ const ExploreEventsPage = () => {
 
                 <Button
                   disabled={
-                    events?.pagination?.currentPage ===
-                    events?.pagination?.totalPages
+                    Number(events?.pagination?.currentPage) ===
+                    Number(events?.pagination?.totalPages)
                   }
                   onClick={incrementPage}
                   variant="outline"

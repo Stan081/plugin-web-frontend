@@ -23,6 +23,8 @@ const GroupedTicket = ({ groupedTicket, id }) => {
 
   const { tickets, setTickets } = useEventsContext();
 
+  // console.log(groupedTicket?._id);
+
   // Update counter when tickets or ticket name changes
   useEffect(() => {
     const ticket = tickets.find((t) => t.name === groupedTicket.ticketName);
@@ -33,7 +35,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     groupedTicket?.ticketQuantity - groupedTicket?.ticketsSold;
 
   // Update tickets array and persist to cookies
-  const updateTickets = (ticketName, price, quantity) => {
+  const updateTickets = (ticketName: string, price: number, quantity: number, id: string) => {
     setTickets((prevTickets) => {
       const updatedTickets = [...prevTickets];
       const ticketIndex = updatedTickets.findIndex(
@@ -47,7 +49,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
           updatedTickets.splice(ticketIndex, 1);
         }
       } else if (quantity > 0) {
-        updatedTickets.push({ name: ticketName, price, quantity });
+        updatedTickets.push({ name: ticketName, price, quantity, id });
       }
 
       // Save updated tickets to cookies
@@ -62,7 +64,8 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     updateTickets(
       groupedTicket.ticketName,
       groupedTicket.ticketPrice,
-      newQuantity
+      newQuantity,
+      groupedTicket?._id
     );
   };
 
@@ -72,7 +75,8 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     updateTickets(
       groupedTicket.ticketName,
       groupedTicket.ticketPrice,
-      newQuantity
+      newQuantity,
+      groupedTicket?._id
     );
   };
 
@@ -99,7 +103,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
                 ? toFiat(groupedTicket?.ticketPrice)
                 : toFiat(0)}
             </p>
-            {groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold && (
+            {groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||groupedTicket?.ticketsSold >= groupedTicket?.ticketQuantity && (
               <p className="bg-red-500 text-white py-0.5 px-1 rounded-3xl text-xs">
                 Sold out
               </p>
