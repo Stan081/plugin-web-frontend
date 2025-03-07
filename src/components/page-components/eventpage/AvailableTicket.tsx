@@ -90,6 +90,8 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
     }
   };
 
+  // console.log(event?.entryTicket?._id);
+
   return (
     <div className="mb-6 mt-8 lg:block md:w-2/6 hidden">
       <div className="flex items-center gap-5">

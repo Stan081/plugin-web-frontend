@@ -35,7 +35,12 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     groupedTicket?.ticketQuantity - groupedTicket?.ticketsSold;
 
   // Update tickets array and persist to cookies
-  const updateTickets = (ticketName: string, price: number, quantity: number, id: string) => {
+  const updateTickets = (
+    ticketName: string,
+    price: number,
+    quantity: number,
+    ticketId: string
+  ) => {
     setTickets((prevTickets) => {
       const updatedTickets = [...prevTickets];
       const ticketIndex = updatedTickets.findIndex(
@@ -49,7 +54,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
           updatedTickets.splice(ticketIndex, 1);
         }
       } else if (quantity > 0) {
-        updatedTickets.push({ name: ticketName, price, quantity, id });
+        updatedTickets.push({ name: ticketName, price, quantity, ticketId });
       }
 
       // Save updated tickets to cookies
@@ -80,7 +85,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     );
   };
 
-  console.log(groupedTicket);
+  // console.log(groupedTicket);
 
   return (
     <div className="border border-[#CFD9E8] rounded-lg flex justify-between items-start">
@@ -103,11 +108,12 @@ const GroupedTicket = ({ groupedTicket, id }) => {
                 ? toFiat(groupedTicket?.ticketPrice)
                 : toFiat(0)}
             </p>
-            {groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||groupedTicket?.ticketsSold >= groupedTicket?.ticketQuantity && (
-              <p className="bg-red-500 text-white py-0.5 px-1 rounded-3xl text-xs">
-                Sold out
-              </p>
-            )}
+            {groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
+              (groupedTicket?.ticketsSold >= groupedTicket?.ticketQuantity && (
+                <p className="bg-red-500 text-white py-0.5 px-1 rounded-3xl text-xs">
+                  Sold out
+                </p>
+              ))}
           </div>
         </div>
       </div>

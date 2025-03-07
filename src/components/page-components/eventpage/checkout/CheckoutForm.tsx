@@ -65,8 +65,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
     onError: (error: any) => {
       toast({
         variant: "destructive",
-        title: "Something went wrong. Try again",
-        description: error?.message,
+        title: error?.message,
       });
     },
   });
@@ -125,6 +124,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
         };
 
         mutate(data);
+        // console.log(data);
       }
     },
     [mutate, country]

@@ -15,6 +15,7 @@ type Props = {
   entryTicketType: string;
   ticketPeaks: string;
   ticketsSold: number;
+  _id: string;
 };
 
 interface EntryProps {
@@ -68,6 +69,7 @@ const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
         price:
           entryTicket?.ticketPrice === undefined ? 0 : entryTicket?.ticketPrice,
         quantity: counter,
+        ticketId: entryTicket?._id,
       };
       setCookie("entryTicket", data);
       router.push(`/explore-events/${id}/checkout`);
