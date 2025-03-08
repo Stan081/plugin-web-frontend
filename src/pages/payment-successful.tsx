@@ -10,7 +10,6 @@ import { HiDownload } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
-
 // Payment successful page after paystack payment
 const PaymentSuccessful = () => {
   const searchParams = useSearchParams();
@@ -50,47 +49,61 @@ const PaymentSuccessful = () => {
 
   const handleDownloadPDF = () => {
     const pdf = new jsPDF();
-  
+
     // Title
     pdf.setFontSize(16);
     pdf.text("Booking Receipt", 20, 20);
-  
+
     pdf.setFontSize(12);
     pdf.text(`Event: ${bookings?.data?.eventName || "N/A"}`, 20, 40);
     pdf.text(`Location: ${bookings?.data?.eventLocation || "N/A"}`, 20, 50);
-    pdf.text(`Date: ${new Date(bookings?.data?.eventDate).toLocaleDateString()}`, 20, 60);
+    pdf.text(
+      `Date: ${new Date(bookings?.data?.eventDate).toLocaleDateString()}`,
+      20,
+      60
+    );
     pdf.text(`Email: ${bookings?.data?.userEmail || "N/A"}`, 20, 70);
-  
+
     // Add Table for Tickets
-    const tickets = bookings?.data?.ticketData?.map((ticket, index) => [
-      index + 1,
-      ticket.name,
-      `$${ticket.price}`,
-    ]) || [];
-  
+    const tickets =
+      bookings?.data?.ticketData?.map((ticket, index) => [
+        index + 1,
+        ticket.name,
+        `$${ticket.price}`,
+      ]) || [];
+
     // autoTable(pdf, {
     //   startY: 90,
     //   head: [["#", "Ticket Name", "Price"]],
     //   body: tickets,
     // });
-  
+
     // // Add QR Code if available
     // const qrCode = bookings?.data?.qrCode; // Assuming it's a Base64 image
     // if (qrCode) {
     //   pdf.text("Scan QR Code:", 20, pdf.lastAutoTable.finalY + 20);
     //   pdf.addImage(qrCode, "PNG", 20, pdf.lastAutoTable.finalY + 30, 50, 50); // Position: (x, y, width, height)
     // }
-  
+
     pdf.save(`Booking_Receipt_${bookings?.data?.eventName}.pdf`);
   };
   return (
     <Layout title="Payment successful" showHeader showFooter>
+      <div className="block lg:hidden relative">
+        <Image
+          src={"/gif/confetti.gif"}
+          width={200}
+          height={40}
+          alt="confetti"
+          className="w-full h-80 absolute"
+        />
+      </div>
       <Container>
-        <div className="flex flex-col lg:flex-row justify-between items-center">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-6 lg:items-start">
           {isLoading ? (
             <Skeleton className="w-40 lg:w-2/5 h-[10vh] lg:h-[40vh]" />
           ) : (
-            <div className="hidden lg:block w-40 lg:w-2/5 h-[10vh] lg:h-[40vh] relative">
+            <div className="mt-5 w-3/5 lg:mt-40 lg:w-2/5 h-[30vh] lg:h-[40vh] relative">
               <Image
                 src={bookings?.data?.eventBanner}
                 layout="fill"
@@ -100,13 +113,15 @@ const PaymentSuccessful = () => {
               />
             </div>
           )}
-          <div className="flex flex-col justify-center items-center my-6 p-6 w-full lg:w-1/2 mx-auto">
-            <Image
-              src={"/gif/confetti.gif"}
-              width={200}
-              height={40}
-              alt="confetti"
-            />
+          <div className="flex flex-col justify-center items-center mb-6 w-full lg:w-1/2 mx-auto">
+            <div className="hidden lg:block">
+              <Image
+                src={"/gif/confetti.gif"}
+                width={200}
+                height={40}
+                alt="confetti"
+              />
+            </div>
 
             <p className="font-pally-medium text-2xl pb-3">
               Thanks for your order!

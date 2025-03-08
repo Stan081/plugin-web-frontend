@@ -26,6 +26,7 @@ import { Checkout } from "@/pages/api/mutate/tickets/checkout-api";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const CheckoutForm = ({ eventId }: CheckoutProps) => {
+  const [country, setCountry] = useState<string>("NG");
   const { data: user } = useMe();
   const { tickets, entryData, setFreeEventPayload } = useEventsContext();
 
@@ -95,9 +96,6 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
   const entryTicketCookie = entryTicketCookieRaw
     ? JSON.parse(entryTicketCookieRaw as string)
     : null;
-
-  const isLoading = useMemo(() => form.formState.isSubmitting, [form]);
-  const [country, setCountry] = useState<string>("");
 
   const handleCountryChange = (country: string) => {
     setCountry(country);
@@ -276,12 +274,12 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
           </p>
 
           <Button
-            disabled={isLoading}
+            disabled={isPending}
             variant="destructive"
             type="submit"
             className="mt-4"
           >
-            {isLoading ? <Spinner /> : "Proceed to make payment"}
+            {isPending ? <Spinner /> : "Proceed to make payment"}
           </Button>
         </form>
       </Form>
