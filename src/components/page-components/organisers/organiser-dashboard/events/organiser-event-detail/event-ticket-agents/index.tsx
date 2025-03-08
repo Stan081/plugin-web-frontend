@@ -17,12 +17,10 @@ import {
 } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useToast } from "@/components/ui/use-toast";
+
 import Spinner from "@/tw-components/spinner";
 import { CheckinAgentForm, CheckinAgentSchema } from "@/models/checkin-agent";
 import { Input } from "@/components/ui/input";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
-import { useMe } from "@/pages/api/query/me";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
@@ -34,7 +32,6 @@ const EventTicketAgents = () => {
   const [selectedCategories, setSelectedCategories] = useState<string>("");
 
   const { publishedEventId } = useEventsContext();
-
 
   const { data: eventTickets } = useGetOrganiserEventTickets(publishedEventId);
 
@@ -99,7 +96,9 @@ const EventTicketAgents = () => {
                 <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
                   {eventTickets?.data?.map((category) => (
                     <SelectItem key={category?.id} value={category?.ticketName}>
-                      <div className="flex items-center gap-2">{category?.ticketName}</div>
+                      <div className="flex items-center gap-2">
+                        {category?.ticketName}
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectContent>
