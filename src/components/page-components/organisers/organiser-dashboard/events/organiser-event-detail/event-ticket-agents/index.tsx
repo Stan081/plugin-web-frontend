@@ -27,10 +27,16 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { IoCloseOutline } from "react-icons/io5";
+import { useGetOrganiserEventTickets } from "@/hooks/organiser/useGetEventTickets";
+import { useEventsContext } from "@/providers/events.provider";
 
 const EventTicketAgents = () => {
   const [selectedCategories, setSelectedCategories] = useState<string>("");
 
+  const { publishedEventId } = useEventsContext();
+
+
+  const { data: eventTickets } = useGetOrganiserEventTickets(publishedEventId);
 
   const form = useForm<CheckinAgentForm>({
     mode: "all",
@@ -91,9 +97,9 @@ const EventTicketAgents = () => {
                   <SelectValue placeholder="Choose ticket type for agent" />
                 </SelectTrigger>
                 <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
-                  {["members", "vip", "officials"].map((category, index) => (
-                    <SelectItem key={index} value={category}>
-                      <div className="flex items-center gap-2">{category}</div>
+                  {eventTickets?.data?.map((category) => (
+                    <SelectItem key={category?.id} value={category?.ticketName}>
+                      <div className="flex items-center gap-2">{category?.ticketName}</div>
                     </SelectItem>
                   ))}
                 </SelectContent>

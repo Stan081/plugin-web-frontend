@@ -71,6 +71,8 @@ export const GET_EVENT_BOOKING_HISTORY: string = `${API_URL}/organizers/bookings
 
 export const GET_USER_FOLLOWERS: string = `${API_URL}/users/following/organizers`;
 
+export const GET_EVENT_TICKETS: string = `${API_URL}/organizers/event/tickets`;
+
 // export const GET_EVENT_BY_ID = (): string => {
 //   const eventId = getCookie("event_id");
 //   return `${API_URL}/event/events/${eventId}`;

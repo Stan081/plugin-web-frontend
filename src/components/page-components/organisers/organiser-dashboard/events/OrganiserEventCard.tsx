@@ -101,6 +101,8 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
   // Calculate percentage
   const soldPercentage = Math.ceil((totalSold * 100) / totalAvailable);
 
+  console.log(event);
+
   return (
     <div className="w-full max-w-sm shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200 p-2.5 lg:p-4  hover:bg-gray-100 transition delay-75 ease-in-out">
       {stall && <SpinnerOverlay />}
@@ -193,8 +195,8 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
             <TfiWorld />{" "}
             {event?.isPublished && event?.publishStatus === "public"
               ? "Public view"
-              : event?.publishStatus === "private"
-              ? "Private view"
+              // : event?.publishStatus === "private"
+              // ? "Private view"
               : "Draft mode"}{" "}
           </p>
         </div>

@@ -19,5 +19,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWY2NTYxM
 GET https://test-api.pluginent.com/api/organizers/event/tickets/67bb9f07da548ef0995e9ab3
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWY2NTYxMDYzZTMyMTYwNzE1ZDUyOCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3NDExMjg2NjYsImV4cCI6MTc0MzcyMDY2Nn0.tU-IMowqk6c8VzuhG7Bcw1d6HaftKPxzqE1TATnkyBo
+###
+
+GET https://test-api.pluginent.com/api/organizers/events/sales-records/67ba4b46ecf1063bbd3e1a34
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YWY2NTYxMDYzZTMyMTYwNzE1ZDUyOCIsImVtYWlsIjoiZWhtYWVzc2llbkBnbWFpbC5jb20iLCJpYXQiOjE3NDExMjg2NjYsImV4cCI6MTc0MzcyMDY2Nn0.tU-IMowqk6c8VzuhG7Bcw1d6HaftKPxzqE1TATnkyBo
 
 
