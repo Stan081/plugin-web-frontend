@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getToken } from "@/lib/token";
 import { useRouter } from "next/navigation";
 import { WEB_URL } from "@/lib/constants";
+import { RWebShare } from "react-web-share";
 
 interface Props {
   title: string;

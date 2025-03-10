@@ -66,6 +66,7 @@
     "react-phone-number-input": "^3.4.11",
     "react-photo-view": "^1.2.6",
     "react-range-slider-input": "^3.0.7",
+    "react-web-share": "^2.0.2",
     "recharts": "^2.13.0",
     "slate": "^0.103.0",
     "slate-react": "^0.110.1",
