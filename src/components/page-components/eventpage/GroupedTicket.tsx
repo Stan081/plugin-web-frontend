@@ -23,7 +23,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
 
   const { tickets, setTickets } = useEventsContext();
 
-  // console.log(groupedTicket?._id);
+  console.log(groupedTicket);
 
   // Update counter when tickets or ticket name changes
   useEffect(() => {
@@ -33,6 +33,8 @@ const GroupedTicket = ({ groupedTicket, id }) => {
 
   const getRemainingTicket =
     groupedTicket?.ticketQuantity - groupedTicket?.ticketsSold;
+
+  const now = Date();
 
   // Update tickets array and persist to cookies
   const updateTickets = (
@@ -85,7 +87,40 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     );
   };
 
-  // console.log(groupedTicket);
+  const checkIfStartDateReached = (startDate: Date) => {
+    if (startDate) {
+      const date = new Date(startDate);
+
+      // Validate startDate
+      if (isNaN(date.getTime())) {
+        console.error("Invalid startDate format.");
+        return false;
+      }
+
+      // Get the current date and time
+      const now = new Date();
+
+      // Compare dates
+      const isSameDay =
+        now.getUTCFullYear() === date.getUTCFullYear() &&
+        now.getUTCMonth() === date.getUTCMonth() &&
+        now.getUTCDate() === date.getUTCDate();
+
+      return isSameDay;
+    }
+
+    return false;
+  };
+
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   return (
     <div className="border border-[#CFD9E8] rounded-lg flex justify-between items-start">
@@ -102,6 +137,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
           <p className="text-[#646267] font-pally-medium">
             {groupedTicket?.ticketName}
           </p>
+
           <div className="flex items-center gap-4">
             <p className="text-[#2C2B2E] font-pally-medium text-2xl">
               {groupedTicket?.groupedTicketType === "paid"
@@ -114,6 +150,11 @@ const GroupedTicket = ({ groupedTicket, id }) => {
                   Sold out
                 </p>
               ))}
+            {now > groupedTicket?.startDate && (
+              <p className="text-xs text-yellow-700 font-pally-regular">
+                Available from {formatDate(groupedTicket?.startDate)}
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -132,11 +173,13 @@ const GroupedTicket = ({ groupedTicket, id }) => {
             type="button"
             disabled={
               groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
-              counter >= getRemainingTicket
+              counter >= getRemainingTicket ||
+              !checkIfStartDateReached(groupedTicket?.startDate)
             }
             className={`${
               groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
-              counter >= getRemainingTicket
+              counter >= getRemainingTicket ||
+              !checkIfStartDateReached(groupedTicket?.startDate)
                 ? `bg-gray-300 cursor-not-allowed`
                 : `bg-destructive`
             } text-white rounded-full p-1`}

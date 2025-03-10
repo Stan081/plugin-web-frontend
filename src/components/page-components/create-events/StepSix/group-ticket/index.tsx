@@ -53,11 +53,13 @@ const GroupTicket: FC = () => {
     deleteGroupTicket({ groupTicketId: id });
   };
 
+  // console.log(allGroupEvent)
+
   if (isLoading)
     return <p className="text-white mx-5 text-center mt-5">loading...</p>;
 
   return (
-    <div className=" flex flex-col justify-between gap-4 w-full h-full lg:h-[82vh]">
+    <div className=" flex flex-col justify-between gap-4 w-full lg:h-[82vh]">
       {isPending && <SpinnerOverlay />}
       {formState === GroupTicketState.CREATE_TICKET ? (
         <GroupSeat handleReturnToList={handleReturnToList} />
