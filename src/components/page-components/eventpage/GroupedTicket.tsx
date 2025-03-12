@@ -150,7 +150,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
                   Sold out
                 </p>
               ))}
-            {now > groupedTicket?.startDate && (
+            {new Date() < new Date(groupedTicket?.startDate) && (
               <p className="text-xs text-yellow-700 font-pally-regular">
                 Available from {formatDate(groupedTicket?.startDate)}
               </p>
@@ -174,12 +174,12 @@ const GroupedTicket = ({ groupedTicket, id }) => {
             disabled={
               groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
               counter >= getRemainingTicket ||
-              !checkIfStartDateReached(groupedTicket?.startDate)
+              new Date() < new Date(groupedTicket?.startDate)
             }
             className={`${
               groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
               counter >= getRemainingTicket ||
-              !checkIfStartDateReached(groupedTicket?.startDate)
+              new Date() < new Date(groupedTicket?.startDate)
                 ? `bg-gray-300 cursor-not-allowed`
                 : `bg-destructive`
             } text-white rounded-full p-1`}
