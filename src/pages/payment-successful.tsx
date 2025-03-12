@@ -6,9 +6,99 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import jsPDF from "jspdf";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Image as PDFImage,
+  PDFDownloadLink,
+} from "@react-pdf/renderer";
 import { HiDownload } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+
+const styles = StyleSheet.create({
+  page: {
+    padding: 30,
+  },
+  header: {
+    fontSize: 24,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  section: {
+    marginBottom: 10,
+  },
+  label: {
+    fontSize: 12,
+    color: "#666",
+    marginBottom: 5,
+  },
+  value: {
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  ticketSection: {
+    marginTop: 20,
+  },
+  ticketItem: {
+    flexDirection: "row",
+    marginBottom: 10,
+    padding: 10,
+    border: "1 solid #eee",
+  },
+  qrCode: {
+    width: 100,
+    height: 100,
+    marginRight: 10,
+  },
+  ticketInfo: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    gap: 10,
+  },
+});
+
+const ReceiptPDF = ({ data }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <Text style={styles.header}>Plugin Booking Receipt</Text>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>Event</Text>
+        <Text style={styles.value}>{data?.eventName || "N/A"}</Text>
+
+        <Text style={styles.label}>Location</Text>
+        <Text style={styles.value}>{data?.eventLocation || "N/A"}</Text>
+
+        <Text style={styles.label}>Date</Text>
+        <Text style={styles.value}>
+          {new Date(data?.eventDate).toLocaleDateString()}
+        </Text>
+
+        <Text style={styles.label}>Email</Text>
+        <Text style={styles.value}>{data?.userEmail || "N/A"}</Text>
+      </View>
+
+      <View style={styles.ticketSection}>
+        <Text style={styles.label}>Tickets</Text>
+        {data?.ticketData?.map((ticket, index) => (
+          <View key={index} style={styles.ticketItem}>
+            <PDFImage src={ticket.qrCode} style={styles.qrCode} />
+            <View style={styles.ticketInfo}>
+              <Text>{ticket.name}</Text>
+              <Text>${ticket.price}</Text>
+            </View>
+          </View>
+        ))}
+      </View>
+    </Page>
+  </Document>
+);
 
 // Payment successful page after paystack payment
 const PaymentSuccessful = () => {
@@ -47,46 +137,6 @@ const PaymentSuccessful = () => {
     timeZone: "UTC",
   });
 
-  const handleDownloadPDF = () => {
-    const pdf = new jsPDF();
-
-    // Title
-    pdf.setFontSize(16);
-    pdf.text("Booking Receipt", 20, 20);
-
-    pdf.setFontSize(12);
-    pdf.text(`Event: ${bookings?.data?.eventName || "N/A"}`, 20, 40);
-    pdf.text(`Location: ${bookings?.data?.eventLocation || "N/A"}`, 20, 50);
-    pdf.text(
-      `Date: ${new Date(bookings?.data?.eventDate).toLocaleDateString()}`,
-      20,
-      60
-    );
-    pdf.text(`Email: ${bookings?.data?.userEmail || "N/A"}`, 20, 70);
-
-    // Add Table for Tickets
-    const tickets =
-      bookings?.data?.ticketData?.map((ticket, index) => [
-        index + 1,
-        ticket.name,
-        `$${ticket.price}`,
-      ]) || [];
-
-    // autoTable(pdf, {
-    //   startY: 90,
-    //   head: [["#", "Ticket Name", "Price"]],
-    //   body: tickets,
-    // });
-
-    // // Add QR Code if available
-    // const qrCode = bookings?.data?.qrCode; // Assuming it's a Base64 image
-    // if (qrCode) {
-    //   pdf.text("Scan QR Code:", 20, pdf.lastAutoTable.finalY + 20);
-    //   pdf.addImage(qrCode, "PNG", 20, pdf.lastAutoTable.finalY + 30, 50, 50); // Position: (x, y, width, height)
-    // }
-
-    pdf.save(`Booking_Receipt_${bookings?.data?.eventName}.pdf`);
-  };
   return (
     <Layout title="Payment successful" showHeader showFooter>
       <div className="block lg:hidden relative">
@@ -166,9 +216,15 @@ const PaymentSuccessful = () => {
             )}
 
             <div className="flex justify-between gap-10 items-center mt-10">
-              <div onClick={handleDownloadPDF} className="cursor-pointer">
-                <HiDownload size={22} className="text-gray-500" />
-              </div>
+              <PDFDownloadLink
+                document={<ReceiptPDF data={bookings?.data} />}
+                fileName={`Booking_Receipt_${bookings?.data?.eventName}.pdf`}
+                className="cursor-pointer"
+              >
+                {({ loading }) => (
+                  <HiDownload size={22} className="text-gray-500" />
+                )}
+              </PDFDownloadLink>
               <Link href="/tickets">
                 <Button variant="destructive">See tickets</Button>
               </Link>

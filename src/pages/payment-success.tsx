@@ -5,8 +5,97 @@ import { useEventsContext } from "@/providers/events.provider";
 import Container from "@/tw-components/container";
 import Image from "next/image";
 import Link from "next/link";
-import jsPDF from "jspdf";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Image as PDFImage,
+  PDFDownloadLink,
+} from "@react-pdf/renderer";
 import { HiDownload } from "react-icons/hi";
+
+const styles = StyleSheet.create({
+  page: {
+    padding: 30,
+  },
+  header: {
+    fontSize: 24,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  section: {
+    marginBottom: 10,
+  },
+  label: {
+    fontSize: 12,
+    color: "#666",
+    marginBottom: 5,
+  },
+  value: {
+    fontSize: 14,
+    marginBottom: 10,
+  },
+  ticketSection: {
+    marginTop: 20,
+  },
+  ticketItem: {
+    flexDirection: "row",
+    marginBottom: 10,
+    padding: 10,
+    border: "1 solid #eee",
+  },
+  qrCode: {
+    width: 100,
+    height: 100,
+    marginRight: 10,
+  },
+  ticketInfo: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    gap: 10,
+  },
+});
+
+const ReceiptPDF = ({ data }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <Text style={styles.header}>Plugin Booking Receipt</Text>
+
+      <View style={styles.section}>
+        <Text style={styles.label}>Event</Text>
+        <Text style={styles.value}>{data?.eventName || "N/A"}</Text>
+
+        <Text style={styles.label}>Location</Text>
+        <Text style={styles.value}>{data?.eventLocation || "N/A"}</Text>
+
+        <Text style={styles.label}>Date</Text>
+        <Text style={styles.value}>
+          {new Date(data?.eventDate).toLocaleDateString()}
+        </Text>
+
+        <Text style={styles.label}>Email</Text>
+        <Text style={styles.value}>{data?.userEmail || "N/A"}</Text>
+      </View>
+
+      <View style={styles.ticketSection}>
+        <Text style={styles.label}>Tickets</Text>
+        {data?.ticketData?.map((ticket, index) => (
+          <View key={index} style={styles.ticketItem}>
+            <PDFImage src={ticket.qrCode} style={styles.qrCode} />
+            <View style={styles.ticketInfo}>
+              <Text>{ticket.name}</Text>
+              <Text>${ticket.price}</Text>
+            </View>
+          </View>
+        ))}
+      </View>
+    </Page>
+  </Document>
+);
 
 // Payment success page for free events
 const PaymentSuccess = () => {
@@ -39,33 +128,6 @@ const PaymentSuccess = () => {
     hour12: true,
     timeZone: "UTC",
   });
-
-  const handleDownloadPDF = () => {
-    const pdf = new jsPDF();
-    pdf.setFontSize(16);
-    pdf.text("Booking Receipt", 20, 20);
-
-    pdf.setFontSize(12);
-    pdf.text(`Event: ${freeEventPayload?.eventName || "N/A"}`, 20, 40);
-    pdf.text(`Location: ${freeEventPayload?.eventLocation || "N/A"}`, 20, 50);
-    pdf.text(
-      `Date: ${new Date(freeEventPayload?.eventDate).toLocaleDateString()}`,
-      20,
-      60
-    );
-    pdf.text(`Email: ${freeEventPayload?.userEmail || "N/A"}`, 20, 70);
-
-    pdf.text("Tickets:", 20, 90);
-    freeEventPayload?.ticketData?.forEach((ticket, index) => {
-      pdf.text(
-        `${index + 1}. ${ticket.name} - $${ticket.price}`,
-        20,
-        100 + index * 10
-      );
-    });
-
-    pdf.save(`Booking_Receipt_${freeEventPayload?.eventName}.pdf`);
-  };
 
   return (
     <Layout title="Payment successful" showHeader showFooter>
@@ -127,13 +189,17 @@ const PaymentSuccess = () => {
             </ul>
 
             <div className="flex justify-between gap-10 items-center mt-10">
-              <div onClick={handleDownloadPDF} className="cursor-pointer">
-                <HiDownload size={22} className="text-gray-500" />
-              </div>
+              <PDFDownloadLink
+                document={<ReceiptPDF data={freeEventPayload} />}
+                fileName={`Booking_Receipt_${freeEventPayload?.eventName}.pdf`}
+                className="cursor-pointer"
+              >
+                {({ loading }) => (
+                  <HiDownload size={22} className="text-gray-500" />
+                )}
+              </PDFDownloadLink>
               <Link href="/tickets">
-                <Button variant="destructive" >
-                  See tickets
-                </Button>
+                <Button variant="destructive">See tickets</Button>
               </Link>
             </div>
           </div>

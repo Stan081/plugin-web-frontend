@@ -23,7 +23,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
 
   const { tickets, setTickets } = useEventsContext();
 
-  console.log(groupedTicket);
+  // console.log(groupedTicket);
 
   // Update counter when tickets or ticket name changes
   useEffect(() => {
