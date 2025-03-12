@@ -27,11 +27,19 @@ import { Separator } from "@/components/ui/separator";
 import { IoCloseOutline } from "react-icons/io5";
 import { useGetOrganiserEventTickets } from "@/hooks/organiser/useGetEventTickets";
 import { useEventsContext } from "@/providers/events.provider";
+import { RiCloseFill } from "react-icons/ri";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/components/ui/use-toast";
+import { CreateTicketAgent } from "@/pages/api/mutate/organiser/ticketAgentApi";
+import { useGetTicketAgents } from "@/hooks/organiser/useGetTicketAgents";
 
 const EventTicketAgents = () => {
-  const [selectedCategories, setSelectedCategories] = useState<string>("");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const { publishedEventId } = useEventsContext();
+
+  const { data: ticketAgents, isLoading: isTicketAgentsLoading } =
+    useGetTicketAgents(publishedEventId);
 
   const { data: eventTickets } = useGetOrganiserEventTickets(publishedEventId);
 
@@ -44,12 +52,53 @@ const EventTicketAgents = () => {
     resolver: yupResolver(CheckinAgentSchema),
   });
 
+  const client = useQueryClient();
+
   const handleCategoryChange = (category: string) => {
-    setSelectedCategories(category);
+    setSelectedCategories(
+      (prevSelected) =>
+        prevSelected.includes(category)
+          ? prevSelected.filter((item) => item !== category) // Remove category if it's already selected
+          : [...prevSelected, category] // Add category if it's not selected
+    );
   };
 
+  // Function to handle deleting a selected category
+  const handleDeleteSelected = (categoryToDelete: string) => {
+    setSelectedCategories((prevSelected) =>
+      prevSelected.filter((category) => category !== categoryToDelete)
+    );
+  };
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => CreateTicketAgent(data),
+    onSuccess: (response) => {
+      if (response?.data) {
+        toast({
+          variant: "success",
+          title: "Your ticket agent has been created",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["allTicketAgents"] });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Failed to create ticket agent",
+        description: error?.message,
+      });
+    },
+  });
+
+  console.log(ticketAgents);
+
   const onSubmit = (payload: CheckinAgentForm) => {
-    console.log(payload);
+    const data = {
+      event: publishedEventId,
+      email: payload.agent_email,
+      tickets: selectedCategories,
+    };
+    mutate(data);
   };
 
   return (
@@ -104,12 +153,31 @@ const EventTicketAgents = () => {
                 </SelectContent>
               </Select>
 
+              <div className="flex gap-3">
+                {selectedCategories.length > 0 &&
+                  selectedCategories.map((cat) => (
+                    <p
+                      key={cat}
+                      className="flex border border-gray-400 rounded py-0.5 px-1.5 items-center gap-2 text-sm text-gray-600"
+                    >
+                      {cat}
+                      <span
+                        onClick={() => handleDeleteSelected(cat)}
+                        className="cursor-pointer text-red-500"
+                      >
+                        <RiCloseFill size={16} />
+                      </span>
+                    </p>
+                  ))}
+              </div>
+
               <Button
                 variant="destructive"
                 type="submit"
                 className="w-full mt-5"
+                disabled={isPending}
               >
-                {false ? <Spinner /> : "Add Agent"}
+                {isPending ? <Spinner /> : "Add Agent"}
               </Button>
             </div>
           </form>
@@ -117,7 +185,7 @@ const EventTicketAgents = () => {
 
         <Separator />
 
-        {false ? (
+        {ticketAgents?.data?.length === 0 ? (
           <div className="flex flex-col items-center gap-5">
             <Image
               src={
