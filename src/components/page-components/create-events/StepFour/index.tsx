@@ -5,6 +5,7 @@ import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import PhysicalForm from "./PhysicalForm";
 import OnlineForm from "./OnlineForm";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 const pageContents = [
   "For physical events, ensure the address is correct to avoid confusion and use the map pin to give attendees a visual location.",
@@ -12,24 +13,47 @@ const pageContents = [
   "Clearly indicate if your event has both physical and virtual attendance options, and provide details for both.",
 ];
 
-const locationTypes: { id: string; name: string }[] = [
-  {
-    id: "physical",
-    name: "Physical",
-  },
-  {
-    id: "online",
-    name: "Online",
-  },
-];
-
 const StepFour: React.FC = () => {
-  const [locationType, setLocationType] = useState<string>("physical");
+  const { data: event } = useGetEvent();
+  const [locationType, setLocationType] = useState<string>(
+    event?.data?.locationType || "physical"
+  );
+
+  const locationTypes = () => {
+    if (event?.data?.locationType === "physical") {
+      return [
+        {
+          id: "physical",
+          name: "Physical",
+        },
+      ];
+    } else if (event?.data?.locationType === "online") {
+      return [
+        {
+          id: "online",
+          name: "Online",
+        },
+      ];
+    } else {
+      return [
+        {
+          id: "physical",
+          name: "Physical",
+        },
+        {
+          id: "online",
+          name: "Online",
+        },
+      ];
+    }
+  };
 
   // handle event type change
   const handleClick = (id: string) => {
     setLocationType(id);
   };
+
+  console.log(event);
 
   return (
     <div
@@ -53,7 +77,7 @@ const StepFour: React.FC = () => {
             </h3>
 
             <div className="flex flex-wrap gap-4 text-white">
-              {locationTypes.map((location) => (
+              {locationTypes().map((location) => (
                 <button
                   key={location.id}
                   onClick={() => handleClick(location.id)}

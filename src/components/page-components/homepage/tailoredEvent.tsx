@@ -179,7 +179,7 @@ const TailoredEvent: React.FC = () => {
                 <>
                   {events?.data?.length > 0 ? (
                     events?.data
-                      ?.slice(0, 12)
+                      ?.slice(0, 10)
                       .map((card) => (
                         <CardComponent key={card._id} card={card} />
                       ))

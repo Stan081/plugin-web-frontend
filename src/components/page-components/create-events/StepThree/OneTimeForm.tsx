@@ -187,7 +187,13 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                     };
 
                     const formattedTime = isDateObject(field.value)
-                      ? field.value.toISOString().split("T")[1].slice(0, 5)
+                      ? new Date(
+                          field.value.getTime() -
+                            field.value.getTimezoneOffset() * 60000
+                        )
+                          .toISOString()
+                          .split("T")[1]
+                          .slice(0, 5)
                       : field.value;
 
                     return (

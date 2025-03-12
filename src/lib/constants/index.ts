@@ -59,7 +59,7 @@ export const WITHDRAWAL_HISTORY: string = `${API_URL}/withdrawal/history`;
 
 export const ATTENDEE_LIST: string = `${API_URL}/organizers/events/attendees`;
 
-export const SALES_RECORD: string = `${API_URL}/organizers/events/sales-records`;
+export const SALES_RECORD: string = `${API_URL}/organizers/event/sales-records`;
 
 export const GET_EVENT_BY_ID: string = `${API_URL}/event/events`;
 
@@ -70,6 +70,11 @@ export const GET_EVENT_SUMMARY: string = `${API_URL}/organizers/event/summary`;
 export const GET_EVENT_BOOKING_HISTORY: string = `${API_URL}/organizers/bookings`;
 
 export const GET_USER_FOLLOWERS: string = `${API_URL}/users/following/organizers`;
+
+export const GET_EVENT_TICKETS: string = `${API_URL}/organizers/event/tickets`;
+
+export const EVENT_TICKET_AGENT: string = `${API_URL}/organizers/event/agent`;
+
 
 // export const GET_EVENT_BY_ID = (): string => {
 //   const eventId = getCookie("event_id");

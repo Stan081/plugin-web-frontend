@@ -67,7 +67,7 @@ const EditFreeSeatDetail: FC<EditFreeSeatDetailProps> = ({
       end_time: selectedTicket?.endTime ?? "",
       ticket_perks: selectedTicket?.ticketPeaks ?? "",
       label_image: selectedTicket?.seatMap ?? "",
-      label_color: "",
+      label_color: selectedTicket?.color ?? "",
     },
     resolver: yupResolver(FreeSeatSectionFormSchema),
   });

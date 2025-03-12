@@ -17,36 +17,95 @@ import {
 } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useToast } from "@/components/ui/use-toast";
+
 import Spinner from "@/tw-components/spinner";
 import { CheckinAgentForm, CheckinAgentSchema } from "@/models/checkin-agent";
 import { Input } from "@/components/ui/input";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
-import { useMe } from "@/pages/api/query/me";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { IoCloseOutline } from "react-icons/io5";
+import { useGetOrganiserEventTickets } from "@/hooks/organiser/useGetEventTickets";
+import { useEventsContext } from "@/providers/events.provider";
+import { RiCloseFill } from "react-icons/ri";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/components/ui/use-toast";
+import { CreateTicketAgent } from "@/pages/api/mutate/organiser/ticketAgentApi";
+import { useGetTicketAgents } from "@/hooks/organiser/useGetTicketAgents";
+import { useDeleteTicketAgent } from "@/hooks/organiser/useDeleteTicketAgent";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const EventTicketAgents = () => {
-  const [selectedCategories, setSelectedCategories] = useState<string>("");
-
-
+  const [selectedCategories, setSelectedCategories] = useState<
+    { ticketName: string; id: string }[]
+  >([]);
+  const { publishedEventId } = useEventsContext();
+  const { data: ticketAgents, isLoading: isTicketAgentsLoading } =
+    useGetTicketAgents(publishedEventId);
+  const { data: eventTickets } = useGetOrganiserEventTickets(publishedEventId);
+  const { mutate: deleteTicketAgent, isPending: isDeleteTicketAgentPending } =
+    useDeleteTicketAgent();
   const form = useForm<CheckinAgentForm>({
     mode: "all",
     defaultValues: {
       agent_email: "",
-      agent_ticket_type: selectedCategories,
+      agent_ticket_type: [] as { ticketName: string; id: string }[],
     },
     resolver: yupResolver(CheckinAgentSchema),
   });
 
+  const client = useQueryClient();
+
   const handleCategoryChange = (category: string) => {
-    setSelectedCategories(category);
+    const ticket = eventTickets?.data?.find((t) => t.id === category);
+    if (ticket) {
+      setSelectedCategories((prevSelected) => {
+        const exists = prevSelected.some((item) => item.id === category);
+        if (exists) {
+          return prevSelected.filter((item) => item.id !== category);
+        }
+        return [
+          ...prevSelected,
+          { ticketName: ticket.ticketName, id: ticket.id },
+        ];
+      });
+    }
   };
 
+  const handleDeleteSelected = (categoryId: string) => {
+    setSelectedCategories((prevSelected) =>
+      prevSelected.filter((category) => category.id !== categoryId)
+    );
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: any) => CreateTicketAgent(data),
+    onSuccess: (response) => {
+      if (response?.data) {
+        toast({
+          variant: "success",
+          title: "Your ticket agent has been created",
+          description: `${response?.message}`,
+        });
+        client.invalidateQueries({ queryKey: ["allTicketAgents"] });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Failed to create ticket agent",
+        description: error?.message,
+      });
+    },
+  });
+
   const onSubmit = (payload: CheckinAgentForm) => {
-    console.log(payload);
+    const data = {
+      event: publishedEventId,
+      email: payload.agent_email,
+      tickets: selectedCategories.map((item) => item.id),
+    };
+    mutate(data);
   };
 
   return (
@@ -91,20 +150,41 @@ const EventTicketAgents = () => {
                   <SelectValue placeholder="Choose ticket type for agent" />
                 </SelectTrigger>
                 <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
-                  {["members", "vip", "officials"].map((category, index) => (
-                    <SelectItem key={index} value={category}>
-                      <div className="flex items-center gap-2">{category}</div>
+                  {eventTickets?.data?.map((category) => (
+                    <SelectItem key={category?.id} value={category?.id}>
+                      <div className="flex items-center gap-2">
+                        {category?.ticketName}
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
 
+              <div className="flex gap-3">
+                {selectedCategories.length > 0 &&
+                  selectedCategories.map((cat) => (
+                    <p
+                      key={cat.id}
+                      className="flex border border-gray-400 rounded py-0.5 px-1.5 items-center gap-2 text-sm text-gray-600"
+                    >
+                      {cat.ticketName}
+                      <span
+                        onClick={() => handleDeleteSelected(cat.id)}
+                        className="cursor-pointer text-red-500"
+                      >
+                        <RiCloseFill size={16} />
+                      </span>
+                    </p>
+                  ))}
+              </div>
+
               <Button
                 variant="destructive"
                 type="submit"
                 className="w-full mt-5"
+                disabled={isPending}
               >
-                {false ? <Spinner /> : "Add Agent"}
+                {isPending ? <Spinner /> : "Add Agent"}
               </Button>
             </div>
           </form>
@@ -112,7 +192,7 @@ const EventTicketAgents = () => {
 
         <Separator />
 
-        {false ? (
+        {ticketAgents?.data?.length === 0 ? (
           <div className="flex flex-col items-center gap-5">
             <Image
               src={
@@ -132,24 +212,50 @@ const EventTicketAgents = () => {
           <div className="mt-5">
             <p className="font-pally-regular text-lg">Ticket agents</p>
             <ul className="mt-5 space-y-2.5">
-              <li className="flex justify-between items-center">
-                <div className="flex items-start gap-4">
-                  <div className="bg-[#34C759] w-8 h-8 flex justify-center items-center rounded-full p-2">
-                    <p className="font-pally-regular uppercase text-white text-lg">
-                      T
-                    </p>
-                  </div>
-                  <div className="space-y-1.5">
-                    <p className="font-pally-regular base">email@gmail.com</p>
-                    <p className="bg-[#98A2B329]/10 px-3 py-1.5 font-pally-regular text-sm lg:text-base">
-                      Member
-                    </p>
-                  </div>
-                </div>
-                <div className="cursor-pointer">
-                  <IoCloseOutline size={24} className="text-red-500" />
-                </div>
-              </li>
+              {ticketAgents?.data?.map((ticketAgent) => (
+                <Fragment key={ticketAgent?._id}>
+                  {isTicketAgentsLoading ? (
+                    <Skeleton className="w-full h-12" />
+                  ) : (
+                    <li className="flex justify-between items-center">
+                      <div className="flex items-start gap-4">
+                        <div className="bg-[#34C759] w-8 h-8 flex justify-center items-center rounded-full p-2">
+                          <p className="font-pally-regular uppercase text-white text-lg">
+                            {ticketAgent?.email?.charAt(0).toUpperCase()}
+                          </p>
+                        </div>
+                        <div className="space-y-1.5">
+                          <p className="font-pally-regular base">
+                            {ticketAgent?.email}
+                          </p>
+                          <p className="flex gap-2">
+                            {ticketAgent?.tickets?.map((ticket) => (
+                              <span
+                                key={ticket}
+                                className="bg-[#98A2B329]/10 px-3 py-1.5 font-pally-regular text-sm lg:text-base"
+                              >
+                                {ticket}
+                              </span>
+                            ))}
+                          </p>
+                        </div>
+                      </div>
+                      {isDeleteTicketAgentPending ? (
+                        <Spinner />
+                      ) : (
+                        <div
+                          onClick={() =>
+                            deleteTicketAgent({ agentId: ticketAgent?._id })
+                          }
+                          className="cursor-pointer"
+                        >
+                          <IoCloseOutline size={24} className="text-red-500" />
+                        </div>
+                      )}
+                    </li>
+                  )}
+                </Fragment>
+              ))}
             </ul>
           </div>
         )}

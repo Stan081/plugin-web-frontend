@@ -59,6 +59,7 @@ const ExploreEventDetailPage = () => {
               title={cardId?.eventName}
               image={cardId?.eventBanner}
               id={cardId?._id}
+              description={cardId?.eventDescription}
             />
 
             <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">
