@@ -43,6 +43,8 @@ const ExploreEventDetailPage = () => {
 
   const isPassed = endDate ? now < endDate : false;
 
+  console.log(cardId);
+
   return (
     <Layout title={cardId?.eventName} showHeader showFooter>
       {isLoading ? (
