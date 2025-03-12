@@ -5,8 +5,15 @@ export const CheckinAgentSchema = yup.object().shape({
     .string()
     .email("Invalid email address")
     .required("Email address is required"),
-  agent_ticket_type: yup.array().of(yup.string()).required("Select ticket type for agent"),
+  agent_ticket_type: yup
+    .array()
+    .of(
+      yup.object().shape({
+        ticketName: yup.string().required(),
+        id: yup.string().required(),
+      })
+    )
+    .required("Select ticket type for agent"),
 });
-
 
 export type CheckinAgentForm = yup.InferType<typeof CheckinAgentSchema>;

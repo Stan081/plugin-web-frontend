@@ -32,22 +32,24 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/components/ui/use-toast";
 import { CreateTicketAgent } from "@/pages/api/mutate/organiser/ticketAgentApi";
 import { useGetTicketAgents } from "@/hooks/organiser/useGetTicketAgents";
+import { useDeleteTicketAgent } from "@/hooks/organiser/useDeleteTicketAgent";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const EventTicketAgents = () => {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-
+  const [selectedCategories, setSelectedCategories] = useState<
+    { ticketName: string; id: string }[]
+  >([]);
   const { publishedEventId } = useEventsContext();
-
   const { data: ticketAgents, isLoading: isTicketAgentsLoading } =
     useGetTicketAgents(publishedEventId);
-
   const { data: eventTickets } = useGetOrganiserEventTickets(publishedEventId);
-
+  const { mutate: deleteTicketAgent, isPending: isDeleteTicketAgentPending } =
+    useDeleteTicketAgent();
   const form = useForm<CheckinAgentForm>({
     mode: "all",
     defaultValues: {
       agent_email: "",
-      agent_ticket_type: selectedCategories,
+      agent_ticket_type: [] as { ticketName: string; id: string }[],
     },
     resolver: yupResolver(CheckinAgentSchema),
   });
@@ -55,20 +57,27 @@ const EventTicketAgents = () => {
   const client = useQueryClient();
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategories(
-      (prevSelected) =>
-        prevSelected.includes(category)
-          ? prevSelected.filter((item) => item !== category) // Remove category if it's already selected
-          : [...prevSelected, category] // Add category if it's not selected
+    const ticket = eventTickets?.data?.find((t) => t.id === category);
+    if (ticket) {
+      setSelectedCategories((prevSelected) => {
+        const exists = prevSelected.some((item) => item.id === category);
+        if (exists) {
+          return prevSelected.filter((item) => item.id !== category);
+        }
+        return [
+          ...prevSelected,
+          { ticketName: ticket.ticketName, id: ticket.id },
+        ];
+      });
+    }
+  };
+
+  const handleDeleteSelected = (categoryId: string) => {
+    setSelectedCategories((prevSelected) =>
+      prevSelected.filter((category) => category.id !== categoryId)
     );
   };
 
-  // Function to handle deleting a selected category
-  const handleDeleteSelected = (categoryToDelete: string) => {
-    setSelectedCategories((prevSelected) =>
-      prevSelected.filter((category) => category !== categoryToDelete)
-    );
-  };
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => CreateTicketAgent(data),
     onSuccess: (response) => {
@@ -90,13 +99,11 @@ const EventTicketAgents = () => {
     },
   });
 
-  console.log(ticketAgents);
-
   const onSubmit = (payload: CheckinAgentForm) => {
     const data = {
       event: publishedEventId,
       email: payload.agent_email,
-      tickets: selectedCategories,
+      tickets: selectedCategories.map((item) => item.id),
     };
     mutate(data);
   };
@@ -144,7 +151,7 @@ const EventTicketAgents = () => {
                 </SelectTrigger>
                 <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
                   {eventTickets?.data?.map((category) => (
-                    <SelectItem key={category?.id} value={category?.ticketName}>
+                    <SelectItem key={category?.id} value={category?.id}>
                       <div className="flex items-center gap-2">
                         {category?.ticketName}
                       </div>
@@ -157,12 +164,12 @@ const EventTicketAgents = () => {
                 {selectedCategories.length > 0 &&
                   selectedCategories.map((cat) => (
                     <p
-                      key={cat}
+                      key={cat.id}
                       className="flex border border-gray-400 rounded py-0.5 px-1.5 items-center gap-2 text-sm text-gray-600"
                     >
-                      {cat}
+                      {cat.ticketName}
                       <span
-                        onClick={() => handleDeleteSelected(cat)}
+                        onClick={() => handleDeleteSelected(cat.id)}
                         className="cursor-pointer text-red-500"
                       >
                         <RiCloseFill size={16} />
@@ -205,24 +212,50 @@ const EventTicketAgents = () => {
           <div className="mt-5">
             <p className="font-pally-regular text-lg">Ticket agents</p>
             <ul className="mt-5 space-y-2.5">
-              <li className="flex justify-between items-center">
-                <div className="flex items-start gap-4">
-                  <div className="bg-[#34C759] w-8 h-8 flex justify-center items-center rounded-full p-2">
-                    <p className="font-pally-regular uppercase text-white text-lg">
-                      T
-                    </p>
-                  </div>
-                  <div className="space-y-1.5">
-                    <p className="font-pally-regular base">email@gmail.com</p>
-                    <p className="bg-[#98A2B329]/10 px-3 py-1.5 font-pally-regular text-sm lg:text-base">
-                      Member
-                    </p>
-                  </div>
-                </div>
-                <div className="cursor-pointer">
-                  <IoCloseOutline size={24} className="text-red-500" />
-                </div>
-              </li>
+              {ticketAgents?.data?.map((ticketAgent) => (
+                <Fragment key={ticketAgent?._id}>
+                  {isTicketAgentsLoading ? (
+                    <Skeleton className="w-full h-12" />
+                  ) : (
+                    <li className="flex justify-between items-center">
+                      <div className="flex items-start gap-4">
+                        <div className="bg-[#34C759] w-8 h-8 flex justify-center items-center rounded-full p-2">
+                          <p className="font-pally-regular uppercase text-white text-lg">
+                            {ticketAgent?.email?.charAt(0).toUpperCase()}
+                          </p>
+                        </div>
+                        <div className="space-y-1.5">
+                          <p className="font-pally-regular base">
+                            {ticketAgent?.email}
+                          </p>
+                          <p className="flex gap-2">
+                            {ticketAgent?.tickets?.map((ticket) => (
+                              <span
+                                key={ticket}
+                                className="bg-[#98A2B329]/10 px-3 py-1.5 font-pally-regular text-sm lg:text-base"
+                              >
+                                {ticket}
+                              </span>
+                            ))}
+                          </p>
+                        </div>
+                      </div>
+                      {isDeleteTicketAgentPending ? (
+                        <Spinner />
+                      ) : (
+                        <div
+                          onClick={() =>
+                            deleteTicketAgent({ agentId: ticketAgent?._id })
+                          }
+                          className="cursor-pointer"
+                        >
+                          <IoCloseOutline size={24} className="text-red-500" />
+                        </div>
+                      )}
+                    </li>
+                  )}
+                </Fragment>
+              ))}
             </ul>
           </div>
         )}

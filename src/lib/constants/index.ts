@@ -73,7 +73,7 @@ export const GET_USER_FOLLOWERS: string = `${API_URL}/users/following/organizers
 
 export const GET_EVENT_TICKETS: string = `${API_URL}/organizers/event/tickets`;
 
-export const EVENT_TICKET_AGENT: string = `${API_URL}/organizer/event/agent`;
+export const EVENT_TICKET_AGENT: string = `${API_URL}/organizers/event/agent`;
 
 
 // export const GET_EVENT_BY_ID = (): string => {
