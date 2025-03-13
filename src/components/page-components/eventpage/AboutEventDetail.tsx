@@ -9,9 +9,13 @@ import EventsAgenda from "./EventsAgenda";
 import EventsVendorPass from "./EventsVendorPass";
 import EventGallery from "./EventGallery";
 import SeatMap from "./SeatMap";
+import MapComponent from "@/components/Map";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AboutEventDetail: React.FC<{ event: any, isPassed: boolean }> = ({ event , isPassed}) => {
+const AboutEventDetail: React.FC<{ event: any; isPassed: boolean }> = ({
+  event,
+  isPassed,
+}) => {
   const startDate: string =
     event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
 
@@ -40,6 +44,8 @@ const AboutEventDetail: React.FC<{ event: any, isPassed: boolean }> = ({ event ,
     hour12: true,
     timeZone: "UTC",
   });
+
+  console.log(event);
   return (
     <div className="space-y-5 mt-4">
       <div className="space-y-1 my-6">
@@ -59,9 +65,7 @@ const AboutEventDetail: React.FC<{ event: any, isPassed: boolean }> = ({ event ,
           </p>
         </div>
       </div>
-
       <Separator />
-
       <div>
         <p className="text-[#2C2B2E] text-base md:text-lg font-pally-medium">
           About the event
@@ -70,49 +74,42 @@ const AboutEventDetail: React.FC<{ event: any, isPassed: boolean }> = ({ event ,
           {event?.eventDescription}
         </p>
       </div>
-
       <Separator />
-
       {event?.eventAgendas?.length > 0 && event?.eventAgendas && (
         <EventsAgenda event={event?.eventAgendas} />
       )}
-
       {event?.eventAgendas?.length > 0 && <Separator />}
-
       {event?.ticketCategory === "grouped" &&
         event?.groupedTicket?.seatMap?.length !== 0 && (
           <SeatMap groupedTicket={event?.groupedTicket} />
         )}
-
       {event?.ticketCategory === "grouped" &&
         event?.groupedTicket?.length !== 0 && <Separator />}
-
       {event?.eventVendors?.length > 0 && event?.eventVendors && isPassed && (
         <EventsVendorPass vendor={event?.eventVendors} />
       )}
-
       {event?.eventVendors?.length > 0 && isPassed && <Separator />}
-
       <MeetYourOganiser organiserId={event?.userId} />
 
       <Separator />
 
-      {/* <ShowLocation /> */}
-
-      {/* <Separator /> */}
+      {isNaN(event?.physicalLocation?.latitude) ||
+        (isNaN(event?.physicalLocation?.longitude) && (
+          <MapComponent
+            lat={Number(event?.physicalLocation?.latitude)}
+            lng={Number(event?.physicalLocation?.longitude)}
+            address={event?.physicalLocation?.address}
+          />
+        ))}
 
       {event?.eventPhotos?.length > 0 && event?.eventPhotos && (
         <EventGallery photos={event?.eventPhotos} />
       )}
-
       {event?.eventPhotos?.length > 0 && <Separator />}
-
       {event?.guestList?.length > 0 && event?.guestList && (
         <EventsSpeakers guests={event?.guestList} />
       )}
-
       {event?.guestList?.length > 0 && <Separator />}
-
       {event?.eventCategory && <EventsTags tags={event?.eventCategory} />}
     </div>
   );

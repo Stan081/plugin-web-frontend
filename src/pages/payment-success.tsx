@@ -5,6 +5,8 @@ import { useEventsContext } from "@/providers/events.provider";
 import Container from "@/tw-components/container";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import {
   Document,
   Page,
@@ -19,79 +21,235 @@ import { HiDownload } from "react-icons/hi";
 const styles = StyleSheet.create({
   page: {
     padding: 30,
+    backgroundColor: "#ffffff",
   },
   header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 30,
+  },
+  logoContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  logo: {
+    width: 30,
+    height: 30,
+  },
+  logoText: {
+    fontSize: 44,
+    color: "#2E394C",
+    fontWeight: "bold",
+  },
+  mainTitle: {
     fontSize: 24,
-    marginBottom: 20,
-    textAlign: "center",
+    color: "#D9302A",
+    fontWeight: "500",
+    marginTop: 16,
   },
-  section: {
-    marginBottom: 10,
-  },
-  label: {
-    fontSize: 12,
-    color: "#666",
-    marginBottom: 5,
-  },
-  value: {
-    fontSize: 14,
-    marginBottom: 10,
-  },
-  ticketSection: {
+  greeting: {
+    fontSize: 16,
+    color: "#515A6A",
     marginTop: 20,
   },
-  ticketItem: {
-    flexDirection: "row",
-    marginBottom: 10,
-    padding: 10,
-    border: "1 solid #eee",
+  eventName: {
+    color: "#EB1C24",
+    fontWeight: "600",
+  },
+  ticketContainer: {
+    marginTop: 24,
+  },
+  ticketBackground: {
+    width: "100%",
+    height: 200,
+    position: "relative",
   },
   qrCode: {
-    width: 100,
-    height: 100,
-    marginRight: 10,
+    width: 150,
+    height: 150,
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
   },
-  ticketInfo: {
-    flex: 1,
-    display: "flex",
-    flexDirection: "column",
+  ticketDetails: {
+    borderWidth: 1,
+    borderRadius: 12,
+    marginTop: 32,
+  },
+  ticketHeader: {
+    backgroundColor: "#221A14",
+    padding: 14,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    flexDirection: "row",
     justifyContent: "space-between",
-    gap: 10,
+  },
+  ticketHeaderText: {
+    color: "#ffffff",
+    fontSize: 18,
+    fontWeight: "500",
+  },
+  ticketContent: {
+    backgroundColor: "#F9F7F7",
+    padding: 16,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+  },
+  detailItem: {
+    backgroundColor: "#ffffff",
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginBottom: 12,
+  },
+  detailLabel: {
+    fontSize: 14,
+    color: "#2C2B2E",
+    marginBottom: 4,
+  },
+  detailValue: {
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  appSection: {
+    borderWidth: 1,
+    borderColor: "#F4702D33",
+    borderRadius: 12,
+    backgroundColor: "#F4702D33",
+    marginTop: 56,
+    flexDirection: "row",
+    padding: 24,
+  },
+  appContent: {
+    width: "50%",
+  },
+  appTitle: {
+    fontSize: 24,
+    fontWeight: "600",
+  },
+  appDescription: {
+    fontSize: 18,
+    color: "#475367",
+    marginTop: 20,
+  },
+  storeButtons: {
+    flexDirection: "row",
+    gap: 12,
+    marginTop: 24,
+  },
+  storeButton: {
+    backgroundColor: "#BC1622",
+    padding: 8,
+    borderRadius: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+  },
+  storeButtonText: {
+    color: "#ffffff",
+  },
+  storeButtonSmall: {
+    fontSize: 12,
+  },
+  storeButtonLarge: {
+    fontSize: 16,
+  },
+  footer: {
+    marginTop: 40,
+  },
+  footerText: {
+    color: "#969CA5",
+    fontSize: 12,
+  },
+  socialLinks: {
+    flexDirection: "row",
+    gap: 16,
+    marginTop: 20,
+  },
+  socialIcon: {
+    width: 28,
+    height: 28,
   },
 });
 
 const ReceiptPDF = ({ data }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <Text style={styles.header}>Plugin Booking Receipt</Text>
-
-      <View style={styles.section}>
-        <Text style={styles.label}>Event</Text>
-        <Text style={styles.value}>{data?.eventName || "N/A"}</Text>
-
-        <Text style={styles.label}>Location</Text>
-        <Text style={styles.value}>{data?.eventLocation || "N/A"}</Text>
-
-        <Text style={styles.label}>Date</Text>
-        <Text style={styles.value}>
-          {new Date(data?.eventDate).toLocaleDateString()}
-        </Text>
-
-        <Text style={styles.label}>Email</Text>
-        <Text style={styles.value}>{data?.userEmail || "N/A"}</Text>
+      <View style={styles.header}>
+        <View style={styles.logoContainer}>
+          <PDFImage
+            src="https://ik.imagekit.io/pluginImage/Plugin-images/img/logo.svg?updatedAt=1736331993218"
+            style={styles.logo}
+          />
+          <Text style={styles.logoText}>Plugin</Text>
+        </View>
       </View>
 
-      <View style={styles.ticketSection}>
-        <Text style={styles.label}>Tickets</Text>
-        {data?.ticketData?.map((ticket, index) => (
-          <View key={index} style={styles.ticketItem}>
-            <PDFImage src={ticket.qrCode} style={styles.qrCode} />
-            <View style={styles.ticketInfo}>
-              <Text>{ticket.name}</Text>
-              <Text>${ticket.price}</Text>
+      <View>
+        <Text style={styles.mainTitle}>Your free ticket is Ready!</Text>
+
+        <Text style={styles.greeting}>
+          Hi {data?.userName || "there"}
+          {"\n\n"}
+          Thank you for purchasing a ticket for{" "}
+          <Text style={styles.eventName}>"{data?.eventName || "N/A"}"</Text>
+          {"\n\n"}
+          We're thrilled to have you join us. Here's your ticket information:
+        </Text>
+
+        <View style={styles.ticketContainer}>
+          {data?.ticketData?.map((ticket, index) => (
+            <View key={index}>
+              <View style={styles.ticketBackground}>
+                <PDFImage
+                  src="https://ik.imagekit.io/pluginImage/Plugin-images/img/ticket-bg-image.svg?updatedAt=1736331966100"
+                  style={styles.ticketBackground}
+                />
+                <PDFImage src={ticket.qrCode} style={styles.qrCode} />
+              </View>
+
+              <View style={styles.ticketDetails}>
+                <View style={styles.ticketHeader}>
+                  <Text style={styles.ticketHeaderText}>Ticket ID</Text>
+                  <Text style={styles.ticketHeaderText}>
+                    {ticket.id || "N/A"}
+                  </Text>
+                </View>
+                <View style={styles.ticketContent}>
+                  <View style={styles.detailItem}>
+                    <Text style={styles.detailLabel}>Event Name</Text>
+                    <Text style={styles.detailValue}>
+                      {data?.eventName || "N/A"}
+                    </Text>
+                  </View>
+                  <View style={styles.detailItem}>
+                    <Text style={styles.detailLabel}>Date and time</Text>
+                    <Text style={styles.detailValue}>
+                      {new Date(data?.eventDate).toLocaleDateString("en-US", {
+                        weekday: "short",
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                        hour: "numeric",
+                        minute: "numeric",
+                        hour12: true,
+                      })}
+                    </Text>
+                  </View>
+                  <View style={styles.detailItem}>
+                    <Text style={styles.detailLabel}>Address</Text>
+                    <Text style={styles.detailValue}>
+                      {data?.eventLocation || "N/A"}
+                    </Text>
+                  </View>
+                </View>
+              </View>
             </View>
-          </View>
-        ))}
+          ))}
+        </View>
       </View>
     </Page>
   </Document>
@@ -99,10 +257,24 @@ const ReceiptPDF = ({ data }) => (
 
 // Payment success page for free events
 const PaymentSuccess = () => {
+  const router = useRouter();
   const { freeEventPayload } = useEventsContext();
+  // const [isFirstLoad, setIsFirstLoad] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Check if this is a page reload
+    if (document.readyState === "complete") {
+      setTimeout(() => {
+        // Redirect to tickets page on reload
+        router.push("/tickets");
+      }, 20000);
+    }
+
+    // Set isFirstLoad to false after initial render
+    // setIsFirstLoad(false);
+  }, [router]);
 
   const startDate: string = freeEventPayload?.eventDate;
-
   const startTime: string = freeEventPayload?.eventTime;
 
   const date = new Date(startDate);

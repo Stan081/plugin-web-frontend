@@ -53,8 +53,6 @@ const StepFour: React.FC = () => {
     setLocationType(id);
   };
 
-  console.log(event);
-
   return (
     <div
       className="flex w-full flex-col lg:flex-row items-start gap-4 md:gap-12
