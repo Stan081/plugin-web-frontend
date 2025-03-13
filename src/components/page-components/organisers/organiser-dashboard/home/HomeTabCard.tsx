@@ -1,19 +1,16 @@
 import Image from "next/image";
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { BsGraphUpArrow } from "react-icons/bs";
 import { TabProgress } from "./TabProgress";
 import Link from "next/link";
 import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
 
 const HomeTabCard: FC<{ card: any }> = ({ card }) => {
-
   const { data: sales } = useGetSalesRecord(card?._id);
 
-  const startDate: string =
-    card?.startDate 
+  const startDate: string = card?.startDate;
 
-  const startTime: string =
-    card?.startTime
+  const startTime: string = card?.startTime;
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
@@ -45,7 +42,11 @@ const HomeTabCard: FC<{ card: any }> = ({ card }) => {
   );
 
   // Calculate percentage
-  const soldPercentage = (totalSold / totalAvailable) * 100;
+  const soldPercentage = useMemo(
+    () =>
+      totalAvailable > 0 ? Math.ceil((totalSold * 100) / totalAvailable) : 0,
+    [totalSold, totalAvailable]
+  );
   return (
     <div className="border rounded-xl p-3 md:p-6 gap-4 flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -83,7 +84,7 @@ const HomeTabCard: FC<{ card: any }> = ({ card }) => {
               <TabProgress value={soldPercentage} max={100} />
             </div>
             <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-            {soldPercentage}/{100}
+              {soldPercentage}/{100}
             </p>
           </div>
         </div>

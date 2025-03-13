@@ -5,7 +5,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import Image from "next/image";
-import React, { FC, useState } from "react";
+import React, { FC, useMemo, useState, useEffect } from "react";
 import { SlLocationPin } from "react-icons/sl";
 import { TfiWorld } from "react-icons/tfi";
 import { TabProgress } from "../home/TabProgress";
@@ -35,11 +35,34 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
 
   const client = useQueryClient();
 
-  const startDate: string =
-    event?.startDate;
+  // Memoize the calculations to prevent unnecessary recalculations
+  const { totalSold, totalAvailable } = useMemo(() => {
+    if (!sales?.data) return { totalSold: 0, totalAvailable: 0 };
 
-  const startTime: string =
-    event?.startTime;
+    // console.log("Sales data updated:", sales?.data);
+    const sold = sales.data.reduce((acc, item) => {
+      // console.log("Processing item:", item);
+      return acc + Number(item?.sold || 0);
+    }, 0);
+    const available = sales.data.reduce((acc, item) => {
+      // console.log("Processing item:", item);
+      return acc + Number(item?.total || 0);
+    }, 0);
+    // console.log("Calculated totals:", { sold, available });
+    return { totalSold: sold, totalAvailable: available };
+  }, [sales?.data]);
+
+  // Calculate percentage
+  const soldPercentage = useMemo(() => {
+    if (totalAvailable === 0) return 0;
+    const percentage = Math.ceil((totalSold * 100) / totalAvailable);
+    return percentage;
+  }, [totalSold, totalAvailable]);
+
+
+  const startDate: string = event?.startDate;
+
+  const startTime: string = event?.startTime;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
@@ -92,16 +115,7 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
     }, 3000);
   };
 
-  const totalSold = sales?.data?.reduce((acc, item) => acc + item?.sold, 0);
-  const totalAvailable = sales?.data?.reduce(
-    (acc, item) => acc + item?.total,
-    0
-  );
-
-  // Calculate percentage
-  const soldPercentage = Math.ceil((totalSold * 100) / totalAvailable);
-
-  console.log(event);
+  console.log(soldPercentage);
 
   return (
     <div className="w-full max-w-sm shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200 p-2.5 lg:p-4  hover:bg-gray-100 transition delay-75 ease-in-out">
@@ -195,9 +209,9 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
             <TfiWorld />{" "}
             {event?.isPublished && event?.publishStatus === "public"
               ? "Public view"
-              // : event?.publishStatus === "private"
-              // ? "Private view"
-              : "Draft mode"}{" "}
+              : // : event?.publishStatus === "private"
+                // ? "Private view"
+                "Draft mode"}{" "}
           </p>
         </div>
 
