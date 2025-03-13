@@ -29,7 +29,7 @@ export const useGetTicketEvents = () => {
 };
 
 // Get all purchased tickets by a uer, ties to same eventId and date/time
-export const useGetEventTickets = (id: string, createdAt: string) => {
+export const useGetEventTickets = (id: string) => {
   const token = getToken();
 
   const options = {
@@ -43,7 +43,7 @@ export const useGetEventTickets = (id: string, createdAt: string) => {
     queryKey: ["getTickets"],
     queryFn: () =>
       axios
-        .get(TICKETS + `/user/events/${id}/created/${createdAt}`, options)
+        .get(TICKETS + `/user/events/${id}`, options)
         .then((res) => res.data)
         .catch((err) => {
           throw err?.response?.data || err.message; // Better error handling

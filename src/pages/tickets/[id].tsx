@@ -22,12 +22,11 @@ const TicketDetailPage = () => {
   const createdAtString = Array.isArray(createdAt) ? createdAt[0] : createdAt;
   const { data: data, isLoading } = useGetEventTickets(
     param?.id,
-    createdAtString
   );
 
   // const checkCardId = cardData.find((card) => card?.id === param?.id);
   //   Temporary routing
-  if (!param?.id || !createdAt) {
+  if (!param?.id) {
     return <div>Not Found!!</div>;
   }
 
