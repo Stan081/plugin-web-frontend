@@ -103,7 +103,7 @@ const EventTicketAgents = () => {
     const data = {
       event: publishedEventId,
       email: payload.agent_email,
-      tickets: selectedCategories.map((item) => item.id),
+      tickets: selectedCategories.map((item) => ({ticketId:item.id, ticketName: item.ticketName})),
     };
     mutate(data);
   };
@@ -231,10 +231,10 @@ const EventTicketAgents = () => {
                           <p className="flex gap-2">
                             {ticketAgent?.tickets?.map((ticket) => (
                               <span
-                                key={ticket}
+                                key={ticket.ticketName}
                                 className="bg-[#98A2B329]/10 px-3 py-1.5 font-pally-regular text-sm lg:text-base"
                               >
-                                {ticket}
+                                {ticket.ticketName}
                               </span>
                             ))}
                           </p>
