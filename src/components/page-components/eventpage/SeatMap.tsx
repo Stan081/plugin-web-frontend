@@ -69,7 +69,7 @@ const SeatMap: FC<{ groupedTicket: any[] }> = ({ groupedTicket }) => {
             src={map?.seatMap ?? "/images/pitch-bg.png"}
             width={200}
             height={200}
-            alt="map"
+            alt={`seat map `}
             className="w-auto h-auto"
           />
         ) : (
