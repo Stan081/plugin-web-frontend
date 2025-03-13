@@ -5,7 +5,10 @@ import Container from "@/tw-components/container";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import jsPDF from "jspdf";
+import { HiDownload } from "react-icons/hi";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import dynamic from "next/dynamic";
 import {
   Document,
   Page,
@@ -13,11 +16,13 @@ import {
   View,
   StyleSheet,
   Image as PDFImage,
-  PDFDownloadLink,
 } from "@react-pdf/renderer";
-import { HiDownload } from "react-icons/hi";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+
+// Dynamically import PDFDownloadLink with ssr: false to disable SSR
+const PDFDownloadLinkNoSSR = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+  { ssr: false }
+);
 
 const styles = StyleSheet.create({
   page: {
@@ -411,7 +416,7 @@ const PaymentSuccessful = () => {
               </span>
             </p>
 
-            <p className="text-sm text-[#667185] my-6">Or downlaod it below</p>
+            <p className="text-sm text-[#667185] my-6">Or download it below</p>
 
             {isLoading ? (
               <Skeleton className="h-12 w-38" />
@@ -444,7 +449,7 @@ const PaymentSuccessful = () => {
             )}
 
             <div className="flex justify-between gap-10 items-center mt-10">
-              <PDFDownloadLink
+              <PDFDownloadLinkNoSSR
                 document={<ReceiptPDF data={bookings?.data} />}
                 fileName={`Booking_Receipt_${bookings?.data?.eventName}.pdf`}
                 className="cursor-pointer"
@@ -452,7 +457,7 @@ const PaymentSuccessful = () => {
                 {({ loading }) => (
                   <HiDownload size={22} className="text-gray-500" />
                 )}
-              </PDFDownloadLink>
+              </PDFDownloadLinkNoSSR>
               <Link href="/tickets">
                 <Button variant="destructive">See tickets</Button>
               </Link>

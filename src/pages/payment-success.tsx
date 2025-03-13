@@ -6,7 +6,7 @@ import Container from "@/tw-components/container";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Document,
   Page,
@@ -14,10 +14,15 @@ import {
   View,
   StyleSheet,
   Image as PDFImage,
-  PDFDownloadLink,
 } from "@react-pdf/renderer";
+import dynamic from "next/dynamic";
 import { HiDownload } from "react-icons/hi";
 
+// Dynamically import PDFDownloadLink with ssr: false to disable SSR
+const PDFDownloadLinkNoSSR = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+  { ssr: false }
+);
 const styles = StyleSheet.create({
   page: {
     padding: 30,
@@ -259,19 +264,13 @@ const ReceiptPDF = ({ data }) => (
 const PaymentSuccess = () => {
   const router = useRouter();
   const { freeEventPayload } = useEventsContext();
-  // const [isFirstLoad, setIsFirstLoad] = useState<boolean>(false);
 
   useEffect(() => {
-    // Check if this is a page reload
     if (document.readyState === "complete") {
       setTimeout(() => {
-        // Redirect to tickets page on reload
         router.push("/tickets");
       }, 20000);
     }
-
-    // Set isFirstLoad to false after initial render
-    // setIsFirstLoad(false);
   }, [router]);
 
   const startDate: string = freeEventPayload?.eventDate;
@@ -282,7 +281,7 @@ const PaymentSuccess = () => {
     weekday: "short",
     month: "short",
     day: "numeric",
-    year: "numeric", // Add year to the options
+    year: "numeric",
   };
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
@@ -332,7 +331,7 @@ const PaymentSuccess = () => {
               </span>
             </p>
 
-            <p className="text-sm text-[#667185] my-6">Or downlaod it below</p>
+            <p className="text-sm text-[#667185] my-6">Or download it below</p>
 
             <ul className="space-y-4 ">
               {freeEventPayload?.ticketData?.map((ticket) => (
@@ -361,7 +360,7 @@ const PaymentSuccess = () => {
             </ul>
 
             <div className="flex justify-between gap-10 items-center mt-10">
-              <PDFDownloadLink
+              <PDFDownloadLinkNoSSR
                 document={<ReceiptPDF data={freeEventPayload} />}
                 fileName={`Booking_Receipt_${freeEventPayload?.eventName}.pdf`}
                 className="cursor-pointer"
@@ -369,7 +368,7 @@ const PaymentSuccess = () => {
                 {({ loading }) => (
                   <HiDownload size={22} className="text-gray-500" />
                 )}
-              </PDFDownloadLink>
+              </PDFDownloadLinkNoSSR>
               <Link href="/tickets">
                 <Button variant="destructive">See tickets</Button>
               </Link>
@@ -380,5 +379,6 @@ const PaymentSuccess = () => {
     </Layout>
   );
 };
+
 
 export default PaymentSuccess;
