@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 const TicketPage = () => {
   const [isActive, setIsActive] = useState<string>("my-tickets");
   const { data: ticketData, isLoading } = useGetTicketEvents();
-
+  console.log(ticketData);
   const token = getToken();
   const router = useRouter();
 
@@ -67,15 +67,15 @@ const TicketPage = () => {
         ) : (
           <>
             {isActive === "my-tickets" && (
-              <TicketComponent tickets={ticketData?.data} />
+              <TicketComponent tickets={ticketData?.data?.events} />
             )}
             {isActive === "past-tickets" && (
-              <TicketComponent tickets={ticketData?.data} />
+              <TicketComponent tickets={ticketData?.data?.events} />
             )}
           </>
         )}
 
-        {ticketData?.data?.length === 0 && (
+        {ticketData?.data?.events.length === 0 && (
           <p className="font-pally-regular destructive w-full h-full flex justify-center">
             No ticket receipt
           </p>

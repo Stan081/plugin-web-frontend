@@ -3,15 +3,14 @@ import { Separator } from "@/components/ui/separator";
 import { toFiat } from "@/lib/amount";
 import React, { useState } from "react";
 import ReceiptModal from "../ReceiptModal";
-import { formatDate } from "@/components/TicketComponent";
+// import { formatDate } from "@/components/TicketComponent";
 import { TicketType, UserType } from "./TicketSummary";
 
 interface Props {
   data?: TicketType[];
-  createdAt: string;
   user: UserType;
 }
-const OrderSummary = ({ data, createdAt, user }: Props) => {
+const OrderSummary = ({ data, user }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const totalPrice = data?.reduce(
@@ -33,7 +32,6 @@ const OrderSummary = ({ data, createdAt, user }: Props) => {
         </p>
       </div>
       <p className=" font-pally-regular text-[#515A6A] text-sm md:text-base">
-        {formatDate(createdAt)}
       </p>
       <div className="flex items-center gap-2">
         {" "}
@@ -59,7 +57,6 @@ const OrderSummary = ({ data, createdAt, user }: Props) => {
       <ReceiptModal
         total={totalPrice}
         data={data}
-        createdAt={formatDate(createdAt)}
         open={isOpen}
         email={user?.email}
         close={() => setIsOpen(!isOpen)}

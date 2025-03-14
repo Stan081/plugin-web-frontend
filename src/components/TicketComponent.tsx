@@ -32,10 +32,10 @@ const TicketComponent: React.FC<TicketComponentProps> = ({ tickets }) => {
   //   router.push(`/tickets/${id}`);
   // };
 
-  const handleClick = (id: string, createdAt: string) => {
+  const handleClick = (id: string) => {
     router.push({
       pathname: `/tickets/${id}`,
-      query: { createdAt: createdAt },
+      // query: { createdAt: createdAt },
     });
   };
 
@@ -72,7 +72,7 @@ const TicketComponent: React.FC<TicketComponentProps> = ({ tickets }) => {
                 </div>
               </div>
               <div
-                onClick={() => handleClick(tick?._id, tick?.createdAt)}
+                onClick={() => handleClick(tick?._id)}
                 className="flex items-center gap-1 md:gap-2 cursor-pointer hover:text-gray-600"
               >
                 <p className="underline font-pally-medium whitespace-nowrap text-sm md:text-base">

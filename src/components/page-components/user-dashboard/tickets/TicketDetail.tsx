@@ -11,9 +11,7 @@ const TicketDetail: React.FC<{ event: any; tickets: any }> = ({
   event,
   tickets,
 }) => {
-  const startDate: string =
-    event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
-
+  const startDate: string = event?.startDate
   const totalPrice = tickets?.reduce(
     (sum, ticket) => sum + ticket?.ticketData?.price,
     0

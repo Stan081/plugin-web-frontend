@@ -9,7 +9,7 @@ import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { useParams } from "next/navigation";
 import React from "react";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { useGetEventTickets } from "@/pages/api/mutate/tickets";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
@@ -17,13 +17,12 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 const TicketDetailPage = () => {
   const param = useParams<{ id: string }>();
 
-  const router = useRouter();
-  const { createdAt } = router.query;
-  const createdAtString = Array.isArray(createdAt) ? createdAt[0] : createdAt;
-  const { data: data, isLoading } = useGetEventTickets(
+  // const router = useRouter();
+  // const { createdAt } = router.query;
+  // const createdAtString = Array.isArray(createdAt) ? createdAt[0] : createdAt;
+  const { data: response, isLoading } = useGetEventTickets(
     param?.id,
   );
-
   // const checkCardId = cardData.find((card) => card?.id === param?.id);
   //   Temporary routing
   if (!param?.id) {
@@ -37,21 +36,21 @@ const TicketDetailPage = () => {
         <Container>
           <BreadcrumbComponent
             breadcrumbArr={ticketbreadcrumbArr}
-            pageName={data?.data?.event?.eventName}
+            pageName={response?.data?.event?.eventName}
           />
 
           <div className="mt-7 flex flex-col md:flex-row gap-8 md:gap-10 w-full">
             <div className="w-full lg:max-w-md">
               <TicketDetail
-                event={data?.data?.event}
-                tickets={data?.data?.tickets}
+                event={response?.data?.event}
+                tickets={response?.data?.tickets?.tickets}
               />
             </div>
             <div className="w-full">
               <TicketSummary
-                user={data?.data?.user}
-                tickets={data?.data?.tickets}
-                createdAt={createdAtString}
+                user={response?.data?.user}
+                tickets={response?.data?.tickets?.tickets}
+                // createdAt={createdAtString}
               />
             </div>
           </div>

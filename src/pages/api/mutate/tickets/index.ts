@@ -28,7 +28,7 @@ export const useGetTicketEvents = () => {
   });
 };
 
-// Get all purchased tickets by a uer, ties to same eventId and date/time
+// Get all purchased tickets by a user, ties to same eventId
 export const useGetEventTickets = (id: string) => {
   const token = getToken();
 

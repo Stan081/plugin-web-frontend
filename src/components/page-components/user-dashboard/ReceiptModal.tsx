@@ -16,12 +16,10 @@ export type TicketProps = {
   _id: string;
   eventId: string;
   ticketData: TicketDataProps;
-  createdAt: string;
 };
 interface ReceiptModalProps {
   open: boolean;
   close: () => void;
-  createdAt: string;
   data?: TicketProps[];
   total?: number;
   email?: string;
@@ -37,7 +35,6 @@ type TicketAccumulator = {
 const ReceiptModal: React.FC<ReceiptModalProps> = ({
   open,
   close,
-  createdAt,
   data,
   total,
   email,
@@ -133,9 +130,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                   <div className=" flex justify-between">
                     <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
                       Date issued
-                    </p>
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-                      {createdAt}
                     </p>
                   </div>
                   <div className=" flex justify-between">
