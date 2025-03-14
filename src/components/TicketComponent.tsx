@@ -39,6 +39,8 @@ const TicketComponent: React.FC<TicketComponentProps> = ({ tickets }) => {
     });
   };
 
+  console.log(tickets)
+
   return (
     <div>
       {tickets?.length !== 0 ? (
