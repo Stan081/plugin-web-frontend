@@ -35,6 +35,8 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
 
   const client = useQueryClient();
 
+  // console.log(event)
+
   // Memoize the calculations to prevent unnecessary recalculations
   const { totalSold, totalAvailable } = useMemo(() => {
     if (!sales?.data) return { totalSold: 0, totalAvailable: 0 };
@@ -114,8 +116,6 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
       router.push("/create-event");
     }, 3000);
   };
-
-  console.log(soldPercentage);
 
   return (
     <div className="w-full max-w-sm shrink-0 rounded-xl overflow-hidden bg-white border border-gray-200 p-2.5 lg:p-4  hover:bg-gray-100 transition delay-75 ease-in-out">
