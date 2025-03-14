@@ -25,14 +25,14 @@ interface Props {
   createdAt?: string;
   user?: UserType;
 }
-const TicketSummary = ({ tickets, createdAt, user }: Props) => {
+const TicketSummary = ({ tickets, user }: Props) => {
   return (
     <div className="w-auto">
       <h4 className="font-pally-medium text-lg md:text-xl text-[#1A1B25]">
         Order Summary
       </h4>
 
-      <OrderSummary data={tickets} createdAt={createdAt} user={user} />
+      <OrderSummary data={tickets} user={user} />
 
       <h4 className="mt-8 font-pally-medium text-lg md:text-xl text-[#1A1B25]">
         Your Tickets
