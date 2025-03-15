@@ -36,10 +36,10 @@ const ExploreEventDetailPage = () => {
     return <p>An error occured</p>;
   }
 
-  const now = new Date();
-  const endDate = cardId?.oneTimeEvent?.endDate
-    ? new Date(cardId.oneTimeEvent.endDate)
-    : null;
+  // const now = new Date();
+  // const endDate = cardId?.oneTimeEvent?.endDate
+  //   ? new Date(cardId.oneTimeEvent.endDate)
+  //   : null;
 
 
   // console.log(cardId);

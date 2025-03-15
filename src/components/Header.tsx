@@ -41,9 +41,7 @@ const Header = () => {
                 </Button>
               </Link>
             ) : (
-              <>
-                <MenuLinks />
-              </>
+              <MenuLinks />
             )}
           </div>
           <div className="lg:hidden block">
@@ -54,9 +52,7 @@ const Header = () => {
                 </Button>
               </Link>
             ) : (
-              <>
-                <MenuLinks />
-              </>
+              <MenuLinks />
             )}
           </div>
         </Container>

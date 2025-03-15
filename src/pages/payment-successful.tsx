@@ -410,7 +410,7 @@ const PaymentSuccessful = () => {
               Thanks for your order!
             </p>
             <p className="font-pally-regular mx-4 text-center text-sm lg:text-lg text-gray-600">
-              You tickets will sent to{" "}
+              Your tickets will be sent to{" "}
               <span className="text-black font-medium">
                 {bookings?.data?.userEmail}
               </span>
