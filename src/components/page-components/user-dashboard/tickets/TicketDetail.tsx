@@ -12,10 +12,6 @@ const TicketDetail: React.FC<{ event: any; tickets: any }> = ({
   tickets,
 }) => {
   const startDate: string = event?.startDate
-  const totalPrice = tickets?.reduce(
-    (sum, ticket) => sum + ticket?.ticketData?.price,
-    0
-  );
 
   return (
     <div>
@@ -31,19 +27,13 @@ const TicketDetail: React.FC<{ event: any; tickets: any }> = ({
 
       <div className="space-y-2 my-6">
         <p className="text-[#586170] text-sm md:text-base font-pally-regular">
-          {event?.location === "physical"
-            ? event?.physicalLocation?.address
+          {event?.locationType === "physical"
+            ? event?.address
             : "Online"}
         </p>
         <p className="destructive text-sm font-pally-regular">
           {formatDate(startDate)}
         </p>
-        <div className="flex items-center gap-1 mt-3">
-          <TicketIcon />{" "}
-          <p className="text-base text-black font-pally-medium">
-            {toFiat(totalPrice)}
-          </p>
-        </div>
       </div>
 
       <Separator />

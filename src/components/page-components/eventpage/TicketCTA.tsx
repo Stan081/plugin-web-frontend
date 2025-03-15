@@ -112,8 +112,8 @@ const TicketCTA: React.FC<{ event: any; id: string }> = ({ event, id }) => {
   const handleGroupTicket = () => {
     if (tickets.length > 0) {
       console.log(tickets);
-      // router.push(`/explore-events/${id}/checkout`);
-      router.push(`/explore-events/${id}/test`);
+      router.push(`/explore-events/${id}/checkout`);
+      // router.push(`/explore-events/${id}/test`);
     }
   };
 

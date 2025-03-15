@@ -72,9 +72,7 @@ const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
         ticketId: entryTicket?._id,
       };
       setCookie("entryTicket", data);
-      // router.push(`/explore-events/${id}/checkout`);
-      router.push(`/explore-events/${id}/test
-        `);
+      router.push(`/explore-events/${id}/checkout`);
     }
   };
 

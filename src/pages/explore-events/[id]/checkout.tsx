@@ -36,14 +36,11 @@ const CheckoutEvent = () => {
             breadcrumbArr={breadcrumbArr}
             pageName={"Checkout"}
           />
-          <div className="h-72 w-40">
-            vv
-          </div>
 
-          {/* <div className="my-6 md:my-8 flex flex-col-reverse md:flex-row justify-between gap-6 md:gap-10 w-full">
+          <div className="my-6 md:my-8 flex flex-col-reverse md:flex-row justify-between gap-6 md:gap-10 w-full">
             <CheckoutContactInfo eventId={checkCardId?._id} />
             <CheckoutSummary event={checkCardId} />
-          </div> */}
+          </div>
         </Container>
       </Section>
     </Layout>

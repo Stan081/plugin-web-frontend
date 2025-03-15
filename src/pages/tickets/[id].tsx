@@ -16,14 +16,9 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const TicketDetailPage = () => {
   const param = useParams<{ id: string }>();
-
-  // const router = useRouter();
-  // const { createdAt } = router.query;
-  // const createdAtString = Array.isArray(createdAt) ? createdAt[0] : createdAt;
   const { data: response, isLoading } = useGetEventTickets(
     param?.id,
   );
-  // const checkCardId = cardData.find((card) => card?.id === param?.id);
   //   Temporary routing
   if (!param?.id) {
     return <div>Not Found!!</div>;
