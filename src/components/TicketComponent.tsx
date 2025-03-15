@@ -39,6 +39,8 @@ const TicketComponent: React.FC<TicketComponentProps> = ({ tickets }) => {
     });
   };
 
+  console.log(tickets)
+
   return (
     <div>
       {tickets?.length !== 0 ? (
@@ -67,7 +69,7 @@ const TicketComponent: React.FC<TicketComponentProps> = ({ tickets }) => {
                     {tick?.locationType}
                   </p>
                   <p className="destructive text-sm font-pally-regular">
-                    {formatDate(tick?.createdAt)}
+                    {formatDate(tick?.oneTimeEvent?.startDate)}
                   </p>
                 </div>
               </div>

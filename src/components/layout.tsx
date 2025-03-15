@@ -46,8 +46,8 @@ const Layout: FC<LayoutProps> = ({
         canonical={canonical}
         image={image}
       />
-      {showHeader && <Header />}
       <main {...rest}>
+        {showHeader && <Header />}
         {showSidebar ? (
           <Container className="flex">
             <Sidebar open={open} toggle={toggle} />
@@ -56,8 +56,8 @@ const Layout: FC<LayoutProps> = ({
         ) : (
           children
         )}
+        {showFooter && <Footer />}
       </main>
-      {showFooter && <Footer />}
     </>
   );
 };

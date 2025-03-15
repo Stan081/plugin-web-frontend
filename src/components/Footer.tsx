@@ -63,7 +63,7 @@ const Footer = () => {
                         key={index}
                         className="text-base md:text-lg active:underline hover:underline"
                       >
-                        <Link href={`${list.href}`}>{list.text}</Link>
+                        <Link href={`${list.href}`} target="_blank">{list.text}</Link>
                       </li>
                     ))}
                   </ul>

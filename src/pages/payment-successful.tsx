@@ -384,7 +384,7 @@ const PaymentSuccessful = () => {
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-center gap-6 lg:items-start">
           {isLoading ? (
-            <Skeleton className="w-40 lg:w-2/5 h-[10vh] lg:h-[40vh]" />
+            <Skeleton className="w-40 mt-10 lg:w-2/5 h-[10vh] lg:h-[40vh]" />
           ) : (
             <div className="mt-5 w-3/5 lg:mt-40 lg:w-2/5 h-[30vh] lg:h-[40vh] relative">
               <Image
@@ -410,7 +410,7 @@ const PaymentSuccessful = () => {
               Thanks for your order!
             </p>
             <p className="font-pally-regular mx-4 text-center text-sm lg:text-lg text-gray-600">
-              You tickets will sent to{" "}
+              Your tickets will be sent to{" "}
               <span className="text-black font-medium">
                 {bookings?.data?.userEmail}
               </span>

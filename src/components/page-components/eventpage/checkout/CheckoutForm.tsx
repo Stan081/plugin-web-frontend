@@ -279,7 +279,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
             type="submit"
             className="mt-4"
           >
-            {isPending ? <Spinner /> : "Proceed to make payment"}
+             Proceed to make payment
           </Button>
         </form>
       </Form>

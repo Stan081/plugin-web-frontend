@@ -3,6 +3,7 @@ import Layout from "@/components/layout";
 import Logo from "@/components/Logo";
 import OTPVerification from "@/components/page-components/auth/OTPVerification";
 import VerificationVisual from "@/components/page-components/auth/VerificationVisual";
+import { getCookie } from "@/lib/cookies";
 import { getToken } from "@/lib/token";
 import Container from "@/tw-components/container";
 import { useRouter } from "next/navigation";
@@ -11,6 +12,7 @@ import React, { useEffect } from "react";
 const SignUpVerification = () => {
   const token = getToken()
   const router = useRouter()
+  const email = getCookie('email')
 
   useEffect(() => {
     if(!token) return
@@ -28,8 +30,8 @@ const SignUpVerification = () => {
               Login Verification
             </h3>
             <p className="text-[#98A2B3] mt-2 font-pally-regular text-sm">
-              Enter the login verification code we just sent to your email
-              address.
+              Enter the login verification code we just sent to{" "}
+              <span className="text-white underline">{email}</span>.
             </p>
             <OTPVerification />
           </Container>

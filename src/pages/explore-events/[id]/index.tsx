@@ -36,12 +36,11 @@ const ExploreEventDetailPage = () => {
     return <p>An error occured</p>;
   }
 
-  const now = new Date();
-  const endDate = cardId?.oneTimeEvent?.endDate
-    ? new Date(cardId.oneTimeEvent.endDate)
-    : null;
+  // const now = new Date();
+  // const endDate = cardId?.oneTimeEvent?.endDate
+  //   ? new Date(cardId.oneTimeEvent.endDate)
+  //   : null;
 
-  const isPassed = endDate ? now < endDate : false;
 
   // console.log(cardId);
 
@@ -66,14 +65,14 @@ const ExploreEventDetailPage = () => {
 
             <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">
               <div className="w-full md:w-4/6">
-                <AboutEventDetail event={cardId} isPassed={isPassed} />
+                <AboutEventDetail event={cardId} />
               </div>
-              {isPassed && <AvailableTicket event={cardId} id={cardId?._id} />}
+            <AvailableTicket event={cardId} id={cardId?._id} />
             </div>
 
             {/* <SimilarEvents /> */}
           </Container>
-          {isPassed && <TicketCTA event={cardId} id={cardId?._id} />}
+           <TicketCTA event={cardId} id={cardId?._id} />
         </Section>
       )}
     </Layout>

@@ -8,6 +8,7 @@ import { RiUserFollowLine } from "react-icons/ri";
 import { RiAccountCircleLine } from "react-icons/ri";
 import { MdHelpOutline } from "react-icons/md";
 import Link from "next/link";
+import dynamic from 'next/dynamic'
 import { Separator } from "./ui/separator";
 import { LuLayoutGrid } from "react-icons/lu";
 import { RiLogoutBoxRLine } from "react-icons/ri";
@@ -43,11 +44,14 @@ const items = [
   },
 ];
 
+ 
+// const NoSSR = dynamic(() => import('@/ui/skeleton'), { ssr: false })
+
 const MenuLinks = () => {
   const { logout } = useUserDashContext();
   const { data: userDate, isLoading } = useMe();
   return (
-    <div>
+    <Fragment>
       {!isLoading ? (
         <Popover>
           <PopoverTrigger>
@@ -59,7 +63,7 @@ const MenuLinks = () => {
               <RiArrowDownSLine className="ml-2" />
             </div>
           </PopoverTrigger>
-          <PopoverContent className="bg-white flex flex-col gap-2">
+          <PopoverContent className="bg-white">
             <div className="my-2 space-y-1">
               {items.map((item, index) => {
                 const Icon = item.icon;
@@ -104,7 +108,7 @@ const MenuLinks = () => {
       ) : (
         <Skeleton className="w-12 h-12 rounded-full" />
       )}
-    </div>
+    </Fragment>
   );
 };
 

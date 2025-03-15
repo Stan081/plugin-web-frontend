@@ -12,9 +12,8 @@ import SeatMap from "./SeatMap";
 import MapComponent from "@/components/Map";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AboutEventDetail: React.FC<{ event: any; isPassed: boolean }> = ({
+const AboutEventDetail: React.FC<{ event: any; }> = ({
   event,
-  isPassed,
 }) => {
   const startDate: string =
     event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
@@ -85,10 +84,10 @@ const AboutEventDetail: React.FC<{ event: any; isPassed: boolean }> = ({
         )}
       {event?.ticketCategory === "grouped" &&
         event?.groupedTicket?.length !== 0 && <Separator />}
-      {event?.eventVendors?.length > 0 && event?.eventVendors && isPassed && (
+      {event?.eventVendors?.length > 0 && event?.eventVendors && (
         <EventsVendorPass vendor={event?.eventVendors} />
       )}
-      {event?.eventVendors?.length > 0 && isPassed && <Separator />}
+      {event?.eventVendors?.length > 0 && <Separator />}
       <MeetYourOganiser organiserId={event?.userId} />
 
       <Separator />

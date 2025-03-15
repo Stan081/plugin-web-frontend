@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -113,82 +113,85 @@ const TicketCTA: React.FC<{ event: any; id: string }> = ({ event, id }) => {
     if (tickets.length > 0) {
       console.log(tickets);
       router.push(`/explore-events/${id}/checkout`);
+      // router.push(`/explore-events/${id}/test`);
     }
   };
 
-
   return (
-    <div className="bg-pitchNoise py-5 px-4 fixed z-20 bottom-0 w-full lg:hidden flex justify-between items-center">
-      <p className="font-pally-medium text-lg">
-        {event?.ticketCategory === "entry"
-          ? event?.entryTicket?.entryTicketType === "paid"
-            ? toFiat(event?.entryTicket?.ticketPrice)
-            : toFiat(0)
-          : priceRange()}
-      </p>
+    <Fragment>
+      <div className="p-2 h-12 z-30 bg-white" />
+      <div className="bg-pitchNoise py-5 px-4 fixed z-20 shadow-2xl shadow-white border-black border-t-2 bottom-0 w-full lg:hidden flex justify-between items-center">
+        <p className="font-pally-medium text-lg">
+          {event?.ticketCategory === "entry"
+            ? event?.entryTicket?.entryTicketType === "paid"
+              ? toFiat(event?.entryTicket?.ticketPrice)
+              : toFiat(0)
+            : priceRange()}
+        </p>
 
-      <Drawer>
-        <DrawerTrigger asChild>
-          <Button variant="destructive">View Tickets</Button>
-        </DrawerTrigger>
-        <DrawerContent className="bg-white px-4">
-          <div className="mx-auto w-full max-w-sm">
-            <DrawerHeader className="flex justify-between items-start p-0">
-              <DrawerTitle>
-                <div className="space-y-1.5">
-                  <h6 className="text-start font-pally-medium text-[#515A6A] text-base md:text-lg">
-                    AVAILABLE TICKETS
-                  </h6>
-                  {event?.ticketCategory === "entry" && (
-                    <p className="rounded-3xl text-sm text-[#523300] font-pally-medium px-2 py-1 bg-[#F7D394]">
-                      {`Ticket sales ending in
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button variant="destructive">View Tickets</Button>
+          </DrawerTrigger>
+          <DrawerContent className="bg-white px-4">
+            <div className="mx-auto w-full max-w-sm">
+              <DrawerHeader className="flex justify-between items-start p-0">
+                <DrawerTitle>
+                  <div className="space-y-1.5">
+                    <h6 className="text-start font-pally-medium text-[#515A6A] text-base md:text-lg">
+                      AVAILABLE TICKETS
+                    </h6>
+                    {event?.ticketCategory === "entry" && (
+                      <p className="rounded-3xl text-sm text-[#523300] font-pally-medium px-2 py-1 bg-[#F7D394]">
+                        {`Ticket sales ending in
                        ${getEntryTicketCountdown()}
                          days`}
-                    </p>
-                  )}
-                </div>
-              </DrawerTitle>
-              <DrawerClose asChild>
-                <div className="p-1.5 rounded-full bg-gray-200 absolute top-3 right-3">
-                  <RiCloseLine size={20} />
-                </div>
-              </DrawerClose>
-            </DrawerHeader>
-            <div className="my-5">
-              {event?.ticketCategory === "grouped" && (
-                <>
-                  <div className="space-y-4">
-                    {event?.groupedTicket.map((ticket) => (
-                      <GroupedTicket
-                        key={ticket._id}
-                        id={id}
-                        groupedTicket={ticket}
-                      />
-                    ))}
+                      </p>
+                    )}
                   </div>
-                  <Button
-                    onClick={handleGroupTicket}
-                    variant="destructive"
-                    size="lg"
-                    disabled={tickets.length === 0}
-                    className="mt-5 w-full py-3"
-                  >
-                    Checkout
-                  </Button>
-                </>
-              )}
+                </DrawerTitle>
+                <DrawerClose asChild>
+                  <div className="p-1.5 rounded-full bg-gray-200 absolute top-3 right-3">
+                    <RiCloseLine size={20} />
+                  </div>
+                </DrawerClose>
+              </DrawerHeader>
+              <div className="my-5">
+                {event?.ticketCategory === "grouped" && (
+                  <>
+                    <div className="space-y-4">
+                      {event?.groupedTicket.map((ticket) => (
+                        <GroupedTicket
+                          key={ticket._id}
+                          id={id}
+                          groupedTicket={ticket}
+                        />
+                      ))}
+                    </div>
+                    <Button
+                      onClick={handleGroupTicket}
+                      variant="destructive"
+                      size="lg"
+                      disabled={tickets.length === 0}
+                      className="mt-5 w-full py-3"
+                    >
+                      Checkout
+                    </Button>
+                  </>
+                )}
 
-              {checkIfEndDateReached && event?.ticketCategory === "entry" && (
-                <EntryTicketComponent
-                  entryTicket={event?.entryTicket}
-                  id={id}
-                />
-              )}
+                {checkIfEndDateReached && event?.ticketCategory === "entry" && (
+                  <EntryTicketComponent
+                    entryTicket={event?.entryTicket}
+                    id={id}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        </DrawerContent>
-      </Drawer>
-    </div>
+          </DrawerContent>
+        </Drawer>
+      </div>
+    </Fragment>
   );
 };
 

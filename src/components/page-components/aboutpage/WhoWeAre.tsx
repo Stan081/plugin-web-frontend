@@ -34,10 +34,12 @@ const WhoWeAre = () => {
       <h2 className="text-3xl font-pally-medium text-center destructive">
         WHO WE ARE
       </h2>
-      <h3 className="mt-5 text-xl md:text-3xl font-pally-regular md:font-pally-medium text-center md:max-w-4xl mx-auto">
-        We believe in the power of live events to bring people together, and we
-        strive to make the process of organizing and attending these events as
-        smooth and enjoyable as possible.
+      <h3 className="mt-5 text-xl md:text-2xl font-pally-regular md:font-pally-medium text-center md:max-w-4xl mx-auto">
+        We’re a user-friendly platform that connects users to live events while
+        providing creators the right tools to host events and reach their
+        targeted audience. We believe in the power of live events to bring
+        people together, and we strive to make the process of organizing and
+        attending these events as seamless and enjoyable as possible.
       </h3>
 
       <ul className="mt-7 md:mt-20 flex flex-col md:flex-row justify-center items-center gap-6">
@@ -56,8 +58,12 @@ const WhoWeAre = () => {
             />
 
             <div className="space-y-3">
-                <p className="font-pally-bold text-[#2C2B2E] text-xl">{item.title}</p>
-                <p className="font-pally-regular text-base md:text-lg text-[#475367]">{item.description}</p>
+              <p className="font-pally-bold text-[#2C2B2E] text-xl">
+                {item.title}
+              </p>
+              <p className="font-pally-regular text-base md:text-lg text-[#475367]">
+                {item.description}
+              </p>
             </div>
           </li>
         ))}

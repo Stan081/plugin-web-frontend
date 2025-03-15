@@ -13,7 +13,7 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 const CheckoutEvent = () => {
-  useRedirectOnReload();
+  // useRedirectOnReload();
   const param = useParams<{ id: string }>();
   const { data: events, isLoading, isError } = useGetEventById(param?.id);
   const checkCardId = events?.data;
