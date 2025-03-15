@@ -384,7 +384,7 @@ const PaymentSuccessful = () => {
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-center gap-6 lg:items-start">
           {isLoading ? (
-            <Skeleton className="w-40 lg:w-2/5 h-[10vh] lg:h-[40vh]" />
+            <Skeleton className="w-40 mt-10 lg:w-2/5 h-[10vh] lg:h-[40vh]" />
           ) : (
             <div className="mt-5 w-3/5 lg:mt-40 lg:w-2/5 h-[30vh] lg:h-[40vh] relative">
               <Image

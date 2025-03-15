@@ -45,7 +45,6 @@ const TicketDetailPage = () => {
               <TicketSummary
                 user={response?.data?.user}
                 tickets={response?.data?.tickets?.tickets}
-                // createdAt={createdAtString}
               />
             </div>
           </div>

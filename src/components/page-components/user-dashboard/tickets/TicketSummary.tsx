@@ -37,9 +37,12 @@ const TicketSummary = ({ tickets, user }: Props) => {
       <h4 className="mt-8 font-pally-medium text-lg md:text-xl text-[#1A1B25]">
         Your Tickets
       </h4>
-      {tickets?.map((item) => (
-        <TicketVoucher data={item} key={item?._id} />
-      ))}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {tickets?.map((item) => (
+          <TicketVoucher data={item} key={item?._id} />
+        ))}
+      </div>
     </div>
   );
 };

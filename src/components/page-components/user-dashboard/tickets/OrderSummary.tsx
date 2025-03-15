@@ -19,37 +19,19 @@ const OrderSummary = ({ data, user }: Props) => {
   );
 
   return (
-    <div className="mt-4 bg-[#F9F7F7] px-4 py-5 rounded-lg space-y-4">
-      <div className="flex items-center gap-2">
-        {" "}
-        <p className="bg-[#BAE9CA] font-pally-medium py-1 px-2 text-center text-sm md:text-base rounded-xl text-[#099137] whitespace-nowrap">
-          Paid ticket
-        </p>
-        <div className="w-1 h-1 bg-gray-500 rounded-full" />
-        <p className=" font-pally-regular text-[#515A6A] text-sm md:text-base">
-          Ordered by {user?.name?.firstname} {user?.name?.lastname} (
-          {user?.email})
-        </p>
-      </div>
-      <p className=" font-pally-regular text-[#515A6A] text-sm md:text-base">
-      </p>
-      <div className="flex items-center gap-2">
-        {" "}
-        <p className="font-pally-regular text-[#515A6A] text-sm md:text-base">
-          {data?.length} tickets
-        </p>
-        <div className="w-1 h-1 bg-gray-500 rounded-full" />
-        <p className=" font-pally-medium text-base md:text-lg ">
-          {toFiat(totalPrice)}
-        </p>
-      </div>
+    <div className="mt-4 bg-[#F9F7F7] p-3 rounded-lg space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          {" "}
+          <p className="font-pally-regular text-[#515A6A] text-sm md:text-base">
+            {data?.length} tickets
+          </p>
+          <div className="w-1 h-1 bg-gray-500 rounded-full" />
+          <p className=" font-pally-medium text-base md:text-lg ">
+            {toFiat(totalPrice)}
+          </p>
+        </div>
 
-      <Separator />
-
-      <div className="mt-6 flex items-center justify-between">
-        <p className=" font-pally-medium text-[#515A6A] text-sm md:text-base">
-          Order #1242801
-        </p>
         <Button onClick={() => setIsOpen(!isOpen)} variant="outline" size="sm">
           View receipt
         </Button>
