@@ -17,9 +17,11 @@ import { TbTicketOff } from "react-icons/tb";
 const TicketPage = () => {
   const [isActive, setIsActive] = useState<string>("my-tickets");
   const { data: ticketData, isLoading } = useGetTicketEvents();
-  console.log(ticketData);
   const token = getToken();
   const router = useRouter();
+  const eventList = ticketData?.data?.events;
+  const activeTickets = eventList.filter((event) => event.activeStatus === true);
+  const pastTickets = eventList.filter((event) => event.activeStatus === false);
 
   useEffect(() => {
     if (token) {
@@ -70,10 +72,10 @@ const TicketPage = () => {
             ) : (
               <>
                 {isActive === "my-tickets" && (
-                  <TicketComponent tickets={ticketData?.data?.events} />
+                  <TicketComponent tickets={activeTickets} />
                 )}
                 {isActive === "past-tickets" && (
-                  <TicketComponent tickets={ticketData?.data?.events} />
+                  <TicketComponent tickets={pastTickets} />
                 )}
               </>
             )}
