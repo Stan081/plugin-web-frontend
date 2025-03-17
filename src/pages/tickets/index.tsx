@@ -20,8 +20,8 @@ const TicketPage = () => {
   const token = getToken();
   const router = useRouter();
   const eventList = ticketData?.data?.events;
-  const activeTickets = eventList.filter((event) => event.activeStatus === true);
-  const pastTickets = eventList.filter((event) => event.activeStatus === false);
+  const activeTickets = eventList?.filter((event) => event.activeStatus === true);
+  const pastTickets = eventList?.filter((event) => event.activeStatus === false);
 
   useEffect(() => {
     if (token) {
