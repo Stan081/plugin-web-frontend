@@ -17,7 +17,7 @@ const SimilarEvents = () => {
   });
   const { data: events, isLoading, isError } = useFilteredEvents(filters);
 
-  console.log(events)
+  // console.log(events)
   return (
     <div className="mt-10 md:mt-20 overflow-auto">
       <h2 className="text-3xl font-pally-medium mb-6">Similar Events</h2>
