@@ -21,6 +21,6 @@ export const useOrganiser = (id: string) => {
         .catch((err) => {
           throw err?.response?.data || err.message;
         }),
-    retry: false,
+    retry: true,
   });
 };

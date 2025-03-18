@@ -8,21 +8,28 @@ import { ticketbreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 // import { useRouter } from "next/router";
 import { useGetEventTickets } from "@/pages/api/mutate/tickets";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
-
+import { Button } from "@/components/ui/button";
 
 const TicketDetailPage = () => {
   const param = useParams<{ id: string }>();
-  const { data: response, isLoading } = useGetEventTickets(
-    param?.id,
-  );
+  const [page, setPage] = useState<number>(1);
+  const { data: response, isLoading } = useGetEventTickets(param?.id, page);
   //   Temporary routing
   if (!param?.id) {
     return <div>Not Found!!</div>;
   }
+
+  const incrementPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const decrementPage = () => {
+    setPage((prevPage) => prevPage - 1);
+  };
 
   return (
     <Layout title="Ticket detail page" showHeader showFooter>
@@ -44,8 +51,39 @@ const TicketDetailPage = () => {
             <div className="w-full">
               <TicketSummary
                 user={response?.data?.user}
-                tickets={response?.data?.tickets?.tickets}
+                tickets={response?.data?.tickets}
               />
+
+              {response?.data?.tickets?.total > 0 && (
+                <div className="flex justify-end gap-10 items-center whitespace-nowrap w-full overflow-x-auto pb-4 mt-6">
+                  <p className="text-sm text-gray-600">
+                    Page {response?.data?.tickets?.page} of{" "}
+                    {response?.data?.tickets?.totalPages}
+                  </p>
+                  <div className="flex space-x-2">
+                    <Button
+                      disabled={response?.data?.tickets?.page <= 1}
+                      onClick={decrementPage}
+                      variant="outline"
+                      size="icon"
+                    >
+                      {"<"}
+                    </Button>
+
+                    <Button
+                      disabled={
+                        Number(response?.data?.tickets?.page) ===
+                        Number(response?.data?.tickets?.totalPages)
+                      }
+                      onClick={incrementPage}
+                      variant="outline"
+                      size="icon"
+                    >
+                      {">"}
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </Container>

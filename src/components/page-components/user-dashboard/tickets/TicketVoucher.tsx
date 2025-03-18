@@ -35,8 +35,8 @@ const TicketVoucher = ({ data }: Props) => {
         </p>
       </div>
       <Separator />
-      <div className="flex flex-col justify-between items-center gap-6 mt-8">
-        <div className="p-4 rounded-lg bg-[#F5F7F9]">
+      <div className="flex justify-between items-center gap-10 mt-8">
+        <div className="p-0.5 rounded-lg bg-[#F5F7F9]">
           <Image
             src={data?.qrCode}
             width={156}
@@ -45,8 +45,8 @@ const TicketVoucher = ({ data }: Props) => {
             className="w-auto h-auto pointer-events-none rounded-lg"
           />
         </div>
-        <div className="w-full max-w-sm">
-          <div className="mt-10 flex justify-between">
+        <div>
+          <div className=" flex justify-between gap-6">
             <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
               Ticket Type:
             </p>
@@ -54,27 +54,11 @@ const TicketVoucher = ({ data }: Props) => {
               {data?.ticketData?.name}
             </p>
           </div>
-          <div className="mt-4 flex justify-between">
+          <div className="mt-4 flex justify-between gap-6">
             <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-              Price/ ticket
+              Price/ ticket:
             </p>
             <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-              {toFiat(data?.ticketData?.price)}
-            </p>
-          </div>
-          <div className="my-4 flex justify-between">
-            <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-              Quantity ordered
-            </p>
-            <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-              1
-            </p>
-          </div>
-
-          <Separator />
-          <div className="my-4 flex justify-between">
-            <p className="text-base text-[#515A6A] font-pally-medium">Total</p>
-            <p className="text-base text-[#515A6A] font-pally-medium">
               {toFiat(data?.ticketData?.price)}
             </p>
           </div>

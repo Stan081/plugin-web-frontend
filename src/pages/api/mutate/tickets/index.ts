@@ -3,14 +3,21 @@ import { getToken } from "@/lib/token";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios"; // Import axios if not using a custom axios instance
 
+// export type FilterTicketParams = {
+//   page?: number;
+//   id: string
+// };
 // Get all purchased events by a user
-export const useGetTicketEvents = () => {
+export const useGetTicketEvents = (page: number) => {
   const token = getToken();
 
   const options = {
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
+    },
+    params: {
+      page
     },
   };
 
@@ -29,13 +36,16 @@ export const useGetTicketEvents = () => {
 };
 
 // Get all purchased tickets by a user, ties to same eventId
-export const useGetEventTickets = (id: string) => {
+export const useGetEventTickets = (id: string, page: number,) => {
   const token = getToken();
 
   const options = {
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
+    },
+    params: {
+      page
     },
   };
 

@@ -70,7 +70,7 @@ const ExploreEventDetailPage = () => {
             <AvailableTicket event={cardId} id={cardId?._id} />
             </div>
 
-            {/* <SimilarEvents /> */}
+            <SimilarEvents />
           </Container>
            <TicketCTA event={cardId} id={cardId?._id} />
         </Section>

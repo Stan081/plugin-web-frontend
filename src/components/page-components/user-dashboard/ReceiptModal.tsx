@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { TbReceipt } from "react-icons/tb";
 import { BsDownload, BsTicketPerforated } from "react-icons/bs";
 import { toFiat } from "@/lib/amount";
+import Link from "next/link";
 type TicketDataProps = {
   price?: number;
   name?: string;
@@ -129,11 +130,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                   </div>
                   <div className=" flex justify-between">
                     <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-                      Date issued
-                    </p>
-                  </div>
-                  <div className=" flex justify-between">
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
                       Quantity
                     </p>
                     <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
@@ -170,9 +166,9 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                     </p>
                   </div>
                 </div>
-                <p className="mt-5 text-sm font-pally-regular text-center text-[#ee4d35]">
+                <Link href={`mailto:support@pluginent.com`} className="mt-5 text-sm font-pally-regular block text-center text-[#ee4d35]">
                   Report an issue with this ticket
-                </p>
+                </Link>
               </div>
             </DialogPanel>
           </div>

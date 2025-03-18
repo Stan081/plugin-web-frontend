@@ -97,13 +97,15 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
       ) : (
         <div className="mt-4 flex justify-between items-start md:items-start gap-3">
           <div className="flex items-start gap-3">
-            <Image
-              src={organiser?.data?.thumbnail ?? `/images/seagreen-bg.png`}
-              width={456}
-              height={280}
-              alt={organiser?.name}
-              className="pointer-events-none w-full max-w-16 h-16 object-cover rounded-full"
-            />
+            <Link href={`/organiser/${organiserId}`}>
+              <Image
+                src={organiser?.data?.thumbnail ?? `/images/seagreen-bg.png`}
+                width={456}
+                height={280}
+                alt={organiser?.name}
+                className="pointer-events-none w-full max-w-16 h-16 object-cover rounded-full"
+              />
+            </Link>
             <div className="space-y-1">
               <Link
                 href={`/organiser/${organiserId}`}
@@ -116,20 +118,24 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
                   : organiser?.data?.name}
               </Link>
               <div className="flex gap-4">
-                <Link
-                  href={`${organiser?.data?.socials?.facebook}`}
-                  target="_blank"
-                  className="text-sm md:text-base text-[#667185] gap-4  font-pally-regular hover:underline"
-                >
-                  Facebook
-                </Link>
-                <Link
-                  href={`${organiser?.data?.socials?.instagram}`}
-                  target="_blank"
-                  className="text-sm md:text-base text-[#667185] gap-4  font-pally-regular hover:underline"
-                >
-                  Instagram
-                </Link>
+                {organiser?.data?.socials?.facebook && (
+                  <Link
+                    href={`${organiser?.data?.socials?.facebook}`}
+                    target="_blank"
+                    className="text-sm md:text-base text-[#667185] gap-4  font-pally-regular hover:underline"
+                  >
+                    Facebook
+                  </Link>
+                )}
+                {organiser?.data?.socials?.instagram && (
+                  <Link
+                    href={`${organiser?.data?.socials?.instagram}`}
+                    target="_blank"
+                    className="text-sm md:text-base text-[#667185] gap-4  font-pally-regular hover:underline"
+                  >
+                    Instagram
+                  </Link>
+                )}
               </div>
               {organiser?.data?.followers > 0 && (
                 <p className="font-pally-regular text-sm md:text-base text-[#0F973D]">

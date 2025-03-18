@@ -7,7 +7,7 @@ const GuestCard: React.FC<{ guest: any }> = ({ guest }) => {
     <div className="border rounded-xl flex-shrink-0">
       <div className="block rounded-3xl">
         <Image
-          className="w-44 h-44 pointer-events-none object-cover rounded-lg"
+          className="w-48 h-48 pointer-events-none object-cover rounded-lg"
           src={guest?.photo}
           alt={guest?.name}
           width={130}

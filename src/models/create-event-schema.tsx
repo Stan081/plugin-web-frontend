@@ -290,7 +290,7 @@ export const PublishFormSchema = yup.object().shape({
 
 const OrganiserProfileMedia = yup.object().shape({
   facebook: yup.string().url("link must be a valid url").optional(),
-  instagram: yup.string().url("link must be a valid url").required(""),
+  instagram: yup.string().url("link must be a valid url").optional(),
 });
 
 export const OrganiserProfileSchema = yup.object().shape({
