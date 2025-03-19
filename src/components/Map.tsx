@@ -10,10 +10,9 @@ const containerStyle = {
 interface MapComponentProps {
   lat: number;
   lng: number;
-  address: string;
 }
 
-const MapComponent: React.FC<MapComponentProps> = ({ lat, lng, address }) => {
+const MapComponent: React.FC<MapComponentProps> = ({ lat, lng }) => {
   // Load the Google Maps API
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
@@ -26,12 +25,8 @@ const MapComponent: React.FC<MapComponentProps> = ({ lat, lng, address }) => {
     return <div>Loading...</div>;
   }
 
-  console.log("lat", lat);
-  console.log("lng", lng);
-
   return (
     <div>
-      <h3 className="text-lg font-bold">{address}</h3>
       {isNaN(lat) || isNaN(lng) ? (
         <div className="border p-5 rounded-xl">
           <p className="text-center text-sm text-gray-400">Can't generate Google map</p>

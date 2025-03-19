@@ -12,9 +12,7 @@ import SeatMap from "./SeatMap";
 import MapComponent from "@/components/Map";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AboutEventDetail: React.FC<{ event: any; }> = ({
-  event,
-}) => {
+const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
   const startDate: string =
     event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
 
@@ -44,7 +42,7 @@ const AboutEventDetail: React.FC<{ event: any; }> = ({
     timeZone: "UTC",
   });
 
-  console.log(event);
+  // console.log(event);
   return (
     <div className="space-y-5 mt-4">
       <div className="space-y-1 my-6">
@@ -92,12 +90,11 @@ const AboutEventDetail: React.FC<{ event: any; }> = ({
 
       <Separator />
 
-      {isNaN(event?.physicalLocation?.latitude) ||
-        (isNaN(event?.physicalLocation?.longitude) && (
+      {event?.physicalLocation?.latitude !== null &&
+        (event?.physicalLocation?.longitude !== null && (
           <MapComponent
             lat={Number(event?.physicalLocation?.latitude)}
             lng={Number(event?.physicalLocation?.longitude)}
-            address={event?.physicalLocation?.address}
           />
         ))}
 
