@@ -66,7 +66,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
       if (data.status === "OK") {
         const location = data.results[0].geometry.location;
-        console.log(location)
+        console.log(location);
         setCoordinates({ lat: location.lat, lng: location.lng });
         extractAddressDetails(data.results[0]);
         setError("");
@@ -147,7 +147,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     mutate(data);
   };
 
-  const handleVerifyAddress = (e) => {
+  const handleVerifyAddress = (e: any) => {
     e.preventDefault();
     fetchCoordinates();
   };
