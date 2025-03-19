@@ -10,14 +10,16 @@ import Money2 from "./icons/money-2";
 import { useMe } from "@/pages/api/query/me";
 import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 import { useRouter } from "next/navigation";
+import { getToken } from "@/lib/token";
 
 const ListEvent = () => {
   const { handleProtectedNavigation } = useAuthRedirect();
   const { data: userDate } = useMe();
   const router = useRouter()
+  const token = getToken()
 
   const eventlists = [
-    ...(userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer
+    ...(token && userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer
       ? []
       : [
           {

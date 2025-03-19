@@ -26,9 +26,11 @@ import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-set
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import Image from "next/image";
+import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
 
 const PublishComponent: FC = () => {
   const { data: userData } = useMe();
+  const { data: org } = useGetOrgProfileById();
   const { previousStep: previous } = useCreateEventContext();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
@@ -103,7 +105,16 @@ const PublishComponent: FC = () => {
           startTime: payload?.schedulePublish.start_time,
         },
       };
-      mutate(data);
+
+      if (userData?.data?.isOrganizer && org?.data?.userId) {
+        mutate(data);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "You have to be an organiser to publish event",
+        });
+      }
     }
   };
 

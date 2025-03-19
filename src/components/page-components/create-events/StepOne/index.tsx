@@ -179,17 +179,17 @@ const StepOne: React.FC = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError((prevError) => {
-      const newError = {
-        nameError: eventName === "" ? "Enter event name" : "",
-        descriptionError:
-          eventDescription === "" ? "Enter event description" : "",
-        bannerError: imageBanner === "" ? "Enter event name" : "",
-        thumbnailError: imageThumbnail === "" ? "Enter event name" : "",
-      };
+    // setError((prevError) => {
+    //   const newError = {
+    //     nameError: eventName === "" ? "Enter event name" : "",
+    //     descriptionError:
+    //       eventDescription === "" ? "Enter event description" : "",
+    //     bannerError: imageBanner === "" ? "Enter event name" : "",
+    //     thumbnailError: imageThumbnail === "" ? "Enter event name" : "",
+    //   };
 
-      return { ...prevError, ...newError };
-    });
+    //   return { ...prevError, ...newError };
+    // });
 
     // Optionally check if there are no errors after updating
     if (
@@ -224,16 +224,16 @@ const StepOne: React.FC = () => {
         variant: "destructive",
         title: "All fields are required",
       });
-    } else {
-      if (userData?.data?.role === "user") {
-        mutateRole({ role: "organizer" });
-      }
+    }
 
-      if (eventID) {
-        mutateUpdate(data);
-      } else {
-        mutate(data);
-      }
+    if (userData?.data?.role === "user") {
+      mutateRole({ role: "organizer" });
+    }
+
+    if (eventID && userData?.data?.role === 'organizer') {
+      mutateUpdate(data);
+    } else {
+      mutate(data);
     }
   };
 
@@ -242,10 +242,10 @@ const StepOne: React.FC = () => {
       className="flex flex-col lg:flex-row items-start gap-4 lg:gap-12
     "
     >
+      {isUploading || (isPendingRole && <SpinnerOverlay />)}
       <div className="w-full lg:w-2/5 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
-      {isUploading && <SpinnerOverlay />}
       <div className="w-full h-full lg:w-3/5">
         <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <form

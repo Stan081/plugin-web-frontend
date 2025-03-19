@@ -26,8 +26,13 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
   const { data: event } = useGetEvent();
 
-  const [address, setAddress] = useState<string>(event?.data?.physicalLocation?.address || "");
-  const [coordinates, setCoordinates] = useState({ lat: null, lng: null });
+  const [address, setAddress] = useState<string>(
+    event?.data?.physicalLocation?.address || ""
+  );
+  const [coordinates, setCoordinates] = useState<{
+    lat: number | null;
+    lng: number | null;
+  }>({ lat: null, lng: null });
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [formattedAddress, setFormattedAddress] = useState({
     plusCode: "",
@@ -61,12 +66,14 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
       if (data.status === "OK") {
         const location = data.results[0].geometry.location;
+        console.log(location);
         setCoordinates({ lat: location.lat, lng: location.lng });
         extractAddressDetails(data.results[0]);
         setError("");
         setIsLoaded(false);
       } else {
         setError(`Geocoding failed: ${data.status}`);
+        setIsLoaded(false);
       }
     } catch (err) {
       setIsLoaded(false);
@@ -120,6 +127,8 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     },
   });
 
+  // console.log(coordinates)
+
   const onSubmit = () => {
     const data = {
       locationType,
@@ -138,7 +147,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
     mutate(data);
   };
 
-  const handleVerifyAddress = (e) => {
+  const handleVerifyAddress = (e: any) => {
     e.preventDefault();
     fetchCoordinates();
   };
@@ -176,7 +185,6 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
       </form>
 
       <div className="mb-7 grid grid-cols-1 lg:grid-cols-2 gap-4">
-        
         <div className="space-y-2 col-span-2">
           <p className="text-white font-pally-regular text-sm">City</p>
           <div className="h-10 w-full bg-white text-black p-2 flex items-center text-sm font-pally-regular rounded">
