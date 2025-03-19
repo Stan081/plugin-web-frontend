@@ -114,7 +114,7 @@ export default function AddressSearch() {
         <MapComponent
           lat={Number(coordinates.lat)}
           lng={Number(coordinates.lng)}
-          address={formattedAddress}
+          // address={formattedAddress}
         />
       </div>
     </div>
