@@ -9,6 +9,8 @@ export const BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const API_URL: string = `${BASE_URL}/api`;
 
+// export const EDIT_PROFILE_ROLE: string = `${API_URL}/users`
+
 export const SIGNUP_URL: string = `${API_URL}/auth/sign-up-one`;
 
 export const VERIFY_URL: string = `${API_URL}/auth/sign-up-two`;

@@ -11,6 +11,11 @@ export const useEditProfileRole = () => {
     onSuccess: (response) => {
       if (response?.message) {
         client.invalidateQueries({ queryKey: ["me"] });
+        // toast({
+        //   variant: "success",
+        //   title: "User role has been updated",
+        //   description: `${response?.message}`,
+        // });
       }
     },
     onError: (error: any) => {
