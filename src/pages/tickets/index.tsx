@@ -30,12 +30,6 @@ const TicketPage = () => {
     }
   }, [router]);
 
-  const activeTickets = eventList?.filter(
-    (event) => event.activeStatus === true
-  );
-  const pastTickets = eventList?.filter(
-    (event) => event.activeStatus === false
-  );
 
   const incrementPage = () => {
     setPage((prevPage) => prevPage + 1);
@@ -87,10 +81,10 @@ const TicketPage = () => {
               ) : (
                 <>
                   {isActive === "my-tickets" && (
-                    <TicketComponent tickets={activeTickets} />
+                    <TicketComponent tickets={eventList?.activeEvents} />
                   )}
                   {isActive === "past-tickets" && (
-                    <TicketComponent tickets={pastTickets} />
+                    <TicketComponent tickets={eventList?.pastEvents} />
                   )}
                 </>
               )}
