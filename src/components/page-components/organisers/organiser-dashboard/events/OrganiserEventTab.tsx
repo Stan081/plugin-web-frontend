@@ -6,7 +6,7 @@ import OrganiserEventCard from "./OrganiserEventCard";
 import Container from "@/tw-components/container";
 import DelectEvent from "./DelectEvent";
 import { useMe } from "@/pages/api/query/me";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 import CardEmptyState from "../home/CardEmptyState";
 

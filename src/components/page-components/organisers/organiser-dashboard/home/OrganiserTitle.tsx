@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
 import { useMe } from "@/pages/api/query/me";
 import Container from "@/tw-components/container";
 import Image from "next/image";

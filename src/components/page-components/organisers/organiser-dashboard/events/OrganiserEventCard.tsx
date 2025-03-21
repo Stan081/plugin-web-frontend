@@ -5,13 +5,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import Image from "next/image";
-import React, { FC, useMemo, useState, useEffect } from "react";
+import React, { FC, useState } from "react";
 import { SlLocationPin } from "react-icons/sl";
 import { TfiWorld } from "react-icons/tfi";
-import { TabProgress } from "../home/TabProgress";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { FiEdit2 } from "react-icons/fi";
-import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { MdOutlineRemoveRedEye, MdLink } from "react-icons/md";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
@@ -22,44 +20,15 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { BASE_URL } from "@/lib/constants";
-import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
 
 const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
   const { handleShowDeleteEvent, setEventId } = useOrganiserDashContext();
   const { toast } = useToast();
   const [stall, setStall] = useState<boolean>(false);
 
-  const { data: sales } = useGetSalesRecord(event?._id);
-
   const router = useRouter();
 
   const client = useQueryClient();
-
-  // console.log(event)
-
-  // Memoize the calculations to prevent unnecessary recalculations
-  const { totalSold, totalAvailable } = useMemo(() => {
-    if (!sales?.data) return { totalSold: 0, totalAvailable: 0 };
-
-    // console.log("Sales data updated:", sales?.data);
-    const sold = sales.data.reduce((acc, item) => {
-      // console.log("Processing item:", item);
-      return acc + Number(item?.sold || 0);
-    }, 0);
-    const available = sales.data.reduce((acc, item) => {
-      // console.log("Processing item:", item);
-      return acc + Number(item?.total || 0);
-    }, 0);
-    // console.log("Calculated totals:", { sold, available });
-    return { totalSold: sold, totalAvailable: available };
-  }, [sales?.data]);
-
-  // Calculate percentage
-  const soldPercentage = useMemo(() => {
-    if (totalAvailable === 0) return 0;
-    const percentage = Math.ceil((totalSold * 100) / totalAvailable);
-    return percentage;
-  }, [totalSold, totalAvailable]);
 
   const startDate: Date = event?.startDate;
 
@@ -230,20 +199,6 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
               : event?.address
             : "Online"}
         </p>
-
-        {event?.isPublished && (
-          <div className="flex items-center gap-2">
-            <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
-              Total sold (%){" "}
-            </p>
-            <div className=" w-52">
-              <TabProgress value={soldPercentage} max={100} />
-            </div>
-            <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-              {soldPercentage}/{100}
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );

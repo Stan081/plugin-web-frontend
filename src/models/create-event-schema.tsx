@@ -31,7 +31,7 @@ export const OneTimeFormShema = yup.object().shape({
     .string()
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .required("Add time event will end"),
-  timezone: yup.string(),
+  timezone: yup.string().required("Select time zone"),
 });
 
 export const RecurringFormShema = yup.object().shape({
@@ -46,7 +46,7 @@ export const RecurringFormShema = yup.object().shape({
     .string()
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .required("Add time event will end"),
-  timezone: yup.string(),
+  timezone: yup.string().required("Select time zone"),
 });
 
 export const PhysicalLocationSchema = yup.object().shape({

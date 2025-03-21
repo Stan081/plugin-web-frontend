@@ -22,6 +22,9 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
   const endDate: Date =
     event?.oneTimeEvent?.endDate || event?.recurringEvent?.endDate;
 
+    const timeZone: string =
+    event?.oneTimeEvent?.timeZone || event?.recurringEvent?.timeZone;
+
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
@@ -43,7 +46,7 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "Africa/Lagos",
+    timeZone: timeZone,
   });
 
   // console.log(event);

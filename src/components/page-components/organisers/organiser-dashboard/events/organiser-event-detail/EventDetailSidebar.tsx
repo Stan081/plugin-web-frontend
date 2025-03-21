@@ -75,8 +75,6 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
   const { handleShowDeleteEvent, setActiveEvent, setEventId, activeEvent } =
     useOrganiserDashContext();
 
-  const { data: sales, isLoading } = useGetSalesRecord(event?._id);
-
   const [stall, setStall] = useState<boolean>(false);
 
   const router = useRouter();
@@ -146,21 +144,13 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
     }, 3000);
   };
 
-  const totalSold = sales?.data?.reduce((acc, item) => acc + item?.sold, 0);
-  const totalAvailable = sales?.data?.reduce(
-    (acc, item) => acc + item?.total,
-    0
-  );
-
-  // Calculate percentage
-  const soldPercentage = Math.ceil((totalSold * 100) / totalAvailable);
 
   return (
     <div className="shadow-md border rounded-xl">
       {stall && <SpinnerOverlay />}
       <div className="flex justify-between items-center w-full p-4">
         <p className="bg-[#2F80ED] text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
-          {event?.isPublished ? " Published" : "pending"}
+          {event?.isPublished ? " Published" : "Pending"}
         </p>
         <Popover>
           <PopoverTrigger>
@@ -237,18 +227,14 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
         <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
           Sale progress (%)
         </p>
-        {isLoading ? (
-          <Skeleton className="h-4 w-full" />
-        ) : (
           <div className="flex items-center gap-6">
             <div className="w-full">
-              <TabProgress value={soldPercentage} max={100} />
+              <TabProgress value={event?.salesPercentage} max={100} />
             </div>
             <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-              {soldPercentage}/{100}
+              {event?.salesPercentage}/{100}
             </p>
           </div>
-        )}
       </div>
 
       <ul className="mt-4 block space-y-1.5 m-3">

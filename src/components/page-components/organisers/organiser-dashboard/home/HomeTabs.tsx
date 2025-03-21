@@ -11,7 +11,7 @@ import {
 import Container from "@/tw-components/container";
 import HomeTabCard from "./HomeTabCard";
 import { useMe } from "@/pages/api/query/me";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
 import { Skeleton } from "@/components/ui/skeleton";
 import CardEmptyState from "./CardEmptyState";
 

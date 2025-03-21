@@ -7,7 +7,7 @@ import { PiBankDuotone } from "react-icons/pi";
 import { RiArrowRightSLine } from "react-icons/ri";
 import Link from "next/link";
 import { useMe } from "@/pages/api/query/me";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
 import AddAccount from "../earnings/AddAccount";
 import { useCheckAddedAccount } from "@/hooks/organiser/organiser-earnings/useCheckAddedAccount";
 

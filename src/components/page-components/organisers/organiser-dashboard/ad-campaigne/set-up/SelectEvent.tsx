@@ -5,7 +5,7 @@ import EventCardList from "./EventCardList";
 import { Button } from "@/components/ui/button";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import { useMe } from "@/pages/api/query/me";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SelectEvent = () => {

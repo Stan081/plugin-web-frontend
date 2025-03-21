@@ -3,7 +3,6 @@ import Layout from "@/components/layout";
 import OrganiserEvents from "@/components/page-components/organisers/OrganiserEvents";
 import OrganiserInfo from "@/components/page-components/organisers/OrganiserInfo";
 import { useOrganiser } from "@/hooks/organiser/useOrganiser";
-import { useAllOrganisers } from "@/hooks/organiser/userAllOrganiser";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";

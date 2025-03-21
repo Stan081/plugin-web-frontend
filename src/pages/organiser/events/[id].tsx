@@ -5,8 +5,7 @@ import EventDetailSidebar, {
 } from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/EventDetailSidebar";
 import EventDetailTickets from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/booking-history/EventDetailTickets";
 import EventDetailManagement from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/menage-attendees/EventDetailManagement";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
-import { useMe } from "@/pages/api/query/me";
+// import { useMe } from "@/pages/api/query/me";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
@@ -29,16 +28,18 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { useEventsContext } from "@/providers/events.provider";
+import { useGetOrganiserEventById } from "@/hooks/organiser/useGetOrganiserEventById";
 
 const OrganiserEventDetail = () => {
   const {setPublishedEventId} = useEventsContext()
   const [isShown, setIsShown] = useState<boolean>(false);
-  const { data: user } = useMe();
+  const params = useParams();
+  // const { data: user } = useMe();
   const {
-    data: organiserEvents,
+    data: organiserEvent,
     isLoading,
     isError,
-  } = useGetOrganiserEvents(user?.data?._id);
+  } = useGetOrganiserEventById(params?.id as string);
   const {
     activeEvent,
     showDeleteEvent,
@@ -46,10 +47,7 @@ const OrganiserEventDetail = () => {
     setActiveEvent,
   } = useOrganiserDashContext();
   const router = useRouter();
-  const params = useParams();
-  const getEventDetail = organiserEvents?.data?.find(
-    (card) => String(card?._id) === params?.id
-  );
+  const getEventDetail = organiserEvent?.data
   setPublishedEventId(getEventDetail?._id)
   //   Temporary routing
   if (!getEventDetail) {

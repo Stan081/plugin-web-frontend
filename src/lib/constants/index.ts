@@ -33,6 +33,8 @@ export const GET_ORGANISER: string = `${API_URL}/organizers/organizer`;
 
 export const GET_ORGANISER_EVENTS: string = `${API_URL}/organizers/events`;
 
+export const GET_ORGANISER_EVENT_BY_ID: string = `${API_URL}/organizers/event`;
+
 export const ALL_ORGANISERS: string = `${API_URL}/organizers`;
 
 export const FILTER_EVENTS: string = `${API_URL}/event/filter`;

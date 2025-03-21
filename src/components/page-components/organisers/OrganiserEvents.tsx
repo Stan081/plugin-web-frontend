@@ -1,5 +1,5 @@
 import CardComponent from "@/components/CardComponent";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 import React, { FC, Fragment, useState } from "react";
 

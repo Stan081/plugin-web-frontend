@@ -9,7 +9,7 @@ export const useEditProfileRole = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => EditProfileRole(data),
     onSuccess: (response) => {
-      if (response?.message) {
+      if (response?.data) {
         client.invalidateQueries({ queryKey: ["me"] });
         // toast({
         //   variant: "success",

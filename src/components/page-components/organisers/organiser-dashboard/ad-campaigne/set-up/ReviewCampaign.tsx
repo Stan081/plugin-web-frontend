@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
 import { useMe } from "@/pages/api/query/me";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import Image from "next/image";
