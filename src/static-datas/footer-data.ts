@@ -40,7 +40,7 @@ const f2 = {
       text: "Instagram",
     },
     {
-      href: "/https://x.com/pluginentapp?s=21&t=M-6gyx8cvchWE-pJNa9vMQ",
+      href: "https://x.com/pluginentapp?s=21&t=M-6gyx8cvchWE-pJNa9vMQ",
       text: "X",
     },
     {
