@@ -13,11 +13,14 @@ import MapComponent from "@/components/Map";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
-  const startDate: string =
+  const startDate: Date =
     event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
 
   const startTime: string =
     event?.oneTimeEvent?.startTime || event?.recurringEvent?.startTime;
+
+  const endDate: Date =
+    event?.oneTimeEvent?.endDate || event?.recurringEvent?.endDate;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
@@ -54,11 +57,23 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
         </p>
 
         <div className="flex items-center gap-4">
-          <p className="text-[#2C2B2E] text-base md:text-lg font-pally-regular">
-            {formattedDate}
+          <p className="destructive text-base md:text-lg font-pally-regular">
+            {new Date(startDate).toLocaleDateString("en-GB", {
+              day: "numeric",
+              weekday: "short",
+            })}{" "}
+            -{" "}
+            {new Date(endDate).toLocaleDateString("en-GB", {
+              day: "numeric",
+              weekday: "short",
+            })}{", "}
+            {new Date(endDate).toLocaleDateString("en-GB", {
+              month: "long",
+              year: "numeric"
+            })}
           </p>
           <div className="h-5 border border-gray-400" />
-          <p className="text-[#2C2B2E] text-base md:text-lg font-pally-regular">
+          <p className="destructive text-base md:text-lg font-pally-regular">
             {formattedTime}
           </p>
         </div>
@@ -92,12 +107,12 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
       <Separator />
 
       {event?.physicalLocation?.latitude !== null &&
-        (event?.physicalLocation?.longitude !== null && (
+        event?.physicalLocation?.longitude !== null && (
           <MapComponent
             lat={Number(event?.physicalLocation?.latitude)}
             lng={Number(event?.physicalLocation?.longitude)}
           />
-        ))}
+        )}
 
       {event?.eventPhotos?.length > 0 && event?.eventPhotos && (
         <EventGallery photos={event?.eventPhotos} />

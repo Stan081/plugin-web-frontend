@@ -14,7 +14,11 @@ import {
   HiOutlineDotsVertical,
   HiOutlineUserGroup,
 } from "react-icons/hi";
-import { MdOutlineRemoveRedEye, MdLink, MdOutlineHeadsetMic } from "react-icons/md";
+import {
+  MdOutlineRemoveRedEye,
+  MdLink,
+  MdOutlineHeadsetMic,
+} from "react-icons/md";
 import { HiOutlineTrash } from "react-icons/hi";
 import { LuTicket } from "react-icons/lu";
 import Image from "next/image";
@@ -68,12 +72,8 @@ export const eventDetailTabLink = [
 ];
 
 const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
-  const {
-    handleShowDeleteEvent,
-    setActiveEvent,
-    setEventId,
-    activeEvent,
-  } = useOrganiserDashContext();
+  const { handleShowDeleteEvent, setActiveEvent, setEventId, activeEvent } =
+    useOrganiserDashContext();
 
   const { data: sales, isLoading } = useGetSalesRecord(event?._id);
 
@@ -83,11 +83,15 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
 
   const client = useQueryClient();
 
-  const startDate: string =
-    event?.startDate || event?.startDate;
+  const startDate: Date = event?.startDate;
 
-  const startTime: string =
-    event?.startTime || event?.startTime;
+  const startTime: string = event?.startTime;
+
+  const endDate: Date = new Date(event?.endDate);
+
+  const now = new Date();
+
+  const isPastEvent = endDate < now;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
@@ -165,13 +169,15 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
             </div>
           </PopoverTrigger>
           <PopoverContent className="w-48 bg-white rounded-xl p-3">
-            <div
-              onClick={handleEditEvent}
-              className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
-            >
-              <FiEdit2 size={18} color="#667185" />
-              Edit
-            </div>
+            {!isPastEvent && (
+              <div
+                onClick={handleEditEvent}
+                className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
+              >
+                <FiEdit2 size={18} color="#667185" />
+                Edit
+              </div>
+            )}
             {/* <div className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm">
               <HiOutlineSpeakerphone size={18} color="#667185" />
               Promote event
@@ -232,7 +238,7 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
           Sale progress (%)
         </p>
         {isLoading ? (
-          <Skeleton className="h-4 w-full"/>
+          <Skeleton className="h-4 w-full" />
         ) : (
           <div className="flex items-center gap-6">
             <div className="w-full">

@@ -13,15 +13,17 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { useMe } from "@/pages/api/query/me";
 import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 import { useRouter } from "next/navigation";
+import { getToken } from "@/lib/token";
 
 export const NavigationDialog = () => {
   const [toggleList, setToggleList] = useState<boolean>(false);
   const { handleProtectedNavigation } = useAuthRedirect();
   const { data: userDate } = useMe();
   const router = useRouter();
+  const token = getToken()
 
   const eventlists = [
-    ...(userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer
+    ...(token && userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer
       ? []
       : [
           {

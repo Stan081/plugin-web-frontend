@@ -61,10 +61,15 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
     return percentage;
   }, [totalSold, totalAvailable]);
 
-
-  const startDate: string = event?.startDate;
+  const startDate: Date = event?.startDate;
 
   const startTime: string = event?.startTime;
+
+  const endDate: Date = new Date(event?.endDate);
+
+  const now = new Date();
+
+  const isPastEvent = endDate < now;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
@@ -140,13 +145,15 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
               </div>
             </PopoverTrigger>
             <PopoverContent className="w-48 bg-white rounded-xl p-3">
-              <div
-                onClick={handleEditEvent}
-                className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
-              >
-                <FiEdit2 size={18} color="#667185" />
-                Edit
-              </div>
+              {!isPastEvent && (
+                <div
+                  onClick={handleEditEvent}
+                  className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
+                >
+                  <FiEdit2 size={18} color="#667185" />
+                  Edit
+                </div>
+              )}
               {/* {event?.isPublished && (
                 <div className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm">
                   <HiOutlineSpeakerphone size={18} color="#667185" />
