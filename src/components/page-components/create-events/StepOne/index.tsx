@@ -415,7 +415,7 @@ const StepOne: React.FC = () => {
                         id="event_description"
                         value={eventDescription}
                         onChange={(e) => setEventDescription(e.target.value)}
-                        className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
+                        className="w-full bg-white text-black font-pally-regular h-32 md:h-40"
                       />
 
                       <p className="text-sm font-pally-regular text-[#e84141]">
