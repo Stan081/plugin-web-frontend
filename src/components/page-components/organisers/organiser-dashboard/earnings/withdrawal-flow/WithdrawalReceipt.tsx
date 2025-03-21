@@ -17,19 +17,22 @@ const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({ close, open }) => {
   const { withdrawalReceiptState: receipt } = useOrganiserDashContext();
 
   const formattedDate = new Date(receipt?.createdAt).toLocaleDateString(
-    "en-US",
+    "en-GB",
     {
-      year: "numeric",
+      weekday: "short",
       month: "long",
       day: "numeric",
+      timeZone: "Africa/Lagos",
     }
   );
 
   const formattedTime = new Date(receipt?.createdAt).toLocaleTimeString(
-    "en-US",
+    "en-GB",
     {
-      hour: "2-digit",
-      minute: "2-digit",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      timeZone: "Africa/Lagos",
     }
   );
 
@@ -96,7 +99,7 @@ const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({ close, open }) => {
                     Reference Number:
                   </span>
                   <span className="font-pally-medium text-base">
-                    TRX{receipt?._id.slice(0,10).concat('...')}
+                    TRX{receipt?._id.slice(0, 10).concat("...")}
                   </span>
                 </div>
                 <div className="flex justify-between">

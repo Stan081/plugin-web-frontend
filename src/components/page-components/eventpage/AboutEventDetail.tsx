@@ -22,8 +22,9 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
-    month: "short",
+    month: "long",
     day: "numeric",
+    timeZone: "Africa/Lagos",
   };
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
@@ -39,7 +40,7 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "UTC",
+    timeZone: "Africa/Lagos",
   });
 
   // console.log(event);

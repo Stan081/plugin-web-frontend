@@ -27,11 +27,13 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import Image from "next/image";
 import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 const PublishComponent: FC = () => {
   const { data: userData } = useMe();
   const { data: org } = useGetOrgProfileById();
   const { previousStep: previous } = useCreateEventContext();
+  const { data: event } = useGetEvent();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const [selectedVisibility, setSelectedVisibility] =
@@ -44,8 +46,8 @@ const PublishComponent: FC = () => {
       event_visibility: selectedVisibility,
       publishWhen: checkSchedule === "now" ? true : false,
       schedulePublish: {
-        start_date: new Date(),
-        start_time: "",
+        start_date: event?.data?.eventSchedule?.startDate ?? null,
+        start_time: event?.data?.eventSchedule?.startTime ?? "",
       },
     },
     resolver: yupResolver(PublishFormSchema),
@@ -73,6 +75,7 @@ const PublishComponent: FC = () => {
           description: `${response?.message}`,
         });
         client.invalidateQueries({ queryKey: ["organiserEvents"] });
+        client.invalidateQueries({ queryKey: ["eventById"] });
         setShowModal(!showModal);
       }
     },

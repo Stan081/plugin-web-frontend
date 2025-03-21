@@ -233,7 +233,7 @@ const ReceiptPDF = ({ data }) => (
                   <View style={styles.detailItem}>
                     <Text style={styles.detailLabel}>Date and time</Text>
                     <Text style={styles.detailValue}>
-                      {new Date(data?.eventDate).toLocaleDateString("en-US", {
+                      {new Date(data?.eventDate).toLocaleDateString("en-GB", {
                         weekday: "short",
                         month: "long",
                         day: "numeric",
@@ -241,6 +241,7 @@ const ReceiptPDF = ({ data }) => (
                         hour: "numeric",
                         minute: "numeric",
                         hour12: true,
+                        timeZone: "Africa/Lagos",
                       })}
                     </Text>
                   </View>
@@ -279,9 +280,9 @@ const PaymentSuccess = () => {
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
-    month: "short",
+    month: "long",
     day: "numeric",
-    year: "numeric",
+    timeZone: "Africa/Lagos",
   };
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
@@ -297,7 +298,7 @@ const PaymentSuccess = () => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "UTC",
+    timeZone: "Africa/Lagos",
   });
 
   return (
@@ -379,6 +380,5 @@ const PaymentSuccess = () => {
     </Layout>
   );
 };
-
 
 export default PaymentSuccess;
