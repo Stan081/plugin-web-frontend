@@ -232,7 +232,7 @@ const PhysicalForm: React.FC<PhysicalFormProps> = ({ locationType }) => {
 
             <Button
               onClick={onSubmit}
-              disabled={isPending || !formattedAddress?.city}
+              disabled={isPending || !formattedAddress?.country}
               variant="destructive"
             >
               {isPending ? <Spinner /> : "Next"}

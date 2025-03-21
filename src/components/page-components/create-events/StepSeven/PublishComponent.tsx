@@ -28,6 +28,7 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import Image from "next/image";
 import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { useRouter } from "next/navigation";
 
 const PublishComponent: FC = () => {
   const { data: userData } = useMe();
@@ -46,7 +47,9 @@ const PublishComponent: FC = () => {
       event_visibility: selectedVisibility,
       publishWhen: checkSchedule === "now" ? true : false,
       schedulePublish: {
-        start_date: event?.data?.eventSchedule?.startDate ?? null,
+        start_date: event?.data?.eventSchedule
+          ? new Date(event?.data?.eventSchedule?.startDate)
+          : undefined,
         start_time: event?.data?.eventSchedule?.startTime ?? "",
       },
     },
@@ -58,6 +61,8 @@ const PublishComponent: FC = () => {
   }, [selectedVisibility, form.setValue]);
 
   const { toast } = useToast();
+
+  const router = useRouter();
 
   const client = useQueryClient();
 
@@ -125,7 +130,7 @@ const PublishComponent: FC = () => {
     <div>
       <CongratulationModal
         open={showModal}
-        close={() => setShowModal(!showModal)}
+        close={() => router.push("/organiser")}
       />
 
       {showProfile && (
