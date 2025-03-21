@@ -17,19 +17,22 @@ const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({
   receipt,
 }) => {
   const formattedDate = new Date(receipt?.createdAt).toLocaleDateString(
-    "en-US",
+    "en-GB",
     {
-      year: "numeric",
+      weekday: "short",
       month: "long",
       day: "numeric",
+      timeZone: "Africa/Lagos",
     }
   );
 
   const formattedTime = new Date(receipt?.createdAt).toLocaleTimeString(
-    "en-US",
+    "en-GB",
     {
-      hour: "2-digit",
-      minute: "2-digit",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      timeZone: "Africa/Lagos",
     }
   );
   return (

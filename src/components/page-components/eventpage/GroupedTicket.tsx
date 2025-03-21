@@ -115,10 +115,11 @@ const GroupedTicket = ({ groupedTicket, id }) => {
   const formatDate = (dateString: string) => {
     if (!dateString) return "";
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
+    return date.toLocaleDateString("en-GB", {
+      weekday: 'short',
+      month: "long",
       day: "numeric",
+      timeZone: 'Africa/Lagos'
     });
   };
 

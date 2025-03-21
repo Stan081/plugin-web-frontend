@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 import Container from "@/tw-components/container";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
 const ListEvents = () => {
+  const { handleProtectedNavigation } = useAuthRedirect();
+
   return (
     <div className="bg-pinkNoise bg-cover backdrop-blur-md w-full md:w-1/2 rounded-lg px-4 pt-4 md:px-8 md:pt-8 space-y-3">
       <h2 className="font-pally-medium text-3xl">
@@ -15,11 +17,13 @@ const ListEvents = () => {
         or top priorities, making your search much more fun.
       </p>
       <div className="mt-6 flex justify-between items-start">
-        <Link href={"/create-event"}>
-          <Button variant="destructive" className="w-[200px] md:w-auto">
-            List an event
-          </Button>
-        </Link>
+        <Button
+          onClick={() => handleProtectedNavigation("/create-event")}
+          variant="destructive"
+          className="w-[200px] md:w-auto"
+        >
+          List an event
+        </Button>
         <div>
           <Image
             src={"/images/listing-event-illustration.svg"}
@@ -88,10 +92,11 @@ const TeamManagement = () => {
     <div className="bg-creamNoise backdrop-blur-md bg-cover col-span-1 bg-blue-400 rounded-lg pt-4 px-4 md:pt-8 md:px-8 flex flex-col justify-between">
       <div className="space-y-2">
         <h3 className="text-lg md:text-xl font-pally-medium">
-        Team Management
+          Team Management
         </h3>
         <p className="text-base md:text-lg font-pally-regular">
-        Manage team members for your event by granting them roles & permissions
+          Manage team members for your event by granting them roles &
+          permissions
         </p>
       </div>
       <div className="flex justify-center">

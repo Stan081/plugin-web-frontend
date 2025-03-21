@@ -36,9 +36,9 @@ const CheckoutSummary: FC<{ event: any }> = ({ event }) => {
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
-    month: "short",
+    month: "long",
     day: "numeric",
-    year: "numeric", // Add year to the options
+    timeZone: "Africa/Lagos",
   };
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
@@ -54,7 +54,7 @@ const CheckoutSummary: FC<{ event: any }> = ({ event }) => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "UTC",
+    timeZone: "Africa/Lagos",
   });
 
   const totalticketPrice = (): number => {

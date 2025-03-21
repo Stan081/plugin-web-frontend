@@ -37,10 +37,11 @@ type TablePropsType = {
 
 const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
   const formattedDate = (date: any) => {
-    return new Date(date).toLocaleDateString("en-US", {
-      year: "numeric",
+    return new Date(date).toLocaleDateString("en-GB", {
+      weekday: "short",
       month: "long",
       day: "numeric",
+      timeZone: "Africa/Lagos",
     });
   };
   return (
