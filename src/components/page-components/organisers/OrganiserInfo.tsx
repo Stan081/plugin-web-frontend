@@ -21,7 +21,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 const OrganiserInfo: React.FC<{
   organiser: any;
 }> = ({ organiser }) => {
-  const [isShown, setIsShown] = useState<boolean>(false);
+  const [isShown, setIsShown] = useState<boolean>(true);
   const { data: userDate } = useMe();
 
   console.log(organiser)
