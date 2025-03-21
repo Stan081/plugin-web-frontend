@@ -4,8 +4,10 @@ import { Section } from "@/tw-components/Section";
 import Image from "next/image";
 import reasonsData from "@/static-datas/reasons-data";
 import Link from "next/link";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 
 const ElevateEvents = () => {
+  const { handleProtectedNavigation } = useAuthRedirect();
   return (
     <Section className="flex xs:max-md:flex-col-reverse justify-center gap-20 xs:max-md:gap-10 w-[90%] mx-auto py-20">
       <div className="flex items-center xs:max-md:gap-5 justify-between">
@@ -57,15 +59,14 @@ const ElevateEvents = () => {
             })}
           </div>
           <div className="w-40">
-            <Link href={"/create-event"}>
-              <Button
-                variant="destructive"
-                size="lg"
-                className="mt-5 w-full py-3"
-              >
-                Get Started
-              </Button>
-            </Link>
+            <Button
+              onClick={() => handleProtectedNavigation("/create-event")}
+              variant="destructive"
+              size="lg"
+              className="mt-5 w-full py-3"
+            >
+              Get Started
+            </Button>
           </div>
         </div>
       </div>

@@ -3,8 +3,10 @@ import { Section } from "@/tw-components/Section";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 
 const HeroSection = () => {
+  const { handleProtectedNavigation } = useAuthRedirect();
   return (
     <Section className="relative overflow-hidden lg:h-[calc(100vh-4rem)] xs:max-md:flex xs:max-md:h-auto xs:max-md:flex-col-reverse w-full bg-[#211913] ">
       {/* responsiple for the absolute slant card image */}
@@ -27,15 +29,14 @@ const HeroSection = () => {
           Web-app
         </p>
         <div className="w-40 xs:max-md:w-28">
-          <Link href={"/create-event"}>
-            <Button
-              variant="destructive"
-              size="lg"
-              className="mt-5 w-full py-3"
-            >
-              Get Started
-            </Button>
-          </Link>
+          <Button
+            onClick={() => handleProtectedNavigation("/create-event")}
+            variant="destructive"
+            size="lg"
+            className="mt-5 w-full py-3"
+          >
+            Get Started
+          </Button>
         </div>
       </div>
     </Section>
