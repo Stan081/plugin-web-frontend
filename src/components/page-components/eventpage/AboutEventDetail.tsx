@@ -19,10 +19,13 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
   const startTime: string =
     event?.oneTimeEvent?.startTime || event?.recurringEvent?.startTime;
 
+  const endTime: string =
+    event?.oneTimeEvent?.endTime || event?.recurringEvent?.endTime;
+
   const endDate: Date =
     event?.oneTimeEvent?.endDate || event?.recurringEvent?.endDate;
 
-    const timeZone: string =
+  const timeZone: string =
     event?.oneTimeEvent?.timeZone || event?.recurringEvent?.timeZone;
 
   const date = new Date(startDate);
@@ -36,12 +39,26 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
   const formattedDate = date.toLocaleDateString("en-GB", options);
 
   const [hour, minute] = startTime ? startTime.split(":") : ["00", "00"];
-  const formattedTime = new Date(
+  const StartTimeformattedTime = new Date(
     date.getFullYear(),
     date.getMonth(),
     date.getDate(),
     Number(hour),
     Number(minute)
+  ).toLocaleTimeString("en-GB", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+    timeZone: timeZone,
+  });
+
+  const [endHour, endMinute] = endTime ? endTime.split(":") : ["00", "00"];
+  const EndTimeformattedTime = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    Number(endHour),
+    Number(endMinute)
   ).toLocaleTimeString("en-GB", {
     hour: "numeric",
     minute: "numeric",
@@ -60,25 +77,24 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
         </p>
 
         <div className="flex items-center gap-4">
-          <p className="destructive text-base md:text-lg font-pally-regular">
+          <p className="destructive text-sm md:text-base font-pally-regular">
             {new Date(startDate).toLocaleDateString("en-GB", {
               day: "numeric",
               weekday: "short",
-            })}{" "}
-            -{" "}
+            })}
+            , <span>{StartTimeformattedTime}</span> ---{" "}
             {new Date(endDate).toLocaleDateString("en-GB", {
               day: "numeric",
               weekday: "short",
-            })}{", "}
+            })}
+            , <span>{EndTimeformattedTime}</span>
+            {", "}
             {new Date(endDate).toLocaleDateString("en-GB", {
               month: "long",
-              year: "numeric"
+              year: "numeric",
             })}
           </p>
-          <div className="h-5 border border-gray-400" />
-          <p className="destructive text-base md:text-lg font-pally-regular">
-            {formattedTime}
-          </p>
+          
         </div>
       </div>
       <Separator />
