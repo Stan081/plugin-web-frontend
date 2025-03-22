@@ -5,10 +5,11 @@ import React, { Fragment } from "react";
 import OrganiserEventCard from "./OrganiserEventCard";
 import Container from "@/tw-components/container";
 import DelectEvent from "./DelectEvent";
-import { useMe } from "@/pages/api/query/me";
-import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
+// import { useMe } from "@/pages/api/query/me";
+
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 import CardEmptyState from "../home/CardEmptyState";
+import { useGetEventsByOrganiser } from "@/hooks/organiser/useGetEventsByOrganizer";
 
 const OrganiserEventTab = () => {
   const {
@@ -17,12 +18,12 @@ const OrganiserEventTab = () => {
     handleShowDeleteEvent,
   } = useOrganiserDashContext();
 
-  const { data: User } = useMe();
+  // const { data: User } = useMe();
   const {
     data: organiserEvents,
     isLoading,
     isError,
-  } = useGetOrganiserEvents(User?.data?._id);
+  } = useGetEventsByOrganiser();
 
   const now = new Date();
 
