@@ -162,7 +162,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
             ? card?.physicalLocation?.address?.length > 32
               ? card?.physicalLocation?.address?.slice(0, 32).concat("...")
               : card?.physicalLocation?.address
-            : "Online"}
+            : card?.locationType === 'online' && 'Online'}
         </p>
 
         <div className="mt-1 flex items-center gap-4">

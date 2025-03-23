@@ -18,244 +18,170 @@ import {
 import dynamic from "next/dynamic";
 import { HiDownload } from "react-icons/hi";
 
-// Dynamically import PDFDownloadLink with ssr: false to disable SSR
 const PDFDownloadLinkNoSSR = dynamic(
   () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
   { ssr: false }
 );
 const styles = StyleSheet.create({
   page: {
-    padding: 30,
+    padding: 10, // Reduced padding to save space
     backgroundColor: "#ffffff",
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 30,
-  },
-  logoContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  logo: {
-    width: 30,
-    height: 30,
-  },
-  logoText: {
-    fontSize: 44,
-    color: "#2E394C",
-    fontWeight: "bold",
-  },
-  mainTitle: {
-    fontSize: 24,
-    color: "#D9302A",
-    fontWeight: "500",
-    marginTop: 16,
-  },
-  greeting: {
-    fontSize: 16,
-    color: "#515A6A",
-    marginTop: 20,
-  },
-  eventName: {
-    color: "#EB1C24",
-    fontWeight: "600",
   },
   ticketContainer: {
-    marginTop: 24,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 8, // Further reduced gap to fit four tickets
   },
-  ticketBackground: {
-    width: "100%",
-    height: 200,
-    position: "relative",
-  },
-  qrCode: {
-    width: 150,
-    height: 150,
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-  },
-  ticketDetails: {
+  ticket: {
+    width: "48%", // Two tickets per row
     borderWidth: 1,
-    borderRadius: 12,
-    marginTop: 32,
+    borderColor: "#E0E0E0",
+    borderRadius: 8, // Reduced border radius to save space
+    overflow: "hidden",
+    marginBottom: 8, // Further reduced margin to fit four tickets
   },
-  ticketHeader: {
-    backgroundColor: "#221A14",
-    padding: 14,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+  festivalHeader: {
+    backgroundColor: "#D9302A",
+    padding: 8, // Further reduced padding to save space
+    alignItems: "center",
+  },
+  festivalTitle: {
+    fontSize: 16, // Further reduced font size to fit more content
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  festivalSubtitle: {
+    fontSize: 12, // Further reduced font size to fit more content
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginTop: 4, // Further reduced margin to save space
+  },
+  festivalDetails: {
+    padding: 8, // Further reduced padding to save space
+  },
+  detailRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-  },
-  ticketHeaderText: {
-    color: "#ffffff",
-    fontSize: 18,
-    fontWeight: "500",
-  },
-  ticketContent: {
-    backgroundColor: "#F9F7F7",
-    padding: 16,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
-  },
-  detailItem: {
-    backgroundColor: "#ffffff",
-    padding: 12,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginBottom: 12,
+    marginBottom: 6, // Further reduced margin to save space
   },
   detailLabel: {
-    fontSize: 14,
-    color: "#2C2B2E",
-    marginBottom: 4,
+    fontSize: 10, // Further reduced font size to fit more content
+    color: "#515A6A",
   },
   detailValue: {
-    fontSize: 18,
+    fontSize: 10, // Further reduced font size to fit more content
+    color: "#2C2B2E",
     fontWeight: "600",
   },
-  appSection: {
-    borderWidth: 1,
-    borderColor: "#F4702D33",
-    borderRadius: 12,
-    backgroundColor: "#F4702D33",
-    marginTop: 56,
-    flexDirection: "row",
-    padding: 24,
-  },
-  appContent: {
-    width: "50%",
-  },
-  appTitle: {
-    fontSize: 24,
-    fontWeight: "600",
-  },
-  appDescription: {
-    fontSize: 18,
-    color: "#475367",
-    marginTop: 20,
-  },
-  storeButtons: {
-    flexDirection: "row",
-    gap: 12,
-    marginTop: 24,
-  },
-  storeButton: {
-    backgroundColor: "#BC1622",
-    padding: 8,
-    borderRadius: 8,
-    flexDirection: "row",
+  qrCodeContainer: {
     alignItems: "center",
-    gap: 16,
+    marginTop: 8, // Further reduced margin to save space
+    marginBottom: 8, // Further reduced margin to save space
   },
-  storeButtonText: {
-    color: "#ffffff",
+  qrCode: {
+    width: 80, // Further reduced QR code size to fit more content
+    height: 80, // Further reduced QR code size to fit more content
   },
-  storeButtonSmall: {
-    fontSize: 12,
+  termsSection: {
+    backgroundColor: "#F9F7F7",
+    padding: 8, // Further reduced padding to save space
+    borderTopWidth: 1,
+    borderTopColor: "#E0E0E0",
   },
-  storeButtonLarge: {
-    fontSize: 16,
+  termsTitle: {
+    fontSize: 10, // Further reduced font size to fit more content
+    color: "#515A6A",
+    fontWeight: "600",
+    marginBottom: 4, // Further reduced margin to save space
   },
-  footer: {
-    marginTop: 40,
-  },
-  footerText: {
-    color: "#969CA5",
-    fontSize: 12,
-  },
-  socialLinks: {
-    flexDirection: "row",
-    gap: 16,
-    marginTop: 20,
-  },
-  socialIcon: {
-    width: 28,
-    height: 28,
+  termsText: {
+    fontSize: 8, // Further reduced font size to fit more content
+    color: "#515A6A",
   },
 });
 
 const ReceiptPDF = ({ data }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <View style={styles.logoContainer}>
-          <PDFImage
-            src="https://ik.imagekit.io/pluginImage/Plugin-images/img/logo.svg?updatedAt=1736331993218"
-            style={styles.logo}
-          />
-          <Text style={styles.logoText}>Plugin</Text>
-        </View>
-      </View>
+      <View style={styles.ticketContainer}>
+        {data?.ticketData?.map((ticket, index) => (
+          <View key={index} style={styles.ticket}>
+            {/* Festival Header */}
+            <View style={styles.festivalHeader}>
+              <Text style={styles.festivalTitle}>{data?.eventName}</Text>
+              {/* <Text style={styles.festivalSubtitle}>
+                {ticket?.eventLocation || "N/A"}
+              </Text> */}
+            </View>
 
-      <View>
-        <Text style={styles.mainTitle}>Your free ticket is Ready!</Text>
-
-        <Text style={styles.greeting}>
-          Hi {data?.userName || "there"}
-          {"\n\n"}
-          Thank you for purchasing a ticket for{" "}
-          <Text style={styles.eventName}>"{data?.eventName || "N/A"}"</Text>
-          {"\n\n"}
-          We're thrilled to have you join us. Here's your ticket information:
-        </Text>
-
-        <View style={styles.ticketContainer}>
-          {data?.ticketData?.map((ticket, index) => (
-            <View key={index}>
-              <View style={styles.ticketBackground}>
-                <PDFImage
-                  src="https://ik.imagekit.io/pluginImage/Plugin-images/img/ticket-bg-image.svg?updatedAt=1736331966100"
-                  style={styles.ticketBackground}
-                />
-                <PDFImage src={ticket.qrCode} style={styles.qrCode} />
+            {/* Festival Details */}
+            <View style={styles.festivalDetails}>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>
+                  {data?.eventLocation || "N/A"}
+                </Text>
               </View>
-
-              <View style={styles.ticketDetails}>
-                <View style={styles.ticketHeader}>
-                  <Text style={styles.ticketHeaderText}>Ticket ID</Text>
-                  <Text style={styles.ticketHeaderText}>
-                    {ticket.id || "N/A"}
-                  </Text>
-                </View>
-                <View style={styles.ticketContent}>
-                  <View style={styles.detailItem}>
-                    <Text style={styles.detailLabel}>Event Name</Text>
-                    <Text style={styles.detailValue}>
-                      {data?.eventName || "N/A"}
-                    </Text>
-                  </View>
-                  <View style={styles.detailItem}>
-                    <Text style={styles.detailLabel}>Date and time</Text>
-                    <Text style={styles.detailValue}>
-                      {new Date(data?.eventDate).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                        month: "long",
-                        day: "numeric",
-                        year: "numeric",
-                        hour: "numeric",
-                        minute: "numeric",
-                        hour12: true,
-                        timeZone: "Africa/Lagos",
-                      })}
-                    </Text>
-                  </View>
-                  <View style={styles.detailItem}>
-                    <Text style={styles.detailLabel}>Address</Text>
-                    <Text style={styles.detailValue}>
-                      {data?.eventLocation || "N/A"}
-                    </Text>
-                  </View>
-                </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>
+                  {new Date(data?.eventDate).toLocaleDateString("en-GB", {
+                    weekday: "short",
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </Text>
               </View>
             </View>
-          ))}
-        </View>
+
+            {/* QR Code */}
+            <View style={styles.qrCodeContainer}>
+              <PDFImage src={ticket.qrCode} style={styles.qrCode} />
+            </View>
+
+            {/* Ticket Details */}
+            <View style={styles.festivalDetails}>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Ticket Name</Text>
+                <Text style={styles.detailValue}>{ticket?.name}</Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Ticket Date</Text>
+                <Text style={styles.detailValue}>
+                  {new Date(data?.eventDate).toLocaleDateString("en-GB", {
+                    weekday: "short",
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Email</Text>
+                <Text style={styles.detailValue}>{data?.userEmail}</Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Price</Text>
+                <Text style={styles.detailValue}>{ticket?.price}</Text>
+              </View>
+              {/* <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Ticket ID</Text>
+                <Text style={styles.detailValue}>Txjup6qqo78kv</Text>
+              </View> */}
+            </View>
+
+            {/* Terms and Conditions */}
+            <View style={styles.termsSection}>
+              <Text style={styles.termsTitle}>Terms and Conditions</Text>
+              <Text style={styles.termsText}>
+                - Tickets must be purchased from authorized sellers.
+                {"\n"}- No refunds, exchanges, or cancellations unless the event
+                is canceled or postponed.
+              </Text>
+            </View>
+          </View>
+        ))}
       </View>
     </Page>
   </Document>
@@ -266,16 +192,16 @@ const PaymentSuccess = () => {
   const router = useRouter();
   const { freeEventPayload } = useEventsContext();
 
-  useEffect(() => {
-    if (document.readyState === "complete") {
-      setTimeout(() => {
-        router.push("/tickets");
-      }, 20000);
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   if (document.readyState === "complete") {
+  //     setTimeout(() => {
+  //       router.push("/tickets");
+  //     }, 20000);
+  //   }
+  // }, [router]);
 
   const startDate: string = freeEventPayload?.eventDate;
-  const startTime: string = freeEventPayload?.eventTime;
+  const startTime: string = freeEventPayload?.startTime;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
@@ -301,11 +227,13 @@ const PaymentSuccess = () => {
     timeZone: "Africa/Lagos",
   });
 
+  console.log(freeEventPayload);
+
   return (
     <Layout title="Payment successful" showHeader showFooter>
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-center lg:my-10">
-          <div className="hidden lg:block w-24 lg:w-2/5 h-[10vh] lg:h-[40vh] relative">
+          <div className="hidden lg:block w-24 lg:w-2/5 h-[5vh] lg:h-[40vh] relative">
             <Image
               src={freeEventPayload?.eventBanner}
               layout="fill"
@@ -334,7 +262,7 @@ const PaymentSuccess = () => {
 
             <p className="text-sm text-[#667185] my-6">Or download it below</p>
 
-            <ul className="space-y-4 ">
+            <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4 ">
               {freeEventPayload?.ticketData?.map((ticket) => (
                 <li className="border p-4 rounded-xl flex gap-4">
                   <Image

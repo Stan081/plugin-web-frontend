@@ -106,7 +106,7 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
               ? card?.physicalLocation?.address?.length > 40
                 ? card?.physicalLocation?.address?.slice(0, 40).concat("...")
                 : card?.physicalLocation?.address
-              : "Online"}
+              :  card?.locationType === 'online' && 'Online'}
           </p>
         </div>
       </div>

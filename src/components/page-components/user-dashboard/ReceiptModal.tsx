@@ -8,6 +8,17 @@ import { TbReceipt } from "react-icons/tb";
 import { BsDownload, BsTicketPerforated } from "react-icons/bs";
 import { toFiat } from "@/lib/amount";
 import Link from "next/link";
+
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Image as PDFImage,
+} from "@react-pdf/renderer";
+import dynamic from "next/dynamic";
+
 type TicketDataProps = {
   price?: number;
   name?: string;
@@ -33,6 +44,155 @@ type TicketAccumulator = {
   };
 };
 
+const PDFDownloadLinkNoSSR = dynamic(
+  () => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+  { ssr: false }
+);
+const styles = StyleSheet.create({
+  page: {
+    padding: 20,
+    backgroundColor: "#ffffff",
+  },
+  ticketContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 10, // Reduced gap to fit four tickets
+  },
+  ticket: {
+    width: "48%", // Two tickets per row
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+    borderRadius: 12,
+    overflow: "hidden",
+    marginBottom: 10, // Reduced margin to fit four tickets
+  },
+  festivalHeader: {
+    backgroundColor: "#D9302A",
+    padding: 12, // Reduced padding to save space
+    alignItems: "center",
+  },
+  festivalTitle: {
+    fontSize: 20, // Reduced font size to fit more content
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  festivalSubtitle: {
+    fontSize: 14, // Reduced font size to fit more content
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginTop: 4, // Reduced margin to save space
+  },
+  festivalDetails: {
+    padding: 12, // Reduced padding to save space
+  },
+  detailRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 8, // Reduced margin to save space
+  },
+  detailLabel: {
+    fontSize: 12, // Reduced font size to fit more content
+    color: "#515A6A",
+  },
+  detailValue: {
+    fontSize: 12, // Reduced font size to fit more content
+    color: "#2C2B2E",
+    fontWeight: "600",
+  },
+  qrCodeContainer: {
+    alignItems: "center",
+    marginTop: 12, // Reduced margin to save space
+    marginBottom: 12, // Reduced margin to save space
+  },
+  qrCode: {
+    width: 100, // Reduced QR code size to fit more content
+    height: 100, // Reduced QR code size to fit more content
+  },
+  termsSection: {
+    backgroundColor: "#F9F7F7",
+    padding: 12, // Reduced padding to save space
+    borderTopWidth: 1,
+    borderTopColor: "#E0E0E0",
+  },
+  termsTitle: {
+    fontSize: 12, // Reduced font size to fit more content
+    color: "#515A6A",
+    fontWeight: "600",
+    marginBottom: 4, // Reduced margin to save space
+  },
+  termsText: {
+    fontSize: 10, // Reduced font size to fit more content
+    color: "#515A6A",
+  },
+});
+
+const ReceiptPDF = ({ data }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <View style={styles.ticketContainer}>
+        {data?.ticketData?.map((ticket, index) => (
+          <View key={index} style={styles.ticket}>
+            {/* Festival Header */}
+            <View style={styles.festivalHeader}>
+              <Text style={styles.festivalTitle}>The Block Fiesta</Text>
+              <Text style={styles.festivalSubtitle}>The Jersey Party</Text>
+            </View>
+
+            {/* Festival Details */}
+            <View style={styles.festivalDetails}>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>
+                  Municipal Garden Marian, Calabar
+                </Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>29 March, 2025 at 6PM</Text>
+              </View>
+            </View>
+
+            {/* QR Code */}
+            <View style={styles.qrCodeContainer}>
+              <PDFImage src={ticket.qrCode} style={styles.qrCode} />
+            </View>
+
+            {/* Ticket Details */}
+            <View style={styles.festivalDetails}>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Ticket Type</Text>
+                <Text style={styles.detailValue}>Free Sign Up</Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Ticket Date</Text>
+                <Text style={styles.detailValue}>13/03/2025</Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Email</Text>
+                <Text style={styles.detailValue}>Test@pluginent.com</Text>
+              </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Ticket ID</Text>
+                <Text style={styles.detailValue}>Txjup6qqo78kv</Text>
+              </View>
+            </View>
+
+            {/* Terms and Conditions */}
+            <View style={styles.termsSection}>
+              <Text style={styles.termsTitle}>Terms and Conditions</Text>
+              <Text style={styles.termsText}>
+                - Tickets must be purchased from authorized sellers.
+                {"\n"}- No refunds, exchanges, or cancellations unless the event
+                is canceled or postponed.
+              </Text>
+            </View>
+          </View>
+        ))}
+      </View>
+    </Page>
+  </Document>
+);
+
 const ReceiptModal: React.FC<ReceiptModalProps> = ({
   open,
   close,
@@ -52,20 +212,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
     acc[ticketName].count += 1;
     return acc;
   }, {});
-
-  // Format the result in JSX
-  // const formattedTickets = Object?.entries(ticketCount).map(
-  //   ([name, { count, price }]) => (
-  //     <div className="flex justify-between" key={name}>
-  //       <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-  //         {count} x {name}
-  //       </p>
-  //       <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-  //         {toFiat(price)}
-  //       </p>
-  //     </div>
-  //   )
-  // );
 
   return (
     <div>
@@ -113,12 +259,21 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                       <TbReceipt size={18} color="#667185" />
                       <span className="font-pally-medium">Order summary</span>
                     </p>
-                    <p className="flex items-center gap-2">
-                      <BsDownload size={18} className="destructive" />
-                      <span className="font-pally-medium destructive underline">
-                        Download Ticket
-                      </span>
-                    </p>
+
+                    {/* <PDFDownloadLinkNoSSR
+                      document={<ReceiptPDF data={data} />}
+                      fileName={`Booking_Receipt_${data?.eventName}.pdf`}
+                      className="cursor-pointer"
+                    >
+                      {({ loading }) => (
+                        <p className="flex items-center gap-2">
+                          <BsDownload size={18} className="destructive" />
+                          <span className="font-pally-medium destructive underline">
+                            Download Ticket
+                          </span>
+                        </p>
+                      )}
+                    </PDFDownloadLinkNoSSR> */}
                   </div>
                   <div className=" flex justify-between">
                     <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
@@ -166,7 +321,10 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                     </p>
                   </div>
                 </div>
-                <Link href={`mailto:support@pluginent.com`} className="mt-5 text-sm font-pally-regular block text-center text-[#ee4d35]">
+                <Link
+                  href={`mailto:support@pluginent.com`}
+                  className="mt-5 text-sm font-pally-regular block text-center text-[#ee4d35]"
+                >
                   Report an issue with this ticket
                 </Link>
               </div>

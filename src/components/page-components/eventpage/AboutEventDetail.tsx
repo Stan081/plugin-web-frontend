@@ -73,7 +73,7 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
         <p className="text-[#2C2B2E] text-base md:text-lg font-pally-regular">
           {event?.locationType === "physical"
             ? `${event?.physicalLocation?.address}, ${event?.physicalLocation?.city}, ${event?.physicalLocation?.state}, ${event?.physicalLocation?.country}.`
-            : "Virtual"}
+            :  event?.locationType === 'online' && 'Online'}
         </p>
 
         <div className="flex items-center gap-4">
