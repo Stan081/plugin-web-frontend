@@ -1,12 +1,4 @@
 import React, { Fragment, useState } from "react";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { RiCloseLine } from "react-icons/ri";
 import { useRouter } from "next/navigation";
@@ -14,8 +6,7 @@ import { useEventsContext } from "@/providers/events.provider";
 import EntryTicketComponent from "./EntryTicketComponent";
 import GroupedTicket from "./GroupedTicket";
 import { toFiat } from "@/lib/amount";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { IoCheckmarkCircleSharp } from "react-icons/io5";
+import { Dialog, DialogPanel,} from "@headlessui/react";
 
 const TicketCTA: React.FC<{ event: any; id: string }> = ({ event, id }) => {
   const { tickets } = useEventsContext();
