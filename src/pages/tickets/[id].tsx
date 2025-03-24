@@ -51,6 +51,7 @@ const TicketDetailPage = () => {
             <div className="w-full">
               <TicketSummary
                 user={response?.data?.user}
+                eventName={response?.data?.event?.eventName}
                 tickets={response?.data?.tickets}
               />
 

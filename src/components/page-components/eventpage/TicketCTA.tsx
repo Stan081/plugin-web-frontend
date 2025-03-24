@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -14,9 +14,13 @@ import { useEventsContext } from "@/providers/events.provider";
 import EntryTicketComponent from "./EntryTicketComponent";
 import GroupedTicket from "./GroupedTicket";
 import { toFiat } from "@/lib/amount";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { IoCheckmarkCircleSharp } from "react-icons/io5";
 
 const TicketCTA: React.FC<{ event: any; id: string }> = ({ event, id }) => {
   const { tickets } = useEventsContext();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const getEntryTicketCountdown = () => {
     const now = new Date();
 
@@ -113,13 +117,11 @@ const TicketCTA: React.FC<{ event: any; id: string }> = ({ event, id }) => {
     if (tickets.length > 0) {
       console.log(tickets);
       router.push(`/explore-events/${id}/checkout`);
-      // router.push(`/explore-events/${id}/test`);
     }
   };
 
   return (
     <Fragment>
-      <div className="p-2 h-12 z-30 bg-white" />
       <div className="bg-pitchNoise py-5 px-4 fixed z-20 shadow-2xl shadow-white border-black border-t-2 bottom-0 w-full lg:hidden flex justify-between items-center">
         <p className="font-pally-medium text-lg">
           {event?.ticketCategory === "entry"
@@ -129,7 +131,84 @@ const TicketCTA: React.FC<{ event: any; id: string }> = ({ event, id }) => {
             : priceRange()}
         </p>
 
-        <Drawer>
+        <Button onClick={() => setIsOpen(!isOpen)} variant="destructive">
+          View Tickets
+        </Button>
+
+        <Dialog
+          open={isOpen}
+          as="div"
+          className="relative z-40 focus:outline-none"
+          onClose={() => setIsOpen(!isOpen)}
+        >
+          <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+            <div className="flex flex-col min-h-full items-center justify-end">
+              <DialogPanel
+                transition
+                className="w-full max-w-md rounded-xl bg-white p-6 backdrop-blur-2xl duration-300 transition delay-150 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:transform-[transformY(-45)]"
+              >
+                <div className="mx-auto w-full max-w-sm">
+                  <div className="flex justify-between items-start p-0">
+                    <div className="space-y-1.5">
+                      <h6 className="text-start font-pally-medium text-[#515A6A] text-base md:text-lg">
+                        AVAILABLE TICKETS
+                      </h6>
+                      {event?.ticketCategory === "entry" && (
+                        <p className="rounded-3xl text-sm text-[#523300] font-pally-medium px-2 py-1 bg-[#F7D394]">
+                          {`Ticket sales ending in
+                       ${getEntryTicketCountdown()}
+                         days`}
+                        </p>
+                      )}
+                    </div>
+
+                    <div
+                      onClick={() => setIsOpen(!isOpen)}
+                      className="p-1.5 rounded-full bg-gray-200 absolute top-3 right-3"
+                    >
+                      <RiCloseLine size={20} />
+                    </div>
+                  </div>
+                  <div className="my-5">
+                    {event?.ticketCategory === "grouped" && (
+                      <>
+                        <div className="space-y-4">
+                          {event?.groupedTicket.map((ticket) => (
+                            <GroupedTicket
+                              key={ticket._id}
+                              id={id}
+                              groupedTicket={ticket}
+                            />
+                          ))}
+                        </div>
+                        <Button
+                          onClick={handleGroupTicket}
+                          variant="destructive"
+                          size="lg"
+                          disabled={tickets.length === 0}
+                          className="mt-5 w-full py-3"
+                        >
+                          Checkout
+                        </Button>
+                      </>
+                    )}
+
+                    {checkIfEndDateReached &&
+                      event?.ticketCategory === "entry" && (
+                        <EntryTicketComponent
+                          entryTicket={event?.entryTicket}
+                          id={id}
+                        />
+                      )}
+                  </div>
+                </div>
+              </DialogPanel>
+            </div>
+          </div>
+        </Dialog>
+
+        {/* <Drawer>
           <DrawerTrigger asChild>
             <Button variant="destructive">View Tickets</Button>
           </DrawerTrigger>
@@ -189,7 +268,7 @@ const TicketCTA: React.FC<{ event: any; id: string }> = ({ event, id }) => {
               </div>
             </div>
           </DrawerContent>
-        </Drawer>
+        </Drawer> */}
       </div>
     </Fragment>
   );

@@ -7,10 +7,11 @@ import ReceiptModal from "../ReceiptModal";
 import { TicketType, UserType } from "./TicketSummary";
 
 interface Props {
-  data?: TicketType[];
+  data?: any[];
   user: UserType;
+  eventName: string;
 }
-const OrderSummary = ({ data, user }: Props) => {
+const OrderSummary = ({ data, user, eventName }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const totalPrice = data?.reduce(
@@ -41,6 +42,7 @@ const OrderSummary = ({ data, user }: Props) => {
         data={data}
         open={isOpen}
         email={user?.email}
+        eventName={eventName}
         close={() => setIsOpen(!isOpen)}
       />
     </div>

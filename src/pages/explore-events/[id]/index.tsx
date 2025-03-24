@@ -1,26 +1,29 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Fragment, Suspense, useEffect, useMemo, useState } from "react";
 import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
 import AboutEventDetail from "@/components/page-components/eventpage/AboutEventDetail";
 import AvailableTicket from "@/components/page-components/eventpage/AvailableTicket";
 import EventDetailsHeader from "@/components/page-components/eventpage/EventDetailsHeader";
 import SimilarEvents from "@/components/page-components/eventpage/SimilarEvents";
-import { exlporeEventsbreadcrumbArr } from "@/static-datas/breadcrumb-data";
+import {
+  exlporeEventsbreadcrumbArr,
+} from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { useParams } from "next/navigation";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { getCookie, removeCookie } from "@/lib/cookies";
 import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
-import { useFilteredEvents } from "@/hooks/events/useFilterEvents";
 import { useGetEventById } from "@/hooks/events/useGetEventById";
+
 
 const ExploreEventDetailPage = () => {
   const param = useParams<{ id: string }>();
   const { data: events, isLoading, isError } = useGetEventById(param?.id);
   const cardId = events?.data;
+
 
   useEffect(() => {
     if (getCookie("tickets") || getCookie("entryTicket"))
@@ -36,46 +39,49 @@ const ExploreEventDetailPage = () => {
     return <p>An error occured</p>;
   }
 
-  // const now = new Date();
-  // const endDate = cardId?.oneTimeEvent?.endDate
-  //   ? new Date(cardId.oneTimeEvent.endDate)
-  //   : null;
+  const now = new Date();
+  const entryEndDate = cardId?.entryTicket?.endDate
+    ? new Date(cardId.entryTicket.endDate)
+    : null;
 
-
-  // console.log(cardId);
+  const isPassed: boolean = entryEndDate < now;
 
   return (
-    <Layout title={cardId?.eventName} showHeader showFooter>
-      {isLoading ? (
-        <SpinnerOverlay />
-      ) : (
-        <Section id="event-detail-page" className="relative">
-          <Container className="relative mb-5">
-            <BreadcrumbComponent
-              breadcrumbArr={exlporeEventsbreadcrumbArr}
-              pageName={cardId?.eventName}
-            />
+    <Fragment>
+      <Layout title={cardId?.eventName} showHeader showFooter>
+        {isLoading ? (
+          <SpinnerOverlay />
+        ) : (
+          <Section id="event-detail-page" className="relative">
+            <Container className="relative mb-5">
+              <BreadcrumbComponent
+                breadcrumbArr={exlporeEventsbreadcrumbArr}
+                pageName={cardId?.eventName}
+              />
 
-            <EventDetailsHeader
-              title={cardId?.eventName}
-              image={cardId?.eventBanner}
-              id={cardId?._id}
-              description={cardId?.eventDescription}
-            />
+              <EventDetailsHeader
+                title={cardId?.eventName}
+                image={cardId?.eventBanner}
+                id={cardId?._id}
+                description={cardId?.eventDescription}
+              />
 
-            <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">
-              <div className="w-full md:w-4/6">
-                <AboutEventDetail event={cardId} />
+              <div className="flex flex-col md:flex-row gap-5 md:gap-16 relative">
+                <div className="w-full md:w-4/6">
+                  <AboutEventDetail event={cardId} />
+                </div>
+                {!isPassed && (
+                  <AvailableTicket event={cardId} id={cardId?._id} />
+                )}
               </div>
-            <AvailableTicket event={cardId} id={cardId?._id} />
-            </div>
 
-            <SimilarEvents />
-          </Container>
-           <TicketCTA event={cardId} id={cardId?._id} />
-        </Section>
-      )}
-    </Layout>
+              <SimilarEvents />
+            </Container>
+            {!isPassed && <TicketCTA event={cardId} id={cardId?._id} />}
+          </Section>
+        )}
+      </Layout>
+    </Fragment>
   );
 };
 

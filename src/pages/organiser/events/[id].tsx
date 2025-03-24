@@ -1,3 +1,4 @@
+"use client"
 import DelectEvent from "@/components/page-components/organisers/organiser-dashboard/events/DelectEvent";
 import EventDetailDashboard from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-dashboard/EventDetailDashboard";
 import EventDetailSidebar, {

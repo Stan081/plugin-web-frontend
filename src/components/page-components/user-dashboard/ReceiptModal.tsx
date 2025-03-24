@@ -35,6 +35,7 @@ interface ReceiptModalProps {
   data?: TicketProps[];
   total?: number;
   email?: string;
+  eventName: string;
 }
 
 type TicketAccumulator = {
@@ -50,105 +51,114 @@ const PDFDownloadLinkNoSSR = dynamic(
 );
 const styles = StyleSheet.create({
   page: {
-    padding: 20,
+    padding: 10, // Reduced padding to save space
     backgroundColor: "#ffffff",
   },
   ticketContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    gap: 10, // Reduced gap to fit four tickets
+    gap: 8, // Further reduced gap to fit four tickets
   },
   ticket: {
     width: "48%", // Two tickets per row
     borderWidth: 1,
     borderColor: "#E0E0E0",
-    borderRadius: 12,
+    borderRadius: 8, // Reduced border radius to save space
     overflow: "hidden",
-    marginBottom: 10, // Reduced margin to fit four tickets
+    marginBottom: 8, // Further reduced margin to fit four tickets
   },
   festivalHeader: {
     backgroundColor: "#D9302A",
-    padding: 12, // Reduced padding to save space
+    padding: 8, // Further reduced padding to save space
     alignItems: "center",
   },
   festivalTitle: {
-    fontSize: 20, // Reduced font size to fit more content
+    fontSize: 16, // Further reduced font size to fit more content
     color: "#FFFFFF",
     fontWeight: "bold",
     textAlign: "center",
   },
   festivalSubtitle: {
-    fontSize: 14, // Reduced font size to fit more content
+    fontSize: 12, // Further reduced font size to fit more content
     color: "#FFFFFF",
     textAlign: "center",
-    marginTop: 4, // Reduced margin to save space
+    marginTop: 4, // Further reduced margin to save space
   },
   festivalDetails: {
-    padding: 12, // Reduced padding to save space
+    padding: 8, // Further reduced padding to save space
   },
   detailRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 8, // Reduced margin to save space
+    marginBottom: 6, // Further reduced margin to save space
   },
   detailLabel: {
-    fontSize: 12, // Reduced font size to fit more content
+    fontSize: 10, // Further reduced font size to fit more content
     color: "#515A6A",
   },
   detailValue: {
-    fontSize: 12, // Reduced font size to fit more content
+    fontSize: 10, // Further reduced font size to fit more content
     color: "#2C2B2E",
     fontWeight: "600",
   },
   qrCodeContainer: {
     alignItems: "center",
-    marginTop: 12, // Reduced margin to save space
-    marginBottom: 12, // Reduced margin to save space
+    marginTop: 8, // Further reduced margin to save space
+    marginBottom: 8, // Further reduced margin to save space
   },
   qrCode: {
-    width: 100, // Reduced QR code size to fit more content
-    height: 100, // Reduced QR code size to fit more content
+    width: 80, // Further reduced QR code size to fit more content
+    height: 80, // Further reduced QR code size to fit more content
   },
   termsSection: {
     backgroundColor: "#F9F7F7",
-    padding: 12, // Reduced padding to save space
+    padding: 8, // Further reduced padding to save space
     borderTopWidth: 1,
     borderTopColor: "#E0E0E0",
   },
   termsTitle: {
-    fontSize: 12, // Reduced font size to fit more content
+    fontSize: 10, // Further reduced font size to fit more content
     color: "#515A6A",
     fontWeight: "600",
-    marginBottom: 4, // Reduced margin to save space
+    marginBottom: 4, // Further reduced margin to save space
   },
   termsText: {
-    fontSize: 10, // Reduced font size to fit more content
+    fontSize: 8, // Further reduced font size to fit more content
     color: "#515A6A",
   },
 });
 
-const ReceiptPDF = ({ data }) => (
+const ReceiptPDF = ({ data, eventName }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.ticketContainer}>
-        {data?.ticketData?.map((ticket, index) => (
+        {data?.map((ticket, index) => (
           <View key={index} style={styles.ticket}>
             {/* Festival Header */}
             <View style={styles.festivalHeader}>
-              <Text style={styles.festivalTitle}>The Block Fiesta</Text>
-              <Text style={styles.festivalSubtitle}>The Jersey Party</Text>
+              <Text style={styles.festivalTitle}>{eventName}</Text>
+              {/* <Text style={styles.festivalSubtitle}>
+                {ticket?.eventLocation || "N/A"}
+              </Text> */}
             </View>
 
             {/* Festival Details */}
             <View style={styles.festivalDetails}>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>
-                  Municipal Garden Marian, Calabar
+                  {data?.eventLocation || "N/A"}
                 </Text>
               </View>
               <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>29 March, 2025 at 6PM</Text>
+                <Text style={styles.detailLabel}>
+                  {new Date(data?.eventDate).toLocaleDateString("en-GB", {
+                    weekday: "short",
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </Text>
               </View>
             </View>
 
@@ -160,21 +170,32 @@ const ReceiptPDF = ({ data }) => (
             {/* Ticket Details */}
             <View style={styles.festivalDetails}>
               <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>Ticket Type</Text>
-                <Text style={styles.detailValue}>Free Sign Up</Text>
+                <Text style={styles.detailLabel}>Ticket Name</Text>
+                <Text style={styles.detailValue}>{ticket?.name}</Text>
               </View>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Ticket Date</Text>
-                <Text style={styles.detailValue}>13/03/2025</Text>
+                <Text style={styles.detailValue}>
+                  {new Date(data?.eventDate).toLocaleDateString("en-GB", {
+                    weekday: "short",
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </Text>
               </View>
-              <View style={styles.detailRow}>
+              {/* <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Email</Text>
-                <Text style={styles.detailValue}>Test@pluginent.com</Text>
-              </View>
+                <Text style={styles.detailValue}>{data?.userEmail}</Text>
+              </View> */}
               <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Price</Text>
+                <Text style={styles.detailValue}>{ticket?.price}</Text>
+              </View>
+              {/* <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Ticket ID</Text>
                 <Text style={styles.detailValue}>Txjup6qqo78kv</Text>
-              </View>
+              </View> */}
             </View>
 
             {/* Terms and Conditions */}
@@ -199,6 +220,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
   data,
   total,
   email,
+  eventName
 }) => {
   // Count occurrences of each ticket name and store price in a typed accumulator
   const ticketCount = data?.reduce<TicketAccumulator>((acc, ticket) => {
@@ -260,9 +282,9 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                       <span className="font-pally-medium">Order summary</span>
                     </p>
 
-                    {/* <PDFDownloadLinkNoSSR
-                      document={<ReceiptPDF data={data} />}
-                      fileName={`Booking_Receipt_${data?.eventName}.pdf`}
+                    <PDFDownloadLinkNoSSR
+                      document={<ReceiptPDF data={data} eventName={eventName} />}
+                      fileName={`Ticket_Receipts_${eventName}.pdf`}
                       className="cursor-pointer"
                     >
                       {({ loading }) => (
@@ -273,7 +295,7 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                           </span>
                         </p>
                       )}
-                    </PDFDownloadLinkNoSSR> */}
+                    </PDFDownloadLinkNoSSR>
                   </div>
                   <div className=" flex justify-between">
                     <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">

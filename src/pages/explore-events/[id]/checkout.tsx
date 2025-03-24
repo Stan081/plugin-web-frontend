@@ -9,22 +9,21 @@ import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useParams } from "next/navigation";
-import React, { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import React, { lazy, Suspense, useMemo } from "react";
 
-const CheckoutSummary = lazy(() => import("@/components/page-components/eventpage/checkout/CheckoutSummary"));
+const CheckoutSummary = lazy(
+  () =>
+    import("@/components/page-components/eventpage/checkout/CheckoutSummary")
+);
 
 const CheckoutEvent = () => {
   const param = useParams<{ id: string }>();
-  const { data: events, isLoading, isError } = useGetEventById(param?.id);
+  const {
+    data: events,
+    isLoading,
+    isError,
+  } = useGetEventById(param?.id as string);
   const checkCardId = events?.data;
-
-
-  const [isMounted, setIsMounted] = useState<boolean>(false);
-
-  useEffect(() => {
-    // Set isMounted to true after the initial render
-    setIsMounted(true);
-  }, []);
 
   // Ensure all hooks are called unconditionally
   const breadcrumbArr = useMemo(() => {
@@ -32,32 +31,8 @@ const CheckoutEvent = () => {
     return checkoutBreadcrumbArr(checkCardId?.eventName, checkCardId?._id);
   }, [checkCardId]);
 
-  // const memoizedCheckoutSummary = useMemo(() => {
-  //   if (!checkCardId) return null; // Return null if data is not available
-  //   return (
-  //     <CheckoutSummary
-  //       startDate={
-  //         checkCardId?.oneTimeEvent?.startDate ||
-  //         checkCardId?.recurringEvent?.startDate
-  //       }
-  //       startTime={
-  //         checkCardId?.oneTimeEvent?.startTime ||
-  //         checkCardId?.recurringEvent?.startTime
-  //       }
-  //       thumbnail={checkCardId?.thumbnail}
-  //       eventName={checkCardId?.eventName}
-  //       locationType={checkCardId?.locationType}
-  //       address={checkCardId?.physicalLocation?.address}
-  //     />
-  //   );
-  // }, [checkCardId]);
-
   // Early returns must come after all hooks are called
   if (!checkCardId || isError) {
-    return <SpinnerOverlay />;
-  }
-
-  if (!isMounted) {
     return <SpinnerOverlay />;
   }
 
@@ -68,8 +43,8 @@ const CheckoutEvent = () => {
   if (isLoading) return <SpinnerOverlay />;
 
   return (
-    <Layout title={`Checkout`} showHeader showFooter>
-      <Section id="checkout-page">
+    <Layout title="Ticket Checkout" showHeader showFooter>
+      <Section id="Checkout ticket">
         <Container>
           <BreadcrumbComponent
             breadcrumbArr={breadcrumbArr}

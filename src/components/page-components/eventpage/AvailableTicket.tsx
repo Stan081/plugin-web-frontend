@@ -18,75 +18,52 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
 
   const router = useRouter();
 
-  const getEntryTicketCountdown = () => {
-    const now = new Date();
+  // const getEntryTicketCountdown = () => {
+  //   const now = new Date();
 
-    if (event?.ticketCategory === "entry" && event?.entryTicket) {
-      const { startDate, endDate } = event.entryTicket;
+  //   if (event?.ticketCategory === "entry" && event?.entryTicket) {
+  //     const { startDate, endDate } = event.entryTicket;
 
-      // Validate startDate and endDate
-      const start = startDate ? new Date(startDate) : null;
-      const end = endDate ? new Date(endDate) : null;
+  //     // Validate startDate and endDate
+  //     const start = startDate ? new Date(startDate) : null;
+  //     const end = endDate ? new Date(endDate) : null;
 
-      if (start && isNaN(start.getTime())) {
-        console.error("Invalid startDate format.");
-        return null;
-      }
+  //     if (start && isNaN(start.getTime())) {
+  //       console.error("Invalid startDate format.");
+  //       return null;
+  //     }
 
-      if (end && isNaN(end.getTime())) {
-        console.error("Invalid endDate format.");
-        return null;
-      }
+  //     if (end && isNaN(end.getTime())) {
+  //       console.error("Invalid endDate format.");
+  //       return null;
+  //     }
 
-      // Check if the current date is before the start date
-      if (start && now < start) {
-        const timeDifference = start.getTime() - now.getTime();
-        const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-        return Math.max(daysRemaining, 0); // Time remaining until the start date
-      }
+  //     // Check if the current date is before the start date
+  //     if (start && now < start) {
+  //       const timeDifference = start.getTime() - now.getTime();
+  //       const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+  //       return Math.max(daysRemaining, 0); // Time remaining until the start date
+  //     }
 
-      // Check if the current date is between the start and end dates
-      if (end && now <= end) {
-        const timeDifference = end.getTime() - now.getTime();
-        const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-        return Math.max(daysRemaining, 0); // Time remaining until the end date
-      }
+  //     // Check if the current date is between the start and end dates
+  //     if (end && now <= end) {
+  //       const timeDifference = end.getTime() - now.getTime();
+  //       const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+  //       return Math.max(daysRemaining, 0); // Time remaining until the end date
+  //     }
 
-      // If the event is past its end date
-      return 0;
-    }
+  //     // If the event is past its end date
+  //     return 0;
+  //   }
 
-    return null;
-  };
+  //   return null;
+  // };
 
-  const checkIfEndDateReached = () => {
-    if (event?.entryTicket?.endDate) {
-      const endDate = new Date(event.entryTicket.endDate);
-
-      // Validate endDate
-      if (isNaN(endDate.getTime())) {
-        console.error("Invalid endDate format.");
-        return false;
-      }
-
-      // Get the current date and time
-      const now = new Date();
-
-      // Compare dates
-      const isSameDay =
-        now.getUTCFullYear() === endDate.getUTCFullYear() &&
-        now.getUTCMonth() === endDate.getUTCMonth() &&
-        now.getUTCDate() === endDate.getUTCDate();
-
-      return isSameDay;
-    }
-
-    return false;
-  };
 
   const handleGroupTicket = () => {
     if (tickets.length > 0) {
-      router.push(`/explore-events/${id}/checkout`);
+       router.push(`/ticket-checkout`);
+      // toggleCheckout()
     }
   };
 
@@ -98,13 +75,13 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
         <h6 className="font-pally-medium text-[#515A6A] text-base md:text-lg">
           AVAILABLE TICKETS
         </h6>
-        {event?.ticketCategory === "entry" && (
+        {/* {event?.ticketCategory === "entry" && (
           <p className="rounded-3xl text-sm text-[#523300] font-pally-medium px-2 py-1 bg-[#F7D394]">
             {`Ticket sales ending in
              ${getEntryTicketCountdown()}
               days`}
           </p>
-        )}
+        )} */}
       </div>
 
       <div className="mt-7 w-full space-y-5">
@@ -125,7 +102,7 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
           </>
         )}
 
-        {checkIfEndDateReached && event?.ticketCategory === "entry" && (
+        { event?.ticketCategory === "entry" && (
           <EntryTicketComponent entryTicket={event?.entryTicket} id={id} />
         )}
       </div>

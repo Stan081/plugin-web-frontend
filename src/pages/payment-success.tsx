@@ -192,13 +192,13 @@ const PaymentSuccess = () => {
   const router = useRouter();
   const { freeEventPayload } = useEventsContext();
 
-  // useEffect(() => {
-  //   if (document.readyState === "complete") {
-  //     setTimeout(() => {
-  //       router.push("/tickets");
-  //     }, 20000);
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    if (document.readyState === "complete") {
+      setTimeout(() => {
+        router.push("/tickets");
+      }, 40000);
+    }
+  }, [router]);
 
   const startDate: string = freeEventPayload?.eventDate;
   const startTime: string = freeEventPayload?.startTime;
@@ -227,7 +227,7 @@ const PaymentSuccess = () => {
     timeZone: "Africa/Lagos",
   });
 
-  console.log(freeEventPayload);
+  // console.log(freeEventPayload);
 
   return (
     <Layout title="Payment successful" showHeader showFooter>

@@ -1,3 +1,4 @@
+"use client"
 import { Separator } from "@/components/ui/separator";
 import { toFiat } from "@/lib/amount";
 import { useEventsContext } from "@/providers/events.provider";
@@ -116,12 +117,12 @@ const CheckoutSummary: FC<CheckoutSummaryProps> = ({
         width={456}
         height={280}
         alt={eventName}
-        className="pointer-events-none w-full h-[228px] object-cover rounded-lg hidden lg:block"
+        className="pointer-events-none w-full h-[228px] object-cover rounded-lg "
         loading="lazy"
       />
 
       <div className="mt-4 space-y-4">
-        <div className="hidden lg:block space-y-1">
+        <div className=" space-y-1">
           <p className="text-[#586170] text-sm md:text-xl font-pally-medium">
             {eventName}
           </p>
@@ -139,7 +140,7 @@ const CheckoutSummary: FC<CheckoutSummaryProps> = ({
           </div>
         </div>
 
-        <Separator  className="hidden lg:block"/>
+        <Separator />
 
         <div className="space-y-1.5">
           <p className="text-base font-pally-medium">

@@ -23,9 +23,10 @@ export type UserType = {
 interface Props {
   tickets: any;
   createdAt?: string;
+  eventName: string;
   user?: UserType;
 }
-const TicketSummary = ({ tickets, user }: Props) => {
+const TicketSummary = ({ tickets, user, eventName }: Props) => {
  
   // console.log(tickets);
   return (
@@ -34,7 +35,7 @@ const TicketSummary = ({ tickets, user }: Props) => {
         Order Summary
       </h4>
 
-      <OrderSummary data={tickets?.tickets} user={user} />
+      <OrderSummary data={tickets?.tickets} user={user} eventName={eventName} />
 
       <h4 className="mt-8 font-pally-medium text-lg md:text-xl text-[#1A1B25]">
         Your Tickets
