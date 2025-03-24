@@ -32,11 +32,7 @@ const CheckoutEvent = () => {
   }, [checkCardId]);
 
   // Early returns must come after all hooks are called
-<<<<<<< HEAD
-  if (!checkCardId || isError) {
-=======
-  if (isLoading || isError || !checkCardId || !isMounted) {
->>>>>>> a5c8d765612fb1bb54e089bea66d306ee9ea48da
+  if (isLoading || isError || !checkCardId) {
     return <SpinnerOverlay />;
   }
 
@@ -45,27 +41,16 @@ const CheckoutEvent = () => {
   }
 
   return (
-<<<<<<< HEAD
     <Layout title="Ticket Checkout" showHeader showFooter>
       <Section id="Checkout ticket">
-=======
-    <Layout title={`Checkout`} showHeader showFooter>
-      <Section id="checkout-page" style={{
-          overflowX: "hidden",
-          overflowY: "auto",
-          WebkitOverflowScrolling: "touch", // Smooth scrolling for iOS
-        }}>
->>>>>>> a5c8d765612fb1bb54e089bea66d306ee9ea48da
+
         <Container>
           <BreadcrumbComponent
             breadcrumbArr={breadcrumbArr}
             pageName={"Checkout"}
           />
 
-          <div className="my-6 md:my-8 flex flex-col-reverse md:flex-row justify-between gap-6 md:gap-10 w-full"  style={{
-              position: "relative",
-              zIndex: 1, // Ensure no stacking context issues
-            }}>
+          <div className="my-6 md:my-8 flex flex-col-reverse md:flex-row justify-between gap-6 md:gap-10 w-full">
             <CheckoutContactInfo eventId={checkCardId?._id} />
             <Suspense fallback={<SpinnerOverlay />}>
               <CheckoutSummary
