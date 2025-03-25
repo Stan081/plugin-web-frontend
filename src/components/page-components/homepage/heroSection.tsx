@@ -15,6 +15,13 @@ import { motion } from "framer-motion";
 const heroSlides = [
   {
     backgroundImage:
+      "https://res.cloudinary.com/dbhbyikta/image/upload/v1742917303/WhatsApp_Image_2025-03-25_at_4.39.23_PM_1_fsphvb.jpg",
+    logo: "/images/cream-bg.png",
+    title: "PLUGIN “25",
+    description: "The biggest Platform for entertainment.",
+  },
+  {
+    backgroundImage:
       "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image2.jpeg?updatedAt=1722389363583",
     logo: "/images/pitch-bg.png",
     title: "Another Event",

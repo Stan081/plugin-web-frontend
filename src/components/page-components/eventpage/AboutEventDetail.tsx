@@ -36,8 +36,6 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
     timeZone: "Africa/Lagos",
   };
 
-  const formattedDate = date.toLocaleDateString("en-GB", options);
-
   const [hour, minute] = startTime ? startTime.split(":") : ["00", "00"];
   const StartTimeformattedTime = new Date(
     date.getFullYear(),
@@ -49,7 +47,7 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: timeZone,
+    timeZone: "Africa/Lagos",
   });
 
   const [endHour, endMinute] = endTime ? endTime.split(":") : ["00", "00"];
@@ -63,7 +61,7 @@ const AboutEventDetail: React.FC<{ event: any }> = ({ event }) => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: timeZone,
+    timeZone: "Africa/Lagos",
   });
 
   // console.log(event);
