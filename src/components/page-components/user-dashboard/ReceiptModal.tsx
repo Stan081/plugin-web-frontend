@@ -308,14 +308,6 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                   </div>
                   <div className=" flex justify-between">
                     <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-                      Order ID
-                    </p>
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-                      #1242801
-                    </p>
-                  </div>
-                  <div className=" flex justify-between">
-                    <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
                       Quantity
                     </p>
                     <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
