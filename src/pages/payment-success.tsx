@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ReceiptPDF = ({ data }) => (
+const ReceiptPDF = ({ data, formattedTime }) => (
   <Document>
     {data?.ticketData?.map((ticket, index) => (
       <Page key={index} size="A4" style={styles.page}>
@@ -127,10 +127,7 @@ const ReceiptPDF = ({ data }) => (
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Time</Text>
               <Text style={styles.detailValue}>
-                {new Date(data?.eventDate).toLocaleTimeString("en-GB", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+                {formattedTime}
               </Text>
             </View>
           </View>
@@ -282,7 +279,7 @@ const PaymentSuccess = () => {
 
             <div className="flex justify-between gap-10 items-center mt-10">
               <PDFDownloadLinkNoSSR
-                document={<ReceiptPDF data={freeEventPayload} />}
+                document={<ReceiptPDF data={freeEventPayload} formattedTime={formattedTime}  />}
                 fileName={`Booking_Receipt_${freeEventPayload?.eventName}.pdf`}
                 className="cursor-pointer"
               >

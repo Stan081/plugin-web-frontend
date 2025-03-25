@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ReceiptPDF = ({ data }) => (
+const ReceiptPDF = ({ data, formattedTime }) => (
   <Document>
     {data?.ticketData?.map((ticket, index) => (
       <Page key={index} size="A4" style={styles.page}>
@@ -129,10 +129,7 @@ const ReceiptPDF = ({ data }) => (
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Time</Text>
               <Text style={styles.detailValue}>
-                {new Date(data?.eventDate).toLocaleTimeString("en-GB", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+                {formattedTime}
               </Text>
             </View>
           </View>
@@ -150,7 +147,9 @@ const ReceiptPDF = ({ data }) => (
             </View>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Attendee</Text>
-              <Text style={styles.detailValue}>{data?.userName || "Guest"}</Text>
+              <Text style={styles.detailValue}>
+                {data?.userName || "Guest"}
+              </Text>
             </View>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Email</Text>
@@ -215,6 +214,8 @@ const PaymentSuccessful = () => {
     hour12: true,
     timeZone: "Africa/Lagos",
   });
+
+  console.log(bookings);
 
   return (
     <Layout title="Payment successful" showHeader showFooter>
@@ -296,7 +297,7 @@ const PaymentSuccessful = () => {
 
             <div className="flex justify-between gap-10 items-center mt-10">
               <PDFDownloadLinkNoSSR
-                document={<ReceiptPDF data={bookings?.data} />}
+                document={<ReceiptPDF data={bookings?.data} formattedTime={formattedTime} />}
                 fileName={`Booking_Receipt_${bookings?.data?.eventName}.pdf`}
                 className="cursor-pointer"
               >
