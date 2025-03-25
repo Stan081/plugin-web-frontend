@@ -16,30 +16,17 @@ import { Progress } from "./ui/progress";
 const customers = [
   {
     customerImage:
-      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816",
-    logo: "/images/cream-bg.png",
-    name: "Ashley Young",
-    position: "Palms home and resort",
+      "https://res.cloudinary.com/dbhbyikta/image/upload/v1742889367/IMG_1153_he30ob.jpg",
+    name: "Sandra Ayomide",
     quote:
-      "I love to list out my properties for rent with Gupa because of the good policies they have and also i can report guest mis-conduct swiftly",
+      "I've been using Plugin Ent to find and register for events for a while now, and I have to say, it's a lifesaver! The website is so easy to navigate, with a clear and comprehensive list of events. I love the detailed event descriptions, swift ticket purchase, and the ability to easily share events with friends. I’m excited they rebranded and can’t want to explore all the new features. ",
   },
   {
     customerImage:
-      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image2.jpeg?updatedAt=1722389363583",
-    logo: "/images/cream-bg.png",
-    name: "Kenice Plugin",
-    position: "Plugin dir",
+      "https://res.cloudinary.com/dbhbyikta/image/upload/v1742889318/IMG_1156_1_dnmfhs.jpg",
+    name: "Anne-Marie",
     quote:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, iste minima consequuntur nesciunt recusandae natus rerum beatae reiciendis quae, amet molestiae quam quod id aspernatur repudiandae ab aliquid iusto corporis.",
-  },
-  {
-    customerImage:
-      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image3.jpeg?updatedAt=1722389364580",
-    logo: "/images/cream-bg.png",
-    name: "Stanley DEV",
-    position: "CTO Plugin",
-    quote:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero, iste minima consequuntur nesciunt recusandae natus rerum beatae reiciendis quae, amet molestiae quam quod id aspernatur repudiandae ab aliquid iusto corporis.",
+      "Was opportune to have my first concert experience, using Plugin Ent was absolutely seamless! From discovering the event to purchasing tickets, everything was so easy.  The concert itself was amazing, had fun time with great people.",
   },
 ];
 
@@ -101,9 +88,7 @@ const OurCustomers = () => {
                             <p className="text-white font-pally-medium text-xl">
                               {customer.name}
                             </p>
-                            <p className="text-[#D0D5DD] font-pally-medium text-base">
-                              {customer.position}
-                            </p>
+                           
                           </div>
                         </div>
                         <div className="mt-16 flex items-center justify-between gap-5">
