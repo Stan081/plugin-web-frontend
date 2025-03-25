@@ -26,162 +26,157 @@ const PDFDownloadLinkNoSSR = dynamic(
 
 const styles = StyleSheet.create({
   page: {
-    padding: 10, // Reduced padding to save space
+    padding: 20,
     backgroundColor: "#ffffff",
-  },
-  ticketContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    gap: 8, // Further reduced gap to fit four tickets
+    justifyContent: "center", // Center content vertically
+    alignItems: "center", // Center content horizontally
   },
   ticket: {
-    width: "48%", // Two tickets per row
+    width: "100%", // Use full page width
+    maxWidth: 500, // Limit width for better readability
     borderWidth: 1,
     borderColor: "#E0E0E0",
-    borderRadius: 8, // Reduced border radius to save space
+    borderRadius: 12,
     overflow: "hidden",
-    marginBottom: 8, // Further reduced margin to fit four tickets
   },
   festivalHeader: {
     backgroundColor: "#D9302A",
-    padding: 8, // Further reduced padding to save space
+    padding: 20,
     alignItems: "center",
   },
   festivalTitle: {
-    fontSize: 16, // Further reduced font size to fit more content
+    fontSize: 24, // Larger font size
     color: "#FFFFFF",
     fontWeight: "bold",
     textAlign: "center",
   },
   festivalSubtitle: {
-    fontSize: 12, // Further reduced font size to fit more content
+    fontSize: 16, // Larger font size
     color: "#FFFFFF",
     textAlign: "center",
-    marginTop: 4, // Further reduced margin to save space
+    marginTop: 8,
   },
   festivalDetails: {
-    padding: 8, // Further reduced padding to save space
+    padding: 20,
   },
   detailRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 6, // Further reduced margin to save space
+    marginBottom: 12,
   },
   detailLabel: {
-    fontSize: 10, // Further reduced font size to fit more content
+    fontSize: 14, // Larger font size
     color: "#515A6A",
   },
   detailValue: {
-    fontSize: 10, // Further reduced font size to fit more content
+    fontSize: 14, // Larger font size
     color: "#2C2B2E",
     fontWeight: "600",
   },
   qrCodeContainer: {
     alignItems: "center",
-    marginTop: 8, // Further reduced margin to save space
-    marginBottom: 8, // Further reduced margin to save space
+    marginTop: 20,
+    marginBottom: 20,
   },
   qrCode: {
-    width: 80, // Further reduced QR code size to fit more content
-    height: 80, // Further reduced QR code size to fit more content
+    width: 150, // Larger QR code
+    height: 150,
   },
   termsSection: {
     backgroundColor: "#F9F7F7",
-    padding: 8, // Further reduced padding to save space
+    padding: 16,
     borderTopWidth: 1,
     borderTopColor: "#E0E0E0",
   },
   termsTitle: {
-    fontSize: 10, // Further reduced font size to fit more content
+    fontSize: 14, // Larger font size
     color: "#515A6A",
     fontWeight: "600",
-    marginBottom: 4, // Further reduced margin to save space
+    marginBottom: 8,
   },
   termsText: {
-    fontSize: 8, // Further reduced font size to fit more content
+    fontSize: 12, // Larger font size
     color: "#515A6A",
   },
 });
 
 const ReceiptPDF = ({ data }) => (
   <Document>
-    <Page size="A4" style={styles.page}>
-      
+    {data?.ticketData?.map((ticket, index) => (
+      <Page key={index} size="A4" style={styles.page}>
+        <View style={styles.ticket}>
+          {/* Festival Header */}
+          <View style={styles.festivalHeader}>
+            <Text style={styles.festivalTitle}>{data?.eventName}</Text>
+            {data?.eventLocation && (
+              <Text style={styles.festivalSubtitle}>{data.eventLocation}</Text>
+            )}
+          </View>
 
-      <View style={styles.ticketContainer}>
-        
-
-        <View style={styles.ticketContainer}>
-          {data?.ticketData?.map((ticket, index) => (
-            <View key={index} style={styles.ticket}>
-              {/* Festival Header */}
-            <View style={styles.festivalHeader}>
-              <Text style={styles.festivalTitle}>{data?.eventName}</Text>
-              {/* <Text style={styles.festivalSubtitle}>
-                {ticket?.eventLocation || "N/A"}
-              </Text> */}
+          {/* Festival Details */}
+          <View style={styles.festivalDetails}>
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Date</Text>
+              <Text style={styles.detailValue}>
+                {new Date(data?.eventDate).toLocaleDateString("en-GB", {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </Text>
             </View>
-
-            {/* Festival Details */}
-            <View style={styles.festivalDetails}>
-              <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>
-                  {data?.eventLocation || "N/A"}
-                </Text>
-              </View>
-              <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>
-                  {new Date(data?.eventDate).toLocaleDateString("en-GB", {
-                    weekday: "short",
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </Text>
-              </View>
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Time</Text>
+              <Text style={styles.detailValue}>
+                {new Date(data?.eventDate).toLocaleTimeString("en-GB", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Text>
             </View>
+          </View>
 
-               {/* QR Code */}
-            <View style={styles.qrCodeContainer}>
-              <PDFImage src={ticket.qrCode} style={styles.qrCode} />
-            </View>
+          {/* QR Code */}
+          <View style={styles.qrCodeContainer}>
+            <PDFImage src={ticket.qrCode} style={styles.qrCode} />
+          </View>
 
-              {/* Ticket Details */}
-              <View style={styles.festivalDetails}>
-                <View style={styles.detailRow}>
-                  <Text style={styles.detailLabel}>Ticket Name</Text>
-                  <Text style={styles.detailValue}>{ticket?.name}</Text>
-                </View>
-                <View style={styles.detailRow}>
-                  <Text style={styles.detailLabel}>Ticket Date</Text>
-                  <Text style={styles.detailValue}>
-                    {new Date(data?.eventDate).toLocaleDateString("en-GB", {
-                      weekday: "short",
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </Text>
-                </View>
-                <View style={styles.detailRow}>
-                  <Text style={styles.detailLabel}>Email</Text>
-                  <Text style={styles.detailValue}>{data?.userEmail}</Text>
-                </View>
-                <View style={styles.detailRow}>
-                  <Text style={styles.detailLabel}>Price</Text>
-                  <Text style={styles.detailValue}>{ticket?.price}</Text>
-                </View>
-                {/* <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>Ticket ID</Text>
-                <Text style={styles.detailValue}>Txjup6qqo78kv</Text>
-              </View> */}
-              </View>
+          {/* Ticket Details */}
+          <View style={styles.festivalDetails}>
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Ticket Type</Text>
+              <Text style={styles.detailValue}>{ticket?.name}</Text>
             </View>
-          ))}
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Attendee</Text>
+              <Text style={styles.detailValue}>{data?.userName || "Guest"}</Text>
+            </View>
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Email</Text>
+              <Text style={styles.detailValue}>{data?.userEmail}</Text>
+            </View>
+            <View style={styles.detailRow}>
+              <Text style={styles.detailLabel}>Price</Text>
+              <Text style={styles.detailValue}>
+                {ticket?.price ? `₦${ticket.price}` : "Free"}
+              </Text>
+            </View>
+          </View>
+
+          {/* Terms and Conditions */}
+          <View style={styles.termsSection}>
+            <Text style={styles.termsTitle}>Terms and Conditions</Text>
+            <Text style={styles.termsText}>
+              - Tickets must be purchased from authorized sellers.
+              {"\n"}- No refunds, exchanges, or cancellations unless the event
+              is canceled or postponed.
+              {"\n"}- This ticket is non-transferable.
+            </Text>
+          </View>
         </View>
-      </View>
-    </Page>
+      </Page>
+    ))}
   </Document>
 );
 
