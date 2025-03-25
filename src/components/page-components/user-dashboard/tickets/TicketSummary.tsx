@@ -25,8 +25,10 @@ interface Props {
   createdAt?: string;
   eventName: string;
   user?: UserType;
+  address: string;
+  startDate:string
 }
-const TicketSummary = ({ tickets, user, eventName }: Props) => {
+const TicketSummary = ({ tickets, user, eventName, address, startDate}: Props) => {
  
   // console.log(tickets);
   return (
@@ -35,7 +37,7 @@ const TicketSummary = ({ tickets, user, eventName }: Props) => {
         Order Summary
       </h4>
 
-      <OrderSummary data={tickets?.tickets} user={user} eventName={eventName} />
+      <OrderSummary data={tickets?.tickets} user={user} eventName={eventName} address={address} startDate={startDate} />
 
       <h4 className="mt-8 font-pally-medium text-lg md:text-xl text-[#1A1B25]">
         Your Tickets

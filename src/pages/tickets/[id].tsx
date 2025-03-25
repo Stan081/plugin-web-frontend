@@ -52,7 +52,9 @@ const TicketDetailPage = () => {
               <TicketSummary
                 user={response?.data?.user}
                 eventName={response?.data?.event?.eventName}
+                address={response?.data?.event?.address}
                 tickets={response?.data?.tickets}
+                startDate={response?.data?.event?.startDate}
               />
 
               {response?.data?.tickets?.total > 0 && (

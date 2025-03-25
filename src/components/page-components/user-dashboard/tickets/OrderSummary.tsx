@@ -10,8 +10,10 @@ interface Props {
   data?: any[];
   user: UserType;
   eventName: string;
+  address: string;
+  startDate: string;
 }
-const OrderSummary = ({ data, user, eventName }: Props) => {
+const OrderSummary = ({ data, user, eventName, address, startDate }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const totalPrice = data?.reduce(
@@ -43,6 +45,8 @@ const OrderSummary = ({ data, user, eventName }: Props) => {
         open={isOpen}
         email={user?.email}
         eventName={eventName}
+        address={address}
+        startDate={startDate}
         close={() => setIsOpen(!isOpen)}
       />
     </div>

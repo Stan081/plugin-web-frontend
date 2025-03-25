@@ -36,6 +36,8 @@ interface ReceiptModalProps {
   total?: number;
   email?: string;
   eventName: string;
+  address: string;
+  startDate: string;
 }
 
 type TicketAccumulator = {
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ReceiptPDF = ({ data, eventName }) => (
+const ReceiptPDF = ({ data, eventName, address, startDate }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.ticketContainer}>
@@ -146,13 +148,11 @@ const ReceiptPDF = ({ data, eventName }) => (
             {/* Festival Details */}
             <View style={styles.festivalDetails}>
               <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>
-                  {data?.eventLocation || "N/A"}
-                </Text>
+                <Text style={styles.detailLabel}>{address || "N/A"}</Text>
               </View>
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>
-                  {new Date(data?.eventDate).toLocaleDateString("en-GB", {
+                  {new Date(startDate).toLocaleDateString("en-GB", {
                     weekday: "short",
                     month: "long",
                     day: "numeric",
@@ -176,7 +176,7 @@ const ReceiptPDF = ({ data, eventName }) => (
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Ticket Date</Text>
                 <Text style={styles.detailValue}>
-                  {new Date(data?.eventDate).toLocaleDateString("en-GB", {
+                  {new Date(startDate).toLocaleDateString("en-GB", {
                     weekday: "short",
                     month: "long",
                     day: "numeric",
@@ -220,7 +220,9 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
   data,
   total,
   email,
-  eventName
+  eventName,
+  address,
+  startDate,
 }) => {
   // Count occurrences of each ticket name and store price in a typed accumulator
   const ticketCount = data?.reduce<TicketAccumulator>((acc, ticket) => {
@@ -283,7 +285,14 @@ const ReceiptModal: React.FC<ReceiptModalProps> = ({
                     </p>
 
                     <PDFDownloadLinkNoSSR
-                      document={<ReceiptPDF data={data} eventName={eventName} />}
+                      document={
+                        <ReceiptPDF
+                          data={data}
+                          eventName={eventName}
+                          address={address}
+                          startDate={startDate}
+                        />
+                      }
                       fileName={`Ticket_Receipts_${eventName}.pdf`}
                       className="cursor-pointer"
                     >
