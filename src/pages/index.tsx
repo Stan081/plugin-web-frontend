@@ -17,7 +17,7 @@ export default function Home() {
   });
   const { data: events } = useFilteredEvents(filters);
   return (
-    <Layout title="Welcome to Plugin" showHeader showFooter>
+    <Layout title="Welcome to Plugin" showFooter>
       <HeroSection />
       <TailoredEvent />
       {events?.data?.length !== 0 && <PopularEvent />}

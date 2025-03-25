@@ -46,7 +46,7 @@ const items = [
 
 // const NoSSR = dynamic(() => import('@/ui/skeleton'), { ssr: false })
 
-const MenuLinks = () => {
+const MenuLinks = ({ white }: { white?: boolean }) => {
   const { logout } = useUserDashContext();
   const { data: userDate, isLoading } = useMe();
   return (
@@ -55,11 +55,17 @@ const MenuLinks = () => {
         <Popover>
           <PopoverTrigger>
             <div className="flex justify-start items-center">
-              <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
+              <p
+                className={`rounded-full w-10 h-10 p-2 border border-[#E6B1B0] ${
+                  white ? "bg-white text-black" : "bg-[#211913] text-white"
+                } bg-[#211913]  font-pally-regular`}
+              >
                 {`${userDate?.data?.name?.firstname.slice(0, 1)}` +
                   `${userDate?.data?.name?.lastname.slice(0, 1)}`}
               </p>
-              <RiArrowDownSLine className="ml-2" />
+              <RiArrowDownSLine
+                className={`ml-2 ${white ? "text-white" : "text-black"}`}
+              />
             </div>
           </PopoverTrigger>
           <PopoverContent className="bg-white">

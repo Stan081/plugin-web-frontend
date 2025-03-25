@@ -15,15 +15,17 @@ import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/lib/token";
 
-export const NavigationDialog = () => {
+export const NavigationDialog = ({ white }: { white?: boolean }) => {
   const [toggleList, setToggleList] = useState<boolean>(false);
   const { handleProtectedNavigation } = useAuthRedirect();
   const { data: userDate } = useMe();
   const router = useRouter();
-  const token = getToken()
+  const token = getToken();
 
   const eventlists = [
-    ...(token && userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer
+    ...(token &&
+    userDate?.data?.role === "organizer" &&
+    userDate?.data?.isOrganizer
       ? []
       : [
           {
@@ -65,8 +67,8 @@ export const NavigationDialog = () => {
     <Fragment>
       <Dialog>
         <DialogTrigger asChild>
-          <div className="block md:hidden rounded-md border-2 border-black p-1 cursor-pointer">
-            <RiMenu4Fill size={18} color="#000" />
+          <div className={`block md:hidden rounded-md border-2 ${white ? 'border-white' : 'border-black'}  p-1 cursor-pointer`}>
+            <RiMenu4Fill size={18} color={white ? "#fff" : "#000"} />
           </div>
         </DialogTrigger>
         <DialogContent className="p-4 flex-none h-screen bg-white">
@@ -125,7 +127,7 @@ export const NavigationDialog = () => {
                 </ul>
               )}
             </div>
-            <Link href={'mailto:support@pluginent.com'}>
+            <Link href={"mailto:support@pluginent.com"} className="block mt-4">
               <Button variant="outline" className="w-full">
                 Get help
               </Button>

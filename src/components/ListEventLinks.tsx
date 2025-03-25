@@ -12,7 +12,7 @@ import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/lib/token";
 
-const ListEvent = () => {
+const ListEvent = ({white}: {white?: boolean}) => {
   const { handleProtectedNavigation } = useAuthRedirect();
   const { data: userDate } = useMe();
   const router = useRouter()
@@ -59,7 +59,7 @@ const ListEvent = () => {
   return (
     <Popover>
       <PopoverTrigger>
-        <p className="text-[#586170] font-pally-regular text-base md:text-lg flex items-center hover:underline whitespace-nowrap">
+        <p className={`${white ? 'text-white' : 'text-[#586170]'} font-pally-regular text-base md:text-lg flex items-center hover:underline whitespace-nowrap`}>
           List an Event <RiArrowDownSLine className="ml-2" />
         </p>
       </PopoverTrigger>

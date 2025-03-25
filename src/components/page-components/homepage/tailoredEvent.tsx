@@ -62,9 +62,9 @@ const TailoredEvent: React.FC = () => {
       id: 6,
       label: "Parties",
       color: "bg-[#E4EBFF] border-[#4D77FF]",
-      position: "top-28 right-80",
+      position: "top-28 right-60",
       mobilePosition: "bottom-0 right-20",
-      rotate: [34, -10, 24],
+      rotate: [0, -40, 0],
     },
     {
       id: 7,
