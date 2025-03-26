@@ -1,8 +1,15 @@
 import { getCookie } from "../cookies";
+import dotenv from "dotenv";
 
-export const BASE_URL: string = "https://pluginapi.onrender.com";
+export const WEB_URL: string = "https://test.pluginent.com";
+
+dotenv.config();
+
+export const BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const API_URL: string = `${BASE_URL}/api`;
+
+// export const EDIT_PROFILE_ROLE: string = `${API_URL}/users`
 
 export const SIGNUP_URL: string = `${API_URL}/auth/sign-up-one`;
 
@@ -25,6 +32,8 @@ export const EVENT_FAVOURITE: string = `${API_URL}/favourites`;
 export const GET_ORGANISER: string = `${API_URL}/organizers/organizer`;
 
 export const GET_ORGANISER_EVENTS: string = `${API_URL}/organizers/events`;
+
+export const GET_ORGANISER_EVENT_BY_ID: string = `${API_URL}/organizers/event`;
 
 export const ALL_ORGANISERS: string = `${API_URL}/organizers`;
 
@@ -52,10 +61,29 @@ export const WITHDRAWALSTATS: string = `${API_URL}/withdrawal/statistics`;
 
 export const WITHDRAWAL_HISTORY: string = `${API_URL}/withdrawal/history`;
 
-export const GET_EVENT_BY_ID = (): string => {
-  const eventId = getCookie("event_id");
-  return `${API_URL}/event/events/${eventId}`;
-};
+export const ATTENDEE_LIST: string = `${API_URL}/organizers/events/attendees`;
+
+export const SALES_RECORD: string = `${API_URL}/organizers/event/sales-records`;
+
+export const GET_EVENT_BY_ID: string = `${API_URL}/event/events`;
+
+export const GET_SUCCESSFUL_TICKETS: string = `${API_URL}/tickets/booking`;
+
+export const GET_EVENT_SUMMARY: string = `${API_URL}/organizers/event/summary`;
+
+export const GET_EVENT_BOOKING_HISTORY: string = `${API_URL}/organizers/bookings`;
+
+export const GET_USER_FOLLOWERS: string = `${API_URL}/users/following/organizers`;
+
+export const GET_EVENT_TICKETS: string = `${API_URL}/organizers/event/tickets`;
+
+export const EVENT_TICKET_AGENT: string = `${API_URL}/organizers/event/agent`;
+
+
+// export const GET_EVENT_BY_ID = (): string => {
+//   const eventId = getCookie("event_id");
+//   return `${API_URL}/event/events/${eventId}`;
+// };
 
 export const PUT_EVENT_ID = (): string => {
   const eventId = getCookie("event_id");

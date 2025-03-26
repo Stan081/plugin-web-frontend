@@ -9,14 +9,14 @@ import HeaderSearchBar from "./page-components/homepage/headerSearch";
 import ListEventCard from "./ListEventLinks";
 import { NavigationDialog } from "./NavigationDialog";
 import MenuLinks from "./Menu";
-import { useMe } from "@/pages/api/query/me";
+import { getToken } from "@/lib/token";
 
 const Header = () => {
-  const { data: userData } = useMe();
+  const token = getToken();
   return (
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md shadow-md">
-      <Container>
-        <nav className="flex justify-between items-center gap-5">
+      <nav>
+        <Container className="flex justify-between items-center gap-5">
           <div className="md:space-x-0 flex gap-4 md:gap-6 items-center">
             <NavigationDialog />
             <Logo />
@@ -34,14 +34,7 @@ const Header = () => {
 
             <ListEventCard />
 
-            <Link
-              href={"/faq"}
-              className="text-[#586170] font-pally-regular text-base md:text-lg hover:underline cursor-pointer"
-            >
-              Help
-            </Link>
-
-            {!userData?.data ? (
+            {!token ? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
                   Get Started
@@ -52,7 +45,7 @@ const Header = () => {
             )}
           </div>
           <div className="lg:hidden block">
-            {!userData?.data ? (
+            {!token ? (
               <Link href={"/signup"}>
                 <Button variant="outline" className=" border-black">
                   Get Started
@@ -62,11 +55,11 @@ const Header = () => {
               <MenuLinks />
             )}
           </div>
-        </nav>
-        <div className="lg:hidden block w-full pb-2 md:pb-0">
+        </Container>
+        <div className="lg:hidden block w-full pb-2 md:pb-0 px-4">
           <HeaderSearchBar />
         </div>
-      </Container>
+      </nav>
     </header>
   );
 };

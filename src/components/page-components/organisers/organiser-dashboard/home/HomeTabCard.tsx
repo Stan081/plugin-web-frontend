@@ -1,22 +1,22 @@
 import Image from "next/image";
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import { BsGraphUpArrow } from "react-icons/bs";
 import { TabProgress } from "./TabProgress";
 import Link from "next/link";
+import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
 
 const HomeTabCard: FC<{ card: any }> = ({ card }) => {
-  const startDate: string =
-    card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
+  // const { data: sales } = useGetSalesRecord(card?._id);
 
-  const startTime: string =
-    card?.oneTimeEvent?.startTime || card?.recurringEvent?.startTime;
+  const startDate: string = card?.startDate;
 
+  const startTime: string = card?.startTime;
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
-    month: "short",
+    month: "long",
     day: "numeric",
-    year: "numeric", // Add year to the options
+    timeZone: "Africa/Lagos",
   };
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
@@ -32,12 +32,13 @@ const HomeTabCard: FC<{ card: any }> = ({ card }) => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "UTC",
+    timeZone: "Africa/Lagos",
   });
+
   return (
-    <div className="border rounded-xl p-3 md:p-6 gap-4 flex items-center justify-between">
+    <div className="border rounded-xl p-4 gap-4 flex items-center justify-between">
       <div className="flex items-center gap-4">
-        <div className="h-28 md:h-32 w-28 md:w-32">
+        <div className="h-28 w-28 md:w-32">
           <Image
             src={card?.thumbnail ?? "/images/blue-bg.png"}
             alt={card?.eventName || "event"}
@@ -54,6 +55,9 @@ const HomeTabCard: FC<{ card: any }> = ({ card }) => {
               : card?.eventName}
           </p>
           <p className="font-pally-regular text-[#586170] text-sm md:text-base">
+            {card?.address}
+          </p>
+          <p className="font-pally-regular text-[#586170] text-sm md:text-base">
             Starts{" "}
             <span className="font-pally-medium text-[#3D89DF]">
               {formattedDate ?? "No set date"}
@@ -63,25 +67,14 @@ const HomeTabCard: FC<{ card: any }> = ({ card }) => {
               {formattedTime ?? "No set time"}
             </span>
           </p>
-          <div className="hidden lg:flex items-center gap-2">
-            <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
-              Ticket Sale
-            </p>
-            <div className=" w-52">
-              <TabProgress value={2} max={60} />
-            </div>
-            <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-              2/40
-            </p>
-          </div>
         </div>
       </div>
       <Link
         href={`/organiser/events/${card?._id}`}
         className="lg:border border-gray-100 cursor-pointer rounded-lg p-3 lg:p-5 space-y-2 flex flex-col items-center"
       >
-        <BsGraphUpArrow size={28} color="#D9302A" />
-        <p className="text-[#D9302A] hidden lg:flex font-pally-medium text-lg underline">
+        <BsGraphUpArrow size={20} color="#D9302A" />
+        <p className="text-[#D9302A] hidden lg:flex font-pally-medium text-base underline">
           View Stat
         </p>
       </Link>

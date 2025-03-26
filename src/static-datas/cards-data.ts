@@ -7,7 +7,7 @@ export type CardProps = {
   _id: string;
   eventId: EventProps;
   thumbnail: string;
-  createdAt: string;
+  createdAt: any;
   locationType: string;
   eventType?: string;
   eventName: string;
@@ -15,6 +15,7 @@ export type CardProps = {
   location?: string;
   priceRange?: string;
   type: "upcoming" | "past";
+  oneTimeEvent?: any
 };
 
 // export const cardData: CardProps[] = [

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { RiHeart3Line, RiHeart3Fill } from "react-icons/ri";
@@ -7,19 +8,26 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getToken } from "@/lib/token";
+import { useRouter } from "next/navigation";
+import { WEB_URL } from "@/lib/constants";
+import { RWebShare } from "react-web-share";
 
 interface Props {
   title: string;
   image: string;
   id: string;
+  description: string;
 }
 
-const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
+const EventDetailsHeader: React.FC<Props> = ({ title, image, id, description }) => {
   const { data: isCheck, isLoading: isLoadingBookmark } = useCheckBookmark(id);
   const { mutate: removeBookmark, isPending } = useDeleteBookmark(id);
 
   const client = useQueryClient();
   const { toast } = useToast();
+  const token = getToken();
+  const router = useRouter();
 
   const { mutate } = useMutation({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,16 +55,45 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
     const data = {
       eventId: id,
     };
-    mutate(data, {
-      onSuccess: () => {
-        client.invalidateQueries({ queryKey: ["isBookmark", id] });
-      },
-    });
+    if (token) {
+      mutate(data, {
+        onSuccess: () => {
+          client.invalidateQueries({ queryKey: ["isBookmark", id] });
+        },
+      });
+    } else {
+      return router.push("/login");
+    }
   };
 
   const handleDeleteBookmark = () => {
-    removeBookmark();
+    if (!token) {
+      return router.push("/login");
+    } else {
+      removeBookmark();
+      client.invalidateQueries({ queryKey: ["isBookmark"] });
+      return;
+    }
   };
+
+  // const handleCopyLink = async (saveLink: string) => {
+  //   try {
+  //     await navigator.clipboard.writeText(saveLink);
+
+  //     toast({
+  //       variant: "success",
+  //       title: "Link copied to clipboard!",
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //     toast({
+  //       variant: "destructive",
+  //       title: "Failed to copy link.",
+  //     });
+  //   }
+  // };
+
+  const saveLink = `${WEB_URL}/explore-events/${id}`;
   return (
     <div className="mt-5 md:mt-8">
       <div className="flex justify-between">
@@ -67,10 +104,20 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
           {title}
         </h1>
         <ul className="flex gap-4 md:gap-8">
-          <li className="flex items-center gap-1.5 cursor-pointer">
-            <MdOutlineFileUpload size={20} />
-            <p className="hidden md:flex">Share</p>
-          </li>
+          <RWebShare
+            data={{
+              text: description,
+              url: saveLink,
+              title: title,
+            }}
+            onClick={() => console.log("shared successfully!")}
+          >
+            <button className="flex items-center gap-1.5 cursor-pointer">
+              {" "}
+              <MdOutlineFileUpload size={20} />
+              <p className="hidden md:flex font-pally-regular">Share</p>
+            </button>
+          </RWebShare>
           <li
             className="flex items-center gap-1.5 cursor-pointer"
             onClick={
@@ -87,7 +134,7 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
                   ) : (
                     <RiHeart3Fill size={20} className="destructive" />
                   )}
-                  <p className="hidden md:flex">Saved</p>
+                  <p className="hidden md:flex font-pally-regular">Saved</p>
                 </>
               ) : (
                 <>
@@ -96,7 +143,7 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id }) => {
                   ) : (
                     <RiHeart3Line size={20} />
                   )}
-                  <p className="hidden md:flex">Save</p>
+                  <p className="hidden md:flex font-pally-regular">Save</p>
                 </>
               )}
             </>

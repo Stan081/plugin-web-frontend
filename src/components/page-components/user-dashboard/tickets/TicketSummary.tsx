@@ -21,25 +21,33 @@ export type UserType = {
 };
 
 interface Props {
-  tickets: TicketType[];
+  tickets: any;
   createdAt?: string;
+  eventName: string;
   user?: UserType;
+  address: string;
+  startDate:string
 }
-const TicketSummary = ({ tickets, createdAt, user }: Props) => {
+const TicketSummary = ({ tickets, user, eventName, address, startDate}: Props) => {
+ 
+  // console.log(tickets);
   return (
     <div className="w-auto">
       <h4 className="font-pally-medium text-lg md:text-xl text-[#1A1B25]">
         Order Summary
       </h4>
 
-      <OrderSummary data={tickets} createdAt={createdAt} user={user} />
+      <OrderSummary data={tickets?.tickets} user={user} eventName={eventName} address={address} startDate={startDate} />
 
       <h4 className="mt-8 font-pally-medium text-lg md:text-xl text-[#1A1B25]">
         Your Tickets
       </h4>
-      {tickets?.map((item) => (
-        <TicketVoucher data={item} key={item?._id} />
-      ))}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {tickets?.tickets?.map((item) => (
+          <TicketVoucher data={item} key={item?._id} />
+        ))}
+      </div>
     </div>
   );
 };

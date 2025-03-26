@@ -2,33 +2,48 @@
 import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
 import CheckoutContactInfo from "@/components/page-components/eventpage/checkout/CheckoutContactInfo";
-import CheckoutSummary from "@/components/page-components/eventpage/checkout/CheckoutSummary";
-import { useGetAllEvents } from "@/hooks/events/useGetAllEvents";
+import { useGetEventById } from "@/hooks/events/useGetEventById";
+import useRedirectOnReload from "@/hooks/useRedirectOnReload";
 import { checkoutBreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { lazy, Suspense, useMemo } from "react";
+
+const CheckoutSummary = lazy(
+  () =>
+    import("@/components/page-components/eventpage/checkout/CheckoutSummary")
+);
 
 const CheckoutEvent = () => {
-  const { data: events, isLoading } = useGetAllEvents();
   const param = useParams<{ id: string }>();
-  const checkCardId = events?.data.find((card) => card?._id === param?.id);
+  const {
+    data: events,
+    isLoading,
+    isError,
+  } = useGetEventById(param?.id as string);
+  const checkCardId = events?.data;
 
-  if (!checkCardId) {
-    return <p>Page not found</p>;
+  // Ensure all hooks are called unconditionally
+  const breadcrumbArr = useMemo(() => {
+    if (!checkCardId) return [];
+    return checkoutBreadcrumbArr(checkCardId?.eventName, checkCardId?._id);
+  }, [checkCardId]);
+
+  // Early returns must come after all hooks are called
+  if (isLoading || isError || !checkCardId) {
+    return <SpinnerOverlay />;
   }
 
-  if (isLoading) return <SpinnerOverlay />;
+  if (!param?.id) {
+    return <div>Error: Event ID is missing</div>;
+  }
 
-  const breadcrumbArr = checkoutBreadcrumbArr(
-    checkCardId?.eventName,
-    checkCardId?._id
-  );
   return (
-    <Layout title={`Checkout`} showHeader showFooter>
-      <Section id="checkout-page">
+    <Layout title="Ticket Checkout" showHeader showFooter>
+      <Section id="Checkout ticket">
+
         <Container>
           <BreadcrumbComponent
             breadcrumbArr={breadcrumbArr}
@@ -37,7 +52,22 @@ const CheckoutEvent = () => {
 
           <div className="my-6 md:my-8 flex flex-col-reverse md:flex-row justify-between gap-6 md:gap-10 w-full">
             <CheckoutContactInfo eventId={checkCardId?._id} />
-            <CheckoutSummary event={checkCardId} />
+            <Suspense fallback={<SpinnerOverlay />}>
+              <CheckoutSummary
+                startDate={
+                  checkCardId?.oneTimeEvent?.startDate ||
+                  checkCardId?.recurringEvent?.startDate
+                }
+                startTime={
+                  checkCardId?.oneTimeEvent?.startTime ||
+                  checkCardId?.recurringEvent?.startTime
+                }
+                thumbnail={checkCardId?.thumbnail}
+                eventName={checkCardId?.eventName}
+                locationType={checkCardId?.locationType}
+                address={checkCardId?.physicalLocation?.address}
+              />
+            </Suspense>
           </div>
         </Container>
       </Section>

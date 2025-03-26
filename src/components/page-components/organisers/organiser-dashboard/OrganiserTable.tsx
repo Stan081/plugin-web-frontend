@@ -10,20 +10,21 @@ import { Section } from "@/tw-components/Section";
 import React from "react";
 import OrganiserTableTicketLabel from "./OrganiserTableTicketLabel";
 import AttendeeListTableStatusLabel from "./events/organiser-event-detail/menage-attendees/attendee/AttendeeListTableStatusLabel";
+import { toFiat } from "@/lib/amount";
 
-type StatusLabelType = "pending" | "checked-in";
+type StatusLabelType = "pending" | "confirmed";
 type AttendeeListTableBodyType = {
   email: string;
   ticketName: string;
-  checkinQty: string;
   status: string;
   date: string;
-  more: string;
+  price: number;
 };
 type OrganiserDashboardSalesTableBodyType = {
-  ticketID: string;
-  ticketName: string;
-  price: string;
+  bookingId: string;
+  userEmail: string;
+  paymentStatus: string;
+  paystackReference: string;
   date: string;
 };
 type TablePropsType = {
@@ -35,6 +36,14 @@ type TablePropsType = {
 };
 
 const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
+  const formattedDate = (date: any) => {
+    return new Date(date).toLocaleDateString("en-GB", {
+      weekday: "short",
+      month: "long",
+      day: "numeric",
+      timeZone: "Africa/Lagos",
+    });
+  };
   return (
     <Section>
       <Table className="">
@@ -48,44 +57,44 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
 
         <TableBody>
           {type === "attendeListTable" &&
-            (tableBody as AttendeeListTableBodyType[]).map((tableRow) => {
+            (tableBody as AttendeeListTableBodyType[])?.map((tableRow) => {
               return (
                 <TableRow
-                  key={tableRow.email}
+                  key={tableRow?.date}
                   className="text-[#2C2B2E] font-pally-regular text-base"
                 >
-                  <TableCell>{tableRow.email}</TableCell>
+                  <TableCell>{tableRow?.email}</TableCell>
                   <TableCell>
                     <OrganiserTableTicketLabel text={tableRow.ticketName} />
                   </TableCell>
-                  <TableCell>
-                    <p className="whitespace-nowrap ">{tableRow.checkinQty}</p>
-                  </TableCell>
+                  <TableCell>{toFiat(tableRow.price)}</TableCell>
                   <TableCell>
                     <AttendeeListTableStatusLabel
                       status={tableRow.status as StatusLabelType}
                     />
                   </TableCell>
                   <TableCell>{tableRow.date}</TableCell>
-                  <TableCell>{tableRow.more}</TableCell>
+                  {/* <TableCell>{tableRow.more}</TableCell> */}
                 </TableRow>
               );
             })}
 
           {type === "organiserDashboardSales" &&
-            (tableBody as OrganiserDashboardSalesTableBodyType[]).map(
+            (tableBody as OrganiserDashboardSalesTableBodyType[])?.map(
               (tableRow) => {
                 return (
                   <TableRow
-                    key={tableRow.ticketID}
+                    key={tableRow.bookingId}
                     className="text-[#2C2B2E] font-pally-regular text-base"
                   >
-                    <TableCell>{tableRow.ticketID}</TableCell>
+                    <TableCell>{tableRow?.userEmail}</TableCell>
                     <TableCell>
-                      <OrganiserTableTicketLabel text={tableRow.ticketName} />
+                      <AttendeeListTableStatusLabel
+                        status={tableRow?.paymentStatus as StatusLabelType}
+                      />
                     </TableCell>
-                    <TableCell>{tableRow.price}</TableCell>
-                    <TableCell>{tableRow.date}</TableCell>
+                    <TableCell>{tableRow?.paystackReference}</TableCell>
+                    <TableCell>{formattedDate(tableRow?.date)}</TableCell>
                   </TableRow>
                 );
               }

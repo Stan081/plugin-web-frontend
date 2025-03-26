@@ -5,8 +5,12 @@ import OrganiserProfile from "@/components/page-components/organisers/organiser-
 import OrganiserHeader from "@/components/page-components/organisers/organiser-dashboard/OrganiserHeader";
 import Container from "@/tw-components/container";
 import { useRouter } from "next/navigation";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { RiArrowLeftSLine } from "react-icons/ri";
+import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useMe } from "../api/query/me";
+import { getToken } from "@/lib/token";
+import { removeCookie } from "@/lib/cookies";
 
 const tabLink = [
   { title: "Organizer profile", key: "profile" },
@@ -16,7 +20,22 @@ const tabLink = [
 const OrganiserSettings = () => {
   const [settingState, setSettingState] = useState<string>("profile");
 
-  const router = useRouter();
+   const { setCurrentStep } = useCreateEventContext();
+    const { data: userData } = useMe();
+  
+    const token = getToken();
+    const router = useRouter();
+  
+    useEffect(() => {
+       if (!token || !userData) return;
+   
+       if (userData?.data?.isOrganizer) {
+         removeCookie("event_id");
+         setCurrentStep(1);
+       } else {
+         router.push("/login");
+       }
+     }, [router, token, userData, setCurrentStep]);
   return (
     <Fragment>
       <OrganiserHeader />

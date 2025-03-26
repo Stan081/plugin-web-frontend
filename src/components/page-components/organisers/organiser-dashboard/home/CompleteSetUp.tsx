@@ -7,7 +7,7 @@ import { PiBankDuotone } from "react-icons/pi";
 import { RiArrowRightSLine } from "react-icons/ri";
 import Link from "next/link";
 import { useMe } from "@/pages/api/query/me";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
 import AddAccount from "../earnings/AddAccount";
 import { useCheckAddedAccount } from "@/hooks/organiser/organiser-earnings/useCheckAddedAccount";
 
@@ -25,7 +25,7 @@ const CompleteSetUp = () => {
       title: " Publish an event",
       description:
         "Create and publish events for attendees all around the world",
-      completed: organiserEvents?.data?.data[0]?.isPublished,
+      completed: organiserEvents?.data?.length !== 0,
       path: "/#",
       button: "Create Event",
     },

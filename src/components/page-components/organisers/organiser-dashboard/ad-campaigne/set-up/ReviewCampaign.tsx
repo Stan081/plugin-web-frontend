@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
 import { useMe } from "@/pages/api/query/me";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import Image from "next/image";
@@ -27,7 +27,6 @@ const ReviewCampaign = () => {
     setCurrentStep,
     MediaCampaignData,
   } = useOrganiserDashContext();
-
 
   const { data: user } = useMe();
   const {
@@ -66,9 +65,9 @@ const ReviewCampaign = () => {
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
-    month: "short",
+    month: "long",
     day: "numeric",
-    year: "numeric", // Add year to the options
+    timeZone: "Africa/Lagos",
   };
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
@@ -84,7 +83,7 @@ const ReviewCampaign = () => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "UTC",
+    timeZone: "Africa/Lagos",
   });
 
   const { mutate, isPending } = useMutation({

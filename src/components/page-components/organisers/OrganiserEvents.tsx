@@ -1,26 +1,28 @@
 import CardComponent from "@/components/CardComponent";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 import React, { FC, Fragment, useState } from "react";
 
 const OrganiserEvents: FC<{ orgId: string }> = ({ orgId }) => {
+  console.log(orgId);
   const { data: organiserEvents, isLoading } = useGetOrganiserEvents(orgId);
 
   // Define state fo tab
   const [isActive, setIsActive] = useState<string>("upcoming");
 
   const now = new Date();
+  console.log("events",organiserEvents)
 
-  const upcomingEvents = organiserEvents?.data?.data.filter((item) => {
+  const upcomingEvents = organiserEvents?.data?.filter((item) => {
     const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+      item?.startDate || item?.startDate
     );
     return item.isPublished === true && startDate > now;
   });
 
-  const pastEvents = organiserEvents?.data?.data.filter((item) => {
+  const pastEvents = organiserEvents?.data?.filter((item) => {
     const endDate = new Date(
-      item?.oneTimeEvent?.endDate || item?.recurringEvent?.endDate
+      item?.endDate || item?.endDate
     );
     return item.isPublished === true && endDate < now;
   });

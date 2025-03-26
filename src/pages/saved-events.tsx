@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import CardComponent from "@/components/CardComponent";
 import GoBack from "@/components/GoBack";
 import Layout from "@/components/layout";
@@ -22,7 +22,7 @@ const SavedEvents = () => {
     if (token) {
       return;
     } else {
-      router.push("/login");
+      router.replace("/login");
     }
   }, [router]);
   return (

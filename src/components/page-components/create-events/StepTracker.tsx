@@ -22,10 +22,12 @@ const StepTracker = () => {
     event?.data?.recurringEvent?.startTime;
 
   const date = new Date(startDate);
+  
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
     month: "short",
     day: "numeric",
+    timeZone: "Africa/Lagos",
   };
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
@@ -41,13 +43,13 @@ const StepTracker = () => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "UTC",
+    timeZone: "Africa/Lagos",
   });
   return (
     <div>
       <div className="lg:hidden flex items-start gap-5">
         <div
-          onClick={() => router.back()}
+          onClick={() => router.push('/organiser/events')}
           className="border border-black rounded-full"
         >
           <MdKeyboardArrowLeft size={22} />
@@ -87,7 +89,7 @@ const StepTracker = () => {
       </div>
       <div className="bg-white rounded-xl p-6 lg:block hidden space-y-4 w-full max-w-md">
         <p
-          onClick={() => router.back()}
+          onClick={() => router.push('/organiser/events')}
           className="flex cursor-pointer hover:underline items-center gap-2 font-pally-regular text-lg"
         >
           <span>

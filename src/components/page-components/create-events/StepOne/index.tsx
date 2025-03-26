@@ -1,18 +1,9 @@
 "use client";
-import React, {
-  FormEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import Intro from "../Intro";
 import FormContainer from "../FormContainer";
 import { Button } from "@/components/ui/button";
 import { IoMdImages } from "react-icons/io";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { EventStepOne, EventStepOneSchema } from "@/models/create-event-schema";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { HiOutlineTrash } from "react-icons/hi2";
@@ -22,7 +13,7 @@ import { uploadImage } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EventBasicInfo } from "@/pages/api/mutate/create-events/eventBasicInfo";
 import { useToast } from "@/components/ui/use-toast";
-import { getCookie, removeCookie, setCookie } from "@/lib/cookies";
+import { getCookie, setCookie } from "@/lib/cookies";
 import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMe } from "@/pages/api/query/me";
@@ -31,8 +22,6 @@ import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useUpdateBasicInfo } from "@/hooks/events/useUpdateBasicInfo";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { Label } from "@/components/ui/label";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 
 const pageContents = [
   "Make your event name short and memorable.",
@@ -70,8 +59,6 @@ const StepOne: React.FC = () => {
 
   const { toast } = useToast();
 
-  const router = useRouter();
-
   useEffect(() => {
     if (event?.data) {
       setImageBanner(event.data.eventBanner ?? "");
@@ -85,8 +72,6 @@ const StepOne: React.FC = () => {
 
   const client = useQueryClient();
   const eventID = getCookie("event_id");
-
-  console.log(event?.data);
 
   // Handle image upload for banner
   const handleImageUploadBanner = async (
@@ -186,25 +171,25 @@ const StepOne: React.FC = () => {
     onError: (error: any) => {
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: error?.message,
+        title: "Fill in the fields",
+        description: "Please upload and fill in the input field",
       });
     },
   });
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError((prevError) => {
-      const newError = {
-        nameError: eventName === "" ? "Enter event name" : "",
-        descriptionError:
-          eventDescription === "" ? "Enter event description" : "",
-        bannerError: imageBanner === "" ? "Enter event name" : "",
-        thumbnailError: imageThumbnail === "" ? "Enter event name" : "",
-      };
+    // setError((prevError) => {
+    //   const newError = {
+    //     nameError: eventName === "" ? "Enter event name" : "",
+    //     descriptionError:
+    //       eventDescription === "" ? "Enter event description" : "",
+    //     bannerError: imageBanner === "" ? "Enter event name" : "",
+    //     thumbnailError: imageThumbnail === "" ? "Enter event name" : "",
+    //   };
 
-      return { ...prevError, ...newError };
-    });
+    //   return { ...prevError, ...newError };
+    // });
 
     // Optionally check if there are no errors after updating
     if (
@@ -229,11 +214,23 @@ const StepOne: React.FC = () => {
       eventDescription,
     };
 
+    if (
+      !data.eventBanner &&
+      !data.eventDescription &&
+      !data.eventName &&
+      !data.thumbnail
+    ) {
+      toast({
+        variant: "destructive",
+        title: "All fields are required",
+      });
+    }
+
     if (userData?.data?.role === "user") {
       mutateRole({ role: "organizer" });
     }
 
-    if (eventID) {
+    if (eventID && userData?.data?.role === 'organizer') {
       mutateUpdate(data);
     } else {
       mutate(data);
@@ -245,10 +242,10 @@ const StepOne: React.FC = () => {
       className="flex flex-col lg:flex-row items-start gap-4 lg:gap-12
     "
     >
+      {isUploading || (isPendingRole && <SpinnerOverlay />)}
       <div className="w-full lg:w-2/5 lg:px-0">
         <Intro contents={pageContents} title="Tell us about your event" />
       </div>
-      {isUploading && <SpinnerOverlay />}
       <div className="w-full h-full lg:w-3/5">
         <FormContainer formTitle="Basic Information" currPosition={[40, 0, 0]}>
           <form
@@ -418,7 +415,7 @@ const StepOne: React.FC = () => {
                         id="event_description"
                         value={eventDescription}
                         onChange={(e) => setEventDescription(e.target.value)}
-                        className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
+                        className="w-full bg-white text-black font-pally-regular h-32 md:h-40"
                       />
 
                       <p className="text-sm font-pally-regular text-[#e84141]">

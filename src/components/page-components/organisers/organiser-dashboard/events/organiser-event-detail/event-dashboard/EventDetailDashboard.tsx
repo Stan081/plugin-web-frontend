@@ -11,7 +11,9 @@ import { FaXTwitter } from "react-icons/fa6";
 // import SaleTable from "./EventDashboard";
 import EventTicketsStats from "./EventTicketsStats";
 import OrganiserTable from "../../../OrganiserTable";
-import organiserDashboardSalesData from "@/static-datas/organiser-dashboard-sales-data";
+import { useEventsContext } from "@/providers/events.provider";
+import { WEB_URL } from "@/lib/constants";
+import { useFilteredAttendeeList } from "@/hooks/events/useFilterAttendeeList";
 
 const tabLink = [
   { title: "Recent Sales", key: "recent_sales" },
@@ -19,8 +21,10 @@ const tabLink = [
 ];
 
 const EventDetailDashboard = () => {
-  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<string>("recent_sales");
+  const { toast } = useToast();
+  const { publishedEventId } = useEventsContext();
+  const { data: attendeeListData } = useFilteredAttendeeList(publishedEventId);
   const handleCopyLink = async (saveLink: string) => {
     try {
       // Copy the link to the clipboard
@@ -38,7 +42,8 @@ const EventDetailDashboard = () => {
       });
     }
   };
-  const sharedLink: string = "http://localhost:3000/organiser/events/2";
+  const sharedLink: string = `${WEB_URL}/explore-events/${publishedEventId}`;
+
   return (
     <div>
       <div className="flex justify-between">
@@ -68,7 +73,7 @@ const EventDetailDashboard = () => {
             </div>
 
             <Link
-              href={"/#"}
+              href={"/organiser/ad-campaigns"}
               className="destructive flex items-center gap-2 font-pally-medium text-sm md:text-base"
             >
               Start campaign
@@ -143,11 +148,35 @@ const EventDetailDashboard = () => {
             </li>
           ))}
         </ul>
-        <OrganiserTable
-          tableHead={["Ticket ID", "Ticket name", "Price", "Date"]}
-          tableBody={organiserDashboardSalesData}
-          type="organiserDashboardSales"
-        />
+        {attendeeListData?.data.length != 0 ? (
+          <OrganiserTable
+            tableHead={[
+              "Email address",
+              "Ticket name",
+              "Price",
+              "Status",
+              "Date",
+            ]}
+            tableBody={attendeeListData?.data?.slice(0, 5)}
+            type="attendeListTable"
+          />
+        ) : (
+          <>
+            <div className="bg-gray-100 rounded-lg py-5 md:py-9 w-full flex flex-col items-center justify-center gap-5">
+              <Image
+                src={"/images/calendar.svg"}
+                width={200}
+                height={200}
+                alt="calemder"
+                className="w-20 h-20 object-cover pointer-events-none"
+              />
+
+              <p className="font-pally-regular text-sm md:text-lg text-[#828994]">
+                No Attendee yet
+              </p>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

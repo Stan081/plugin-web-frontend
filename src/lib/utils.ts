@@ -57,8 +57,11 @@ export const uploadImage = async (file: any): Promise<any> => {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", "yjpmz4l2");
+
+  const fileType = file.type.startsWith("video/") ? "video" : "image";
+
   const uploadResponse = await fetch(
-    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    `https://api.cloudinary.com/v1_1/${cloudName}/${fileType}/upload`,
     {
       method: "POST",
       body: formData,
@@ -66,3 +69,4 @@ export const uploadImage = async (file: any): Promise<any> => {
   );
   return uploadResponse.json();
 };
+

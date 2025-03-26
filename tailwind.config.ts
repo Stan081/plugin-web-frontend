@@ -24,7 +24,8 @@ xs: "300px"
         "seagreenNoise": "url('/images/seagreen-bg.png')",
         "topLocation": "url('/images/top-location-bg.png')",
         "bgListEvent": "url('/images/list-event-bg.png')",
-        "bgCampaignHeader": "url('https://ik.imagekit.io/pluginImage/Plugin-images/campaign.png?updatedAt=1728314071319')"
+        "bgCampaignHeader": "url('https://ik.imagekit.io/pluginImage/Plugin-images/campaign.png?updatedAt=1728314071319')",
+        "bgHero": "url('https://res.cloudinary.com/dbhbyikta/image/upload/v1742917303/WhatsApp_Image_2025-03-25_at_4.39.23_PM_1_fsphvb.jpg')",
       },
       colors: {
         "custom-lightgray": "lightgray",

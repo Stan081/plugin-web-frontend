@@ -15,17 +15,16 @@ const OrganiserEarnings = () => {
   const token = getToken();
   const router = useRouter();
 
-  useEffect(() => {
-    if (token) {
+   useEffect(() => {
+      if (!token || !userData) return;
+  
       if (userData?.data?.isOrganizer) {
+        removeCookie("event_id");
         setCurrentStep(1);
-        removeCookie('event_id')
+      } else {
+        router.push("/login");
       }
-      return;
-    } else {
-      router.push("/login");
-    }
-  }, [router]);
+    }, [router, token, userData, setCurrentStep]);
   return (
     <Fragment>
       <OrganiserHeader/>

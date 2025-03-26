@@ -12,7 +12,7 @@ interface MetaProps {
 }
 
 const Meta: FC<MetaProps> = ({ title, description, canonical, image }) => {
-  const metaDescription = description || "Not yet";
+  const metaDescription = description || "Plugin Entertainment";
 
   return (
     <>

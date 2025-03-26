@@ -49,6 +49,8 @@ const ExploreEventsPage = () => {
     setIsGridView((prevView) => !prevView);
   };
 
+  // console.log(events?.data?.length)
+
   const handleRefresh = () => {
     setFilters({
       minPrice: null,
@@ -181,11 +183,11 @@ const ExploreEventsPage = () => {
             <div className="flex justify-end gap-10 items-center whitespace-nowrap w-full overflow-x-auto pb-4 mt-6">
               <p className="text-sm text-gray-600">
                 Page {events?.pagination?.currentPage} of{" "}
-                1
+                {events?.pagination?.totalPages}
               </p>
               <div className="flex space-x-2">
                 <Button
-                  disabled={filters.page <= 1}
+                  disabled={events?.pagination?.currentPage <= 1}
                   onClick={decrementPage}
                   variant="outline"
                   size="icon"
@@ -193,7 +195,15 @@ const ExploreEventsPage = () => {
                   {"<"}
                 </Button>
 
-                <Button onClick={incrementPage} variant="outline" size="icon">
+                <Button
+                  disabled={
+                    Number(events?.pagination?.currentPage) ===
+                    Number(events?.pagination?.totalPages)
+                  }
+                  onClick={incrementPage}
+                  variant="outline"
+                  size="icon"
+                >
                   {">"}
                 </Button>
               </div>

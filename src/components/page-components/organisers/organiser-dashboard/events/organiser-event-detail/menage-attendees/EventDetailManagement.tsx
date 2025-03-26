@@ -2,20 +2,22 @@ import React, { useState } from "react";
 import AttendeeList from "./attendee/AttendeeList";
 import CheckInSummary from "./check-in-summary/CheckInSummary";
 import ReminderEmails from "./reminder-emails/ReminderEmails";
+import EventTickets from "./event-tickets";
 
 const tabLink = [
+  { title: "Tickets", key: "tickets" },
   { title: "Attendee list", key: "attendee" },
   { title: "Check-in summary", key: "summary" },
-  { title: "Reminder Emails", key: "reminder_emails" },
+  // { title: "Reminder Emails", key: "reminder_emails" },
 ];
 
 const EventDetailManagement = () => {
-  const [activeTab, setActiveTab] = useState<string>("attendee");
+  const [activeTab, setActiveTab] = useState<string>("tickets");
   return (
     <div>
-      <h2 className="font-pally-medium text-xl">Manage attendees</h2>
+      <h2 className="font-pally-medium text-xl">Manage tickets</h2>
 
-      <ul className="mt-6 flex justify-start overflow-x-auto whitespace-nowrap pb-2 items-center gap-4 align-baseline">
+      <ul className="mt-3 flex justify-start overflow-x-auto whitespace-nowrap pb-2 items-center gap-4 align-baseline">
         {tabLink.map((tab) => (
           <li key={tab.key} role="presentation">
             <button
@@ -45,11 +47,12 @@ const EventDetailManagement = () => {
         id={`panel-${activeTab}`}
         role="tabpanel"
         aria-labelledby={`tab-${activeTab}`}
-        className="mt-6 md:mt-10"
+        className="mt-3"
       >
+        {activeTab === "tickets" && <EventTickets />}
         {activeTab === "attendee" && <AttendeeList />}
         {activeTab === "summary" && <CheckInSummary />}
-        {activeTab === "reminder_emails" && <ReminderEmails />}
+        {/* {activeTab === "reminder_emails" && <ReminderEmails />} */}
       </div>
     </div>
   );

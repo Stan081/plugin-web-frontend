@@ -30,16 +30,19 @@ const WithdrawalHistory = () => {
 
   const formattedDate = (date: any) => {
     return new Date(date).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
+      weekday: "short",
+      month: "short",
       day: "numeric",
+      timeZone: "Africa/Lagos",
     });
   };
 
   const formattedTime = (date: any) => {
-    return new Date(date).toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
+    return new Date(date).toLocaleTimeString("en-GB", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+      timeZone: "Africa/Lagos",
     });
   };
 
@@ -50,7 +53,7 @@ const WithdrawalHistory = () => {
   };
 
   const handlePrev = () => {
-    setPageNum((prevNum) => Math.max(prevNum - 1, 1))
+    setPageNum((prevNum) => Math.max(prevNum - 1, 1));
   };
   const handleNext = () => {
     setPageNum((prevNum) => prevNum + 1);
@@ -142,10 +145,15 @@ const WithdrawalHistory = () => {
             {withistory?.meta?.totalPages}
           </p>
           <div className="flex space-x-2">
-            <Button disabled={pageNum <= 1} onClick={handlePrev} variant="outline" size="icon">
+            <Button
+              disabled={pageNum <= 1}
+              onClick={handlePrev}
+              variant="outline"
+              size="icon"
+            >
               {"<"}
             </Button>
-            
+
             <Button onClick={handleNext} variant="outline" size="icon">
               {">"}
             </Button>

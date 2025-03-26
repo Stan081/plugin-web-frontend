@@ -26,18 +26,20 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const startDate: string =
-    card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
+  const startDate: string = card?.startDate
+    ? card?.startDate
+    : card?.oneTimeEvent?.startDate || card?.recurringEvent?.startDate;
 
-  const startTime: string =
-    card?.oneTimeEvent?.startTime || card?.recurringEvent?.startTime;
+  const startTime: string = card?.startTime
+    ? card?.startTime
+    : card?.oneTimeEvent?.startTime || card?.recurringEvent?.startTime;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
-    month: "short",
+    month: "long",
     day: "numeric",
-    year: "numeric", // Add year to the options
+    timeZone: "Africa/Lagos",
   };
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
@@ -53,7 +55,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "UTC",
+    timeZone: "Africa/Lagos",
   });
 
   const { mutate, isPending: pending } = useMutation({
@@ -160,7 +162,7 @@ const CardComponent: FC<{ card: any }> = ({ card }) => {
             ? card?.physicalLocation?.address?.length > 32
               ? card?.physicalLocation?.address?.slice(0, 32).concat("...")
               : card?.physicalLocation?.address
-            : "Online"}
+            : card?.locationType === 'online' && 'Online'}
         </p>
 
         <div className="mt-1 flex items-center gap-4">

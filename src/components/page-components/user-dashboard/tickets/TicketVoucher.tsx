@@ -22,8 +22,8 @@ interface Props {
 }
 const TicketVoucher = ({ data }: Props) => {
   return (
-    <div className="border px-4 py-5 rounded-lg space-y-4 mt-3">
-      <div className="flex justify-between items-end md:items-center mb-6">
+    <div className="border p-3 rounded-lg space-y-4 mt-3">
+      <div className="space-y-2 mb-6">
         <div className="flex items-center gap-1 mt-3">
           <TicketIcon />{" "}
           <p className="text-sm whitespace-nowrap text-black font-pally-medium">
@@ -35,43 +35,8 @@ const TicketVoucher = ({ data }: Props) => {
         </p>
       </div>
       <Separator />
-      <div className="flex justify-between items-center gap-6 mt-8">
-        <div className="w-full max-w-sm">
-          <h6 className="font-pally-medium text-lg">Ticket vouchers</h6>
-          <div className="mt-10 flex justify-between">
-            <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-              Ticket Type:
-            </p>
-            <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-              {data?.ticketData?.name}
-            </p>
-          </div>
-          <div className="mt-4 flex justify-between">
-            <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-              Price/ ticket
-            </p>
-            <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-              {toFiat(data?.ticketData?.price)}
-            </p>
-          </div>
-          <div className="my-4 flex justify-between">
-            <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
-              Quantity ordered
-            </p>
-            <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
-              1
-            </p>
-          </div>
-
-          <Separator />
-          <div className="my-4 flex justify-between">
-            <p className="text-base text-[#515A6A] font-pally-medium">Total</p>
-            <p className="text-base text-[#515A6A] font-pally-medium">
-              {toFiat(data?.ticketData?.price)}
-            </p>
-          </div>
-        </div>
-        <div className="p-4 rounded-lg bg-[#F5F7F9]">
+      <div className="flex justify-between items-center gap-10 mt-8">
+        <div className="p-0.5 rounded-lg bg-[#F5F7F9]">
           <Image
             src={data?.qrCode}
             width={156}
@@ -79,6 +44,24 @@ const TicketVoucher = ({ data }: Props) => {
             alt="barcode"
             className="w-auto h-auto pointer-events-none rounded-lg"
           />
+        </div>
+        <div>
+          <div className=" flex justify-between gap-6">
+            <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
+              Ticket Type:
+            </p>
+            <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
+              {data?.ticketData?.name}
+            </p>
+          </div>
+          <div className="mt-4 flex justify-between gap-6">
+            <p className="text-sm md:text-base text-[#515A6A] font-pally-regular">
+              Price/ ticket:
+            </p>
+            <p className="text-sm md:text-base text-[#515A6A] font-pally-medium">
+              {toFiat(data?.ticketData?.price)}
+            </p>
+          </div>
         </div>
       </div>
     </div>

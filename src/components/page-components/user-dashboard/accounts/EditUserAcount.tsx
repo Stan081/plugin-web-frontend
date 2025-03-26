@@ -70,13 +70,12 @@ const EditUserAcount: FC<{ open: boolean; close: () => void }> = ({
       toast({
         variant: "destructive",
         title: "Couldn't edit your account",
-        description: error?.message,
       });
     },
   });
 
   const onSubmit = (payload: User) => {
-    console.log(payload);
+    // console.log(payload);
 
     const data = {
       name: {

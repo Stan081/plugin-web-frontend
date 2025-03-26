@@ -23,14 +23,26 @@ const GroupedTicket = ({ groupedTicket, id }) => {
 
   const { tickets, setTickets } = useEventsContext();
 
+  // console.log(groupedTicket);
+
   // Update counter when tickets or ticket name changes
   useEffect(() => {
     const ticket = tickets.find((t) => t.name === groupedTicket.ticketName);
     setCounter(ticket ? ticket.quantity : 0);
   }, [tickets, groupedTicket.ticketName]);
 
+  const getRemainingTicket =
+    groupedTicket?.ticketQuantity - groupedTicket?.ticketsSold;
+
+  const now = Date();
+
   // Update tickets array and persist to cookies
-  const updateTickets = (ticketName, price, quantity) => {
+  const updateTickets = (
+    ticketName: string,
+    price: number,
+    quantity: number,
+    ticketId: string
+  ) => {
     setTickets((prevTickets) => {
       const updatedTickets = [...prevTickets];
       const ticketIndex = updatedTickets.findIndex(
@@ -44,7 +56,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
           updatedTickets.splice(ticketIndex, 1);
         }
       } else if (quantity > 0) {
-        updatedTickets.push({ name: ticketName, price, quantity });
+        updatedTickets.push({ name: ticketName, price, quantity, ticketId });
       }
 
       // Save updated tickets to cookies
@@ -59,7 +71,8 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     updateTickets(
       groupedTicket.ticketName,
       groupedTicket.ticketPrice,
-      newQuantity
+      newQuantity,
+      groupedTicket?._id
     );
   };
 
@@ -69,8 +82,45 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     updateTickets(
       groupedTicket.ticketName,
       groupedTicket.ticketPrice,
-      newQuantity
+      newQuantity,
+      groupedTicket?._id
     );
+  };
+
+  const checkIfStartDateReached = (startDate: Date) => {
+    if (startDate) {
+      const date = new Date(startDate);
+
+      // Validate startDate
+      if (isNaN(date.getTime())) {
+        console.error("Invalid startDate format.");
+        return false;
+      }
+
+      // Get the current date and time
+      const now = new Date();
+
+      // Compare dates
+      const isSameDay =
+        now.getUTCFullYear() === date.getUTCFullYear() &&
+        now.getUTCMonth() === date.getUTCMonth() &&
+        now.getUTCDate() === date.getUTCDate();
+
+      return isSameDay;
+    }
+
+    return false;
+  };
+
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-GB", {
+      weekday: 'short',
+      month: "long",
+      day: "numeric",
+      timeZone: 'Africa/Lagos'
+    });
   };
 
   return (
@@ -88,11 +138,25 @@ const GroupedTicket = ({ groupedTicket, id }) => {
           <p className="text-[#646267] font-pally-medium">
             {groupedTicket?.ticketName}
           </p>
-          <p className="text-[#2C2B2E] font-pally-bold text-2xl">
-            {groupedTicket?.groupedTicketType === "paid"
-              ? toFiat(groupedTicket?.ticketPrice)
-              : toFiat(0)}
-          </p>
+
+          <div className="flex items-center gap-4">
+            <p className="text-[#2C2B2E] font-pally-medium text-2xl">
+              {groupedTicket?.groupedTicketType === "paid"
+                ? toFiat(groupedTicket?.ticketPrice)
+                : toFiat(0)}
+            </p>
+            {groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
+              (groupedTicket?.ticketsSold >= groupedTicket?.ticketQuantity && (
+                <p className="bg-red-500 text-white py-0.5 px-1 rounded-3xl text-xs">
+                  Sold out
+                </p>
+              ))}
+            {new Date() < new Date(groupedTicket?.startDate) && (
+              <p className="text-xs text-yellow-700 font-pally-regular">
+                Available from {formatDate(groupedTicket?.startDate)}
+              </p>
+            )}
+          </div>
         </div>
       </div>
       <div className="p-2 space-y-4 flex flex-col justify-between items-end">
@@ -107,7 +171,19 @@ const GroupedTicket = ({ groupedTicket, id }) => {
           <p className="font-pally-medium text-lg">{counter}</p>
           <button
             onClick={incrementTicket}
-            className="bg-destructive text-white p-1 rounded-full cursor-pointer"
+            type="button"
+            disabled={
+              groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
+              counter >= getRemainingTicket ||
+              new Date() < new Date(groupedTicket?.startDate)
+            }
+            className={`${
+              groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
+              counter >= getRemainingTicket ||
+              new Date() < new Date(groupedTicket?.startDate)
+                ? `bg-gray-300 cursor-not-allowed`
+                : `bg-destructive`
+            } text-white rounded-full p-1`}
           >
             <HiPlus size={20} />
           </button>

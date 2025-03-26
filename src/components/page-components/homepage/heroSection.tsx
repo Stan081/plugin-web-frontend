@@ -10,15 +10,16 @@ import { RiArrowRightSLine, RiArrowLeftSLine } from "react-icons/ri";
 import Container from "@/tw-components/container";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import HomeNavbar from "./HomeNavbar";
 
 // Temporary mock data
 const heroSlides = [
   {
     backgroundImage:
-      "https://ik.imagekit.io/pluginImage/Plugin-images/hero-image1.png?updatedAt=1722389173816",
+      "https://res.cloudinary.com/dbhbyikta/image/upload/v1742917303/WhatsApp_Image_2025-03-25_at_4.39.23_PM_1_fsphvb.jpg",
     logo: "/images/cream-bg.png",
-    title: "AFRONATION “24",
-    description: "The biggest Afrobeat party in the world is here again.",
+    title: "PLUGIN “25",
+    description: "The biggest Platform for entertainment.",
   },
   {
     backgroundImage:
@@ -72,41 +73,24 @@ const HeroSection = () => {
       clean
       className="relative isolate overflow-hidden"
     >
-      {heroSlides.length === 0 ? (
-        <div className=" bg-no-repeat bg-cover w-full h-[65vh]">
-          <div
-            className="absolute left-1/2 right-0 top-0 -z-10 -ml-24 transform-gpu overflow-hidden blur-3xl lg:ml-24 xl:ml-48"
-            aria-hidden="true"
-          >
-            <div className="aspect-[136/400] w-[30.0625rem] bg-gradient-to-tr from-[#ffffff] to-[#382407] opacity-20" />
+      {heroSlides.length !== 0 ? (
+        <div className=" bg-no-repeat bg-cover">
+          <div className="bg-bgHero bg-cover bg-top lg:bg-bottom bg-no-repeat  w-full h-[70vh] lg:h-[85vh]">
+            <Container className="flex flex-col justify-between h-full">
+              <HomeNavbar/>
+              <div className="w-full lg:w-1/2 mb-20">
+                <h1 className="bg-[#F58986] inline-block px-3 lg:px-6 py-3 font-pally-medium text-3xl lg:text-6xl uppercase text-black">
+                  Discover <br />
+                </h1>
+                <h2 className="bg-gradient-to-r from-[#F58986] to-[#ffffff]/90 px-3 lg:px-6 py-3 font-pally-medium text-3xl lg:text-6xl uppercase text-black w-full">
+                  your next event
+                </h2>
+                <p className="mt-2 lg:mt-6 text-base lg:text-2xl font-pally-regular text-white uppercase lg:px-8">
+                  With plugin entertainment
+                </p>
+              </div>
+            </Container>
           </div>
-          <div
-            className="absolute left-0 right-1/2 top-0 -z-10 transform-gpu overflow-hidden blur-3xl"
-            aria-hidden="true"
-          >
-            <div className="aspect-[301/96] w-[30.0625rem] bg-gradient-to-bl from-[#ffffff] to-[#D9302A] opacity-20" />
-          </div>
-          <Container className="flex justify-between items-center gap-9 lg:gap-20 py-8 lg:py-20">
-            <div className="w-full lg:w-1/2">
-              <h1 className="font-pally-medium text-3xl lg:text-6xl text-gray-600">
-                Plugin Ent
-              </h1>
-              <p className="mt-2 lg:mt-6 text-base lg:text-lg font-pally-regular text-gray-500">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae
-                dolores minima assumenda atque accusantium, fugit natus?
-                Consequuntur, sequi optio voluptatem perferendis incidunt.
-              </p>
-            </div>
-            <div className="w-full lg:w-1/2 ">
-              <Image
-                src={"/images/party-fans-raised-their-hands.jpg"}
-                width={400}
-                height={300}
-                alt="plugin Ent"
-                className="pointer-events-none w-full h-full rounded-xl"
-              />
-            </div>
-          </Container>
         </div>
       ) : (
         <div className="relative">

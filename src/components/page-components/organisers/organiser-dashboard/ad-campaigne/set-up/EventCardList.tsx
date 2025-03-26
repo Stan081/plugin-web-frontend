@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { FC } from "react";
 import { TabProgress } from "../../home/TabProgress";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
 
 type CheckedState = boolean | "checked" | "unchecked" | "indeterminate";
 
@@ -17,18 +18,18 @@ const EventCardList: FC<EventCardListProps> = ({
   checkedEvent,
   onCheckboxChange,
 }) => {
-  const startDate: string =
-    event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
+  const { data: sales } = useGetSalesRecord(event?._id);
 
-  const startTime: string =
-    event?.oneTimeEvent?.startTime || event?.recurringEvent?.startTime;
+  const startDate: string = event?.startDate;
+
+  const startTime: string = event?.startTime;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
-    month: "short",
+    month: "long",
     day: "numeric",
-    year: "numeric", // Add year to the options
+    timeZone: "Africa/Lagos",
   };
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
@@ -44,7 +45,7 @@ const EventCardList: FC<EventCardListProps> = ({
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "UTC",
+    timeZone: "Africa/Lagos",
   });
 
   const handleCheckboxChange = (isChecked: CheckedState, id: string) => {
@@ -52,6 +53,15 @@ const EventCardList: FC<EventCardListProps> = ({
       onCheckboxChange(id, isChecked);
     }
   };
+
+  const totalSold = sales?.data?.reduce((acc, item) => acc + item?.sold, 0);
+  const totalAvailable = sales?.data?.reduce(
+    (acc, item) => acc + item?.total,
+    0
+  );
+
+  // Calculate percentage
+  const soldPercentage = Math.ceil((totalSold * 100) / totalAvailable);
 
   return (
     <div className="border-b last:border-none py-4 md:py-6 flex items-center justify-between">
@@ -83,13 +93,13 @@ const EventCardList: FC<EventCardListProps> = ({
           </p>
           <div className="hidden lg:flex items-center gap-2">
             <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
-              Sale progress
+              Sale progress (%)
             </p>
             <div className="w-52">
-              <TabProgress value={10} max={100} />
+              <TabProgress value={soldPercentage} max={100} />
             </div>
             <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-              {10}/{100}
+              {soldPercentage}/{100}
             </p>
           </div>
         </div>

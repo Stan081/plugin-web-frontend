@@ -10,18 +10,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignupFields, SignupSchema } from "@/models/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PhoneNumberInput } from "@/components/PhoneNumberInput";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Spinner from "@/tw-components/spinner";
 import { useRouter } from "next/router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { signUpStepOne } from "@/pages/api/mutate/SignUp";
 import { SignupFieldType } from "@/lib/types/AuthType";
 import { useToast } from "@/components/ui/use-toast";
-import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import { setCookie } from "@/lib/cookies";
 
 const SignupAuth = () => {
@@ -35,6 +34,9 @@ const SignupAuth = () => {
     },
     resolver: yupResolver(SignupSchema),
   });
+
+  // State to hold selected country
+  // const [selectedCountry, setSelectedCountry] = useState("");
 
   //  initialise router
   const router = useRouter();
@@ -62,12 +64,15 @@ const SignupAuth = () => {
       });
     },
   });
+  const [country, setCountry] = useState<string>("NG");
 
+  const handleCountryChange = (country: string) => {
+    setCountry(country);
+  };
   const onSubmit = useCallback(
     (payload: SignupFields) => {
-      console.log(payload);
 
-      setCookie('email', payload.email)
+      setCookie('email', payload.email);
 
       const data = {
         name: {
@@ -77,16 +82,26 @@ const SignupAuth = () => {
         email: payload.email,
         contact: {
           phone: payload.phone_number,
-          country: "Nigeria",
+          country: country,
         },
         role: "user",
         platform: "web",
       };
 
+      console.log("Submitted data:", data); // Debug log
       mutate(data);
     },
-    [mutate]
-  ); 
+    [mutate, country]
+  );
+
+  // const handlePhoneNumberChange = (value) => {
+  //   console.log("Country data:", value);
+  //   const phoneNumber = parsePhoneNumber(value)
+  //   console.log(phoneNumber.country)
+  //     setSelectedCountry(phoneNumber.country);
+    
+  //   form.setValue("phone_number", value);
+  // };
 
   return (
     <div>
@@ -181,6 +196,7 @@ const SignupAuth = () => {
                       type="text"
                       aria-disabled={isPending}
                       style={{ outline: "none", border: "none" }}
+                      onCountryChange={handleCountryChange}
                     />
                   </FormControl>
                   <FormMessage />

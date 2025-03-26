@@ -18,8 +18,8 @@ const EventFilterComponent = ({
   const [isEventLocation, setIsEventLocation] = useState<boolean>(true);
 
   const [filters, setFilters] = useState({
-    minPrice: null,
-    maxPrice: null,
+    minPrice: 0,
+    maxPrice: 0,
     locationType: "",
     eventType: "",
     startDate: null,
@@ -57,14 +57,12 @@ const EventFilterComponent = ({
   // Handle input change for minPrice and maxPrice
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    type: "minPrice" | "maxPrice" | "startDate" | "endDate"
+    type: "minPrice" | "maxPrice"
   ) => {
     const { value } = e.target;
     setFilters((prevFilters) => ({
       ...prevFilters,
       [type]: value ? parseInt(value, 10) : 0,
-      startDate: value,
-      endDate: value,
     }));
   };
 
@@ -75,7 +73,7 @@ const EventFilterComponent = ({
     const { value } = e.target;
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [type]: value,
+      [type]: value || null,
     }));
   };
 

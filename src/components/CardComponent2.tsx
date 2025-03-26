@@ -75,7 +75,7 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
     }
   };
   return (
-    <div className="flex flex-col w-[25%] xs:max-md:min-w-[230px] bg-[#221A14] rounded-2xl cursor-pointer">
+    <div className="flex flex-col shrink-0 w-[230px] lg:w-72 bg-[#221A14] rounded-2xl cursor-pointer">
       <div className="group relative inline-block overflow-hidden rounded-2xl">
         <button className="w-full aspect-square xs:max-md:max-h-[300px] block overflow-hidden">
           <figure className="relative size-full">
@@ -86,7 +86,7 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
               fill={true}
               src={card?.thumbnail ?? "/images/blue-bg.png"}
               alt={card?.eventName || "Event image"}
-              className="object-cover"
+              className="object-cover w-72 h-40"
             />
           </figure>
         </button>
@@ -98,22 +98,20 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
           <p className="inline-flex bg-destructive text-white text-xs font-pally-regular px-2 py-1 rounded-3xl">
             {card?.publishStatus}
           </p>
-          <h2 className="text-lg md:text-2xl font-pally-medium">
-            {card?.eventName?.length > 25
-              ? card?.eventName.slice(0, 25).concat("...")
-              : card?.eventName}
+          <h2 className="text-lg md:text-2xl font-pally-medium whitespace-normal">
+            {card?.eventName}
           </h2>
           <p className="text-sm md:text-md text-slate-200 font-pally-regular">
             {card?.locationType === "physical"
               ? card?.physicalLocation?.address?.length > 40
                 ? card?.physicalLocation?.address?.slice(0, 40).concat("...")
                 : card?.physicalLocation?.address
-              : "Online"}
+              :  card?.locationType === 'online' && 'Online'}
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-4 justify-between p-4">
-        <p className=" text-sm md:text-lg text-white font-bold font-pally-medium">
+      <div className="flex items-center gap-2 justify-between p-4">
+        <p className=" text-sm md:text-base text-white font-bold font-pally-medium">
           {card?.eventName?.length > 25
             ? card?.eventName.slice(0, 25).concat("...")
             : card?.eventName}

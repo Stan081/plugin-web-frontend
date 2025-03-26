@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useRef, useCallback } from "react";
 import { IoMdImages } from "react-icons/io";
 import { HiOutlineTrash } from "react-icons/hi2";
@@ -155,21 +155,35 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
       </h2>
       <div className="flex flex-wrap gap-5">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {uploadedPhotos.map((photo, index) => (
-            <div key={index} className="relative group w-full">
-              <img
-                src={photo}
-                alt={`Uploaded ${index + 1}`}
-                className="w-40 h-40 object-cover rounded-md"
-              />
-              <button
-                onClick={() => handleImageDelete(index)}
-                className="absolute top-2 right-2 bg-gray-800 p-1.5 rounded-full shadow-lg hover:bg-red-500 group-hover:block hidden"
-              >
-                <HiOutlineTrash size={18} color="#FFF" />
-              </button>
-            </div>
-          ))}
+          {uploadedPhotos.map((media, index) => {
+            const isVideo = media.includes("/video/upload/");
+
+            return (
+              <div key={index} className="relative group w-full">
+                {isVideo ? (
+                  <video
+                    src={media}
+                    controls
+                    className="w-40 h-40 object-cover rounded-md"
+                  />
+                ) : (
+                  <img
+                    src={media}
+                    alt={`Uploaded ${index + 1}`}
+                    className="w-40 h-40 object-cover rounded-md"
+                  />
+                )}
+
+                <button
+                  onClick={() => handleImageDelete(index)}
+                  className="absolute top-2 right-2 bg-gray-800 p-1.5 rounded-full shadow-lg hover:bg-red-500 group-hover:block hidden"
+                >
+                  <HiOutlineTrash size={18} color="#FFF" />
+                </button>
+              </div>
+            );
+          })}
+
           {uploadedPhotos.length < maxUploads && (
             <div
               onClick={handleEditClick}

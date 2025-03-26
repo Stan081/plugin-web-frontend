@@ -2,7 +2,7 @@
 import Layout from "@/components/layout";
 import OrganiserEvents from "@/components/page-components/organisers/OrganiserEvents";
 import OrganiserInfo from "@/components/page-components/organisers/OrganiserInfo";
-import { useAllOrganisers } from "@/hooks/organiser/userAllOrganiser";
+import { useOrganiser } from "@/hooks/organiser/useOrganiser";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
@@ -11,14 +11,11 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 const OrganiserDetailPage = () => {
-  const { data: organisers, isLoading } = useAllOrganisers();
   const params = useParams();
-  const organiser = organisers?.data?.find(
-    (orgs) => String(orgs?.userId) === params?.id
-  );
+  const { data: organiser, isLoading } = useOrganiser(params?.id as string);
 
   if (!organiser) {
-    return <h4>Not Found!!</h4>;
+    return <SpinnerOverlay />;
   }
 
   if (isLoading) {
@@ -26,16 +23,16 @@ const OrganiserDetailPage = () => {
   }
 
   return (
-    <Layout title={`${organiser?.name}`} showHeader showFooter>
+    <Layout title={`${organiser?.data?.name}`} showHeader showFooter>
       <Section id="Organiser-detail-page" clean className="">
         <div className="h-28 md:h-[257px]">
           <Image
             src={
-              organiser?.banner === ""
+              organiser?.data?.banner === ""
                 ? "/images/blue-bg.png"
-                : organiser?.banner
+                : organiser?.data?.banner
             }
-            alt={organiser?.name}
+            alt={organiser?.data?.name}
             width={1226}
             height={609}
             className=" pointer-events-none w-full h-full object-cover object-top"
@@ -43,9 +40,9 @@ const OrganiserDetailPage = () => {
         </div>
         <Container>
           <div className="flex flex-col lg:flex-row justify-between gap-7 md:gap-10 my-5 overflow-hidden">
-            <OrganiserInfo organiser={organiser} />
+            <OrganiserInfo organiser={organiser?.data} />
 
-            <OrganiserEvents orgId={organiser?.userId} />
+            <OrganiserEvents orgId={organiser?.data?.userId} />
           </div>
         </Container>
       </Section>

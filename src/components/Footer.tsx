@@ -15,11 +15,11 @@ const Footer = () => {
               <div className="mb-4 w-28 h-10 lg:h-11">
                 <Logo />
               </div>
-              <ul className="text-[#687384] font-pally-regular text-base md:text-lg">
-                <li>Maitama, 900271, Abuja - Nigeria</li>
-                <li>+234 (0)809 666 4872</li>
-                <li>hello@eventdey.com</li>
-              </ul>
+              <div className="text-[#687384] font-pally-regular text-base md:text-lg">
+                <Link href={"mailto:contact@pluginent.com"}>
+                  contact@pluginent.com
+                </Link>
+              </div>
             </div>
             <div className=" w-full md:w-3/5 flex flex-col lg:flex-row gap-8">
               <div className="flex gap-10 lg:gap-20 w-full">
@@ -48,7 +48,7 @@ const Footer = () => {
                         key={index}
                         className="text-base md:text-lg active:underline hover:underline"
                       >
-                        <Link href={`${list.href}`}>{list.text}</Link>
+                        <Link href={list.href}>{list.text}</Link>
                       </li>
                     ))}
                   </ul>
@@ -63,7 +63,9 @@ const Footer = () => {
                         key={index}
                         className="text-base md:text-lg active:underline hover:underline"
                       >
-                        <Link href={`${list.href}`}>{list.text}</Link>
+                        <Link href={list.href} target="_blank">
+                          {list.text}
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -71,7 +73,7 @@ const Footer = () => {
               </div>
               <div className="w-full md:w-72 space-y-4">
                 <h4 className=" font-pally-medium tex-black text-base md:text-lg">
-                  Dowload App on
+                  Coming soon on
                 </h4>
                 <ul className="flex flex-row md:flex-col items-center gap-5">
                   {footerData.f3.map((list, index) => (
@@ -89,9 +91,6 @@ const Footer = () => {
                         />
                       </div>
                       <div className="">
-                        <p className=" font-pally-regular text-[#D0D5DD] text-xs">
-                          {list.shortText}
-                        </p>
                         <p className=" font-pally-bold text-white">
                           {list.title}
                         </p>

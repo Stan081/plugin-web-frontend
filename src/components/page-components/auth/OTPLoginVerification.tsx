@@ -7,12 +7,10 @@ import { useToast } from "@/components/ui/use-toast";
 import { setToken } from "@/lib/token";
 import { VerifyLoginCode } from "@/pages/api/mutate/Login";
 import { getCookie, removeCookie } from "@/lib/cookies";
-import { useUserDashContext } from "@/providers/user_dashboard.provider";
-import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import Spinner from "@/tw-components/spinner";
+import { useUserDashContext } from "@/providers/user_dashboard.provider";
 
 const OTPLoginVerification = () => {
   const [otp, setOtp] = useState<string>("");
@@ -29,15 +27,29 @@ const OTPLoginVerification = () => {
     mutationFn: (data: VerifyCodeType) => VerifyLoginCode(data),
     onSuccess: (response) => {
       client.invalidateQueries({ queryKey: ["me"] });
-      setShouldRedirect(true);
-      router.replace("/");
+
       toast({
         variant: "success",
         title: "Verified",
         description: `${response?.message}`,
       });
+
+      // Set token first
       setToken(response?.token);
-      removeCookie('email')
+      setShouldRedirect(true);
+      removeCookie("email");
+
+      // Get and remove redirect cookie before pushing
+      const redirectTo = getCookie("redirectAfterLogin");
+      console.log("Redirecting to:", redirectTo);
+
+      if (redirectTo) {
+        removeCookie("redirectAfterLogin");
+        router.push(redirectTo as string);
+        return;
+      } else {
+        router.replace("/");
+      }
     },
     onError: (error: any) => {
       toast({

@@ -41,9 +41,6 @@ const StepThree: React.FC= () => {
       <div className="w-full lg:w-3/5 bg-[#f0ded1]">
         <FormContainer formTitle="Basic Information" currPosition={[100, 20, 0]}>
           <Fragment>
-            <h3 className="font-pally-medium md:text-lg pt-4 px-4">
-              Will this be a one-time event or a recurring one ?
-            </h3>
 
             {/* <div className="flex flex-wrap gap-4 mt-5 text-white px-4">
               {eventTypes.map((type) => (
@@ -64,7 +61,7 @@ const StepThree: React.FC= () => {
 
           <div className="mt-6 px-4">
             <p className="font-pally-medium md:text-lg">
-              Choose the category that best describes your event
+              Choose when to start and end your event
             </p>
 
             {/* {eventType === "one-time" ? ( */}

@@ -21,6 +21,7 @@ export const FollowOrganiser = async (data: {
       data,
       {
         headers: {
+          Accept: "application/json",
           Authorization: `Bearer ${token}`,
         },
       }

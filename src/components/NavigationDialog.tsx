@@ -11,15 +11,25 @@ import Grid2 from "./icons/grid-2";
 import Money2 from "./icons/money-2";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { useMe } from "@/pages/api/query/me";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect";
+import { useRouter } from "next/navigation";
+import { getToken } from "@/lib/token";
 
-export const NavigationDialog = () => {
+export const NavigationDialog = ({ white }: { white?: boolean }) => {
   const [toggleList, setToggleList] = useState<boolean>(false);
+  const { handleProtectedNavigation } = useAuthRedirect();
   const { data: userDate } = useMe();
+  const router = useRouter();
+  const token = getToken();
+
   const eventlists = [
-    ...(userDate?.data?.role === "organizer" && userDate?.data?.isOrganizer
+    ...(token &&
+    userDate?.data?.role === "organizer" &&
+    userDate?.data?.isOrganizer
       ? []
       : [
           {
+            slug: "create_events",
             name: "Create events",
             description: "List your event",
             icon: <ListAdd />,
@@ -28,6 +38,7 @@ export const NavigationDialog = () => {
           },
         ]),
     {
+      slug: "features",
       name: "Features",
       description: "Discover the benefits of Plugin",
       icon: <Grid2 />,
@@ -35,6 +46,7 @@ export const NavigationDialog = () => {
       link: "/features",
     },
     {
+      slug: "pricing",
       name: "Pricing",
       description: "Explore the planning price",
       icon: <Money2 />,
@@ -42,12 +54,21 @@ export const NavigationDialog = () => {
       link: "/pricing",
     },
   ];
+
+  const handleRedirect = (slug: string, link: string) => {
+    if (slug === "create_events") {
+      handleProtectedNavigation(link);
+    } else {
+      router.push(link);
+    }
+  };
+
   return (
     <Fragment>
       <Dialog>
         <DialogTrigger asChild>
-          <div className="block md:hidden rounded-md border-2 border-black p-1 cursor-pointer">
-            <RiMenu4Fill size={18} color="#000" />
+          <div className={`block md:hidden rounded-md border-2 ${white ? 'border-white' : 'border-black'}  p-1 cursor-pointer`}>
+            <RiMenu4Fill size={18} color={white ? "#fff" : "#000"} />
           </div>
         </DialogTrigger>
         <DialogContent className="p-4 flex-none h-screen bg-white">
@@ -63,7 +84,7 @@ export const NavigationDialog = () => {
             </div>
             <div className="space-y-4">
               <Link href={"/explore-events"}>
-                <p className="text-lg text-[#2C2B2E] font-pally-regular">
+                <p className="text-lg text-[#2C2B2E] font-pally-regular mb-4">
                   Explore Events
                 </p>
               </Link>
@@ -80,6 +101,7 @@ export const NavigationDialog = () => {
                   {eventlists.map((list, index) => (
                     <li
                       key={index}
+                      onClick={() => handleRedirect(list?.slug, list.link)}
                       className="hover:bg-gray-100 py-2.5 px-4 rounded-lg transition delay-75 ease-in-out"
                     >
                       <Link
@@ -105,9 +127,11 @@ export const NavigationDialog = () => {
                 </ul>
               )}
             </div>
-            <Button variant="outline" className="w-full">
-              Get help
-            </Button>
+            <Link href={"mailto:support@pluginent.com"} className="block mt-4">
+              <Button variant="outline" className="w-full">
+                Get help
+              </Button>
+            </Link>
           </div>
         </DialogContent>
       </Dialog>

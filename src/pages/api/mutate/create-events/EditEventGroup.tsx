@@ -21,6 +21,7 @@ export const EditEventGroup = async (
       data,
       {
         headers: {
+          Accept: "application/json",
           Authorization: `Bearer ${token}`,
         },
       }

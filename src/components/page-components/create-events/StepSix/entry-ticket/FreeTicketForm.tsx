@@ -51,7 +51,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
         eventId?.data?.entryTicket?.entryTicketType === "free"
           ? eventId?.data?.entryTicket?.ticketQuantity
           : null,
-      reservation: "",
+      reservation: "no",
       start_date:
         eventId?.data?.entryTicket?.entryTicketType === "free"
           ? new Date(eventId?.data?.entryTicket?.startDate)
@@ -101,6 +101,13 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
     if (payload?.start_date > payload?.end_date) {
       alert("Start date cannot be after the end date");
       return;
+    }
+
+    if(payload.reservation === ''){
+      toast({
+        variant: "destructive",
+        title: "Choose reservation"
+      })
     }
     const data = {
       entryTicket: {
@@ -152,7 +159,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
               </FormItem>
 
               <FormItem className="w-full ">
-                <FormLabel className="text-white" htmlFor="ticket-name">
+                <FormLabel className="text-white" htmlFor="ticket-quantity">
                   Ticket Quantity
                 </FormLabel>
                 <FormField
@@ -162,9 +169,9 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
                     <FormItem>
                       <FormControl>
                         <Input
-                          placeholder="Enter ticket name"
+                          placeholder="Enter ticket quantity"
                           type="number"
-                          id="ticket-name"
+                          id="ticket-quantity"
                           className="w-full bg-white text-black font-pally-regular"
                           {...field}
                         />
@@ -293,7 +300,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
                 </FormItem>
               </div>
 
-              <FormItem>
+              {/* <FormItem>
                 <FormField
                   control={form.control}
                   name="reservation"
@@ -324,7 +331,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
                     </FormItem>
                   )}
                 />
-              </FormItem>
+              </FormItem> */}
 
               <FormItem>
                 <FormLabel className="text-white" htmlFor="ticket_perks">
@@ -338,7 +345,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
                       <Textarea
                         placeholder="Max  char - 200 Words"
                         id="ticket_perks"
-                        className="w-full bg-white text-black font-pally-regular h-32 md:h-56"
+                        className="w-full p-2 bg-white text-black font-pally-regular h-32 md:h-56"
                         {...field}
                       />
                     </FormControl>
@@ -349,7 +356,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
             </div>
           </div>
 
-          <div className="sdsticky bottom-0 bg-[#281E17]">
+          <div className="sticky bottom-0 bg-[#281E17]">
             <Separator />
             <div className="py-5 flex justify-between items-center">
               <Button

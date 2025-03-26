@@ -22,10 +22,12 @@ const Side1 = () => {
     eventData?.data?.recurringEvent?.startTime;
 
   const date = new Date(startDate);
+
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
-    month: "short",
+    month: "long",
     day: "numeric",
+    timeZone: "Africa/Lagos",
   };
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
@@ -41,8 +43,9 @@ const Side1 = () => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "UTC",
+    timeZone: "Africa/Lagos",
   });
+
   return (
     <div className="w-full lg:w-2/5 lg:px-0">
       {isLoading && <SpinnerOverlay />}
@@ -89,7 +92,7 @@ const Side1 = () => {
             <SlLocationPin color="#D9302A" size={20} />
             <p className="font-pally-regular text-[#344054]">
               {eventData?.data?.locationType === "physical"
-                ? eventData?.data?.physicalLocation?.address
+                ? eventData?.data?.physicalLocation?.city
                 : "Online"}
             </p>
           </li>
@@ -127,7 +130,7 @@ const Side1 = () => {
               <SlLocationPin color="#D9302A" size={20} />
               <p className="font-pally-regular text-[#344054]">
                 {eventData?.data?.locationType === "physical"
-                  ? eventData?.data?.physicalLocation?.address
+                  ? eventData?.data?.physicalLocation?.city
                   : "Online"}
               </p>
             </li>

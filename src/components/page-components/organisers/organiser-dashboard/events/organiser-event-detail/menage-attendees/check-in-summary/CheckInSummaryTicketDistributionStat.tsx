@@ -1,5 +1,7 @@
 "use client";
 
+import { useGetEventSummary } from "@/hooks/organiser/useGetEventSummary";
+import { useEventsContext } from "@/providers/events.provider";
 import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
@@ -10,15 +12,19 @@ interface StatProps {
 }
 
 const CheckInSummaryTicketDistributionStat = () => {
+  const { publishedEventId } = useEventsContext();
+
+  const { data: summary } = useGetEventSummary(publishedEventId);
+
   const data: StatProps[] = [
     {
       name: "Sold tickets",
-      value: 75,
+      value: summary?.data?.ticketDistribution?.sold,
       color: "#39AF8B",
     },
     {
       name: "Available tickets",
-      value: 25,
+      value: summary?.data?.ticketDistribution?.available,
       color: "#FBB448",
     },
   ];

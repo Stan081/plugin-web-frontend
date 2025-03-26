@@ -30,6 +30,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateOrganiserProfile } from "@/pages/api/mutate/organiser/organiserProfile";
 import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
+import Image from "next/image";
+import { useEditProfileRole } from "@/hooks/useEditProfileRole";
 
 interface Props {
   open: boolean;
@@ -38,11 +40,13 @@ interface Props {
 
 const ProfileFormModal: FC<Props> = ({ open, close }) => {
   const [imageBanner, setImageBanner] = useState<string>("");
+  const [wait, setWait] = useState<boolean>(false);
   const [imageThumbnail, setImageThumbnail] = useState<string>("");
   const fileInputRefBanner = useRef<HTMLInputElement | null>(null);
   const fileInputRefThumbnail = useRef<HTMLInputElement | null>(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const { data: me } = useMe();
+  const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
 
   const form = useForm<OrganiserProfileForm>({
     mode: "all",
@@ -162,7 +166,12 @@ const ProfileFormModal: FC<Props> = ({ open, close }) => {
           description: `${response?.message}`,
         });
         client.invalidateQueries({ queryKey: ["organiserProfile"] });
-        close();
+        client.invalidateQueries({ queryKey: ["me"] });
+        setWait(true);
+        setTimeout(() => {
+          setWait(false);
+          close();
+        }, 6000);
       }
     },
     onError: (error: any) => {
@@ -188,6 +197,10 @@ const ProfileFormModal: FC<Props> = ({ open, close }) => {
         },
       };
 
+      if(!me?.data?.isOrganizer){
+         mutateRole({isOrganizer: true});
+      }
+
       mutate(data);
     },
     [mutate]
@@ -196,10 +209,28 @@ const ProfileFormModal: FC<Props> = ({ open, close }) => {
     <Dialog
       open={open}
       as="div"
-      className="relative z-10 focus:outline-none"
+      className="relative z-50 focus:outline-none"
       onClose={close}
     >
       {isUploading && <SpinnerOverlay />}
+
+      {wait && (
+        <div
+          style={{ zIndex: "100" }}
+          className="fixed h-screen inset-0 flex items-center justify-center bg-black bg-opacity-50"
+        >
+          <div className="flex flex-col items-center justify-center">
+            <Image
+              src={"/gif/spinner.gif"}
+              alt="spinner"
+              width={50}
+              height={25}
+              className="w-auto h-auto"
+            />
+            <p className="text-white font-pally-regular">Please wait...</p>
+          </div>
+        </div>
+      )}
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="flex min-h-full items-center justify-center p-4">
@@ -474,7 +505,7 @@ const ProfileFormModal: FC<Props> = ({ open, close }) => {
                     </FormItem>
                     <FormItem className="w-full">
                       <FormLabel className="" htmlFor="instagram">
-                        Facebook profile link
+                        Instagram profile link
                       </FormLabel>
                       <FormField
                         control={form.control}

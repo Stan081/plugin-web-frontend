@@ -3,8 +3,11 @@ import React from "react";
 import { Section } from "@/tw-components/Section";
 import Image from "next/image";
 import reasonsData from "@/static-datas/reasons-data";
+import Link from "next/link";
+import { useAuthRedirect } from "@/hooks/useAuthRedirect";
 
 const ElevateEvents = () => {
+  const { handleProtectedNavigation } = useAuthRedirect();
   return (
     <Section className="flex xs:max-md:flex-col-reverse justify-center gap-20 xs:max-md:gap-10 w-[90%] mx-auto py-20">
       <div className="flex items-center xs:max-md:gap-5 justify-between">
@@ -14,7 +17,9 @@ const ElevateEvents = () => {
               key={banner}
               className={`${
                 banner === 1 && "relative rounded-2xl overflow-hidden"
-              } ${banner === 2 && "relative mt-20 rounded-2xl overflow-hidden"} ${
+              } ${
+                banner === 2 && "relative mt-20 rounded-2xl overflow-hidden"
+              } ${
                 banner === 3 && "-mt-20 relative rounded-2xl overflow-hidden"
               }   h-[60vh] w-[10vw] ml-5 xs:max-md:ml-0 min-w-[120px] xs:max-md:min-w-fit xs:max-md:w-[33%] xs:max-md:h-[30rem]`}
             >
@@ -55,6 +60,7 @@ const ElevateEvents = () => {
           </div>
           <div className="w-40">
             <Button
+              onClick={() => handleProtectedNavigation("/create-event")}
               variant="destructive"
               size="lg"
               className="mt-5 w-full py-3"

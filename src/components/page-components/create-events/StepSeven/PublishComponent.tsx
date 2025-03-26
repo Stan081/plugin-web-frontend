@@ -24,10 +24,17 @@ import Spinner from "@/tw-components/spinner";
 import { useMe } from "@/pages/api/query/me";
 import ProfileFormModal from "../../organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 import { useCreateEventContext } from "@/providers/create_event.provider";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import Image from "next/image";
+import { useGetOrgProfileById } from "@/hooks/organiser/useGetOrganiserProfile";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { useRouter } from "next/navigation";
 
 const PublishComponent: FC = () => {
   const { data: userData } = useMe();
+  const { data: org } = useGetOrgProfileById();
   const { previousStep: previous } = useCreateEventContext();
+  const { data: event } = useGetEvent();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
   const [selectedVisibility, setSelectedVisibility] =
@@ -40,8 +47,10 @@ const PublishComponent: FC = () => {
       event_visibility: selectedVisibility,
       publishWhen: checkSchedule === "now" ? true : false,
       schedulePublish: {
-        start_date: new Date(),
-        start_time: "",
+        start_date: event?.data?.eventSchedule
+          ? new Date(event?.data?.eventSchedule?.startDate)
+          : undefined,
+        start_time: event?.data?.eventSchedule?.startTime ?? "",
       },
     },
     resolver: yupResolver(PublishFormSchema),
@@ -52,6 +61,8 @@ const PublishComponent: FC = () => {
   }, [selectedVisibility, form.setValue]);
 
   const { toast } = useToast();
+
+  const router = useRouter();
 
   const client = useQueryClient();
 
@@ -69,6 +80,7 @@ const PublishComponent: FC = () => {
           description: `${response?.message}`,
         });
         client.invalidateQueries({ queryKey: ["organiserEvents"] });
+        client.invalidateQueries({ queryKey: ["eventById"] });
         setShowModal(!showModal);
       }
     },
@@ -85,6 +97,7 @@ const PublishComponent: FC = () => {
     if (!userData?.data?.isOrganizer) {
       return setShowProfile(!showProfile);
     }
+
     if (payload?.publishWhen === true) {
       const data = {
         isPublished: payload.publishWhen,
@@ -100,16 +113,25 @@ const PublishComponent: FC = () => {
           startTime: payload?.schedulePublish.start_time,
         },
       };
-      mutate(data);
+
+      if (userData?.data?.isOrganizer && org?.data?.userId) {
+        mutate(data);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "You have to be an organiser to publish event",
+        });
+      }
     }
   };
 
   return (
     <div>
-        <CongratulationModal
-          open={showModal}
-          close={() => setShowModal(!showModal)}
-        />
+      <CongratulationModal
+        open={showModal}
+        close={() => router.push("/organiser")}
+      />
 
       {showProfile && (
         <ProfileFormModal
@@ -154,16 +176,16 @@ const PublishComponent: FC = () => {
                             Shared on Eventdey and search engines
                           </p>
                         </FormItem>
-                        <FormItem className="space-y-1">
+                        <FormItem className="space-y-1 ">
                           <div className="flex items-center space-x-3">
                             <FormControl>
-                              <RadioGroupItem value="private" />
+                              <RadioGroupItem disabled value="private" />
                             </FormControl>
-                            <FormLabel className="font-pally-regular text-base">
+                            <FormLabel className="font-pally-regular text-white/50 text-base">
                               Private
                             </FormLabel>
                           </div>
-                          <p className="text-white font-pally-regular text-sm">
+                          <p className="text-white/50 font-pally-regular text-sm">
                             Only available to a selected audience
                           </p>
                         </FormItem>

@@ -1,47 +1,30 @@
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { followersData, followersDataProps } from "@/static-datas/followers";
-import Image from "next/image";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useUnfollow } from "@/pages/api/mutate/follow/followOrg";
+import { followersDataProps } from "@/static-datas/followers";
 import React, { useState } from "react";
 
-interface FollowersComponentProps {
-  getFollowers: followersDataProps[];
-  handleUnfollow: (id: string) => void;
-}
-
-const FollowersComponent: React.FC<FollowersComponentProps> = ({
-  getFollowers,
-  handleUnfollow,
+const FollowersComponent: React.FC<followersDataProps> = ({
+  name,
+  organizerId,
+  email,
 }) => {
+  const { mutate: removeFollow, isPending: isPendingUnfollow } =
+    useUnfollow(organizerId);
   return (
-    <ul className="space-y-4 mt-5">
-      {getFollowers?.map((follower, index) => (
-        <li key={index}>
-          <div className="flex justify-between pb-5">
-            <div className="flex items-center gap-3">
-              <Image
-                src={`${follower.image}`}
-                width={40}
-                height={40}
-                alt={`${follower.name}`}
-                className="pointer-events-none w-10 h-10 object-cover rounded-full"
-              />
-              <p className="text-base md:text-lg font-pally-medium">
-                {follower.name}
-              </p>
-            </div>
-            <Button
-              onClick={() => handleUnfollow(follower.id)}
-              variant="outline"
-              size="sm"
-            >
-              Unfollow
-            </Button>
-          </div>
-          {index === getFollowers?.length - 1 ? "" : <Separator />}
-        </li>
-      ))}
-    </ul>
+      <div className="mt-4 flex justify-between items-center pb-5">
+        <div className="flex flex-col items-start">
+          <p className="text-base md:text-lg font-pally-medium">{name}</p>
+          <p className="text-sm md:text-base font-pally-regular">{email}</p>
+        </div>
+        {!isPendingUnfollow ? (
+          <Skeleton className="w-16 h-7" />
+        ) : (
+          <Button onClick={() => removeFollow()} variant="outline" size="sm">
+            Unfollow
+          </Button>
+        )}
+      </div>
   );
 };
 

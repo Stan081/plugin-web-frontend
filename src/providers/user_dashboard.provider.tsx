@@ -1,5 +1,5 @@
 "use client";
-import { setCookie } from "@/lib/cookies";
+import { removeCookie, setCookie } from "@/lib/cookies";
 import { deleteToken, getToken } from "@/lib/token";
 import { useMe } from "@/pages/api/query/me";
 import { useRouter } from "next/navigation";
@@ -34,7 +34,7 @@ export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     if (shouldRedirect) {
       if (token) {
-        router.push("/");
+        return;
       } else {
         router.push("/login");
       }
@@ -49,8 +49,9 @@ export const UserDashboardProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const logout = () => {
     deleteToken();
+    removeCookie("user_id");
     setShouldRedirect(false);
-    router.push("/login");
+    router.replace("/login");
   };
 
   const ContextValue: UserDashContextValue = {

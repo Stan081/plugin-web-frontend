@@ -8,6 +8,7 @@ import { RiUserFollowLine } from "react-icons/ri";
 import { RiAccountCircleLine } from "react-icons/ri";
 import { MdHelpOutline } from "react-icons/md";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Separator } from "./ui/separator";
 import { LuLayoutGrid } from "react-icons/lu";
 import { RiLogoutBoxRLine } from "react-icons/ri";
@@ -39,11 +40,13 @@ const items = [
   {
     label: "Get help",
     icon: MdHelpOutline,
-    href: "/#",
+    href: "email",
   },
 ];
 
-const MenuLinks = () => {
+// const NoSSR = dynamic(() => import('@/ui/skeleton'), { ssr: false })
+
+const MenuLinks = ({ white }: { white?: boolean }) => {
   const { logout } = useUserDashContext();
   const { data: userDate, isLoading } = useMe();
   return (
@@ -52,20 +55,30 @@ const MenuLinks = () => {
         <Popover>
           <PopoverTrigger>
             <div className="flex justify-start items-center">
-              <p className="rounded-full w-10 h-10 p-2 border border-[#E6B1B0] bg-[#211913] text-white font-pally-regular">
+              <p
+                className={`rounded-full w-10 h-10 p-2 border border-[#E6B1B0] ${
+                  white ? "bg-white text-black" : "bg-[#211913] text-white"
+                } bg-[#211913]  font-pally-regular`}
+              >
                 {`${userDate?.data?.name?.firstname.slice(0, 1)}` +
                   `${userDate?.data?.name?.lastname.slice(0, 1)}`}
               </p>
-              <RiArrowDownSLine className="ml-2" />
+              <RiArrowDownSLine
+                className={`ml-2 ${white ? "text-white" : "text-black"}`}
+              />
             </div>
           </PopoverTrigger>
-          <PopoverContent className="bg-white flex flex-col gap-2">
+          <PopoverContent className="bg-white">
             <div className="my-2 space-y-1">
               {items.map((item, index) => {
                 const Icon = item.icon;
                 return (
                   <Link
-                    href={`${item.href}`}
+                    href={
+                      item.href === "email"
+                        ? `mailto:support@pluginent.com`
+                        : `${item.href}`
+                    }
                     key={index}
                     className="flex items-center gap-2 text-[#2C2B2E] font-pally-regular text-base hover:bg-gray-200 p-1.5 rounded-md"
                   >
@@ -98,7 +111,7 @@ const MenuLinks = () => {
           </PopoverContent>
         </Popover>
       ) : (
-        <Skeleton className="w-12 h-12 rounded-full" />
+        <div className="w-12 h-12 animate-pulse rounded-md bg-black/10" />
       )}
     </Fragment>
   );

@@ -1,4 +1,3 @@
-import { off } from "process";
 import * as yup from "yup";
 
 const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
@@ -32,7 +31,7 @@ export const OneTimeFormShema = yup.object().shape({
     .string()
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .required("Add time event will end"),
-  timezone: yup.string(),
+  timezone: yup.string().required("Select time zone"),
 });
 
 export const RecurringFormShema = yup.object().shape({
@@ -47,7 +46,7 @@ export const RecurringFormShema = yup.object().shape({
     .string()
     .matches(timeRegex, "Invalid time format (HH:MM)")
     .required("Add time event will end"),
-  timezone: yup.string(),
+  timezone: yup.string().required("Select time zone"),
 });
 
 export const PhysicalLocationSchema = yup.object().shape({
@@ -291,7 +290,7 @@ export const PublishFormSchema = yup.object().shape({
 
 const OrganiserProfileMedia = yup.object().shape({
   facebook: yup.string().url("link must be a valid url").optional(),
-  instagram: yup.string().url("link must be a valid url").required(""),
+  instagram: yup.string().url("link must be a valid url").optional(),
 });
 
 export const OrganiserProfileSchema = yup.object().shape({

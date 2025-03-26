@@ -13,11 +13,14 @@ import Spinner from "@/tw-components/spinner";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { useEditProfileRole } from "@/hooks/useEditProfileRole";
+import { useMe } from "@/pages/api/query/me";
 
 const pageContents = ["Think about the primary audience for your event."];
 
 const StepTwo: React.FC = () => {
   const { data: eventId, isLoading } = useGetEvent();
+  // const { mutate: mutateRole, isPending: isPendingRole } = useEditProfileRole();
   const {
     nextStep: next,
     previousStep: previous,
@@ -43,11 +46,11 @@ const StepTwo: React.FC = () => {
     mutationFn: (data: any) => EventCategoryAPI(data),
     onSuccess: (response) => {
       if (response?.message) {
-        toast({
-          variant: "success",
-          title: "Uploaded successfully",
-          description: `${response?.message}`,
-        });
+        // toast({
+        //   variant: "success",
+        //   title: "Uploaded successfully",
+        //   description: `${response?.message}`,
+        // });
         client.invalidateQueries({ queryKey: ["eventID"] });
         next();
       }
@@ -65,6 +68,10 @@ const StepTwo: React.FC = () => {
     const data = {
       eventCategory: [...selectedNames],
     };
+  //   if(user?.data?.isOrganizer){
+  //     mutateRole({isOrganizer: false});
+  //  }
+
     mutate(data);
   };
 
@@ -100,7 +107,7 @@ const StepTwo: React.FC = () => {
                 ))}
               </div>
             </div>
-            <div className="sticky z-50 bottom-0 bg-[#281E17]">
+            <div className="sticky z-30 bottom-0 bg-[#281E17]">
               <Separator />
               <div className="py-5 flex justify-between items-center">
                 <Button

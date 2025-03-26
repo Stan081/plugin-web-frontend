@@ -14,13 +14,18 @@ import {
   useCheckFollow,
   useUnfollow,
 } from "@/pages/api/mutate/follow/followOrg";
+import { getToken } from "@/lib/token";
 
 const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
-  const { data: organiser } = useOrganiser(organiserId);
+  const { data: organiser, isLoading: isLoadingOrganiser } =
+    useOrganiser(organiserId);
   const { data: isCheck } = useCheckFollow(organiserId);
-  const { mutate: removeFollow, isPending: isPendingUnfollow } = useUnfollow(organiserId);
+  const { mutate: removeFollow, isPending: isPendingUnfollow } =
+    useUnfollow(organiserId);
 
   const { toast } = useToast();
+
+  const token = getToken();
 
   const client = useQueryClient();
 
@@ -49,15 +54,34 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
     const data = {
       organizerId: organiserId,
     };
-    mutate(data, {
-      onSuccess: () => {
-        client.invalidateQueries({ queryKey: ["isFollowing", organiserId] });
-      },
-    });
+    if (!token) {
+      toast({
+        variant: "destructive",
+        title: "Login Error",
+        description: "Please login to follow organiser",
+      });
+    } else {
+      mutate(data, {
+        onSuccess: () => {
+          client.invalidateQueries({ queryKey: ["isFollowing", organiserId] });
+          client.invalidateQueries({ queryKey: ["organiser"] });
+        },
+      });
+    }
   };
 
   const handleUnfollow = () => {
-    removeFollow();
+    if (!token) {
+      toast({
+        variant: "destructive",
+        title: "Login Error",
+        description: "Please login to unfollow organiser",
+      });
+    } else {
+      removeFollow();
+      client.invalidateQueries({ queryKey: ["isFollowing", organiserId] });
+      client.invalidateQueries({ queryKey: ["organiser"] });
+    }
   };
   return (
     <div className="mt-6 bg-[#FCE0DC]/40 rounded-xl p-4">
@@ -65,72 +89,87 @@ const MeetYourOganiser: FC<{ organiserId: string }> = ({ organiserId }) => {
         Meet your Organizer
       </h6>
 
-      <div className="mt-4 flex justify-between items-start md:items-start gap-3">
-        <div className="flex items-start gap-3">
-          <Image
-            src={organiser?.data?.thumbnail ?? `/images/seagreen-bg.png`}
-            width={456}
-            height={280}
-            alt={organiser?.name}
-            className="pointer-events-none w-full max-w-16 h-16 object-cover rounded-full"
-          />
-          <div className="space-y-1">
-            <Link
-              href={`/organiser/${organiserId}`}
-              className="text-sm md:text-base font-pally-medium cursor-pointer hover:underline"
-            >
-              Hosted by{" "}
-              {organiser?.data?.name
-                ? organiser?.data?.name?.slice(0, 1).toLocaleUpperCase() +
-                  organiser?.data?.name.slice(1)
-                : organiser?.data?.name}
-            </Link>
-            <div className="flex gap-4">
-              <Link
-                href={`${organiser?.data?.socials?.facebook}`}
-                target="_blank"
-                className="text-sm md:text-base text-[#667185] gap-4  font-pally-regular hover:underline"
-              >
-                Facebook
-              </Link>
-              <Link
-                href={`${organiser?.data?.socials?.instagram}`}
-                target="_blank"
-                className="text-sm md:text-base text-[#667185] gap-4  font-pally-regular hover:underline"
-              >
-                Instagram
-              </Link>
-            </div>
-            <p className="font-pally-regular text-sm md:text-base text-[#0F973D]">
-              369 people are following this host
-            </p>
-          </div>
+      {isLoadingOrganiser ? (
+        <div className="flex justify-start items-start mt-5 gap-4">
+          <Skeleton className="h-12 w-14 rounded-full" />
+          <Skeleton className="h-14 w-full" />
         </div>
-
-        <Button
-          variant="outline"
-          size="sm"
-          className="flex items-center gap-1.5"
-          onClick={isCheck?.isFollowing ? handleUnfollow : handleFollow}
-        >
-          {isPending || isPendingUnfollow ? (
-            <Skeleton className="w-5 h-5 rounded-full" />
-          ) : (
-            <>
-              {isCheck?.isFollowing ? (
-                <>
-                  <span>unfollow</span>
-                </>
-              ) : (
-                <>
-                  <RiUserAddLine size={18} className="hidden md:flex" />
-                  <span>follow</span>
-                </>
+      ) : (
+        <div className="mt-4 flex justify-between items-start md:items-start gap-3">
+          <div className="flex items-start gap-3">
+            <Link href={`/organiser/${organiserId}`}>
+              <Image
+                src={organiser?.data?.thumbnail ?? `/images/seagreen-bg.png`}
+                width={456}
+                height={280}
+                alt={organiser?.name}
+                className="pointer-events-none w-full max-w-16 h-16 object-cover rounded-full"
+              />
+            </Link>
+            <div className="space-y-1">
+              <Link
+                href={`/organiser/${organiserId}`}
+                className="text-sm md:text-base font-pally-medium cursor-pointer hover:underline"
+              >
+                Hosted by{" "}
+                {organiser?.data?.name
+                  ? organiser?.data?.name?.slice(0, 1).toLocaleUpperCase() +
+                    organiser?.data?.name.slice(1)
+                  : organiser?.data?.name}
+              </Link>
+              <div className="flex gap-4">
+                {organiser?.data?.socials?.facebook && (
+                  <Link
+                    href={`${organiser?.data?.socials?.facebook}`}
+                    target="_blank"
+                    className="text-sm md:text-base text-[#667185] gap-4  font-pally-regular hover:underline"
+                  >
+                    Facebook
+                  </Link>
+                )}
+                {organiser?.data?.socials?.instagram && (
+                  <Link
+                    href={`${organiser?.data?.socials?.instagram}`}
+                    target="_blank"
+                    className="text-sm md:text-base text-[#667185] gap-4  font-pally-regular hover:underline"
+                  >
+                    Instagram
+                  </Link>
+                )}
+              </div>
+              {organiser?.data?.followers > 0 && (
+                <p className="font-pally-regular text-sm md:text-base text-[#0F973D]">
+                  {organiser?.data?.followers} people are following this host
+                </p>
               )}
-            </>
-          )}
-        </Button>
-      </div>
+            </div>
+          </div>
+
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-1.5"
+            onClick={isCheck?.isFollowing ? handleUnfollow : handleFollow}
+          >
+            {isPending || isPendingUnfollow ? (
+              <Skeleton className="w-5 h-5 rounded-full" />
+            ) : (
+              <>
+                {isCheck?.isFollowing ? (
+                  <>
+                    <span>unfollow</span>
+                  </>
+                ) : (
+                  <>
+                    <RiUserAddLine size={18} className="hidden md:flex" />
+                    <span>follow</span>
+                  </>
+                )}
+              </>
+            )}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

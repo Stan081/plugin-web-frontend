@@ -17,6 +17,7 @@ export const removeFellowOrg = async (data: {
         REMOVE_FOLLOW(),
       {
         headers: {
+          Accept: "application/json",
           Authorization: `Bearer ${token}`,
         },
         data,

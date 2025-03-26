@@ -3,9 +3,11 @@ import axios from "axios";
 import { getToken } from "@/lib/token";
 import { EVENT_BASIC_INFO_URL } from "@/lib/constants";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 export const useDeleteEvent = (close: () => void) => {
   const token = getToken();
+  const router = useRouter()
 
   const { toast } = useToast();
   const client = useQueryClient();
@@ -26,6 +28,7 @@ export const useDeleteEvent = (close: () => void) => {
         title: "Event has been deleted",
       });
       client.invalidateQueries({ queryKey: ["organiserEvents"] });
+      router.push('/organiser/events')
       close()
     },
     onError: (error) => {

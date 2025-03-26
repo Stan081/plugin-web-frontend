@@ -11,7 +11,7 @@ import {
 import Container from "@/tw-components/container";
 import HomeTabCard from "./HomeTabCard";
 import { useMe } from "@/pages/api/query/me";
-import { useGetOrganiserEvents } from "@/hooks/organiser/userGetOrganiserEvents";
+import { useGetOrganiserEvents } from "@/hooks/organiser/useGetOrganiserEvents";
 import { Skeleton } from "@/components/ui/skeleton";
 import CardEmptyState from "./CardEmptyState";
 
@@ -24,26 +24,27 @@ const HomeTabs = () => {
   const { data: user } = useMe();
   const {
     data: organiserEvents,
-    isLoading,
     isError,
+    isLoading,
   } = useGetOrganiserEvents(user?.data?._id);
+
   const [isActive, setIsActive] = useState<string>("upcoming");
 
   const now = new Date();
 
-  const upcomingEvents = organiserEvents?.data?.data.filter((item) => {
+  const upcomingEvents = organiserEvents?.data?.filter((item) => {
     const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+      item?.startDate
     );
     return item.isPublished === true && startDate > now;
   });
 
-  const currentEvents = organiserEvents?.data?.data.filter((item) => {
+  const currentEvents = organiserEvents?.data?.filter((item) => {
     const startDate = new Date(
-      item?.oneTimeEvent?.startDate || item?.recurringEvent?.startDate
+      item?.startDate
     );
     const endDate = new Date(
-      item?.oneTimeEvent?.endDate || item?.recurringEvent?.endDate
+      item?.endDate || item?.endDate
     );
     return item.isPublished === true && now >= startDate && now <= endDate;
   });

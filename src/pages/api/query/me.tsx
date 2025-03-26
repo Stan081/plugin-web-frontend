@@ -22,7 +22,7 @@ export const useMe = () => {
         .catch((err) => {
           throw err?.response?.data || err.message; // Better error handling
         }),
-    retry: true,
+    retry: false,
     refetchOnMount: true, 
   });
 };

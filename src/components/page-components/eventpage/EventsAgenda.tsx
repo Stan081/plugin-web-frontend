@@ -8,13 +8,9 @@ import {
 import { calculateDuration } from "@/lib/utils";
 
 const EventsAgenda: React.FC<{ event: any }> = ({ event }) => {
-  const accordionStyles = {
-    first: "border-[#40B869] bg-[#F2FAF5]",
-    second: "border-[#F58B86] bg-[#FFEEED]",
-    third: "border-[#F5B546] bg-[#FEF6E7]",
-  };
+  let accordionBg: string[] = ["#F2FAF5", "#FFEEED", "#FEF6E7"];
 
-  let mk: string = "llo";
+  let accordionBorder: string[] = ["#40B869", "#F58B86", "#F5B546"];
 
   return (
     <section>
@@ -23,15 +19,16 @@ const EventsAgenda: React.FC<{ event: any }> = ({ event }) => {
       </p>
       <Accordion type="single" collapsible>
         <ul className="space-y-5 mt-4">
-          {event.map((agenda) => (
+          {event.map((agenda, index) => (
             <li key={agenda._id}>
               <AccordionItem
                 value={agenda._id as string}
+                style={{
+                  backgroundColor: accordionBg[index % accordionBg.length],
+                  borderColor: accordionBorder[index % accordionBorder.length],
+                }}
                 className={`
-                px-5 border border-t-4 rounded-lg 
-                ${agenda._id && accordionStyles.first} 
-                ${agenda._id && accordionStyles.second} 
-                ${agenda._id && accordionStyles.third} 
+                px-5 border border-t-4 rounded-lg
                 `}
               >
                 <AccordionTrigger className=" font-pally-medium text-base md:text-lg">

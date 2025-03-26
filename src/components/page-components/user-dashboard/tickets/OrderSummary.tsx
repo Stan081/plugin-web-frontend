@@ -3,15 +3,17 @@ import { Separator } from "@/components/ui/separator";
 import { toFiat } from "@/lib/amount";
 import React, { useState } from "react";
 import ReceiptModal from "../ReceiptModal";
-import { formatDate } from "@/components/TicketComponent";
+// import { formatDate } from "@/components/TicketComponent";
 import { TicketType, UserType } from "./TicketSummary";
 
 interface Props {
-  data?: TicketType[];
-  createdAt: string;
+  data?: any[];
   user: UserType;
+  eventName: string;
+  address: string;
+  startDate: string;
 }
-const OrderSummary = ({ data, createdAt, user }: Props) => {
+const OrderSummary = ({ data, user, eventName, address, startDate }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const totalPrice = data?.reduce(
@@ -20,38 +22,19 @@ const OrderSummary = ({ data, createdAt, user }: Props) => {
   );
 
   return (
-    <div className="mt-4 bg-[#F9F7F7] px-4 py-5 rounded-lg space-y-4">
-      <div className="flex items-center gap-2">
-        {" "}
-        <p className="bg-[#BAE9CA] font-pally-medium py-1 px-2 text-center text-sm md:text-base rounded-xl text-[#099137] whitespace-nowrap">
-          Paid ticket
-        </p>
-        <div className="w-1 h-1 bg-gray-500 rounded-full" />
-        <p className=" font-pally-regular text-[#515A6A] text-sm md:text-base">
-          Ordered by {user?.name?.firstname} {user?.name?.lastname} (
-          {user?.email})
-        </p>
-      </div>
-      <p className=" font-pally-regular text-[#515A6A] text-sm md:text-base">
-        {formatDate(createdAt)}
-      </p>
-      <div className="flex items-center gap-2">
-        {" "}
-        <p className="font-pally-regular text-[#515A6A] text-sm md:text-base">
-          {data?.length} tickets
-        </p>
-        <div className="w-1 h-1 bg-gray-500 rounded-full" />
-        <p className=" font-pally-medium text-base md:text-lg ">
-          {toFiat(totalPrice)}
-        </p>
-      </div>
+    <div className="mt-4 bg-[#F9F7F7] p-3 rounded-lg space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          {" "}
+          <p className="font-pally-regular text-[#515A6A] text-sm md:text-base">
+            {data?.length} tickets
+          </p>
+          <div className="w-1 h-1 bg-gray-500 rounded-full" />
+          <p className=" font-pally-medium text-base md:text-lg ">
+            {toFiat(totalPrice)}
+          </p>
+        </div>
 
-      <Separator />
-
-      <div className="mt-6 flex items-center justify-between">
-        <p className=" font-pally-medium text-[#515A6A] text-sm md:text-base">
-          Order #1242801
-        </p>
         <Button onClick={() => setIsOpen(!isOpen)} variant="outline" size="sm">
           View receipt
         </Button>
@@ -59,9 +42,11 @@ const OrderSummary = ({ data, createdAt, user }: Props) => {
       <ReceiptModal
         total={totalPrice}
         data={data}
-        createdAt={formatDate(createdAt)}
         open={isOpen}
         email={user?.email}
+        eventName={eventName}
+        address={address}
+        startDate={startDate}
         close={() => setIsOpen(!isOpen)}
       />
     </div>

@@ -8,10 +8,8 @@ import Image from "next/image";
 import React, { FC, useState } from "react";
 import { SlLocationPin } from "react-icons/sl";
 import { TfiWorld } from "react-icons/tfi";
-import { TabProgress } from "../home/TabProgress";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { FiEdit2 } from "react-icons/fi";
-import { HiOutlineSpeakerphone } from "react-icons/hi";
 import { MdOutlineRemoveRedEye, MdLink } from "react-icons/md";
 import { HiOutlineTrash } from "react-icons/hi";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
@@ -32,18 +30,22 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
 
   const client = useQueryClient();
 
-  const startDate: string =
-    event?.oneTimeEvent?.startDate || event?.recurringEvent?.startDate;
+  const startDate: Date = event?.startDate;
 
-  const startTime: string =
-    event?.oneTimeEvent?.startTime || event?.recurringEvent?.startTime;
+  const startTime: string = event?.startTime;
+
+  const endDate: Date = new Date(event?.endDate);
+
+  const now = new Date();
+
+  const isPastEvent = endDate < now;
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
     weekday: "short",
-    month: "short",
+    month: "long",
     day: "numeric",
-    year: "numeric", // Add year to the options
+    timeZone: "Africa/Lagos",
   };
 
   const formattedDate = date.toLocaleDateString("en-GB", options);
@@ -59,7 +61,7 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
     hour: "numeric",
     minute: "numeric",
     hour12: true,
-    timeZone: "UTC",
+    timeZone: "Africa/Lagos",
   });
 
   const handleCopyLink = async (saveLink: string) => {
@@ -112,13 +114,15 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
               </div>
             </PopoverTrigger>
             <PopoverContent className="w-48 bg-white rounded-xl p-3">
-              <div
-                onClick={handleEditEvent}
-                className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
-              >
-                <FiEdit2 size={18} color="#667185" />
-                Edit
-              </div>
+              {!isPastEvent && (
+                <div
+                  onClick={handleEditEvent}
+                  className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
+                >
+                  <FiEdit2 size={18} color="#667185" />
+                  Edit
+                </div>
+              )}
               {/* {event?.isPublished && (
                 <div className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm">
                   <HiOutlineSpeakerphone size={18} color="#667185" />
@@ -181,32 +185,20 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
             <TfiWorld />{" "}
             {event?.isPublished && event?.publishStatus === "public"
               ? "Public view"
-              : event?.publishStatus === "private"
-              ? "Private view"
-              : "Draft mode"}{" "}
+              : // : event?.publishStatus === "private"
+                // ? "Private view"
+                "Draft mode"}{" "}
           </p>
         </div>
 
         <p className="text-sm md:text-base text-[#667185] flex items-center gap-2">
           <SlLocationPin />
           {event?.locationType === "physical"
-            ? event?.physicalLocation?.address?.length > 40
-              ? event?.physicalLocation?.address?.slice(0, 26).concat("...")
-              : event?.physicalLocation?.address
+            ? event?.address?.length > 40
+              ? event?.address?.slice(0, 26).concat("...")
+              : event?.address
             : "Online"}
         </p>
-
-        <div className="flex items-center gap-2">
-          <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
-            Total sold
-          </p>
-          <div className=" w-52">
-            <TabProgress value={10} max={100} />
-          </div>
-          <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-            {10}/{100}
-          </p>
-        </div>
       </div>
     </div>
   );

@@ -21,8 +21,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 const OrganiserInfo: React.FC<{
   organiser: any;
 }> = ({ organiser }) => {
-  const [isShown, setIsShown] = useState<boolean>(false);
+  const [isShown, setIsShown] = useState<boolean>(true);
   const { data: userDate } = useMe();
+
+  console.log(organiser)
 
   const { toast } = useToast();
 
@@ -82,6 +84,9 @@ const OrganiserInfo: React.FC<{
         client.invalidateQueries({
           queryKey: ["isFollowing", organiser?.userId],
         });
+        client.invalidateQueries({
+          queryKey: ["organiser",],
+        });
       },
     });
   };
@@ -92,7 +97,7 @@ const OrganiserInfo: React.FC<{
 
   return (
     <div className="lg:absolute top-52 md:top-48 left-0 md:left-40 z-20 float-right">
-      <div className="w-full lg:max-w-sm border bg-white rounded-xl shadow-md shadow-[#8F706E26]/15 p-4">
+      <div className="w-full lg:w-96 border bg-white rounded-xl shadow-md shadow-[#8F706E26]/15 p-4">
         <div className="h-36 w-36 mx-auto">
           <Image
             src={organiser?.thumbnail ?? "/images/seagreen-bg.png"}
@@ -112,7 +117,7 @@ const OrganiserInfo: React.FC<{
 
           <div className="flex items-center justify-center mt-2 gap-4">
             <p className="font-pally-regular text-sm text-[#667185]">
-              36 Followers
+              {organiser?.followers} Followers
             </p>
             {organiser?.userId !== userDate?.data?._id && (
               <Fragment>

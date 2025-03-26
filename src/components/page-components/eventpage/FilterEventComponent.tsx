@@ -21,8 +21,8 @@ const FilterEventComponent = ({
   onApplyFilters: (filters: any) => void;
 }) => {
   const [filters, setFilters] = useState({
-    minPrice: null,
-    maxPrice: null,
+    minPrice: 0,
+    maxPrice: 0,
     locationType: "",
     eventType: "",
     startDate: null,
@@ -64,7 +64,7 @@ const FilterEventComponent = ({
     const { value } = e.target;
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [type]: value,
+      [type]: value || null,
     }));
   };
 
@@ -78,7 +78,7 @@ const FilterEventComponent = ({
           <RiFilter2Line size={16} />
         </div>
       </DrawerTrigger>
-      <DrawerContent className="bg-white h-4/6 px-4">
+      <DrawerContent className="bg-white h-5/6 px-4">
         <DrawerHeader>
           <DrawerTitle>Filter Events</DrawerTitle>
         </DrawerHeader>

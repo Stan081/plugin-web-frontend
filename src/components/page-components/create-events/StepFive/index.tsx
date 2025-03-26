@@ -42,7 +42,7 @@ const StepFive: React.FC = () => {
   const [hydrated, setHydrated] = useState<boolean>(false);
 
   const [isChecked, setIsChecked] = useState<boolean>(
-    eventById?.data?.refundPolicyAgreed ?? false
+    eventById?.data?.refundPolicyAgreed || false
   );
 
   const [changePageContent, setChangePageContent] = useState<PageContentsType>({
@@ -115,7 +115,7 @@ const StepFive: React.FC = () => {
             <Accordion
               type="single"
               collapsible
-              className="w-full h-full space-y-5 lg:h-[60vh] overflow-y-auto"
+              className="w-full h-full mb-5 space-y-5 lg:h-[60vh] overflow-y-auto"
             >
               <AccordionItem
                 onClick={() => handlePageContentChange("item-1")}

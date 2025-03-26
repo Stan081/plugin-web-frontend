@@ -1,29 +1,6 @@
 export const timezone = [
-  "(GMT-12:00) International Date Line West",
-  "(GMT-11:00) Coordinated Universal Time-11",
-  "(GMT-10:00) Hawaii-Aleutian Standard Time - Honolulu",
-  "(GMT-09:00) Alaska Standard Time - Anchorage",
-  "(GMT-08:00) Pacific Standard Time - Los Angeles",
-  "(GMT-07:00) Mountain Standard Time - Denver",
-  "(GMT-06:00) Central Standard Time - Chicago",
-  "(GMT-05:00) Eastern Standard Time - New York",
-  "(GMT-04:00) Atlantic Standard Time - Halifax",
-  "(GMT-03:00) Argentina Standard Time - Buenos Aires",
-  "(GMT-02:00) Coordinated Universal Time-02",
-  "(GMT-01:00) Azores Standard Time - Azores",
-  "(GMT+00:00) Greenwich Mean Time - London",
-  "(GMT+01:00) West Africa Standard Time - Lagos",
-  "(GMT+02:00) Eastern European Time - Cairo",
-  "(GMT+03:00) Arabian Standard Time - Riyadh",
-  "(GMT+04:00) Gulf Standard Time - Dubai",
-  "(GMT+05:00) Pakistan Standard Time - Karachi",
-  "(GMT+06:00) Bangladesh Standard Time - Dhaka",
-  "(GMT+07:00) Indochina Time - Bangkok",
-  "(GMT+08:00) China Standard Time - Beijing",
-  "(GMT+09:00) Japan Standard Time - Tokyo",
-  "(GMT+10:00) Australian Eastern Standard Time - Sydney",
-  "(GMT+11:00) Solomon Islands Time - Honiara",
-  "(GMT+12:00) New Zealand Standard Time - Wellington",
+ 'UTC', 'GMT', 'EST', 'EDT', 'CST', 'CDT', 'MST', 'MDT', 'PST', 'PDT', 
+  'BST', 'CET', 'CEST', 'IST', 'JST', 'AEST', 'AEDT'
 ];
 
 export type PageContentsType = {

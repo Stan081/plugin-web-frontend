@@ -23,5 +23,8 @@ export const useGetEventAgenda = () => {
           throw err?.response?.data || err.message; // Improved error handling
         }),
     retry: false,
+    refetchInterval: false,
+    // refetchOnReconnect: false
+
   });
 };

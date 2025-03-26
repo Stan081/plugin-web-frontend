@@ -72,7 +72,7 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
       end_time: selectedTicket?.endTime ?? "",
       ticket_perks: selectedTicket?.ticketPeaks ?? "",
       label_image: selectedTicket?.seatMap ?? "",
-      label_color: "",
+      label_color: selectedTicket?.color || "",
     },
     resolver: yupResolver(PaidSeatSectionFormSchema),
   });
@@ -196,6 +196,8 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
     };
     mutate(data);
   }, []);
+
+  console.log(selectedTicket);
   return (
     <div>
       {isUploading && <SpinnerOverlay />}
@@ -547,16 +549,20 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
                       <FormControl>
                         <Select
                           onValueChange={(value) => field.onChange(value)}
-                          defaultValue={String(field.value)}
+                          defaultValue={
+                            String(field.value) || selectedTicket?.color
+                          }
                         >
                           <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
-                            <SelectValue placeholder="Assign colour" />
+                            {/* {selectedTicket?.color ? <SelectValue placeholder={selectedTicket?.color} /> : ( */}
+                              <SelectValue placeholder="Assign colour" />
+                            {/* // )} */}
                           </SelectTrigger>
                           <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
                             {getSelectedColor.length !== 0 ? (
-                              getSelectedColor.map((state) => {
+                              getSelectedColor.map((state, index) => {
                                 return (
-                                  <SelectItem key={state} value={state}>
+                                  <SelectItem key={index + 1} value={state || selectedTicket?.color}>
                                     <div className="flex items-center gap-2">
                                       <span
                                         style={{ backgroundColor: state }}

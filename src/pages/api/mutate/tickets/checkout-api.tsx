@@ -8,7 +8,6 @@ type CheckoutResponse = {
 };
 
 export const Checkout = async (data: any): Promise<CheckoutResponse> => {
-	console.log(data)
   try {
     const response: AxiosResponse<CheckoutResponse> = await axios.post(
       TICKETS,

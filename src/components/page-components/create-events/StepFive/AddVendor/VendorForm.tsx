@@ -187,22 +187,18 @@ const VendorForm: FC<VendorFormProps> = ({ handleReturnToList }) => {
     },
   });
 
-  const onSubmit = useCallback(
-    async (payload: VendorsForm) => {
-      console.log(payload);
-      const data = {
-        thumbnail: payload.pass_thumbnail ?? "",
-        slots: payload.available_slot,
-        price: payload.pass_price,
-        passCategory: payload.pass_category,
-        vendorTag: payload.pass_tag,
-        isPass: payload.shared_pass ? "yes" : "no",
-      };
+  const onSubmit = useCallback(async (payload: VendorsForm) => {
+    const data = {
+      thumbnail: payload.pass_thumbnail ?? "",
+      slots: payload.available_slot,
+      price: payload.pass_price,
+      passCategory: payload.pass_category,
+      vendorTag: payload.pass_tag,
+      isPass: payload.shared_pass ? "yes" : "no",
+    };
 
-      mutate(data);
-    },
-    []
-  );
+    mutate(data);
+  }, []);
 
   return (
     <div className="mb-3">
@@ -359,7 +355,7 @@ const VendorForm: FC<VendorFormProps> = ({ handleReturnToList }) => {
                     <SelectValue placeholder="pick a category" />
                   </SelectTrigger>
                   <SelectContent className="w-full border z-40 bg-primary-foreground rounded-sm bg-white">
-                    {["drinks", "Food"].map((category, index) => (
+                    {["Drinks", "Food", "Others"].map((category, index) => (
                       <SelectItem key={index} value={category}>
                         <div className="flex items-center gap-2">
                           {category}
