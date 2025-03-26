@@ -21,6 +21,7 @@ type Props = {
 interface EntryProps {
   entryTicket: Props;
   id: string;
+  isPassed: boolean;
 }
 
 const setCookie = (key: string, value: any) => {
@@ -31,7 +32,11 @@ const setCookie = (key: string, value: any) => {
   }
 };
 
-const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
+const EntryTicketComponent: FC<EntryProps> = ({
+  entryTicket,
+  id,
+  isPassed,
+}) => {
   const { counter, setCounter } = useEventsContext();
 
   const router = useRouter();
@@ -119,11 +124,13 @@ const EntryTicketComponent: FC<EntryProps> = ({ entryTicket, id }) => {
               onClick={handleIncrement}
               type="button"
               disabled={
+                isPassed ||
                 maximumCount === counter ||
                 entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
                 counter >= getRemainingTicket
               }
               className={`${
+                isPassed ||
                 maximumCount === counter ||
                 entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
                 counter >= getRemainingTicket

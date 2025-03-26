@@ -119,7 +119,7 @@ const HomeNavbar = () => {
 
           {!token ? (
             <Link href={"/signup"}>
-              <Button variant="outline" className=" border-black">
+              <Button variant="outline" className=" border border-white text-white">
                 Get Started
               </Button>
             </Link>
@@ -130,7 +130,7 @@ const HomeNavbar = () => {
         <div className="lg:hidden block">
           {!token ? (
             <Link href={"/signup"}>
-              <Button variant="outline" className=" border-black">
+              <Button variant="outline" className=" border border-white text-white">
                 Get Started
               </Button>
             </Link>

@@ -194,6 +194,7 @@ const TicketCTA: React.FC<{ event: any; id: string; isPassed: boolean }> = ({
                         <EntryTicketComponent
                           entryTicket={event?.entryTicket}
                           id={id}
+                          isPassed={isPassed}
                         />
                       )}
                   </div>

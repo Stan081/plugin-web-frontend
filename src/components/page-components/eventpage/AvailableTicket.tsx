@@ -19,55 +19,11 @@ const AvailableTicket: React.FC<{
 
   const router = useRouter();
 
-  // const getEntryTicketCountdown = () => {
-  //   const now = new Date();
-
-  //   if (event?.ticketCategory === "entry" && event?.entryTicket) {
-  //     const { startDate, endDate } = event.entryTicket;
-
-  //     // Validate startDate and endDate
-  //     const start = startDate ? new Date(startDate) : null;
-  //     const end = endDate ? new Date(endDate) : null;
-
-  //     if (start && isNaN(start.getTime())) {
-  //       console.error("Invalid startDate format.");
-  //       return null;
-  //     }
-
-  //     if (end && isNaN(end.getTime())) {
-  //       console.error("Invalid endDate format.");
-  //       return null;
-  //     }
-
-  //     // Check if the current date is before the start date
-  //     if (start && now < start) {
-  //       const timeDifference = start.getTime() - now.getTime();
-  //       const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-  //       return Math.max(daysRemaining, 0); // Time remaining until the start date
-  //     }
-
-  //     // Check if the current date is between the start and end dates
-  //     if (end && now <= end) {
-  //       const timeDifference = end.getTime() - now.getTime();
-  //       const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-  //       return Math.max(daysRemaining, 0); // Time remaining until the end date
-  //     }
-
-  //     // If the event is past its end date
-  //     return 0;
-  //   }
-
-  //   return null;
-  // };
-
   const handleGroupTicket = () => {
     if (tickets.length > 0) {
       router.push(`/ticket-checkout`);
-      // toggleCheckout()
     }
   };
-
-  // console.log(event?.entryTicket?._id);
 
   return (
     <div className="mb-6 mt-8 lg:block md:w-2/6 hidden">
@@ -102,12 +58,8 @@ const AvailableTicket: React.FC<{
           </>
         )}
 
-        {!isPassed ? (
-          event?.ticketCategory === "entry" && (
-            <EntryTicketComponent entryTicket={event?.entryTicket} id={id} />
-          )
-        ) : (
-          <p className="destructive underline">Ticket has been closed</p>
+        {event?.ticketCategory === "entry" && (
+          <EntryTicketComponent entryTicket={event?.entryTicket} id={id} isPassed={isPassed} />
         )}
       </div>
     </div>

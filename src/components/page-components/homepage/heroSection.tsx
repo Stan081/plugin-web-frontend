@@ -75,19 +75,7 @@ const HeroSection = () => {
     >
       {heroSlides.length !== 0 ? (
         <div className=" bg-no-repeat bg-cover">
-          {/* <div
-            className="absolute left-1/2 right-0 top-0 -z-10 -ml-24 transform-gpu overflow-hidden blur-3xl lg:ml-24 xl:ml-48"
-            aria-hidden="true"
-          >
-            <div className="aspect-[136/400] w-[30.0625rem] bg-gradient-to-tr from-[#ffffff] to-[#382407] opacity-20" />
-          </div>
-          <div
-            className="absolute left-0 right-1/2 top-0 -z-10 transform-gpu overflow-hidden blur-3xl"
-            aria-hidden="true"
-          >
-            <div className="aspect-[301/96] w-[30.0625rem] bg-gradient-to-bl from-[#ffffff] to-[#D9302A] opacity-20" />
-          </div> */}
-          <div className="bg-bgHero bg-cover bg-top lg:bg-center bg-no-repeat  w-full h-[85vh]">
+          <div className="bg-bgHero bg-cover bg-top lg:bg-bottom bg-no-repeat  w-full h-[70vh] lg:h-[85vh]">
             <Container className="flex flex-col justify-between h-full">
               <HomeNavbar/>
               <div className="w-full lg:w-1/2 mb-20">
