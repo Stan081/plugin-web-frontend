@@ -67,7 +67,7 @@ const HeaderSearchBar = () => {
                         placeholder="Event name"
                         type="text"
                         autoCorrect="off"
-                        className="w-full border bg-transparent border-white text-white font-pally-regular"
+                        className="w-full border-2 bg-transparent border-white text-white font-pally-regular"
                         {...field}
                       />
                     </FormControl>
@@ -92,7 +92,7 @@ const HomeNavbar = () => {
       <div className="flex justify-between items-center gap-5">
         <div className="md:space-x-0 flex gap-4 md:gap-6 items-center">
           <NavigationDialog white />
-          <Link href={"/"}>
+          <Link href={"/"} className="w-[100px] lg:w-[120px]">
             <span className="sr-only">Plugin</span>
 
             <Image
@@ -100,7 +100,7 @@ const HomeNavbar = () => {
               alt="Plugin Logo"
               width={128}
               height={32}
-              className="h-auto w-auto pointer-events-auto"
+              className="w-[110px] h-10 lg:h-11 pointer-events-auto"
             />
           </Link>
           <div className="hidden lg:block w-60">

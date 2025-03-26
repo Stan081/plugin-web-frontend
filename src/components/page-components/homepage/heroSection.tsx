@@ -87,14 +87,14 @@ const HeroSection = () => {
           >
             <div className="aspect-[301/96] w-[30.0625rem] bg-gradient-to-bl from-[#ffffff] to-[#D9302A] opacity-20" />
           </div> */}
-          <div className="bg-bgHero bg-cover bg-no-repeat  w-full h-[85vh]">
+          <div className="bg-bgHero bg-cover bg-top lg:bg-center bg-no-repeat  w-full h-[85vh]">
             <Container className="flex flex-col justify-between h-full">
               <HomeNavbar/>
               <div className="w-full lg:w-1/2 mb-20">
-                <h1 className="bg-[#F58986] inline-block px-6 py-3 font-pally-medium text-3xl lg:text-6xl uppercase text-black">
+                <h1 className="bg-[#F58986] inline-block px-3 lg:px-6 py-3 font-pally-medium text-3xl lg:text-6xl uppercase text-black">
                   Discover <br />
                 </h1>
-                <h2 className="aspect-[821/116] bg-gradient-to-r from-[#F58986] to-[#ffffff]/90 px-6 py-3 font-pally-medium text-3xl lg:text-6xl uppercase text-black w-full">
+                <h2 className="aspect-[821/116] bg-gradient-to-r from-[#F58986] to-[#ffffff]/90 px-3 lg:px-6 py-3 font-pally-medium text-3xl lg:text-6xl uppercase text-black w-full">
                   your next event
                 </h2>
                 <p className="mt-2 lg:mt-6 text-base lg:text-2xl font-pally-regular text-white uppercase lg:px-8">
