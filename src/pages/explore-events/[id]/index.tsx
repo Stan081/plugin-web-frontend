@@ -7,9 +7,7 @@ import AboutEventDetail from "@/components/page-components/eventpage/AboutEventD
 import AvailableTicket from "@/components/page-components/eventpage/AvailableTicket";
 import EventDetailsHeader from "@/components/page-components/eventpage/EventDetailsHeader";
 import SimilarEvents from "@/components/page-components/eventpage/SimilarEvents";
-import {
-  exlporeEventsbreadcrumbArr,
-} from "@/static-datas/breadcrumb-data";
+import { exlporeEventsbreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
 import { useParams } from "next/navigation";
@@ -18,12 +16,10 @@ import { getCookie, removeCookie } from "@/lib/cookies";
 import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
 import { useGetEventById } from "@/hooks/events/useGetEventById";
 
-
 const ExploreEventDetailPage = () => {
   const param = useParams<{ id: string }>();
   const { data: events, isLoading, isError } = useGetEventById(param?.id);
   const cardId = events?.data;
-
 
   useEffect(() => {
     if (getCookie("tickets") || getCookie("entryTicket"))
@@ -70,14 +66,13 @@ const ExploreEventDetailPage = () => {
                 <div className="w-full md:w-4/6">
                   <AboutEventDetail event={cardId} />
                 </div>
-                {!isPassed && (
-                  <AvailableTicket event={cardId} id={cardId?._id} />
-                )}
+
+                <AvailableTicket event={cardId} id={cardId?._id} isPassed={isPassed} />
               </div>
 
               <SimilarEvents />
             </Container>
-            {!isPassed && <TicketCTA event={cardId} id={cardId?._id} />}
+            <TicketCTA event={cardId} id={cardId?._id} isPassed={isPassed} />
           </Section>
         )}
       </Layout>

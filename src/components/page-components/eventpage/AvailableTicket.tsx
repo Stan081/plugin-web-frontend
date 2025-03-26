@@ -5,15 +5,16 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useEventsContext } from "@/providers/events.provider";
 
-const AvailableTicket: React.FC<{ id: string; event: any }> = ({
-  id,
-  event,
-}) => {
+const AvailableTicket: React.FC<{
+  id: string;
+  event: any;
+  isPassed: boolean;
+}> = ({ id, event, isPassed }) => {
   const { tickets, setCounter, setTickets } = useEventsContext();
 
   useEffect(() => {
-    setCounter(0)
-    setTickets([])
+    setCounter(0);
+    setTickets([]);
   }, []);
 
   const router = useRouter();
@@ -59,10 +60,9 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
   //   return null;
   // };
 
-
   const handleGroupTicket = () => {
     if (tickets.length > 0) {
-       router.push(`/ticket-checkout`);
+      router.push(`/ticket-checkout`);
       // toggleCheckout()
     }
   };
@@ -102,8 +102,12 @@ const AvailableTicket: React.FC<{ id: string; event: any }> = ({
           </>
         )}
 
-        { event?.ticketCategory === "entry" && (
-          <EntryTicketComponent entryTicket={event?.entryTicket} id={id} />
+        {!isPassed ? (
+          event?.ticketCategory === "entry" && (
+            <EntryTicketComponent entryTicket={event?.entryTicket} id={id} />
+          )
+        ) : (
+          <p className="destructive underline">Ticket has been closed</p>
         )}
       </div>
     </div>

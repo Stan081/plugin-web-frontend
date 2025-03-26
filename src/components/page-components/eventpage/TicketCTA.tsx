@@ -6,9 +6,13 @@ import { useEventsContext } from "@/providers/events.provider";
 import EntryTicketComponent from "./EntryTicketComponent";
 import GroupedTicket from "./GroupedTicket";
 import { toFiat } from "@/lib/amount";
-import { Dialog, DialogPanel,} from "@headlessui/react";
+import { Dialog, DialogPanel } from "@headlessui/react";
 
-const TicketCTA: React.FC<{ event: any; id: string }> = ({ event, id }) => {
+const TicketCTA: React.FC<{ event: any; id: string; isPassed: boolean }> = ({
+  event,
+  id,
+  isPassed,
+}) => {
   const { tickets } = useEventsContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -198,68 +202,6 @@ const TicketCTA: React.FC<{ event: any; id: string }> = ({ event, id }) => {
             </div>
           </div>
         </Dialog>
-
-        {/* <Drawer>
-          <DrawerTrigger asChild>
-            <Button variant="destructive">View Tickets</Button>
-          </DrawerTrigger>
-          <DrawerContent className="bg-white px-4">
-            <div className="mx-auto w-full max-w-sm">
-              <DrawerHeader className="flex justify-between items-start p-0">
-                <DrawerTitle>
-                  <div className="space-y-1.5">
-                    <h6 className="text-start font-pally-medium text-[#515A6A] text-base md:text-lg">
-                      AVAILABLE TICKETS
-                    </h6>
-                    {event?.ticketCategory === "entry" && (
-                      <p className="rounded-3xl text-sm text-[#523300] font-pally-medium px-2 py-1 bg-[#F7D394]">
-                        {`Ticket sales ending in
-                       ${getEntryTicketCountdown()}
-                         days`}
-                      </p>
-                    )}
-                  </div>
-                </DrawerTitle>
-                <DrawerClose asChild>
-                  <div className="p-1.5 rounded-full bg-gray-200 absolute top-3 right-3">
-                    <RiCloseLine size={20} />
-                  </div>
-                </DrawerClose>
-              </DrawerHeader>
-              <div className="my-5">
-                {event?.ticketCategory === "grouped" && (
-                  <>
-                    <div className="space-y-4">
-                      {event?.groupedTicket.map((ticket) => (
-                        <GroupedTicket
-                          key={ticket._id}
-                          id={id}
-                          groupedTicket={ticket}
-                        />
-                      ))}
-                    </div>
-                    <Button
-                      onClick={handleGroupTicket}
-                      variant="destructive"
-                      size="lg"
-                      disabled={tickets.length === 0}
-                      className="mt-5 w-full py-3"
-                    >
-                      Checkout
-                    </Button>
-                  </>
-                )}
-
-                {checkIfEndDateReached && event?.ticketCategory === "entry" && (
-                  <EntryTicketComponent
-                    entryTicket={event?.entryTicket}
-                    id={id}
-                  />
-                )}
-              </div>
-            </div>
-          </DrawerContent>
-        </Drawer> */}
       </div>
     </Fragment>
   );
