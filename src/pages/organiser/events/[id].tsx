@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import DelectEvent from "@/components/page-components/organisers/organiser-dashboard/events/DelectEvent";
 import EventDetailDashboard from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/event-dashboard/EventDetailDashboard";
 import EventDetailSidebar, {
@@ -30,9 +30,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { useEventsContext } from "@/providers/events.provider";
 import { useGetOrganiserEventById } from "@/hooks/organiser/useGetOrganiserEventById";
+import { TabProgress } from "@/components/page-components/organisers/organiser-dashboard/home/TabProgress";
 
 const OrganiserEventDetail = () => {
-  const {setPublishedEventId} = useEventsContext()
+  const { setPublishedEventId } = useEventsContext();
   const [isShown, setIsShown] = useState<boolean>(false);
   const params = useParams();
   // const { data: user } = useMe();
@@ -48,8 +49,8 @@ const OrganiserEventDetail = () => {
     setActiveEvent,
   } = useOrganiserDashContext();
   const router = useRouter();
-  const getEventDetail = organiserEvent?.data
-  setPublishedEventId(getEventDetail?._id)
+  const getEventDetail = organiserEvent?.data;
+  setPublishedEventId(getEventDetail?._id);
   //   Temporary routing
   if (!getEventDetail) {
     return <SpinnerOverlay />;
@@ -92,7 +93,7 @@ const OrganiserEventDetail = () => {
                     </div>
                   </DrawerClose>
                 </DrawerHeader>
-                <div className="mt-5 h-[65vh] overflow-y-auto">
+                <div className="mt-5 h-[60vh] overflow-y-auto">
                   <ul className="mt-4 block space-y-1.5">
                     {eventDetailTabLink.map((item) => {
                       const Icon = item.icon;
@@ -116,6 +117,23 @@ const OrganiserEventDetail = () => {
                       );
                     })}
                   </ul>
+
+                  <div className="my-4 flex flex-col gap-1 border mx-4 rounded-md p-3">
+                    <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
+                      Sale progress (%)
+                    </p>
+                    <div className="flex items-center gap-6">
+                      <div className="w-full">
+                        <TabProgress
+                          value={getEventDetail?.salesPercentage}
+                          max={100}
+                        />
+                      </div>
+                      <p className="text-[#667185] whitespace-nowrap font-pally-regular">
+                        {getEventDetail?.salesPercentage}/{100}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </DrawerContent>
             </Drawer>
