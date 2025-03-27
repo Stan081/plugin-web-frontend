@@ -21,7 +21,7 @@ const AvailableTicket: React.FC<{
 
   const handleGroupTicket = () => {
     if (tickets.length > 0) {
-      router.push(`/ticket-checkout`);
+      router.push(`/explore-events/${id}/checkout`);
     }
   };
 
