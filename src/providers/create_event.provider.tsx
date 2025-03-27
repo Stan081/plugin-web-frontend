@@ -68,7 +68,7 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
   const { data: userData } = useMe();
   const [currentStep, setCurrentStep] = useState<number>(() => {
     const savedStep = getCookie("currentStep");
-    return savedStep ? Number(savedStep) : 7;
+    return savedStep ? Number(savedStep) : 1;
   });
 
   const [showProfileForm, setShowProfileForm] = useState<boolean>(false);
