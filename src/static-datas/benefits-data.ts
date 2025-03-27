@@ -2,7 +2,7 @@ const benefitsData = [
     {
         title: "Sales Progress Stats",
         body: "Stay updated with real-time insights on your event's ticket sales. Monitor how many tickets have been sold, track trends, and make data-driven decisions to boost sales.",
-        imageURL: "https://res.cloudinary.com/dbhbyikta/image/upload/v1730110966/pricing-images/sales-progress.png"
+        imageURL: "https://res.cloudinary.com/dbhbyikta/image/upload/v1743074961/plugin_ft_page_1_bza5xi.png"
     },
     {
         title: "Sales Summary Dashboard",

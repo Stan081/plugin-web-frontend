@@ -13,7 +13,7 @@ const HeroSection = () => {
       <figure className="relative size-full xs:max-md:w-full xs:max-md:h-[40vh] ">
         <Image
           fill={true}
-          src="https://res.cloudinary.com/dbhbyikta/image/upload/v1729595236/features-images/phwzzhfponbupyles13k.png"
+          src="https://res.cloudinary.com/dbhbyikta/image/upload/v1743070671/plugin_feature_page-min_iarcql.png"
           alt="logo"
           className="object-cover object-bottom  xs:max-md:object-cover xs:max-md:object-right-top"
         />
