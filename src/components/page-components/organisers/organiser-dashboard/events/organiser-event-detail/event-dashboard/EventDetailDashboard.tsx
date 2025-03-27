@@ -154,7 +154,7 @@ const EventDetailDashboard = () => {
               "Email address",
               "Ticket name",
               "Price",
-              "Status",
+              "Check-in Status",
               "Date",
             ]}
             tableBody={attendeeListData?.data?.slice(0, 5)}

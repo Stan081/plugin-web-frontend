@@ -39,8 +39,9 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
   const formattedDate = (date: any) => {
     return new Date(date).toLocaleDateString("en-GB", {
       weekday: "short",
-      month: "long",
+      month: "short",
       day: "numeric",
+      year: "numeric",
       timeZone: "Africa/Lagos",
     });
   };
@@ -50,7 +51,7 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
         <TableHeader className="bg-[#F2F2F7] rounded-3xl">
           <TableRow className="text-[#586170] font-pally-regular text-base ">
             {tableHead.map((column) => (
-              <TableHead key={column}>{column}</TableHead>
+              <TableHead key={column} className="whitespace-nowrap">{column}</TableHead>
             ))}
           </TableRow>
         </TableHeader>
@@ -64,7 +65,7 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
                   className="text-[#2C2B2E] font-pally-regular text-base"
                 >
                   <TableCell>{tableRow?.email}</TableCell>
-                  <TableCell>
+                  <TableCell className="whitespace-nowrap">
                     <OrganiserTableTicketLabel text={tableRow.ticketName} />
                   </TableCell>
                   <TableCell>{toFiat(tableRow.price)}</TableCell>
@@ -73,7 +74,7 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
                       status={tableRow.status as StatusLabelType}
                     />
                   </TableCell>
-                  <TableCell>{tableRow.date}</TableCell>
+                  <TableCell className="whitespace-nowrap">{formattedDate(tableRow.date)}</TableCell>
                   {/* <TableCell>{tableRow.more}</TableCell> */}
                 </TableRow>
               );
@@ -94,7 +95,7 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
                       />
                     </TableCell>
                     <TableCell>{tableRow?.paystackReference}</TableCell>
-                    <TableCell>{formattedDate(tableRow?.date)}</TableCell>
+                    <TableCell className="whitespace-nowrap">{formattedDate(tableRow?.date)}</TableCell>
                   </TableRow>
                 );
               }
