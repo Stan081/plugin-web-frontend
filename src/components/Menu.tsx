@@ -51,7 +51,11 @@ const MenuLinks = ({ white }: { white?: boolean }) => {
   const { data: userDate, isLoading } = useMe();
   return (
     <Fragment>
-      {!isLoading ? (
+      {isLoading ||
+      !userDate?.data?.name?.firstname ||
+      !userDate?.data?.name?.lastname ? (
+        <div className="w-12 h-12 animate-pulse rounded-md bg-black/10" />
+      ) : (
         <Popover>
           <PopoverTrigger>
             <div className="flex justify-start items-center">
@@ -110,8 +114,6 @@ const MenuLinks = ({ white }: { white?: boolean }) => {
             </div>
           </PopoverContent>
         </Popover>
-      ) : (
-        <div className="w-12 h-12 animate-pulse rounded-md bg-black/10" />
       )}
     </Fragment>
   );

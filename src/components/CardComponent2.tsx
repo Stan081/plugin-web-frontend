@@ -3,7 +3,7 @@ import { useDeleteBookmark } from "@/hooks/events/bookmark-favourite/useDeleteBo
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 import { useToast } from "./ui/use-toast";
 import { AddFavourite } from "@/pages/api/mutate/event-favourite/addFavourite";
@@ -75,7 +75,7 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
     }
   };
   return (
-    <div className="flex flex-col shrink-0 w-[230px] lg:w-72 bg-[#221A14] rounded-2xl cursor-pointer">
+    <div className="flex flex-col w-full max-w-[300px] shrink-0 bg-[#221A14] rounded-2xl cursor-pointer">
       <div className="group relative inline-block overflow-hidden rounded-2xl">
         <button className="w-full aspect-square xs:max-md:max-h-[300px] block overflow-hidden">
           <figure className="relative size-full">
@@ -110,11 +110,12 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-2 justify-between p-4">
+      <div className="flex items-center gap-2 justify-between py-4 px-2">
         <p className=" text-sm md:text-base text-white font-bold font-pally-medium">
-          {card?.eventName?.length > 25
-            ? card?.eventName.slice(0, 25).concat("...")
+          {card?.eventName?.length > 21
+            ? card?.eventName.slice(0, 21).concat("...")
             : card?.eventName}
+           
         </p>
         <div
           onClick={

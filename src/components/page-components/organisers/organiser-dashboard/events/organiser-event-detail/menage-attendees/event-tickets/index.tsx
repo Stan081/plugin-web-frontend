@@ -43,7 +43,7 @@ const EventTickets = () => {
             "Email address",
             "Ticket name",
             "Price",
-            "Status",
+            "Check-in Status",
             "Date",
           ]}
           tableBody={attendeeListData?.data}

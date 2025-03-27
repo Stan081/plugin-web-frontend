@@ -26,7 +26,7 @@ const EventTicketsStats = () => {
     (item) => item?.status === "confirmed"
   ).length;
   return (
-    <ul className="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+    <ul className="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5">
       <li className="border-2 rounded-md p-4 space-y-2">
         {attendeeLoading ? (
           <Skeleton className="h-6 w-16" />

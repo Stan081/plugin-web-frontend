@@ -3,7 +3,7 @@ import { HiOutlineTicket } from "react-icons/hi";
 
 const OrganiserTableTicketLabel = ({text} : {text: string}) => {
     return (
-        <div className="inline-flex items-end gap-3">
+        <div className="inline-flex items-end gap-1.5">
         <div className="size-5 flex items-center justify-center">
           <HiOutlineTicket size="20" color="#2C2B2E" />
         </div>

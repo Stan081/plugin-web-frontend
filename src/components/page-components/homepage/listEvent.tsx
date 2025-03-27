@@ -13,8 +13,9 @@ const ListEvents = () => {
         List your next event <br /> with Plugin
       </h2>
       <p className="font-pally-regular text-base md:text-lg w-full max-w-lg">
-        Our user-friendly software selects event listings based on your location
-        or top priorities, making your search much more fun.
+        Tired of the same old event listing methods? It's time to get creative!
+        Explore new tools that let you list your event with a few clicks and
+        connect with your ideal audience in a flash.
       </p>
       <div className="mt-6 flex justify-between items-start">
         <Button

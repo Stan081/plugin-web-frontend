@@ -7,14 +7,14 @@ import React from "react";
 const items = [
   {
     id: "1",
-    title: "20K+",
+    title: "50+",
     description: "Event organizers",
     icon: "/images/team-puzzle.svg",
     bgColor: "#E3F4F1",
   },
   {
     id: "2",
-    title: "20K+",
+    title: "500+",
     description: "Events hosted",
     icon: "/images/calendar-management.svg",
     bgColor: "#E6ECF8",

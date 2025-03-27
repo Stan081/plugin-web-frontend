@@ -9,7 +9,6 @@ import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provide
 import React, { FC, useState } from "react";
 import { FiEdit2 } from "react-icons/fi";
 import {
-  HiOutlineSpeakerphone,
   HiOutlineViewGrid,
   HiOutlineDotsVertical,
   HiOutlineUserGroup,
@@ -29,8 +28,6 @@ import { setCookie } from "@/lib/cookies";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import Link from "next/link";
 import { BASE_URL } from "@/lib/constants";
-import { useGetSalesRecord } from "@/hooks/organiser/useGetSalesRecord";
-import { Skeleton } from "@/components/ui/skeleton";
 import { BsQuestionCircle } from "react-icons/bs";
 
 export const eventDetailTabLink = [
@@ -144,7 +141,6 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
     }, 3000);
   };
 
-
   return (
     <div className="shadow-md border rounded-xl">
       {stall && <SpinnerOverlay />}
@@ -227,14 +223,14 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
         <p className="text-[#667185] whitespace-nowrap font-pally-regular text-base">
           Sale progress (%)
         </p>
-          <div className="flex items-center gap-6">
-            <div className="w-full">
-              <TabProgress value={event?.salesPercentage} max={100} />
-            </div>
-            <p className="text-[#667185] whitespace-nowrap font-pally-regular">
-              {event?.salesPercentage}/{100}
-            </p>
+        <div className="flex items-center gap-6">
+          <div className="w-full">
+            <TabProgress value={event?.salesPercentage} max={100} />
           </div>
+          <p className="text-[#667185] whitespace-nowrap font-pally-regular">
+            {event?.salesPercentage}/{100}
+          </p>
+        </div>
       </div>
 
       <ul className="mt-4 block space-y-1.5 m-3">
