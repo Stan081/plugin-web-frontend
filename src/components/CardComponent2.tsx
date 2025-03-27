@@ -75,7 +75,7 @@ const CardComponent2: FC<{ card: any }> = ({ card }) => {
     }
   };
   return (
-    <div className="flex flex-col w-full max-w-[300px] bg-[#221A14] rounded-2xl cursor-pointer">
+    <div className="flex flex-col w-full max-w-[300px] shrink-0 bg-[#221A14] rounded-2xl cursor-pointer">
       <div className="group relative inline-block overflow-hidden rounded-2xl">
         <button className="w-full aspect-square xs:max-md:max-h-[300px] block overflow-hidden">
           <figure className="relative size-full">
