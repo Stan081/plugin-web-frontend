@@ -35,7 +35,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ lat, lng }) => {
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={mapCenter}
-          zoom={45} // Adjust zoom level as needed
+          zoom={18} // Adjust zoom level as needed
         >
           {/* Add a marker at the specified location */}
           <Marker position={{ lat, lng }} />
