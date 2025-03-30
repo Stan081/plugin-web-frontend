@@ -4,13 +4,15 @@ import { OtpBox } from "@/components/OtpBox";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { VerifyCode } from "@/pages/api/mutate/SignUp";
-import { VerifyCodeType } from "@/lib/types/AuthType";
+import { LoginFieldType, VerifyCodeType } from "@/lib/types/AuthType";
 import { useToast } from "@/components/ui/use-toast";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
 import { setToken } from "@/lib/token";
 import { getCookie, removeCookie } from "@/lib/cookies";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
+import { login } from "@/pages/api/mutate/Login";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const OTPVerification = () => {
   const [otp, setOtp] = useState<string>("");
@@ -61,9 +63,31 @@ const OTPVerification = () => {
     },
   });
 
+  const { mutate: mutateLogin, isPending: isPendingLoading } = useMutation({
+    mutationFn: (data: LoginFieldType) => login(data),
+    onSuccess: (response) => {
+      if (response?.data) {
+        toast({
+          variant: "success",
+          title: "OTP has been sent to your email",
+        });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: error?.message || "Newtwork issue",
+      });
+    },
+  });
+
   const handleOtpComplete = (otp: string) => {
     setOtp(otp);
   };
+
+  const resendOtp = () => {
+    mutateLogin({email})
+  }
 
   const handleSubmit = () => {
     const data = {
@@ -76,6 +100,7 @@ const OTPVerification = () => {
 
   return (
     <div className="mt-6">
+       {isPendingLoading && <SpinnerOverlay/>}
       <p className="text-sm font-pally-regular mb-2 text-[#98A2B3]">
         Verification Code
       </p>
@@ -92,7 +117,7 @@ const OTPVerification = () => {
       </div>
       <div className="flex mt-10 text-sm md:text-base text-[#98A2B3]">
         <p>Didn’t get the code?</p>
-        {/* <p>Resend in 4:59</p> */}
+        <p onClick={resendOtp}>Resend</p>
       </div>
     </div>
   );
