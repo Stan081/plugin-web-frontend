@@ -25,7 +25,7 @@ const OrganiserInfo: React.FC<{
   const [isShown, setIsShown] = useState<boolean>(true);
   const { data: userDate } = useMe();
 
-  console.log(organiser)
+  // console.log(organiser)
 
   const { toast } = useToast();
 
@@ -191,7 +191,7 @@ const OrganiserInfo: React.FC<{
         <div
           onClick={() =>
             handleCopyLink(
-              `${WEB_URL}/${organiser?.userId}`
+              `${WEB_URL}/organiser/${organiser?.userId}`
             )
           }
           className="mt-6 cursor-pointer px-2 py-1 rounded-lg border flex items-center gap-2 w-32
