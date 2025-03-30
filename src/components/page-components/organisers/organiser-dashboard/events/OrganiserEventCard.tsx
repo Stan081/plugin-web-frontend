@@ -19,7 +19,7 @@ import { setCookie } from "@/lib/cookies";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-import { BASE_URL } from "@/lib/constants";
+import { BASE_URL, WEB_URL } from "@/lib/constants";
 
 const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
   const { handleShowDeleteEvent, setEventId } = useOrganiserDashContext();
@@ -141,7 +141,7 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
               {event?.isPublished && (
                 <div
                   onClick={() =>
-                    handleCopyLink(`${BASE_URL}/organiser/events/${event?._id}`)
+                    handleCopyLink(`${WEB_URL}/organiser/events/${event?._id}`)
                   }
                   className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
                 >

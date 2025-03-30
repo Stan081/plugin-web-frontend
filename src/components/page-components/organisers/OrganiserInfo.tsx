@@ -17,6 +17,7 @@ import {
 } from "@/pages/api/mutate/follow/followOrg";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
+import { WEB_URL } from "@/lib/constants";
 
 const OrganiserInfo: React.FC<{
   organiser: any;
@@ -190,7 +191,7 @@ const OrganiserInfo: React.FC<{
         <div
           onClick={() =>
             handleCopyLink(
-              `plugin-web-app-246343005561.us-central1.run.app/organiser/${organiser?.userId}`
+              `${WEB_URL}/${organiser?.userId}`
             )
           }
           className="mt-6 cursor-pointer px-2 py-1 rounded-lg border flex items-center gap-2 w-32
@@ -202,13 +203,13 @@ const OrganiserInfo: React.FC<{
           <BsCopy size={18} color="#667185" />
         </div>
       </div>
-      <p className="mt-7 font-pally-regular flex items-center gap-2 underline cursor-pointer px-4 text-gray-500">
+      <Link href={`mailto:support@pluginent.com`} className="mt-7 font-pally-regular flex items-center gap-2 underline cursor-pointer px-4 text-gray-500">
         {" "}
         <span className="inline-block">
           <PiFlagPennantFill className="text-red-500" />
         </span>{" "}
         Report Organizer{" "}
-      </p>
+      </Link>
     </div>
   );
 };

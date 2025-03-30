@@ -76,22 +76,6 @@ const EventDetailsHeader: React.FC<Props> = ({ title, image, id, description }) 
     }
   };
 
-  // const handleCopyLink = async (saveLink: string) => {
-  //   try {
-  //     await navigator.clipboard.writeText(saveLink);
-
-  //     toast({
-  //       variant: "success",
-  //       title: "Link copied to clipboard!",
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //     toast({
-  //       variant: "destructive",
-  //       title: "Failed to copy link.",
-  //     });
-  //   }
-  // };
 
   const saveLink = `${WEB_URL}/explore-events/${id}`;
   return (
