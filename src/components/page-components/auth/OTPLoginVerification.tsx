@@ -2,15 +2,16 @@
 import React, { useCallback, useState } from "react";
 import { OtpBox } from "@/components/OtpBox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { VerifyCodeType } from "@/lib/types/AuthType";
+import { LoginFieldType, VerifyCodeType } from "@/lib/types/AuthType";
 import { useToast } from "@/components/ui/use-toast";
 import { setToken } from "@/lib/token";
-import { VerifyLoginCode } from "@/pages/api/mutate/Login";
+import { login, VerifyLoginCode } from "@/pages/api/mutate/Login";
 import { getCookie, removeCookie } from "@/lib/cookies";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
 import { useUserDashContext } from "@/providers/user_dashboard.provider";
+import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 const OTPLoginVerification = () => {
   const [otp, setOtp] = useState<string>("");
@@ -64,6 +65,28 @@ const OTPLoginVerification = () => {
     setOtp(otp);
   };
 
+  const { mutate: mutateLogin, isPending: isPendingLoading } = useMutation({
+    mutationFn: (data: LoginFieldType) => login(data),
+    onSuccess: (response) => {
+      if (response?.data) {
+        toast({
+          variant: "success",
+          title: "OTP has been sent to your email",
+        });
+      }
+    },
+    onError: (error: any) => {
+      toast({
+        variant: "destructive",
+        title: error?.message || "Newtwork issue",
+      });
+    },
+  });
+
+  const resendOtp = () => {
+    mutateLogin({email})
+  }
+
   const handleSubmit = () => {
     const data = {
       email,
@@ -74,6 +97,7 @@ const OTPLoginVerification = () => {
 
   return (
     <div className="mt-6">
+      {isPendingLoading && <SpinnerOverlay/>}
       <p className="text-sm font-pally-regular mb-2 text-[#98A2B3]">
         Verification Code
       </p>
@@ -90,7 +114,7 @@ const OTPLoginVerification = () => {
       </div>
       <div className="flex mt-10 text-sm md:text-base text-[#98A2B3]">
         <p>Didn’t get the code?</p>
-        {/* <p>Resend in 4:59</p> */}
+        <p onClick={resendOtp}>Resend</p>
       </div>
     </div>
   );

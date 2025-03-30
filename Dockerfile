@@ -15,7 +15,7 @@ COPY . .
 
 ENV NEXT_PUBLIC_BASE_URL='https://api.pluginent.com'
 ENV NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="AIzaSyAcp_C3w1_jDg2YZVv86mJ23cq_oPvQj1I"
-ENV NEXT_PUBLIC_BASE_URL="https://app.pluginent.com"
+ENV NEXT_PUBLIC_WEB_URL='https://app.pluginent.com'
 # Build the Next app
 RUN yarn build:prod
 
