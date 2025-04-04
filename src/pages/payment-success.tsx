@@ -126,9 +126,7 @@ const ReceiptPDF = ({ data, formattedTime }) => (
             </View>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Time</Text>
-              <Text style={styles.detailValue}>
-                {formattedTime}
-              </Text>
+              <Text style={styles.detailValue}>{formattedTime}</Text>
             </View>
           </View>
 
@@ -145,7 +143,9 @@ const ReceiptPDF = ({ data, formattedTime }) => (
             </View>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Attendee</Text>
-              <Text style={styles.detailValue}>{data?.userName || "Guest"}</Text>
+              <Text style={styles.detailValue}>
+                {data?.userName || "Guest"}
+              </Text>
             </View>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Email</Text>
@@ -175,7 +175,6 @@ const ReceiptPDF = ({ data, formattedTime }) => (
   </Document>
 );
 
-
 // Payment success page for free events
 const PaymentSuccess = () => {
   const router = useRouter();
@@ -185,7 +184,7 @@ const PaymentSuccess = () => {
     if (document.readyState === "complete") {
       setTimeout(() => {
         router.push("/tickets");
-      }, 40000);
+      }, 60000);
     }
   }, [router]);
 
@@ -277,18 +276,26 @@ const PaymentSuccess = () => {
               ))}
             </ul>
 
-            <div className="flex justify-between gap-10 items-center mt-10">
-              <PDFDownloadLinkNoSSR
-                document={<ReceiptPDF data={freeEventPayload} formattedTime={formattedTime}  />}
-                fileName={`Booking_Receipt_${freeEventPayload?.eventName}.pdf`}
-                className="cursor-pointer"
-              >
-                {({ loading }) => (
-                  <HiDownload size={22} className="text-gray-500" />
-                )}
-              </PDFDownloadLinkNoSSR>
+            <div className="flex justify-between gap-6 lg:gap-10 items-center mt-10">
+              <Button variant="outline">
+                <span>Download</span>
+                <PDFDownloadLinkNoSSR
+                  document={
+                    <ReceiptPDF
+                      data={freeEventPayload}
+                      formattedTime={formattedTime}
+                    />
+                  }
+                  fileName={`Booking_Receipt_${freeEventPayload?.eventName}.pdf`}
+                  className="cursor-pointer"
+                >
+                  {({ loading }) => (
+                    <HiDownload size={22} className="text-gray-500 ml-2" />
+                  )}
+                </PDFDownloadLinkNoSSR>
+              </Button>
               <Link href="/tickets">
-                <Button variant="destructive">See tickets</Button>
+                <Button variant="destructive">View tickets</Button>
               </Link>
             </div>
           </div>

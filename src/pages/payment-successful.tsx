@@ -128,9 +128,7 @@ const ReceiptPDF = ({ data, formattedTime }) => (
             </View>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Time</Text>
-              <Text style={styles.detailValue}>
-                {formattedTime}
-              </Text>
+              <Text style={styles.detailValue}>{formattedTime}</Text>
             </View>
           </View>
 
@@ -295,16 +293,24 @@ const PaymentSuccessful = () => {
               </ul>
             )}
 
-            <div className="flex justify-between gap-10 items-center mt-10">
-              <PDFDownloadLinkNoSSR
-                document={<ReceiptPDF data={bookings?.data} formattedTime={formattedTime} />}
-                fileName={`Booking_Receipt_${bookings?.data?.eventName}.pdf`}
-                className="cursor-pointer"
-              >
-                {({ loading }) => (
-                  <HiDownload size={22} className="text-gray-500" />
-                )}
-              </PDFDownloadLinkNoSSR>
+            <div className="flex justify-between gap-6 lg:gap-10 items-center mt-10">
+              <Button variant="outline">
+                <span>Download</span>
+                <PDFDownloadLinkNoSSR
+                  document={
+                    <ReceiptPDF
+                      data={bookings?.data}
+                      formattedTime={formattedTime}
+                    />
+                  }
+                  fileName={`Booking_Receipt_${bookings?.data?.eventName}.pdf`}
+                  className="cursor-pointer"
+                >
+                  {({ loading }) => (
+                    <HiDownload size={22} className="text-gray-500 ml-2" />
+                  )}
+                </PDFDownloadLinkNoSSR>
+              </Button>
               <Link href="/tickets">
                 <Button variant="destructive">See tickets</Button>
               </Link>
