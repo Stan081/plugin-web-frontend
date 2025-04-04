@@ -60,7 +60,7 @@ const OrganiserEventTab = () => {
         id={`panel-${eventState}`}
         role="tabpanel"
         aria-labelledby={`tab-${eventState}`}
-        className="mt-6 md:mt-10"
+        className="my-6 md:my-10"
       >
         {isLoading ? (
           <CardSkeleton />

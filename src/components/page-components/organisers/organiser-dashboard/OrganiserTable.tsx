@@ -14,6 +14,7 @@ import { toFiat } from "@/lib/amount";
 
 type StatusLabelType = "pending" | "confirmed";
 type AttendeeListTableBodyType = {
+  id: string;
   email: string;
   ticketName: string;
   status: string;
@@ -61,7 +62,7 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
             (tableBody as AttendeeListTableBodyType[])?.map((tableRow) => {
               return (
                 <TableRow
-                  key={tableRow?.date}
+                  key={tableRow?.id}
                   className="text-[#2C2B2E] font-pally-regular text-base"
                 >
                   <TableCell>{tableRow?.email}</TableCell>

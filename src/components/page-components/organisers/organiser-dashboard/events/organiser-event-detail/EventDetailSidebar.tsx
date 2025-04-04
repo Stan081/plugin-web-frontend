@@ -27,7 +27,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "@/lib/cookies";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import Link from "next/link";
-import { BASE_URL, WEB_URL } from "@/lib/constants";
+import { WEB_URL } from "@/lib/constants";
 import { BsQuestionCircle } from "react-icons/bs";
 
 export const eventDetailTabLink = [
@@ -184,7 +184,7 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
               <MdLink size={18} color="#667185" />
               Copy link
             </div>
-            <div
+            {event?.isPublished ?? <div
               onClick={() => {
                 handleShowDeleteEvent();
                 setEventId(event?._id);
@@ -193,7 +193,7 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
             >
               <HiOutlineTrash size={18} color="#667185" />
               Delete
-            </div>
+            </div>}
           </PopoverContent>
         </Popover>
       </div>
