@@ -242,7 +242,7 @@ const PaymentSuccess = () => {
               Thanks for your order!
             </p>
             <p className="font-pally-regular mx-4 text-center text-sm lg:text-lg text-gray-600">
-              A ticket guide will be sent to
+              A ticket guide will be sent to 
               <span className="text-black font-medium">
                 {freeEventPayload?.userEmail}
               </span>
