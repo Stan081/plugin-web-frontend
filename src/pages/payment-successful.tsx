@@ -255,7 +255,7 @@ const PaymentSuccessful = () => {
               Thanks for your order!
             </p>
             <p className="font-pally-regular mx-4 text-center text-sm lg:text-lg text-gray-600">
-            A ticket guide will be sent to
+              A ticket guide will be sent to
               <span className="text-black font-medium">
                 {bookings?.data?.userEmail}
               </span>
@@ -294,23 +294,23 @@ const PaymentSuccessful = () => {
             )}
 
             <div className="flex justify-between gap-6 lg:gap-10 items-center mt-10">
-              <Button variant="outline">
-                <span>Download</span>
-                <PDFDownloadLinkNoSSR
-                  document={
-                    <ReceiptPDF
-                      data={bookings?.data}
-                      formattedTime={formattedTime}
-                    />
-                  }
-                  fileName={`Booking_Receipt_${bookings?.data?.eventName}.pdf`}
-                  className="cursor-pointer"
-                >
-                  {({ loading }) => (
+              <PDFDownloadLinkNoSSR
+                document={
+                  <ReceiptPDF
+                    data={bookings?.data}
+                    formattedTime={formattedTime}
+                  />
+                }
+                fileName={`Booking_Receipt_${bookings?.data?.eventName}.pdf`}
+                className="cursor-pointer"
+              >
+                {({ loading }) => (
+                  <Button variant="outline">
+                    <span>Download</span>
                     <HiDownload size={22} className="text-gray-500 ml-2" />
-                  )}
-                </PDFDownloadLinkNoSSR>
-              </Button>
+                  </Button>
+                )}
+              </PDFDownloadLinkNoSSR>
               <Link href="/tickets">
                 <Button variant="destructive">See tickets</Button>
               </Link>
