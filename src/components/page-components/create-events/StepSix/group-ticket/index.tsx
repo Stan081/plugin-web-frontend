@@ -9,6 +9,7 @@ import GroupSeat from "./GroupSeat";
 import { useGetGroupEvent } from "@/hooks/events/useGetGroupEvent";
 import { useDeleteEventGroup } from "@/hooks/events/useDeleteEventGroup";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 export enum GroupTicketState {
   VIEW_LIST,
@@ -24,6 +25,7 @@ const GroupTicket: FC = () => {
     saveToDraft,
     handleClick,
   } = useCreateEventContext();
+  const { data: event } = useGetEvent();
   const { data: allGroupEvent, isLoading } = useGetGroupEvent();
   const { mutate: deleteGroupTicket, isPending } = useDeleteEventGroup();
   const { selectTicket: selectedState } = useCreateEventContext();
@@ -53,7 +55,6 @@ const GroupTicket: FC = () => {
     deleteGroupTicket({ groupTicketId: id });
   };
 
-  // console.log(allGroupEvent)
 
   if (isLoading)
     return <p className="text-white mx-5 text-center mt-5">loading...</p>;
@@ -86,6 +87,7 @@ const GroupTicket: FC = () => {
                     {...list}
                     handleEditForm={handleEditForm}
                     handleDelete={handleDelete}
+                    isPublished={event?.data?.isPublished}
                   />
                 ))}
             </div>

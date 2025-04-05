@@ -6,7 +6,6 @@ import EventDetailSidebar, {
 } from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/EventDetailSidebar";
 import EventDetailTickets from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/booking-history/EventDetailTickets";
 import EventDetailManagement from "@/components/page-components/organisers/organiser-dashboard/events/organiser-event-detail/menage-attendees/EventDetailManagement";
-// import { useMe } from "@/pages/api/query/me";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import Container from "@/tw-components/container";
 import { Section } from "@/tw-components/Section";
@@ -36,7 +35,6 @@ const OrganiserEventDetail = () => {
   const { setPublishedEventId } = useEventsContext();
   const [isShown, setIsShown] = useState<boolean>(false);
   const params = useParams();
-  // const { data: user } = useMe();
   const {
     data: organiserEvent,
     isLoading,

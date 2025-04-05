@@ -149,7 +149,8 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
                   Copy link
                 </div>
               )}
-              <div
+              {!event?.isPublished && 
+              <p
                 onClick={() => {
                   handleShowDeleteEvent();
                   setEventId(event?._id);
@@ -158,7 +159,7 @@ const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
               >
                 <HiOutlineTrash size={18} color="#667185" />
                 Delete
-              </div>
+              </p>}
             </PopoverContent>
           </Popover>
         </div>

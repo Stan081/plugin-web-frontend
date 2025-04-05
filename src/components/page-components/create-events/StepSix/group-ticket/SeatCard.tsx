@@ -7,6 +7,7 @@ interface SeatCardProps extends GroupPaidType {
   _id: number;
   handleEditForm: (id: number) => void;
   handleDelete: (id: number) => void;
+  isPublished?: boolean
 }
 
 const SeatCard: FC<SeatCardProps> = ({
@@ -18,6 +19,7 @@ const SeatCard: FC<SeatCardProps> = ({
   color,
   handleEditForm,
   handleDelete,
+  isPublished
 }) => {
   return (
     <div className="bg-[#fae4e2] rounded-lg p-3 lg:p-5">
@@ -56,7 +58,7 @@ const SeatCard: FC<SeatCardProps> = ({
               Edit
             </p>
           </div>
-          <div
+          {!isPublished && <div
             onClick={() => handleDelete(_id)}
             className="cursor-pointer bg-black/70 rounded p-1"
           >
@@ -64,7 +66,7 @@ const SeatCard: FC<SeatCardProps> = ({
               size={16}
               className="text-white hover:text-red-500"
             />
-          </div>
+          </div>}
         </div>
       </div>
     </div>

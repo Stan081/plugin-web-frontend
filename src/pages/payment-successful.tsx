@@ -128,9 +128,7 @@ const ReceiptPDF = ({ data, formattedTime }) => (
             </View>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Time</Text>
-              <Text style={styles.detailValue}>
-                {formattedTime}
-              </Text>
+              <Text style={styles.detailValue}>{formattedTime}</Text>
             </View>
           </View>
 
@@ -257,7 +255,7 @@ const PaymentSuccessful = () => {
               Thanks for your order!
             </p>
             <p className="font-pally-regular mx-4 text-center text-sm lg:text-lg text-gray-600">
-              Your tickets will be sent to{" "}
+              A ticket guide will be sent to {" "}
               <span className="text-black font-medium">
                 {bookings?.data?.userEmail}
               </span>
@@ -295,14 +293,22 @@ const PaymentSuccessful = () => {
               </ul>
             )}
 
-            <div className="flex justify-between gap-10 items-center mt-10">
+            <div className="flex justify-between gap-6 lg:gap-10 items-center mt-10">
               <PDFDownloadLinkNoSSR
-                document={<ReceiptPDF data={bookings?.data} formattedTime={formattedTime} />}
+                document={
+                  <ReceiptPDF
+                    data={bookings?.data}
+                    formattedTime={formattedTime}
+                  />
+                }
                 fileName={`Booking_Receipt_${bookings?.data?.eventName}.pdf`}
                 className="cursor-pointer"
               >
                 {({ loading }) => (
-                  <HiDownload size={22} className="text-gray-500" />
+                  <Button variant="outline">
+                    <span>Download</span>
+                    <HiDownload size={22} className="text-gray-500 ml-2" />
+                  </Button>
                 )}
               </PDFDownloadLinkNoSSR>
               <Link href="/tickets">
