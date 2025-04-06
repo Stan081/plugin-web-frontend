@@ -17,14 +17,14 @@ const OrganiserEvents: FC<{ orgId: string }> = ({ orgId }) => {
     const startDate = new Date(
       item?.startDate || item?.startDate
     );
-    return item.isPublished === true && startDate > now;
+    return item.isPublished === true && startDate.getDate() >= now.getDate();
   });
 
   const pastEvents = organiserEvents?.data?.filter((item) => {
     const endDate = new Date(
       item?.endDate || item?.endDate
     );
-    return item.isPublished === true && endDate < now;
+    return item.isPublished === true && endDate.getDate() < now.getDate();
   });
 
   const tabLink = [
