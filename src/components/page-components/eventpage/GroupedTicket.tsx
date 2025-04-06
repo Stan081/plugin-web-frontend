@@ -116,10 +116,10 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     if (!dateString) return "";
     const date = new Date(dateString);
     return date.toLocaleDateString("en-GB", {
-      weekday: 'short',
+      weekday: "short",
       month: "long",
       day: "numeric",
-      timeZone: 'Africa/Lagos'
+      timeZone: "Africa/Lagos",
     });
   };
 
@@ -173,12 +173,14 @@ const GroupedTicket = ({ groupedTicket, id }) => {
             onClick={incrementTicket}
             type="button"
             disabled={
-              groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
+              groupedTicket?.ticketsSold >= groupedTicket?.ticketQuantity ||
+              groupedTicket.ticketSaleActive === false ||
               counter >= getRemainingTicket ||
               new Date() < new Date(groupedTicket?.startDate)
             }
             className={`${
-              groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
+              groupedTicket?.ticketsSold >= groupedTicket?.ticketQuantity ||
+              groupedTicket.ticketSaleActive === false ||
               counter >= getRemainingTicket ||
               new Date() < new Date(groupedTicket?.startDate)
                 ? `bg-gray-300 cursor-not-allowed`
