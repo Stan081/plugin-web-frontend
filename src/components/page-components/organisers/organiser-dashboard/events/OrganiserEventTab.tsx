@@ -31,7 +31,7 @@ const OrganiserEventTab = () => {
     const startDate = new Date(
       item?.startDate
     );
-    if(item.isPublished === true && startDate > now){
+    if(item.isPublished === true && startDate.getDate() >= now.getDate()){  
       return item;
     }
   });
