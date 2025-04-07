@@ -16,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useCreateEventContext } from "@/providers/create_event.provider";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EventEntryPaidTicket } from "@/pages/api/mutate/create-events/EventEntryTicket";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
@@ -38,6 +38,8 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ entryTicket }) => {
 
 
   const { toast } = useToast();
+  
+  const client = useQueryClient();
 
   const form = useForm<PaidTicket>({
     mode: "all",
@@ -83,6 +85,7 @@ const PaidTicketForm: FC<PaidTicketFormProps> = ({ entryTicket }) => {
     mutationFn: (data: any) => EventEntryPaidTicket(data),
     onSuccess: (response) => {
       if (response?.message) {
+        client.invalidateQueries({ queryKey: ["eventById"]});
         toast({
           variant: "success",
           title: ` Your ${entryTicket} ticket has been added`,
