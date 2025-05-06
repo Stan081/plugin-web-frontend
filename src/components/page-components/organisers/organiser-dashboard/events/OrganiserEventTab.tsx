@@ -12,11 +12,8 @@ import CardEmptyState from "../home/CardEmptyState";
 import { useGetEventsByOrganiser } from "@/hooks/organiser/useGetEventsByOrganizer";
 
 const OrganiserEventTab = () => {
-  const {
-    eventState,
-    showDeleteEvent,
-    handleShowDeleteEvent,
-  } = useOrganiserDashContext();
+  const { eventState, showDeleteEvent, handleShowDeleteEvent } =
+    useOrganiserDashContext();
 
   // const { data: User } = useMe();
   const {
@@ -27,28 +24,31 @@ const OrganiserEventTab = () => {
 
   const now = new Date();
 
-  const upcomingEvents = organiserEvents?.data?.filter((item) => {
-    const startDate = new Date(
-      item?.startDate
-    );
-    if(item.isPublished === true && startDate.getDate() >= now.getDate()){  
+  const upcomingEvents =
+    organiserEvents?.data?.filter((item) => {
+      return (
+        item.isPublished && new Date(item.startDate).getTime() > now.getTime()
+      );
+    }) || [];
+
+  const pastEvents =
+    organiserEvents?.data?.filter((item) => {
+      try {
+        return (
+          item?.isPublished &&
+          new Date(item.endDate).getTime() <= now.getTime() &&
+          !isNaN(new Date(item.endDate).getTime())
+        );
+      } catch {
+        return false; 
+      }
+    }) || [];
+
+  const draftEvents = organiserEvents?.data?.filter((item) => {
+    if (item.isPublished === false) {
       return item;
     }
   });
-
-  const pastEvents = organiserEvents?.data?.filter((item) => {
-    const endDate = new Date(item?.endDate);
-    if( item.isPublished === true && endDate.getDate() <= now.getDate()){
-      return item
-    }
-
-  });
-
-  const draftEvents = organiserEvents?.data?.filter((item) => {
-    if(item.isPublished === false){
-      return item
-    }
-  })
 
   if (isError) {
     return <p>An error occurred when fetching events</p>;
