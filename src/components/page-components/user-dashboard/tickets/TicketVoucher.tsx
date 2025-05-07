@@ -14,7 +14,6 @@ export type TicketProps = {
   _id: string;
   eventId: string;
   ticketData: TicketDataProps;
-  createdAt: string;
   qrCode: string;
 };
 interface Props {
@@ -30,9 +29,6 @@ const TicketVoucher = ({ data }: Props) => {
             TKT-{data?._id}
           </p>
         </div>
-        <p className="text-sm font-pally-medium text-[#98A2B3]">
-          {formatDate(data?.createdAt)}
-        </p>
       </div>
       <Separator />
       <div className="flex justify-between items-center gap-10 mt-8">

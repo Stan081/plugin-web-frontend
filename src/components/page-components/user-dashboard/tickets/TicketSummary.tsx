@@ -22,7 +22,6 @@ export type UserType = {
 
 interface Props {
   tickets: any;
-  createdAt?: string;
   eventName: string;
   user?: UserType;
   address: string;

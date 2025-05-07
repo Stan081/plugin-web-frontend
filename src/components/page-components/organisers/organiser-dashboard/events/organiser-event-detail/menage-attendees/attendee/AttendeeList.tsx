@@ -1,10 +1,6 @@
 import { Section } from "@/tw-components/Section";
 import React from "react";
-import AttendeeListEventSearch from "./AttendeeListEventSearch";
-import AttendeeListCTAButton from "./AttendeeListCTAButton";
-import { FiFilter } from "react-icons/fi";
 import OrganiserTable from "../../../../OrganiserTable";
-import attendeeListTableData from "@/static-datas/attendee-list-table-data";
 import { useFilteredAttendeeList } from "@/hooks/events/useFilterAttendeeList";
 import { useEventsContext } from "@/providers/events.provider";
 import Image from "next/image";
