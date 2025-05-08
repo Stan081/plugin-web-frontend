@@ -75,7 +75,7 @@ export const GET_EVENT_BOOKING_HISTORY: string = `${API_URL}/organizers/bookings
 
 export const GET_USER_FOLLOWERS: string = `${API_URL}/users/following/organizers`;
 
-export const cc: string = `${API_URL}/organizers/event/tickets`;
+export const GET_EVENT_TICKETS: string = `${API_URL}/organizers/event/tickets`;
 
 export const EVENT_TICKET_AGENT: string = `${API_URL}/organizers/event/agent`;
 
