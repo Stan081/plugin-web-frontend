@@ -22,7 +22,7 @@ export const useGetTicketEvents = (page: number) => {
   };
 
   return useQuery({
-    queryKey: ["getTicketEvents"],
+    queryKey: ["getTicketEvents", page],
     queryFn: () =>
       axios
         .get(TICKETS + `/user/events`, options)
@@ -50,7 +50,7 @@ export const useGetEventTickets = (id: string, page: number,) => {
   };
 
   return useQuery({
-    queryKey: ["getTickets"],
+    queryKey: ["getTickets", page],
     queryFn: () =>
       axios
         .get(TICKETS + `/user/events/${id}`, options)
