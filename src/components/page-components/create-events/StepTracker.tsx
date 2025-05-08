@@ -154,7 +154,7 @@ const StepTracker = () => {
             <div className="flex items-center gap-2">
               {currentStep > 6 ||
               event?.data?.ticketCategory ||
-              event?.data?.groupedTicket.length ||
+              event?.data?.groupedTicket?.length ||
               event?.data?.entryTicket ? (
                 <div className="bg-green-600 rounded-full p-0.5">
                   <GrFormCheckmark color="#fff" size={18} />

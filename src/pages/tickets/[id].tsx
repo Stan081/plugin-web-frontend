@@ -31,6 +31,8 @@ const TicketDetailPage = () => {
     setPage((prevPage) => prevPage - 1);
   };
 
+  console.log('page:', page)
+
   return (
     <Layout title="Ticket detail page" showHeader showFooter>
       <Section id="ticket-detail-page">
@@ -45,7 +47,6 @@ const TicketDetailPage = () => {
             <div className="w-full lg:max-w-md">
               <TicketDetail
                 event={response?.data?.event}
-                tickets={response?.data?.tickets?.tickets}
               />
             </div>
             <div className="w-full">

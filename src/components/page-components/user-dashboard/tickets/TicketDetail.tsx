@@ -7,9 +7,8 @@ import MeetYourOganiser from "../MeetYourOganiser";
 import { formatDate } from "@/components/TicketComponent";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TicketDetail: React.FC<{ event: any; tickets: any }> = ({
+const TicketDetail: React.FC<{ event: any}> = ({
   event,
-  tickets,
 }) => {
   const startDate: string = event?.startDate
 
@@ -20,7 +19,7 @@ const TicketDetail: React.FC<{ event: any; tickets: any }> = ({
           src={event?.thumbnail}
           width={456}
           height={280}
-          alt={`ticket name`}
+          alt={`ticket-${event?.eventName}`}
           className="pointer-events-none w-full h-full object-cover rounded-lg"
         />
       </div>

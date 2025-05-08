@@ -56,7 +56,7 @@ export const useGetEventTickets = (id: string, page: number,) => {
         .get(TICKETS + `/user/events/${id}`, options)
         .then((res) => res.data)
         .catch((err) => {
-          throw err?.response?.data || err.message; // Better error handling
+          throw err?.response?.data || err.message;
         }),
     retry: true,
     refetchOnMount: true,

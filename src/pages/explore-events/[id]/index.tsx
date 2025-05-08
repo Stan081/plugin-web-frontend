@@ -40,7 +40,11 @@ const ExploreEventDetailPage = () => {
     ? new Date(cardId.entryTicket.endDate)
     : null;
 
-  const isPassed: boolean = entryEndDate < now;
+  const isPassed: boolean = (() => {
+    if (!entryEndDate) return false; // No end date = never expires
+    if (isNaN(entryEndDate.getTime())) return false; // Invalid date
+    return entryEndDate.getTime() < now.getTime();
+  })();
 
   return (
     <Fragment>
@@ -67,7 +71,11 @@ const ExploreEventDetailPage = () => {
                   <AboutEventDetail event={cardId} />
                 </div>
 
-                <AvailableTicket event={cardId} id={cardId?._id} isPassed={isPassed} />
+                <AvailableTicket
+                  event={cardId}
+                  id={cardId?._id}
+                  isPassed={isPassed}
+                />
               </div>
 
               <SimilarEvents />
