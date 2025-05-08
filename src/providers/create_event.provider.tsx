@@ -53,16 +53,6 @@ const CreateEventDashContext = createContext<CreateEventContextValue | null>(
 
 CreateEventDashContext.displayName = "CreateEventDashContext";
 
-export const seatedTypes: { id: string; name: string }[] = [
-  {
-    id: "paid",
-    name: "Paid Ticket",
-  },
-  {
-    id: "free",
-    name: "Free Ticket",
-  },
-];
 
 export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
   const { data: userData } = useMe();
@@ -70,6 +60,8 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     const savedStep = getCookie("currentStep");
     return savedStep ? Number(savedStep) : 1;
   });
+
+
 
   const [showProfileForm, setShowProfileForm] = useState<boolean>(false);
 
@@ -147,6 +139,7 @@ export const CreateEventProvider: FC<PropsWithChildren> = ({ children }) => {
     //   setCurrentStep(1);
     // }, 2000);
   };
+
 
   const ContextValue: CreateEventContextValue = {
     currentStep,

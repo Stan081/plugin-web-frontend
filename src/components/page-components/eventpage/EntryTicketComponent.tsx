@@ -7,6 +7,7 @@ import { useEventsContext } from "@/providers/events.provider";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { useToast } from "@/components/ui/use-toast";
 
 type Props = {
   ticketQuantity: number;
@@ -41,6 +42,8 @@ const EntryTicketComponent: FC<EntryProps> = ({
 
   const router = useRouter();
 
+  const { toast } = useToast();
+
   const getRemainingTicket =
     entryTicket?.ticketQuantity - entryTicket?.ticketsSold;
 
@@ -50,8 +53,15 @@ const EntryTicketComponent: FC<EntryProps> = ({
   // Increment
   const handleIncrement = useCallback(() => {
     setCounter((prev: number) => {
-      if (prev === getRemainingTicket) {
-        return getRemainingTicket;
+      if (prev === getRemainingTicket ) {
+        return prev;
+      } else if(prev >= 3 && entryTicket?.entryTicketType === "free"){
+        toast({
+          variant: "destructive",
+          title: "Free Tickets",
+          description: "Can't buy more than 3 ticket per entry"
+        });
+        return prev
       }
       return prev + 1;
     });

@@ -4,26 +4,32 @@ import FreeTicketForm from "./FreeTicketForm";
 import DonationTicketForm from "./DonationTicketForm";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 
-const entryTicketTypes: { id: string; name: string }[] = [
-  {
-    id: "paid",
-    name: "Paid",
-  },
-  {
-    id: "free",
-    name: "Free",
-  },
-  {
-    id: "donation",
-    name: "Donation",
-  },
-];
-
+// entryTicketType
 const EntryTicket = () => {
   const { data: eventId } = useGetEvent();
   const [entryTicket, setEntryTicket] = useState<string>(
     eventId?.data?.entryTicket?.entryTicketType || "paid"
   );
+
+  const getEntryTicketTypes = (): { id: string; name: string }[] => {
+    switch (eventId?.data?.entryTicket?.entryTicketType) {
+      case "free":
+        return [{ id: "free", name: "Free" }];
+      case "paid":
+        return [{ id: "paid", name: "Paid" }];
+      case "donation":
+        return [{ id: "donation", name: "Donation" }];
+      default:
+        return [
+          { id: "paid", name: "Paid" },
+          { id: "free", name: "Free" },
+          { id: "donation", name: "Donation" }
+        ];
+    }
+  };
+  
+  // Usage:
+  const entryTicTypes = getEntryTicketTypes();
 
   return (
     <div className=" w-full">
@@ -33,7 +39,7 @@ const EntryTicket = () => {
         <p className="text-lg font-pally-regular">Specify your ticket type:</p>
 
         <div className="flex flex-wrap gap-4 text-white">
-          {entryTicketTypes.map((type) => (
+          {entryTicTypes?.map((type) => (
             <button
               key={type.id}
               onClick={() => setEntryTicket(type.id)}

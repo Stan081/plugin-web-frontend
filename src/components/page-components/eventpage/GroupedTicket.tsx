@@ -9,6 +9,7 @@ import ToolTipComponent from "@/components/ToolTipComponent";
 import TicketPlacement from "./TicketPlacement";
 import Cookies from "js-cookie";
 import { useEventsContext } from "@/providers/events.provider";
+import { useToast } from "@/components/ui/use-toast";
 
 const setCookie = (key: string, value: any, options = {}) => {
   try {
@@ -23,6 +24,8 @@ const GroupedTicket = ({ groupedTicket, id }) => {
 
   const { tickets, setTickets } = useEventsContext();
 
+  const { toast } = useToast();
+
   // console.log(groupedTicket);
 
   // Update counter when tickets or ticket name changes
@@ -34,7 +37,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
   const getRemainingTicket =
     groupedTicket?.ticketQuantity - groupedTicket?.ticketsSold;
 
-  const now = Date();
+  const now = new Date();
 
   // Update tickets array and persist to cookies
   const updateTickets = (
@@ -67,7 +70,19 @@ const GroupedTicket = ({ groupedTicket, id }) => {
 
   // Increment ticket quantity
   const incrementTicket = () => {
-    const newQuantity = counter + 1;
+    const compQuantity = (): number => {
+      if(counter >= 3 && groupedTicket?.groupedTicketType === 'free'){
+        toast({
+          variant: "destructive",
+          title: "Free Tickets",
+          description: "Can't buy more than 3 ticket per entry"
+        });
+        return counter
+      }
+      return counter + 1
+    };
+
+    const newQuantity = compQuantity()
     updateTickets(
       groupedTicket.ticketName,
       groupedTicket.ticketPrice,
@@ -87,30 +102,14 @@ const GroupedTicket = ({ groupedTicket, id }) => {
     );
   };
 
-  const checkIfStartDateReached = (startDate: Date) => {
-    if (startDate) {
-      const date = new Date(startDate);
+  const endDate = groupedTicket?.endDate
+    ? new Date(groupedTicket.endDate)
+    : null;
+  const isPassed: boolean = Boolean(
+    endDate && !isNaN(endDate.getTime()) && endDate.getTime() < now.getTime()
+  );
 
-      // Validate startDate
-      if (isNaN(date.getTime())) {
-        console.error("Invalid startDate format.");
-        return false;
-      }
-
-      // Get the current date and time
-      const now = new Date();
-
-      // Compare dates
-      const isSameDay =
-        now.getUTCFullYear() === date.getUTCFullYear() &&
-        now.getUTCMonth() === date.getUTCMonth() &&
-        now.getUTCDate() === date.getUTCDate();
-
-      return isSameDay;
-    }
-
-    return false;
-  };
+  console.log(groupedTicket?.endDate);
 
   const formatDate = (dateString: string) => {
     if (!dateString) return "";
@@ -147,10 +146,15 @@ const GroupedTicket = ({ groupedTicket, id }) => {
             </p>
             {groupedTicket?.ticketQuantity === groupedTicket?.ticketsSold ||
               (groupedTicket?.ticketsSold >= groupedTicket?.ticketQuantity && (
-                <p className="bg-red-500 text-white py-0.5 px-1 rounded-3xl text-xs">
+                <p className="bg-red-500 text-white py-0.5 px-1 rounded text-xs">
                   Sold out
                 </p>
               ))}
+            {isPassed && (
+              <p className="bg-red-500 text-white py-0.5 px-1 rounded text-xs">
+                Ticket has expired
+              </p>
+            )}
             {new Date() < new Date(groupedTicket?.startDate) && (
               <p className="text-xs text-yellow-700 font-pally-regular">
                 Available from {formatDate(groupedTicket?.startDate)}
@@ -173,12 +177,14 @@ const GroupedTicket = ({ groupedTicket, id }) => {
             onClick={incrementTicket}
             type="button"
             disabled={
+              isPassed ||
               groupedTicket?.ticketsSold >= groupedTicket?.ticketQuantity ||
               groupedTicket.ticketSaleActive === false ||
               counter >= getRemainingTicket ||
               new Date() < new Date(groupedTicket?.startDate)
             }
             className={`${
+              isPassed ||
               groupedTicket?.ticketsSold >= groupedTicket?.ticketQuantity ||
               groupedTicket.ticketSaleActive === false ||
               counter >= getRemainingTicket ||

@@ -2,17 +2,43 @@ import React, { FC, useState } from "react";
 import PaidGroupSeatsForm from "./PaidGroupSeatsForm";
 import { SeatSectionListsType } from "@/static-datas/create-event";
 import FreeGroupSeatsForm from "./FreeGroupSeatsForm";
-import { seatedTypes, useCreateEventContext } from "@/providers/create_event.provider";
+import { useCreateEventContext } from "@/providers/create_event.provider";
+import { useGetEvent } from "@/hooks/events/useGetEvent";
 
 export interface GroupSeatProps {
   handleReturnToList: () => void;
 }
 
+const GroupSeat: FC<GroupSeatProps> = ({ handleReturnToList }) => {
+  const { seatType, handleClick } = useCreateEventContext();
+  const { data: eventId } = useGetEvent();
 
-const GroupSeat: FC<GroupSeatProps> = ({
-  handleReturnToList,
-}) => {
-  const {seatType, handleClick} = useCreateEventContext()
+  const getGroupTicketTypes = (): { id: string; name: string }[] => {
+    switch (eventId?.data) {
+      case "free":
+        return [
+          {
+            id: "free",
+            name: "Free Ticket",
+          },
+        ];
+      case "paid":
+        return [
+          {
+            id: "paid",
+            name: "Paid Ticket",
+          },
+        ];
+      default:
+        return [
+          { id: "paid", name: "Paid Ticket" },
+          { id: "free", name: "Free Ticket" },
+        ];
+    }
+  };
+
+  // Usage:
+  const groupTicketTypes = getGroupTicketTypes();
   return (
     <div>
       <div className="flex flex-col md:flex-row justify-start md:items-end gap-5 mb-6">
@@ -21,7 +47,7 @@ const GroupSeat: FC<GroupSeatProps> = ({
         </h3>
 
         <div className="flex flex-wrap gap-4">
-          {seatedTypes.map((seat) => (
+          {groupTicketTypes?.map((seat) => (
             <button
               key={seat.id}
               onClick={() => handleClick(seat.id)}
@@ -36,13 +62,9 @@ const GroupSeat: FC<GroupSeatProps> = ({
       </div>
       <div className="mt-6">
         {seatType === "paid" ? (
-          <PaidGroupSeatsForm
-            handleReturnToList={handleReturnToList}
-          />
+          <PaidGroupSeatsForm handleReturnToList={handleReturnToList} />
         ) : (
-          <FreeGroupSeatsForm
-            handleReturnToList={handleReturnToList}
-          />
+          <FreeGroupSeatsForm handleReturnToList={handleReturnToList} />
         )}
       </div>
     </div>
