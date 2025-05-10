@@ -70,3 +70,10 @@ export const uploadImage = async (file: any): Promise<any> => {
   return uploadResponse.json();
 };
 
+export const mergeDateTime = (date: Date | undefined, time: string): Date | null => {
+  if (!date || !time) return null;
+  const [hours, minutes] = time.split(":").map(Number);
+  const mergedDate = new Date(date);
+  mergedDate.setHours(hours, minutes, 0, 0);
+  return mergedDate;
+}; 

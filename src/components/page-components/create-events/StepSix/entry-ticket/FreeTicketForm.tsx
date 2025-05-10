@@ -22,6 +22,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { EventEntryFree } from "@/pages/api/mutate/create-events/EventEntryFree";
 import Spinner from "@/tw-components/spinner";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { mergeDateTime } from "@/lib/utils";
 
 interface FreeTicketFormProps {
   entryTicket: string;
@@ -98,10 +99,24 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
   });
 
   const onSubmit = useCallback((payload: FreeTicket) => {
-    if (payload?.start_date > payload?.end_date) {
-      alert("Start date cannot be after the end date");
+
+    const startDateTime = mergeDateTime(payload.start_date, payload.start_time);
+    const endDateTime = mergeDateTime(payload.end_date, payload.end_time);
+
+    if (!startDateTime || !endDateTime) {
+      alert("Please provide valid start and end date/time.");
       return;
     }
+
+    if (startDateTime > endDateTime) {
+      alert("Start date and time cannot be after the end date and time.");
+      return;
+    }
+
+    // if (payload?.start_date > payload?.end_date) {
+    //   alert("Start date cannot be after the end date");
+    //   return;
+    // }
 
     if(payload.reservation === ''){
       toast({
@@ -114,9 +129,9 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
         entryTicketType: entryTicket,
         ticketName: payload.ticket_name,
         ticketQuantity: payload.ticket_quantity,
-        startDate: payload.start_date,
+        startDate: startDateTime,
         startTime: payload.start_time,
-        endDate: payload.end_date,
+        endDate: endDateTime,
         endTime: payload.end_time,
         ticketPeaks: payload.ticket_perks,
         reservation: payload.reservation,

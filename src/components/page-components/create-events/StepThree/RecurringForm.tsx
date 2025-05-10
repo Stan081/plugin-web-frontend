@@ -35,6 +35,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { mergeDateTime } from "@/lib/utils";
 
 interface RecurringFormComponentProps {
   eventType: string;
@@ -117,8 +118,16 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
   });
 
   const onSubmit = useCallback((payload: RecurringForm) => {
-    if (payload?.start_date > payload?.end_date) {
-      alert("Start date cannot be after the end date");
+    const startDateTime = mergeDateTime(payload.start_date, payload.start_time);
+    const endDateTime = mergeDateTime(payload.end_date, payload.end_time);
+
+    if (!startDateTime || !endDateTime) {
+      alert("Please provide valid start and end date/time.");
+      return;
+    }
+
+    if (startDateTime > endDateTime) {
+      alert("Start date and time cannot be after the end date and time.");
       return;
     }
     const getSchedule = schedules.find((item) => item.id === recurringSchedule);
@@ -126,11 +135,11 @@ const RecurringFormComponent: React.FC<RecurringFormComponentProps> = ({
       eventType,
       recurringEvent: {
         scheduleReference: getSchedule?.slug,
-        startDate: payload?.start_date,
+        startDate: startDateTime,
         startTime: payload?.end_time,
         timeZone: payload?.timezone,
         endTime: payload?.end_time,
-        endDate: payload?.end_date,
+        endDate: endDateTime,
       },
     };
     mutate(data);

@@ -1,6 +1,7 @@
 export const timezone = [
- 'UTC', 'GMT', 'EST', 'EDT', 'CST', 'CDT', 'MST', 'MDT', 'PST', 'PDT', 
-  'BST', 'CET', 'CEST', 'IST', 'JST', 'AEST', 'AEDT'
+  'GMT+0', 'GMT+1', 'GMT+2', 'GMT+3', 'GMT+4', 'GMT+5', 'GMT+6', 'GMT+7', 
+  'GMT+8', 'GMT+9', 'GMT+10', 'GMT+11', 'GMT+12', 'GMT-1', 'GMT-2', 'GMT-3', 
+  'GMT-4', 'GMT-5', 'GMT-6', 'GMT-7', 'GMT-8', 'GMT-9', 'GMT-10', 'GMT-11', 'GMT-12'
 ];
 
 export type PageContentsType = {

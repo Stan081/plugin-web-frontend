@@ -21,6 +21,7 @@ import { EventEntryDonationTicket } from "@/pages/api/mutate/create-events/Event
 import { useMutation } from "@tanstack/react-query";
 import Spinner from "@/tw-components/spinner";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
+import { mergeDateTime } from "@/lib/utils";
 
 interface DonationTicketFormProps {
   entryTicket: string;
@@ -104,8 +105,16 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({ entryTicket }) => {
   });
 
   const onSubmit = useCallback((payload: DonationForm) => {
-    if (payload?.start_date > payload?.end_date) {
-      alert("Start date cannot be after the end date");
+    const startDateTime = mergeDateTime(payload.start_date, payload.start_time);
+    const endDateTime = mergeDateTime(payload.end_date, payload.end_time);
+
+    if (!startDateTime || !endDateTime) {
+      alert("Please provide valid start and end date/time.");
+      return;
+    }
+
+    if (startDateTime > endDateTime) {
+      alert("Start date and time cannot be after the end date and time.");
       return;
     }
     const data = {
@@ -115,9 +124,9 @@ const DonationTicketForm: FC<DonationTicketFormProps> = ({ entryTicket }) => {
         minPrice: payload.min_price,
         maxPrice: payload.max_price,
         ticketQuantity: payload.ticket_quantity,
-        startDate: payload.start_date,
+        startDate: startDateTime,
         startTime: payload.start_time,
-        endDate: payload.end_date,
+        endDate: endDateTime,
         endTime: payload.end_time,
         ticketPeaks: payload.ticket_perks,
       },

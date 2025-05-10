@@ -37,7 +37,7 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { IoMdImages } from "react-icons/io";
 import Spinner from "@/tw-components/spinner";
 import { Button } from "@/components/ui/button";
-
+import { mergeDateTime } from "@/lib/utils";
 interface FreeGroupSeatsFormProps extends GroupSeatProps {}
 
 const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
@@ -171,18 +171,26 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
   });
 
   const onSubmit = useCallback((payload: FreeSeatSection) => {
-    if (payload?.start_date > payload?.end_date) {
-      alert("Start date cannot be after the end date");
-      return;
-    }
+           const startDateTime = mergeDateTime(payload.start_date, payload.start_time);
+           const endDateTime = mergeDateTime(payload.end_date, payload.end_time);
+       
+           if (!startDateTime || !endDateTime) {
+             alert("Please provide valid start and end date/time.");
+             return;
+           }
+       
+           if (startDateTime > endDateTime) {
+             alert("Start date and time cannot be after the end date and time.");
+             return;
+           } 
     const data = {
       groupedTicketType: payload.seat_type,
       ticketName: payload.ticket_name,
       ticketCategory: payload.ticket_category,
       ticketQuantity: payload.ticket_quantity,
-      startDate: payload.start_date,
+      startDate: startDateTime,
       startTime: payload.start_time,
-      endDate: payload.end_date,
+      endDate: endDateTime,
       endTime: payload.end_time,
       ticketPeaks: payload.ticket_perks,
       seatMap: payload.label_image ?? "",

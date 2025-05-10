@@ -35,6 +35,7 @@ import { IoMdImages } from "react-icons/io";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { mergeDateTime } from "@/lib/utils";
 
 interface EditFreeSeatDetailProps {
   handleReturnToList: () => void;
@@ -176,14 +177,26 @@ const EditFreeSeatDetail: FC<EditFreeSeatDetailProps> = ({
 
   const onSubmit = useCallback((payload: FreeSeatSection) => {
     console.log(payload);
+    const startDateTime = mergeDateTime(payload.start_date, payload.start_time);
+    const endDateTime = mergeDateTime(payload.end_date, payload.end_time);
+
+    if (!startDateTime || !endDateTime) {
+      alert("Please provide valid start and end date/time.");
+      return;
+    }
+
+    if (startDateTime > endDateTime) {
+      alert("Start date and time cannot be after the end date and time.");
+      return;
+    }
     const data = {
       groupedTicketType: payload.seat_type,
       ticketName: payload.ticket_name,
       ticketCategory: payload.ticket_category,
       ticketQuantity: payload.ticket_quantity,
-      startDate: payload.start_date,
+      startDate: startDateTime,
       startTime: payload.start_time,
-      endDate: payload.end_date,
+      endDate: endDateTime,
       endTime: payload.end_time,
       ticketPeaks: payload.ticket_perks,
       seatMap: payload.label_image,

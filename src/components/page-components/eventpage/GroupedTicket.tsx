@@ -19,7 +19,7 @@ const setCookie = (key: string, value: any, options = {}) => {
   }
 };
 
-const GroupedTicket = ({ groupedTicket, id }) => {
+const GroupedTicket = ({ groupedTicket, id, timeZone }: { groupedTicket: any; id: string; timeZone: string }) => {
   const [counter, setCounter] = useState(0);
 
   const { tickets, setTickets } = useEventsContext();
@@ -118,7 +118,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
       weekday: "short",
       month: "long",
       day: "numeric",
-      timeZone: "Africa/Lagos",
+      timeZone: timeZone,
     });
   };
 
@@ -152,7 +152,7 @@ const GroupedTicket = ({ groupedTicket, id }) => {
               ))}
             {isPassed && (
               <p className="bg-red-500 text-white py-0.5 px-1 rounded text-xs">
-                Ticket has expired
+                Ticket sales ended
               </p>
             )}
             {new Date() < new Date(groupedTicket?.startDate) && (

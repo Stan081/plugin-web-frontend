@@ -32,6 +32,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
+import { mergeDateTime } from "@/lib/utils";
 
 interface OneTimeFormComponentProps {
   eventType: string;
@@ -91,19 +92,27 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
   });
 
   const onSubmit = useCallback((payload: OneTimeForm) => {
-    if (payload?.start_date > payload?.end_date) {
-      alert("Start date cannot be after the end date");
+    const startDateTime = mergeDateTime(payload.start_date, payload.start_time);
+    const endDateTime = mergeDateTime(payload.end_date, payload.end_time);
+
+    if (!startDateTime || !endDateTime) {
+      alert("Please provide valid start and end date/time.");
+      return;
+    }
+
+    if (startDateTime > endDateTime) {
+      alert("Start date and time cannot be after the end date and time.");
       return;
     }
 
     const data = {
       eventType,
       oneTimeEvent: {
-        startDate: payload?.start_date,
-        startTime: payload?.start_time,
-        timeZone: payload?.timezone,
-        endTime: payload?.end_time,
-        endDate: payload?.end_date,
+        startDate: startDateTime,
+        endDate: endDateTime,
+        startTime: payload.start_time,
+        endTime: payload.end_time,
+        timeZone: payload.timezone,
       },
     };
 
@@ -177,41 +186,20 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                 <FormField
                   control={form.control}
                   name="start_time"
-                  render={({ field }) => {
-                    const isDateObject = (value: unknown): value is Date => {
-                      return (
-                        typeof value === "object" &&
-                        value !== null &&
-                        "toISOString" in value
-                      );
-                    };
-
-                    const formattedTime = isDateObject(field.value)
-                      ? new Date(
-                          field.value.getTime() -
-                            field.value.getTimezoneOffset() * 60000
-                        )
-                          .toISOString()
-                          .split("T")[1]
-                          .slice(0, 5)
-                      : field.value;
-
-                    return (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="00:00"
-                            type="time"
-                            id="start_time"
-                            className="bg-white text-black font-pally-regular"
-                            {...field}
-                            value={formattedTime}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="00:00"
+                          type="time"
+                          id="start_time"
+                          className="bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </FormItem>
               <FormItem>
@@ -256,22 +244,20 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                 <FormField
                   control={form.control}
                   name="end_time"
-                  render={({ field }) => {
-                    return (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="0:00"
-                            type="time"
-                            id="end_time"
-                            className="bg-white text-black font-pally-regular"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    );
-                  }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="0:00"
+                          type="time"
+                          id="end_time"
+                          className="bg-white text-black font-pally-regular"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </FormItem>
               <FormItem className="col-span-2">
@@ -279,31 +265,27 @@ const OneTimeFormComponent: React.FC<OneTimeFormComponentProps> = ({
                 <FormField
                   control={form.control}
                   name="timezone"
-                  render={({ field }) => {
-                    return (
-                      <FormControl>
-                        <Select
-                          onValueChange={(value) => field.onChange(value)}
-                          defaultValue={String(field.value)}
-                        >
-                          <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
-                            <SelectValue placeholder="select timezone" />
-                          </SelectTrigger>
-                          <SelectContent className="w-full border z-50 bg-primary-foreground rounded-sm bg-white">
-                            {timezone.map((zone, index) => {
-                              return (
-                                <SelectItem key={index} value={zone}>
-                                  <div className="flex items-center gap-2">
-                                    {zone}
-                                  </div>
-                                </SelectItem>
-                              );
-                            })}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    );
-                  }}
+                  render={({ field }) => (
+                    <FormControl>
+                      <Select
+                        onValueChange={(value) => field.onChange(value)}
+                        defaultValue={String(field.value)}
+                      >
+                        <SelectTrigger className="border h-10 py-1 flex justify-between bg-white text-black items-center gap-2 rounded-md p-2 w-full">
+                          <SelectValue placeholder="select timezone" />
+                        </SelectTrigger>
+                        <SelectContent className="w-full border z-50 bg-primary-foreground rounded-sm bg-white">
+                          {timezone.map((zone, index) => (
+                            <SelectItem key={index} value={zone}>
+                              <div className="flex items-center gap-2">
+                                {zone}
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  )}
                 />
 
                 <FormMessage />

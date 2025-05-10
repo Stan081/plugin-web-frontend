@@ -44,6 +44,7 @@ import { Button } from "@/components/ui/button";
 import { EventGroupPaid } from "@/pages/api/mutate/create-events/EventGroupPaid";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Spinner from "@/tw-components/spinner";
+import { mergeDateTime } from "@/lib/utils";
 
 interface PaidGroupSeatsFormProps extends GroupSeatProps {}
 
@@ -179,19 +180,27 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
   });
 
   const onSubmit = useCallback((payload: PaidSeatSection) => {
-    if (payload?.start_date > payload?.end_date) {
-      alert("Start date cannot be after the end date");
-      return;
-    }
+       const startDateTime = mergeDateTime(payload.start_date, payload.start_time);
+       const endDateTime = mergeDateTime(payload.end_date, payload.end_time);
+   
+       if (!startDateTime || !endDateTime) {
+         alert("Please provide valid start and end date/time.");
+         return;
+       }
+   
+       if (startDateTime > endDateTime) {
+         alert("Start date and time cannot be after the end date and time.");
+         return;
+       }
     const data = {
       groupedTicketType: payload.seat_type,
       ticketName: payload.ticket_name,
       ticketCategory: payload.ticket_category,
       ticketQuantity: payload.ticket_quantity,
       ticketPrice: payload.ticket_price,
-      startDate: payload.start_date,
+      startDate: startDateTime,
       startTime: payload.start_time,
-      endDate: payload.end_date,
+      endDate: endDateTime,
       endTime: payload.end_time,
       ticketPeaks: payload.ticket_perks,
       seatMap: payload?.label_image ?? "",

@@ -44,7 +44,7 @@ const AvailableTicket: React.FC<{
         {event?.ticketCategory === "grouped" && (
           <>
             {event?.groupedTicket.map((ticket) => (
-              <GroupedTicket key={ticket._id} id={id} groupedTicket={ticket} />
+              <GroupedTicket key={ticket._id} id={id} groupedTicket={ticket} timeZone={event?.oneTimeEvent?.timeZone} />
             ))}
             <Button
               onClick={handleGroupTicket}

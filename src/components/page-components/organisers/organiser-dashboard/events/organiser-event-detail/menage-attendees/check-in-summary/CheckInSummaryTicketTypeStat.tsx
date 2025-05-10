@@ -8,6 +8,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 interface StatProps {
   name: string;
   value: number;
+  value2: number;
   color: string;
 }
 
@@ -25,6 +26,7 @@ const CheckInSummaryTicketTypeStat = () => {
   const data: StatProps[] = summary?.data?.checkinByTicketType?.map((item) => ({
     ...item,
     name: item.ticket,
+    value2: item.ticketTypeCheckinPercentage,
     value: item.percentage,
     color: generateHexColor(),
   }));
@@ -95,7 +97,7 @@ const CheckInSummaryTicketTypeStat = () => {
                 {item.name}:{" "}
               </span>
               <span className="font-pally-medium text-sm lg:text-base">
-                {item.value}%
+                {item.value2}%
               </span>
             </div>
           ))}
