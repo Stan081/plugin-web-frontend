@@ -17,6 +17,8 @@ type Props = {
   ticketPeaks: string;
   ticketsSold: number;
   _id: string;
+  startDate: string;
+  ticketSaleActive: boolean;
 };
 
 interface EntryProps {
@@ -137,13 +139,17 @@ const EntryTicketComponent: FC<EntryProps> = ({
                 isPassed ||
                 maximumCount === counter ||
                 entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
-                counter >= getRemainingTicket
+                counter >= getRemainingTicket ||
+                entryTicket?.ticketSaleActive === false ||
+                new Date() < new Date(entryTicket?.startDate)
               }
               className={`${
                 isPassed ||
                 maximumCount === counter ||
                 entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
-                counter >= getRemainingTicket
+                counter >= getRemainingTicket ||
+                entryTicket?.ticketSaleActive === false ||
+                new Date() < new Date(entryTicket?.startDate)
                   ? `bg-gray-300 cursor-not-allowed`
                   : `bg-destructive`
               } text-white rounded-full p-1`}
