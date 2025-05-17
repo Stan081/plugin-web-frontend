@@ -1,6 +1,6 @@
 import ToolTipComponent from "@/components/ToolTipComponent";
 import { toFiat } from "@/lib/amount";
-import React, { FC, Fragment, useCallback, useState } from "react";
+import React, { FC, Fragment, useCallback } from "react";
 import TicketPlacement from "./TicketPlacement";
 import { HiOutlineMinus, HiPlus } from "react-icons/hi2";
 import { useEventsContext } from "@/providers/events.provider";
@@ -27,7 +27,7 @@ interface EntryProps {
   isPassed: boolean;
 }
 
-const setCookie = (key: string, value: any) => {
+const setCookie = (key: string, value: Record<string, unknown>) => {
   try {
     Cookies.set(key, JSON.stringify(value)); // Serialize the object
   } catch (error) {
@@ -141,7 +141,7 @@ const EntryTicketComponent: FC<EntryProps> = ({
                 entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
                 counter >= getRemainingTicket ||
                 entryTicket?.ticketSaleActive === false ||
-                new Date() < new Date(entryTicket?.startDate)
+                new Date().getDate() > new Date(entryTicket?.startDate).getDate()
               }
               className={`${
                 isPassed ||
@@ -149,7 +149,7 @@ const EntryTicketComponent: FC<EntryProps> = ({
                 entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
                 counter >= getRemainingTicket ||
                 entryTicket?.ticketSaleActive === false ||
-                new Date() < new Date(entryTicket?.startDate)
+                new Date().getDate() > new Date(entryTicket?.startDate).getDate()
                   ? `bg-gray-300 cursor-not-allowed`
                   : `bg-destructive`
               } text-white rounded-full p-1`}
