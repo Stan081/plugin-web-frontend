@@ -1,30 +1,28 @@
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectGroup,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 import { toFiat } from "@/lib/amount";
-import { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import WithdrawalInput from "./withdrawal-flow/WithdrawalInput";
 import WithdrawalOTP from "./withdrawal-flow/WithdrawalOTP";
 import WithdrawalReceipt from "./withdrawal-flow/WithdrawalReceipt";
-import { useGetWithdrawalStats } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalStats";
+
 
 export type StepsProps = {
   next?: () => void;
   previous?: () => void;
 };
 
-const AvailableBalance = () => {
+const AvailableBalance = ({ availableBalance }: { availableBalance: number }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [currentStep, setCurrentStep] = useState<number>(1);
-
-  const { data: withdrawalStatistic } = useGetWithdrawalStats();
 
   const nextStep = () => {
     setCurrentStep((prev) => prev + 1);
@@ -67,7 +65,7 @@ const AvailableBalance = () => {
         </div>
 
         <p className="font-pally-medium text-4xl">
-          {toFiat(withdrawalStatistic?.data?.availableBal)}
+        {toFiat(availableBalance)}
         </p>
 
         <div className="flex justify-between items-center">

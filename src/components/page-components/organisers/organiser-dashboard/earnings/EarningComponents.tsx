@@ -7,10 +7,9 @@ import WithdrawalSummary from "./WithdrawalSummary";
 import WithdrawalHistory from "./WithdrawalHistory";
 import { toFiat } from "@/lib/amount";
 import AvailableBalance from "./AvailableBalance";
-import { useGetWithdrawalStats } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalStats";
+import { useGetOrganizerFinancials } from "@/hooks/organiser/organiser-earnings/useGetOrganizerFinancials";
 
-const TotalEarning = () => {
-  const { data: withdrawalStatistic } = useGetWithdrawalStats();
+const TotalEarning = ({ totalEarnings }: { totalEarnings: number }) => {
   return (
     <div className="border border-[#EAEDF0] rounded-xl p-6 flex flex-col justify-between gap-6">
       <div className="flex justify-between">
@@ -22,7 +21,7 @@ const TotalEarning = () => {
       </div>
 
       <p className="font-pally-medium text-4xl">
-        {toFiat(withdrawalStatistic?.data?.completedSum)}
+        {toFiat(totalEarnings)}
       </p>
 
       <p className="font-pally-medium text-[#667185] flex items-center gap-3">
@@ -36,11 +35,14 @@ const TotalEarning = () => {
 };
 
 const EarningComponents = () => {
+  const { data: financialData } = useGetOrganizerFinancials() || { data: {} };
+  const totalEarnings = financialData?.data?.earning || 0;
+  const availableBalance = financialData?.data?.availableBalance || 0;
   return (
     <Container>
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <TotalEarning />
-        <AvailableBalance />
+        <TotalEarning totalEarnings={totalEarnings} />
+        <AvailableBalance availableBalance={availableBalance} />
         <PayoutInformation />
         <WithdrawalSummary />
       </div>
