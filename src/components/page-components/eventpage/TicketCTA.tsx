@@ -22,7 +22,6 @@ const TicketCTA: React.FC<{ event: any; id: string; isPassed: boolean }> = ({
     if (event?.ticketCategory === "entry" && event?.entryTicket) {
       const { startDate, endDate } = event.entryTicket;
 
-      // Validate startDate and endDate
       const start = startDate ? new Date(startDate) : null;
       const end = endDate ? new Date(endDate) : null;
 
@@ -36,42 +35,37 @@ const TicketCTA: React.FC<{ event: any; id: string; isPassed: boolean }> = ({
         return null;
       }
 
-      // Check if the current date is before the start date
       if (start && now < start) {
         const timeDifference = start.getTime() - now.getTime();
         const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-        return Math.max(daysRemaining, 0); // Time remaining until the start date
+        return daysRemaining <= 3 ? `Ticket sales start in ${daysRemaining} days` : null;
       }
 
-      // Check if the current date is between the start and end dates
       if (end && now <= end) {
         const timeDifference = end.getTime() - now.getTime();
         const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-        return Math.max(daysRemaining, 0); // Time remaining until the end date
+        return daysRemaining <= 3 ? `Ticket sales end in ${daysRemaining} days` : null;
       }
 
-      // If the event is past its end date
-      return 0;
+      return null;
     }
 
     return null;
   };
+
   const router = useRouter();
 
   const checkIfEndDateReached = () => {
     if (event?.entryTicket?.endDate) {
       const endDate = new Date(event.entryTicket.endDate);
 
-      // Validate endDate
       if (isNaN(endDate.getTime())) {
         console.error("Invalid endDate format.");
         return false;
       }
 
-      // Get the current date and time
       const now = new Date();
 
-      // Compare dates
       const isSameDay =
         now.getUTCFullYear() === endDate.getUTCFullYear() &&
         now.getUTCMonth() === endDate.getUTCMonth() &&
@@ -88,7 +82,6 @@ const TicketCTA: React.FC<{ event: any; id: string; isPassed: boolean }> = ({
       ? event?.groupedTicket[0]?.ticketPrice
       : 0;
 
-  // Find the last ticket with a groupedTicketType of "paid"
   const lastTicket = event?.groupedTicket
     ?.slice()
     .reverse()
@@ -99,7 +92,6 @@ const TicketCTA: React.FC<{ event: any; id: string; isPassed: boolean }> = ({
     );
   const lastPrice = lastTicket ? lastTicket.ticketPrice : 0;
 
-  // Compare and return the price range
   const priceRange = () => {
     if (firstPrice < lastPrice) {
       return toFiat(firstPrice) + " - " + toFiat(lastPrice);
@@ -151,9 +143,7 @@ const TicketCTA: React.FC<{ event: any; id: string; isPassed: boolean }> = ({
                       </h6>
                       {event?.ticketCategory === "entry" && (
                         <p className="rounded-3xl text-sm text-[#523300] font-pally-medium px-2 py-1 bg-[#F7D394]">
-                          {`Ticket sales ending in
-                       ${getEntryTicketCountdown()}
-                         days`}
+                          {getEntryTicketCountdown()}
                         </p>
                       )}
                     </div>
