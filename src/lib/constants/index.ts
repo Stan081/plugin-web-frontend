@@ -1,9 +1,6 @@
 import { getCookie } from "../cookies";
-import dotenv from "dotenv";
 
 export const WEB_URL: string = process.env.NEXT_PUBLIC_WEB_URL;
-
-dotenv.config();
 
 export const BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL;
 
