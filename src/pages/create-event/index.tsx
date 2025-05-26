@@ -10,7 +10,6 @@ import StepSix from "@/components/page-components/create-events/StepSix";
 import StepSeven from "@/components/page-components/create-events/StepSeven";
 import { getToken } from "@/lib/token";
 import { useRouter } from "next/navigation";
-import { useMe } from "../api/query/me";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import ProfileFormModal from "@/components/page-components/organisers/organiser-dashboard/organiser-settings/ProfileFormModal";
 import { Section } from "@/tw-components/Section";

@@ -36,7 +36,7 @@ const TotalEarning = ({ totalEarnings }: { totalEarnings: number }) => {
 
 const EarningComponents = () => {
   const { data: financialData } = useGetOrganizerFinancials() || { data: {} };
-  const totalEarnings = financialData?.data?.earning || 0;
+  const totalEarnings = financialData?.data?.totalEarnings || 0;
   const availableBalance = financialData?.data?.availableBalance || 0;
   return (
     <Container>

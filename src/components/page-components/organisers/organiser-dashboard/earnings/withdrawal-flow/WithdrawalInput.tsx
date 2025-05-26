@@ -9,7 +9,7 @@ import { RxInfoCircled } from "react-icons/rx";
 import { StepsProps } from "../AvailableBalance";
 import { useGetWithdrawalStats } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalStats";
 import { useToast } from "@/components/ui/use-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { InitiateWithdrawal } from "@/pages/api/mutate/organiser/earnings/initiateWithdrawal";
 import Spinner from "@/tw-components/spinner";
 
@@ -105,7 +105,7 @@ const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open }) => {
                     Current balance
                   </p>
                   <p className="font-pally-bold text-xl ">
-                    {toFiat(withdrawalStatistic?.data?.availableBal)}
+                    {toFiat(withdrawalStatistic?.data?.earning || 0)}
                   </p>
                 </div>
 
