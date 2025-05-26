@@ -3,7 +3,7 @@ import { getCookie } from "../cookies";
 export const WEB_URL: string = process.env.NEXT_PUBLIC_WEB_URL;
 
 
-export const API_BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL;
+export const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export const API_URL: string = `${API_BASE_URL}/api`;
 
