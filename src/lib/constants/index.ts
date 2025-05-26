@@ -1,10 +1,19 @@
 import { getCookie } from "../cookies";
 
-export const WEB_URL: string = process.env.NEXT_PUBLIC_WEB_URL;
+function getEnvOrWarn(key: string): string {
+  const value = process.env[key];
+  if (!value) {
+    // eslint-disable-next-line no-console
+    console.warn(`Environment variable ${key} is not set!`);
+    return "";
+  }
+  return value;
+}
 
-export const BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL;
+export const WEB_URL: string = getEnvOrWarn("NEXT_PUBLIC_WEB_URL");
+export const BASE_URL: string = getEnvOrWarn("NEXT_PUBLIC_BASE_URL");
+export const API_URL: string = BASE_URL ? `${BASE_URL}/api` : "";
 
-export const API_URL: string = `${BASE_URL}/api`;
 
 // export const EDIT_PROFILE_ROLE: string = `${API_URL}/users`
 
