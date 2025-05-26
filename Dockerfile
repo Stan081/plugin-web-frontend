@@ -1,24 +1,14 @@
-# Use Node.js as the base image
 FROM node:20.11.1-alpine
-
-# Set the working directory in the container
 WORKDIR /app
-
-# Copy package.json and yarn.lock to the container
 COPY package.json yarn.lock ./
-
-# Install dependencies
 RUN yarn install --frozen-lockfile
-#RUN yarn install 
-# Copy the app's source code to the container
 COPY . .
-# Set environment variables for production
-ENV NODE_ENV=test
-ENV PORT=3000
-# Expose the port the app runs on
-EXPOSE 3000
-# Build the Next app
+ARG NEXT_PUBLIC_BASE_URL
+ARG NEXT_PUBLIC_WEB_URL
+ENV NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL
+ENV NEXT_PUBLIC_WEB_URL=$NEXT_PUBLIC_WEB_URL
+ENV NODE_ENV=production
+ENV PORT=8080
+EXPOSE 8080
 RUN yarn build:prod
-
-# Serve the production build
 CMD ["yarn", "start"]
