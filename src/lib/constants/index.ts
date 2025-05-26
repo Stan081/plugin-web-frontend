@@ -1,19 +1,11 @@
 import { getCookie } from "../cookies";
 
-function getEnvOrWarn(key: string): string {
-  const value = process.env[key];
-  if (!value) {
-    // eslint-disable-next-line no-console
-    console.warn(`Environment variable ${key} is not set!`);
-    return "";
-  }
-  return value;
-}
+export const WEB_URL: string = process.env.NEXT_PUBLIC_WEB_URL;
 
-export const WEB_URL: string = getEnvOrWarn("NEXT_PUBLIC_WEB_URL");
-export const BASE_URL: string = getEnvOrWarn("NEXT_PUBLIC_BASE_URL");
-export const API_URL: string = BASE_URL ? `${BASE_URL}/api` : "";
 
+export const BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL;
+
+export const API_URL: string = `${BASE_URL}/api`;
 
 // export const EDIT_PROFILE_ROLE: string = `${API_URL}/users`
 
@@ -84,8 +76,6 @@ export const GET_USER_FOLLOWERS: string = `${API_URL}/users/following/organizers
 export const GET_EVENT_TICKETS: string = `${API_URL}/organizers/event/tickets`;
 
 export const EVENT_TICKET_AGENT: string = `${API_URL}/organizers/event/agent`;
-
-export const ORGANIZER_EARNINGS = `${API_URL}/organizers/earnings/financials`;
 
 
 // export const GET_EVENT_BY_ID = (): string => {
