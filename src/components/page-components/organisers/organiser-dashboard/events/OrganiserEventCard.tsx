@@ -19,7 +19,7 @@ import { setCookie } from "@/lib/cookies";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-import { BASE_URL, WEB_URL } from "@/lib/constants";
+
 
 const OrganiserEventCard: FC<{ event: any }> = ({ event }) => {
   const { handleShowDeleteEvent, setEventId } = useOrganiserDashContext();
