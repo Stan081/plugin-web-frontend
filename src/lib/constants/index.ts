@@ -77,6 +77,8 @@ export const GET_EVENT_TICKETS: string = `${API_URL}/organizers/event/tickets`;
 
 export const EVENT_TICKET_AGENT: string = `${API_URL}/organizers/event/agent`;
 
+export const ORGANIZER_EARNINGS = `${API_URL}/organizers/earnings/financials`;
+
 
 // export const GET_EVENT_BY_ID = (): string => {
 //   const eventId = getCookie("event_id");
