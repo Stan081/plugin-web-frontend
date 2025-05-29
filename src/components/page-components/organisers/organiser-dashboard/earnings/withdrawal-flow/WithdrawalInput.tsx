@@ -48,7 +48,7 @@ const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (withdrawalAmount >= (withdrawalStatistic?.data?.availableBal || 0)) {
+    if (withdrawalAmount >= (withdrawalStatistic?.data?.totalEarnings || 0)) {
       return toast({
         title: "Kindly withdraw below available balance",
         variant: "destructive",
