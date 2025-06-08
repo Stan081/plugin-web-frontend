@@ -22,19 +22,20 @@ const OrganiserEventTab = () => {
     isError,
   } = useGetEventsByOrganiser();
 
-  const now = new Date();
+  const now = new Date();;
+  const eventList = organiserEvents?.data || [];
 
   const upcomingEvents =
-    organiserEvents?.data?.filter((item) => {
+    eventList.filter((item) => {
       return (
-        item.isPublished && new Date(item.startDate).getTime() > now.getTime()
+        item.isPublished && new Date(item.startDate).getTime() >= now.getTime()
       );
     }) || [];
 
   const pastEvents =
-    organiserEvents?.data?.filter((item) => {
+    eventList.filter((item) => {
       try {
-        return (
+        return ( 
           item?.isPublished &&
           new Date(item.endDate).getTime() <= now.getTime() &&
           !isNaN(new Date(item.endDate).getTime())
@@ -44,7 +45,7 @@ const OrganiserEventTab = () => {
       }
     }) || [];
 
-  const draftEvents = organiserEvents?.data?.filter((item) => {
+  const draftEvents = eventList.filter((item) => {
     if (item.isPublished === false) {
       return item;
     }
