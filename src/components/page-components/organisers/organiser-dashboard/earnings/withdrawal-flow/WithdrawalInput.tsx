@@ -7,7 +7,6 @@ import React, { FC, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import { RxInfoCircled } from "react-icons/rx";
 import { StepsProps } from "../AvailableBalance";
-import { useGetWithdrawalStats } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalStats";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { InitiateWithdrawal } from "@/pages/api/mutate/organiser/earnings/initiateWithdrawal";
@@ -16,12 +15,13 @@ import Spinner from "@/tw-components/spinner";
 interface WithdrawalInputProps extends StepsProps {
   close: () => void;
   open: boolean;
+  availableBalance: number; 
 }
 
-const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open }) => {
+const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open,  availableBalance }) => {
   const [withdrawalAmount, setWithdrawalAmount] = useState<number>(0);
 
-  const { data: withdrawalStatistic } = useGetWithdrawalStats();
+  // const { data: withdrawalStatistic } = useGetWithdrawalStats();
 
   const { toast } = useToast();
 
@@ -48,7 +48,7 @@ const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (withdrawalAmount >= (withdrawalStatistic?.data?.totalEarnings || 0)) {
+    if (withdrawalAmount >= (availableBalance)) {
       return toast({
         title: "Kindly withdraw below available balance",
         variant: "destructive",
@@ -105,7 +105,7 @@ const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open }) => {
                     Current balance
                   </p>
                   <p className="font-pally-bold text-xl ">
-                    {toFiat(withdrawalStatistic?.data?.earning || 0)}
+                    {toFiat(availableBalance)}
                   </p>
                 </div>
 

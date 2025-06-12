@@ -40,6 +40,7 @@ const AvailableBalance = ({ availableBalance }: { availableBalance: number }) =>
             close={closeModal}
             next={nextStep}
             open={showModal}
+            availableBalance={availableBalance}
           />
         );
       case 2:
