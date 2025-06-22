@@ -27,7 +27,7 @@ const OrganiserEvents: FC<{ orgId: string }> = ({ orgId }) => {
     const startDate = new Date(
       item?.startDate || item?.startDate
     );
-    return item.isPublished === true && endDate.getDate() < now.getDate() && startDate.getDate() < now.getDate();
+    return item.isPublished === true && endDate.getDate() <= now.getDate() && startDate.getDate() <= now.getDate();
   });
 
   const tabLink = [
