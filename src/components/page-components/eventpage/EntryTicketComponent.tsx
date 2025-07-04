@@ -141,7 +141,7 @@ const EntryTicketComponent: FC<EntryProps> = ({
                 entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
                 counter >= getRemainingTicket ||
                 entryTicket?.ticketSaleActive === false ||
-                new Date().getTime() > new Date(entryTicket?.startDate).getTime()
+                new Date().getTime() < new Date(entryTicket?.startDate).getTime()
               }
               className={`${
                 isPassed ||
@@ -149,7 +149,7 @@ const EntryTicketComponent: FC<EntryProps> = ({
                 entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
                 counter >= getRemainingTicket ||
                 entryTicket?.ticketSaleActive === false ||
-                new Date().getDate() > new Date(entryTicket?.startDate).getDate()
+                new Date().getDate() < new Date(entryTicket?.startDate).getDate()
                   ? `bg-gray-300 cursor-not-allowed`
                   : `bg-destructive`
               } text-white rounded-full p-1`}
