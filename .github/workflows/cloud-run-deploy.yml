@@ -6,7 +6,7 @@ env:
 on:
   push:
     branches:
-      - prod
+      - devops
 
 jobs:
   dockerize-and-deploy:
