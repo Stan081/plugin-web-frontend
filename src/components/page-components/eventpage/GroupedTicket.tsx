@@ -1,6 +1,4 @@
 "use client";
-
-import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { HiOutlineMinus } from "react-icons/hi2";
 import { HiPlus } from "react-icons/hi";
@@ -19,7 +17,7 @@ const setCookie = (key: string, value: any, options = {}) => {
   }
 };
 
-const GroupedTicket = ({ groupedTicket, id, timeZone }: { groupedTicket: any; id: string; timeZone: string }) => {
+const GroupedTicket = ({ groupedTicket, timeZone }: { groupedTicket: any; id: string; timeZone: string }) => {
   const [counter, setCounter] = useState(0);
 
   const { tickets, setTickets } = useEventsContext();
@@ -108,8 +106,6 @@ const GroupedTicket = ({ groupedTicket, id, timeZone }: { groupedTicket: any; id
   const isPassed: boolean = Boolean(
     endDate && !isNaN(endDate.getTime()) && endDate.getTime() < now.getTime()
   );
-
-  console.log(groupedTicket?.endDate);
 
   const formatDate = (dateString: string) => {
     if (!dateString) return "";

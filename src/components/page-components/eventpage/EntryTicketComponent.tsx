@@ -141,7 +141,7 @@ const EntryTicketComponent: FC<EntryProps> = ({
                 entryTicket?.ticketQuantity === entryTicket?.ticketsSold ||
                 counter >= getRemainingTicket ||
                 entryTicket?.ticketSaleActive === false ||
-                new Date().getDate() > new Date(entryTicket?.startDate).getDate()
+                new Date().getTime() > new Date(entryTicket?.startDate).getTime()
               }
               className={`${
                 isPassed ||
