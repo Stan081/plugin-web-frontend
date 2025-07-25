@@ -31,7 +31,7 @@ import { extractColors } from "extract-colors";
 import { EventGroupFree } from "@/pages/api/mutate/create-events/EventGroupFree";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { FiEdit } from "react-icons/fi";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { IoMdImages } from "react-icons/io";
@@ -114,7 +114,7 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
       setIsUploading(true);
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 

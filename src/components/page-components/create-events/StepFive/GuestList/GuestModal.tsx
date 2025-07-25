@@ -20,7 +20,7 @@ import { IoMdImages } from "react-icons/io";
 import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 import { useCreateEventContext } from "@/providers/create_event.provider";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -63,7 +63,7 @@ const GuestModal: React.FC<GuestModalProps> = ({ isOpen, close }) => {
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 

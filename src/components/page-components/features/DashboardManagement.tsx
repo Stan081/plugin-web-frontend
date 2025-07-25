@@ -16,7 +16,7 @@ const DashboardManagement = () => {
             <figure className="relative size-full">
               <Image
                 fill={true}
-                src="https://res.cloudinary.com/dbhbyikta/image/upload/v1731568275/features-images/manage-dashboard.png"
+                src="https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/features-images_manage-dashboard.png"
                 alt="Pen Tablet"
                 className="object-contain"
               />

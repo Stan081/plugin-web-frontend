@@ -27,7 +27,7 @@ const ElevateEvents = () => {
               <figure className="relative size-full">
                 <Image
                   fill={true}
-                  src="https://res.cloudinary.com/dbhbyikta/image/upload/v1729618096/features-images/celebrate.png"
+                  src="https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/features-images_celebrate.png"
                   alt="celebrate"
                   className="object-cover object-center"
                 />

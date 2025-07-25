@@ -21,7 +21,7 @@ import { HiOutlineTrash } from "react-icons/hi2";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { AgendaSlotProps } from "./Slot";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -75,7 +75,7 @@ const SlotWithHost: FC<SlotWithHostProps> = ({ handleReturnToList }) => {
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 

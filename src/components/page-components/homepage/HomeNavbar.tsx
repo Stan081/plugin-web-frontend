@@ -96,7 +96,7 @@ const HomeNavbar = () => {
             <span className="sr-only">Plugin</span>
 
             <Image
-              src="https://res.cloudinary.com/dbhbyikta/image/upload/v1742940035/Medium_-_White_nug0e0.png"
+              src="https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/Medium_-_White_nug0e0.png"
               alt="Plugin Logo"
               width={128}
               height={32}

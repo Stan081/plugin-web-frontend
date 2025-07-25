@@ -1,5 +1,15 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { Storage } from '@google-cloud/storage';
+import { Readable } from 'stream';
+import dotenv from 'dotenv'
+
+dotenv.config();
+
+// Initialize the Storage client with default credentials
+const storage = new Storage();
+const BUCKET_NAME = process.env.NEXT_GCP_BUCKET;
+const env = process.env.NEXT_NODE_ENV
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -52,7 +62,7 @@ export const calculateDuration = (startTime: string, endTime: string) => {
 };
 
 // function to sync clodinary for every image upload
-export const uploadImage = async (file: any): Promise<any> => {
+export const uploadImageGC = async (file: any): Promise<any> => {
   const cloudName = "dbhbyikta";
   const formData = new FormData();
   formData.append("file", file);
@@ -68,6 +78,36 @@ export const uploadImage = async (file: any): Promise<any> => {
     }
   );
   return uploadResponse.json();
+};
+
+
+export const uploadImageGCGC = async (file: File | Blob): Promise<{ url: string }> => {
+  const fileType = file.type.startsWith('video/') ? 'video' : 'image';
+  const fileName = `${Date.now()}-${fileType}.${file.type.split('/')[1]}`;
+  const destination = `${env}/${fileType}s/${fileName}`;
+
+  // Read the file into a buffer
+  const buffer = await file.arrayBuffer();
+  const stream = Readable.from(Buffer.from(buffer));
+
+  const bucket = storage.bucket(BUCKET_NAME);
+  const gcsFile = bucket.file(destination);
+
+  await new Promise<void>((resolve, reject) => {
+    stream
+      .pipe(
+        gcsFile.createWriteStream({
+          resumable: false,
+          contentType: file.type,
+          predefinedAcl: 'publicRead',
+        })
+      )
+      .on('error', reject)
+      .on('finish', resolve);
+  });
+
+  const url = gcsFile.publicUrl();
+  return { url };
 };
 
 export const mergeDateTime = (date: Date | undefined, time: string): Date | null => {
