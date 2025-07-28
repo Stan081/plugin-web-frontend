@@ -72,7 +72,7 @@ export const uploadImage = async (file: any): Promise<any> => {
 };
 
 
-const getSignedUrl = async (fileName: string): Promise<string> => {
+const getSignedUrl = async (fileName: string): Promise<any> => {
   try {
     const response = await fetch(GET_SIGNED_URL, {
       method: "POST",
@@ -90,7 +90,7 @@ const getSignedUrl = async (fileName: string): Promise<string> => {
 
     const data = await response.json();
     if (data && data.signedUrl) {
-      return data.signedUrl;
+      return data;
     } else {
       throw new Error('Signed URL not found in response');
     }
@@ -109,9 +109,12 @@ export const uploadImageGC = async (
 
   const fileName = file.name; // Corrected: use file.name
   let signedUploadUrl: string;
+  let imageUrl;
 
   try {
-    signedUploadUrl = await getSignedUrl(fileName); // Await the promise
+    const {signedUrl, publicUrl} = await getSignedUrl(fileName); // Await the promise
+    signedUploadUrl = signedUrl;
+    imageUrl = publicUrl;
   } catch (error) {
     console.error("Failed to obtain signed URL:", error);
     throw new Error("Failed to prepare for upload: Could not get signed URL.");
@@ -122,7 +125,7 @@ export const uploadImageGC = async (
       method: "PUT",
       body: file, // Send the File object directly
       headers: {
-        'Content-Type': file.type || 'application/octet-stream'
+        'Content-Type': 'application/octet-stream'
       },
     });
 
@@ -131,9 +134,8 @@ export const uploadImageGC = async (
       throw new Error(`Failed to upload file to GCS: ${response.status} ${errorText}`);
     }
 
-    const data: any = await response.json();
-    if (data && data.publicUrl) {
-      return { secureUrl: data.publicUrl};
+    if (response.ok) {
+      return { secure_url: imageUrl};
     } else {
       throw new Error('Signed URL not found in response');
     }
