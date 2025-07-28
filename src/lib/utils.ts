@@ -1,15 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Storage } from '@google-cloud/storage';
-import { Readable } from 'stream';
-import dotenv from 'dotenv'
-
-dotenv.config();
-
-// Initialize the Storage client with default credentials
-const storage = new Storage();
-const BUCKET_NAME = process.env.NEXT_GCP_BUCKET;
-const env = process.env.NEXT_NODE_ENV
+import { GET_SIGNED_URL } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -62,7 +53,7 @@ export const calculateDuration = (startTime: string, endTime: string) => {
 };
 
 // function to sync clodinary for every image upload
-export const uploadImageGC = async (file: any): Promise<any> => {
+export const uploadImage = async (file: any): Promise<any> => {
   const cloudName = "dbhbyikta";
   const formData = new FormData();
   formData.append("file", file);
@@ -81,39 +72,86 @@ export const uploadImageGC = async (file: any): Promise<any> => {
 };
 
 
-export const uploadImageGCGC = async (file: File | Blob): Promise<{ url: string }> => {
-  const fileType = file.type.startsWith('video/') ? 'video' : 'image';
-  const fileName = `${Date.now()}-${fileType}.${file.type.split('/')[1]}`;
-  const destination = `${env}/${fileType}s/${fileName}`;
+const getSignedUrl = async (fileName: string): Promise<string> => {
+  try {
+    const response = await fetch(GET_SIGNED_URL, {
+      method: "POST",
+      body: JSON.stringify({ fileName }),
+      headers: {
+        'Content-Type': 'application/json',
+        // ...additionalHeaders if needed for this request
+      },
+    });
 
-  // Read the file into a buffer
-  const buffer = await file.arrayBuffer();
-  const stream = Readable.from(Buffer.from(buffer));
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to get signed URL: ${response.status} ${errorText}`);
+    }
 
-  const bucket = storage.bucket(BUCKET_NAME);
-  const gcsFile = bucket.file(destination);
-
-  await new Promise<void>((resolve, reject) => {
-    stream
-      .pipe(
-        gcsFile.createWriteStream({
-          resumable: false,
-          contentType: file.type,
-          predefinedAcl: 'publicRead',
-        })
-      )
-      .on('error', reject)
-      .on('finish', resolve);
-  });
-
-  const url = gcsFile.publicUrl();
-  return { url };
+    const data = await response.json();
+    if (data && data.signedUrl) {
+      return data.signedUrl;
+    } else {
+      throw new Error('Signed URL not found in response');
+    }
+  } catch (error) {
+    console.error("Error in getSignedUrl:", error);
+    throw error; // Re-throw to be handled by the caller
+  }
 };
 
-export const mergeDateTime = (date: Date | undefined, time: string): Date | null => {
+export const uploadImageGC = async (
+  file: File,
+  additionalHeaders: Record<string, string> = {}
+): Promise<any> => {
+  if (!file) {
+    throw new Error("No file provided for upload.");
+  }
+
+  const fileName = file.name; // Corrected: use file.name
+  let signedUploadUrl: string;
+
+  try {
+    signedUploadUrl = await getSignedUrl(fileName); // Await the promise
+  } catch (error) {
+    console.error("Failed to obtain signed URL:", error);
+    throw new Error("Failed to prepare for upload: Could not get signed URL.");
+  }
+
+  try {
+    const response = await fetch(signedUploadUrl, {
+      method: "PUT",
+      body: file, // Send the File object directly
+      headers: {
+        'Content-Type': file.type || 'application/octet-stream',
+        ...additionalHeaders, // Include any additional headers
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to upload file to GCS: ${response.status} ${errorText}`);
+    }
+
+    const data: any = await response.json();
+    if (data && data.signedUrl) {
+      return { secureUrl: data.signedUrl};
+    } else {
+      throw new Error('Signed URL not found in response');
+    }
+  } catch (error) {
+    console.error("Error uploading file to GCS:", error);
+    throw error; // Re-throw to be handled by the caller
+  }
+};
+
+export const mergeDateTime = (
+  date: Date | undefined,
+  time: string
+): Date | null => {
   if (!date || !time) return null;
   const [hours, minutes] = time.split(":").map(Number);
   const mergedDate = new Date(date);
   mergedDate.setHours(hours, minutes, 0, 0);
   return mergedDate;
-}; 
+};
