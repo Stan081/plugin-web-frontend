@@ -101,8 +101,7 @@ const getSignedUrl = async (fileName: string): Promise<string> => {
 };
 
 export const uploadImageGC = async (
-  file: File,
-  additionalHeaders: Record<string, string> = {}
+  file: File
 ): Promise<any> => {
   if (!file) {
     throw new Error("No file provided for upload.");
@@ -123,8 +122,7 @@ export const uploadImageGC = async (
       method: "PUT",
       body: file, // Send the File object directly
       headers: {
-        'Content-Type': file.type || 'application/octet-stream',
-        ...additionalHeaders, // Include any additional headers
+        'Content-Type': file.type || 'application/octet-stream'
       },
     });
 
@@ -134,8 +132,8 @@ export const uploadImageGC = async (
     }
 
     const data: any = await response.json();
-    if (data && data.signedUrl) {
-      return { secureUrl: data.signedUrl};
+    if (data && data.publicUrl) {
+      return { secureUrl: data.publicUrl};
     } else {
       throw new Error('Signed URL not found in response');
     }
