@@ -130,8 +130,7 @@ export const uploadImageGC = async (
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Failed to upload file to GCS: ${response.status} ${errorText}`);
+      throw new Error('Failed to upload file to GCS');
     }
 
     if (response.ok) {
