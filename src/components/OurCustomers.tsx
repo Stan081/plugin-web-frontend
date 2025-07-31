@@ -16,14 +16,14 @@ import { Progress } from "./ui/progress";
 const customers = [
   {
     customerImage:
-      "https://res.cloudinary.com/dbhbyikta/image/upload/v1742889367/IMG_1153_he30ob.jpg",
+      "https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/IMG_1153_he30ob.jpg",
     name: "Sandra Ayomide",
     quote:
       "I've been using Plugin Ent to find and register for events for a while now, and I have to say, it's a lifesaver! The website is so easy to navigate, with a clear and comprehensive list of events. I love the detailed event descriptions, swift ticket purchase, and the ability to easily share events with friends. I’m excited they rebranded and can’t want to explore all the new features. ",
   },
   {
     customerImage:
-      "https://res.cloudinary.com/dbhbyikta/image/upload/v1742889318/IMG_1156_1_dnmfhs.jpg",
+      "https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/IMG_1156_1_dnmfhs.jpg",
     name: "Anne-Marie",
     quote:
       "Was opportune to have my first concert experience, using Plugin Ent was absolutely seamless! From discovering the event to purchasing tickets, everything was so easy.  The concert itself was amazing, had fun time with great people.",

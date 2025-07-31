@@ -75,7 +75,9 @@ const HeroSection = () => {
     >
       {heroSlides.length !== 0 ? (
         <div className=" bg-no-repeat bg-cover">
-          <div className="bg-bgHero bg-cover bg-top lg:bg-bottom bg-no-repeat  w-full h-[70vh] lg:h-[85vh]">
+          <div className="bg-bgHero bg-cover bg-top lg:bg-bottom bg-no-repeat  w-full h-[70vh] lg:h-[85vh]"  style={{
+                        backgroundImage: `url(${heroSlides[0].backgroundImage})`,
+                      }}>
             <Container className="flex flex-col justify-between h-full">
               <HomeNavbar/>
               <div className="w-full lg:w-1/2 mb-20">
@@ -127,6 +129,7 @@ const HeroSection = () => {
                         <div className="absolute inset-0 bg-black opacity-50"></div>
                       )}
                       <Container>
+                        
                         <div className="relative z-10 text-center text-white p-4 flex flex-col items-start space-y-2 md:space-y-4">
                           {hoveredIndex === index ? (
                             <motion.div
