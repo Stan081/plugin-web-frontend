@@ -1,5 +1,5 @@
 import { useToast } from "@/components/ui/use-toast";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { SponsorListingForm, SponsorListingSchema } from "@/models/campaign";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
@@ -46,7 +46,7 @@ const SponsorListing = () => {
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 

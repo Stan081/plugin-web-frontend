@@ -4,7 +4,7 @@ import { IoMdImages } from "react-icons/io";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import { Button } from "@/components/ui/button";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EventMedia } from "@/pages/api/mutate/create-events/eventMedia";
 import { useToast } from "@/components/ui/use-toast";
@@ -39,7 +39,7 @@ const PhotoGrid: React.FC<PhotoGridProps> = ({ maxUploads }) => {
       setIsLoading(true);
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
         const imageUrl = uploadResult.secure_url;
 
         if (uploadedPhotos.length < maxUploads) {

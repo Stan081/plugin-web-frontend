@@ -16,7 +16,7 @@ import HomeNavbar from "./HomeNavbar";
 const heroSlides = [
   {
     backgroundImage:
-      "https://res.cloudinary.com/dbhbyikta/image/upload/v1742917303/WhatsApp_Image_2025-03-25_at_4.39.23_PM_1_fsphvb.jpg",
+      "https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/WhatsApp_Image_2025-03-25_at_4.39.23_PM_1_fsphvb.jpg",
     logo: "/images/cream-bg.png",
     title: "PLUGIN “25",
     description: "The biggest Platform for entertainment.",

@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { IoMdImages } from "react-icons/io";
 import { HiOutlineTrash } from "react-icons/hi2";
@@ -59,7 +59,7 @@ const EmailCampiagn = () => {
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 

@@ -19,7 +19,7 @@ import { FiEdit } from "react-icons/fi";
 import { IoMdImages } from "react-icons/io";
 import Image from "next/image";
 import React from "react";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
@@ -68,7 +68,7 @@ const EditGuestModal: React.FC<EditGuestModalProps> = ({
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 

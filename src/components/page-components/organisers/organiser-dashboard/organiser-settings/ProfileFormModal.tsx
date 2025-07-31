@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { IoMdImages } from "react-icons/io";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -78,7 +78,7 @@ const ProfileFormModal: FC<Props> = ({ open, close }) => {
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 
@@ -122,7 +122,7 @@ const ProfileFormModal: FC<Props> = ({ open, close }) => {
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 

@@ -30,7 +30,7 @@ import { EventVendor } from "@/pages/api/mutate/create-events/eventVendor";
 import { useToast } from "@/components/ui/use-toast";
 import Spinner from "@/tw-components/spinner";
 import { VendorType } from "@/lib/types/EventType";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 interface VendorFormProps {
@@ -97,7 +97,7 @@ const VendorForm: FC<VendorFormProps> = ({ handleReturnToList }) => {
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 

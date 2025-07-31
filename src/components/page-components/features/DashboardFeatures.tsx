@@ -10,7 +10,7 @@ const DashboardFeatures = () => {
         "Get a snapshot of your event’s key metrics: ticket sales, attendance rate, campaign performance, and more — all in one place",
       bgColor: "bg-[#FFF1F0]",
       imageURL:
-        "https://res.cloudinary.com/dbhbyikta/image/upload/v1729599910/features-images/event-overview.png",
+        "https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/features-images_event-overview.png",
     },
     {
       title: "Ticket Sales Monitoring",
@@ -18,9 +18,9 @@ const DashboardFeatures = () => {
         "Track real-time sales across different ticket types. Customize seating and pricing easily",
       bgColor: "bg-[#FBF1E1]",
       imageURL:
-        "https://res.cloudinary.com/dbhbyikta/image/upload/v1729602804/features-images/ticket-distribution.png",
+        "https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/features-images_ticket-distribution.png",
       extraImgURL:
-        "https://res.cloudinary.com/dbhbyikta/image/upload/v1729603109/features-images/ticket-sold.png",
+        "https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/features-images_ticket-sold.png",
     },
     {
       title: "Check-in Managment",
@@ -28,7 +28,7 @@ const DashboardFeatures = () => {
         "Efficiently manage guest check-ins with QR codes, see who’s checked in, and view the remaining expected attendees",
       bgColor: "bg-[#E7ECF8]",
       imageURL:
-        "https://res.cloudinary.com/dbhbyikta/image/upload/v1729603012/features-images/check-in.png",
+        "https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/features-images_check-in.png",
     },
   ];
 

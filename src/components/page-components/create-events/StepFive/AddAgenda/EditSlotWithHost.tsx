@@ -25,7 +25,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EditEventAgenda } from "@/pages/api/mutate/create-events/editEventAgenda";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/tw-components/spinner";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 
 interface SlotWithHostProps {
@@ -64,7 +64,7 @@ const EditSlotWithHost: FC<SlotWithHostProps> = ({
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 

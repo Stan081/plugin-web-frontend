@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { AdContentForm, AdContentSchema } from "@/models/campaign";
 import { useOrganiserDashContext } from "@/providers/organiser_dashboard.provider";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -49,7 +49,7 @@ const AdContent = () => {
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 

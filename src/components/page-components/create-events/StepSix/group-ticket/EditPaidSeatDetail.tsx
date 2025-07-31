@@ -30,7 +30,7 @@ import { EditEventGroup } from "@/pages/api/mutate/create-events/EditEventGroup"
 import Spinner from "@/tw-components/spinner";
 import { Button } from "@/components/ui/button";
 import { extractColors } from "extract-colors";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { IoMdImages } from "react-icons/io";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { FiEdit } from "react-icons/fi";
@@ -123,7 +123,7 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 

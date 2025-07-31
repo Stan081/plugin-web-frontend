@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { GET_SIGNED_URL } from "./constants";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -70,10 +71,86 @@ export const uploadImage = async (file: any): Promise<any> => {
   return uploadResponse.json();
 };
 
-export const mergeDateTime = (date: Date | undefined, time: string): Date | null => {
+
+const getSignedUrl = async (fileName: string): Promise<any> => {
+  try {
+    const response = await fetch(GET_SIGNED_URL, {
+      method: "POST",
+      body: JSON.stringify({ fileName }),
+      headers: {
+        'Content-Type': 'application/json',
+        // ...additionalHeaders if needed for this request
+      },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to get signed URL: ${response.status} ${errorText}`);
+    }
+
+    const data = await response.json();
+    if (data && data.signedUrl) {
+      return data;
+    } else {
+      throw new Error('Signed URL not found in response');
+    }
+  } catch (error) {
+    console.error("Error in getSignedUrl:", error);
+    throw error; // Re-throw to be handled by the caller
+  }
+};
+
+export const uploadImageGC = async (
+  file: File
+): Promise<any> => {
+  if (!file) {
+    throw new Error("No file provided for upload.");
+  }
+
+  const fileName = file.name; // Corrected: use file.name
+  let signedUploadUrl: string;
+  let imageUrl;
+
+  try {
+    const {signedUrl, publicUrl} = await getSignedUrl(fileName); // Await the promise
+    signedUploadUrl = signedUrl;
+    imageUrl = publicUrl;
+  } catch (error) {
+    console.error("Failed to obtain signed URL:", error);
+    throw new Error("Failed to prepare for upload: Could not get signed URL.");
+  }
+
+  try {
+    const response = await fetch(signedUploadUrl, {
+      method: "PUT",
+      body: file, // Send the File object directly
+      headers: {
+        'Content-Type': 'application/octet-stream'
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to upload file to GCS');
+    }
+
+    if (response.ok) {
+      return { secure_url: imageUrl};
+    } else {
+      throw new Error('Signed URL not found in response');
+    }
+  } catch (error) {
+    console.error("Error uploading file to GCS:", error);
+    throw error; // Re-throw to be handled by the caller
+  }
+};
+
+export const mergeDateTime = (
+  date: Date | undefined,
+  time: string
+): Date | null => {
   if (!date || !time) return null;
   const [hours, minutes] = time.split(":").map(Number);
   const mergedDate = new Date(date);
   mergedDate.setHours(hours, minutes, 0, 0);
   return mergedDate;
-}; 
+};

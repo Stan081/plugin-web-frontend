@@ -20,14 +20,14 @@ const EarningsManagement = () => {
             <figure className="absolute xs:max-md:hidden -bottom-[10%] xs:max-md:top-[120%] h-[50%] left-[90%] xs:max-md:relative xs:max-md:mt-5 z-10 xs:max-md:left-0 w-[70%] aspect-[1/0.4 xs:max-md:w-full xs:max-md:h-[20vh]">
               <Image
                 fill={true}
-                src="https://res.cloudinary.com/dbhbyikta/image/upload/v1731569273/features-images/stat-card.png"
+                src="https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/features-images_stat-card.png"
                 alt="Withdraw Summary"
                 className="object-contain object-left-bottom xs:max-md:object-top"
               />
             </figure>
             <Image
               fill={true}
-              src="https://res.cloudinary.com/dbhbyikta/image/upload/v1731569135/features-images/withdraw-summary.png"
+              src="https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/features-images_withdraw-summary.png"
               alt="Withdraw Summary"
               className="object-contain xs:max-md:object-center object-right-bottom"
             />
@@ -35,7 +35,7 @@ const EarningsManagement = () => {
           <figure className="hidden xs:max-md:w-[500px] absolute xs:max-md:block -bottom-[10%] xs:max-md:top-[120%] h-[50%] left-[90%] xs:max-md:relative xs:max-md:mt-5 z-10 xs:max-md:left-0 w-[70%] xs:max-md:max-w-full aspect-[1/0.4] xs:max-md:mx-auto xs:max-md:h-[20vh]">
               <Image
                 fill={true}
-                src="https://res.cloudinary.com/dbhbyikta/image/upload/v1731569273/features-images/stat-card.png"
+                src="https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/features-images_stat-card.png"
                 alt="Withdraw Summary"
                 className="object-contain object-left-bottom xs:max-md:object-top"
               />

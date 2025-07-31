@@ -34,7 +34,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { GroupSeatProps } from "./GroupSeat";
 import { FiEdit } from "react-icons/fi";
 import { HiOutlineTrash } from "react-icons/hi2";
-import { uploadImage } from "@/lib/utils";
+import { uploadImageGC } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { IoMdImages } from "react-icons/io";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
@@ -123,7 +123,7 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
       setIsUploading(true); // Start spinner
 
       try {
-        const uploadResult = await uploadImage(file);
+        const uploadResult = await uploadImageGC(file);
 
         const imageUrl = uploadResult.secure_url;
 
