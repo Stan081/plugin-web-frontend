@@ -16,6 +16,13 @@ import HomeNavbar from "./HomeNavbar";
 const heroSlides = [
   {
     backgroundImage:
+     "images/x_banner.PNG",
+    logo: "/images/cream-bg.png",
+    title: "PLUGIN “25",
+    description: "The biggest Platform for entertainment.",
+  },
+  {
+    backgroundImage:
       "https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/WhatsApp_Image_2025-03-25_at_4.39.23_PM_1_fsphvb.jpg",
     logo: "/images/cream-bg.png",
     title: "PLUGIN “25",
@@ -75,7 +82,7 @@ const HeroSection = () => {
     >
       {heroSlides.length !== 0 ? (
         <div className=" bg-no-repeat bg-cover">
-          <div className="bg-bgHero bg-cover bg-top lg:bg-bottom bg-no-repeat  w-full h-[70vh] lg:h-[85vh]"  style={{
+          <div className="bg-bgHero bg-cover bg-top bg-no-repeat  w-full h-[70vh] lg:h-[85vh]"  style={{
                         backgroundImage: `url(${heroSlides[0].backgroundImage})`,
                       }}>
             <Container className="flex flex-col justify-between h-full">
