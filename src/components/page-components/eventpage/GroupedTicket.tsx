@@ -17,7 +17,7 @@ const setCookie = (key: string, value: any, options = {}) => {
   }
 };
 
-const GroupedTicket = ({ groupedTicket, timeZone }: { groupedTicket: any; id: string; timeZone: string }) => {
+const GroupedTicket = ({ groupedTicket}: { groupedTicket: any; id: string; }) => {
   const [counter, setCounter] = useState(0);
 
   const { tickets, setTickets } = useEventsContext();
@@ -114,7 +114,6 @@ const GroupedTicket = ({ groupedTicket, timeZone }: { groupedTicket: any; id: st
       weekday: "short",
       month: "long",
       day: "numeric",
-      timeZone: timeZone,
     });
   };
 

@@ -25,6 +25,7 @@ const AvailableTicket: React.FC<{
     }
   };
 
+
   return (
     <div className="mb-6 mt-8 lg:block md:w-2/6 hidden">
       <div className="flex items-center gap-5">
@@ -39,12 +40,12 @@ const AvailableTicket: React.FC<{
           </p>
         )} */}
       </div>
-
+      
       <div className="mt-7 w-full space-y-5">
         {event?.ticketCategory === "grouped" && (
           <>
             {event?.groupedTicket.map((ticket) => (
-              <GroupedTicket key={ticket._id} id={id} groupedTicket={ticket} timeZone={event?.oneTimeEvent?.timeZone} />
+              <GroupedTicket key={ticket._id} id={id} groupedTicket={ticket} />
             ))}
             <Button
               onClick={handleGroupTicket}

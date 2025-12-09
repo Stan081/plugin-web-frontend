@@ -164,7 +164,7 @@ const TicketCTA: React.FC<{ event: any; id: string; isPassed: boolean }> = ({
                               key={ticket._id}
                               id={id}
                               groupedTicket={ticket}
-                              timeZone={event?.timeZone}
+                            
                             />
                           ))}
                         </div>
