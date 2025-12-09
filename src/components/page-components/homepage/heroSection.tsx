@@ -16,7 +16,7 @@ import HomeNavbar from "./HomeNavbar";
 const heroSlides = [
   {
     backgroundImage:
-     "images/x_banner.PNG",
+     "/images/banner_new.PNG",
     logo: "/images/cream-bg.png",
     title: "PLUGIN “25",
     description: "The biggest Platform for entertainment.",
