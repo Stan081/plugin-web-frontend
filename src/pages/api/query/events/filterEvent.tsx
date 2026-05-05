@@ -2,7 +2,7 @@ import { FILTER_EVENTS } from "@/lib/constants";
 import axios from "axios";
 
 export const fetchFilteredEvents = async (queryKey: any) => {
-  const { minPrice, maxPrice, locationType, eventType, startDate, endDate, eventName, page  } =
+  const { minPrice, maxPrice, locationType, eventType, startDate, endDate, eventName, page, isFeatured  } =
     queryKey;
   try {
     const response = await axios.get(FILTER_EVENTS, {
@@ -17,7 +17,8 @@ export const fetchFilteredEvents = async (queryKey: any) => {
         startDate,
         endDate,
         eventName,
-        page
+        page,
+        isFeatured
       },
     });
 

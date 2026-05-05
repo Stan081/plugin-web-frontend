@@ -17,6 +17,7 @@ const PopularEvent = () => {
   const [isActive, setIsActive] = useState<string>("physical");
   const [filters] = useState({
     eventName: "",
+    isFeatured: true,
   });
   const { data: events, isLoading, isError } = useFilteredEvents(filters);
 
