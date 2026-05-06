@@ -3,7 +3,9 @@ import { getCookie } from "../cookies";
 export const WEB_URL: string = process.env.NEXT_PUBLIC_WEB_URL;
 
 
-export const API_BASE_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL;
+export const API_BASE_URL: string = (
+  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8001'
+).replace(/\/$/, '');
 
 export const API_URL: string = `${API_BASE_URL}/api`;
 
@@ -36,6 +38,8 @@ export const GET_ORGANISER_EVENT_BY_ID: string = `${API_URL}/organizers/event`;
 export const ALL_ORGANISERS: string = `${API_URL}/organizers`;
 
 export const FILTER_EVENTS: string = `${API_URL}/event/filter`;
+
+export const SITE_CONTENT: string = `${API_URL}/site-content`;
 
 export const TICKETS: string = `${API_URL}/tickets`;
 
