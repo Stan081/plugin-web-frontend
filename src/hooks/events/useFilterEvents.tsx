@@ -10,6 +10,7 @@ export type FilterParams = {
   endDate?: any;
   page?: number;
   eventName?: string;
+  isFeatured?: boolean;
 };
 
 export const useFilteredEvents = (filters: FilterParams) => {
