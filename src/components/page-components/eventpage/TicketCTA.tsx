@@ -78,18 +78,20 @@ const TicketCTA: React.FC<{ event: any; id: string; isPassed: boolean }> = ({
   };
 
   const firstPrice =
-    event?.groupedTicket[0]?.groupedTicketType === "paid"
-      ? event?.groupedTicket[0]?.ticketPrice
+    event?.groupedTicket && event.groupedTicket.length > 0 && event.groupedTicket[0]?.groupedTicketType === "paid"
+      ? event.groupedTicket[0]?.ticketPrice
       : 0;
 
-  const lastTicket = event?.groupedTicket
-    ?.slice()
-    .reverse()
-    .find(
-      (ticket) =>
-        ticket.groupedTicketType === "paid" ||
-        ticket.groupedTicketType === "free"
-    );
+  const lastTicket = event?.groupedTicket && event.groupedTicket.length > 0
+    ? event.groupedTicket
+      .slice()
+      .reverse()
+      .find(
+        (ticket) =>
+          ticket.groupedTicketType === "paid" ||
+          ticket.groupedTicketType === "free"
+      )
+    : undefined;
   const lastPrice = lastTicket ? lastTicket.ticketPrice : 0;
 
   const priceRange = () => {
