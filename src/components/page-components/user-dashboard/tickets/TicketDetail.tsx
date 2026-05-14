@@ -7,10 +7,9 @@ import MeetYourOganiser from "../MeetYourOganiser";
 import { formatDate } from "@/components/TicketComponent";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const TicketDetail: React.FC<{ event: any}> = ({
-  event,
-}) => {
-  const startDate: string = event?.startDate
+const TicketDetail: React.FC<{ event: any }> = ({ event }) => {
+  const startDate: string =
+    event?.oneTimeEvent?.startDate ?? event?.recurringEvent?.startDate ?? "";
 
   return (
     <div>
@@ -26,9 +25,7 @@ const TicketDetail: React.FC<{ event: any}> = ({
 
       <div className="space-y-2 my-6">
         <p className="text-[#586170] text-sm md:text-base font-pally-regular">
-          {event?.locationType === "physical"
-            ? event?.address
-            : "Online"}
+          {event?.locationType === "physical" ? event?.address : "Online"}
         </p>
         <p className="destructive text-sm font-pally-regular">
           {formatDate(startDate)}
