@@ -2,10 +2,9 @@ import { getCookie } from "../cookies";
 
 export const WEB_URL: string = process.env.NEXT_PUBLIC_WEB_URL;
 
-
 export const API_BASE_URL: string = (
-  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8001'
-).replace(/\/$/, '');
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8001"
+).replace(/\/$/, "");
 
 export const API_URL: string = `${API_BASE_URL}/api`;
 
@@ -83,8 +82,7 @@ export const EVENT_TICKET_AGENT: string = `${API_URL}/organizers/event/agent`;
 
 export const ORGANIZER_EARNINGS = `${API_URL}/organizers/earnings/financials`;
 
-export const GET_SIGNED_URL = `${API_URL}/auth/uploads/gc-signed-url`
-
+export const GET_SIGNED_URL = `${API_URL}/auth/uploads/gc-signed-url`;
 
 // export const GET_EVENT_BY_ID = (): string => {
 //   const eventId = getCookie("event_id");
@@ -159,4 +157,8 @@ export const CHECK_BANK_STATUS = (): string => {
 export const EDIT_BANK_ACCOUNT = (): string => {
   const userId = getCookie("user_id");
   return `${API_URL}/account/edit/${userId}`;
+};
+
+export const DELETE_BANK_ACCOUNT = (accountId: string): string => {
+  return `${API_URL}/account/delete/${accountId}`;
 };

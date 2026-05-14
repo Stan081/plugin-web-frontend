@@ -10,18 +10,18 @@ type VerifyAccountResponse = {
 };
 
 export const VerifyAccount = async (
-  data: OrganiserProfileType
+  data: OrganiserProfileType,
 ): Promise<VerifyAccountResponse> => {
   const token = getToken();
   try {
     const response: AxiosResponse<VerifyAccountResponse> = await axios.post(
-        VERIFY_BANK_ACCOUNTS,
+      VERIFY_BANK_ACCOUNTS,
       data,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
     return response.data;
   } catch (error) {

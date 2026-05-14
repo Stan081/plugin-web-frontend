@@ -10,7 +10,7 @@ import { useGetBankAccount } from "@/hooks/organiser/organiser-earnings/useGetBa
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDeleteBankAccount } from "@/hooks/organiser/organiser-earnings/useDeleteBankAccount";
 import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
-import WithdrawalReceipt from "./WithdrawalReceipt";
+// import WithdrawalReceipt from "./WithdrawalReceipt";
 
 const PayoutInformation = () => {
   const [showAccount, setShowAccount] = useState<boolean>(false);
@@ -79,7 +79,11 @@ const PayoutInformation = () => {
                 Edit
               </p>
               <p
-                onClick={() => deleteBankAccount()}
+                onClick={() => {
+                  if (bankAccount?.data?._id) {
+                    deleteBankAccount(bankAccount.data._id);
+                  }
+                }}
                 className="font-pally-regular cursor-pointer destructive flex items-center gap-1"
               >
                 <RiCloseFill />
