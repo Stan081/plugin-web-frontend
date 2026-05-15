@@ -20,6 +20,13 @@ export const useGetEventById = (eventId: string | undefined) => {
           console.error("Error fetching event data:", err);
           throw err?.response?.data || err.message;
         }),
+    // Don't fire the request until we actually have an id (e.g. while
+    // useParams() is still resolving on first render). This avoids a
+    // wasted GET .../events/undefined request and a subsequent re-fetch.
+    enabled: !!eventId,
+    // Cache the event for a few minutes so navigating between the details
+    // page and the checkout page does not re-fetch the same event.
+    staleTime: 5 * 60_000,
     retry: false,
   });
 };

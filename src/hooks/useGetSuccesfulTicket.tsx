@@ -2,7 +2,7 @@ import { GET_SUCCESSFUL_TICKETS } from "@/lib/constants";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const useGetSuccessfulTicket = (bookingId: string) => {
+export const useGetSuccessfulTicket = (bookingId?: string | null) => {
   const options = {
     headers: {
       Accept: "application/json",
@@ -10,7 +10,7 @@ export const useGetSuccessfulTicket = (bookingId: string) => {
   };
 
   return useQuery({
-    queryKey: ["ticketPayload"],
+    queryKey: ["ticketPayload", bookingId],
     queryFn: () =>
       axios
         .get(GET_SUCCESSFUL_TICKETS + `/${bookingId}`, options)
@@ -18,6 +18,7 @@ export const useGetSuccessfulTicket = (bookingId: string) => {
         .catch((err) => {
           throw err?.response?.data || err.message;
         }),
-    retry: true,
+    enabled: !!bookingId && bookingId !== "null",
+    retry: false,
   });
 };

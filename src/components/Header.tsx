@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@/tw-components/container";
 import Logo from "./Logo";
 import Link from "next/link";
@@ -12,7 +12,12 @@ import MenuLinks from "./Menu";
 import { getToken } from "@/lib/token";
 
 const Header = () => {
-  const token = getToken();
+  const [token, setToken] = useState<string | undefined>();
+
+  useEffect(() => {
+    setToken(getToken());
+  }, []);
+
   return (
     <header className="bg-pitchNoise bg-100 bg-repeat bg-cover backdrop-blur-md shadow-md">
       <nav>

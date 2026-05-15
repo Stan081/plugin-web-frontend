@@ -11,6 +11,9 @@ import Container from "@/tw-components/container";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import HomeNavbar from "./HomeNavbar";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { SITE_CONTENT } from "@/lib/constants";
 
 // Temporary mock data
 const heroSlides = [
@@ -49,6 +52,40 @@ const HeroSection = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const { data: siteContentResponse } = useQuery({
+    queryKey: ["publicSiteContent"],
+    queryFn: () =>
+      axios
+        .get(SITE_CONTENT, {
+          headers: {
+            Accept: "application/json",
+          },
+        })
+        .then((res) => res.data)
+        .catch(() => null),
+    retry: false,
+    refetchOnMount: true,
+  });
+
+  const siteHero = siteContentResponse?.data?.hero;
+
+  const bannerImage =
+    siteHero?.backgroundImage || heroSlides?.[0]?.backgroundImage;
+
+  const bannerTitleRaw =
+    (typeof siteHero?.title === "string" && siteHero.title.trim())
+      ? siteHero.title.trim()
+      : "Discover your next event";
+
+  const titleParts = bannerTitleRaw.split(/\s+/).filter(Boolean);
+  const bannerTitleLine1 = titleParts[0] || "Discover";
+  const bannerTitleLine2 = titleParts.slice(1).join(" ") || "your next event";
+
+  const bannerDescription =
+    (typeof siteHero?.description === "string" && siteHero.description.trim())
+      ? siteHero.description.trim()
+      : "With plugin entertainment";
+
   const resetTimeout = () => {
     if (timeoutRef.current) {
       setHoveredIndex(null);
@@ -83,19 +120,19 @@ const HeroSection = () => {
       {heroSlides.length !== 0 ? (
         <div className=" bg-no-repeat bg-cover">
           <div className="bg-bgHero bg-cover bg-top bg-no-repeat  w-full h-[70vh] lg:h-[85vh]"  style={{
-                        backgroundImage: `url(${heroSlides[0].backgroundImage})`,
+                        backgroundImage: `url(${bannerImage})`,
                       }}>
             <Container className="flex flex-col justify-between h-full">
               <HomeNavbar/>
               <div className="w-full lg:w-1/2 mb-20">
                 <h1 className="bg-[#F58986] inline-block px-3 lg:px-6 py-3 font-pally-medium text-3xl lg:text-6xl uppercase text-black">
-                  Discover <br />
+                  {bannerTitleLine1} <br />
                 </h1>
                 <h2 className="bg-gradient-to-r from-[#F58986] to-[#ffffff]/90 px-3 lg:px-6 py-3 font-pally-medium text-3xl lg:text-6xl uppercase text-black w-full">
-                  your next event
+                  {bannerTitleLine2}
                 </h2>
                 <p className="mt-2 lg:mt-6 text-base lg:text-2xl font-pally-regular text-white uppercase lg:px-8">
-                  With plugin entertainment
+                  {bannerDescription}
                 </p>
               </div>
             </Container>

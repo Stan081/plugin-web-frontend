@@ -22,6 +22,9 @@ export const useCheckBookmark = (id: string) => {
         .catch((err) => {
           throw err?.response?.data || err.message; // Improved error handling
         }),
+    // Skip when we don't have an event id yet or the user is not logged in;
+    // calling without these just produces a guaranteed-failed request.
+    enabled: !!id && !!token,
     retry: false,
   });
 };

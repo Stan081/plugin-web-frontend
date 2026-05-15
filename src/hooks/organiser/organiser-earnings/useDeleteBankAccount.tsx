@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { getToken } from "@/lib/token";
-import { CHECK_BANK_STATUS } from "@/lib/constants";
+import { DELETE_BANK_ACCOUNT } from "@/lib/constants";
 import { useToast } from "@/components/ui/use-toast";
 
 export const useDeleteBankAccount = () => {
@@ -10,9 +10,9 @@ export const useDeleteBankAccount = () => {
   const { toast } = useToast();
   const client = useQueryClient();
 
-  return useMutation({
-    mutationFn: () => {
-      const url = CHECK_BANK_STATUS() ;
+  return useMutation<void, Error, string>({
+    mutationFn: (accountId: string) => {
+      const url = DELETE_BANK_ACCOUNT(accountId);
       return axios.delete(url, {
         headers: {
           Accept: "application/json",
@@ -26,6 +26,7 @@ export const useDeleteBankAccount = () => {
         title: "Your bank account has been deleted",
       });
       client.invalidateQueries({ queryKey: ["CheckAccountStatus"] });
+      client.invalidateQueries({ queryKey: ["GetBankAccount"] });
     },
     onError: (error) => {
       toast({

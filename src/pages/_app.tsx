@@ -1,5 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import React from "react";
 import { UserDashboardProvider } from "@/providers/user_dashboard.provider";
 import { EventsProvider } from "@/providers/events.provider";
 import { CreateEventProvider } from "@/providers/create_event.provider";
@@ -10,7 +11,22 @@ import { useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // Treat data as fresh for 1 minute to avoid duplicate refetches
+            // when the same query is mounted on multiple pages/components.
+            staleTime: 60_000,
+            gcTime: 5 * 60_000,
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
+            retry: false,
+          },
+        },
+      })
+  );
 
   return (
     <QueryClientProvider client={queryClient}>

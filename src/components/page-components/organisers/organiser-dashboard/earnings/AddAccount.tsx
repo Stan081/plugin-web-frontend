@@ -84,7 +84,7 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
           description: `${response?.message}`,
         });
         client.invalidateQueries({ queryKey: ["CheckAccountStatus"] });
-        client.invalidateQueries({ queryKey: ["fetchBankAccount"] });
+        client.invalidateQueries({ queryKey: ["GetBankAccount"] });
         close();
       }
     },
@@ -106,7 +106,7 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
           description: `${response?.message}`,
         });
         client.invalidateQueries({ queryKey: ["CheckAccountStatus"] });
-        client.invalidateQueries({ queryKey: ["fetchBankAccount"] });
+        client.invalidateQueries({ queryKey: ["GetBankAccount"] });
         close();
       }
     },
@@ -121,7 +121,7 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
   const onSubmit = useCallback(
     (payload: BankAccountForm) => {
       const getBankName = accountDatas?.data?.find(
-        (item) => item?.code === payload?.bank_code
+        (item) => item?.code === payload?.bank_code,
       );
 
       if (accountName === "") {
@@ -153,7 +153,13 @@ const AddAccount: FC<AddAccountProps> = ({ close, open }) => {
         mutateEdit(editAccountData);
       }
     },
-    [VerifyBankAccount, AddAccount, mutateEdit, accountDatas?.data, accountName]
+    [
+      VerifyBankAccount,
+      AddAccount,
+      mutateEdit,
+      accountDatas?.data,
+      accountName,
+    ],
   );
   return (
     <Dialog
