@@ -1,11 +1,31 @@
+"use client";
 import Container from "@/tw-components/container";
 import Link from "next/link";
 import React from "react";
 import Logo from "./Logo";
 import Image from "next/image";
 import { footerData } from "@/static-datas/footer-data";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { SITE_CONTENT } from "@/lib/constants";
 
 const Footer = () => {
+  const { data: siteContentResponse } = useQuery({
+    queryKey: ["publicSiteContent"],
+    queryFn: () =>
+      axios
+        .get(SITE_CONTENT, { headers: { Accept: "application/json" } })
+        .then((res) => res.data)
+        .catch(() => null),
+    retry: false,
+    refetchOnMount: true,
+  });
+
+  const siteFooter = siteContentResponse?.data?.footer;
+  const email = siteFooter?.email?.trim() || "contact@pluginent.com";
+  const phone = siteFooter?.phone?.trim() || "";
+  const address = siteFooter?.address?.trim() || "";
+
   return (
     <footer>
       <div className="bg-pitchNoise bg-100 backdrop-blur-md ">
@@ -15,10 +35,16 @@ const Footer = () => {
               <div className="mb-4 w-28 h-10 lg:h-11">
                 <Logo />
               </div>
-              <div className="text-[#687384] font-pally-regular text-base md:text-lg">
-                <Link href={"mailto:contact@pluginent.com"}>
-                  contact@pluginent.com
+              <div className="text-[#687384] font-pally-regular text-base md:text-lg space-y-1">
+                <Link href={`mailto:${email}`} className="block">
+                  {email}
                 </Link>
+                {phone && (
+                  <Link href={`tel:${phone}`} className="block">
+                    {phone}
+                  </Link>
+                )}
+                {address && <p className="block">{address}</p>}
               </div>
             </div>
             <div className=" w-full md:w-3/5 flex flex-col lg:flex-row gap-8">
