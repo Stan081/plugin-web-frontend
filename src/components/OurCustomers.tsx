@@ -11,9 +11,12 @@ import { RiArrowRightSLine, RiArrowLeftSLine } from "react-icons/ri";
 import Container from "@/tw-components/container";
 import Image from "next/image";
 import { Progress } from "./ui/progress";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { SITE_CONTENT } from "@/lib/constants";
 
-// Tempoorary mock data
-const customers = [
+// Fallback data used only when the admin has not configured any testimonials.
+const fallbackCustomers = [
   {
     customerImage:
       "https://storage.googleapis.com/plugin-web-bucket/cloudinary%20uploads/IMG_1153_he30ob.jpg",
@@ -33,6 +36,30 @@ const customers = [
 const OurCustomers = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const { data: siteContentResponse } = useQuery({
+    queryKey: ["publicSiteContent"],
+    queryFn: () =>
+      axios
+        .get(SITE_CONTENT, { headers: { Accept: "application/json" } })
+        .then((res) => res.data)
+        .catch(() => null),
+    retry: false,
+    refetchOnMount: true,
+  });
+
+  // Map admin-managed testimonials into the carousel shape; fall back to defaults.
+  const siteTestimonials = siteContentResponse?.data?.testimonials;
+  const customers =
+    Array.isArray(siteTestimonials) && siteTestimonials.length > 0
+      ? siteTestimonials
+          .filter((t: any) => t?.quote || t?.name || t?.imageUrl)
+          .map((t: any) => ({
+            customerImage: t?.imageUrl || "",
+            name: t?.name || "",
+            quote: t?.quote || "",
+          }))
+      : fallbackCustomers;
 
   const resetTimeout = () => {
     if (timeoutRef.current) {
@@ -126,13 +153,17 @@ const OurCustomers = () => {
                       </div>
 
                       <div className="w-full lg:w-1/2">
-                        <Image
-                          src={customer.customerImage}
-                          width={224}
-                          height={224}
-                          alt={` ${customer.name}`}
-                          className="w-full h-full object-cover pointer-events-none rounded-tr-2xl rounded-tl-2xl lg:rounded-tl-none lg:rounded-br-2xl"
-                        />
+                        {customer.customerImage ? (
+                          <Image
+                            src={customer.customerImage}
+                            width={224}
+                            height={224}
+                            alt={` ${customer.name}`}
+                            className="w-full h-full object-cover pointer-events-none rounded-tr-2xl rounded-tl-2xl lg:rounded-tl-none lg:rounded-br-2xl"
+                          />
+                        ) : (
+                          <div className="w-full h-full min-h-[224px] bg-[#221A14]/10 rounded-tr-2xl rounded-tl-2xl lg:rounded-tl-none lg:rounded-br-2xl" />
+                        )}
                       </div>
                     </div>
                   </CarouselItem>
