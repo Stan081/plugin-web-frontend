@@ -1,65 +1,46 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toFiat } from "@/lib/amount";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import { RxInfoCircled } from "react-icons/rx";
 import { StepsProps } from "../AvailableBalance";
 import { useToast } from "@/components/ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { InitiateWithdrawal } from "@/pages/api/mutate/organiser/earnings/initiateWithdrawal";
+import { useGetPayoutSummary } from "@/hooks/organiser/organiser-earnings/useGetPayoutSummary";
 import Spinner from "@/tw-components/spinner";
 
 interface WithdrawalInputProps extends StepsProps {
   close: () => void;
   open: boolean;
-  availableBalance: number; 
 }
 
-const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open,  availableBalance }) => {
-  const [withdrawalAmount, setWithdrawalAmount] = useState<number>(0);
-
-  // const { data: withdrawalStatistic } = useGetWithdrawalStats();
-
+/**
+ * Step 1 of the withdrawal flow: confirm, don't compose.
+ *
+ * A withdrawal is always for the organiser's entire available balance, so there is
+ * no amount to type. The figure shown comes from the server's summary rather than
+ * from anything the page is holding, so it cannot drift from what the server will
+ * actually act on.
+ */
+const WithdrawalConfirm: FC<WithdrawalInputProps> = ({ next, close, open }) => {
   const { toast } = useToast();
+  const { data: summary, isLoading, error } = useGetPayoutSummary();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, "").slice(0, 6); // Allow only digits
-    setWithdrawalAmount(Number(value)); // Directly set as a number
-  };
+  const payout = summary?.data;
+  const amount = payout?.withdrawableAmount ?? 0;
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data: any) => InitiateWithdrawal(data),
-    onSuccess: (response) => {
-      if (response?.message) {
-        next();
-      }
-    },
-    onError: (error: any) => {
-      toast({
-        variant: "destructive",
-        title: error?.message,
-      });
+    mutationFn: () => InitiateWithdrawal(),
+    onSuccess: () => next?.(),
+    onError: (err: Error) => {
+      toast({ variant: "destructive", title: err.message });
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (withdrawalAmount >= (availableBalance)) {
-      return toast({
-        title: "Kindly withdraw below available balance",
-        variant: "destructive",
-      });
-    }
-
-    const payload = {
-      amount: withdrawalAmount, // Already a number
-    };
-    mutate(payload);
-  };
+  const blocked = Boolean(payout && !payout.canRequest);
 
   return (
     <Dialog
@@ -79,9 +60,7 @@ const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open,  availab
               as="h3"
               className="text-base/7 font-medium flex justify-between items-start pb-3"
             >
-              <div className="">
-                <p className=" font-pally-medium text-2xl">Make withdrawal</p>
-              </div>
+              <p className="font-pally-medium text-2xl">Make withdrawal</p>
 
               <div
                 onClick={close}
@@ -90,49 +69,78 @@ const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open,  availab
                 <RiCloseLine size={20} />
               </div>
             </DialogTitle>
+
             <div className="flex flex-col gap-5">
               <Separator />
-              <div className="mt-4 border p-2 border-[#FBE2B7] bg-[#FEF6E7] rounded-lg flex items-center gap-3">
-                <RxInfoCircled size={20} color="#DD900D" />
-                <p className="font-pally-regular text-[#586170]">
-                  Withdrawal is processed and approved within 24hrs
-                </p>
-              </div>
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <div className="border rounded-full py-2 px-4 flex justify-between items-center ">
-                  <p className="font-pally-medium text-[#667185]">
-                    Current balance
-                  </p>
-                  <p className="font-pally-bold text-xl ">
-                    {toFiat(availableBalance)}
-                  </p>
+              {isLoading ? (
+                <div className="py-12 flex justify-center">
+                  <Spinner />
                 </div>
-
-                <div className="mt-6">
-                  <Input
-                    type="text"
-                    value={withdrawalAmount}
-                    onChange={handleInputChange}
-                    className="text-3xl font-pally-medium text-center h-16 border-b "
-                    placeholder="Enter amount"
-                  />
-                </div>
-                <div className="mt-4 flex justify-center items-center gap-3">
-                  <RxInfoCircled size={20} color="#DD900D" />
+              ) : error ? (
+                <div className="py-8 text-center">
                   <p className="font-pally-regular text-[#586170]">
-                    Plugin charge N50 per withdrawal
+                    We couldn&apos;t load your balance. Please try again.
                   </p>
                 </div>
+              ) : blocked ? (
+                <>
+                  <div className="mt-4 border p-3 border-[#FBE2B7] bg-[#FEF6E7] rounded-lg flex items-start gap-3">
+                    <RxInfoCircled
+                      size={20}
+                      color="#DD900D"
+                      className="mt-0.5 shrink-0"
+                    />
+                    <p className="font-pally-regular text-[#586170]">
+                      {payout?.blockedReason}
+                    </p>
+                  </div>
+                  <Button variant="outline" onClick={close}>
+                    Close
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <div className="mt-4 border p-2 border-[#FBE2B7] bg-[#FEF6E7] rounded-lg flex items-center gap-3">
+                    <RxInfoCircled
+                      size={20}
+                      color="#DD900D"
+                      className="shrink-0"
+                    />
+                    <p className="font-pally-regular text-[#586170]">
+                      Withdrawal is processed and approved within 24hrs
+                    </p>
+                  </div>
 
-                <Button
-                  disabled={isPending}
-                  variant="destructive"
-                  type="submit"
-                >
-                  {isPending ? <Spinner /> : "Continue to withdrawal"}
-                </Button>
-              </form>
+                  <div className="text-center py-4">
+                    <p className="font-pally-medium text-[#667185]">
+                      You&apos;re withdrawing your full balance
+                    </p>
+                    <p className="font-pally-bold text-4xl mt-3">
+                      {toFiat(amount)}
+                    </p>
+                  </div>
+
+                  <div className="flex justify-center items-center gap-3">
+                    <RxInfoCircled
+                      size={20}
+                      color="#DD900D"
+                      className="shrink-0"
+                    />
+                    <p className="font-pally-regular text-[#586170]">
+                      Plugin charge N50 per withdrawal
+                    </p>
+                  </div>
+
+                  <Button
+                    disabled={isPending || amount <= 0}
+                    variant="destructive"
+                    onClick={() => mutate()}
+                  >
+                    {isPending ? <Spinner /> : "Continue to withdrawal"}
+                  </Button>
+                </>
+              )}
             </div>
           </DialogPanel>
         </div>
@@ -141,4 +149,4 @@ const WithdrawalInput: FC<WithdrawalInputProps> = ({ next, close, open,  availab
   );
 };
 
-export default WithdrawalInput;
+export default WithdrawalConfirm;

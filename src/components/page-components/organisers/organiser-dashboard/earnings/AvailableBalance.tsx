@@ -35,13 +35,10 @@ const AvailableBalance = ({ availableBalance }: { availableBalance: number }) =>
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
+        // No amount is passed in: the withdrawal is always for the full available
+        // balance, and the confirm step reads that figure from the server.
         return (
-          <WithdrawalInput
-            close={closeModal}
-            next={nextStep}
-            open={showModal}
-            availableBalance={availableBalance}
-          />
+          <WithdrawalInput close={closeModal} next={nextStep} open={showModal} />
         );
       case 2:
         return (

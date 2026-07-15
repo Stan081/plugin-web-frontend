@@ -60,6 +60,9 @@ export const WITHDRAWAL_VERIFY: string = `${API_URL}/withdrawal/verify`;
 
 export const WITHDRAWALSTATS: string = `${API_URL}/withdrawal/statistics`;
 
+// Balance, whether a withdrawal can be requested right now, and any open request.
+export const WITHDRAWAL_SUMMARY: string = `${API_URL}/withdrawal/summary`;
+
 export const WITHDRAWAL_HISTORY: string = `${API_URL}/withdrawal/history`;
 
 export const ATTENDEE_LIST: string = `${API_URL}/organizers/events/attendees`;
