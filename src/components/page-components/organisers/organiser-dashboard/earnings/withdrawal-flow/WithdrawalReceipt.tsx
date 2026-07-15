@@ -80,16 +80,19 @@ const WithdrawalReceipt: FC<WithdrawalReceiptProps> = ({ close, open }) => {
                 <div className="flex items-center gap-4">
                   <BsBank2 className="" size={30} />
                   <div>
+                    {/* The bank details are the snapshot taken when the withdrawal
+                        was requested — the account this will actually be paid to,
+                        even if the organiser edits their account later. */}
                     <h4 className="font-pally-medium text-base md:text-lg">
-                      {receipt?.accountHolderName}
+                      {receipt?.destination?.accountHolderName}
                     </h4>
                     <p className="text-sm text-[#515A6A] font-pally-regular">
-                      Acc number - {receipt?.accountNumber}
+                      Acc number - {receipt?.destination?.accountNumber}
                     </p>
                   </div>
                 </div>
                 <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                  {receipt?.status}
+                  {receipt?.status === "pending" ? "Processing" : receipt?.status}
                 </span>
               </div>
 

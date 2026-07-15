@@ -3,7 +3,7 @@ import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import React, { FC, useCallback, useState } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import { StepsProps } from "../AvailableBalance";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { WithdrawalOTP } from "@/pages/api/mutate/organiser/earnings/withdrawalOTP";
 import { Button } from "@/components/ui/button";
@@ -24,12 +24,22 @@ const WithdrawalOTPComponent: FC<WithdrawalOTPProps> = ({
   const {setWithdrawalReceiptState} = useOrganiserDashContext()
 
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: any) => WithdrawalOTP(data),
     onSuccess: (response) => {
       if (response?.message) {
         setWithdrawalReceiptState(response?.data)
+
+        // Verification debits the ledger, so the balance on screen is now stale.
+        // Refetch it rather than leaving the organiser looking at money they no
+        // longer have available.
+        queryClient.invalidateQueries({ queryKey: ["payoutSummary"] });
+        queryClient.invalidateQueries({ queryKey: ["GetOrgnaizerFinsancials"] });
+        queryClient.invalidateQueries({ queryKey: ["GetWithdrawalStats"] });
+        queryClient.invalidateQueries({ queryKey: ["GetWithdrawalHistory"] });
+
         toast({
           variant: "success",
           title: "OTP verified",
@@ -94,7 +104,7 @@ const WithdrawalOTPComponent: FC<WithdrawalOTPProps> = ({
               <p className="text-sm font-pally-regular mb-2 text-[#98A2B3]">
                 Verification Code
               </p>
-              <OtpBox numDigits={5} onComplete={handleOtpComplete} />
+              <OtpBox numDigits={6} onComplete={handleOtpComplete} />
               <div>
                 <Button
                   onClick={handleSubmit}

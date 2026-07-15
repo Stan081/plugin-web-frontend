@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { toFiat } from "@/lib/amount";
-import { useGetWithdrawalStats } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalStats";
+import { useGetPayoutSummary } from "@/hooks/organiser/organiser-earnings/useGetPayoutSummary";
 
 interface WithdrawalData {
   name: string;
@@ -12,19 +12,17 @@ interface WithdrawalData {
 
 const WithdrawalSummary = () => {
   // const [timeFrame, setTimeFrame] = useState("This Month");
-  const { data: withdrawalStatistic } = useGetWithdrawalStats();
+  const { data: summary } = useGetPayoutSummary();
+
+  // `paid` is money that actually reached the organiser; `pending` is requested and
+  // already deducted from their balance, but not yet remitted.
+  const paid = summary?.data?.totalPaid ?? 0;
+  const pending = summary?.data?.totalPending ?? 0;
+  const total = paid + pending;
 
   const data: WithdrawalData[] = [
-    {
-      name: "Completed",
-      value: withdrawalStatistic?.data?.completedSum,
-      color: "#4ade80",
-    },
-    {
-      name: "Pending",
-      value: withdrawalStatistic?.data?.pendingSum,
-      color: "#f87171",
-    },
+    { name: "Paid", value: paid, color: "#4ade80" },
+    { name: "Pending", value: pending, color: "#f87171" },
   ];
 
   return (
@@ -53,7 +51,7 @@ const WithdrawalSummary = () => {
       <p className="text-gray-500 mb-8">A summary of withdrawal</p>
 
       <div className="flex items-center justify-between gap-5">
-        {withdrawalStatistic?.data?.totalSum <= 1 ? (
+        {total <= 0 ? (
           <div className="w-20 h-20 lg:h-40 lg:w-40 rounded-full border-4 flex justify-center items-center p-8 font-pally-medium text-gray-300">
             Empty chart
           </div>
@@ -119,10 +117,7 @@ const WithdrawalSummary = () => {
           <div className="mt-8 text-base lg:text-2xl font-pally-regular text-center">
             Total:{" "}
             <span className="font-pally-medium">
-              {toFiat(
-                withdrawalStatistic?.data?.completedSum +
-                  withdrawalStatistic?.data?.pendingSum
-              )}
+              {toFiat(total)}
             </span>
           </div>
         </div>
