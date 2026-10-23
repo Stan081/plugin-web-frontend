@@ -106,7 +106,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
           firstname: payload?.first_name,
           lastname: payload?.last_name,
           email: payload?.email,
-          phone: payload?.phone_number,
+          phone: payload?.phone_number || undefined,
           country: country,
           tickets: ticketCookie ? tickets : [entryTicketCookie],
         };
@@ -192,7 +192,7 @@ const CheckoutForm = ({ eventId }: CheckoutProps) => {
           </FormItem>
 
           <FormItem>
-            <FormLabel className="text-[#515A6A]">Phone number</FormLabel>
+            <FormLabel className="text-[#515A6A]">Phone number (optional)</FormLabel>
             <FormField
               control={form.control}
               name="phone_number"
