@@ -9,9 +9,10 @@ const AttendeeList = () => {
   const { publishedEventId } = useEventsContext();
   const { data: attendeeListData } = useFilteredAttendeeList(publishedEventId);
 
-  const filterConfirmTicket = attendeeListData?.data?.filter((item) => item?.status === "confirmed");
-
-  console.log(publishedEventId)
+  // Paid (confirmed) and free (complimentary) tickets are both attendees.
+  const filterConfirmTicket = attendeeListData?.data?.filter((item) =>
+    ["confirmed", "complimentary"].includes(item?.status)
+  );
 
   return (
     <Section className="space-y-5">
