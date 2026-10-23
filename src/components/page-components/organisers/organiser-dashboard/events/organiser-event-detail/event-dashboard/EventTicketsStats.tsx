@@ -22,8 +22,9 @@ const EventTicketsStats = () => {
     0
   );
 
-  const attendees = attendeeListData?.data?.filter(
-    (item) => item?.status === "confirmed"
+  // Paid (confirmed) and free (complimentary) tickets are both attendees.
+  const attendees = attendeeListData?.data?.filter((item) =>
+    ["confirmed", "complimentary"].includes(item?.status)
   ).length;
   return (
     <ul className="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5">

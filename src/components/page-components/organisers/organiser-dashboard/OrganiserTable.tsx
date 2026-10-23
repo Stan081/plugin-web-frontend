@@ -12,12 +12,12 @@ import OrganiserTableTicketLabel from "./OrganiserTableTicketLabel";
 import AttendeeListTableStatusLabel from "./events/organiser-event-detail/menage-attendees/attendee/AttendeeListTableStatusLabel";
 import { toFiat } from "@/lib/amount";
 
-type StatusLabelType = "pending" | "confirmed";
 type AttendeeListTableBodyType = {
   id: string;
   email: string;
   ticketName: string;
   status: string;
+  checkedIn?: boolean;
   date: string;
   price: number;
 };
@@ -69,10 +69,11 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
                   <TableCell className="whitespace-nowrap">
                     <OrganiserTableTicketLabel text={tableRow.ticketName} />
                   </TableCell>
-                  <TableCell>{toFiat(tableRow.price)}</TableCell>
+                  <TableCell>{tableRow.price ? toFiat(tableRow.price) : "Free"}</TableCell>
                   <TableCell>
                     <AttendeeListTableStatusLabel
-                      status={tableRow.status as StatusLabelType}
+                      status={tableRow.status}
+                      checkedIn={tableRow.checkedIn}
                     />
                   </TableCell>
                   <TableCell className="whitespace-nowrap">{formattedDate(tableRow.date)}</TableCell>
@@ -92,7 +93,7 @@ const OrganiserTable = ({ tableHead, tableBody, type }: TablePropsType) => {
                     <TableCell>{tableRow?.userEmail}</TableCell>
                     <TableCell>
                       <AttendeeListTableStatusLabel
-                        status={tableRow?.paymentStatus as StatusLabelType}
+                        status={tableRow?.paymentStatus}
                       />
                     </TableCell>
                     <TableCell>{tableRow?.paystackReference}</TableCell>
