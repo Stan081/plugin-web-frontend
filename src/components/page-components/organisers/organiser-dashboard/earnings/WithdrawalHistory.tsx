@@ -18,6 +18,28 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useGetWithdrawalHistory } from "@/hooks/organiser/organiser-earnings/useGetWithdrawalHistory";
+import { toFiat } from "@/lib/amount";
+
+/**
+ * How each payout status reads to the organiser.
+ *
+ * "Pending" means the money has already left their available balance and is waiting
+ * on the admin to remit it — worth naming precisely, since it is the state people
+ * write in about.
+ */
+const WITHDRAWAL_STATUS = {
+  initiated: {
+    label: "Awaiting verification",
+    className: "bg-gray-100 text-gray-700",
+  },
+  pending: {
+    label: "Processing",
+    className: "bg-yellow-100 text-yellow-800",
+  },
+  paid: { label: "Paid", className: "bg-green-100 text-green-800" },
+  rejected: { label: "Declined", className: "bg-red-100 text-red-800" },
+  failed: { label: "Failed", className: "bg-orange-100 text-orange-800" },
+} as const;
 import WithdrawalReceipt from "./WithdrawalReceipt";
 
 const WithdrawalHistory = () => {
@@ -105,16 +127,18 @@ const WithdrawalHistory = () => {
             {withistory?.data.map((transaction) => (
               <TableRow key={transaction.referenceNumber} className="my-2">
                 <TableCell>TRX{transaction._id}</TableCell>
-                <TableCell>{transaction.amount}</TableCell>
+                <TableCell>{toFiat(transaction.amount)}</TableCell>
                 <TableCell>
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                      transaction?.status === "completed"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-yellow-100 text-yellow-800"
+                      WITHDRAWAL_STATUS[
+                        transaction?.status as keyof typeof WITHDRAWAL_STATUS
+                      ]?.className ?? "bg-yellow-100 text-yellow-800"
                     }`}
                   >
-                    {transaction?.status}
+                    {WITHDRAWAL_STATUS[
+                      transaction?.status as keyof typeof WITHDRAWAL_STATUS
+                    ]?.label ?? transaction?.status}
                   </span>
                 </TableCell>
                 <TableCell className="whitespace-nowrap">

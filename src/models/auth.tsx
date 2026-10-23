@@ -8,7 +8,7 @@ export const SignupSchema = yup.object().shape({
     .string()
     .email("Invalid email address")
     .required("Email address is required"),
-  phone_number: yup.string().required("Contact phone number is required"),
+  phone_number: yup.string().nullable().optional(),
 });
 
 // Schema for signup fields
@@ -27,7 +27,7 @@ export const CheckoutFormSchema = yup.object().shape({
     .string()
     .email("Invalid email address")
     .required("Email address is required"),
-  phone_number: yup.string().required("Phone number is required"),
+  phone_number: yup.string().nullable().optional(),
   isUpdated: yup.boolean(),
   isEmail: yup.boolean(),
 });
