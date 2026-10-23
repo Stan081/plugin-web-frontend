@@ -5,7 +5,7 @@ export type SignupFieldType = {
   };
   email: string;
   contact: {
-    phone: string;
+    phone?: string;
     country: string;
   };
   role: string;
@@ -19,7 +19,7 @@ export type EditUserType = {
   };
   email: string;
   contact: {
-    phone: string;
+    phone?: string;
     country: string;
   };
 };

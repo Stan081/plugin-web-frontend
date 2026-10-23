@@ -81,7 +81,7 @@ const SignupAuth = () => {
         },
         email: payload.email,
         contact: {
-          phone: payload.phone_number,
+          phone: payload.phone_number || undefined,
           country: country,
         },
         role: "user",
@@ -185,7 +185,7 @@ const SignupAuth = () => {
               name="phone_number"
               render={({ field }) => (
                 <FormItem className="sm:col-span-3">
-                  <FormLabel className="text-white">Phone Number</FormLabel>
+                  <FormLabel className="text-white">Phone Number (optional)</FormLabel>
                   <FormControl>
                     <PhoneNumberInput
                       {...field}
