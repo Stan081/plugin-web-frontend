@@ -13,7 +13,9 @@ export const useGetEventSummary = (eventId: string) => {
   };
 
   return useQuery({
-    queryKey: ["organiserEventSummary"],
+    queryKey: ["organiserEventSummary", eventId],
+    refetchInterval: 30_000,
+    enabled: !!eventId,
     queryFn: () =>
       axios
         .get(GET_EVENT_SUMMARY + `/${eventId}`, options)

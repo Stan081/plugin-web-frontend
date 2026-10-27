@@ -13,7 +13,8 @@ export const useGetOrganiserEventById = (eventId: string) => {
   };
 
   return useQuery({
-    queryKey: ["organiserEventById"],
+    queryKey: ["organiserEventById", eventId],
+    enabled: !!eventId,
     queryFn: () =>
       axios
         .get(GET_ORGANISER_EVENT_BY_ID + `/${eventId}`, options)
