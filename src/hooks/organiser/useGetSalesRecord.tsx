@@ -13,7 +13,8 @@ export const useGetSalesRecord = (eventId: string) => {
   };
 
   return useQuery({
-    queryKey: ["eventSalesRecord"],
+    queryKey: ["eventSalesRecord", eventId],
+    enabled: !!eventId,
     queryFn: () =>
       axios
         .get(SALES_RECORD + `/${eventId}`, options)

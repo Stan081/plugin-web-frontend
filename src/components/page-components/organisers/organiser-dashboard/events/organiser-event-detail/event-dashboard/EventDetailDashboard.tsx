@@ -10,6 +10,7 @@ import { FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 // import SaleTable from "./EventDashboard";
 import EventTicketsStats from "./EventTicketsStats";
+import SalesByTicketType from "./SalesByTicketType";
 import OrganiserTable from "../../../OrganiserTable";
 import { useEventsContext } from "@/providers/events.provider";
 import { WEB_URL } from "@/lib/constants";
@@ -148,7 +149,9 @@ const EventDetailDashboard = () => {
             </li>
           ))}
         </ul>
-        {attendeeListData?.data.length != 0 ? (
+        {activeTab === "sales_by_ticket_type" ? (
+          <SalesByTicketType />
+        ) : attendeeListData?.data.length != 0 ? (
           <OrganiserTable
             tableHead={[
               "Email address",

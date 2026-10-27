@@ -13,7 +13,8 @@ export const useGetEventBookingHistory = (eventId: string) => {
   };
 
   return useQuery({
-    queryKey: ["organiserBookingHistory"],
+    queryKey: ["organiserBookingHistory", eventId],
+    enabled: !!eventId,
     queryFn: () =>
       axios
         .get(GET_EVENT_BOOKING_HISTORY + `/${eventId}`, options)

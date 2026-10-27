@@ -74,6 +74,7 @@ export const GET_EVENT_BY_ID: string = `${API_URL}/event/events`;
 export const GET_SUCCESSFUL_TICKETS: string = `${API_URL}/tickets/booking`;
 
 export const GET_EVENT_SUMMARY: string = `${API_URL}/organizers/event/summary`;
+export const EVENT_LIVE_STATS: string = `${API_URL}/organizers/event/live`;
 
 export const GET_EVENT_BOOKING_HISTORY: string = `${API_URL}/organizers/bookings`;
 

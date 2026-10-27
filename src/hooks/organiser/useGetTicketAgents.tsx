@@ -13,7 +13,8 @@ export const useGetTicketAgents = (eventId: string) => {
   };
 
   return useQuery({
-    queryKey: ["allTicketAgents"],
+    queryKey: ["allTicketAgents", eventId],
+    enabled: !!eventId,
     queryFn: () =>
       axios
         .get(EVENT_TICKET_AGENT + `/${eventId}`, options)
