@@ -181,10 +181,13 @@ const ReceiptPDF = ({ data, formattedTime }) => (
 const PaymentSuccessful = () => {
   const searchParams = useSearchParams();
   const bookingId = searchParams.get("bookingId");
+  const accessToken = searchParams.get("t");
 
-  const { data: bookings, isLoading } = useGetSuccessfulTicket(
-    bookingId as string
-  );
+  const {
+    data: bookings,
+    isLoading,
+    error,
+  } = useGetSuccessfulTicket(bookingId as string, accessToken);
 
   const startDate: string = bookings?.data?.eventDate;
 
@@ -212,8 +215,6 @@ const PaymentSuccessful = () => {
     hour12: true,
     timeZone: "Africa/Lagos",
   });
-
-  console.log(bookings);
 
   return (
     <Layout title="Payment successful" showHeader showFooter>
@@ -254,6 +255,13 @@ const PaymentSuccessful = () => {
             <p className="font-pally-medium text-2xl pb-3">
               Thanks for your order!
             </p>
+            {error ? (
+              <p className="font-pally-regular mx-4 mb-3 text-center text-sm lg:text-base text-[#D9302A]">
+                We couldn&apos;t show your tickets on this page. They have been
+                emailed to you, and you can sign in to see them under My
+                tickets.
+              </p>
+            ) : null}
             <p className="font-pally-regular mx-4 text-center text-sm lg:text-lg text-gray-600">
               A ticket guide will be sent to {" "}
               <span className="text-black font-medium">

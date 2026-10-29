@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { GET_SIGNED_URL } from "./constants";
+import { getToken } from "./token";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -72,14 +73,17 @@ export const uploadImage = async (file: any): Promise<any> => {
 };
 
 
-const getSignedUrl = async (fileName: string): Promise<any> => {
+// Uploads need a signed-in user; the API picks the storage path and only
+// accepts images and videos.
+const getSignedUrl = async (fileName: string, contentType: string): Promise<any> => {
   try {
+    const token = getToken();
     const response = await fetch(GET_SIGNED_URL, {
       method: "POST",
-      body: JSON.stringify({ fileName }),
+      body: JSON.stringify({ fileName, contentType }),
       headers: {
         'Content-Type': 'application/json',
-        // ...additionalHeaders if needed for this request
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
     });
 
@@ -110,11 +114,16 @@ export const uploadImageGC = async (
   const fileName = file.name; // Corrected: use file.name
   let signedUploadUrl: string;
   let imageUrl;
+  let uploadContentType = "application/octet-stream";
 
   try {
-    const {signedUrl, publicUrl} = await getSignedUrl(fileName); // Await the promise
+    const { signedUrl, publicUrl, contentType } = await getSignedUrl(
+      fileName,
+      file.type
+    );
     signedUploadUrl = signedUrl;
     imageUrl = publicUrl;
+    if (contentType) uploadContentType = contentType;
   } catch (error) {
     console.error("Failed to obtain signed URL:", error);
     throw new Error("Failed to prepare for upload: Could not get signed URL.");
@@ -125,7 +134,8 @@ export const uploadImageGC = async (
       method: "PUT",
       body: file, // Send the File object directly
       headers: {
-        'Content-Type': 'application/octet-stream'
+        // Must match the type the URL was signed for.
+        'Content-Type': uploadContentType,
       },
     });
 
