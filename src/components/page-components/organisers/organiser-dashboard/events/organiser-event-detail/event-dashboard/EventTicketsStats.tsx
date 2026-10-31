@@ -81,6 +81,12 @@ const EventTicketsStats = () => {
           Updated {timeOf(stats.generatedAt)}
         </p>
       )}
+      {isLive && (
+        <p className="mb-3 font-pally-regular text-sm text-[#515A6A]">
+          Your event is live, so it can no longer be edited here. Contact Plugin
+          support if anything needs to change.
+        </p>
+      )}
       {isError && (
         <p className="mb-3 font-pally-regular text-sm text-[#D9302A]">
           Couldn&apos;t load the latest numbers. Retrying…
