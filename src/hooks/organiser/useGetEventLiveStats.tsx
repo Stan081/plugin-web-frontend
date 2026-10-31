@@ -31,6 +31,9 @@ export type EventLiveStats = {
     grossSales: number;
     soldRate: number;
     checkInRate: number;
+    saleState?: "on_sale" | "not_started" | "ended" | "paused" | "sold_out";
+    saleOpensAt?: string | null;
+    saleClosesAt?: string | null;
   }[];
   sales: { lastHour: number; last24h: number; lastSaleAt: string | null };
   checkIns: { last15m: number; lastHour: number; lastCheckInAt: string | null };

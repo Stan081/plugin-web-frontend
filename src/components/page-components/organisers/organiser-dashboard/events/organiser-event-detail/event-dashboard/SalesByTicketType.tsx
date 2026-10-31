@@ -13,6 +13,39 @@ const Bar = ({ value, color }: { value: number; color: string }) => (
   </div>
 );
 
+const when = (value?: string | null) =>
+  value
+    ? new Date(value).toLocaleString("en-GB", {
+        timeZone: "Africa/Lagos",
+        day: "numeric",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+    : "";
+
+// Whether each ticket type is on sale, from its own sale window.
+const saleLabel = (t: {
+  saleState?: string;
+  saleOpensAt?: string | null;
+  saleClosesAt?: string | null;
+}) => {
+  switch (t.saleState) {
+    case "on_sale":
+      return t.saleClosesAt ? `On sale until ${when(t.saleClosesAt)}` : "On sale";
+    case "not_started":
+      return `Opens ${when(t.saleOpensAt)}`;
+    case "sold_out":
+      return "Sold out";
+    case "paused":
+      return "Sales paused";
+    case "ended":
+      return "Sales ended";
+    default:
+      return "";
+  }
+};
+
 // Sold, checked in and sales per ticket type, from the live stats endpoint.
 const SalesByTicketType = () => {
   const { publishedEventId } = useEventsContext();
@@ -46,6 +79,11 @@ const SalesByTicketType = () => {
                 <span className="block text-xs text-[#828994]">
                   {t.price ? toFiat(t.price) : "Free"}
                 </span>
+                {saleLabel(t) && (
+                  <span className="block text-xs text-[#515A6A]">
+                    {saleLabel(t)}
+                  </span>
+                )}
               </td>
               <td className="px-4 py-3">
                 <p className="mb-1">

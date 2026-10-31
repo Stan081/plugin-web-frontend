@@ -30,6 +30,7 @@ import Link from "next/link";
 import { WEB_URL } from "@/lib/constants";
 import { BsQuestionCircle } from "react-icons/bs";
 
+import { eventPhase } from "@/lib/eventDays";
 export const eventDetailTabLink = [
   {
     title: "Dashboard",
@@ -82,11 +83,11 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
 
   const startTime: string = event?.startTime;
 
-  const endDate: Date = new Date(event?.endDate);
-
-  const now = new Date();
-
-  const isPastEvent = endDate < now;
+  // Event-day rule (Lagos time). Organisers can't edit a live event; the API
+  // refuses it and Plugin admins handle changes during the event.
+  const phase = eventPhase(event);
+  const isPastEvent = phase === "past";
+  const isLive = phase === "live";
 
   const date = new Date(startDate);
   const options: Intl.DateTimeFormatOptions = {
@@ -155,7 +156,7 @@ const EventDetailSidebar: FC<{ event: any }> = ({ event }) => {
             </div>
           </PopoverTrigger>
           <PopoverContent className="w-48 bg-white rounded-xl p-3">
-            {!isPastEvent && (
+            {!isPastEvent && !isLive && (
               <div
                 onClick={handleEditEvent}
                 className="flex items-center gap-2 p-1.5 hover:bg-gray-100 cursor-pointer rounded font-pally-regular text-sm"
