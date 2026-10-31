@@ -10,6 +10,7 @@ import DelectEvent from "./DelectEvent";
 import CardSkeleton from "@/tw-components/skeleton/CardSkeleton";
 import CardEmptyState from "../home/CardEmptyState";
 import { useGetEventsByOrganiser } from "@/hooks/organiser/useGetEventsByOrganizer";
+import { eventPhase } from "@/lib/eventDays";
 
 const OrganiserEventTab = () => {
   const { eventState, showDeleteEvent, handleShowDeleteEvent } =
@@ -22,28 +23,20 @@ const OrganiserEventTab = () => {
     isError,
   } = useGetEventsByOrganiser();
 
-  const now = new Date();;
   const eventList = organiserEvents?.data || [];
 
-  const upcomingEvents =
-    eventList.filter((item) => {
-      return (
-        item.isPublished && new Date(item.startDate).getTime() >= now.getTime()
-      );
-    }) || [];
+  // Live events (today is an event day, Lagos time) stay under Upcoming, first,
+  // instead of disappearing until they are over.
+  const upcomingEvents = eventList
+    .filter((item) => {
+      const phase = eventPhase(item);
+      return item.isPublished && (phase === "live" || phase === "upcoming");
+    })
+    .sort((a, b) => (eventPhase(a) === "live" ? -1 : 0) - (eventPhase(b) === "live" ? -1 : 0));
 
-  const pastEvents =
-    eventList.filter((item) => {
-      try {
-        return ( 
-          item?.isPublished &&
-          new Date(item.endDate).getTime() <= now.getTime() &&
-          !isNaN(new Date(item.endDate).getTime())
-        );
-      } catch {
-        return false; 
-      }
-    }) || [];
+  const pastEvents = eventList.filter(
+    (item) => item?.isPublished && eventPhase(item) === "past"
+  );
 
   const draftEvents = eventList.filter((item) => {
     if (item.isPublished === false) {
