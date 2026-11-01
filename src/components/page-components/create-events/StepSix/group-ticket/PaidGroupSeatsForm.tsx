@@ -167,6 +167,7 @@ const PaidGroupSeatsForm: FC<PaidGroupSeatsFormProps> = ({
           description: `${response?.message}`,
         });
         client.invalidateQueries({ queryKey: ["groupEvents"] });
+        client.invalidateQueries({ queryKey: ["eventById"] });
         handleReturnToList();
       }
     },

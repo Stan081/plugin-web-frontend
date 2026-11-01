@@ -3,6 +3,7 @@ import { useGetEventLiveStats } from "@/hooks/organiser/useGetEventLiveStats";
 import { toFiat } from "@/lib/amount";
 import { useEventsContext } from "@/providers/events.provider";
 import React from "react";
+import TicketSaleToggle from "@/components/page-components/create-events/StepSix/TicketSaleToggle";
 
 const Bar = ({ value, color }: { value: number; color: string }) => (
   <div className="h-1.5 w-full rounded-full bg-gray-100">
@@ -83,6 +84,16 @@ const SalesByTicketType = () => {
                   <span className="block text-xs text-[#515A6A]">
                     {saleLabel(t)}
                   </span>
+                )}
+                {/* Sales can be stopped or resumed at any time, also while
+                    the event is live. */}
+                {t.id && t.saleState !== "ended" && (
+                  <TicketSaleToggle
+                    ticketId={t.id}
+                    eventId={publishedEventId}
+                    onSale={t.saleState !== "paused"}
+                    className="text-xs text-[#D9302A] mt-1"
+                  />
                 )}
               </td>
               <td className="px-4 py-3">
