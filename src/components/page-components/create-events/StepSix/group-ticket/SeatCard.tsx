@@ -2,12 +2,14 @@ import { toFiat } from "@/lib/amount";
 import { GroupPaidType } from "@/lib/types/EventType";
 import React, { FC } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
+import TicketSaleToggle from "../TicketSaleToggle";
 
 interface SeatCardProps extends GroupPaidType {
   _id: number;
   handleEditForm: (id: number) => void;
   handleDelete: (id: number) => void;
-  isPublished?: boolean
+  isPublished?: boolean;
+  ticketSaleActive?: boolean;
 }
 
 const SeatCard: FC<SeatCardProps> = ({
@@ -19,8 +21,10 @@ const SeatCard: FC<SeatCardProps> = ({
   color,
   handleEditForm,
   handleDelete,
-  isPublished
+  isPublished,
+  ticketSaleActive,
 }) => {
+  const onSale = ticketSaleActive !== false;
   return (
     <div className="bg-[#fae4e2] rounded-lg p-3 lg:p-5">
       <div className="flex justify-between">
@@ -52,21 +56,38 @@ const SeatCard: FC<SeatCardProps> = ({
             {ticketQuantity} Quantity
           </p>
         </div>
-        <div className="flex justify-end gap-4">
-          <div onClick={() => handleEditForm(_id)} className="cursor-pointer">
-            <p className="font-pally-regular text-sm underline destructive">
-              Edit
-            </p>
-          </div>
-          {!isPublished && <div
-            onClick={() => handleDelete(_id)}
-            className="cursor-pointer bg-black/70 rounded p-1"
-          >
-            <HiOutlineTrash
-              size={16}
-              className="text-white hover:text-red-500"
-            />
-          </div>}
+        <div className="flex justify-end items-center gap-4">
+          {isPublished ? (
+            // Published: the ticket type is fixed; only its sales can be
+            // stopped or resumed.
+            <>
+              <p className="text-xs text-black font-pally-regular">
+                {onSale ? "On sale" : "Sales stopped"}
+              </p>
+              <TicketSaleToggle
+                ticketId={String(_id)}
+                onSale={onSale}
+                className="text-black"
+              />
+            </>
+          ) : (
+            <>
+              <div onClick={() => handleEditForm(_id)} className="cursor-pointer">
+                <p className="font-pally-regular text-sm underline destructive">
+                  Edit
+                </p>
+              </div>
+              <div
+                onClick={() => handleDelete(_id)}
+                className="cursor-pointer bg-black/70 rounded p-1"
+              >
+                <HiOutlineTrash
+                  size={16}
+                  className="text-white hover:text-red-500"
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

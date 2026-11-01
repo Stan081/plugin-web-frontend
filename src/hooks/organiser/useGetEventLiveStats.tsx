@@ -20,6 +20,7 @@ export type EventLiveStats = {
     organiserShare: number;
   };
   ticketTypes: {
+    id?: string | null;
     name: string;
     price: number | null;
     capacity: number;
