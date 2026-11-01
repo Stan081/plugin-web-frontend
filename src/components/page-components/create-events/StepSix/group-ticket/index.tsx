@@ -78,6 +78,13 @@ const GroupTicket: FC = () => {
         formState === GroupTicketState.VIEW_LIST &&
         selectedState === "grouped" && (
           <div className="my-3 flex flex-col gap-3 w-full">
+            {event?.data?.isPublished && (
+              <p className="text-sm font-pally-regular text-white/80">
+                This event is published, so its existing tickets can&apos;t be
+                changed. You can add new ticket types, or stop sales of a
+                ticket type.
+              </p>
+            )}
             <div className="space-y-4">
               {allGroupEvent?.data.length !== 0 &&
                 allGroupEvent?.data.map((list) => (
@@ -98,7 +105,7 @@ const GroupTicket: FC = () => {
                 type="button"
                 className="border border-dashed p-3 rounded-lg w-full hover:bg-[#423730]/50"
               >
-                Add Ticket
+                {event?.data?.isPublished ? "Add a new ticket type" : "Add Ticket"}
               </button>
             </div>
           </div>

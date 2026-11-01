@@ -158,6 +158,7 @@ const FreeGroupSeatsForm: FC<FreeGroupSeatsFormProps> = ({
           description: `${response?.message}`,
         });
         client.invalidateQueries({ queryKey: ["groupEvents"] });
+        client.invalidateQueries({ queryKey: ["eventById"] });
         handleReturnToList();
       }
     },

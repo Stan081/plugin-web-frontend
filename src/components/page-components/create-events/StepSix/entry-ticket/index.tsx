@@ -3,6 +3,7 @@ import PaidTicketForm from "./PaidTicketForm";
 import FreeTicketForm from "./FreeTicketForm";
 import DonationTicketForm from "./DonationTicketForm";
 import { useGetEvent } from "@/hooks/events/useGetEvent";
+import PublishedEntryTicket from "./PublishedEntryTicket";
 
 // entryTicketType
 const EntryTicket = () => {
@@ -30,6 +31,17 @@ const EntryTicket = () => {
   
   // Usage:
   const entryTicTypes = getEntryTicketTypes();
+
+  // Published: the entry ticket is fixed (sales can be stopped, and new
+  // ticket types added).
+  if (eventId?.data?.isPublished && eventId?.data?.entryTicket?.ticketName) {
+    return (
+      <div className="w-full">
+        <h3 className="font-pally-bold text-2xl">Entry Ticket</h3>
+        <PublishedEntryTicket ticket={eventId.data.entryTicket} />
+      </div>
+    );
+  }
 
   return (
     <div className=" w-full">
