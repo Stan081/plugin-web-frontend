@@ -1,5 +1,3 @@
-import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import React, { FC } from "react";
 
@@ -9,7 +7,7 @@ const TicketPlacement: FC<{
   seatmap?: string;
 }> = ({ text, color, seatmap }) => {
   return (
-    <div className="bg-[#362c24] p-3 rounded-lg w-72 space-y-3">
+    <div className="bg-[#362c24] p-3 rounded-lg w-full space-y-3 break-words">
       {color && (
         <h4 className="font-pally-medium text-white flex items-center gap-2">
           Ticket Placement{" "}
@@ -25,12 +23,12 @@ const TicketPlacement: FC<{
           width={200}
           height={120}
           alt={text}
-          className="pointer-events-none w-auto h-auto"
+          className="pointer-events-none w-auto max-w-full h-auto"
         />
       )}
       <div className="space-y-4">
         <p className="text-sm lg:text-base text-white font-pally-medium whitespace-nowrap underline">
-          Ticket Peaks
+          Ticket Perks
         </p>
 
         <p className="flex items-center gap-1.5 text-sm font-pally-regular text-[#D0D5DD]">

@@ -350,7 +350,7 @@ const FreeTicketForm: FC<FreeTicketFormProps> = ({ entryTicket }) => {
 
               <FormItem>
                 <FormLabel className="text-white" htmlFor="ticket_perks">
-                  Ticket Peaks (Optional)
+                  Ticket Perks (Optional)
                 </FormLabel>
                 <FormField
                   control={form.control}
