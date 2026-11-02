@@ -452,7 +452,7 @@ const EditPaidSeatDetail: FC<EditPaidSeatDetailProps> = ({
 
             <FormItem>
               <FormLabel className="text-white" htmlFor="ticket_perks">
-                Ticket Peaks
+                Ticket Perks
               </FormLabel>
               <FormField
                 control={form.control}
