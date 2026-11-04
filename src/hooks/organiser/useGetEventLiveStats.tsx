@@ -18,6 +18,8 @@ export type EventLiveStats = {
     grossSales: number;
     platformFee: number;
     organiserShare: number;
+    // This event's platform fee (admin-set, default 10).
+    platformFeePercent?: number;
   };
   ticketTypes: {
     id?: string | null;
