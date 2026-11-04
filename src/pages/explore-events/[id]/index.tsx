@@ -15,10 +15,11 @@ import { SpinnerOverlay } from "@/tw-components/SpinnerOverlay";
 import { getCookie, removeCookie } from "@/lib/cookies";
 import TicketCTA from "@/components/page-components/eventpage/TicketCTA";
 import { useGetEventById } from "@/hooks/events/useGetEventById";
+import EventUnavailable from "@/components/page-components/eventpage/EventUnavailable";
 
 const ExploreEventDetailPage = () => {
   const param = useParams<{ id: string }>();
-  const { data: events, isLoading, isError } = useGetEventById(param?.id);
+  const { data: events, isLoading, isError, error } = useGetEventById(param?.id);
   const cardId = events?.data;
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const ExploreEventDetailPage = () => {
   }
 
   if (isError) {
-    return <p>An error occured</p>;
+    return <EventUnavailable error={error} />;
   }
 
   const now = new Date();

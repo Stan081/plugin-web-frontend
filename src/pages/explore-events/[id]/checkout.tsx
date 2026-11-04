@@ -3,6 +3,7 @@ import BreadcrumbComponent from "@/components/BreadcrumbComponent";
 import Layout from "@/components/layout";
 import CheckoutContactInfo from "@/components/page-components/eventpage/checkout/CheckoutContactInfo";
 import { useGetEventById } from "@/hooks/events/useGetEventById";
+import EventUnavailable from "@/components/page-components/eventpage/EventUnavailable";
 import useRedirectOnReload from "@/hooks/useRedirectOnReload";
 import { checkoutBreadcrumbArr } from "@/static-datas/breadcrumb-data";
 import Container from "@/tw-components/container";
@@ -22,6 +23,7 @@ const CheckoutEvent = () => {
     data: events,
     isLoading,
     isError,
+    error,
   } = useGetEventById(param?.id as string);
   const checkCardId = events?.data;
 
@@ -32,7 +34,10 @@ const CheckoutEvent = () => {
   }, [checkCardId]);
 
   // Early returns must come after all hooks are called
-  if (isLoading || isError || !checkCardId) {
+  if (isError) {
+    return <EventUnavailable error={error} />;
+  }
+  if (isLoading || !checkCardId) {
     return <SpinnerOverlay />;
   }
 
