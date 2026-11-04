@@ -15,6 +15,7 @@ import OrganiserTable from "../../../OrganiserTable";
 import { useEventsContext } from "@/providers/events.provider";
 import { WEB_URL } from "@/lib/constants";
 import { useFilteredAttendeeList } from "@/hooks/events/useFilterAttendeeList";
+import { useGetEventLiveStats } from "@/hooks/organiser/useGetEventLiveStats";
 
 const tabLink = [
   { title: "Recent Sales", key: "recent_sales" },
@@ -26,6 +27,9 @@ const EventDetailDashboard = () => {
   const { toast } = useToast();
   const { publishedEventId } = useEventsContext();
   const { data: attendeeListData } = useFilteredAttendeeList(publishedEventId);
+  // Same query as the stats cards, so no extra request.
+  const { data: liveStats } = useGetEventLiveStats(publishedEventId);
+  const feePercent = liveStats?.data?.totals?.platformFeePercent ?? 10;
   const handleCopyLink = async (saveLink: string) => {
     try {
       // Copy the link to the clipboard
@@ -50,7 +54,7 @@ const EventDetailDashboard = () => {
       <div className="flex justify-between">
         <p className="font-pally-medium text-2xl">Dashboard</p>
         <p className="destructive font-pally-medium text-sm md:text-lg flex items-center gap-2">
-          <RiInformationLine size={24} /> Plugin takes 10% Per ticket
+          <RiInformationLine size={24} /> Plugin takes {feePercent}% per paid ticket
         </p>
       </div>
 
