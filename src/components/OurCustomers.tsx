@@ -11,9 +11,7 @@ import { RiArrowRightSLine, RiArrowLeftSLine } from "react-icons/ri";
 import Container from "@/tw-components/container";
 import Image from "next/image";
 import { Progress } from "./ui/progress";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { SITE_CONTENT } from "@/lib/constants";
+import { usePublicSiteContent } from "@/lib/siteContent";
 
 // Fallback data used only when the admin has not configured any testimonials.
 const fallbackCustomers = [
@@ -37,16 +35,7 @@ const OurCustomers = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { data: siteContentResponse } = useQuery({
-    queryKey: ["publicSiteContent"],
-    queryFn: () =>
-      axios
-        .get(SITE_CONTENT, { headers: { Accept: "application/json" } })
-        .then((res) => res.data)
-        .catch(() => null),
-    retry: false,
-    refetchOnMount: true,
-  });
+  const { data: siteContentResponse } = usePublicSiteContent();
 
   // Map admin-managed testimonials into the carousel shape; fall back to defaults.
   const siteTestimonials = siteContentResponse?.data?.testimonials;
