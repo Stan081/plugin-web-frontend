@@ -5,21 +5,10 @@ import React from "react";
 import Logo from "./Logo";
 import Image from "next/image";
 import { footerData } from "@/static-datas/footer-data";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { SITE_CONTENT } from "@/lib/constants";
+import { usePublicSiteContent } from "@/lib/siteContent";
 
 const Footer = () => {
-  const { data: siteContentResponse } = useQuery({
-    queryKey: ["publicSiteContent"],
-    queryFn: () =>
-      axios
-        .get(SITE_CONTENT, { headers: { Accept: "application/json" } })
-        .then((res) => res.data)
-        .catch(() => null),
-    retry: false,
-    refetchOnMount: true,
-  });
+  const { data: siteContentResponse } = usePublicSiteContent();
 
   const siteFooter = siteContentResponse?.data?.footer;
   const email = siteFooter?.email?.trim() || "contact@pluginent.com";
