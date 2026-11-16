@@ -3,6 +3,7 @@ import { GroupPaidType } from "@/lib/types/EventType";
 import React, { FC } from "react";
 import { HiOutlineTrash } from "react-icons/hi2";
 import TicketSaleToggle from "../TicketSaleToggle";
+import TicketSaleEndDate from "../TicketSaleEndDate";
 
 interface SeatCardProps extends GroupPaidType {
   _id: number;
@@ -23,8 +24,10 @@ const SeatCard: FC<SeatCardProps> = ({
   handleDelete,
   isPublished,
   ticketSaleActive,
+  endDate,
 }) => {
   const onSale = ticketSaleActive !== false;
+  const ended = Boolean(endDate && new Date(endDate).getTime() < Date.now());
   return (
     <div className="bg-[#fae4e2] rounded-lg p-3 lg:p-5">
       <div className="flex justify-between">
@@ -58,12 +61,18 @@ const SeatCard: FC<SeatCardProps> = ({
         </div>
         <div className="flex justify-end items-center gap-4">
           {isPublished ? (
-            // Published: the ticket type is fixed; only its sales can be
-            // stopped or resumed.
+            // Published: the ticket type is fixed; its sales can be stopped
+            // or resumed and its sale end date moved.
             <>
               <p className="text-xs text-black font-pally-regular">
-                {onSale ? "On sale" : "Sales stopped"}
+                {!onSale ? "Sales stopped" : ended ? "Sales ended" : "On sale"}
               </p>
+              <TicketSaleEndDate
+                ticketId={String(_id)}
+                closesAt={endDate}
+                ended={ended}
+                className="text-black"
+              />
               <TicketSaleToggle
                 ticketId={String(_id)}
                 onSale={onSale}
