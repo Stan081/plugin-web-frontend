@@ -4,6 +4,7 @@ import { toFiat } from "@/lib/amount";
 import { useEventsContext } from "@/providers/events.provider";
 import React from "react";
 import TicketSaleToggle from "@/components/page-components/create-events/StepSix/TicketSaleToggle";
+import TicketSaleEndDate from "@/components/page-components/create-events/StepSix/TicketSaleEndDate";
 
 const Bar = ({ value, color }: { value: number; color: string }) => (
   <div className="h-1.5 w-full rounded-full bg-gray-100">
@@ -92,6 +93,17 @@ const SalesByTicketType = () => {
                     ticketId={t.id}
                     eventId={publishedEventId}
                     onSale={t.saleState !== "paused"}
+                    className="text-xs text-[#D9302A] mt-1"
+                  />
+                )}
+                {/* The close date can be moved too, e.g. to reopen sales
+                    that have ended. */}
+                {t.id && (
+                  <TicketSaleEndDate
+                    ticketId={t.id}
+                    eventId={publishedEventId}
+                    closesAt={t.saleClosesAt}
+                    ended={t.saleState === "ended"}
                     className="text-xs text-[#D9302A] mt-1"
                   />
                 )}

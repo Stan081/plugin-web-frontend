@@ -5,6 +5,7 @@ import { toFiat } from "@/lib/amount";
 import { useCreateEventContext } from "@/providers/create_event.provider";
 import GroupSeat from "../group-ticket/GroupSeat";
 import TicketSaleToggle from "../TicketSaleToggle";
+import TicketSaleEndDate from "../TicketSaleEndDate";
 
 type EntryTicketData = {
   _id?: string;
@@ -39,6 +40,9 @@ const PublishedEntryTicket: FC<{ ticket: EntryTicketData }> = ({ ticket }) => {
   const { nextStep, previousStep } = useCreateEventContext();
   const [adding, setAdding] = useState(false);
   const onSale = ticket?.ticketSaleActive !== false;
+  const ended = Boolean(
+    ticket?.endDate && new Date(ticket.endDate).getTime() < Date.now()
+  );
   const isDonation = ticket?.entryTicketType === "donation";
 
   if (adding) {
@@ -50,7 +54,8 @@ const PublishedEntryTicket: FC<{ ticket: EntryTicketData }> = ({ ticket }) => {
       <div className="my-3 flex flex-col gap-4 w-full">
         <p className="text-sm font-pally-regular text-white/80">
           This event is published, so its existing ticket can&apos;t be
-          changed. You can add new ticket types, or stop sales of this one.
+          changed. You can add new ticket types, stop sales of this one, or
+          change when its sales end.
         </p>
 
         <div className="bg-[#fae4e2] rounded-lg p-3 lg:p-5 text-black">
@@ -70,8 +75,15 @@ const PublishedEntryTicket: FC<{ ticket: EntryTicketData }> = ({ ticket }) => {
           </p>
           <div className="mt-4 flex justify-end items-center gap-4">
             <p className="text-xs font-pally-regular">
-              {onSale ? "On sale" : "Sales stopped"}
+              {!onSale ? "Sales stopped" : ended ? "Sales ended" : "On sale"}
             </p>
+            {ticket?._id && (
+              <TicketSaleEndDate
+                ticketId={String(ticket._id)}
+                closesAt={ticket.endDate}
+                ended={ended}
+              />
+            )}
             {ticket?._id && (
               <TicketSaleToggle ticketId={String(ticket._id)} onSale={onSale} />
             )}
