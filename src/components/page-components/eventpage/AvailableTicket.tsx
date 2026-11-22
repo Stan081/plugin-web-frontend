@@ -4,6 +4,7 @@ import EntryTicketComponent from "./EntryTicketComponent";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useEventsContext } from "@/providers/events.provider";
+import { sortGroupedTicketsByPrice } from "@/lib/amount";
 
 const AvailableTicket: React.FC<{
   id: string;
@@ -44,7 +45,7 @@ const AvailableTicket: React.FC<{
       <div className="mt-7 w-full space-y-5">
         {event?.ticketCategory === "grouped" && (
           <>
-            {event?.groupedTicket.map((ticket) => (
+            {sortGroupedTicketsByPrice(event?.groupedTicket).map((ticket) => (
               <GroupedTicket key={ticket._id} id={id} groupedTicket={ticket} />
             ))}
             <Button
