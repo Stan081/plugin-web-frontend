@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEventsContext } from "@/providers/events.provider";
 import EntryTicketComponent from "./EntryTicketComponent";
 import GroupedTicket from "./GroupedTicket";
-import { toFiat } from "@/lib/amount";
+import { toFiat, sortGroupedTicketsByPrice } from "@/lib/amount";
 import { Dialog, DialogPanel } from "@headlessui/react";
 
 const TicketCTA: React.FC<{ event: any; id: string; isPassed: boolean }> = ({
@@ -161,7 +161,7 @@ const TicketCTA: React.FC<{ event: any; id: string; isPassed: boolean }> = ({
                     {event?.ticketCategory === "grouped" && (
                       <>
                         <div className="space-y-4">
-                          {event?.groupedTicket.map((ticket) => (
+                          {sortGroupedTicketsByPrice(event?.groupedTicket).map((ticket) => (
                             <GroupedTicket
                               key={ticket._id}
                               id={id}
